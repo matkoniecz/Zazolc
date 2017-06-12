@@ -159,7 +159,9 @@ public class OsmNotesDownload
 	{
 		/* hide a note if he already contributed to it. This can also happen from outside
 		   this application, which is why we need to overwrite its quest status. */
-		return containsCommentFromUser(userId, note);
+		//return containsCommentFromUser(userId, note);
+		//I want all notes, except explicitly hidden
+		return false;
 	}
 
 	// the difference to hidden is that is that invisible quests may turn visible again, dependent
