@@ -30,7 +30,7 @@ public class QuestModule
 	{
 		QuestType[] questTypes = {
 				new AddRoadName(o),
-				new AddOpeningHours(o),
+				//new AddOpeningHours(o),
 				new AddBuildingLevels(o),
 				new AddRoofShape(o),
 				// new AddPlaceName(), doesn't make sense as long as the app cannot tell the generic name of elements
