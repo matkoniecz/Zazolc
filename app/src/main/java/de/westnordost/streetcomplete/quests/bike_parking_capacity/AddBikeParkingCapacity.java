@@ -27,7 +27,7 @@ public class AddBikeParkingCapacity extends SimpleOverpassQuestType
 	@Override
 	public int importance()
 	{
-		return QuestImportance.MINOR;
+		return QuestImportance.ERROR;
 	}
 
 	public AbstractQuestAnswerFragment createForm()
