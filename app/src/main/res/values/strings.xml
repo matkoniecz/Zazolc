@@ -273,4 +273,11 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_tactilePaving_title_name_bus">"Does the bus stop \"%s\" have tactile pavings?"</string>
     <string name="quest_bicycleParkingCoveredStatus_title">"Is this bicycle parking covered (protected from rain)?"</string>
     <string name="dialog_session_dont_show_again">Don\'t show again for this session</string>
+    <string name="quest_bicycleParkingType_title">What is the bicycle parking type?</string>
+    <string name="quest_bicycleParkingType_stand_answer">Stand against which you can lean your entire bicycle. Makes it possible to lock the frame and a wheel to it.</string>
+    <string name="quest_bicycleParkingType_wall_loop_answer">Secures only the front wheel (or possibly back wheel).</string>
+    <string name="quest_parkingAccess_yes_answer">Available to anybody (may be paid or free)</string>
+    <string name="quest_parkingAccess_private_answer">Private parking</string>
+    <string name="quest_parkingAccess_customers_answer">Access restricted to people using specific object, typically customers of a shop (may be paid or free)</string>
+    <string name="quest_parkingAccess_title">Who can use the parking?</string>
 </resources>
