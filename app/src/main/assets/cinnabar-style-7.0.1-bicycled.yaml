@@ -137,6 +137,12 @@ global:
             }
         }
 
+    bicycle_parking_text_source: |
+        function() {
+            // if a ux_langauge has been defined use that, else if there is feature name in the fallback_ux_language then use that, else use the feature's default name in the local language
+            return feature.capacity + " " + feature.operator;
+        }
+
     # To facilitate data visualizations several recommended sort orders are provided
     #
     # Your classic raster map overlay.
@@ -229,10 +235,10 @@ global:
     icon_size_green:                [[0, '0px']]      # 0px for no, default, more  [[13, 14px], [16, 18px], [18, 19px]]
     icon_size_green_l:              [[0, '0px']]      # 0px for no, default, more  [[14,24px],[16,32px]]
     label_visible_poi_landuse:      true
-    icon_visible_poi_landuse:       false     # false for default
-    text_visible_poi_landuse:       false     # false for default
+    icon_visible_poi_landuse:       true     # false for default
+    text_visible_poi_landuse:       true     # false for default
     label_visible_poi_landuse_e:    true
-    icon_visible_poi_landuse_e:     false     # false for default
+    icon_visible_poi_landuse_e:     true     # false for default
     text_visible_poi_landuse_e:     true
     text_visible_landuse_generic:   false     # false for default
     label_visible_station:          false     # false for default
@@ -5992,6 +5998,33 @@ layers:
                 lines:
                     color: global.snow_fence
                     width: [[14, 0.5px], [15, 1.0px], [16, 1.5px], [17, 2.0px], [19, 2m]]
+
+    pois:
+        data: { source: mapzen, layer: pois }
+        filter:
+            kind: [bicycle_parking]
+        draw:
+            icons:
+                visible: global.icon_visible_poi_landuse
+                size: [[13, 14px], [16, 18px], [18, 19px]]
+                sprite: function() { return feature.kind; }
+                sprite_default: generic
+                interactive: global.sdk_interactive
+                priority: 65
+                repeat_group: abc
+                buffer: 3px
+                text:
+                    visible: global.text_visible_poi_landuse
+                    text_source: global.bicycle_parking_text_source
+                    buffer: 3px
+                    text_wrap: 18
+                    max_lines: 3
+                    font:
+                        family: global.text_font_family
+                        weight: normal
+                        fill: [0.20,0.20,0.20]
+                        size: [[13,10px],[14,11px],[17,12px],[19,12px],[20,14px]]
+                        stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
 
 #    transit-bus-roads:
 #        data: { source: mapzen, layer: roads }
