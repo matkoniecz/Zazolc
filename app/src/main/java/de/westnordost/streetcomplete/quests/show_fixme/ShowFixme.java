@@ -1,0 +1,59 @@
+package de.westnordost.streetcomplete.quests.show_fixme;
+
+import android.os.Bundle;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
+import de.westnordost.streetcomplete.data.QuestImportance;
+import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
+import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
+import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
+import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
+
+public class ShowFixme extends SimpleOverpassQuestType
+{
+	@Inject public ShowFixme(OverpassMapDataDao overpassServer)
+	{
+		super(overpassServer);
+	}
+
+	@Override
+	protected String getTagFilters()
+	{
+		return "nodes, ways, relations with fixme and fixme!=continue and !fixme:requires_aerial_image";
+	}
+
+	@Override
+	public int importance()
+	{
+		return QuestImportance.ERROR;
+	}
+
+	public AbstractQuestAnswerFragment createForm()
+	{
+		return new ShowFixmeForm();
+	}
+
+	public void applyAnswerTo(Bundle answer, StringMapChangesBuilder changes)
+	{
+		ArrayList<String> values = answer.getStringArrayList(ShowFixmeForm.OSM_VALUES);
+		if(values != null  && values.size() == 1)
+		{
+			if(values.get(0) == "fixme:solved"){
+				//TODO: handle it without magic values
+				changes.delete("fixme");
+			} else {
+				changes.add(values.get(0), "yes");
+			}
+		}
+	}
+
+	@Override public String getCommitMessage()
+	{
+		return "processing fixme tags";
+	}
+
+	@Override public String getIconName() {	return "note"; }
+}
