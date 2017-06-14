@@ -1,7 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
-def MAPZEN_API_KEY = hasProperty('mapzenApiKey') ? '"' + mapzenApiKey + '"' : "null";
+def MAPZEN_API_KEY
+if (hasProperty('mapzenApiKey'))
+    {
+        MAPZEN_API_KEY = mapzenApiKey
+    }
+else
+    {
+        MAPZEN_API_KEY = "null"
+        println 'mapzenApiKey property is undefined. Map performance will be very poor.'
+    }
 
 android {
     signingConfigs {
