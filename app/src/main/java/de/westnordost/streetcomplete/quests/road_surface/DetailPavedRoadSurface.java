@@ -42,7 +42,7 @@ public class DetailPavedRoadSurface extends SimpleOverpassQuestType {
 
 	@Override public String getCommitMessage()
 	{
-		return "Detail road surfaces";
+		return "Detail highway=* surfaces";
 	}
 
 	@Override public String getIconName()

@@ -42,7 +42,7 @@ public class AddRoadSurface extends SimpleOverpassQuestType {
 
 	@Override public String getCommitMessage()
 	{
-		return "Add road surfaces";
+		return "Add highway=* surfaces";
 	}
 
 	@Override public String getIconName() {	return "street_surface"; }
