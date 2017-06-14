@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 public class ApplicationConstants
 {
 	public final static String
-		NAME = "StreetComplete",
+		NAME = "zażółć",
 		USER_AGENT = NAME + " " + BuildConfig.VERSION_NAME,
 		QUESTTYPE_TAG_KEY = NAME + ":quest_type";
 

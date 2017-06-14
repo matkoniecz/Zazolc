@@ -31,7 +31,7 @@ public class CrashReportExceptionHandler implements Thread.UncaughtExceptionHand
 
 	private final static String CRASHREPORT = "crashreport.txt";
 	private final static String ENC = "UTF-8";
-	private final static String MAILTO = "osm@westnordost.de";
+	private final static String MAILTO = "matkoniecz@gmail.com";
 	private final static String GOOGLEPLAY = "com.android.vending";
 
 	@Inject public CrashReportExceptionHandler(Context appCtx)
