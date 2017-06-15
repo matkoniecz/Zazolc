@@ -28,7 +28,7 @@ public class AddBikeParkingType extends SimpleOverpassQuestType
 	@Override
 	public int importance()
 	{
-		return QuestImportance.MAJOR;
+		return QuestImportance.BICYCLE_PRIME;
 	}
 
 	public AbstractQuestAnswerFragment createForm()
