@@ -9,15 +9,19 @@ public class QuestImportance
 	*  "name is missing" etc. However, with this software hopefully gaining some popularity, this is
 	*  not necessary or meaningful anymore because those things are created automatically then */
 
+	/* importnat for me */
+	public static final int BICYCLE_PRIME = 1;
+	public static final int BICYCLE = 2;
+
 	/** Solving this quest will fix data that is shown as invalid or erroneous in QA tools */
-	public static final int ERROR = 1;
+	public static final int ERROR = 5;
 
 	/** Solving this quest will fix data that is shown as warnings in QA tools */
-	public static final int WARNING = 5;
+	public static final int WARNING = 15;
 
 	/** Solving this quest will complement important/very useful data that is used by many data
 	 *  consumers */
-	public static final int MAJOR = 10;
+	public static final int MAJOR = 20;
 
 	/** Solving this quest will complement useful data that is used by some data consumers */
 	public static final int MINOR = 50;
