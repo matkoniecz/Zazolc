@@ -2,16 +2,19 @@ package de.westnordost.streetcomplete.data;
 
 public class QuestImportance
 {
+	/* useful to push currently developed quest to top */
+	public static final int DEVELOPED_NOW = 0;
+
 	/** Notes always have the highest importance, because they shall occlude "normal" quests
 	 *  (as a note at the exact same position inherently references a problem in the map) */
-	public static final int NOTE = 0;
+	public static final int NOTE = 1;
 	/* Nowadays, oftentimes a note is created to merely denote that i.e. "housenumber is missing",
 	*  "name is missing" etc. However, with this software hopefully gaining some popularity, this is
 	*  not necessary or meaningful anymore because those things are created automatically then */
 
 	/* importnat for me */
-	public static final int BICYCLE_PRIME = 1;
-	public static final int BICYCLE = 2;
+	public static final int BICYCLE_PRIME = 3;
+	public static final int BICYCLE = 4;
 
 	/** Solving this quest will fix data that is shown as invalid or erroneous in QA tools */
 	public static final int ERROR = 5;
