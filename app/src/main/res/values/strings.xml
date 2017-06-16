@@ -287,4 +287,7 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_treeLeafCycle_title">What is the lifecycle of this tree?</string>
     <string name="quest_treeLeaf_semievergreen_answer">Plants that lose most, but not all, of their foliage for a fraction of the year.</string>
     <string name="quest_treeLeaf_semi_deciduous_answer">Plants that lose their foliage for a very short period, when old leaves fall off and new foliage growth is starting.</string>
+    <string name="quest_treeLeaf_needleleaved_answer">needleleaved</string>
+    <string name="quest_treeLeaf_broadleaved_answer">broadleaved</string>
+    <string name="quest_treeLeaf_title">What is the type of leaves on this tree?</string>
 </resources>
