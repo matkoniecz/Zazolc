@@ -290,4 +290,5 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_treeLeaf_needleleaved_answer">needleleaved</string>
     <string name="quest_treeLeaf_broadleaved_answer">broadleaved</string>
     <string name="quest_treeLeaf_title">What is the type of leaves on this tree?</string>
+    <string name="quest_multidesignatedFootway_title">Is there here a route for both cyclists and pedestrians?</string>
 </resources>

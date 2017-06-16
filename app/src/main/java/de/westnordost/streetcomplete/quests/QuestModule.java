@@ -28,6 +28,7 @@ import de.westnordost.streetcomplete.quests.road_name.AddRoadName;
 import de.westnordost.streetcomplete.quests.road_surface.AddRoadSurface;
 import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
+import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
 
 @Module
 public class QuestModule
@@ -56,6 +57,7 @@ public class QuestModule
 				new ShowFixme(o),
 				new AddTreeLeafCycle(o),
 				new AddTreeLeafType(o),
+				new multidesignatedFootwayToPath(o),
 		};
 
 		return new QuestTypes(Arrays.asList(questTypes));
