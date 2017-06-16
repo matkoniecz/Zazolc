@@ -282,4 +282,9 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_parkingAccess_title">Who can use the parking?</string>
     <string name="quest_ShowFixme_requiresAerial_answer">fixme best solved with aerial image rather than survey</string>
     <string name="quest_ShowFixme_solved_answer">fixme is outdated now and may be removed</string>
+    <string name="quest_treeLeaf_evergreen_answer">Plants that are never leafless.</string>
+    <string name="quest_treeLeaf_decidous_answer">Plants that are leafless for a certain period during the year.</string>
+    <string name="quest_treeLeafCycle_title">What is the lifecycle of this tree?</string>
+    <string name="quest_treeLeaf_semievergreen_answer">Plants that lose most, but not all, of their foliage for a fraction of the year.</string>
+    <string name="quest_treeLeaf_semi_deciduous_answer">Plants that lose their foliage for a very short period, when old leaves fall off and new foliage growth is starting.</string>
 </resources>
