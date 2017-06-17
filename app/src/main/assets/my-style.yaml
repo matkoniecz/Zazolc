@@ -1,0 +1,268 @@
+# based on
+# - reduced https://github.com/tangrams/cinnabar-style (MIT license)
+# - https://raw.githubusercontent.com/tangrams/highways-demo/master/scene.yaml from https://github.com/tangrams/highways-demo seems a sane starting point (MIT license)
+# https://mapzen.com/tangram/play/ used during development
+# https://mapzen.com/documentation/vector-tiles/layers/ documentation of exposed data
+
+global:
+    bicycle_parking_text_source: |
+        function() {
+            // if a ux_langauge has been defined use that, else if there is feature name in the fallback_ux_language then use that, else use the feature's default name in the local language
+            return feature.capacity + " " + feature.operator;
+        }
+
+    text_stroke:        '#e4e1de'          # land color
+    text_font_family:  'Open Sans'        # branding in asperational Unicode, yo (or Helvetica)
+
+textures:
+    pois:
+        url: images/refill@2x.png
+        filtering: mipmap
+        sprites:
+            bicycle_parking: [644, 126, 38, 38]
+
+sources:
+    mapzen:
+        type: TopoJSON #GeoJSON, MVT, TopoJSON
+        url:  https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson
+        url_params:
+            api_key: global.sdk_mapzen_api_key
+        max_zoom: 16
+
+camera:
+    type: isometric
+
+styles:
+    icons:
+        base: points
+        texture: pois
+        blend_order: 1
+    flatlines:
+        base: lines
+    flatpolys:
+        base: polygons
+
+fonts:
+    Open Sans:
+        - weight: 300 # Light
+          url: fonts/OpenSans-Light.woff
+        - weight: normal # Regular
+          url: fonts/OpenSans-Regular.woff
+        - weight: normal # Regular
+          style: italic
+          url: fonts/OpenSans-Italic.woff
+        - weight: 600 # Semi Bold
+          url: fonts/OpenSans-Semibold.woff
+        - weight: 600 # Semi Bold
+          style: italic
+          url: fonts/OpenSans-SemiboldItalic.woff
+        - weight: bold
+          url: fonts/OpenSans-Bold.woff
+
+scene:
+    background:
+        color: white
+
+layers:
+    landuse:
+        data: { source: mapzen, layer: landuse }
+        parks:
+            filter: { kind: [park, forest] }
+            draw:
+                flatpolys:
+                    order: function() { return feature.sort_rank; }
+                    # tone down green as you zoom out
+                    color: [[10, [0.3, 0.4, 0.3]], [14, [0.5, 0.825, 0.5]]]
+        playgrounds:
+            filter: { kind: [playground] }
+            draw:
+                flatpolys:
+                    order: function() { return feature.sort_rank; }
+                    color: [0.780, 0.973, 0.737, 1.00]
+        pitches:
+            filter: { kind: [pitch] }
+            draw:
+                flatpolys:
+                    order: function() { return feature.sort_rank; }
+                    color: [0.973, 0.965, 0.737, 1.00]
+        parkings:
+            filter: { kind: [parking] }
+            draw:
+                flatpolys:
+                    order: function() { return feature.sort_rank; }
+                    color: [0.980, 0.949, 1.000, 1.00]
+
+    water:
+        data: { source: mapzen, layer: water }
+        draw:
+            flatpolys:
+                order: function() { return feature.sort_rank; }
+                color: [0.83, 0.83, 0.83]
+
+    roads:
+        data: { source: mapzen, layer: roads }
+        filter: { not: { kind_detail: service, kind: rail } }
+        draw:
+            lines:
+                order: 1300
+                width: function () { return Math.log($zoom); }
+                outline:
+                    color: black
+
+        highway:
+            filter: { kind: [highway, major_road, minor_road, path], not: {kind_detail: [footway, path, steps] }}
+            draw:
+                lines:
+                    order: 1300
+                    color: white
+                    cap: round
+                    width: [[11, 0px], [13, 1.5px], [14, 2.5px], [16, 2.5px], [19, 8m]]
+                    outline:
+                        order: 1010
+                        color: black
+                        width: [[13, 0px], [14, 1px], [15, 1.5px]]
+                        cap: butt
+
+            tunnel:
+                filter: {is_tunnel: true, $zoom: {min: 17} }
+                draw:
+                    lines:
+                        outline:
+                            width: [[17, 3px], [18, 4px]]
+                            color: [.5, .5, .5]
+            good_surface:
+                filter: {surface: [asphalt, paved]}
+                draw:
+                    lines:
+                        color: [0.941, 0.843, 1.000, 1.00]
+                        order: 1201
+            medium_surface:
+                filter: {surface: [concrete, paving_stones, compacted]}
+                draw:
+                    lines:
+                        color: [0.965, 0.922, 0.988, 1.00]
+            bad_or_missing_surface:
+                filter: {not: {surface: [asphalt, paved, concrete, paving_stones, compacted]}}
+                draw:
+                    lines:
+                        width: [[11, 0px], [13, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5m]]
+                        color: [0.83, 0.83, 0.83]
+                        order: 1200
+                        outline:
+                            order: 1010
+                            width: [[13, 0px], [14, 0.5px], [16, 0.75px]]
+            unimportant_service:
+                filter: { service: [driveway, parking_aisle] }
+                draw:
+                    lines:
+                        width: [[11, 0px], [13, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5px]]
+                        order: 1199
+
+        path:
+            filter: { kind_detail: [footway, path, steps] }
+            draw:
+                lines:
+                    order: 1100
+                    color: [0.8, 0.8, 0.8]
+                    width: [[16, 0], [17, 3m]]
+                    cap: round
+
+    buildings:
+        data: { source: mapzen, layer: buildings }
+        draw:
+            polygons:
+                order: function() { return 0; }
+                color: [.4, .4, .4]
+
+    places:
+        data: { source: mapzen }
+        filter: { name: true, not: { kind: [county, state, island] } }
+        draw:
+            text:
+                font:
+                    weight: 100
+                    size: 18px
+                    family: Helvetica
+                    fill: white
+                    stroke: { color: black, width: 3 }
+        # nix podunk burgs under z15
+        minor-places:
+            filter: { kind: [hamlet, village, town, neighbourhood, suburb, quarter], $zoom: { max: 15 } }
+            visible: false
+
+    pois:
+        data: { source: mapzen, layer: pois }
+        filter:
+            kind: [bicycle_parking]
+        draw:
+            icons:
+                size: [[13, 14px], [16, 18px], [18, 19px]]
+                sprite: function() { return feature.kind; }
+                sprite_default: generic
+                priority: 65
+                repeat_group: abc
+                buffer: 3px
+                text:
+                    text_source: global.bicycle_parking_text_source
+                    buffer: 3px
+                    text_wrap: 18
+                    max_lines: 3
+                    font:
+                        family: global.text_font_family
+                        weight: normal
+                        fill: [0.20,0.20,0.20]
+                        size: [[13,10px],[14,11px],[17,12px],[19,12px],[20,14px]]
+                        stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
+        no-name:
+            z17:
+                filter:
+                    kind: [bicycle_parking]
+                draw: { icons: { visible: global.icon_visible_poi_landuse_e } }
+    barriers:
+        data: { source: mapzen, layer: landuse }
+        draw:
+            lines:
+                order: 1000
+
+        city_walls:
+            filter: { kind: city_wall }
+            draw:
+                lines:
+                    color: '#ccb38f'
+                    width: [[12, 0.75px], [13, 1.0px], [14, 1.2px], [15, 2.0px], [16, 2.5px], [19, 5m]]
+        retaining_wall:
+            filter: { kind: retaining_wall }
+            draw:
+                lines:
+                    color: '#d9c4a5'
+                    width: [[14, 0.5px], [15, 1.0px], [16, 1.5px], [17, 2.0px], [19, 3m]]
+        fence:
+            filter: { kind: fence }
+            draw:
+                lines:
+                    color: '#555555'
+                    width: [[16, 0px], [17, 1px], [18, 1.5px], [20, 0.5m]]
+
+        fence:
+            filter: { kind: hedge }
+            draw:
+                lines:
+                    color: [0.239, 0.510, 0.227, 1.00]
+                    width: [[16, 0px], [17, 1px], [18, 1.5px], [20, 0.5m]]
+
+    water:
+        data: { source: mapzen, layer: water }
+        river:
+            filter: { kind: [river,canal,stream,dam,ditch,drain], $zoom: { min: 13 } }
+            draw:
+                lines:
+                    order: 100
+                    color: [0.267, 0.635, 0.898, 1.00]
+                    width: [[13,1px],[14,1.5px],[15,2px],[16,3px],[18,4m]]
+                    cap: round
+        wide:
+            filter: { kind: [lake, water, riverbank, reservoir, playa, swimming_pool], $zoom: { min: 13 } }
+            draw:
+                polygons:
+                    order: 0
+                    color: [0.267, 0.635, 0.898, 1.00]
