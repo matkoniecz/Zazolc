@@ -14,20 +14,21 @@ import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCov
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType;
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
+import de.westnordost.streetcomplete.quests.housenumber.AddHousenumber;
 import de.westnordost.streetcomplete.quests.leaf_detail.AddTreeLeafCycle;
 import de.westnordost.streetcomplete.quests.leaf_detail.AddTreeLeafType;
-import de.westnordost.streetcomplete.quests.show_fixme.ShowFixme;
+import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess;
+import de.westnordost.streetcomplete.quests.road_name.AddRoadName;
+import de.westnordost.streetcomplete.quests.road_surface.AddRoadSurface;
 import de.westnordost.streetcomplete.quests.road_surface.DetailPavedRoadSurface;
 import de.westnordost.streetcomplete.quests.road_surface.DetailUnpavedRoadSurface;
-import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess;
+import de.westnordost.streetcomplete.quests.road_surface.ShowInvalidSurface;
+import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape;
+import de.westnordost.streetcomplete.quests.show_fixme.ShowFixme;
+import de.westnordost.streetcomplete.quests.sport.AddSport;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
 import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
-import de.westnordost.streetcomplete.quests.housenumber.AddHousenumber;
-import de.westnordost.streetcomplete.quests.road_name.AddRoadName;
-import de.westnordost.streetcomplete.quests.road_surface.AddRoadSurface;
-import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape;
-import de.westnordost.streetcomplete.quests.sport.AddSport;
 import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
 
 @Module
@@ -44,6 +45,7 @@ public class QuestModule
 				new AddRoadSurface(o),
 				new DetailPavedRoadSurface(o),
 				new DetailUnpavedRoadSurface(o),
+				new ShowInvalidSurface(o),
 				new AddBusStopShelter(o),
 				new AddToiletsFee(o),
 				new AddHousenumber(o),
