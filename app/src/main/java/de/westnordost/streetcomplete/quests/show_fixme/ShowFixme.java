@@ -41,7 +41,7 @@ public class ShowFixme extends SimpleOverpassQuestType
 		ArrayList<String> values = answer.getStringArrayList(ShowFixmeForm.OSM_VALUES);
 		if(values != null  && values.size() == 1)
 		{
-			if(values.get(0) == "fixme:solved"){
+			if("fixme:solved".equals(values.get(0))){
 				//TODO: handle it without magic values
 				changes.delete("fixme");
 			} else {
