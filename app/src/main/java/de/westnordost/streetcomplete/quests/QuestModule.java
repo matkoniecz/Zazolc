@@ -67,7 +67,7 @@ public class QuestModule
 				new AddTreeLeafType(o),
 				new multidesignatedFootwayToPath(o),
 				new AddWheelchairAccessBusiness(o),
-				new AddWheelChairAccessPublicTransport(o)
+				new AddWheelChairAccessPublicTransport(o),
 		};
 
 		return new QuestTypes(Arrays.asList(questTypes));

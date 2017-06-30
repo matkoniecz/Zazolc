@@ -50,5 +50,5 @@ public class AddTreeLeafType extends SimpleOverpassQuestType
 		return "Add leaf_type";
 	}
 
-	@Override public String getIconName() {	return "quest"; }
+	@Override public String getIconName() {	return "leaf"; }
 }
