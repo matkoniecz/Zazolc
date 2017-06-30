@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
@@ -15,7 +16,6 @@ import de.westnordost.streetcomplete.data.QuestTypes;
 import de.westnordost.streetcomplete.data.changesets.OpenChangesetsDao;
 import de.westnordost.streetcomplete.data.download.MobileDataAutoDownloadStrategy;
 import de.westnordost.streetcomplete.data.download.WifiAutoDownloadStrategy;
-import de.westnordost.streetcomplete.data.meta.CurrentCountry;
 import de.westnordost.streetcomplete.data.osm.persist.ElementGeometryDao;
 import de.westnordost.streetcomplete.data.osm.persist.MergedElementDao;
 import de.westnordost.streetcomplete.data.osm.persist.OsmQuestDao;
@@ -24,8 +24,6 @@ import de.westnordost.streetcomplete.data.osmnotes.OsmNoteQuestDao;
 import de.westnordost.streetcomplete.data.tiles.DownloadedTilesDao;
 import de.westnordost.streetcomplete.location.LocationRequestFragment;
 import de.westnordost.streetcomplete.tools.CrashReportExceptionHandler;
-import de.westnordost.streetcomplete.util.KryoSerializer;
-import de.westnordost.streetcomplete.util.Serializer;
 
 @Module
 public class ApplicationModule
@@ -52,14 +50,14 @@ public class ApplicationModule
 		return PreferenceManager.getDefaultSharedPreferences(application);
 	}
 
+	@Provides public AssetManager assetManager()
+	{
+		return application.getAssets();
+	}
+
 	@Provides public Resources resources()
 	{
 		return application.getResources();
-	}
-
-	@Provides public static CurrentCountry localeMetadata(Context appContext)
-	{
-		return new CurrentCountry(appContext);
 	}
 
 	@Provides public QuestController questController(

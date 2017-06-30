@@ -56,6 +56,7 @@ import de.westnordost.streetcomplete.data.download.QuestDownloadProgressListener
 import de.westnordost.streetcomplete.data.download.QuestDownloadService;
 import de.westnordost.streetcomplete.data.QuestGroup;
 import de.westnordost.streetcomplete.data.VisibleQuestListener;
+import de.westnordost.streetcomplete.data.meta.CountryInfos;
 import de.westnordost.streetcomplete.location.LocationRequestFragment;
 import de.westnordost.streetcomplete.location.LocationUtil;
 import de.westnordost.streetcomplete.location.SingleLocationRequest;
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements
 	@Inject SharedPreferences prefs;
 	@Inject OAuthComponent oAuthComponent;
 
+	@Inject CountryInfos countryInfos;
 	@Inject FindQuestSourceComponent questSource;
 
 	// per application start settings
@@ -615,10 +617,10 @@ public class MainActivity extends AppCompatActivity implements
 		});
 	}
 
-	@Override public void onLeaveNote(long questId, QuestGroup group, String note)
+	@Override public void onLeaveNote(long questId, QuestGroup group, String questTitle, String note)
 	{
 		closeQuestDetailsFor(questId, group);
-		questController.createNote(questId, note);
+		questController.createNote(questId, questTitle, note);
 	}
 
 	@Override public void onSkippedQuest(long questId, QuestGroup group)
@@ -714,17 +716,17 @@ public class MainActivity extends AppCompatActivity implements
 		// some more info here http://www.androiddesignpatterns.com/2013/08/fragment-transaction-commit-state-loss.html
 		if(isDestroyed() || isFinishing() || isChangingConfigurations()) return;
 
-		getFragmentManager().popBackStackImmediate(BOTTOM_SHEET, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-		mapFragment.removeQuestGeometry();
-
-		// sometimes the keyboard fails to close
+		// manually close the keyboard before popping the fragment
 		View view = this.getCurrentFocus();
 		if (view != null)
 		{
 			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 		}
+
+		getFragmentManager().popBackStackImmediate(BOTTOM_SHEET, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+		mapFragment.removeQuestGeometry();
 	}
 
 	private boolean isQuestDetailsCurrentlyDisplayedFor(long questId, QuestGroup group)
@@ -770,8 +772,11 @@ public class MainActivity extends AppCompatActivity implements
 		Bundle args = QuestAnswerComponent.createArguments(quest.getId(), group);
 		if (group == QuestGroup.OSM)
 		{
-			args.putSerializable(AbstractQuestAnswerFragment.ELEMENT, (OsmElement) element);
+			args.putSerializable(AbstractQuestAnswerFragment.ARG_ELEMENT, (OsmElement) element);
 		}
+		LatLon latLon = quest.getGeometry().center;
+		args.putSerializable(AbstractQuestAnswerFragment.ARG_COUNTRY_INFO,
+				countryInfos.get(latLon.getLongitude(), latLon.getLatitude()));
 		f.setArguments(args);
 
 		android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();

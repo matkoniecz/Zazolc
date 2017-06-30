@@ -3,8 +3,7 @@ package de.westnordost.streetcomplete.quests.road_surface;
 import de.westnordost.streetcomplete.R;
 
 public class AddRoadSurfaceForm extends RoadSurfaceForm {
-	RoadSurfaceForm.Surface[] GetSurfaceMenuStructure()
-	{
+	RoadSurfaceForm.Surface[] GetSurfaceMenuStructure()	{
 		return new RoadSurfaceForm.Surface[]{
 				new RoadSurfaceForm.Surface("asphalt", R.drawable.surface_asphalt, R.string.quest_surface_value_asphalt),
 				new RoadSurfaceForm.Surface("paving_stones", R.drawable.surface_paving_stones, R.string.quest_surface_value_paving_stones),

@@ -5,6 +5,8 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -23,19 +25,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import de.westnordost.osmapi.map.data.OsmElement;
 import de.westnordost.streetcomplete.R;
 import de.westnordost.streetcomplete.data.QuestGroup;
+import de.westnordost.streetcomplete.data.meta.CountryInfo;
 import de.westnordost.streetcomplete.view.dialogs.AlertDialogBuilder;
 
 /** Abstract base class for any dialog with which the user answers a specific quest(ion) */
 public abstract class AbstractQuestAnswerFragment extends Fragment
 {
-	public static final String ELEMENT = "element";
+	public static final String ARG_ELEMENT = "element", ARG_COUNTRY_INFO = "countryInfo";
 
-	private String titleText;
 	private int titleTextResId = -1;
+	private Object[] titleTextFormatArgs;
 
 	private TextView title;
 	private ViewGroup content;
@@ -49,6 +53,9 @@ public abstract class AbstractQuestAnswerFragment extends Fragment
 
 	private ImageButton buttonClose;
 
+	private CountryInfo countryInfo;
+	private OsmElement osmElement;
+
 	public AbstractQuestAnswerFragment()
 	{
 		super();
@@ -60,6 +67,9 @@ public abstract class AbstractQuestAnswerFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
 	{
+		osmElement = (OsmElement) getArguments().getSerializable(ARG_ELEMENT);
+		countryInfo = (CountryInfo) getArguments().getSerializable(ARG_COUNTRY_INFO);
+
 		View view = inflater.inflate(R.layout.quest_answer_fragment, container, false);
 
 		bottomSheet = (LinearLayout) view.findViewById(R.id.bottomSheet);
@@ -203,10 +213,18 @@ public abstract class AbstractQuestAnswerFragment extends Fragment
 	{
 		DialogFragment leaveNote = new LeaveNoteDialog();
 		Bundle leaveNoteArgs = questAnswerComponent.getArguments();
-		String questTitle = titleText != null ? titleText : getResources().getString(titleTextResId);
+		String questTitle = getEnglishResources().getString(titleTextResId, titleTextFormatArgs);
 		leaveNoteArgs.putString(LeaveNoteDialog.ARG_QUEST_TITLE, questTitle);
 		leaveNote.setArguments(leaveNoteArgs);
 		leaveNote.show(getFragmentManager(), null);
+	}
+
+	private Resources getEnglishResources()
+	{
+		Configuration conf = new Configuration(getResources().getConfiguration());
+		conf.setLocale(Locale.ENGLISH);
+		Context localizedContext = getActivity().createConfigurationContext(conf);
+		return localizedContext.getResources();
 	}
 
 	/** Request to close the form through user interaction (back button, clicked other quest,..),
@@ -248,23 +266,28 @@ public abstract class AbstractQuestAnswerFragment extends Fragment
 	public final void setTitle(int resourceId)
 	{
 		titleTextResId = resourceId;
-		titleText = null;
 		updateTitle();
 	}
 
-	public final void setTitle(String string)
+	public final void setTitle(int resourceId, Object... formatArgs)
 	{
-		titleText = string;
-		titleTextResId = -1;
+		titleTextResId = resourceId;
+		titleTextFormatArgs = formatArgs;
 		updateTitle();
 	}
 
 	private void updateTitle()
 	{
-		if(title != null)
+		if(title != null && titleTextResId != -1)
 		{
-			if(titleText != null) title.setText(titleText);
-			else if(titleTextResId != -1) title.setText(titleTextResId);
+			if(titleTextFormatArgs != null)
+			{
+				title.setText(getResources().getString(titleTextResId, titleTextFormatArgs));
+			}
+			else
+			{
+				title.setText(titleTextResId);
+			}
 		}
 	}
 
@@ -292,6 +315,11 @@ public abstract class AbstractQuestAnswerFragment extends Fragment
 
 	protected final OsmElement getOsmElement()
 	{
-		return (OsmElement) getArguments().getSerializable(AbstractQuestAnswerFragment.ELEMENT);
+		return osmElement;
+	}
+
+	protected final CountryInfo getCountryInfo()
+	{
+		return countryInfo;
 	}
 }
