@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import de.westnordost.osmapi.map.data.OsmElement;
+import de.westnordost.streetcomplete.R;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
 
 public class showInvalidSurfaceForm extends AbstractQuestAnswerFragment
@@ -19,10 +20,10 @@ public class showInvalidSurfaceForm extends AbstractQuestAnswerFragment
 		String surface = element != null && element.getTags() != null ? element.getTags().get("surface") : null;
 		if (surface != null && !surface.trim().isEmpty())
 		{
-			setTitle("surface=" + surface);
+			setTitle(R.string.show_invalid_surface_title, surface);
 		} else
 		{
-			setTitle("something went wrong");
+			setTitle(R.string.show_invalid_surface_failed_title);
 		}
 		return view;
 	}

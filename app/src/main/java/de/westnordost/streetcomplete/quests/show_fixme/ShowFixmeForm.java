@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.westnordost.osmapi.map.data.OsmElement;
@@ -27,9 +26,9 @@ public class ShowFixmeForm extends TextListQuestAnswerFragment {
         OsmElement element = getOsmElement();
         String fixme = element != null && element.getTags() != null ? element.getTags().get("fixme") : null;
         if(fixme != null && !fixme.trim().isEmpty()) {
-            setTitle("fixme=" + fixme);
+            setTitle(R.string.fixme_title, fixme);
         } else {
-            setTitle("fixme went wrong");
+            setTitle(R.string.fixme_title_on_missing_fixme_text);
         }
         textSelector.setCellLayout(R.layout.text_select_cell);
         return view;
