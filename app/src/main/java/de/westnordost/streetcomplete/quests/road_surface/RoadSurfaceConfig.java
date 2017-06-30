@@ -7,6 +7,6 @@ public class RoadSurfaceConfig {
 			"trunk","trunk_link","motorway","motorway_link",
 			"primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link",
 			"unclassified", "residential", "bicycle_road", "living_street", "pedestrian",
-			"track", "road", "service", "footway", "cycleway", "path"
+			"track", "road", "service", "footway", "cycleway", "path", "steps",
 	};
 }
