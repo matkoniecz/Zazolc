@@ -1,31 +1,22 @@
 package de.westnordost.streetcomplete.settings;
 
+import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-
-import java.util.List;
-
-import javax.inject.Inject;
-
-import de.westnordost.streetcomplete.Injector;
 import de.westnordost.streetcomplete.R;
-import de.westnordost.streetcomplete.oauth.OAuthComponent;
-import de.westnordost.streetcomplete.oauth.OAuthWebViewDialogFragment;
-import oauth.signpost.OAuthConsumer;
+import de.westnordost.streetcomplete.oauth.OsmOAuthDialogFragment;
 
-public class SettingsActivity extends AppCompatActivity implements OAuthWebViewDialogFragment.OAuthListener
+public class SettingsActivity extends AppCompatActivity implements OsmOAuthDialogFragment.Listener
 {
-	@Inject OAuthComponent oAuthComponent;
+	public static final String EXTRA_LAUNCH_AUTH = "de.westnordost.streetcomplete.settings.launch_auth";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-
-		Injector.instance.getApplicationComponent().inject(this);
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		setContentView(R.layout.activity_settings);
@@ -35,17 +26,25 @@ public class SettingsActivity extends AppCompatActivity implements OAuthWebViewD
 
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		if(getIntent().getBooleanExtra(EXTRA_LAUNCH_AUTH, false))
+		{
+			new OsmOAuthDialogFragment().show(getFragmentManager(), OsmOAuthDialogFragment.TAG);
+		}
 	}
 
-	@Override
-	public void onOAuthAuthorized(OAuthConsumer consumer, List<String> permissions)
+	@Override public void onOAuthAuthorized()
 	{
-		oAuthComponent.onOAuthAuthorized(consumer, permissions);
 	}
 
-	@Override
-	public void onOAuthCancelled()
+	@Override protected void onNewIntent(Intent intent)
 	{
-		oAuthComponent.onOAuthCancelled();
+		super.onNewIntent(intent);
+		OsmOAuthDialogFragment oauthFragment = (OsmOAuthDialogFragment) getFragmentManager()
+				.findFragmentByTag(OsmOAuthDialogFragment.TAG);
+		if(oauthFragment != null)
+		{
+			oauthFragment.onNewIntent(intent);
+		}
 	}
 }
