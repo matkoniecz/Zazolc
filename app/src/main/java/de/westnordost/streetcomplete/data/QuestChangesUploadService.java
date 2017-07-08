@@ -2,6 +2,7 @@ package de.westnordost.streetcomplete.data;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -22,7 +23,7 @@ import de.westnordost.streetcomplete.Injector;
 import de.westnordost.streetcomplete.data.osm.upload.OsmQuestChangesUpload;
 import de.westnordost.streetcomplete.data.osmnotes.CreateNoteUpload;
 import de.westnordost.streetcomplete.data.osmnotes.OsmNoteQuestChangesUpload;
-import de.westnordost.streetcomplete.oauth.OAuthPrefs;
+import de.westnordost.streetcomplete.oauth.OAuth;
 
 /** Collects and uploads all changes the user has done: notes he left, comments he left on existing
  *  notes and quests he answered */
@@ -46,7 +47,7 @@ public class QuestChangesUploadService extends IntentService
 	@Inject Provider<OsmNoteQuestChangesUpload> noteQuestUploadProvider;
 	@Inject Provider<OsmQuestChangesUpload> questUploadProvider;
 	@Inject Provider<CreateNoteUpload> createNoteUploadProvider;
-	@Inject OAuthPrefs oAuth;
+	@Inject SharedPreferences prefs;
 
 	private AtomicBoolean cancelState;
 
@@ -82,7 +83,7 @@ public class QuestChangesUploadService extends IntentService
 		}
 
 		// let's fail early in case of no authorization
-		if(!oAuth.isAuthorized())
+		if(!OAuth.isAuthorized(prefs))
 		{
 			Log.i(TAG, "User is not authorized");
 			Intent errorIntent = new Intent(ACTION_ERROR);

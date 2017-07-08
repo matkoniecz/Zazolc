@@ -1,5 +1,7 @@
 package de.westnordost.streetcomplete.data;
 
+import android.content.SharedPreferences;
+
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
@@ -7,7 +9,7 @@ import dagger.Module;
 import dagger.Provides;
 import de.westnordost.osmapi.user.UserDao;
 import de.westnordost.streetcomplete.ApplicationConstants;
-import de.westnordost.streetcomplete.oauth.OAuthPrefs;
+import de.westnordost.streetcomplete.oauth.OAuth;
 import de.westnordost.streetcomplete.data.osm.download.ElementGeometryCreator;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataParser;
@@ -26,14 +28,14 @@ public class OsmModule
 
 	public static String OVERPASS_API_URL = "http://overpass-api.de/api/";
 
-	@Provides @Singleton public static OsmConnection osmConnection(OAuthPrefs oAuth)
-	{
-		return osmConnection(oAuth.loadConsumer());
-	}
-
-	public static OsmConnection osmConnection(OAuthConsumer consumer)
+	@Provides @Singleton public static OsmConnection osmConnection(OAuthConsumer consumer)
 	{
 		return new OsmConnection(OSM_API_URL, ApplicationConstants.USER_AGENT, consumer);
+	}
+
+	@Provides public static OAuthConsumer oAuthConsumer(SharedPreferences prefs)
+	{
+		return OAuth.loadConsumer(prefs);
 	}
 
 	@Provides public static MapDataFactory mapDataFactory()

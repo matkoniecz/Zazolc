@@ -1,5 +1,6 @@
 package de.westnordost.streetcomplete.settings;
 
+import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,14 +14,13 @@ import de.westnordost.streetcomplete.Prefs;
 import de.westnordost.streetcomplete.data.QuestStatus;
 import de.westnordost.streetcomplete.data.osmnotes.OsmNoteQuest;
 import de.westnordost.streetcomplete.data.osmnotes.OsmNoteQuestDao;
-import de.westnordost.streetcomplete.oauth.OAuthPrefs;
+import de.westnordost.streetcomplete.oauth.OAuth;
 import de.westnordost.streetcomplete.R;
-import de.westnordost.streetcomplete.oauth.OsmOAuthFragment;
+import de.westnordost.streetcomplete.oauth.OAuthWebViewDialogFragment;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
 {
 	@Inject SharedPreferences prefs;
-	@Inject OAuthPrefs oAuth;
 	@Inject OsmNoteQuestDao osmNoteQuestDao;
 
 	@Override
@@ -38,7 +38,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 			@Override
 			public boolean onPreferenceClick(Preference preference)
 			{
-				new OsmOAuthFragment().show(getFragmentManager(), OsmOAuthFragment.TAG);
+				final FragmentManager fm = getFragmentManager();
+
+				OAuthWebViewDialogFragment dlg = OAuthWebViewDialogFragment.create(
+						OAuth.createConsumer(), OAuth.createProvider()
+				);
+
+				dlg.show(fm, OAuthWebViewDialogFragment.TAG);
 				return true;
 			}
 		});
@@ -54,7 +60,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 	private void updateOsmAuthSummary()
 	{
 		Preference oauth = getPreferenceScreen().findPreference("oauth");
-		if (oAuth.isAuthorized())
+		if (OAuth.isAuthorized(prefs))
 		{
 			oauth.setSummary(R.string.pref_title_authorized_summary);
 		}
