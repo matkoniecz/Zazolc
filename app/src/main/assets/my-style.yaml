@@ -244,13 +244,6 @@ layers:
 
     water:
         data: { source: mapzen, layer: water }
-        draw:
-            flatpolys:
-                order: function() { return feature.sort_rank; }
-                color: [0.83, 0.83, 0.83]
-
-    water:
-        data: { source: mapzen, layer: water }
         river:
             filter: { kind: [river,canal,stream,dam,ditch,drain], $zoom: { min: 13 } }
             draw:
