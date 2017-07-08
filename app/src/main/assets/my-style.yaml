@@ -90,13 +90,6 @@ layers:
                     order: function() { return feature.sort_rank; }
                     color: [0.980, 0.949, 1.000, 1.00]
 
-    water:
-        data: { source: mapzen, layer: water }
-        draw:
-            flatpolys:
-                order: function() { return feature.sort_rank; }
-                color: [0.83, 0.83, 0.83]
-
     roads:
         data: { source: mapzen, layer: roads }
         filter: { not: { kind_detail: service, kind: rail } }
@@ -248,6 +241,13 @@ layers:
                 lines:
                     color: [0.239, 0.510, 0.227, 1.00]
                     width: [[16, 0px], [17, 1px], [18, 1.5px], [20, 0.5m]]
+
+    water:
+        data: { source: mapzen, layer: water }
+        draw:
+            flatpolys:
+                order: function() { return feature.sort_rank; }
+                color: [0.83, 0.83, 0.83]
 
     water:
         data: { source: mapzen, layer: water }
