@@ -154,7 +154,7 @@ layers:
                         order: 1199
 
         path:
-            filter: { kind_detail: [footway, path, steps], not: { bicycle: designated, segregated: true } }
+            filter: { kind_detail: [footway, path, steps, pedestrian], not: { bicycle: designated, segregated: true } }
             draw:
                 lines:
                     order: 1100
