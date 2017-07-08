@@ -168,7 +168,7 @@ layers:
         draw:
             polygons:
                 order: 0
-                color: [.4, .4, .4]
+                color: [.5, .5, .5]
 
     places:
         data: { source: mapzen }
