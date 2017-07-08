@@ -101,7 +101,11 @@ layers:
                     color: black
 
         highway:
-            filter: { kind: [highway, major_road, minor_road, path], not: {kind_detail: [footway, path, steps] }}
+            filter:
+                any:
+                    - { kind: path, kind_detail: path, bicycle: designated, segregated: true }
+                    - { kind: path, kind_detail: cycleway }
+                    - kind: [highway, major_road, minor_road]
             draw:
                 lines:
                     order: 1300
@@ -150,7 +154,7 @@ layers:
                         order: 1199
 
         path:
-            filter: { kind_detail: [footway, path, steps] }
+            filter: { kind_detail: [footway, path, steps], not: { bicycle: designated, segregated: true } }
             draw:
                 lines:
                     order: 1100
