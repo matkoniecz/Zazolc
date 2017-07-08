@@ -106,6 +106,8 @@ layers:
                     - { kind: path, kind_detail: path, bicycle: designated, segregated: true }
                     - { kind: path, kind_detail: cycleway }
                     - kind: [highway, major_road, minor_road]
+                    - { kind_detail: [pedestrian], bicycle: designated }
+                    - { kind_detail: [pedestrian], bicycle: yes }
             draw:
                 lines:
                     order: 1300
@@ -154,7 +156,10 @@ layers:
                         order: 1199
 
         path:
-            filter: { kind_detail: [footway, path, steps, pedestrian], not: { bicycle: designated, segregated: true } }
+            filter:
+                any:
+                    - { kind_detail: [footway, path, steps], not: { bicycle: designated, segregated: true } }
+                    - { kind_detail: [pedestrian], not: { bicycle: designated, bicycle: yes } }
             draw:
                 lines:
                     order: 1100
