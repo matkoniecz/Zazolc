@@ -36,9 +36,10 @@ import de.westnordost.streetcomplete.util.InlineAsyncTask;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
 
-public class OsmOAuthDialogFragment extends DialogFragment
+/** Manages authorization with OAuthPrefs. You need to pass through the call to onResume from Activity */
+public class OsmOAuthFragment extends DialogFragment
 {
-	public static final String TAG = "OsmOAuthDialogFragment";
+	public static final String TAG = "OsmOAuthFragment";
 
 	// for loading and saving from bundle
 	private static final String	CONSUMER = "consumer", STATE = "state";
@@ -49,8 +50,8 @@ public class OsmOAuthDialogFragment extends DialogFragment
 			Permission.WRITE_NOTES);
 
 	private static final String
-			CALLBACK_SCHEME = "streetcomplete",
-			CALLBACK_HOST = "oauth",
+			CALLBACK_SCHEME = "oauth",
+			CALLBACK_HOST = "streetcomplete",
 			CALLBACK_URL = CALLBACK_SCHEME + "://" + CALLBACK_HOST;
 
 	@Inject SharedPreferences prefs;
@@ -80,8 +81,7 @@ public class OsmOAuthDialogFragment extends DialogFragment
 		RETRIEVING_REQUEST_TOKEN,
 		AUTHENTICATING_IN_BROWSER,
 		RETRIEVING_ACCESS_TOKEN,
-		POST_AUTHORIZATION,
-		CANCELLED
+		POST_AUTHORIZATION
 	}
 
 	@Override public void onCreate(@Nullable Bundle inState)
@@ -184,8 +184,6 @@ public class OsmOAuthDialogFragment extends DialogFragment
 
 	@UiThread private void onAuthorizationFailed()
 	{
-		state = State.CANCELLED;
-
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.remove(Prefs.OSM_USER_ID);
 		editor.apply();
@@ -213,7 +211,7 @@ public class OsmOAuthDialogFragment extends DialogFragment
 
 		@Override public void onSuccess(String authorizeUrl)
 		{
-			if(getActivity() == null || state == State.CANCELLED) return;
+			if(getActivity() == null) return;
 
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(authorizeUrl));
 			intent.putExtra(Browser.EXTRA_APPLICATION_ID, getActivity().getPackageName());
@@ -239,7 +237,7 @@ public class OsmOAuthDialogFragment extends DialogFragment
 
 		@Override public void onSuccess(Boolean authorized)
 		{
-			if(getActivity() == null || state == State.CANCELLED) return;
+			if(getActivity() == null) return;
 
 			if (authorized)
 			{
@@ -271,8 +269,6 @@ public class OsmOAuthDialogFragment extends DialogFragment
 
 		@Override public void onSuccess(Void result)
 		{
-			if(getActivity() == null || state == State.CANCELLED) return;
-
 			Toast.makeText(getActivity(), R.string.pref_title_authorized_summary, Toast.LENGTH_LONG).show();
 			applyOAuthConsumer(consumer);
 			listener.onOAuthAuthorized();
