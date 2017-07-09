@@ -35,10 +35,6 @@ styles:
         base: points
         texture: pois
         blend_order: 1
-    flatlines:
-        base: lines
-    flatpolys:
-        base: polygons
 
 fonts:
     Open Sans:
@@ -67,26 +63,26 @@ layers:
         parks:
             filter: { kind: [park, forest] }
             draw:
-                flatpolys:
+                polygons:
                     order: function() { return feature.sort_rank; }
                     # tone down green as you zoom out
                     color: [[10, [0.3, 0.4, 0.3]], [14, [0.5, 0.825, 0.5]]]
         playgrounds:
             filter: { kind: [playground] }
             draw:
-                flatpolys:
+                polygons:
                     order: function() { return feature.sort_rank; }
                     color: [0.780, 0.973, 0.737, 1.00]
         pitches:
             filter: { kind: [pitch] }
             draw:
-                flatpolys:
+                polygons:
                     order: function() { return feature.sort_rank; }
                     color: [0.973, 0.965, 0.737, 1.00]
         parkings:
             filter: { kind: [parking] }
             draw:
-                flatpolys:
+                polygons:
                     order: function() { return feature.sort_rank; }
                     color: [0.980, 0.949, 1.000, 1.00]
 
