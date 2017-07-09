@@ -7,7 +7,6 @@
 global:
     bicycle_parking_text_source: |
         function() {
-            // if a ux_langauge has been defined use that, else if there is feature name in the fallback_ux_language then use that, else use the feature's default name in the local language
             return feature.capacity + " " + feature.operator;
         }
 
