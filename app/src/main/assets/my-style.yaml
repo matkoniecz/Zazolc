@@ -11,7 +11,7 @@ global:
             return feature.capacity + " " + feature.operator;
         }
 
-    text_stroke:        '#e4e1de'          # land color
+    text_stroke:        '#e4e1de'
     text_font_family:  'Open Sans'        # branding in asperational Unicode, yo (or Helvetica)
 
 textures:
