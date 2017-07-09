@@ -168,7 +168,7 @@ layers:
                     cap: round
 
     buildings:
-        filter: { $zoom: { min: 13 } }
+        filter: { $zoom: { min: 16 } }
         data: { source: mapzen, layer: buildings }
         draw:
             polygons:
