@@ -9,7 +9,10 @@ global:
         function() {
             return feature.capacity + " " + feature.operator;
         }
-
+    street_text_source: |
+        function() {
+            return feature.name;
+        }
     text_stroke:        '#e4e1de'
     text_font_family:  'Open Sans'        # branding in asperational Unicode, yo (or Helvetica)
 
@@ -114,7 +117,20 @@ layers:
                         color: black
                         width: [[13, 0px], [14, 1px], [15, 1.5px]]
                         cap: butt
-
+            highway_names:
+                filter: { $zoom: { min: 16 } }
+                draw:
+                    text:
+                        text_source: global.street_text_source
+                        buffer: 3px
+                        text_wrap: 18
+                        max_lines: 3
+                        font:
+                            family: global.text_font_family
+                            weight: normal
+                            fill: [0.20,0.20,0.20]
+                            size: [[16,12px],[17,13px],[19,13px],[20,14px]]
+                            stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
             tunnel:
                 filter: {is_tunnel: true, $zoom: {min: 17} }
                 draw:
