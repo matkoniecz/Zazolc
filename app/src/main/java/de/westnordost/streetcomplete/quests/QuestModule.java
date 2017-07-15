@@ -9,11 +9,16 @@ import dagger.Provides;
 import de.westnordost.streetcomplete.data.QuestType;
 import de.westnordost.streetcomplete.data.QuestTypes;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
+import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable;
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity;
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover;
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType;
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
+import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
+import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
+import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
+import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
 import de.westnordost.streetcomplete.quests.housenumber.AddHousenumber;
 import de.westnordost.streetcomplete.quests.leaf_detail.AddTreeLeafCycle;
 import de.westnordost.streetcomplete.quests.leaf_detail.AddTreeLeafType;
@@ -27,9 +32,6 @@ import de.westnordost.streetcomplete.quests.road_surface.ShowInvalidSurface;
 import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape;
 import de.westnordost.streetcomplete.quests.show_fixme.ShowFixme;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
-import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
-import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
-import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
 import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessPublicTransport;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessBusiness;
@@ -51,6 +53,7 @@ public class QuestModule
 				new ShowInvalidSurface(o),
 				new AddBusStopShelter(o),
 				new AddToiletsFee(o),
+				new AddBabyChangingTable(o),
 				new AddHousenumber(o),
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
@@ -66,6 +69,7 @@ public class QuestModule
 				new multidesignatedFootwayToPath(o),
 				new AddWheelchairAccessBusiness(o),
 				new AddWheelChairAccessPublicTransport(o),
+				new AddRecyclingType(o)
 		};
 
 		return new QuestTypes(Arrays.asList(questTypes));
