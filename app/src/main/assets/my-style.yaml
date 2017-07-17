@@ -4,6 +4,10 @@
 # https://mapzen.com/tangram/play/ used during development
 # https://mapzen.com/documentation/vector-tiles/layers/ documentation of exposed data
 
+# part of development blocked by
+# - missing access=* in data - see https://github.com/tilezen/vector-datasource/issues/1273
+# - missing pedestrian areas in data - see https://github.com/tilezen/vector-datasource/issues/1312
+
 global:
     bicycle_parking_text_source: |
         function() {
