@@ -98,13 +98,6 @@ layers:
     roads:
         data: { source: mapzen, layer: roads }
         filter: { not: { kind_detail: service, kind: rail } }
-        draw:
-            lines:
-                order: 1300
-                width: function () { return Math.log($zoom); }
-                outline:
-                    color: black
-
         highway:
             filter:
                 any:
