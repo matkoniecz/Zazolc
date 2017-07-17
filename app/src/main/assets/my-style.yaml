@@ -103,6 +103,7 @@ layers:
                 any:
                     - { kind: path, kind_detail: path, bicycle: designated, segregated: true }
                     - { kind: path, kind_detail: cycleway }
+                    - { kind: path, kind_detail: track }
                     - kind: [highway, major_road, minor_road]
                     - { kind_detail: [pedestrian], bicycle: designated }
                     - { kind_detail: [pedestrian], bicycle: yes }
