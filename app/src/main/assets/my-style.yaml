@@ -180,7 +180,7 @@ layers:
                 cap: round
 
     buildings:
-        filter: { $zoom: { min: 16 } }
+        filter: { $zoom: { min: 15 } }
         data: { source: mapzen, layer: buildings }
         draw:
             polygons:
