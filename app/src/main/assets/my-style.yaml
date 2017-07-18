@@ -6,10 +6,8 @@
 
 # part of development blocked by
 # - missing access=* in data - see https://github.com/tilezen/vector-datasource/issues/1273
-# - missing pedestrian areas in data - see https://github.com/tilezen/vector-datasource/issues/1312
-
-# known bug with unknown solution (any tangram style that handles this correctly would be a big help)
-# - displaying road on bridge over another road as not crossing
+# - segregated is missing on lower zoom levels - see https://github.com/tilezen/vector-datasource/issues/1316
+# - poor bridge recognition - https://github.com/tilezen/vector-datasource/issues/1314 ( after fixing that https://github.com/tangrams/cinnabar-style/issues/38 will be useful )
 
 global:
     bicycle_parking_text_source: |
