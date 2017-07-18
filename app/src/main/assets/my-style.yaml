@@ -22,6 +22,7 @@ global:
         }
     text_stroke:        '#e4e1de'
     text_font_family:  'Open Sans'        # branding in asperational Unicode, yo (or Helvetica)
+    pedestrian_color: [0.8, 0.8, 0.8]
 
 textures:
     pois:
@@ -95,6 +96,27 @@ layers:
                     order: function() { return feature.sort_rank; }
                     color: [0.980, 0.949, 1.000, 1.00]
 
+        pedestrian:
+            filter:
+                kind: [pedestrian,common,footway]
+            draw:
+                polygons:
+                    order: function() { return feature.sort_rank; }
+                    color: global.pedestrian_color
+
+    path:
+        data: { source: mapzen, layer: roads }
+        filter:
+            any:
+                - { kind_detail: [footway, path, steps], not: { bicycle: designated, segregated: true } }
+                - { kind_detail: [pedestrian], not: { bicycle: designated }, not: { bicycle: yes } }
+        draw:
+            lines:
+                order: 1100
+                color: global.pedestrian_color
+                width: [[16, 0], [17, 3m]]
+                cap: round
+
     roads:
         data: { source: mapzen, layer: roads }
         filter: { not: { kind_detail: service, kind: rail } }
@@ -166,19 +188,6 @@ layers:
                     lines:
                         width: [[11, 0px], [13, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5px]]
                         order: 1199
-
-    path:
-        data: { source: mapzen, layer: roads }
-        filter:
-            any:
-                - { kind_detail: [footway, path, steps], not: { bicycle: designated, segregated: true } }
-                - { kind_detail: [pedestrian], not: { bicycle: designated }, not: { bicycle: yes } }
-        draw:
-            lines:
-                order: 1100
-                color: [0.8, 0.8, 0.8]
-                width: [[16, 0], [17, 3m]]
-                cap: round
 
     buildings:
         filter: { $zoom: { min: 15 } }
