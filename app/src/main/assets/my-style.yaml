@@ -108,7 +108,7 @@ layers:
         data: { source: mapzen, layer: roads }
         filter:
             any:
-                - { kind_detail: [footway, path, steps], not: { bicycle: designated, segregated: true } }
+                - { kind_detail: [footway, path, steps], not: { bicycle: designated }, not: { bicycle: yes } }
                 - { kind_detail: [pedestrian], not: { bicycle: designated }, not: { bicycle: yes } }
         draw:
             lines:
@@ -123,12 +123,14 @@ layers:
         highway:
             filter:
                 any:
-                    - { kind: path, kind_detail: path, bicycle: designated, segregated: true }
+                    - { kind: path, kind_detail: [footway, path], bicycle: designated, segregated: true }
+                    - { kind: path, kind_detail: [footway, path], bicycle: designated, segregated: false }
+                    - { kind: path, kind_detail: [footway, path], bicycle: yes }
                     - { kind: path, kind_detail: cycleway }
                     - { kind: path, kind_detail: track }
-                    - kind: [highway, major_road, minor_road]
                     - { kind_detail: [pedestrian], bicycle: designated }
                     - { kind_detail: [pedestrian], bicycle: yes }
+                    - kind: [highway, major_road, minor_road]
             draw:
                 lines:
                     order: 1300
