@@ -123,8 +123,7 @@ layers:
         highway:
             filter:
                 any:
-                    - { kind: path, kind_detail: [footway, path], bicycle: designated, segregated: true }
-                    - { kind: path, kind_detail: [footway, path], bicycle: designated, segregated: false }
+                    - { kind: path, kind_detail: [footway, path], bicycle: designated }
                     - { kind: path, kind_detail: [footway, path], bicycle: yes }
                     - { kind: path, kind_detail: cycleway }
                     - { kind: path, kind_detail: track }
