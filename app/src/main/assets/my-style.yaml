@@ -161,7 +161,7 @@ layers:
                             width: [[17, 3px], [18, 4px]]
                             color: [.5, .5, .5]
             good_surface:
-                filter: {surface: [asphalt, paved, wood, metal]}
+                filter: {surface: [asphalt, paved, wood, metal, tartan, metal_grid]}
                 draw:
                     lines:
                         color: [0.941, 0.843, 1.000, 1.00]
@@ -171,12 +171,28 @@ layers:
                 draw:
                     lines:
                         color: [0.965, 0.922, 0.988, 1.00]
-            bad_or_missing_surface:
-                filter: {not: {surface: [asphalt, paved, concrete, paving_stones, compacted, sett]}}
+            bad_surface:
+                filter: {surface: [unpaved, dirt, earth, fine_gravel, grass, grass_paver, gravel,
+                ground, mud, pebblestone, salt, sand, woodchips, clay, cobblestone,
+                cobblestone:flattened, concrete:lanes, concrete:plates, artificial_turf, decoturf]}
                 draw:
                     lines:
                         width: [[11, 0px], [13, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5m]]
                         color: [0.83, 0.83, 0.83]
+                        order: 1200
+                        outline:
+                            order: 1010
+                            width: [[13, 0px], [14, 0.5px], [16, 0.75px]]
+            missing_surface:
+                filter: {not: {surface: [asphalt, paved, wood, metal, tartan, metal_grid,
+                concrete, paving_stones, compacted, sett,
+                unpaved, dirt, earth, fine_gravel, grass, grass_paver, gravel,
+                ground, mud, pebblestone, salt, sand, woodchips, clay, cobblestone,
+                cobblestone:flattened, concrete:lanes, concrete:plates, artificial_turf, decoturf]}}
+                draw:
+                    lines:
+                        width: [[11, 0px], [13, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5m]]
+                        color: white
                         order: 1200
                         outline:
                             order: 1010
