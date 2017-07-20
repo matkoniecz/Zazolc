@@ -1,20 +1,20 @@
-package de.westnordost.streetcomplete.quests.toilets_fee;
+package de.westnordost.streetcomplete.quests.fire_hydrant;
 
 import android.os.Bundle;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
-import de.westnordost.streetcomplete.R;
 import de.westnordost.streetcomplete.data.QuestImportance;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
-import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment;
 
-public class AddToiletsFee extends SimpleOverpassQuestType
+public class AddFireHydrantType extends SimpleOverpassQuestType
 {
-	@Inject public AddToiletsFee(OverpassMapDataDao overpassServer)
+	@Inject public AddFireHydrantType(OverpassMapDataDao overpassServer)
 	{
 		super(overpassServer);
 	}
@@ -22,7 +22,7 @@ public class AddToiletsFee extends SimpleOverpassQuestType
 	@Override
 	protected String getTagFilters()
 	{
-		return "nodes, ways with amenity = toilets and access !~ private|customers and !fee";
+		return "nodes with emergency=fire_hydrant and !fire_hydrant:type";
 	}
 
 	@Override
@@ -33,21 +33,24 @@ public class AddToiletsFee extends SimpleOverpassQuestType
 
 	public AbstractQuestAnswerFragment createForm()
 	{
-		AbstractQuestAnswerFragment form =  new YesNoQuestAnswerFragment();
-		form.setTitle(R.string.quest_toiletsFee_title);
-		return form;
+		return new AddFireHydrantTypeForm();
 	}
 
 	public void applyAnswerTo(Bundle answer, StringMapChangesBuilder changes)
 	{
-		String yesno = answer.getBoolean(YesNoQuestAnswerFragment.ANSWER) ? "yes" : "no";
-		changes.add("fee", yesno);
+		List<String> values = answer.getStringArrayList(AddFireHydrantTypeForm.OSM_VALUES);
+		if(values != null  && values.size() == 1)
+		{
+			changes.add("fire_hydrant:type", values.get(0));
+		}
 	}
 
 	@Override public String getCommitMessage()
 	{
-		return "Add toilets fee";
+		return "Add fire hydrant type";
 	}
 
-	@Override public String getIconName() {	return "toilets"; }
+	@Override public String getIconName() {
+		return "fire_hydrant_type";
+	}
 }
