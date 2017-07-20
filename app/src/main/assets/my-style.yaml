@@ -4,6 +4,9 @@
 # https://mapzen.com/tangram/play/ used during development
 # https://mapzen.com/documentation/vector-tiles/layers/ documentation of exposed data
 
+# oneway arrows - see https://github.com/tangrams/cinnabar-style/commit/26f200e6c9c7b5204fd5ca38a4380a4621c6112a#diff-0c6771ec3d0e80619be01b96887c828aR1680
+# (but https://github.com/tangrams/cinnabar-style/issues/41)
+
 # part of development blocked by
 # - missing access=* in data - see https://github.com/tilezen/vector-datasource/issues/1273
 # - segregated is missing on lower zoom levels - see https://github.com/tilezen/vector-datasource/issues/1316
