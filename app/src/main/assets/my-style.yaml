@@ -245,6 +245,12 @@ layers:
         minor-places:
             filter: { kind: [hamlet, village, town, neighbourhood, suburb, quarter], $zoom: { max: 15 } }
             visible: false
+        major-places:
+            filter: {population: { min: 50000 }}
+            draw:
+                text:
+                    font:
+                        size: 21px
 
     pois:
         data: { source: mapzen, layer: pois }
