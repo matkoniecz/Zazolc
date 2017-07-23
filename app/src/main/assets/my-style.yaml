@@ -136,11 +136,11 @@ layers:
                     order: 1300
                     color: white
                     cap: round
-                    width: [[11, 0px], [13, 1.5px], [14, 2.5px], [16, 2.5px], [19, 8m]]
+                    width: [[1, 1.5px], [14, 2.5px], [16, 2.5px], [19, 8m]]
                     outline:
                         order: 1010
                         color: black
-                        width: [[13, 0px], [14, 1px], [15, 1.5px]]
+                        width: [[14, 1px], [15, 1.5px]]
                         cap: butt
             highway_names:
                 filter: { $zoom: { min: 16 } }
@@ -180,12 +180,12 @@ layers:
                 cobblestone:flattened, concrete:lanes, concrete:plates, artificial_turf, decoturf]}
                 draw:
                     lines:
-                        width: [[11, 0px], [13, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5m]]
+                        width: [[1, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5m]]
                         color: [0.83, 0.83, 0.83]
                         order: 1200
                         outline:
                             order: 1010
-                            width: [[13, 0px], [14, 0.5px], [16, 0.75px]]
+                            width: [[1, 0.5px], [16, 0.75px]]
             missing_surface:
                 filter: {not: {surface: [asphalt, paved, wood, metal, tartan, metal_grid,
                 concrete, paving_stones, compacted, sett,
@@ -194,12 +194,12 @@ layers:
                 cobblestone:flattened, concrete:lanes, concrete:plates, artificial_turf, decoturf]}}
                 draw:
                     lines:
-                        width: [[11, 0px], [13, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5m]]
+                        width: [[1, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5m]]
                         color: white
                         order: 1200
                         outline:
                             order: 1010
-                            width: [[13, 0px], [14, 0.5px], [16, 0.75px]]
+                            width: [[1, 0.5px], [16, 0.75px]]
             unimportant_service:
                 filter: { service: [driveway, parking_aisle, 'drive-through'] }
                 draw:
