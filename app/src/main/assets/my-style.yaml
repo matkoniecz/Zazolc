@@ -239,7 +239,6 @@ layers:
                     size: 11px
                     family: Helvetica
                     fill: black
-                    stroke: { color: black, width: 1 }
                     stroke: { color: global.text_stroke, width: [[1,1px], [12,2px],[16,4px]] }
         # nix podunk burgs under z15
         minor-places:
