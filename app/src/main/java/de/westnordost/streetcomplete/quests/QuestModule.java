@@ -54,7 +54,7 @@ public class QuestModule
 				// ↓ may be shown as missing in QA tools
 				new multidesignatedFootwayToPath(o),
 				new ShowInvalidSurface(o),
-				new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
+				//new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
 				new AddBikeParkingType(o),
