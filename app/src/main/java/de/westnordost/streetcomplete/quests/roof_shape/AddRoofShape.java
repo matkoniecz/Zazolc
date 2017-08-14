@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import de.westnordost.streetcomplete.data.QuestImportance;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -27,12 +26,6 @@ public class AddRoofShape extends SimpleOverpassQuestType
 				"school|civic|college|university|public|hospital|kindergarten|transportation|train_station|"+
 				"retail|commercial|warehouse|industrial|manufacture" +
 				" and !roof:shape";
-	}
-
-	@Override
-	public int importance()
-	{
-		return QuestImportance.MINOR;
 	}
 
 	public AbstractQuestAnswerFragment createForm()

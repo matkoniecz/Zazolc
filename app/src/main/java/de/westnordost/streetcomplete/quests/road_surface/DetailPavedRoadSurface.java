@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import javax.inject.Inject;
 
-import de.westnordost.streetcomplete.data.QuestImportance;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -25,12 +24,6 @@ public class DetailPavedRoadSurface extends SimpleOverpassQuestType {
 		// cycleway:surface, footway:surface - it means that single highway=* represents
 		// multiple parts of roads, with different surfaces. In such case using more detailed
 		// surface tag is likely to be impossible
-	}
-
-	@Override
-	public int importance()
-	{
-		return QuestImportance.MINOR;
 	}
 
 	public AbstractQuestAnswerFragment createForm()

@@ -23,8 +23,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
+import de.westnordost.streetcomplete.Injector;
 import de.westnordost.streetcomplete.data.Quest;
 import de.westnordost.streetcomplete.data.QuestGroup;
+import de.westnordost.streetcomplete.data.QuestTypes;
 import de.westnordost.streetcomplete.data.osm.ElementGeometry;
 import de.westnordost.streetcomplete.util.SlippyMapMath;
 import de.westnordost.osmapi.map.data.BoundingBox;
@@ -55,12 +59,19 @@ public class QuestsMapFragment extends MapFragment implements TouchInput.TapResp
 
 	private int questTopOffset, questBottomOffset;
 
+	@Inject QuestTypes questTypes;
+
 	public interface Listener
 	{
 		void onClickedQuest(QuestGroup questGroup, Long questId);
 		void onClickedMapAt(@Nullable LatLon position);
 		/** Called once the given bbox comes into view first (listener should get quests there) */
 		void onFirstInView(BoundingBox bbox);
+	}
+
+	public QuestsMapFragment()
+	{
+		Injector.instance.getApplicationComponent().inject(this);
 	}
 
 	@Override public void onAttach(Activity activity)
@@ -114,18 +125,6 @@ public class QuestsMapFragment extends MapFragment implements TouchInput.TapResp
 		return new BitmapDrawable(getResources(), bitmap);
 	}
 
-	@Override public boolean onShove(float distance)
-	{
-		// no tilting the map! (for now)
-		return true;
-	}
-
-	@Override public boolean onRotate(float x, float y, float rotation)
-	{
-		// no rotating the map! (for now)
-		return true;
-	}
-
 	@Override public boolean onSingleTapUp(float x, float y)
 	{
 		return false;
@@ -162,7 +161,7 @@ public class QuestsMapFragment extends MapFragment implements TouchInput.TapResp
 		previousZoom = Math.max(17.5f,controller.getZoom());
 
 		float targetZoom = getMaxZoomThatContains(g);
-		if(Double.isNaN(targetZoom) || targetZoom > MAX_QUEST_ZOOM)
+		if(Float.isNaN(targetZoom) || targetZoom > MAX_QUEST_ZOOM)
 		{
 			targetZoom = MAX_QUEST_ZOOM;
 		}
@@ -204,6 +203,7 @@ public class QuestsMapFragment extends MapFragment implements TouchInput.TapResp
 		float currentZoom;
 		synchronized(controller) {
 			screenArea = getDisplayedArea(questTopOffset, questBottomOffset);
+			if(screenArea == null) return Float.NaN;
 			currentZoom = controller.getZoom();
 		}
 
@@ -366,9 +366,9 @@ public class QuestsMapFragment extends MapFragment implements TouchInput.TapResp
 			geoJson.append("\":\"");
 			geoJson.append(quest.getId());
 			geoJson.append("\",\"");
-			geoJson.append("importance");
+			geoJson.append("order");
 			geoJson.append("\":\"");
-			geoJson.append(quest.getType().importance());
+			geoJson.append(questTypes.getQuestTypesSortedByImportance().indexOf(quest.getType()));
 			geoJson.append("\"}}");
 		}
 		geoJson.append("]}");

@@ -5,12 +5,10 @@ import android.os.Bundle;
 import javax.inject.Inject;
 
 import de.westnordost.streetcomplete.R;
-import de.westnordost.streetcomplete.data.QuestImportance;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
-import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment;
 
 public class multidesignatedFootwayToPath extends SimpleOverpassQuestType
 {
@@ -23,12 +21,6 @@ public class multidesignatedFootwayToPath extends SimpleOverpassQuestType
 	protected String getTagFilters()
 	{
 		return "ways with highway=footway and bicycle=designated and (foot=designated or !foot)";
-	}
-
-	@Override
-	public int importance()
-	{
-		return QuestImportance.ERROR;
 	}
 
 	public AbstractQuestAnswerFragment createForm()

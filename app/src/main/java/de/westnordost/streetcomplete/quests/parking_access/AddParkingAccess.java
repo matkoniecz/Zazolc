@@ -6,12 +6,10 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import de.westnordost.streetcomplete.data.QuestImportance;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
-import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment;
 
 public class AddParkingAccess extends SimpleOverpassQuestType
 {
@@ -24,12 +22,6 @@ public class AddParkingAccess extends SimpleOverpassQuestType
 	protected String getTagFilters()
 	{
 		return "nodes, ways, relations with amenity=parking and !access";
-	}
-
-	@Override
-	public int importance()
-	{
-		return QuestImportance.MINOR;
 	}
 
 	public AbstractQuestAnswerFragment createForm()

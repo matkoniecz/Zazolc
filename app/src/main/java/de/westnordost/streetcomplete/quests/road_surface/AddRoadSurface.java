@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import javax.inject.Inject;
 
-import de.westnordost.streetcomplete.data.QuestImportance;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -22,12 +21,6 @@ public class AddRoadSurface extends SimpleOverpassQuestType {
 	{
 		return " ways with ( highway ~ " + TextUtils.join("|", RoadSurfaceConfig.ROADS_WITH_SURFACES) + " and" +
 			   " !surface and access!=private and access!=no)";
-	}
-
-	@Override
-	public int importance()
-	{
-		return QuestImportance.MAJOR;
 	}
 
 	public AbstractQuestAnswerFragment createForm()

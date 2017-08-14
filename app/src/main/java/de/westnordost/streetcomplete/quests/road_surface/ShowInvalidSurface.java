@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import javax.inject.Inject;
 
-import de.westnordost.streetcomplete.data.QuestImportance;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -33,12 +32,6 @@ public class ShowInvalidSurface extends SimpleOverpassQuestType
 		}
 		//not using regexp match is deliberate to catch problems like surface=paved;unpaved
 		return query;
-	}
-
-	@Override
-	public int importance()
-	{
-		return QuestImportance.ERROR;
 	}
 
 	public AbstractQuestAnswerFragment createForm()

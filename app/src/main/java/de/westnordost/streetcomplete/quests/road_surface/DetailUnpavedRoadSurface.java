@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import javax.inject.Inject;
 
-import de.westnordost.streetcomplete.data.QuestImportance;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -26,12 +25,6 @@ public class DetailUnpavedRoadSurface extends SimpleOverpassQuestType {
 		// multiple parts of roads, with different surfaces. In such case using more detailed
 		// surface tag is likely to be impossible
 		// mostly theory for surface=unpaved, but it may happen...
-	}
-
-	@Override
-	public int importance()
-	{
-		return QuestImportance.MINOR;
 	}
 
 	public AbstractQuestAnswerFragment createForm()

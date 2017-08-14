@@ -34,7 +34,8 @@ public class AddBikeParkingCapacityForm extends AbstractQuestFormAnswerFragment
 		Bundle answer = new Bundle();
 		String bikeCapacityString = capacityInput.getText().toString();
 
-		if(hasChanges()) {
+		if(hasChanges())
+		{
 			int bikeCapacity = Integer.parseInt(bikeCapacityString);
 			answer.putInt(BIKE_PARKING_CAPACITY, bikeCapacity);
 		}

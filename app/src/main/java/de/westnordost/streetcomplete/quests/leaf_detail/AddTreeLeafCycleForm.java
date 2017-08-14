@@ -43,17 +43,4 @@ public class AddTreeLeafCycleForm extends TextListQuestAnswerFragment {
 	{
 		return LEAF_TYPES;
 	}
-
-	@Override protected List<Integer> getOtherAnswerResourceIds()
-	{
-		List<Integer> answers = super.getOtherAnswerResourceIds();
-		//answers.add(R.string.quest_bicycleParkingType_);
-		return answers;
-	}
-
-	@Override protected boolean onClickOtherAnswer(int itemResourceId)
-	{
-		if (super.onClickOtherAnswer(itemResourceId)) return true;
-		return false;
-	}
 }

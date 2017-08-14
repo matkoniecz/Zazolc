@@ -27,7 +27,7 @@ public class CompassComponent implements SensorEventListener
 	private Listener listener;
 	public interface Listener
 	{
-		void onRotationChanged(float rotation);
+		void onRotationChanged(float rotation, float tilt);
 	}
 
 	public void setListener(Listener listener)
@@ -46,15 +46,11 @@ public class CompassComponent implements SensorEventListener
 	{
 		sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
 		sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI);
-
-		compassTimer = new Timer();
-		compassAnimator = new CompassAnimator();
-		compassTimer.scheduleAtFixedRate(compassAnimator, 0, 1000/RotationUpdateFPS);
 	}
 
 	public void onPause()
 	{
-		compassTimer.cancel();
+		if(compassTimer != null) compassTimer.cancel();
 		sensorManager.unregisterListener(this);
 	}
 
@@ -63,14 +59,28 @@ public class CompassComponent implements SensorEventListener
 
 	}
 
+	private void initializeCompassAnimator()
+	{
+		compassTimer = new Timer();
+		compassAnimator = new CompassAnimator();
+		compassTimer.scheduleAtFixedRate(compassAnimator, 0, 1000/RotationUpdateFPS);
+	}
+
 	@Override public void onSensorChanged(SensorEvent event)
 	{
-		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-			gravity = event.values;
 		if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+		{
 			geomagnetic = event.values;
+		}
+		else if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+		{
+			gravity = event.values;
+		}
+
 		if (gravity != null && geomagnetic != null)
 		{
+			if(compassTimer == null) initializeCompassAnimator();
+
 			float R[] = new float[9];
 			float I[] = new float[9];
 			boolean success = SensorManager.getRotationMatrix(R, I, gravity, geomagnetic);
@@ -78,7 +88,9 @@ public class CompassComponent implements SensorEventListener
 				float orientation[] = new float[3];
 				SensorManager.getOrientation(R, orientation);
 				float azimut = orientation[0]; // orientation contains: azimut, pitch and roll
+				float pitch = orientation[1];
 				compassAnimator.targetRotation = azimut;
+				compassAnimator.targetTilt = pitch;
 			}
 		}
 	}
@@ -89,30 +101,34 @@ public class CompassComponent implements SensorEventListener
 	{
 		private float INITIAL = -9999;
 		private float currentRotation = INITIAL;
+		private float currentTilt = INITIAL;
 		private long lastTime = System.currentTimeMillis();
 
 		volatile float targetRotation = INITIAL;
+		volatile float targetTilt = INITIAL;
 
 		@Override public void run()
 		{
-			if(targetRotation == INITIAL) return;
-			if(currentRotation == INITIAL)
-			{
-				currentRotation = targetRotation;
-			}
-			else if(currentRotation != targetRotation)
-			{
-				float deltaRotation = targetRotation - currentRotation;
-				while (deltaRotation > +Math.PI) deltaRotation -= 2*Math.PI;
-				while (deltaRotation < -Math.PI) deltaRotation += 2*Math.PI;
-				long currentTime = System.currentTimeMillis();
-				long deltaTime = currentTime - lastTime;
+			currentRotation = animate(currentRotation, targetRotation);
+			currentTilt = animate(currentTilt, targetTilt);
 
-				if(deltaTime > DURATION) currentRotation = targetRotation;
-				else currentRotation += deltaRotation * deltaTime / DURATION;
-			}
-			if(listener != null) listener.onRotationChanged(currentRotation);
+			if(listener != null) listener.onRotationChanged(currentRotation, currentTilt);
 			lastTime = System.currentTimeMillis();
+		}
+
+		private float animate(float current, float target)
+		{
+			if(target == INITIAL) return current;
+			if(current == INITIAL || current == target) return target;
+
+			long deltaTime = System.currentTimeMillis() - lastTime;
+			if(deltaTime > DURATION) return target;
+
+			float deltaRotation = target - current;
+			while (deltaRotation > +Math.PI) deltaRotation -= 2*Math.PI;
+			while (deltaRotation < -Math.PI) deltaRotation += 2*Math.PI;
+
+			return current + deltaRotation * deltaTime / DURATION;
 		}
 	}
 }

@@ -65,17 +65,4 @@ public class AddParkingAccessForm extends TextListQuestAnswerFragment {
 	{
 		return PARKING_TYPES;
 	}
-
-	@Override protected List<Integer> getOtherAnswerResourceIds()
-	{
-		List<Integer> answers = super.getOtherAnswerResourceIds();
-		//answers.add(R.string.quest_quest_parking_many);
-		return answers;
-	}
-
-	@Override protected boolean onClickOtherAnswer(int itemResourceId)
-	{
-		if (super.onClickOtherAnswer(itemResourceId)) return true;
-		return false;
-	}
 }

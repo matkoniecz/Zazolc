@@ -48,15 +48,4 @@ public class ShowFixmeForm extends TextListQuestAnswerFragment {
     {
         return REFUSAL_TYPES;
     }
-
-    @Override protected List<Integer> getOtherAnswerResourceIds()
-    {
-        return super.getOtherAnswerResourceIds();
-    }
-
-    @Override protected boolean onClickOtherAnswer(int itemResourceId)
-    {
-        if (super.onClickOtherAnswer(itemResourceId)) return true;
-        return false;
-    }
 }

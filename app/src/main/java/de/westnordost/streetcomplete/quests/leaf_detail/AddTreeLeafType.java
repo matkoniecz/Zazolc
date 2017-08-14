@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import de.westnordost.streetcomplete.data.QuestImportance;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -23,12 +22,6 @@ public class AddTreeLeafType extends SimpleOverpassQuestType
 	protected String getTagFilters()
 	{
 		return "nodes with natural=tree and !leaf_type";
-	}
-
-	@Override
-	public int importance()
-	{
-		return QuestImportance.INSIGNIFICANT;
 	}
 
 	public AbstractQuestAnswerFragment createForm()
