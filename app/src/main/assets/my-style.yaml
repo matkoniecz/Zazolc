@@ -12,6 +12,7 @@
 # - missing access=* in data - see https://github.com/tilezen/vector-datasource/issues/1273
 # - segregated is missing on lower zoom levels - see https://github.com/tilezen/vector-datasource/issues/1316
 # - poor bridge recognition - https://github.com/tilezen/vector-datasource/issues/1314 ( after fixing that https://github.com/tangrams/cinnabar-style/issues/38 will be useful )
+# - display important paths earlier - blocked by https://github.com/tangrams/tangram-es/issues/1616
 
 global:
     bicycle_parking_text_source: |
