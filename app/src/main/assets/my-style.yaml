@@ -313,7 +313,7 @@ layers:
 
     water:
         data: { source: mapzen, layer: water }
-        river:
+        lines:
             filter: { kind: [river,canal,stream,dam,ditch,drain], $zoom: { min: 13 } }
             draw:
                 lines:
@@ -321,8 +321,8 @@ layers:
                     color: [0.267, 0.635, 0.898, 1.00]
                     width: [[13,1px],[14,1.5px],[15,2px],[16,3px],[18,4m]]
                     cap: round
-        wide:
-            filter: { kind: [lake, water, riverbank, reservoir, playa, swimming_pool], $zoom: { min: 13 } }
+
+        water_areas:
             draw:
                 polygons:
                     order: function() { return feature.sort_rank; }
