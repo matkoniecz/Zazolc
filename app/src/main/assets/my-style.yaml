@@ -232,7 +232,7 @@ layers:
 
     places:
         data: { source: mapzen }
-        filter: { name: true, not: { kind: [county, state, island] } }
+        filter: { name: true, not: { kind: [region, county, state] } }
         draw:
             text:
                 text_source: global.name_source
