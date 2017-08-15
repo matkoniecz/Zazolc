@@ -246,9 +246,9 @@ public class MapFragment extends Fragment implements
 		return isFollowingPosition;
 	}
 
-	private void followPosition()
+	protected void followPosition()
 	{
-		if(isFollowingPosition && controller != null && lastLocation != null)
+		if(shouldCenterCurrentPosition())
 		{
 			controller.setPositionEased(new LngLat(lastLocation.getLongitude(), lastLocation.getLatitude()),500);
 			if(!zoomedYet)
@@ -318,10 +318,15 @@ public class MapFragment extends Fragment implements
 	protected void updateView()
 	{
 		updateAccuracy();
-		if(isFollowingPosition && controller != null && lastLocation != null)
+		if(shouldCenterCurrentPosition())
 		{
 			controller.setPositionEased(new LngLat(lastLocation.getLongitude(), lastLocation.getLatitude()),500);
 		}
+	}
+
+	protected boolean shouldCenterCurrentPosition()
+	{
+		return isFollowingPosition && controller != null && lastLocation != null;
 	}
 
 	private boolean requestUnglueViewFromPosition()
@@ -441,7 +446,13 @@ public class MapFragment extends Fragment implements
 		LatLon pos1 = SphericalEarthMath.translate(pos0, meters, 0);
 		PointF screenPos0 = controller.lngLatToScreenPosition(at);
 		PointF screenPos1 = controller.lngLatToScreenPosition(TangramConst.toLngLat(pos1));
-		return (float) Math.sqrt(Math.pow(screenPos1.y - screenPos0.y,2) + Math.pow(screenPos1.x - screenPos0.x,2));
+		double tiltFactor = Math.sin(controller.getTilt()/2.0) * Math.cos(controller.getRotation());
+		return (float) ((1/(1-Math.abs(tiltFactor))) *
+				Math.sqrt(
+						Math.pow(screenPos1.y - screenPos0.y,2) +
+						Math.pow(screenPos1.x - screenPos0.x,2)
+				)
+		);
 	}
 
 	private static final String PREF_ROTATION = "map_rotation";
