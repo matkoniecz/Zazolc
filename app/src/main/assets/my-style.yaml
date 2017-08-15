@@ -246,10 +246,10 @@ layers:
                 text_source: global.name_source
                 font:
                     weight: 100
-                    size: 11px
+                    size: 13px
                     family: Helvetica
                     fill: black
-                    stroke: { color: global.text_stroke, width: [[1,1px], [12,2px],[16,4px]] }
+                    stroke: { color: global.text_stroke, width: [[1,2px], [12,3px],[16,4px]] }
         # nix podunk burgs under z15
         minor-places:
             filter: { kind: [hamlet, village, town, neighbourhood, suburb, quarter], $zoom: { max: 15 } }
