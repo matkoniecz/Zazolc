@@ -18,9 +18,9 @@ global:
         function() {
             return feature.capacity + " " + feature.operator;
         }
-    street_text_source: |
+    name_source: |
         function() {
-            return feature.name;
+            return feature['name:pl'] || feature.name;
         }
     text_stroke:        '#e4e1de'
     text_font_family:  'Open Sans'        # branding in asperational Unicode, yo (or Helvetica)
@@ -147,7 +147,7 @@ layers:
                 filter: { $zoom: { min: 16 } }
                 draw:
                     text:
-                        text_source: global.street_text_source
+                        text_source: global.name_source;
                         buffer: 3px
                         text_wrap: 18
                         max_lines: 3
@@ -235,6 +235,7 @@ layers:
         filter: { name: true, not: { kind: [county, state, island] } }
         draw:
             text:
+                text_source: global.name_source
                 font:
                     weight: 100
                     size: 11px
