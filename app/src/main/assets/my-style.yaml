@@ -78,7 +78,7 @@ layers:
                 polygons:
                     order: function() { return feature.sort_rank; }
                     # tone down green as you zoom out
-                    color: [[10, [0.3, 0.4, 0.3]], [14, [0.5, 0.825, 0.5]]]
+                    color: [[10, '#b6e79f'], [14,  '#a4e187']]
         playgrounds:
             filter: { kind: [playground] }
             draw:
