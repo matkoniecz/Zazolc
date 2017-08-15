@@ -65,10 +65,10 @@ public class QuestModule
 				// new AddPlaceName(o), doesn't make sense as long as the app cannot tell the generic name of elements
 				new AddRecyclingType(o),
 				// ↓ important data that is used by many data consumers
-				new AddMaxSpeed(o),
 				new AddRoadSurface(o),
 				new DetailPavedRoadSurface(o),
 				new DetailUnpavedRoadSurface(o),
+				new AddMaxSpeed(o),
 				//new AddOpeningHours(o),
 				// ↓ useful data that is used by some data consumers
 				new AddSport(o),
