@@ -247,7 +247,7 @@ layers:
         data: { source: mapzen, layer: buildings }
         draw:
             polygons:
-                order: 0
+                order: function() { return feature.sort_rank; }
                 color: [.5, .5, .5]
 
     places:
