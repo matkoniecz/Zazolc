@@ -155,7 +155,7 @@ layers:
                 filter: { $zoom: { min: 16 } }
                 draw:
                     text:
-                        text_source: global.name_source;
+                        text_source: global.name_source
                         buffer: 3px
                         text_wrap: 18
                         max_lines: 3
