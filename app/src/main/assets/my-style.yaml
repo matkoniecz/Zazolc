@@ -122,10 +122,7 @@ layers:
             filter: {walking_network: true}
             draw:
                 lines:
-                    order: 1100
-                    color: global.pedestrian_color
                     width: [[1, 4px], [17, 3m]]
-                    cap: round
 
     roads:
         data: { source: mapzen, layer: roads }
