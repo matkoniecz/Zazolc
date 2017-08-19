@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import javax.inject.Inject;
 
+import de.westnordost.streetcomplete.R;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -41,8 +42,5 @@ public class DetailPavedRoadSurface extends SimpleOverpassQuestType {
 		return "Detail highway=* surfaces";
 	}
 
-	@Override public String getIconName()
-	{
-		return "street_surface";
-	}
+	@Override public int getIcon() { return R.drawable.ic_quest_street_surface_paved_detail; }
 }

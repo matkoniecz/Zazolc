@@ -1,3 +1,4 @@
 import:
+    - streetcomplete_quests.yaml
     - streetcomplete.yaml
     - my-style.yaml

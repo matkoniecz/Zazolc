@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import javax.inject.Inject;
 
+import de.westnordost.streetcomplete.R;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -48,8 +49,5 @@ public class ShowInvalidSurface extends SimpleOverpassQuestType
 		return null;
 	}
 
-	@Override public String getIconName()
-	{
-		return "quest";
-	}
+	@Override public int getIcon() { return R.drawable.ic_quest_notes; }
 }

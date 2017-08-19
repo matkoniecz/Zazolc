@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import de.westnordost.streetcomplete.R;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -43,5 +44,5 @@ public class AddBikeParkingType extends SimpleOverpassQuestType
 		return "Add bicycle parkings cover";
 	}
 
-	@Override public String getIconName() {	return "bicycle_parking"; }
+	@Override public int getIcon() { return R.drawable.ic_quest_notes; }
 }

@@ -54,5 +54,4 @@ public class multidesignatedFootwayToPath extends SimpleOverpassQuestType
 		return "fix misused highway=footway, confirmation that route for both pedestrian and cyclists exists";
 	}
 
-	@Override public String getIconName() {	return "bicycle"; }
-}
+	@Override public int getIcon() { return R.drawable.ic_quest_bicycle; }}

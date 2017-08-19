@@ -17,6 +17,9 @@ import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType;
 import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType;
+import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours;
+import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
+import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
 import de.westnordost.streetcomplete.quests.road_name.data.PutRoadNameSuggestionsHandler;
 import de.westnordost.streetcomplete.quests.road_name.data.RoadNameSuggestionsDao;
@@ -53,12 +56,11 @@ public class QuestModule
 				// ...
 				// ↓ may be shown as missing in QA tools
 				new multidesignatedFootwayToPath(o),
+                new ShowFixme(o),
 				new ShowInvalidSurface(o),
-				//new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
 				new AddBikeParkingType(o),
-				new ShowFixme(o),
 				// ↓ may be shown as possibly missing in QA tools
 				new AddParkingAccess(o),
 				new AddHousenumber(o),
@@ -69,12 +71,10 @@ public class QuestModule
 				new DetailPavedRoadSurface(o),
 				new DetailUnpavedRoadSurface(o),
 				new AddMaxSpeed(o),
-				//new AddOpeningHours(o),
 				// ↓ useful data that is used by some data consumers
 				new AddSport(o),
-				// new AddBuildingLevels(o),
+				new AddOrchardProduce(o),
 				// ↓ data useful for only a specific use case
-				new AddRoofShape(o),
 				// new AddPlaceName(), doesn't make sense as long as the app cannot tell the generic name of elements
 				new AddWheelChairAccessPublicTransport(o),
 				new AddTactilePavingBusStop(o),
@@ -89,8 +89,14 @@ public class QuestModule
 				new AddTreeLeafCycle(o),
 				new AddTreeLeafType(o),
 				new AddWayLit(o),
-				new AddCrossingType(o)
-		};
+				new AddCrossingType(o),
+				new AddParkingType(o),
+                //boring
+                new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
+                new AddRoofShape(o),
+                new AddBuildingLevels(o),
+                new AddOpeningHours(o),
+        };
 
 		return new QuestTypes(Arrays.asList(questTypesOrderedByImportance));
 	}

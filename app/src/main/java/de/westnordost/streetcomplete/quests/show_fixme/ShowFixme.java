@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import de.westnordost.streetcomplete.R;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -48,5 +49,5 @@ public class ShowFixme extends SimpleOverpassQuestType
 		return "processing fixme tags";
 	}
 
-	@Override public String getIconName() {	return "note"; }
+	@Override public int getIcon() { return R.drawable.ic_quest_notes; }
 }
