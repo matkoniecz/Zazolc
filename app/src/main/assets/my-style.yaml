@@ -306,7 +306,7 @@ layers:
                     font:
                         size: 21px
 
-    pois:
+    bicycle_parking:
         data: { source: mapzen, layer: pois }
         filter:
             kind: [bicycle_parking]
@@ -334,6 +334,7 @@ layers:
                 filter:
                     kind: [bicycle_parking]
                 draw: { icons: { visible: global.icon_visible_poi_landuse_e } }
+
     barriers:
         data: { source: mapzen, layer: landuse }
         draw:
