@@ -242,6 +242,39 @@ layers:
                 color: black
                 size: [[14, 1px], [15, 4.0px], [16, 6.0px], [17, 7.0px], [18, 8.0px]]
 
+    railway:
+        filter: { kind: rail }
+        data: { source: mapzen, layer: roads }
+        draw:
+            lines:
+                order: function() { return feature.sort_rank; }
+                color: black
+                width: [[10, 0.5px], [12, 1.0px], [13, 1.5px]]
+        service:
+            filter: { service: true }
+            draw:
+                lines:
+                    width: [[15, 0px], [16, 0.5px], [17, 1.0px]]
+        tunnels:
+            filter: { is_tunnel: true }
+            draw:
+                lines:
+                    color: gray
+
+    train_station:
+        data: { source: mapzen, layer: pois }
+        filter:
+            kind: [station]
+        draw:
+            text:
+                text_source: global.name_source
+                font:
+                    weight: 100
+                    size: 13px
+                    family: Helvetica
+                    fill: black
+                    stroke: { color: global.text_stroke, width: [[1,2px], [12,3px],[16,4px]] }
+
     buildings:
         filter: { $zoom: { min: 15 } }
         data: { source: mapzen, layer: buildings }
