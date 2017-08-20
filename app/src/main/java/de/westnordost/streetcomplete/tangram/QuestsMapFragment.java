@@ -49,7 +49,7 @@ public class QuestsMapFragment extends MapFragment implements TouchInput.TapResp
 	private Set<Point> retrievedTiles;
 	private static final int TILES_ZOOM = 14;
 
-	private static float MAX_QUEST_ZOOM = 19;
+	private static float MAX_QUEST_ZOOM = 20;
 
 	private Listener listener;
 
