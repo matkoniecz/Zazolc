@@ -279,7 +279,7 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_bicycleParkingType_wall_loop_answer">Secures only the front wheel (or possibly back wheel).</string>
     <string name="quest_parkingAccess_yes_answer">Available to anybody (may be paid or free)</string>
     <string name="quest_parkingAccess_private_answer">Private parking</string>
-    <string name="quest_parkingAccess_customers_answer">Access restricted to people using specific object, typically customers of a shop (may be paid or free)</string>
+    <string name="quest_parkingAccess_customers_answer">Customers</string>
     <string name="quest_parkingAccess_title">Who can use the parking?</string>
     <string name="quest_ShowFixme_requiresAerial_answer">fixme best solved with aerial image rather than survey</string>
     <string name="quest_ShowFixme_solved_answer">fixme is outdated now and may be removed</string>
