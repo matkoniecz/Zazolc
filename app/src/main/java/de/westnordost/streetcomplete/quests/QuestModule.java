@@ -76,12 +76,11 @@ public class QuestModule
 				// ↓ data useful for only a specific use case
 				// new AddPlaceName(), doesn't make sense as long as the app cannot tell the generic name of elements
 				new AddWheelChairAccessPublicTransport(o),
-				new AddTactilePavingBusStop(o),
-				new AddTactilePavingCrosswalk(o),
 				new AddWheelchairAccessBusiness(o),
 				// ↓ defined in the wiki, but not really used by anyone yet. Just collected for the
 				//   sake of mapping it in case it makes sense later
 				new AddBusStopShelter(o),
+				new AddTactilePavingBusStop(o),
 				new AddToiletsFee(o),
 				new AddBabyChangingTable(o),
 				new AddFireHydrantType(o),
@@ -89,6 +88,7 @@ public class QuestModule
 				new AddTreeLeafType(o),
 				new AddWayLit(o),
 				new AddCrossingType(o),
+				new AddTactilePavingCrosswalk(o),
 				new AddParkingType(o),
                 //boring
 				new AddHousenumber(o),
