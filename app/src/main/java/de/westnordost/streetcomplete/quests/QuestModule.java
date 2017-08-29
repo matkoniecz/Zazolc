@@ -63,7 +63,6 @@ public class QuestModule
 				new AddBikeParkingType(o),
 				// ↓ may be shown as possibly missing in QA tools
 				new AddParkingAccess(o),
-				new AddHousenumber(o),
 				// new AddPlaceName(o), doesn't make sense as long as the app cannot tell the generic name of elements
 				new AddRecyclingType(o),
 				// ↓ important data that is used by many data consumers
@@ -92,6 +91,7 @@ public class QuestModule
 				new AddCrossingType(o),
 				new AddParkingType(o),
                 //boring
+				new AddHousenumber(o),
                 new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
                 new AddRoofShape(o),
                 new AddBuildingLevels(o),
