@@ -55,20 +55,20 @@ public class QuestModule
 				// ↓ reserved for notes
 				// ...
 				// ↓ may be shown as missing in QA tools
-				new multidesignatedFootwayToPath(o),
-                new ShowFixme(o),
-				new ShowInvalidSurface(o),
+				new multidesignatedFootwayToPath(o), //my own quest
+                new ShowFixme(o), //my own quest
+				new ShowInvalidSurface(o), //my own quest
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
-				new AddBikeParkingType(o),
+				new AddBikeParkingType(o), //my own quest
 				// ↓ may be shown as possibly missing in QA tools
-				new AddParkingAccess(o),
+				new AddParkingAccess(o), //my own quest
 				// new AddPlaceName(o), doesn't make sense as long as the app cannot tell the generic name of elements
 				new AddRecyclingType(o),
 				// ↓ important data that is used by many data consumers
 				new AddRoadSurface(o),
-				new DetailPavedRoadSurface(o),
-				new DetailUnpavedRoadSurface(o),
+				new DetailPavedRoadSurface(o), //my own quest
+				new DetailUnpavedRoadSurface(o), //my own quest
 				new AddMaxSpeed(o),
 				// ↓ useful data that is used by some data consumers
 				new AddSport(o),
@@ -84,18 +84,18 @@ public class QuestModule
 				new AddToiletsFee(o),
 				new AddBabyChangingTable(o),
 				new AddFireHydrantType(o),
-				new AddTreeLeafCycle(o),
-				new AddTreeLeafType(o),
+				new AddTreeLeafCycle(o), //my own quest
+				new AddTreeLeafType(o), //my own quest
 				new AddWayLit(o),
 				new AddCrossingType(o),
 				new AddTactilePavingCrosswalk(o),
 				new AddParkingType(o),
                 //boring
-				new AddHousenumber(o),
-                new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
-                new AddRoofShape(o),
-                new AddBuildingLevels(o),
-                new AddOpeningHours(o),
+				new AddHousenumber(o), //reduced importance
+                new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler), //reduced importance
+                new AddRoofShape(o), //reduced importance
+                new AddBuildingLevels(o), //reduced importance
+                new AddOpeningHours(o), //reduced importance
         };
 
 		return new QuestTypes(Arrays.asList(questTypesOrderedByImportance));
