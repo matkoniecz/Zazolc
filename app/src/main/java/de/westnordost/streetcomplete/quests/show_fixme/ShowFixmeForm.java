@@ -25,11 +25,7 @@ public class ShowFixmeForm extends TextListQuestAnswerFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         OsmElement element = getOsmElement();
         String fixme = element != null && element.getTags() != null ? element.getTags().get("fixme") : null;
-        if(fixme != null && !fixme.trim().isEmpty()) {
-            setTitle(R.string.fixme_title, fixme);
-        } else {
-            setTitle(R.string.fixme_title_on_missing_fixme_text);
-        }
+        //setTitle(R.string.fixme_title, fixme);
         textSelector.setCellLayout(R.layout.text_select_cell);
         return view;
     }

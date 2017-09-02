@@ -60,8 +60,8 @@ public class QuestModule
 				osmNoteQuestType,
 				// ↓ may be shown as missing in QA tools
 				new multidesignatedFootwayToPath(o), //my own quest
-                new ShowFixme(o), //my own quest
-				new ShowInvalidSurface(o), //my own quest
+                //new ShowFixme(o), //my own quest TODO - reimplement it after changes to the quest title
+				//new ShowInvalidSurface(o), //my own quest TODO - reimplement it after changes to the quest title
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
 				new AddBikeParkingType(o), //my own quest

@@ -1,8 +1,10 @@
 package de.westnordost.streetcomplete.quests.leaf_detail;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -42,6 +44,11 @@ public class AddTreeLeafType extends SimpleOverpassQuestType
 	@Override public String getCommitMessage()
 	{
 		return "Add leaf_type";
+	}
+
+	@Override
+	public int getTitle(@NonNull Map<String, String> tags) {
+		return R.string.quest_treeLeaf_title;
 	}
 
 	@Override public int getIcon() { return R.drawable.ic_quest_leaf; }

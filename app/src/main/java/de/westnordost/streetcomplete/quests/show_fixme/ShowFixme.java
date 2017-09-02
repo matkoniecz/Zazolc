@@ -1,8 +1,10 @@
 package de.westnordost.streetcomplete.quests.show_fixme;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -47,6 +49,11 @@ public class ShowFixme extends SimpleOverpassQuestType
 	@Override public String getCommitMessage()
 	{
 		return "processing fixme tags";
+	}
+
+	@Override
+	public int getTitle(@NonNull Map<String, String> tags) {
+		return 0;
 	}
 
 	@Override public int getIcon() { return R.drawable.ic_quest_notes; }

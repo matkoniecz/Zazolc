@@ -46,7 +46,6 @@ public class AddParkingAccessForm extends TextListQuestAnswerFragment {
 									   Bundle savedInstanceState)
 	{
 		View view = super.onCreateView(inflater, container, savedInstanceState);
-		setTitle(R.string.quest_parkingAccess_title);
 		textSelector.setCellLayout(R.layout.text_select_cell);
 		return view;
 	}

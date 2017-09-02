@@ -24,8 +24,6 @@ public abstract class RoadSurfaceForm extends AbstractQuestFormAnswerFragment {
 	{
 		View view = super.onCreateView(inflater, container, savedInstanceState);
 
-		setTitle(R.string.quest_streetSurface_title);
-
 		View contentView = setContentView(R.layout.quest_street_surface);
 
 		RecyclerView surfaceSelect = (RecyclerView) contentView.findViewById(R.id.surfaceSelect);

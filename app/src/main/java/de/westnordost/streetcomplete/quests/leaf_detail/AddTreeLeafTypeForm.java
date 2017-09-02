@@ -23,7 +23,6 @@ public class AddTreeLeafTypeForm extends ImageListQuestAnswerFragment
 									   Bundle savedInstanceState)
 	{
 		View view = super.onCreateView(inflater, container, savedInstanceState);
-		setTitle(R.string.quest_treeLeaf_title);
 		imageSelector.setCellLayout(R.layout.icon_select_cell_with_label_below);
 		return view;
 	}

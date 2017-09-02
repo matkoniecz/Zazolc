@@ -1,6 +1,9 @@
 package de.westnordost.streetcomplete.quests.road_surface;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -47,6 +50,11 @@ public class ShowInvalidSurface extends SimpleOverpassQuestType
 	@Override public String getCommitMessage()
 	{
 		return null;
+	}
+
+	@Override
+	public int getTitle(@NonNull Map<String, String> tags) {
+		return 0;
 	}
 
 	@Override public int getIcon() { return R.drawable.ic_quest_notes; }

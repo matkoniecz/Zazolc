@@ -18,13 +18,7 @@ public class showInvalidSurfaceForm extends AbstractQuestAnswerFragment
 		View view = super.onCreateView(inflater, container, savedInstanceState);
 		OsmElement element = getOsmElement();
 		String surface = element != null && element.getTags() != null ? element.getTags().get("surface") : null;
-		if (surface != null && !surface.trim().isEmpty())
-		{
-			setTitle(R.string.show_invalid_surface_title, surface);
-		} else
-		{
-			setTitle(R.string.show_invalid_surface_failed_title);
-		}
+		//setTitle(R.string.show_invalid_surface_title, surface);
 		return view;
 	}
 

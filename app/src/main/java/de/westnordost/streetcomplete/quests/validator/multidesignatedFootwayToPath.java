@@ -1,6 +1,9 @@
 package de.westnordost.streetcomplete.quests.validator;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -26,7 +29,6 @@ public class multidesignatedFootwayToPath extends SimpleOverpassQuestType
 	public AbstractQuestAnswerFragment createForm()
 	{
 		AbstractQuestAnswerFragment form = new multidesignatedFootwayToPathForm();
-		form.setTitle(R.string.quest_multidesignatedFootway_title);
 		return form;
 	}
 
@@ -52,6 +54,11 @@ public class multidesignatedFootwayToPath extends SimpleOverpassQuestType
 	@Override public String getCommitMessage()
 	{
 		return "fix misused highway=footway, confirmation that route for both pedestrian and cyclists exists";
+	}
+
+	@Override
+	public int getTitle(@NonNull Map<String, String> tags) {
+		return R.string.quest_multidesignatedFootway_title;
 	}
 
 	@Override public int getIcon() { return R.drawable.ic_quest_bicycle; }}
