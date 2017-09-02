@@ -2,6 +2,7 @@ package de.westnordost.streetcomplete.quests.road_surface;
 
 import de.westnordost.streetcomplete.R;
 
+
 public class AddRoadSurfaceForm extends RoadSurfaceForm {
 	RoadSurfaceForm.Surface[] GetSurfaceMenuStructure()	{
 		return new RoadSurfaceForm.Surface[]{
