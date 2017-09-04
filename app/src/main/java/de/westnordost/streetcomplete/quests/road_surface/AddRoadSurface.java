@@ -21,8 +21,8 @@ public class AddRoadSurface extends SimpleOverpassQuestType
 
 	@Override protected String getTagFilters()
 	{
-		return " ways with ( highway ~ " + TextUtils.join("|", RoadSurfaceConfig.ROADS_WITH_SURFACES) + " and" +
-				" !surface and service != parking_aisle and (access !~ private|no or (foot and foot !~ private|no)))";
+		return " ways with highway ~ " + TextUtils.join("|", RoadSurfaceConfig.ROADS_WITH_SURFACES) + " and" +
+				" !surface and service != parking_aisle and (access !~ private|no or (foot and foot !~ private|no))";
 	}
 
 	public AbstractQuestAnswerFragment createForm()
