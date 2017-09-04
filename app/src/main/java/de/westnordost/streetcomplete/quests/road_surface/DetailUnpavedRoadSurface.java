@@ -23,7 +23,7 @@ public class DetailUnpavedRoadSurface extends SimpleOverpassQuestType {
 	protected String getTagFilters()
 	{
 		return " ways with ( highway ~ " + TextUtils.join("|", RoadSurfaceConfig.ROADS_WITH_SURFACES) + " and" +
-				" surface=unpaved and !cycleway:surface and !footway:surface)";
+				" surface=unpaved and service != parking_aisle and !cycleway:surface and !footway:surface)";
 		// cycleway:surface, footway:surface - it means that single highway=* represents
 		// multiple parts of roads, with different surfaces. In such case using more detailed
 		// surface tag is likely to be impossible
