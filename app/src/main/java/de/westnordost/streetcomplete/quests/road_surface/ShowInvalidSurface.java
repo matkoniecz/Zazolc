@@ -53,8 +53,13 @@ public class ShowInvalidSurface extends SimpleOverpassQuestType
 	}
 
 	@Override
+	public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
+		return "surface=" + tags.get("surface");
+	}
+
+	@Override
 	public int getTitle(@NonNull Map<String, String> tags) {
-		return 0;
+		return R.string.empty;
 	}
 
 	@Override public int getIcon() { return R.drawable.ic_quest_notes; }

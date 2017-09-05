@@ -32,4 +32,7 @@ public interface OsmElementQuestType extends QuestType
 
 	/** @return title resource for when the element has the specified tags. The tags are unmodifiable */
 	int getTitle(@NonNull Map<String,String> tags);
+
+	/** @return title resource suffix for when the element has the specified tags. The tags are unmodifiable */
+	String getTitleSuffixHack(@NonNull Map<String, String> tags);
 }

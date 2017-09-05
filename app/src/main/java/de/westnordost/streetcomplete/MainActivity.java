@@ -291,7 +291,9 @@ public class MainActivity extends AppCompatActivity implements
 		TextView text = inner.findViewById(R.id.text);
 
 		String name = element.getTags().get("name");
-		text.setText(getResources().getString(getQuestTitleResId(quest, element.getTags()), name));
+		String title = getResources().getString(getQuestTitleResId(quest, element.getTags()), name);
+		title += getQuestTitleSuffixHack(quest, element.getTags());
+		text.setText(title);
 
 		new AlertDialogBuilder(this)
 				.setTitle(R.string.undo_confirm_title)
@@ -306,6 +308,15 @@ public class MainActivity extends AppCompatActivity implements
 				})
 				.setNegativeButton(android.R.string.cancel, null)
 				.show();
+	}
+
+	private String getQuestTitleSuffixHack(Quest quest, Map<String,String> tags){
+		if(quest instanceof OsmQuest)
+		{
+			OsmQuest osmQuest = (OsmQuest) quest;
+			return osmQuest.getOsmElementQuestType().getTitleSuffixHack(tags);
+		}
+		return "";
 	}
 
 	private int getQuestTitleResId(Quest quest, Map<String,String> tags)

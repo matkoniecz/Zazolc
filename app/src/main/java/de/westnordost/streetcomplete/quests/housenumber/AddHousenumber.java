@@ -149,5 +149,11 @@ public class AddHousenumber implements OsmElementQuestType
 	@Override public String getCommitMessage() { return "Add housenumbers"; }
 	@Override public int getIcon() { return R.drawable.ic_quest_housenumber; }
 	@Override public int getTitle(Map<String,String> tags) { return getTitle(); }
+
+	@Override
+	public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
+		return "";
+	}
+
 	@Override public int getTitle() { return R.string.quest_address_title; }
 }

@@ -1,6 +1,7 @@
 package de.westnordost.streetcomplete.data.osm.download;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import junit.framework.TestCase;
 
@@ -153,6 +154,12 @@ public class OsmQuestDownloadTest extends TestCase
 		@Override public int getIcon() { return 0; }
 		@Override public int getTitle() { return 0; }
 		@Override public int getTitle(Map<String,String> tags) { return 0; }
+
+		@Override
+		public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
+			return null;
+		}
+
 		@Override public void applyAnswerTo(Bundle answer, StringMapChangesBuilder changes) {}
 		@Override public String getCommitMessage() { return null; }
 		@Override public boolean appliesTo(Element element) { return false; }

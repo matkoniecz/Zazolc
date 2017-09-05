@@ -417,4 +417,5 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_address_house_name_label">House name:</string>
     <string name="quest_buildingLevels_roofLevelsLabel2">levels in the roof</string>
     <string name="quest_buildingLevels_levelsLabel2">regular levels (not counting the roof)</string>
+    <string name="empty"></string>>
 </resources>

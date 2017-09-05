@@ -1,6 +1,9 @@
 package de.westnordost.streetcomplete.data.osm;
 
+import android.support.annotation.NonNull;
+
 import java.util.Collections;
+import java.util.Map;
 
 import de.westnordost.osmapi.map.data.Element;
 import de.westnordost.streetcomplete.data.osm.download.MapDataWithGeometryHandler;
@@ -44,5 +47,9 @@ public abstract class SimpleOverpassQuestType implements OsmElementQuestType
 	@Override public final int getTitle()
 	{
 		return getTitle(Collections.<String, String>emptyMap());
+	}
+
+	@Override public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
+		return "";
 	}
 }

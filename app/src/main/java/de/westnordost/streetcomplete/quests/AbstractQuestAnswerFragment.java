@@ -114,7 +114,9 @@ public abstract class AbstractQuestAnswerFragment extends Fragment
 		});
 
 		title = view.findViewById(R.id.title);
-		title.setText(getResources().getString(getQuestTitleResId(), getElementName()));
+		String titleText = getResources().getString(getQuestTitleResId(), getElementName());
+		titleText += getQuestTitleSuffixHack();
+		title.setText(titleText);
 
 		buttonPanel = view.findViewById(R.id.buttonPanel);
 		buttonOtherAnswers = buttonPanel.findViewById(R.id.buttonOtherAnswers);
@@ -281,6 +283,19 @@ public abstract class AbstractQuestAnswerFragment extends Fragment
 	protected final void skipQuest()
 	{
 		questAnswerComponent.onSkippedQuest();
+	}
+
+	private String getQuestTitleSuffixHack(){
+		if(questType instanceof OsmElementQuestType)
+		{
+			Map<String,String> tags = Collections.emptyMap();
+			if(osmElement != null && osmElement.getTags() != null)
+			{
+				tags = osmElement.getTags();
+			}
+			return ((OsmElementQuestType) questType).getTitleSuffixHack(tags);
+		}
+		return "";
 	}
 
 	private int getQuestTitleResId()

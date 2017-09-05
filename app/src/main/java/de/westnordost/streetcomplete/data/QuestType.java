@@ -1,5 +1,7 @@
 package de.westnordost.streetcomplete.data;
 
+import java.util.Map;
+
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
 
 public interface QuestType
