@@ -68,14 +68,12 @@ public class QuestModule
 				// ↓ may be shown as possibly missing in QA tools
 				new AddParkingAccess(o), //my own quest
 				// new AddPlaceName(o), doesn't make sense as long as the app cannot tell the generic name of elements
-				new AddRecyclingType(o),
 				// ↓ important data that is used by many data consumers
 				new AddRoadSurface(o),
 				new DetailPavedRoadSurface(o), //my own quest
 				new DetailUnpavedRoadSurface(o), //my own quest
 				new AddMaxSpeed(o),
 				// ↓ useful data that is used by some data consumers
-				new AddSport(o),
 				new AddOrchardProduce(o),
 				// ↓ data useful for only a specific use case
 				// new AddPlaceName(), doesn't make sense as long as the app cannot tell the generic name of elements
@@ -96,6 +94,8 @@ public class QuestModule
 				new AddTactilePavingCrosswalk(o),
 				new AddParkingType(o),
                 //boring
+				new AddRecyclingType(o),  //reduced importance
+				new AddSport(o), //reduced importance
 				new AddHousenumber(o), //reduced importance
                 new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler), //reduced importance
                 new AddRoofShape(o), //reduced importance
