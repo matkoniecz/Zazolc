@@ -110,8 +110,8 @@ layers:
         data: { source: mapzen, layer: roads }
         filter:
             any:
-                - { kind_detail: [footway, path, steps], not: { bicycle: designated }, not: { bicycle: yes } }
-                - { kind_detail: [pedestrian], not: { bicycle: designated }, not: { bicycle: yes } }
+                - { kind_detail: [footway, path, steps], not: { bicycle: designated }, not: { bicycle: yes }, $zoom: { min: 13 } }
+                - { kind_detail: [pedestrian], not: { bicycle: designated }, not: { bicycle: yes }, $zoom: { min: 13 }}
         draw:
             lines:
                 order: 1100
