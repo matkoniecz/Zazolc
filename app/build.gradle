@@ -26,8 +26,8 @@ android {
         applicationId "de.westnordost.streetcomplete"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 200
-        versionName "2.0"
+        versionCode 201
+        versionName "2.1"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         buildConfigField "String", "MAPZEN_API_KEY", MAPZEN_API_KEY
     }
@@ -57,6 +57,7 @@ if (keystorePropertiesFile.exists()) {
 repositories {
     mavenLocal()
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -85,6 +86,9 @@ dependencies {
     compile 'com.android.support:support-v4:26.0.1'
     compile 'com.android.support:design:26.0.1'
 
+    // scheduling background jobs
+    compile 'com.evernote:android-job:1.1.11'
+
     // geometry
     compile 'com.vividsolutions:jts-core:1.14.0'
 
@@ -96,7 +100,9 @@ dependencies {
     }
 
     // widgets
-    compile 'me.grantland:autofittextview:0.2.+'
+    compile 'me.grantland:autofittextview:0.2.1'
+    compile 'com.duolingo.open:rtl-viewpager:1.0.2'
+    compile 'com.github.westnordost:viewtooltip:master-SNAPSHOT'
 
     // serialization
     // Kryo uses Objenesis 2.2 which uses a class that has been removed for Android O.
