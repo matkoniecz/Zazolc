@@ -348,7 +348,7 @@ layers:
                     color: '#ccb38f'
                     width: [[12, 0.75px], [13, 1.0px], [14, 1.2px], [15, 2.0px], [16, 2.5px], [19, 5m]]
         generic_barrier:
-            filter: { kind: [fence, retaining_wall] }
+            filter: { kind: [fence, wall, retaining_wall] }
             draw:
                 lines:
                     color: '#555555'
