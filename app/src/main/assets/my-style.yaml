@@ -359,7 +359,7 @@ layers:
                     color: '#555555'
                     width: [[16, 0px], [17, 1px], [18, 1.5px], [20, 0.5m]]
 
-        fence:
+        hedge:
             filter: { kind: hedge }
             draw:
                 lines:
