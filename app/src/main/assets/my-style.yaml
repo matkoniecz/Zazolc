@@ -5,8 +5,7 @@
 # https://mapzen.com/tangram/play/ used during development
 # https://mapzen.com/documentation/vector-tiles/layers/ documentation of exposed data
 
-# oneway arrows - see https://github.com/tangrams/cinnabar-style/commit/26f200e6c9c7b5204fd5ca38a4380a4621c6112a#diff-0c6771ec3d0e80619be01b96887c828aR1680
-# (but https://github.com/tangrams/cinnabar-style/issues/41)
+# oneway arrows - why displayed on {kind: rail}? Double not is disallowed?
 
 # part of development blocked by
 # - missing access=* in data - see https://github.com/tilezen/vector-datasource/issues/1273
@@ -35,6 +34,7 @@ textures:
         filtering: mipmap
         sprites:
             bicycle_parking: [644, 126, 38, 38]
+            arrow: [368, 210, 38, 38]
 
 sources:
     mapzen:
@@ -229,6 +229,21 @@ layers:
                         outline:
                             order: 1010
                             width: [[13, 0px], [14, 0.5px], [16, 0.75px]]
+
+    arrows:
+        filter: { oneway: yes, not: { oneway_bicycle: no }, not: { kind: rail }, $zoom: { min: 17 } }
+        data: { source: mapzen, layer: roads }
+        draw:
+            icons:
+                flat: true
+                sprite: arrow
+                color: 'black'
+                size: [[17, 7px], [20, 14px]]
+                placement: spaced
+                placement_spacing: [[17, 70px], [20, 175px]]
+                angle: auto
+                text:
+                    visible: false
 
     aerialway:
         filter: { kind: aerialway }
