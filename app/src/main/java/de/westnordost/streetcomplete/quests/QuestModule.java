@@ -56,7 +56,7 @@ public class QuestModule
 			PutRoadNameSuggestionsHandler putRoadNameSuggestionsHandler)
 	{
 		QuestType[] questTypesOrderedByImportance = {
-				// ↓ notes
+				// ↓ 1. notes
 				osmNoteQuestType,
 				// ↓ may be shown as missing in QA tools
 				new multidesignatedFootwayToPath(o), //my own quest
@@ -82,7 +82,7 @@ public class QuestModule
 				new AddToiletAvailability(o),
 				// ↓ defined in the wiki, but not really used by anyone yet. Just collected for the
 				//   sake of mapping it in case it makes sense later
-				new AddBusStopShelter(o),
+				new AddBusStopShelter(o), // at least OsmAnd
 				new AddTactilePavingBusStop(o),
 				new AddToiletsFee(o),
 				new AddBabyChangingTable(o),
