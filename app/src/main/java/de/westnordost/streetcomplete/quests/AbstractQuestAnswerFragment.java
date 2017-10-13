@@ -238,7 +238,7 @@ public abstract class AbstractQuestAnswerFragment extends Fragment
 		DialogFragment leaveNote = new LeaveNoteDialog();
 		Bundle leaveNoteArgs = questAnswerComponent.getArguments();
 		String questTitle = getEnglishResources().getString(getQuestTitleResId(), getElementName());
-		leaveNoteArgs.putString(LeaveNoteDialog.ARG_QUEST_TITLE, questTitle);
+		leaveNoteArgs.putString(LeaveNoteDialog.ARG_QUEST_TITLE, questTitle + getQuestTitleSuffixHack());
 		leaveNote.setArguments(leaveNoteArgs);
 		leaveNote.show(getFragmentManager(), null);
 	}
