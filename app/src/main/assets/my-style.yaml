@@ -356,14 +356,8 @@ layers:
             lines:
                 order: 1000
 
-        city_walls:
-            filter: { kind: city_wall }
-            draw:
-                lines:
-                    color: '#ccb38f'
-                    width: [[12, 0.75px], [13, 1.0px], [14, 1.2px], [15, 2.0px], [16, 2.5px], [19, 5m]]
         generic_barrier:
-            filter: { kind: [fence, wall, retaining_wall] }
+            filter: { kind: [fence, wall, city_wall, retaining_wall] }
             draw:
                 lines:
                     color: '#555555'
