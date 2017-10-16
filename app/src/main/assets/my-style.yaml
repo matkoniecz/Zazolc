@@ -4,7 +4,11 @@
 # - https://raw.githubusercontent.com/tangrams/highways-demo/master/scene.yaml from https://github.com/tangrams/highways-demo seems a sane starting point (MIT license)
 # https://mapzen.com/tangram/play/ used during development
 # https://mapzen.com/documentation/vector-tiles/layers/ documentation of exposed data
-
+#
+# make background brown-gray
+# render landuse= residential commercial retail industrial railway?
+# drop black borders - switch to purple
+# make footways purple
 # oneway arrows - why displayed on {kind: rail}? Double not is disallowed?
 
 # part of development blocked by
