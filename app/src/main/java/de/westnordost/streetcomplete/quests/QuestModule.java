@@ -82,8 +82,6 @@ public class QuestModule
 				new AddWheelChairAccessPublicTransport(o),
 				new AddWheelchairAccessBusiness(o),
 				new AddToiletAvailability(o),
-				// ↓ defined in the wiki, but not really used by anyone yet. Just collected for the
-				//   sake of mapping it in case it makes sense later
 				new AddBusStopShelter(o), // at least OsmAnd
 				new AddTactilePavingBusStop(o),
 				new AddToiletsFee(o),
