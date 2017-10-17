@@ -26,7 +26,10 @@ global:
         }
     name_source: |
         function() {
-            return feature['name:pl'] || feature.name;
+            return feature['name:pl'] || feature['name:en'] || feature['name:de'] ||
+                   feature['name:fr'] || feature['name:fi'] || feature['name:es'] ||
+                   feature['name:ja_rm'] || feature['name:sv'] || feature['name:it'] ||
+                   feature['name:sr-Latn'] || feature.name;
         }
     text_stroke:        '#e4e1de'
     text_font_family:  'Open Sans'        # branding in asperational Unicode, yo (or Helvetica)
