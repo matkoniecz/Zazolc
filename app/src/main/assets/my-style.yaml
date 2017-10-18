@@ -29,8 +29,8 @@ global:
         function() {
             return feature['name:pl'] || feature.name;
         }
-    text_stroke:        '#e4e1de'
-    text_font_family:  'Open Sans'
+    text_stroke: '#e4e1de'
+    text_font_family: 'Open Sans'
     pedestrian_color: [0.8, 0.8, 0.8]
 
 textures:
