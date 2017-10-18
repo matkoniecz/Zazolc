@@ -11,12 +11,12 @@
 # make footways purple
 # oneway arrows - why displayed on {kind: rail}? Double not is disallowed?
 
-# part of development blocked by
-# - missing access=* in data - see https://github.com/tilezen/vector-datasource/issues/1273
-# - segregated is missing on lower zoom levels - see https://github.com/tilezen/vector-datasource/issues/1316
-# - poor bridge recognition - https://github.com/tilezen/vector-datasource/issues/1314 ( after fixing that https://github.com/tangrams/cinnabar-style/issues/38 will be useful )
-# - barrier=wall is missing - https://github.com/tilezen/vector-datasource/issues/1403
-# - fallback in labels - https://github.com/tilezen/vector-datasource/issues/1406
+# part of development blocked by missing data
+# - access=* - see https://github.com/tilezen/vector-datasource/issues/1273
+# - segregated on lower zoom levels - see https://github.com/tilezen/vector-datasource/issues/1316
+# - poor bridge recognition - see https://github.com/tilezen/vector-datasource/issues/1314 ( after fixing that https://github.com/tangrams/cinnabar-style/issues/38 will be useful )
+# - barrier=wall - see https://github.com/tilezen/vector-datasource/issues/1403
+# - labels in local language - see https://github.com/tilezen/vector-datasource/issues/1406
 
 # lessons learned:
 # 1) remember about both natural=wood and landuse=forest
