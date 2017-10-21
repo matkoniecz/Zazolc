@@ -188,6 +188,7 @@ layers:
                 draw:
                     lines:
                         color: [0.965, 0.922, 0.988, 1.00]
+                        order: 1011
             bad_surface:
                 filter: {surface: [unpaved, dirt, earth, fine_gravel, grass, grass_paver, gravel,
                 ground, mud, pebblestone, salt, sand, woodchips, clay, cobblestone,
