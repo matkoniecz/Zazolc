@@ -13,8 +13,8 @@ import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
 
-public class DetailUnpavedRoadSurface extends SimpleOverpassQuestType {
-	@Inject public DetailUnpavedRoadSurface(OverpassMapDataDao overpassServer)
+public class DetailUnpavedPathSurface extends SimpleOverpassQuestType {
+	@Inject public DetailUnpavedPathSurface(OverpassMapDataDao overpassServer)
 	{
 		super(overpassServer);
 	}
@@ -22,7 +22,7 @@ public class DetailUnpavedRoadSurface extends SimpleOverpassQuestType {
 	@Override
 	protected String getTagFilters()
 	{
-		return " ways with highway ~ " + TextUtils.join("|", RoadSurfaceConfig.ROADS_WITH_DETAILED_SURFACES) + " and" +
+		return " ways with highway ~ footway|path|steps and" +
 				" surface=unpaved and !cycleway:surface and !footway:surface";
 		// cycleway:surface, footway:surface - it means that single highway=* represents
 		// multiple parts of roads, with different surfaces. In such case using more detailed
@@ -50,7 +50,7 @@ public class DetailUnpavedRoadSurface extends SimpleOverpassQuestType {
 	@Override public int getTitle(Map<String, String> tags)
 	{
 		boolean hasName = tags.containsKey("name");
-		if(hasName) return R.string.quest_streetSurface_name_title;
-		else        return R.string.quest_streetSurface_title;
+		if(hasName) return R.string.quest_pathSurface_name_title;
+		else        return R.string.quest_pathSurface_title;
 	}
 }

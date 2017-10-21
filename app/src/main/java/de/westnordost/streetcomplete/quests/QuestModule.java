@@ -28,6 +28,7 @@ import de.westnordost.streetcomplete.quests.road_name.data.RoadNameSuggestionsDa
 import de.westnordost.streetcomplete.quests.road_surface.AddServiceRoadSurface;
 import de.westnordost.streetcomplete.quests.road_surface.DetailPavedPathSurface;
 import de.westnordost.streetcomplete.quests.road_surface.DetailPavedServiceRoadSurface;
+import de.westnordost.streetcomplete.quests.road_surface.DetailUnpavedPathSurface;
 import de.westnordost.streetcomplete.quests.road_surface.DetailUnpavedServiceRoadSurface;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
@@ -76,6 +77,7 @@ public class QuestModule
 				new AddRoadSurface(o),
 				new DetailPavedRoadSurface(o), //my own quest
 				new DetailUnpavedRoadSurface(o), //my own quest
+				new DetailUnpavedPathSurface(o), //my own quest
 				new DetailPavedPathSurface(o), //my own quest
 				new AddMaxSpeed(o),
 				// ↓ useful data that is used by some data consumers

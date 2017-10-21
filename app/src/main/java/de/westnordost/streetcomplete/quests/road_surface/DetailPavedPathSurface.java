@@ -48,7 +48,7 @@ public class DetailPavedPathSurface extends SimpleOverpassQuestType {
 	@Override public int getTitle(Map<String, String> tags)
 	{
 		boolean hasName = tags.containsKey("name");
-		if(hasName) return R.string.quest_streetSurface_name_title;
-		else        return R.string.quest_streetSurface_title;
+		if(hasName) return R.string.quest_pathSurface_name_title;
+		else        return R.string.quest_pathSurface_title;
 	}
 }
