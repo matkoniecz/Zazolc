@@ -9,7 +9,6 @@
 # render landuse= residential commercial retail industrial railway?
 # drop black borders - switch to purple
 # make footways purple
-# oneway arrows - why displayed on {kind: rail}? Double not is disallowed?
 
 # part of development blocked by missing data
 # - access=* - see https://github.com/tilezen/vector-datasource/issues/1273
@@ -230,7 +229,7 @@ layers:
                             width: [[13, 0px], [14, 0.5px], [16, 0.75px]]
 
     arrows:
-        filter: { oneway: yes, not: { oneway_bicycle: no }, not: { kind: rail }, $zoom: { min: 17 } }
+        filter: { oneway: yes, not: { oneway_bicycle: no }, kind: [highway, major_road, minor_road, path, ferry, racetrack, portage_way], $zoom: { min: 17 } }
         data: { source: mapzen, layer: roads }
         draw:
             icons:
