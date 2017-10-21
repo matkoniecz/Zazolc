@@ -147,7 +147,7 @@ layers:
                     width: [[1, 1.5px], [14, 2.5px], [16, 2.5px], [19, 6m]]
                     outline:
                         order: 1010
-                        color: black
+                        color: '#9370db'
                         width: [[14, 1px], [15, 1.5px]]
                         cap: butt
             highway_names:
@@ -237,7 +237,7 @@ layers:
             icons:
                 flat: true
                 sprite: arrow
-                color: 'black'
+                color: '#9370db'
                 size: [[17, 7px], [20, 14px]]
                 placement: spaced
                 placement_spacing: [[20, 175px], [17, 70px]]
