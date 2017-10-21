@@ -99,12 +99,6 @@ layers:
                 polygons:
                     order: function() { return feature.sort_rank; }
                     color: [0.973, 0.965, 0.737, 1.00]
-        parkings:
-            filter: { kind: [parking] }
-            draw:
-                polygons:
-                    order: function() { return feature.sort_rank; }
-                    color: [0.980, 0.949, 1.000, 1.00]
 
         pedestrian:
             filter:
