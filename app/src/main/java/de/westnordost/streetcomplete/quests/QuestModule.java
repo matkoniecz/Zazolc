@@ -85,11 +85,11 @@ public class QuestModule
 				new AddBusStopShelter(o), // at least OsmAnd
 				new AddTactilePavingBusStop(o),
 				new AddToiletsFee(o),
+				new AddWayLit(o),
 				new AddBabyChangingTable(o),
 				new AddFireHydrantType(o),
 				new AddTreeLeafCycle(o), //my own quest
 				new AddTreeLeafType(o), //my own quest
-				new AddWayLit(o),
 				new AddCrossingType(o),
 				new AddTactilePavingCrosswalk(o),
 				new AddParkingType(o),
