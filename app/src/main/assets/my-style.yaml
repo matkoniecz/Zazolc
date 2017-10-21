@@ -118,13 +118,13 @@ layers:
             lines:
                 order: 1100
                 color: global.pedestrian_color
-                width: [[16, 0], [17, 3m]]
+                width: [[16, 0], [17, 2m]]
                 cap: round
         walking_routes:
             filter: {walking_network: true}
             draw:
                 lines:
-                    width: [[1, 4px], [17, 3m]]
+                    width: [[1, 4px], [17, 2m]]
 
     roads:
         data: { source: mapzen, layer: roads }
@@ -144,7 +144,7 @@ layers:
                     order: 1300
                     color: white
                     cap: round
-                    width: [[1, 1.5px], [14, 2.5px], [16, 2.5px], [19, 8m]]
+                    width: [[1, 1.5px], [14, 2.5px], [16, 2.5px], [19, 6m]]
                     outline:
                         order: 1010
                         color: black
@@ -189,7 +189,7 @@ layers:
                 cobblestone:flattened, concrete:lanes, concrete:plates, artificial_turf, decoturf]}
                 draw:
                     lines:
-                        width: [[1, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5m]]
+                        width: [[1, 0.5px], [14, 1.5px], [16, 1.5px], [19, 4m]]
                         color: [0.83, 0.83, 0.83]
                         order: 1200
                         outline:
