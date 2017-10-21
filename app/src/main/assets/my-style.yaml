@@ -30,7 +30,8 @@ global:
         }
     text_stroke: '#e4e1de'
     text_font_family: 'Open Sans'
-    pedestrian_color: [0.8, 0.8, 0.8]
+    good_road_fill: [0.941, 0.843, 1.000, 1.00]
+    pedestrian_color: global.good_road_fill
 
 textures:
     pois:
@@ -174,7 +175,7 @@ layers:
                 filter: {surface: [asphalt, paved, wood, metal, tartan, metal_grid]}
                 draw:
                     lines:
-                        color: [0.941, 0.843, 1.000, 1.00]
+                        color: global.good_road_fill
                         order: 1015
             medium_surface:
                 filter: {surface: [concrete, paving_stones, compacted, sett]}
@@ -295,7 +296,7 @@ layers:
         draw:
             polygons:
                 order: function() { return feature.sort_rank; }
-                color: [.5, .5, .5]
+                color: [.75, .75, .75]
 
     places:
         data: { source: mapzen }
