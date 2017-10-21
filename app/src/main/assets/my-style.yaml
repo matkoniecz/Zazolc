@@ -246,7 +246,7 @@ layers:
                 color: 'black'
                 size: [[17, 7px], [20, 14px]]
                 placement: spaced
-                placement_spacing: [[17, 70px], [20, 175px]]
+                placement_spacing: [[20, 175px], [17, 70px]]
                 angle: auto
                 text:
                     visible: false
