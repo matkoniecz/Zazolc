@@ -25,7 +25,10 @@ import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
 import de.westnordost.streetcomplete.quests.road_name.data.PutRoadNameSuggestionsHandler;
 import de.westnordost.streetcomplete.quests.road_name.data.RoadNameSuggestionsDao;
+import de.westnordost.streetcomplete.quests.road_surface.AddServiceRoadSurface;
 import de.westnordost.streetcomplete.quests.road_surface.DetailPavedPathSurface;
+import de.westnordost.streetcomplete.quests.road_surface.DetailPavedServiceRoadSurface;
+import de.westnordost.streetcomplete.quests.road_surface.DetailUnpavedServiceRoadSurface;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability;
@@ -86,6 +89,9 @@ public class QuestModule
 				new AddTactilePavingBusStop(o),
 				new AddToiletsFee(o),
 				new AddWayLit(o),
+				new AddServiceRoadSurface(o),
+				new DetailUnpavedServiceRoadSurface(o),
+				new DetailPavedServiceRoadSurface(o),
 				new AddBabyChangingTable(o),
 				new AddFireHydrantType(o),
 				new AddTreeLeafCycle(o), //my own quest

@@ -13,8 +13,8 @@ import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
 
-public class DetailUnpavedRoadSurface extends SimpleOverpassQuestType {
-	@Inject public DetailUnpavedRoadSurface(OverpassMapDataDao overpassServer)
+public class DetailPavedServiceRoadSurface extends SimpleOverpassQuestType {
+	@Inject public DetailPavedServiceRoadSurface(OverpassMapDataDao overpassServer)
 	{
 		super(overpassServer);
 	}
@@ -22,31 +22,29 @@ public class DetailUnpavedRoadSurface extends SimpleOverpassQuestType {
 	@Override
 	protected String getTagFilters()
 	{
-		return " ways with highway ~ " + TextUtils.join("|", RoadSurfaceConfig.ROADS_WITH_SURFACES) + " and" +
-				" surface=unpaved and !cycleway:surface and !footway:surface";
+		return " ways with highway=service and" +
+				" surface=paved and service != parking_aisle and !cycleway:surface and !footway:surface";
 		// cycleway:surface, footway:surface - it means that single highway=* represents
 		// multiple parts of roads, with different surfaces. In such case using more detailed
 		// surface tag is likely to be impossible
-		// mostly theory for surface=unpaved, but it may happen...
 	}
 
 	public AbstractQuestAnswerFragment createForm()
 	{
-		return new DetailUnpavedRoadSurfaceForm();
+		return new DetailPavedRoadSurfaceForm();
 	}
 
 	public void applyAnswerTo(Bundle answer, StringMapChangesBuilder changes)
 	{
-		changes.modify("surface", answer.getString(DetailUnpavedRoadSurfaceForm.SURFACE));
+		changes.modify("surface", answer.getString(DetailPavedRoadSurfaceForm.SURFACE));
 	}
 
-	@Override
-	public String getCommitMessage()
+	@Override public String getCommitMessage()
 	{
 		return "Detail highway=* surfaces";
 	}
 
-	@Override public int getIcon() { return R.drawable.ic_quest_street_surface; }
+	@Override public int getIcon() { return R.drawable.ic_quest_street_surface_paved_detail; }
 	@Override public int getTitle(Map<String, String> tags)
 	{
 		boolean hasName = tags.containsKey("name");
