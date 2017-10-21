@@ -262,7 +262,7 @@ layers:
         data: { source: mapzen, layer: roads }
         draw:
             lines:
-                order: function() { return feature.sort_rank; }
+                order: 1200
                 color: black
                 width: [[10, 0.5px], [12, 1.0px], [13, 1.5px]]
         service:
