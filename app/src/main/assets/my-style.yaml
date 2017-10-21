@@ -237,9 +237,9 @@ layers:
                 flat: true
                 sprite: arrow
                 color: '#9370db'
-                size: [[17, 7px], [20, 14px]]
+                size: [[17, 7px], [18, 10px], [19, 13px], [20, 15px]]
                 placement: spaced
-                placement_spacing: [[20, 175px], [17, 70px]]
+                placement_spacing: [[17, 60px], [18, 30px], [19, 25px], [20, 25px], [21, 25px]]
                 angle: auto
                 order: 1015
                 text:
