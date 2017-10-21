@@ -116,7 +116,7 @@ layers:
                 - { kind_detail: [pedestrian], not: { bicycle: designated }, not: { bicycle: yes }, $zoom: { min: 13 }}
         draw:
             lines:
-                order: 1100
+                order: 1011
                 color: global.pedestrian_color
                 width: [[16, 0], [17, 2m]]
                 cap: round
@@ -141,7 +141,7 @@ layers:
                     - kind: [highway, major_road, minor_road]
             draw:
                 lines:
-                    order: 1300
+                    order: 1012
                     color: white
                     cap: round
                     width: [[1, 1.5px], [14, 2.5px], [16, 2.5px], [19, 6m]]
@@ -176,13 +176,13 @@ layers:
                 draw:
                     lines:
                         color: [0.941, 0.843, 1.000, 1.00]
-                        order: 1201
+                        order: 1015
             medium_surface:
                 filter: {surface: [concrete, paving_stones, compacted, sett]}
                 draw:
                     lines:
                         color: [0.965, 0.922, 0.988, 1.00]
-                        order: 1011
+                        order: 1014
             bad_surface:
                 filter: {surface: [unpaved, dirt, earth, fine_gravel, grass, grass_paver, gravel,
                 ground, mud, pebblestone, salt, sand, woodchips, clay, cobblestone,
@@ -191,7 +191,7 @@ layers:
                     lines:
                         width: [[1, 0.5px], [14, 1.5px], [16, 1.5px], [19, 4m]]
                         color: [0.83, 0.83, 0.83]
-                        order: 1200
+                        order: 1013
                         outline:
                             order: 1010
                             width: [[1, 0.5px], [16, 0.75px]]
@@ -205,7 +205,7 @@ layers:
                     lines:
                         width: [[1, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5m]]
                         color: white
-                        order: 1200
+                        order: 1012
                         outline:
                             order: 1010
                             width: [[1, 0.5px], [16, 0.75px]]
@@ -214,7 +214,7 @@ layers:
                 draw:
                     lines:
                         width: [[11, 0px], [13, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5px]]
-                        order: 1199
+                        order: 1011
             unsegregated_or_use_sidepath:
                 filter:
                     any:
@@ -227,7 +227,6 @@ layers:
                     lines:
                         width: [[11, 0px], [13, 0.7px], [14, 1.5px], [16, 2px], [19, 4m]]
                         outline:
-                            order: 1010
                             width: [[13, 0px], [14, 0.5px], [16, 0.75px]]
 
     arrows:
@@ -242,6 +241,7 @@ layers:
                 placement: spaced
                 placement_spacing: [[20, 175px], [17, 70px]]
                 angle: auto
+                order: 1015
                 text:
                     visible: false
 
@@ -354,7 +354,7 @@ layers:
         data: { source: mapzen, layer: landuse }
         draw:
             lines:
-                order: 1000
+                order: 910
 
         generic_barrier:
             filter: { kind: [fence, wall, city_wall, retaining_wall] }
