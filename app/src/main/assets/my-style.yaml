@@ -75,7 +75,7 @@ fonts:
 
 scene:
     background:
-        color: '#f9f8f8'
+        color: '#faf4f4'
 
 layers:
     landuse:
