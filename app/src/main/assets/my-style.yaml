@@ -300,7 +300,7 @@ layers:
 
     places:
         data: { source: mapzen }
-        filter: { name: true, not: { kind: [region, county, state] } }
+        filter: { name: true, not: { kind: [region, county, state] }, not: {source: [whosonfirst.mapzen.com]} }
         draw:
             text:
                 text_source: global.name_source
