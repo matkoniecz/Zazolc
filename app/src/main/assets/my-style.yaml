@@ -377,9 +377,35 @@ layers:
                     color: [0.267, 0.635, 0.898, 1.00]
                     width: [[13,1px],[14,1.5px],[15,2px],[16,3px],[18,4m]]
                     cap: round
+        lines_text:
+            draw:
+                text:
+                    text_source: global.name_source
+                    buffer: 3px
+                    text_wrap: 18
+                    max_lines: 3
+                    font:
+                        family: global.text_font_family
+                        weight: normal
+                        fill: [0.20,0.20,0.20]
+                        size: [[16,12px],[17,13px],[19,13px],[20,14px]]
+                        stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
 
         water_areas:
             draw:
                 polygons:
                     order: function() { return feature.sort_rank; }
                     color: [0.267, 0.635, 0.898, 1.00]
+        water_areas_text:
+            draw:
+                text:
+                    text_source: global.name_source
+                    buffer: 3px
+                    text_wrap: 18
+                    max_lines: 3
+                    font:
+                        family: global.text_font_family
+                        weight: normal
+                        fill: [0.20,0.20,0.20]
+                        size: [[16,12px],[17,13px],[19,13px],[20,14px]]
+                        stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
