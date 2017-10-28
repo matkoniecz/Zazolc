@@ -163,8 +163,8 @@ layers:
                         font:
                             family: global.text_font_family
                             weight: normal
-                            fill: [0.20,0.20,0.20]
-                            size: [[16,12px],[17,13px],[19,13px],[20,14px]]
+                            fill: [0.20, 0.20, 0.20]
+                            size: [[16, 12px], [17, 13px], [19, 13px], [20, 14px]]
                             stroke: { color: global.text_stroke_color, width: [[12,2px],[16,4px]] }
             tunnel:
                 filter: {is_tunnel: true, $zoom: {min: 17} }
@@ -172,7 +172,7 @@ layers:
                     lines:
                         outline:
                             width: [[17, 3px], [18, 4px]]
-                            color: [.5, .5, .5]
+                            color: [0.5, 0.5, 0.5]
             good_surface:
                 filter: {surface: [asphalt, paved, wood, metal, tartan, metal_grid]}
                 draw:
@@ -290,7 +290,7 @@ layers:
                     size: 13px
                     family: Helvetica
                     fill: black
-                    stroke: { color: global.text_stroke_color, width: [[1,2px], [12,3px],[16,4px]] }
+                    stroke: { color: global.text_stroke_color, width: [[1 ,2px], [12, 3px],[16, 4px]] }
 
     buildings:
         filter: { $zoom: { min: 15 } }
@@ -315,7 +315,7 @@ layers:
                     size: 13px
                     family: global.text_font_family
                     fill: global.text_fill_color
-                    stroke: { color: global.text_stroke_color, width: [[1,2px], [12,3px],[16,4px]] }
+                    stroke: { color: global.text_stroke_color, width: [[1, 2px], [12, 3px],[16, 4px]] }
         # nix podunk burgs under z15
         minor-places:
             filter: { kind: [hamlet, village, town, neighbourhood, suburb, quarter], $zoom: { max: 15 } }
@@ -339,7 +339,7 @@ layers:
                   size: 13px
                   family: global.text_font_family
                   fill: global.text_fill_color
-                  stroke: { color: global.text_stroke_color, width: [[1,2px], [12,3px],[16,4px]] }
+                  stroke: { color: global.text_stroke_color, width: [[1, 2px], [12, 3px],[16, 4px]] }
 
     bicycle_parking:
         data: { source: mapzen, layer: pois }
@@ -362,8 +362,8 @@ layers:
                         family: global.text_font_family
                         weight: normal
                         fill: global.text_fill_color
-                        size: [[13,10px],[14,11px],[17,12px],[19,12px],[20,14px]]
-                        stroke: { color: global.text_stroke_color, width: [[12,2px],[16,4px]] }
+                        size: [[13, 10px], [14, 11px], [17, 12px], [19, 12px], [20, 14px]]
+                        stroke: { color: global.text_stroke_color, width: [[12, 2px], [16, 4px]] }
         no-name:
             z17:
                 filter:
@@ -398,13 +398,13 @@ layers:
                 lines:
                     order: function() { return feature.sort_rank; }
                     color: global.water_color
-                    width: [[13,1px],[14,1.5px],[15,2px],[16,3px],[18,4m]]
+                    width: [[13, 1px], [14, 1.5px], [15, 2px], [16, 3px], [18, 4m]]
                     cap: round
         lines_text:
             filter:
                 all:
                     - $geometry: line
-                    - kind: [river,canal,stream,dam,ditch,drain]
+                    - kind: [river, canal, stream, dam, ditch, drain]
             draw:
                 text:
                     text_source: global.name_source
@@ -416,7 +416,7 @@ layers:
                         weight: normal
                         fill: global.water_text_fill_color
                         size: [[16,12px],[17,13px],[19,13px],[20,14px]]
-                        stroke: { color: global.text_stroke_color, width: [[12,2px],[16,4px]] }
+                        stroke: { color: global.text_stroke_color, width: [[12, 2px], [16, 4px]] }
 
         water_areas:
             draw:
@@ -451,5 +451,5 @@ layers:
                         family: global.text_font_family
                         weight: normal
                         fill: global.water_text_fill_color
-                        size: [[16,12px],[17,13px],[19,13px],[20,14px]]
-                        stroke: { color: global.text_stroke_color, width: [[12,2px],[16,4px]] }
+                        size: [[16,12px], [17,13px], [19,13px], [20,14px]]
+                        stroke: { color: global.text_stroke_color, width: [[12, 2px], [16, 4px]] }
