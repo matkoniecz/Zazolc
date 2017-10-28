@@ -454,20 +454,19 @@ layers:
               any:
                 # show labels for smaller landuse areas at higher zooms
                 # low zooms blocked by https://github.com/tilezen/vector-datasource/issues/977
-                #- { $zoom: { min: 2 },  area: { min: 1600000000 }, not: {kind: riverbank} }
-                #- { $zoom: { min: 3 },  area: { min: 800000000 }, not: {kind: riverbank} }
-                #- { $zoom: { min: 4 },  area: { min: 400000000 }, not: {kind: riverbank} }
-                #- { $zoom: { min: 5 },  area: { min: 200000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 6 },  area: { min: 80000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 7 },  area: { min: 40000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 8 },  area: { min: 20000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 9 },  area: { min: 10000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 10 }, area: { min: 500000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 11 }, area: { min: 200000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 12 }, area: { min: 100000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 13 }, area: { min: 50000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 14 }, area: { min: 25000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 15 }, not: {kind: riverbank} }
+                - { $zoom: { min: 6 },  area: { min: 160000000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 7 },  area: { min:  80000000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 8 },  area: { min:  40000000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 9 },  area: { min:  20000000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 10 }, area: { min:  10000000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 11 }, area: { min:    800000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 12 }, area: { min:    400000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 13 }, area: { min:    200000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 14 }, area: { min:    100000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 15 }, area: { min:     50000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 16 }, area: { min:     20000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 17 }, area: { min:      1000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 18 }, not: {kind: riverbank} }
             draw:
                 text:
                     text_source: global.name_source
