@@ -321,6 +321,20 @@ layers:
                     font:
                         size: 21px
 
+    places_from_pois:
+        data: { source: mapzen, layer: pois }
+        filter:
+            kind: [alpine_hut]
+        draw:
+            text:
+                text_source: global.name_source
+                font:
+                  weight: 100
+                  size: 13px
+                  family: global.text_font_family
+                  fill: global.color_name_fill
+                  stroke: { color: global.text_stroke, width: [[1,2px], [12,3px],[16,4px]] }
+
     bicycle_parking:
         data: { source: mapzen, layer: pois }
         filter:
