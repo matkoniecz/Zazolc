@@ -29,9 +29,11 @@ global:
     text_font_family: 'Open Sans'
     good_road_fill: [0.941, 0.843, 1.000, 1.00]
     pedestrian_color: global.good_road_fill
-    color_name_fill: black
-    color_water_name_fill: [0.0, 0.2, 1.0]
-    color_water: [0.27, 0.64, 0.9]
+    text_fill_color: black
+    water_text_fill_color: [0.0, 0.2, 1.0]
+    earth_color: '#faf4f4'
+    water_color: [0.27, 0.64, 0.9]
+    building_color: [.75, .75, .75]
 
 textures:
     pois:
@@ -75,7 +77,7 @@ fonts:
 
 scene:
     background:
-        color: '#faf4f4'
+        color: global.earth_color
 
 layers:
     landuse:
@@ -296,7 +298,7 @@ layers:
         draw:
             polygons:
                 order: function() { return feature.sort_rank; }
-                color: [.75, .75, .75]
+                color: global.building_color
 
     places:
         data: { source: mapzen }
@@ -308,7 +310,7 @@ layers:
                     weight: 100
                     size: 13px
                     family: global.text_font_family
-                    fill: global.color_name_fill
+                    fill: global.text_fill_color
                     stroke: { color: global.text_stroke, width: [[1,2px], [12,3px],[16,4px]] }
         # nix podunk burgs under z15
         minor-places:
@@ -332,7 +334,7 @@ layers:
                   weight: 100
                   size: 13px
                   family: global.text_font_family
-                  fill: global.color_name_fill
+                  fill: global.text_fill_color
                   stroke: { color: global.text_stroke, width: [[1,2px], [12,3px],[16,4px]] }
 
     bicycle_parking:
@@ -355,7 +357,7 @@ layers:
                     font:
                         family: global.text_font_family
                         weight: normal
-                        fill: global.color_name_fill
+                        fill: global.text_fill_color
                         size: [[13,10px],[14,11px],[17,12px],[19,12px],[20,14px]]
                         stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
         no-name:
@@ -391,7 +393,7 @@ layers:
             draw:
                 lines:
                     order: function() { return feature.sort_rank; }
-                    color: global.color_water
+                    color: global.water_color
                     width: [[13,1px],[14,1.5px],[15,2px],[16,3px],[18,4m]]
                     cap: round
         lines_text:
@@ -408,7 +410,7 @@ layers:
                     font:
                         family: global.text_font_family
                         weight: normal
-                        fill: global.color_water_name_fill
+                        fill: global.water_text_fill_color
                         size: [[16,12px],[17,13px],[19,13px],[20,14px]]
                         stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
 
@@ -416,7 +418,7 @@ layers:
             draw:
                 polygons:
                     order: function() { return feature.sort_rank; }
-                    color: global.color_water
+                    color: global.water_color
         water_areas_text:
             filter:
               any:
@@ -444,6 +446,6 @@ layers:
                     font:
                         family: global.text_font_family
                         weight: normal
-                        fill: global.color_water_name_fill
+                        fill: global.water_text_fill_color
                         size: [[16,12px],[17,13px],[19,13px],[20,14px]]
                         stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
