@@ -45,11 +45,17 @@ textures:
             arrow: [368, 210, 38, 38]
 
 sources:
+    # there is a tradeoff: larger tiles have a lower number of duplicated names, smaller ones
+    # have less broken geometries
     mapzen:
         type: TopoJSON #GeoJSON, MVT, TopoJSON
         url:  https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson
         max_zoom: 20
-
+    mapzen_names:
+        type: MVT #GeoJSON, MVT, TopoJSON
+        url:  https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.mvt
+        max_zoom: 20
+        tile_size: 1024
 camera:
     type: isometric
 
@@ -451,6 +457,9 @@ layers:
                 polygons:
                     order: function() { return feature.sort_rank; }
                     color: global.water_color
+
+    water_names:
+        data: { source: mapzen_names, layer: water }
         water_areas_text:
             filter:
               any:
