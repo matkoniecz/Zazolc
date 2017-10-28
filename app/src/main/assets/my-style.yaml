@@ -407,7 +407,7 @@ layers:
 
     water:
         data: { source: mapzen, layer: water }
-        lines:
+        water_lines:
             filter: { kind: [river, canal, stream, ditch, drain], $zoom: { min: 13 } }
             draw:
                 lines:
@@ -415,7 +415,7 @@ layers:
                     color: global.water_color
                     width: [[13, 1px], [14, 1.5px], [15, 2px], [16, 3px], [18, 4m]]
                     cap: round
-        lines_text:
+        water_lines_text:
             filter:
                 all:
                     - $geometry: line
