@@ -156,7 +156,7 @@ layers:
                     text:
                         text_source: global.name_source
                         buffer: 3px
-                        text_wrap: 18
+                        text_wrap: 25
                         max_lines: 3
                         font:
                             family: global.text_font_family
