@@ -410,9 +410,12 @@ layers:
         water_lines:
             filter:
                 all:
-                    - $zoom: { min: 13 }
-                    - kind: [river, canal, stream, ditch, drain]
+                    - $geometry: line
+                    - kind: [river, canal, stream, dam, ditch, drain]
                     - not: {is_tunnel: true}
+                any:
+                    - $zoom: { min: 13 }
+                    - kind: [river, canal]
             draw:
                 lines:
                     order: function() { return feature.sort_rank; }
@@ -423,9 +426,11 @@ layers:
             filter:
                 all:
                     - $geometry: line
-                    - $zoom: { min: 13 }
                     - kind: [river, canal, stream, dam, ditch, drain]
                     - not: {is_tunnel: true}
+                any:
+                    - $zoom: { min: 13 }
+                    - kind: [river, canal]
             draw:
                 text:
                     text_source: global.name_source
@@ -449,15 +454,15 @@ layers:
               any:
                 # show labels for smaller landuse areas at higher zooms
                 # low zooms blocked by https://github.com/tilezen/vector-datasource/issues/977
-                #- { $zoom: { min: 2 },  area: { min: 10240000000 }, not: {kind: riverbank} }
-                #- { $zoom: { min: 3 },  area: { min: 5120000000 }, not: {kind: riverbank} }
-                #- { $zoom: { min: 4 },  area: { min: 256000000 }, not: {kind: riverbank} }
-                #- { $zoom: { min: 5 },  area: { min: 128000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 6 },  area: { min: 64000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 7 },  area: { min: 32000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 8 },  area: { min: 16000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 9 },  area: { min: 8000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 10 }, area: { min: 400000 }, not: {kind: riverbank} }
+                #- { $zoom: { min: 2 },  area: { min: 1600000000 }, not: {kind: riverbank} }
+                #- { $zoom: { min: 3 },  area: { min: 800000000 }, not: {kind: riverbank} }
+                #- { $zoom: { min: 4 },  area: { min: 400000000 }, not: {kind: riverbank} }
+                #- { $zoom: { min: 5 },  area: { min: 200000000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 6 },  area: { min: 80000000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 7 },  area: { min: 40000000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 8 },  area: { min: 20000000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 9 },  area: { min: 10000000 }, not: {kind: riverbank} }
+                - { $zoom: { min: 10 }, area: { min: 500000 }, not: {kind: riverbank} }
                 - { $zoom: { min: 11 }, area: { min: 200000 }, not: {kind: riverbank} }
                 - { $zoom: { min: 12 }, area: { min: 100000 }, not: {kind: riverbank} }
                 - { $zoom: { min: 13 }, area: { min: 50000 }, not: {kind: riverbank} }
