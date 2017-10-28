@@ -408,7 +408,11 @@ layers:
     water:
         data: { source: mapzen, layer: water }
         water_lines:
-            filter: { kind: [river, canal, stream, ditch, drain], $zoom: { min: 13 } }
+            filter:
+              all:
+                - $zoom: { min: 13 }
+                - kind: [river, canal, stream, ditch, drain]
+                - not: {is_tunnel: true}
             draw:
                 lines:
                     order: function() { return feature.sort_rank; }
@@ -419,7 +423,9 @@ layers:
             filter:
                 all:
                     - $geometry: line
+                    - $zoom: { min: 13 }
                     - kind: [river, canal, stream, dam, ditch, drain]
+                    - not: {is_tunnel: true}
             draw:
                 text:
                     text_source: global.name_source
