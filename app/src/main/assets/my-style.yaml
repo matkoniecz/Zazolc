@@ -30,8 +30,8 @@ global:
     good_road_fill: [0.941, 0.843, 1.000, 1.00]
     pedestrian_color: global.good_road_fill
     color_name_fill: black
-    color_water_name_fill: global.color_nane_fill
-    color_water: [0.267, 0.635, 0.898, 1.00]
+    color_water_name_fill: [0.0, 0.2, 1.0]
+    color_water: [0.27, 0.64, 0.9]
 
 textures:
     pois:
