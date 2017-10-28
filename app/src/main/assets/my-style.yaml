@@ -25,7 +25,7 @@ global:
         function() {
             return feature['name:pl'] || feature.name;
         }
-    text_stroke: '#e4e1de'
+    text_stroke_color: '#e4e1de'
     text_font_family: 'Open Sans'
     good_road_fill: [0.941, 0.843, 1.000, 1.00]
     pedestrian_color: global.good_road_fill
@@ -165,7 +165,7 @@ layers:
                             weight: normal
                             fill: [0.20,0.20,0.20]
                             size: [[16,12px],[17,13px],[19,13px],[20,14px]]
-                            stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
+                            stroke: { color: global.text_stroke_color, width: [[12,2px],[16,4px]] }
             tunnel:
                 filter: {is_tunnel: true, $zoom: {min: 17} }
                 draw:
@@ -290,7 +290,7 @@ layers:
                     size: 13px
                     family: Helvetica
                     fill: black
-                    stroke: { color: global.text_stroke, width: [[1,2px], [12,3px],[16,4px]] }
+                    stroke: { color: global.text_stroke_color, width: [[1,2px], [12,3px],[16,4px]] }
 
     buildings:
         filter: { $zoom: { min: 15 } }
@@ -315,7 +315,7 @@ layers:
                     size: 13px
                     family: global.text_font_family
                     fill: global.text_fill_color
-                    stroke: { color: global.text_stroke, width: [[1,2px], [12,3px],[16,4px]] }
+                    stroke: { color: global.text_stroke_color, width: [[1,2px], [12,3px],[16,4px]] }
         # nix podunk burgs under z15
         minor-places:
             filter: { kind: [hamlet, village, town, neighbourhood, suburb, quarter], $zoom: { max: 15 } }
@@ -339,7 +339,7 @@ layers:
                   size: 13px
                   family: global.text_font_family
                   fill: global.text_fill_color
-                  stroke: { color: global.text_stroke, width: [[1,2px], [12,3px],[16,4px]] }
+                  stroke: { color: global.text_stroke_color, width: [[1,2px], [12,3px],[16,4px]] }
 
     bicycle_parking:
         data: { source: mapzen, layer: pois }
@@ -363,7 +363,7 @@ layers:
                         weight: normal
                         fill: global.text_fill_color
                         size: [[13,10px],[14,11px],[17,12px],[19,12px],[20,14px]]
-                        stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
+                        stroke: { color: global.text_stroke_color, width: [[12,2px],[16,4px]] }
         no-name:
             z17:
                 filter:
@@ -416,7 +416,7 @@ layers:
                         weight: normal
                         fill: global.water_text_fill_color
                         size: [[16,12px],[17,13px],[19,13px],[20,14px]]
-                        stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
+                        stroke: { color: global.text_stroke_color, width: [[12,2px],[16,4px]] }
 
         water_areas:
             draw:
@@ -452,4 +452,4 @@ layers:
                         weight: normal
                         fill: global.water_text_fill_color
                         size: [[16,12px],[17,13px],[19,13px],[20,14px]]
-                        stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
+                        stroke: { color: global.text_stroke_color, width: [[12,2px],[16,4px]] }
