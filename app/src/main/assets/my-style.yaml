@@ -5,6 +5,8 @@
 # https://mapzen.com/tangram/play/ used during development
 # https://mapzen.com/documentation/vector-tiles/layers/ documentation of exposed data
 #
+# handle tile splitting https://mapzen.com/tangram/play/?#14.0000/54.1219/21.7292
+#
 # part of development blocked by missing data
 # - access=* - see https://github.com/tilezen/vector-datasource/issues/1273
 # - segregated on lower zoom levels - see https://github.com/tilezen/vector-datasource/issues/1316
