@@ -29,6 +29,9 @@ global:
     text_font_family: 'Open Sans'
     good_road_fill: [0.941, 0.843, 1.000, 1.00]
     pedestrian_color: global.good_road_fill
+    color_name_fill: black
+    color_water_name_fill: global.color_nane_fill
+    color_water: [0.267, 0.635, 0.898, 1.00]
 
 textures:
     pois:
@@ -304,8 +307,8 @@ layers:
                 font:
                     weight: 100
                     size: 13px
-                    family: Helvetica
-                    fill: black
+                    family: global.text_font_family
+                    fill: global.color_name_fill
                     stroke: { color: global.text_stroke, width: [[1,2px], [12,3px],[16,4px]] }
         # nix podunk burgs under z15
         minor-places:
@@ -338,7 +341,7 @@ layers:
                     font:
                         family: global.text_font_family
                         weight: normal
-                        fill: [0.20,0.20,0.20]
+                        fill: global.color_name_fill
                         size: [[13,10px],[14,11px],[17,12px],[19,12px],[20,14px]]
                         stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
         no-name:
@@ -374,7 +377,7 @@ layers:
             draw:
                 lines:
                     order: function() { return feature.sort_rank; }
-                    color: [0.267, 0.635, 0.898, 1.00]
+                    color: global.color_water
                     width: [[13,1px],[14,1.5px],[15,2px],[16,3px],[18,4m]]
                     cap: round
         lines_text:
@@ -387,7 +390,7 @@ layers:
                     font:
                         family: global.text_font_family
                         weight: normal
-                        fill: [0.20,0.20,0.20]
+                        fill: global.color_water_name_fill
                         size: [[16,12px],[17,13px],[19,13px],[20,14px]]
                         stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
 
@@ -395,7 +398,7 @@ layers:
             draw:
                 polygons:
                     order: function() { return feature.sort_rank; }
-                    color: [0.267, 0.635, 0.898, 1.00]
+                    color: global.color_water
         water_areas_text:
             draw:
                 text:
@@ -406,6 +409,6 @@ layers:
                     font:
                         family: global.text_font_family
                         weight: normal
-                        fill: [0.20,0.20,0.20]
+                        fill: global.color_water_name_fill
                         size: [[16,12px],[17,13px],[19,13px],[20,14px]]
                         stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
