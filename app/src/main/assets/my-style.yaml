@@ -13,7 +13,7 @@
 # - poor bridge recognition - see https://github.com/tilezen/vector-datasource/issues/1314 ( after fixing that https://github.com/tangrams/cinnabar-style/issues/38 will be useful )
 # - barrier=wall - see https://github.com/tilezen/vector-datasource/issues/1403
 # - labels in local language - see https://github.com/tilezen/vector-datasource/issues/1406
-
+# - low zoom labels - see https://github.com/tilezen/vector-datasource/issues/977
 # lessons learned:
 # 1) remember about both natural=wood and landuse=forest
 global:
@@ -428,10 +428,11 @@ layers:
             filter:
               any:
                 # show labels for smaller landuse areas at higher zooms
-                - { $zoom: { min: 2 },  area: { min: 10240000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 3 },  area: { min: 5120000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 4 },  area: { min: 256000000 }, not: {kind: riverbank} }
-                - { $zoom: { min: 5 },  area: { min: 128000000 }, not: {kind: riverbank} }
+                # low zooms blocked by https://github.com/tilezen/vector-datasource/issues/977
+                #- { $zoom: { min: 2 },  area: { min: 10240000000 }, not: {kind: riverbank} }
+                #- { $zoom: { min: 3 },  area: { min: 5120000000 }, not: {kind: riverbank} }
+                #- { $zoom: { min: 4 },  area: { min: 256000000 }, not: {kind: riverbank} }
+                #- { $zoom: { min: 5 },  area: { min: 128000000 }, not: {kind: riverbank} }
                 - { $zoom: { min: 6 },  area: { min: 64000000 }, not: {kind: riverbank} }
                 - { $zoom: { min: 7 },  area: { min: 32000000 }, not: {kind: riverbank} }
                 - { $zoom: { min: 8 },  area: { min: 16000000 }, not: {kind: riverbank} }
