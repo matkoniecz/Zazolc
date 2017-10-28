@@ -27,7 +27,7 @@ global:
         }
     text_stroke_color: '#e4e1de'
     text_font_family: 'Open Sans'
-    good_road_fill: [0.941, 0.843, 1.000, 1.00]
+    good_road_fill: [0.94, 0.84, 1.00]
     pedestrian_color: global.good_road_fill
     text_fill_color: black
     water_text_fill_color: [0.0, 0.2, 1.0]
@@ -94,13 +94,13 @@ layers:
             draw:
                 polygons:
                     order: function() { return feature.sort_rank; }
-                    color: [0.780, 0.973, 0.737, 1.00]
+                    color: [0.78, 0.97, 0.74]
         pitches:
             filter: { kind: [pitch] }
             draw:
                 polygons:
                     order: function() { return feature.sort_rank; }
-                    color: [0.973, 0.965, 0.737, 1.00]
+                    color: [0.97, 0.965, 0.74]
 
         pedestrian:
             filter:
@@ -183,7 +183,7 @@ layers:
                 filter: {surface: [concrete, paving_stones, compacted, sett]}
                 draw:
                     lines:
-                        color: [0.965, 0.922, 0.988, 1.00]
+                        color: [0.965, 0.92, 0.99, 1.00]
                         order: 1014
             bad_surface:
                 filter: {surface: [unpaved, dirt, earth, fine_gravel, grass, grass_paver, gravel,
