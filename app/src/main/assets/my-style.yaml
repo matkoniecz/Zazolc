@@ -17,14 +17,8 @@
 # lessons learned:
 # 1) remember about both natural=wood and landuse=forest
 global:
-    bicycle_parking_text_source: |
-        function() {
-            return feature.capacity + " " + feature.operator;
-        }
-    name_source: |
-        function() {
-            return feature['name:pl'] || feature.name;
-        }
+    earth_color: '#faf4f4'
+    water_color: [0.27, 0.64, 0.9]
     text_stroke_color: '#e4e1de'
     text_stroke: { color: global.text_stroke_color, width: [[1, 2px], [12, 3px],[16, 4px]] }
     text_font_family: 'Open Sans'
@@ -33,9 +27,17 @@ global:
     pedestrian_color: global.good_road_fill
     text_fill_color: black
     water_text_fill_color: [0.0, 0.2, 1.0]
-    earth_color: '#faf4f4'
-    water_color: [0.27, 0.64, 0.9]
     building_color: [.75, .75, .75]
+
+    name_source: |
+        function() {
+            return feature['name:pl'] || feature.name;
+        }
+
+    bicycle_parking_text_source: |
+        function() {
+            return feature.capacity + " " + feature.operator;
+        }
 
 textures:
     pois:
