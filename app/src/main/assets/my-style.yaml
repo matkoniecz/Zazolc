@@ -329,7 +329,7 @@ layers:
                         stroke: global.text_stroke
 
     places:
-        data: { source: mapzen }
+        data: { source: mapzen, layer: places }
         filter:
             all:
                 - name: true
