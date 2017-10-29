@@ -96,7 +96,7 @@ layers:
     landuse:
         data: { source: mapzen, layer: landuse }
         forested_area:
-            filter: { kind: [park, forest, natural_wood] }
+            filter: { kind: [park, forest, natural_wood], $zoom: { min: 11 }}
             draw:
                 polygons:
                     order: function() { return feature.sort_rank; }
