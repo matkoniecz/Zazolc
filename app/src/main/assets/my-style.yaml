@@ -200,7 +200,7 @@ layers:
             bad_surface:
                 filter: {surface: [unpaved, dirt, earth, fine_gravel, grass, grass_paver, gravel,
                 ground, mud, pebblestone, salt, sand, woodchips, clay, cobblestone,
-                cobblestone_flattened, concrete_lanes, concrete_plates, artificial_turf, decoturf]}
+                cobblestone:flattened, concrete:lanes, concrete:plates, artificial_turf, decoturf]}
                 draw:
                     lines:
                         width: [[1, 0.5px], [14, 1.5px], [16, 1.5px], [19, 4m]]
@@ -214,7 +214,7 @@ layers:
                 concrete, paving_stones, compacted, sett,
                 unpaved, dirt, earth, fine_gravel, grass, grass_paver, gravel,
                 ground, mud, pebblestone, salt, sand, woodchips, clay, cobblestone,
-                cobblestone_flattened, concrete_lanes, concrete_plates, artificial_turf, decoturf]}}
+                cobblestone:flattened, concrete:lanes, concrete:plates, artificial_turf, decoturf]}}
                 draw:
                     lines:
                         width: [[1, 0.5px], [14, 1.5px], [16, 1.5px], [19, 5m]]
