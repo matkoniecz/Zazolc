@@ -291,7 +291,7 @@ layers:
                     color: gray
 
     buildings:
-        filter: { $zoom: { min: 15 } }
+        filter: { $zoom: { min: 15 }, not: { location: underground } }
         data: { source: mapzen, layer: buildings }
         draw:
             polygons:
