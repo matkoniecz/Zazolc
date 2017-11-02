@@ -359,7 +359,7 @@ layers:
                       stroke: global.text_stroke
         train_station:
             filter:
-                kind: [station]
+                { $zoom: { min: 12 }, kind: [station] }
             draw:
                 text:
                     text_source: global.name_source
