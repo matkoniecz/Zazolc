@@ -24,6 +24,8 @@ global:
     text_stroke_color: '#e4e1de'
     text_stroke: { color: global.text_stroke_color, width: [[1, 2px], [12, 3px],[16, 4px]] }
     text_fill_color: 'black'
+    text_size: 14px
+    text_large_size: 21px
     water_text_fill_color: [0.0, 0.2, 1.0]
     building_color: [.75, .75, .75]
     road_outline: '#9370db'
@@ -176,7 +178,7 @@ layers:
                             family: global.text_font_family
                             weight: normal
                             fill: global.text_fill_color
-                            size: [[16, 12px], [17, 13px], [19, 13px], [20, 14px]]
+                            size: global.text_size
                             stroke: global.text_stroke
             tunnel:
                 filter: {is_tunnel: true, $zoom: {min: 17} }
@@ -311,7 +313,7 @@ layers:
                     font:
                         fill: global.text_fill_color
                         family: global.text_font_family
-                        size: 12px
+                        size: global.text_size
                         stroke: global.text_stroke
 
     places:
@@ -326,7 +328,7 @@ layers:
                 text_source: global.name_source
                 font:
                     weight: 100
-                    size: 13px
+                    size: global.text_size
                     family: global.text_font_family
                     fill: global.text_fill_color
                     stroke: global.text_stroke
@@ -339,7 +341,7 @@ layers:
             draw:
                 text:
                     font:
-                        size: 21px
+                        size: global.text_large_size
 
     places_from_pois:
         data: { source: mapzen, layer: pois }
@@ -351,7 +353,7 @@ layers:
                     text_source: global.name_source
                     font:
                       weight: 100
-                      size: 13px
+                      size: global.text_size
                       family: global.text_font_family
                       fill: global.text_fill_color
                       stroke: global.text_stroke
@@ -363,7 +365,7 @@ layers:
                     text_source: global.name_source
                     font:
                         weight: 100
-                        size: 13px
+                        size: global.text_size
                         family: Helvetica
                         fill: black
                         stroke: global.text_stroke
@@ -389,7 +391,7 @@ layers:
                         family: global.text_font_family
                         weight: normal
                         fill: global.text_fill_color
-                        size: [[13, 10px], [14, 11px], [17, 12px], [19, 12px], [20, 14px]]
+                        size: global.text_size
                         stroke: global.text_stroke
         no-name:
             z17:
@@ -453,7 +455,7 @@ layers:
                         family: global.text_font_family
                         weight: normal
                         fill: global.water_text_fill_color
-                        size: [[16,12px],[17,13px],[19,13px],[20,14px]]
+                        size: global.text_size
                         stroke: global.text_stroke
 
         water_areas:
@@ -492,5 +494,5 @@ layers:
                         family: global.text_font_family
                         weight: normal
                         fill: global.water_text_fill_color
-                        size: [[16,12px], [17,13px], [19,13px], [20,14px]]
+                        size: global.text_size
                         stroke: global.text_stroke
