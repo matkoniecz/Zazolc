@@ -167,7 +167,7 @@ layers:
                         width: [[14, 1px], [15, 1.5px]]
                         cap: butt
             highway_names:
-                filter: { $zoom: { min: 16 } }
+                filter: { $zoom: { min: 14 } }
                 draw:
                     text:
                         text_source: global.name_source
