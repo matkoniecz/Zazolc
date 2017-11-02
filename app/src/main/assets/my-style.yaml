@@ -290,20 +290,6 @@ layers:
                 lines:
                     color: gray
 
-    train_station:
-        data: { source: mapzen, layer: pois }
-        filter:
-            kind: [station]
-        draw:
-            text:
-                text_source: global.name_source
-                font:
-                    weight: 100
-                    size: 13px
-                    family: Helvetica
-                    fill: black
-                    stroke: global.text_stroke
-
     buildings:
         filter: { $zoom: { min: 15 } }
         data: { source: mapzen, layer: buildings }
@@ -357,17 +343,30 @@ layers:
 
     places_from_pois:
         data: { source: mapzen, layer: pois }
-        filter:
-            kind: [alpine_hut]
-        draw:
-            text:
-                text_source: global.name_source
-                font:
-                  weight: 100
-                  size: 13px
-                  family: global.text_font_family
-                  fill: global.text_fill_color
-                  stroke: global.text_stroke
+        alpine_hut:
+            filter:
+                kind: [alpine_hut]
+            draw:
+                text:
+                    text_source: global.name_source
+                    font:
+                      weight: 100
+                      size: 13px
+                      family: global.text_font_family
+                      fill: global.text_fill_color
+                      stroke: global.text_stroke
+        train_station:
+            filter:
+                kind: [station]
+            draw:
+                text:
+                    text_source: global.name_source
+                    font:
+                        weight: 100
+                        size: 13px
+                        family: Helvetica
+                        fill: black
+                        stroke: global.text_stroke
 
     bicycle_parking:
         data: { source: mapzen, layer: pois }
