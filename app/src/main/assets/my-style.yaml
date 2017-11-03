@@ -464,8 +464,6 @@ layers:
                     order: function() { return feature.sort_rank; }
                     color: global.water_color
 
-    water_names:
-        data: { source: mapzen_names, layer: water }
         water_areas_text:
             filter:
               any:
