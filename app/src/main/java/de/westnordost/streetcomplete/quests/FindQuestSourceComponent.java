@@ -78,11 +78,11 @@ public class FindQuestSourceComponent
 						   final Listener listener)
 	{
 		Double distance = getDistanceToElementInMeters(questId, group, locations);
-		if(dontShowAgain || distance != null && distance < MAX_DISTANCE_TO_ELEMENT_FOR_SURVEY)
+		if( distance != null && distance < MAX_DISTANCE_TO_ELEMENT_FOR_SURVEY)
 		{
 			listener.onFindQuestSourceResult(SURVEY);
 		}
-		else if(distance != null && distance < MAX_DISTANCE_TO_ELEMENT_FOR_SURVEY *5)
+		else if(dontShowAgain || distance != null && distance < MAX_DISTANCE_TO_ELEMENT_FOR_SURVEY *5)
 		{
 			listener.onFindQuestSourceResult(LOCAL_KNOWLEGE);
 		}
