@@ -7,13 +7,14 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import de.westnordost.streetcomplete.data.QuestType;
-import de.westnordost.streetcomplete.data.QuestTypes;
+import de.westnordost.streetcomplete.data.QuestTypeRegistry;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
 import de.westnordost.streetcomplete.data.osmnotes.OsmNoteQuestType;
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable;
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity;
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover;
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType;
+import de.westnordost.streetcomplete.quests.bikeway.AddCycleway;
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType;
@@ -55,7 +56,7 @@ import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAcces
 @Module
 public class QuestModule
 {
-	@Provides @Singleton public static QuestTypes questTypeList(
+	@Provides @Singleton public static QuestTypeRegistry questTypeRegistry(
 			OsmNoteQuestType osmNoteQuestType, OverpassMapDataDao o,
 			RoadNameSuggestionsDao roadNameSuggestionsDao,
 			PutRoadNameSuggestionsHandler putRoadNameSuggestionsHandler)
@@ -73,7 +74,6 @@ public class QuestModule
 				// ↓ may be shown as possibly missing in QA tools
 				new AddParkingAccess(o), //my own quest
 				// new AddPlaceName(o), doesn't make sense as long as the app cannot tell the generic name of elements
-				// ↓ important data that is used by many data consumers
 				new AddRoadSurface(o),
 				new DetailPavedRoadSurface(o), //my own quest
 				new DetailUnpavedRoadSurface(o), //my own quest
@@ -98,10 +98,11 @@ public class QuestModule
 				new AddFireHydrantType(o),
 				new AddTreeLeafCycle(o), //my own quest
 				new AddTreeLeafType(o), //my own quest
-				new AddCrossingType(o),
-				new AddTactilePavingCrosswalk(o),
 				new AddParkingType(o),
                 //boring
+				new AddCycleway(o), //reduced importance
+				new AddCrossingType(o), //reduced importance
+				new AddTactilePavingCrosswalk(o), //reduced importance
 				new AddRecyclingType(o),  //reduced importance
 				new AddSport(o), //reduced importance
 				new AddHousenumber(o), //reduced importance
@@ -112,7 +113,7 @@ public class QuestModule
         		new AddPowerPolesMaterial(o)
 		};
 
-		return new QuestTypes(Arrays.asList(questTypesOrderedByImportance));
+		return new QuestTypeRegistry(Arrays.asList(questTypesOrderedByImportance));
 	}
 
 	@Provides @Singleton public static OsmNoteQuestType osmNoteQuestType()

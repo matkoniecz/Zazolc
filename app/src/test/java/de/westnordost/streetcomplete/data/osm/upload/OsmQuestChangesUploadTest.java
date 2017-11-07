@@ -293,6 +293,7 @@ public class OsmQuestChangesUploadTest extends TestCase
 		}
 
 		@Override public boolean appliesTo(Element element) { return false; }
+		@Override public boolean isDefaultEnabled() { return true; }
 	}
 
 	private static OsmQuest createAnsweredQuestWithAppliableChange()

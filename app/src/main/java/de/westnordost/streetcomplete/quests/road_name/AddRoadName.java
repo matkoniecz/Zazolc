@@ -18,6 +18,7 @@ import de.westnordost.streetcomplete.data.osm.OsmElementQuestType;
 import de.westnordost.streetcomplete.data.osm.download.MapDataWithGeometryHandler;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
 import de.westnordost.streetcomplete.data.osm.tql.FiltersParser;
+import de.westnordost.streetcomplete.data.osm.tql.OverpassQLUtil;
 import de.westnordost.streetcomplete.data.osm.tql.TagFilterExpression;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
@@ -41,26 +42,18 @@ public class AddRoadName implements OsmElementQuestType
 	/** @return overpass query string for creating the quests */
 	private static String getOverpassQuery(BoundingBox bbox)
 	{
-		return getOverpassBBox(bbox) + ROADS_WITHOUT_NAMES + "; out meta geom;";
+		return OverpassQLUtil.getOverpassBBox(bbox) + ROADS_WITHOUT_NAMES + "; out meta geom;";
 	}
 
 	/** @return overpass query string to get roads with names near roads that don't have names */
 	private static String getStreetNameSuggestionsOverpassQuery(BoundingBox bbox)
 	{
-		return getOverpassBBox(bbox) +
+		return OverpassQLUtil.getOverpassBBox(bbox) +
 				ROADS_WITHOUT_NAMES + " -> .without_names;" +
 				ROADS_WITH_NAMES + " -> .with_names;" +
 				"way.with_names(around.without_names:" +
 				MAX_DIST_FOR_ROAD_NAME_SUGGESTION + ");" +
 				"out meta geom;";
-	}
-
-	private static String getOverpassBBox(BoundingBox bbox)
-	{
-		return "[bbox:" +
-				bbox.getMinLatitude() + "," + bbox.getMinLongitude() + "," +
-				bbox.getMaxLatitude() + "," + bbox.getMaxLongitude() +
-				"];";
 	}
 
 	private final RoadNameSuggestionsDao roadNameSuggestionsDao;
@@ -175,4 +168,6 @@ public class AddRoadName implements OsmElementQuestType
 	public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
 		return "";
 	}
+
+	@Override public boolean isDefaultEnabled() { return true; }
 }

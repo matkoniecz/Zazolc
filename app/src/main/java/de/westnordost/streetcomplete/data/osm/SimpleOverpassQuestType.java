@@ -52,4 +52,6 @@ public abstract class SimpleOverpassQuestType implements OsmElementQuestType
 	@Override public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
 		return "";
 	}
+
+	@Override public boolean isDefaultEnabled() { return true; }
 }

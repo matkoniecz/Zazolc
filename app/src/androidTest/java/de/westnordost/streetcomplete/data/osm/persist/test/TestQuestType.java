@@ -35,4 +35,5 @@ public class TestQuestType implements OsmElementQuestType
 	}
 
 	@Override public boolean appliesTo(Element element) { return false; }
+	@Override public boolean isDefaultEnabled() { return true; }
 }

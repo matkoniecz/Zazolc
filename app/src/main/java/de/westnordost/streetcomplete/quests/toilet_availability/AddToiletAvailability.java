@@ -20,6 +20,9 @@ public class AddToiletAvailability extends SimpleOverpassQuestType
 
 	@Override protected String getTagFilters()
 	{
+		// only for malls and big stores because users should not need to go inside a non-public
+		// place to solve the quest. (Considering malls and department stores public enough)
+		// in this fork also McDonald's are considered public
 		return "nodes, ways with (shop ~ mall|department_store or name=McDonald's) and name and !toilets";
 	}
 
