@@ -15,6 +15,7 @@ import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParking
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover;
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType;
 import de.westnordost.streetcomplete.quests.bikeway.AddCycleway;
+import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBoolean;
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType;
@@ -102,6 +103,7 @@ public class QuestModule
 				new AddTreeLeafType(o), //my own quest
 				new AddParkingType(o),
                 //boring
+				new AddCyclewayBoolean(o), //my own quest
 				new AddCycleway(o), //reduced importance
 				new AddCrossingType(o), //reduced importance
 				new AddTactilePavingCrosswalk(o), //reduced importance
