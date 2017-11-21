@@ -11,14 +11,15 @@ import com.vividsolutions.jts.index.SpatialIndex;
 import com.vividsolutions.jts.index.strtree.STRtree;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import de.westnordost.osmapi.map.data.BoundingBox;
+import de.westnordost.streetcomplete.util.JTSConst;
 
 public class CountryBoundaries
 {
@@ -33,7 +34,6 @@ public class CountryBoundaries
 
 	public CountryBoundaries(GeometryCollection countriesBoundaries)
 	{
-		long time = System.currentTimeMillis();
 		index = new STRtree();
 		geometrySizeCache = new HashMap<>(400);
 		geometriesByIsoCodes = new HashMap<>(400);
@@ -90,7 +90,23 @@ public class CountryBoundaries
 		}
 	}
 
-	public boolean isInAny(Collection<String> isoCodes, double longitude, double latitude)
+	public boolean intersectsWithAny(String[] isoCodes, BoundingBox bbox)
+	{
+		for (String isoCode : isoCodes)
+		{
+			if(intersectsWith(isoCode, bbox)) return true;
+		}
+		return false;
+	}
+
+	public boolean intersectsWith(String isoCode, BoundingBox bbox)
+	{
+		Geometry geometry = geometriesByIsoCodes.get(isoCode);
+		if (geometry == null) return false;
+		return geometry.intersects(JTSConst.toLinearRing(bbox));
+	}
+
+	public boolean isInAny(String[] isoCodes, double longitude, double latitude)
 	{
 		for (String isoCode : isoCodes)
 		{
@@ -125,15 +141,12 @@ public class CountryBoundaries
 			}
 		}
 
-		Collections.sort(matches, new Comparator<Geometry>()
+		Collections.sort(matches, (o1, o2) ->
 		{
-			@Override public int compare(Geometry o1, Geometry o2)
-			{
-				double diff = geometrySizeCache.get(o1) - geometrySizeCache.get(o2);
-				if(diff > 0) return 1;
-				if(diff < 0) return -1;
-				return 0;
-			}
+			double diff = geometrySizeCache.get(o1) - geometrySizeCache.get(o2);
+			if(diff > 0) return 1;
+			if(diff < 0) return -1;
+			return 0;
 		});
 
 		List<String> result = new ArrayList<>(matches.size());

@@ -17,7 +17,10 @@ import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType
 import de.westnordost.streetcomplete.quests.bikeway.AddCycleway;
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
+import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType;
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType;
+import de.westnordost.streetcomplete.quests.diet_type.AddVegan;
+import de.westnordost.streetcomplete.quests.diet_type.AddVegetarian;
 import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType;
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours;
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
@@ -83,8 +86,6 @@ public class QuestModule
 				new AddMaxSpeed(o),
 				// ↓ useful data that is used by some data consumers
 				new AddOrchardProduce(o),
-				// ↓ data useful for only a specific use case
-				// new AddPlaceName(), doesn't make sense as long as the app cannot tell the generic name of elements
 				new AddWheelChairAccessPublicTransport(o),
 				new AddWheelchairAccessBusiness(o),
 				new AddToiletAvailability(o),
@@ -112,7 +113,10 @@ public class QuestModule
                 new AddBuildingLevels(o), //reduced importance
                 new AddOpeningHours(o), //reduced importance
         		new AddPowerPolesMaterial(o),
-				new AddWaySidewalk(o) //my own quest
+				new AddVegetarian(o), //reduced importance
+				new AddVegan(o), //reduced importance
+				new AddWaySidewalk(o), //my own quest
+				new AddCarWashType(o),
 		};
 
 		return new QuestTypeRegistry(Arrays.asList(questTypesOrderedByImportance));

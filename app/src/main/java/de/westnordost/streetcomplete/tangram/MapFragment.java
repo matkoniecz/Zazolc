@@ -1,6 +1,7 @@
 package de.westnordost.streetcomplete.tangram;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -23,6 +24,8 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.mapzen.android.lost.api.LocationListener;
@@ -145,6 +148,11 @@ public class MapFragment extends Fragment implements
 		isMapInitialized = true;
 		tryInitializeMapControls();
 
+		loadScene(sceneFilePath);
+	}
+
+	protected void loadScene(String sceneFilePath)
+	{
 		controller.loadSceneFile(sceneFilePath);
 	}
 
@@ -165,12 +173,29 @@ public class MapFragment extends Fragment implements
 
 	@CallSuper @Override public void onSceneReady(int sceneId, SceneError sceneError)
 	{
-		if(getActivity() == null) return;
+		if(getActivity() != null)
+		{
+			initMarkers();
+			followPosition();
+			showLocation();
+			postOnLayout(this::updateView);
+		}
+	}
 
-		initMarkers();
-		followPosition();
-		showLocation();
-		updateView();
+	private void postOnLayout(final Runnable runnable)
+	{
+		ViewTreeObserver vto = getView().getViewTreeObserver();
+		if(vto.isAlive())
+		{
+			vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
+			{
+				@Override public void onGlobalLayout()
+				{
+					getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					runnable.run();
+				}
+			});
+		}
 	}
 
 	private void initMarkers()
@@ -242,7 +267,7 @@ public class MapFragment extends Fragment implements
 		File cacheDir = getContext().getExternalCacheDir();
 		if (cacheDir != null && cacheDir.exists())
 		{
-			return new TileHttpHandler(apiKey, new File(cacheDir, "tile_cache"), cacheSize * 1024 * 1024);
+			return new TileHttpHandler(apiKey, new File(cacheDir, "tile_cache"), cacheSize * 1024L * 1024L);
 		}
 		return new TileHttpHandler(apiKey);
 	}
@@ -554,14 +579,14 @@ public class MapFragment extends Fragment implements
 		if(mapView != null) mapView.onCreate(bundle);
 	}
 
-	@Override public void onAttach(Activity activity)
+	@Override public void onAttach(Context context)
 	{
-		super.onAttach(activity);
+		super.onAttach(context);
 		compass.onCreate(
-				(SensorManager) activity.getSystemService(SENSOR_SERVICE),
-				activity.getWindowManager().getDefaultDisplay());
-		lostApiClient = new LostApiClient.Builder(activity).addConnectionCallbacks(this).build();
-		listener = (Listener) activity;
+				(SensorManager) context.getSystemService(SENSOR_SERVICE),
+				((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay());
+		lostApiClient = new LostApiClient.Builder(context).addConnectionCallbacks(this).build();
+		listener = (Listener) context;
 	}
 
 	@Override public void onStart()

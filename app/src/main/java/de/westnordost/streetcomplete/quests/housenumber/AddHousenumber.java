@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.quests.housenumber;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import de.westnordost.osmapi.map.data.BoundingBox;
 import de.westnordost.osmapi.map.data.Element;
 import de.westnordost.streetcomplete.R;
-import de.westnordost.streetcomplete.data.osm.ElementGeometry;
 import de.westnordost.streetcomplete.data.osm.OsmElementQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.MapDataWithGeometryHandler;
@@ -32,13 +31,13 @@ public class AddHousenumber implements OsmElementQuestType
 			" building ~ house|residential|apartments|detached|terrace|hotel|dormitory|houseboat|" +
 			            "school|civic|college|university|public|hospital|kindergarten|train_station|" +
 			            "retail|commercial" +
-			" and !addr:housenumber and !addr:housename");
+			" and !addr:housenumber and !addr:housename and !addr:conscriptionnumber and !addr:streetnumber");
 
 	private static final TagFilterExpression NODES_WITH_HOUSENUMBERS = new FiltersParser().parse(
-			" nodes with addr:housenumber or addr:housename");
+			" nodes with addr:housenumber or addr:housename or addr:conscriptionnumber or addr:streetnumber");
 
 	private static final TagFilterExpression NON_BUILDING_AREAS_WITH_HOUSENUMBERS = new FiltersParser().parse(
-			"ways, relations with !building and (addr:housenumber or addr:housename)");
+			"ways, relations with !building and (addr:housenumber or addr:housename or addr:conscriptionnumber or addr:streetnumber)");
 
 	private final OverpassMapDataDao overpassServer;
 
@@ -53,65 +52,56 @@ public class AddHousenumber implements OsmElementQuestType
 
 		final ArrayList<Point> housenumberCoords = new ArrayList<>();
 		String nodesWithHousenumbersQuery = NODES_WITH_HOUSENUMBERS.toOverpassQLString(bbox);
-		success = overpassServer.getAndHandleQuota(nodesWithHousenumbersQuery, new MapDataWithGeometryHandler()
+		success = overpassServer.getAndHandleQuota(nodesWithHousenumbersQuery, (element, geometry) ->
 		{
-			@Override public void handle(@NonNull Element element, @Nullable ElementGeometry geometry)
+			if(geometry != null)
 			{
-				if(geometry != null)
-				{
-					housenumberCoords.add(JTSConst.toPoint(geometry.center));
-				}
+				housenumberCoords.add(JTSConst.toPoint(geometry.center));
 			}
 		});
 		if(!success) return false;
 
 		final ArrayList<Geometry> areasWithHousenumber = new ArrayList<>();
 		String areasWithHousenumbersQuery = NON_BUILDING_AREAS_WITH_HOUSENUMBERS.toOverpassQLString(bbox);
-		success = overpassServer.getAndHandleQuota(areasWithHousenumbersQuery, new MapDataWithGeometryHandler()
+		success = overpassServer.getAndHandleQuota(areasWithHousenumbersQuery, (element, geometry) ->
 		{
-			@Override public void handle(@NonNull Element element, @Nullable ElementGeometry geometry)
+			if(geometry != null)
 			{
-				if(geometry != null)
-				{
-					areasWithHousenumber.add(JTSConst.toGeometry(geometry));
-				}
+				areasWithHousenumber.add(JTSConst.toGeometry(geometry));
 			}
 		});
 		if(!success) return false;
 
 		String buildingsWithoutHousenumbersQuery = HOUSES_WITHOUT_HOUSENUMBERS.toOverpassQLString(bbox);
-		success = overpassServer.getAndHandleQuota(buildingsWithoutHousenumbersQuery, new MapDataWithGeometryHandler()
+		success = overpassServer.getAndHandleQuota(buildingsWithoutHousenumbersQuery, (element, geometry) ->
 		{
-			@Override public void handle(@NonNull Element element, @Nullable ElementGeometry geometry)
+			// invalid geometry
+			if(geometry == null) return;
+
+			Geometry g = JTSConst.toGeometry(geometry);
+			// invalid geometry out of other reasons? (Not sure when this can happen...)
+			if(!g.isValid()) return;
+
+			// exclude buildings with housenumber-nodes inside them
+			for(int i = 0; i < housenumberCoords.size(); ++i)
 			{
-				// invalid geometry
-				if(geometry == null) return;
-
-				Geometry g = JTSConst.toGeometry(geometry);
-				// invalid geometry out of other reasons? (Not sure when this can happen...)
-				if(!g.isValid()) return;
-
-				// exclude buildings with housenumber-nodes inside them
-				for(int i = 0; i < housenumberCoords.size(); ++i)
+				Point p = housenumberCoords.get(i);
+				// this line is a very expensive computation
+				if(g.covers(p))
 				{
-					Point p = housenumberCoords.get(i);
-					// this line is a very expensive computation
-					if(g.covers(p))
-					{
-						// one housenumber-node cannot be covered by multiple buildings. So, it can
-						// be removed to reduce the amount of remaining point-in-polygon checks
-						housenumberCoords.remove(i);
-						return;
-					}
+					// one housenumber-node cannot be covered by multiple buildings. So, it can
+					// be removed to reduce the amount of remaining point-in-polygon checks
+					housenumberCoords.remove(i);
+					return;
 				}
-				// further exclude buildings that are contained in an area with a housenumber
-				for (Geometry areaWithHousenumber : areasWithHousenumber)
-				{
-					if(g.coveredBy(areaWithHousenumber)) return;
-				}
-
-				handler.handle(element, geometry);
 			}
+			// further exclude buildings that are contained in an area with a housenumber
+			for (Geometry areaWithHousenumber : areasWithHousenumber)
+			{
+				if(g.coveredBy(areaWithHousenumber)) return;
+			}
+
+			handler.handle(element, geometry);
 		});
 
 		return success;
@@ -121,12 +111,23 @@ public class AddHousenumber implements OsmElementQuestType
 	{
 		String housenumber = answer.getString(AddHousenumberForm.HOUSENUMBER);
 		String housename = answer.getString(AddHousenumberForm.HOUSENAME);
+		String conscriptionnumber = answer.getString(AddHousenumberForm.CONSCRIPTIONNUMBER);
+		String streetnumber = answer.getString(AddHousenumberForm.STREETNUMBER);
 
-		if(housenumber != null)
+		if(conscriptionnumber != null)
+		{
+			changes.add("addr:conscriptionnumber", conscriptionnumber);
+			if(!TextUtils.isEmpty(streetnumber)) changes.add("addr:streetnumber", streetnumber);
+
+			housenumber = streetnumber;
+			if(TextUtils.isEmpty(housenumber)) housenumber = conscriptionnumber;
+			changes.add("addr:housenumber", housenumber);
+		}
+		else if(housenumber != null)
 		{
 			changes.add("addr:housenumber", housenumber);
 		}
-		if(housename != null)
+		else if(housename != null)
 		{
 			changes.add("addr:housename", housename);
 		}
@@ -156,5 +157,16 @@ public class AddHousenumber implements OsmElementQuestType
 	}
 
 	@Override public int getTitle() { return R.string.quest_address_title; }
-	@Override public boolean isDefaultEnabled() { return true; }
+
+	@Override public int getDefaultDisabledMessage() { return 0; }
+
+	@Override public String[] getDisabledForCountries()
+	{
+		return new String[]{
+				"NL", // https://forum.openstreetmap.org/viewtopic.php?id=60356
+				"DK", // https://lists.openstreetmap.org/pipermail/talk-dk/2017-November/004898.html
+				"NO", // https://forum.openstreetmap.org/viewtopic.php?id=60357
+				"CZ"  // https://lists.openstreetmap.org/pipermail/talk-cz/2017-November/017901.html
+		};
+	}
 }

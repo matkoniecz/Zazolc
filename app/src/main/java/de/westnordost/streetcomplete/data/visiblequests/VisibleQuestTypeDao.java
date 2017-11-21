@@ -43,15 +43,14 @@ public class VisibleQuestTypeDao
 	private Map<String, Boolean> loadQuestTypeVisibilities()
 	{
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Cursor cursor = db.query(QuestVisibilityTable.NAME, null, null,null, null, null, null, null);
 
 		Map<String, Boolean> result = new HashMap<>();
 
-		try
+		try (Cursor cursor = db.query(QuestVisibilityTable.NAME, null, null, null, null, null, null, null))
 		{
-			if(cursor.moveToFirst())
+			if (cursor.moveToFirst())
 			{
-				while(!cursor.isAfterLast())
+				while (!cursor.isAfterLast())
 				{
 					int colQuestType = cursor.getColumnIndexOrThrow(QuestVisibilityTable.Columns.QUEST_TYPE);
 					int colVisibility = cursor.getColumnIndex(QuestVisibilityTable.Columns.VISIBILITY);
@@ -65,10 +64,6 @@ public class VisibleQuestTypeDao
 			}
 			return result;
 		}
-		finally
-		{
-			cursor.close();
-		}
 	}
 
 	public synchronized boolean isVisible(QuestType questType)
@@ -77,7 +72,7 @@ public class VisibleQuestTypeDao
 		Boolean isVisible = getQuestTypeVisibilities().get(questTypeName);
 		if(isVisible == null)
 		{
-			isVisible = questType.isDefaultEnabled();
+			isVisible = questType.getDefaultDisabledMessage() <= 0;
 		}
 		return isVisible;
 	}

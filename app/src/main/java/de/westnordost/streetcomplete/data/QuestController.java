@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import de.westnordost.streetcomplete.ApplicationConstants;
 import de.westnordost.streetcomplete.data.changesets.OpenChangesetsDao;
@@ -49,7 +50,7 @@ public class QuestController
 	private final OpenChangesetsDao openChangesetsDao;
 	private final Context context;
 	private final VisibleQuestRelay relay;
-	private final List<QuestType> questTypes;
+	private final Provider<List<QuestType>> questTypesProvider;
 
 	private boolean downloadServiceIsBound;
 	private QuestDownloadService.Interface downloadService;
@@ -88,8 +89,8 @@ public class QuestController
 	@Inject public QuestController(OsmQuestDao osmQuestDB, UndoOsmQuestDao undoOsmQuestDB,
 								   MergedElementDao osmElementDB, ElementGeometryDao geometryDB,
 								   OsmNoteQuestDao osmNoteQuestDB, CreateNoteDao createNoteDB,
-								   OpenChangesetsDao openChangesetsDao, List<QuestType> questTypes,
-								   Context context)
+								   OpenChangesetsDao openChangesetsDao,
+								   Provider<List<QuestType>> questTypesProvider, Context context)
 	{
 		this.osmQuestDB = osmQuestDB;
 		this.undoOsmQuestDB = undoOsmQuestDB;
@@ -98,7 +99,7 @@ public class QuestController
 		this.osmNoteQuestDB = osmNoteQuestDB;
 		this.createNoteDB = createNoteDB;
 		this.openChangesetsDao = openChangesetsDao;
-		this.questTypes = questTypes;
+		this.questTypesProvider = questTypesProvider;
 		this.context = context;
 		this.relay = new VisibleQuestRelay();
 	}
@@ -139,7 +140,7 @@ public class QuestController
 	 *  invisible. */
 	public void createNote(final long osmQuestId, final String questTitle, final String text, final ArrayList<String> imagePaths)
 	{
-		workerHandler.post(new Runnable() { @Override public void run()
+		workerHandler.post(() ->
 		{
 			OsmQuest q = osmQuestDB.get(osmQuestId);
 			// race condition: another thread may have removed the element already (#288)
@@ -178,14 +179,14 @@ public class QuestController
 
 			osmElementDB.deleteUnreferenced();
 			geometryDB.deleteUnreferenced();
-		}});
+		});
 	}
 
 	/** Apply the user's answer to the given quest. (The quest will turn invisible.) */
 	public void solveQuest(final long questId, final QuestGroup group, final Bundle answer,
 						   final String source)
 	{
-		workerHandler.post(new Runnable() { @Override public void run()
+		workerHandler.post(() ->
 		{
 			boolean success = false;
 			if (group == QuestGroup.OSM)
@@ -205,7 +206,7 @@ public class QuestController
 			{
 				relay.onQuestRemoved(questId, group);
 			}
-		}});
+		});
 	}
 
 	public OsmQuest getLastSolvedOsmQuest()
@@ -220,12 +221,12 @@ public class QuestController
 
 	public void undoOsmQuest(final OsmQuest quest)
 	{
-		workerHandler.post(new Runnable() { @Override public void run()
+		workerHandler.post(() ->
 		{
 			if(quest == null) return;
 
 			// not uploaded yet -> simply revert to NEW
-			if(quest.getStatus() == QuestStatus.ANSWERED)
+			if(quest.getStatus() == QuestStatus.ANSWERED || quest.getStatus() == QuestStatus.HIDDEN)
 			{
 				quest.setStatus(QuestStatus.NEW);
 				quest.setChanges(null, null);
@@ -253,7 +254,7 @@ public class QuestController
 			{
 				throw new IllegalStateException("Tried to undo a quest that hasn't been answered yet");
 			}
-		}});
+		});
 	}
 
 	private boolean solveOsmNoteQuest(long questId, Bundle answer)
@@ -320,7 +321,7 @@ public class QuestController
 	/** Make the given quest invisible asynchronously (per user interaction). */
 	public void hideQuest(final long questId, final QuestGroup group)
 	{
-		workerHandler.post(new Runnable() { @Override public void run()
+		workerHandler.post(() ->
 		{
 			if(group == QuestGroup.OSM)
 			{
@@ -338,13 +339,13 @@ public class QuestController
 				osmNoteQuestDB.update(q);
 				relay.onQuestRemoved(q.getId(), group);
 			}
-		}});
+		});
 	}
 
 	/** Retrieve the given quest from local database asynchronously, including the element / note. */
 	public void retrieve(final QuestGroup group, final long questId)
 	{
-		workerHandler.post(new Runnable() { @Override public void run()
+		workerHandler.post(() ->
 		{
 			switch (group)
 			{
@@ -362,25 +363,29 @@ public class QuestController
 					relay.onQuestCreated(osmNoteQuest, group, null);
 					break;
 			}
-		}});
+		});
 	}
 
 	/** Retrieve all visible (=new) quests in the given bounding box from local database
 	 *  asynchronously. */
 	public void retrieve(final BoundingBox bbox)
 	{
-		workerHandler.post(new Runnable() { @Override public void run()
+		workerHandler.post(() ->
 		{
 
+			List<QuestType> questTypes = questTypesProvider.get();
 			List<String> questTypeNames = new ArrayList<>(questTypes.size());
 			for (QuestType questType : questTypes)
 			{
 				questTypeNames.add(questType.getClass().getSimpleName());
 			}
 
-			relay.onQuestsCreated(osmQuestDB.getAll(bbox, QuestStatus.NEW, questTypeNames), QuestGroup.OSM);
-			relay.onQuestsCreated(osmNoteQuestDB.getAll(bbox, QuestStatus.NEW), QuestGroup.OSM_NOTE);
-		}});
+			List<OsmQuest> osmQuests = osmQuestDB.getAll(bbox, QuestStatus.NEW, questTypeNames);
+			if(!osmQuests.isEmpty()) relay.onQuestsCreated(osmQuests, QuestGroup.OSM);
+
+			List<OsmNoteQuest> osmNoteQuests = osmNoteQuestDB.getAll(bbox, QuestStatus.NEW);
+			if(!osmNoteQuests.isEmpty()) relay.onQuestsCreated(osmNoteQuests, QuestGroup.OSM_NOTE);
+		});
 	}
 
 	/** Download quests in at least the given bounding box asynchronously. The next-bigger rectangle

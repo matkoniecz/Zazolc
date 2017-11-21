@@ -7,13 +7,9 @@ import android.support.annotation.NonNull;
 
 import junit.framework.TestCase;
 
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -61,29 +57,19 @@ public class OsmQuestChangesUploadTest extends TestCase
 		ElementGeometryDao elementGeometryDao = mock(ElementGeometryDao.class);
 		MergedElementDao elementDB = mock(MergedElementDao.class);
 		OpenChangesetsDao openChangesetsDb = mock(OpenChangesetsDao.class);
-		when(questDb.getAll(null, QuestStatus.ANSWERED)).thenAnswer(
-				new Answer<List<OsmQuest>>()
-				{
-					@Override public List<OsmQuest> answer(InvocationOnMock invocation) throws Throwable
-					{
-						Thread.sleep(1000); // take your time...
-						ArrayList<OsmQuest> result = new ArrayList<>();
-						result.add(null);
-						return result;
-					}
-				});
+		when(questDb.getAll(null, QuestStatus.ANSWERED)).thenAnswer(invocation ->
+		{
+			Thread.sleep(1000); // take your time...
+			ArrayList<OsmQuest> result = new ArrayList<>();
+			result.add(null);
+			return result;
+		});
 
 		final OsmQuestChangesUpload u = new OsmQuestChangesUpload(null, questDb, elementDB,
 				elementGeometryDao, null, openChangesetsDb, null, null, null, null);
 		final AtomicBoolean cancel = new AtomicBoolean(false);
 
-		Thread t = new Thread(new Runnable()
-		{
-			@Override public void run()
-			{
-				u.upload(cancel);
-			}
-		});
+		Thread t = new Thread(() -> u.upload(cancel));
 		t.start();
 
 		cancel.set(true);
@@ -119,7 +105,7 @@ public class OsmQuestChangesUploadTest extends TestCase
 		OsmQuestDao questDb = mock(OsmQuestDao.class);
 		MergedElementDao elementDao = mock(MergedElementDao.class);
 		DownloadedTilesDao downloadedTilesDao = mock(DownloadedTilesDao.class);
-		OsmQuestChangesUpload u = new OsmQuestChangesUpload(null, questDb, null, null, null, null,
+		OsmQuestChangesUpload u = new OsmQuestChangesUpload(null, questDb, elementDao, null, null, null,
 				null, downloadedTilesDao, null, null);
 		assertFalse(u.uploadQuestChange(123, quest, element, false, false));
 		assertEquals(QuestStatus.CLOSED, quest.getStatus());
@@ -293,7 +279,9 @@ public class OsmQuestChangesUploadTest extends TestCase
 		}
 
 		@Override public boolean appliesTo(Element element) { return false; }
-		@Override public boolean isDefaultEnabled() { return true; }
+
+		@Override public String[] getDisabledForCountries()	{ return null; }
+		@Override public int getDefaultDisabledMessage() { return 0; }
 	}
 
 	private static OsmQuest createAnsweredQuestWithAppliableChange()
@@ -323,6 +311,6 @@ public class OsmQuestChangesUploadTest extends TestCase
 
 	private static Element createElement()
 	{
-		return new OsmNode(A_NODE_ID, 0, new OsmLatLon(1,2), new HashMap<String,String>());
+		return new OsmNode(A_NODE_ID, 0, new OsmLatLon(1,2), new HashMap<>());
 	}
 }

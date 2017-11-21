@@ -1,8 +1,8 @@
 package de.westnordost.streetcomplete.quests.housenumber;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.view.LayoutInflater;
@@ -21,14 +21,18 @@ public class AddHousenumberForm extends AbstractQuestFormAnswerFragment
 {
 	public static final String
 			HOUSENUMBER = "housenumber",
-			HOUSENAME = "housename";
+			HOUSENAME = "housename",
+			CONSCRIPTIONNUMBER = "conscriptionnumber",
+			STREETNUMBER = "streetnumber";
 
 	private static final String	IS_HOUSENAME = "is_housename";
 	// i.e. 9999/a, 9/a, 99/9, 99a, 99 a, 9 / a
 	public static final String VALID_HOUSENUMBER_REGEX =
 			"\\p{N}{1,4}((\\s?/\\s?\\p{N})|(\\s?/?\\s?\\p{L}))?";
 
-	private EditText input;
+	public static final String VALID_CONSCRIPTIONNUMBER_REGEX =	"\\p{N}{1,6}";
+
+	@Nullable private EditText inputHouseNumber, inputHouseName, inputConscriptionNumber, inputStreetNumber;
 
 	private boolean isHousename;
 
@@ -36,49 +40,149 @@ public class AddHousenumberForm extends AbstractQuestFormAnswerFragment
 									   Bundle savedInstanceState)
 	{
 		View view = super.onCreateView(inflater, container, savedInstanceState);
-
-		isHousename = false;
-		if(savedInstanceState != null)
-		{
-			isHousename = savedInstanceState.getBoolean(IS_HOUSENAME);
-		}
+		restoreInstanceState(savedInstanceState);
+		String code = getCountryInfo().getCountryCode();
 
 		if(isHousename)
 		{
 			setLayout(R.layout.quest_housename);
+		}
+		else if("SK".equals(code))
+		{
+			setLayout(R.layout.quest_housenumber_slovak);
 		}
 		else
 		{
 			setLayout(R.layout.quest_housenumber);
 		}
 
-		addOtherAnswer(R.string.quest_address_answer_house_name, new Runnable()
+		addOtherAnswer(R.string.quest_address_answer_house_name, () ->
 		{
-			@Override public void run()
-			{
-				isHousename = true;
-				setLayout(R.layout.quest_housename);
-			}
+			isHousename = true;
+			setLayout(R.layout.quest_housename);
 		});
 
 		return view;
 	}
 
+	@Override public void onSaveInstanceState(Bundle outState)
+	{
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(IS_HOUSENAME, isHousename);
+	}
+
+	private void restoreInstanceState(Bundle inState)
+	{
+		isHousename = false;
+		if(inState != null)
+		{
+			isHousename = inState.getBoolean(IS_HOUSENAME);
+		}
+	}
+
+	@Override protected void onClickOk()
+	{
+		if(!hasChanges())
+		{
+			Toast.makeText(getActivity(), R.string.no_changes, Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		if(inputHouseName != null)
+		{
+			applyHouseNameAnswer(getInputText(inputHouseName));
+		}
+		else if(inputConscriptionNumber != null && inputStreetNumber != null)
+		{
+			applyConscriptionNumberAnswer(getInputText(inputConscriptionNumber), getInputText(inputStreetNumber));
+		}
+		else if(inputHouseNumber != null)
+		{
+			applyHouseNumberAnswer(getInputText(inputHouseNumber));
+		}
+	}
+
+	private void applyHouseNameAnswer(final String houseName)
+	{
+		Bundle answer = new Bundle();
+		answer.putString(HOUSENAME, houseName);
+		applyFormAnswer(answer);
+	}
+
+	private void applyHouseNumberAnswer(final String houseNumber)
+	{
+		final Bundle answer = new Bundle();
+		boolean looksInvalid = !houseNumber.matches(getValidHousenumberRegex());
+
+		confirmHousenumber(looksInvalid, () ->
+		{
+			answer.putString(HOUSENUMBER, houseNumber);
+			applyFormAnswer(answer);
+		});
+	}
+
+	private void applyConscriptionNumberAnswer(final String conscriptionNumber, final String streetNumber)
+	{
+		final Bundle answer = new Bundle();
+
+		// only conscription number is required
+		if(conscriptionNumber.isEmpty())
+		{
+			Toast.makeText(getActivity(), R.string.quest_housenumber_conscription_number_required, Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		boolean looksInvalid = false;
+		if(!streetNumber.isEmpty())
+		{
+			looksInvalid |= !streetNumber.matches(getValidHousenumberRegex());
+		}
+		looksInvalid |= !conscriptionNumber.matches(VALID_CONSCRIPTIONNUMBER_REGEX);
+
+		confirmHousenumber(looksInvalid, () ->
+		{
+			answer.putString(CONSCRIPTIONNUMBER, conscriptionNumber);
+			answer.putString(STREETNUMBER, streetNumber);
+			applyFormAnswer(answer);
+		});
+	}
+
+	@Override public boolean hasChanges()
+	{
+		EditText[] possibleInputs = new EditText[]
+				{inputHouseNumber, inputHouseName, inputConscriptionNumber, inputStreetNumber};
+		for (EditText possibleInput : possibleInputs)
+		{
+			if(possibleInput != null && !getInputText(possibleInput).isEmpty())
+				return true;
+		}
+		return false;
+	}
+
 	private void setLayout(int layoutResourceId)
 	{
-		View contentView = setContentView(layoutResourceId);
+		View view = setContentView(layoutResourceId);
 
-		input = contentView.findViewById(R.id.input);
-		final Button toggleKeyboardButton = contentView.findViewById(R.id.toggleKeyboard);
+		inputHouseNumber = view.findViewById(R.id.inputHouseNumber);
+		inputHouseName = view.findViewById(R.id.inputHouseName);
+		inputConscriptionNumber = view.findViewById(R.id.inputConscriptionNumber);
+		inputStreetNumber = view.findViewById(R.id.inputStreetNumber);
 
+		initKeyboardButton(view);
+	}
+
+	private void initKeyboardButton(View view)
+	{
+		final Button toggleKeyboardButton = view.findViewById(R.id.toggleKeyboard);
 		if(toggleKeyboardButton != null)
 		{
 			toggleKeyboardButton.setText("abc");
-
-			toggleKeyboardButton.setOnClickListener(new View.OnClickListener()
+			toggleKeyboardButton.setOnClickListener(v ->
 			{
-				@Override public void onClick(View v)
+				View focus = getActivity().getCurrentFocus();
+				if(focus != null && focus instanceof EditText)
 				{
+					EditText input = (EditText) focus;
 					if ((input.getInputType() & InputType.TYPE_CLASS_NUMBER) != 0)
 					{
 						input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
@@ -97,49 +201,6 @@ public class AddHousenumberForm extends AbstractQuestFormAnswerFragment
 		}
 	}
 
-	@Override public void onSaveInstanceState(Bundle outState)
-	{
-		super.onSaveInstanceState(outState);
-		outState.putBoolean(IS_HOUSENAME, isHousename);
-	}
-
-	@Override protected void onClickOk()
-	{
-		if(!hasChanges())
-		{
-			Toast.makeText(getActivity(), R.string.no_changes, Toast.LENGTH_SHORT).show();
-			return;
-		}
-
-		final Bundle answer = new Bundle();
-		final String input = getInputText();
-
-		if(isHousename)
-		{
-			answer.putString(HOUSENAME, input);
-			applyFormAnswer(answer);
-		}
-		else
-		{
-			if (!input.matches(getValidHousenumberRegex()))
-			{
-				confirmUnusualHousenumber(new Runnable()
-				{
-					@Override public void run()
-					{
-						answer.putString(HOUSENUMBER, input);
-						applyFormAnswer(answer);
-					}
-				});
-			}
-			else
-			{
-				answer.putString(HOUSENUMBER, input);
-				applyFormAnswer(answer);
-			}
-		}
-	}
-
 	private String getValidHousenumberRegex()
 	{
 		String regexNum = VALID_HOUSENUMBER_REGEX;
@@ -152,40 +213,25 @@ public class AddHousenumberForm extends AbstractQuestFormAnswerFragment
 		return "^" + regexNum + "(-" + regexNum + ")?";
 	}
 
-	@Override public boolean hasChanges()
+	private String getInputText(EditText editText)
 	{
-		return !getInputText().isEmpty();
+		return editText.getText().toString().trim();
 	}
 
-	private String getInputText()
+	private void confirmHousenumber(boolean isUnusual, final Runnable onConfirmed)
 	{
-		return input.getText().toString().trim();
-	}
-
-	private void confirmUnusualHousenumber(final Runnable onConfirmed)
-	{
-		DialogInterface.OnClickListener onYes = new DialogInterface.OnClickListener()
+		if(isUnusual)
 		{
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				onConfirmed.run();
-			}
-		};
-		DialogInterface.OnClickListener onNo = new DialogInterface.OnClickListener()
+			new AlertDialogBuilder(getActivity())
+					.setTitle(R.string.quest_generic_confirmation_title)
+					.setMessage(R.string.quest_address_unusualHousenumber_confirmation_description)
+					.setPositiveButton(R.string.quest_generic_confirmation_yes, (dialog, which) -> onConfirmed.run())
+					.setNegativeButton(R.string.quest_generic_confirmation_no, null)
+					.show();
+		}
+		else
 		{
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				// nothing, just go back
-			}
-		};
-
-		new AlertDialogBuilder(getActivity())
-				.setTitle(R.string.quest_generic_confirmation_title)
-				.setMessage(R.string.quest_address_unusualHousenumber_confirmation_description)
-				.setPositiveButton(R.string.quest_generic_confirmation_yes, onYes)
-				.setNegativeButton(R.string.quest_generic_confirmation_no, onNo)
-				.show();
+			onConfirmed.run();
+		}
 	}
 }

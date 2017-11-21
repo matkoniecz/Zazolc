@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import de.westnordost.osmapi.map.data.BoundingBox;
 import de.westnordost.osmapi.map.data.LatLon;
 import de.westnordost.osmapi.map.data.OsmLatLon;
 import de.westnordost.streetcomplete.data.osm.ElementGeometry;
@@ -26,7 +27,6 @@ public class JTSConst
 
 	public static Geometry toGeometry(ElementGeometry e)
 	{
-		GeometryFactory factory = new GeometryFactory();
 		if(e.polygons != null)
 		{
 			ElementGeometry.Polygons p = e.getPolygonsOrderedByOrientation();
@@ -48,9 +48,10 @@ public class JTSConst
 
 		Polygon[] polys = new Polygon[shellsWithHoles.size()];
 		int i = 0;
-		for(LinearRing shell : shellsWithHoles.keySet())
+		for(Map.Entry<LinearRing, ArrayList<LinearRing>> shellWithHoles : shellsWithHoles.entrySet())
 		{
-			ArrayList<LinearRing> holesList = shellsWithHoles.get(shell);
+			LinearRing shell = shellWithHoles.getKey();
+			ArrayList<LinearRing> holesList = shellWithHoles.getValue();
 			LinearRing[] holes = null;
 			if(holesList != null)
 			{
@@ -96,7 +97,7 @@ public class JTSConst
 				{
 					if(shellsWithHoles.get(shell) == null)
 					{
-						shellsWithHoles.put(shell, new ArrayList<LinearRing>());
+						shellsWithHoles.put(shell, new ArrayList<>());
 					}
 					shellsWithHoles.get(shell).add(hole);
 					it.remove();
@@ -120,6 +121,17 @@ public class JTSConst
 	public static Coordinate toCoordinate(LatLon latLon)
 	{
 		return new Coordinate(latLon.getLongitude(), latLon.getLatitude());
+	}
+
+	public static LinearRing toLinearRing(BoundingBox bbox)
+	{
+		List<LatLon> corners = new ArrayList<>(5);
+		corners.add(bbox.getMin());
+		corners.add(new OsmLatLon(bbox.getMinLatitude(), bbox.getMaxLongitude()));
+		corners.add(bbox.getMax());
+		corners.add(new OsmLatLon(bbox.getMaxLatitude(), bbox.getMinLongitude()));
+		corners.add(bbox.getMin());
+		return factory.createLinearRing(toCoordinates(corners));
 	}
 
 	public static Point toPoint(LatLon latLon)

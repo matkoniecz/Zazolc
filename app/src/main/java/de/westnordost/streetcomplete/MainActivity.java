@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -299,15 +298,12 @@ public class MainActivity extends AppCompatActivity implements
 		new AlertDialogBuilder(this)
 				.setTitle(R.string.undo_confirm_title)
 				.setView(inner)
-				.setPositiveButton(R.string.action_undo, new DialogInterface.OnClickListener()
+				.setPositiveButton(R.string.undo_confirm_positive, (dialog, which) ->
 				{
-					@Override public void onClick(DialogInterface dialog, int which)
-					{
-						questController.undoOsmQuest(quest);
-						answersCounter.undidQuest(quest.getChangesSource());
-					}
+					questController.undoOsmQuest(quest);
+					answersCounter.undidQuest(quest.getChangesSource());
 				})
-				.setNegativeButton(android.R.string.cancel, null)
+				.setNegativeButton(R.string.undo_confirm_negative, null)
 				.show();
 	}
 
@@ -387,21 +383,15 @@ public class MainActivity extends AppCompatActivity implements
 
 		new AlertDialogBuilder(this)
 				.setView(inner)
-				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
+				.setPositiveButton(android.R.string.ok, (dialog, which) ->
 				{
-					@Override public void onClick(DialogInterface dialog, int which)
-					{
-						Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-						intent.putExtra(SettingsActivity.EXTRA_LAUNCH_AUTH, true);
-						startActivity(intent);
-					}
+					Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+					intent.putExtra(SettingsActivity.EXTRA_LAUNCH_AUTH, true);
+					startActivity(intent);
 				})
-				.setNegativeButton(R.string.later, new DialogInterface.OnClickListener()
+				.setNegativeButton(R.string.later, (dialog, which) ->
 				{
-					@Override public void onClick(DialogInterface dialog, int which)
-					{
-						dontShowRequestAuthorizationAgain = checkBox.isChecked();
-					}
+					dontShowRequestAuthorizationAgain = checkBox.isChecked();
 				}).show();
 	}
 
@@ -425,18 +415,9 @@ public class MainActivity extends AppCompatActivity implements
 			{
 				if (questController.isPriorityDownloadRunning())
 				{
-					DialogInterface.OnClickListener onYes = new DialogInterface.OnClickListener()
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int which)
-						{
-							downloadAreaConfirmed(enclosingBBox);
-						}
-					};
-
 					new AlertDialogBuilder(this)
 							.setMessage(R.string.confirmation_cancel_prev_download_title)
-							.setPositiveButton(android.R.string.ok, onYes)
+							.setPositiveButton(android.R.string.ok, (dialog, which) -> downloadAreaConfirmed(enclosingBBox))
 							.setNegativeButton(android.R.string.cancel, null)
 							.show();
 				}
@@ -472,7 +453,7 @@ public class MainActivity extends AppCompatActivity implements
 	{
 		@AnyThread @Override public void onError(final Exception e)
 		{
-			runOnUiThread(new Runnable() { @Override public void run()
+			runOnUiThread(() ->
 			{
 				if(e instanceof VersionBannedException)
 				{
@@ -498,14 +479,12 @@ public class MainActivity extends AppCompatActivity implements
 					crashReportExceptionHandler.askUserToSendErrorReport(
 							MainActivity.this, R.string.upload_error, e);
 				}
-			}});
+			});
 		}
 
 		@AnyThread @Override public void onFinished()
 		{
-			runOnUiThread(new Runnable() { @Override public void run() {
-				answersCounter.update();
-			}});
+			runOnUiThread(() -> answersCounter.update());
 		}
 	};
 
@@ -516,7 +495,7 @@ public class MainActivity extends AppCompatActivity implements
 	{
 		@AnyThread @Override public void onStarted()
 		{
-			runOnUiThread(new Runnable() { @Override public void run()
+			runOnUiThread(() ->
 			{
 				ObjectAnimator fadeInAnimator = ObjectAnimator.ofFloat(progressBar, View.ALPHA, 1f);
 				fadeInAnimator.start();
@@ -526,24 +505,24 @@ public class MainActivity extends AppCompatActivity implements
 						MainActivity.this,
 						R.string.now_downloading_toast,
 						Toast.LENGTH_SHORT).show();
-			}});
+			});
 		}
 
 		@AnyThread @Override public void onProgress(final float progress)
 		{
-			runOnUiThread(new Runnable() { @Override public void run()
+			runOnUiThread(() ->
 			{
 				int intProgress = (int) (1000 * progress);
 				ObjectAnimator progressAnimator = ObjectAnimator.ofInt(progressBar, "progress", intProgress);
 				progressAnimator.setDuration(1000);
 				progressAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
 				progressAnimator.start();
-			}});
+			});
 		}
 
 		@AnyThread @Override public void onError(final Exception e)
 		{
-			runOnUiThread(new Runnable() { @Override public void run()
+			runOnUiThread(() ->
 			{
 				// a 5xx error is not the fault of this app. Nothing we can do about it, so it does not
 				// make sense to send an error report. Just notify the user
@@ -556,7 +535,7 @@ public class MainActivity extends AppCompatActivity implements
 				{
 					crashReportExceptionHandler.askUserToSendErrorReport(MainActivity.this, R.string.download_error, e);
 				}
-			}});
+			});
 		}
 
 		@AnyThread @Override public void onSuccess()
@@ -568,23 +547,23 @@ public class MainActivity extends AppCompatActivity implements
 
 		@AnyThread @Override public void onFinished()
 		{
-			runOnUiThread(new Runnable() { @Override public void run()
+			runOnUiThread(() ->
 			{
 				ObjectAnimator fadeOutAnimator = ObjectAnimator.ofFloat(progressBar, View.ALPHA, 0f);
 				fadeOutAnimator.setDuration(1000);
 				fadeOutAnimator.start();
-			}});
+			});
 		}
 
 		@AnyThread @Override public void onNotStarted()
 		{
-			runOnUiThread(new Runnable() { @Override public void run()
+			runOnUiThread(() ->
 			{
 				if (downloadService.currentDownloadHasPriority())
 				{
 					Toast.makeText(MainActivity.this, R.string.nothing_more_to_download, Toast.LENGTH_SHORT).show();
 				}
-			}});
+			});
 		}
 	};
 
@@ -597,11 +576,11 @@ public class MainActivity extends AppCompatActivity implements
 		AbstractQuestAnswerFragment f = getQuestDetailsFragment();
 		if(f != null)
 		{
-			f.onClickClose(new Runnable() { @Override public void run()
+			f.onClickClose(() ->
 			{
 				mapFragment.removeQuestGeometry();
 				MainActivity.super.onBackPressed();
-			}});
+			});
 		}
 		else
 		{
@@ -615,14 +594,11 @@ public class MainActivity extends AppCompatActivity implements
 	{
 		// line between location now and location when the form was opened
 		Location[] locations = new Location[]{ lastLocation, mapFragment.getDisplayedLocation() };
-		questSource.findSource(questId, group, locations, new FindQuestSourceComponent.Listener()
+		questSource.findSource(questId, group, locations, source ->
 		{
-			@Override public void onFindQuestSourceResult(String source)
-			{
-				closeQuestDetailsFor(questId, group);
-				answersCounter.answeredQuest(source);
-				questController.solveQuest(questId, group, answer, source);
-			}
+			closeQuestDetailsFor(questId, group);
+			answersCounter.answeredQuest(source);
+			questController.solveQuest(questId, group, answer, source);
 		});
 	}
 
@@ -651,10 +627,7 @@ public class MainActivity extends AppCompatActivity implements
 	@AnyThread @Override
 	public void onQuestsCreated(final Collection<? extends Quest> quests, final QuestGroup group)
 	{
-		runOnUiThread(new Runnable() { @Override public void run()
-		{
-			mapFragment.addQuests(quests, group);
-		}});
+		runOnUiThread(() -> mapFragment.addQuests(quests, group));
 		// to recreate element geometry of selected quest (if any) after recreation of activity
 		if(getQuestDetailsFragment() != null)
 		{
@@ -674,18 +647,13 @@ public class MainActivity extends AppCompatActivity implements
 	{
 		if (clickedQuestId != null && quest.getId().equals(clickedQuestId) && group == clickedQuestGroup)
 		{
-			runOnUiThread(new Runnable() { @Override public void run()
-			{
-				requestShowQuestDetails(quest, group, element);
-			}});
+			runOnUiThread(() -> requestShowQuestDetails(quest, group, element));
 			clickedQuestId = null;
 			clickedQuestGroup = null;
-		} else if (isQuestDetailsCurrentlyDisplayedFor(quest.getId(), group))
+		}
+		else if (isQuestDetailsCurrentlyDisplayedFor(quest.getId(), group))
 		{
-			runOnUiThread(new Runnable() { @Override public void run()
-			{
-				mapFragment.addQuestGeometry(quest.getGeometry());
-			}});
+			runOnUiThread(() -> mapFragment.addQuestGeometry(quest.getGeometry()));
 		}
 	}
 
@@ -717,10 +685,7 @@ public class MainActivity extends AppCompatActivity implements
 		{
 			if (!isQuestDetailsCurrentlyDisplayedFor(questId, group)) continue;
 
-			runOnUiThread(new Runnable() { @Override public void run()
-			{
-				closeQuestDetails();
-			}});
+			runOnUiThread(this::closeQuestDetails);
 			break;
 		}
 
@@ -740,7 +705,10 @@ public class MainActivity extends AppCompatActivity implements
 		if (view != null)
 		{
 			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+			if(inputMethodManager != null)
+			{
+				inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+			}
 		}
 
 		getSupportFragmentManager().popBackStackImmediate(BOTTOM_SHEET, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -764,13 +732,7 @@ public class MainActivity extends AppCompatActivity implements
 		AbstractQuestAnswerFragment f = getQuestDetailsFragment();
 		if (f != null)
 		{
-			f.onClickClose(new Runnable()
-			{
-				@Override public void run()
-				{
-					showQuestDetails(quest, group, element);
-				}
-			});
+			f.onClickClose(() -> showQuestDetails(quest, group, element));
 		} else {
 			showQuestDetails(quest, group, element);
 		}
@@ -830,7 +792,7 @@ public class MainActivity extends AppCompatActivity implements
 		questController.retrieve(bbox);
 	}
 
-	@Override public void onClickedQuest(QuestGroup questGroup, Long questId)
+	@Override public synchronized void onClickedQuest(QuestGroup questGroup, Long questId)
 	{
 		clickedQuestId = questId;
 		clickedQuestGroup = questGroup;
@@ -842,13 +804,10 @@ public class MainActivity extends AppCompatActivity implements
 		AbstractQuestAnswerFragment f = getQuestDetailsFragment();
 		if(f != null)
 		{
-			f.onClickClose(new Runnable()
+			f.onClickClose(() ->
 			{
-				@Override public void run()
-				{
-					mapFragment.removeQuestGeometry();
-					closeQuestDetails();
-				}
+				mapFragment.removeQuestGeometry();
+				closeQuestDetails();
 			});
 		}
 	}

@@ -1,6 +1,7 @@
 package de.westnordost.streetcomplete.quests.wheelchair_access;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.util.Map;
@@ -74,5 +75,4 @@ public class AddWheelchairAccessBusiness extends SimpleOverpassQuestType
 	{
 		return R.string.quest_wheelchairAccess_name_title;
 	}
-	@Override public boolean isDefaultEnabled() { return true; }
 }

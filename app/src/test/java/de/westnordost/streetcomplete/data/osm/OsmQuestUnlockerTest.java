@@ -30,8 +30,9 @@ public class OsmQuestUnlockerTest extends TestCase
 	private OsmQuestUnlocker osmQuestUnlocker;
 	private OsmElementQuestType questType;
 
-	@Override public void setUp()
+	@Override public void setUp() throws Exception
 	{
+		super.setUp();
 		ElementGeometryDao elementGeometryDao = mock(ElementGeometryDao.class);
 		when(elementGeometryDao.get(Element.Type.NODE, 1)).thenReturn(new ElementGeometry(POS));
 
@@ -44,9 +45,9 @@ public class OsmQuestUnlockerTest extends TestCase
 				.thenReturn(Collections.<OsmQuest>emptyList());
 
 		questType = mock(OsmElementQuestType.class);
-		List<QuestType> questTypes = Collections.<QuestType>singletonList(questType);
+		final List<QuestType> questTypes = Collections.<QuestType>singletonList(questType);
 		osmQuestUnlocker = new OsmQuestUnlocker(osmNoteQuestDao, osmQuestDao, elementGeometryDao,
-				questTypes);
+				() -> questTypes);
 	}
 
 	public void testNoteBlocksNewQuests()

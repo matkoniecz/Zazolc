@@ -7,7 +7,7 @@ import de.westnordost.streetcomplete.quests.housenumber.AddHousenumberForm;
 
 public class AddHousenumberTest extends AOsmElementQuestTypeTest
 {
-	@Override public void setUp()
+	@Override public void setUp() throws Exception
 	{
 		super.setUp();
 		tags.put("building","house");
@@ -43,6 +43,24 @@ public class AddHousenumberTest extends AOsmElementQuestTypeTest
 	{
 		bundle.putString(AddHousenumberForm.HOUSENAME, "La Escalera");
 		verify(new StringMapEntryAdd("addr:housename","La Escalera"));
+	}
+
+	public void testConscriptionNumber()
+	{
+		bundle.putString(AddHousenumberForm.CONSCRIPTIONNUMBER, "I.123");
+		verify(
+				new StringMapEntryAdd("addr:conscriptionnumber","I.123"),
+				new StringMapEntryAdd("addr:housenumber","I.123"));
+	}
+
+	public void testConscriptionNumberAndStreetNumber()
+	{
+		bundle.putString(AddHousenumberForm.CONSCRIPTIONNUMBER, "I.123");
+		bundle.putString(AddHousenumberForm.STREETNUMBER, "12b");
+		verify(
+				new StringMapEntryAdd("addr:conscriptionnumber","I.123"),
+				new StringMapEntryAdd("addr:streetnumber","12b"),
+				new StringMapEntryAdd("addr:housenumber","12b"));
 	}
 
 	@Override protected OsmElementQuestType createQuestType()
