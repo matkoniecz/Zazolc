@@ -34,7 +34,7 @@ import de.westnordost.streetcomplete.quests.road_surface.DetailPavedPathSurface;
 import de.westnordost.streetcomplete.quests.road_surface.DetailPavedServiceRoadSurface;
 import de.westnordost.streetcomplete.quests.road_surface.DetailUnpavedPathSurface;
 import de.westnordost.streetcomplete.quests.road_surface.DetailUnpavedServiceRoadSurface;
-import de.westnordost.streetcomplete.quests.separate_sidewalk.way_lit.AddWaySidewalk;
+import de.westnordost.streetcomplete.quests.separate_sidewalk.AddWaySidewalk;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability;

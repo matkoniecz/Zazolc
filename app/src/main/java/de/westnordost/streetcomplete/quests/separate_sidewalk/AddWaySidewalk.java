@@ -1,4 +1,4 @@
-package de.westnordost.streetcomplete.quests.separate_sidewalk.way_lit;
+package de.westnordost.streetcomplete.quests.separate_sidewalk;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,7 +32,7 @@ public class AddWaySidewalk extends SimpleOverpassQuestType
 
 	public AbstractQuestAnswerFragment createForm()
 	{
-		return new WaySidewalkForm();
+		return new YesNoQuestAnswerFragment();
 	}
 
 	public void applyAnswerTo(Bundle answer, StringMapChangesBuilder changes)
