@@ -22,7 +22,11 @@ public class AddCyclewayBoolean extends AddCycleway {
 
     public void applyAnswerTo(Bundle answer, StringMapChangesBuilder changes)
     {
-        if(!answer.getBoolean(YesNoQuestAnswerFragment.ANSWER)){
+        if(answer.getBoolean(YesNoQuestAnswerFragment.ANSWER)){
+            changes.add("cycleway", "opposite");
+            changes.add("oneway:bicycle", "no");
+
+        } else {
             changes.add("cycleway", "no");
         }
     }
