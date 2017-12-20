@@ -27,6 +27,7 @@ public class AddWaySidewalk extends SimpleOverpassQuestType
 		return "ways with " +
 				" highway ~ " + TextUtils.join("|", WAYS_WITH_SIDEWALKS) +
 				" and !sidewalk" +
+				" and foot != no " +
 				" and (access !~ private|no or (foot and foot !~ private|no))"; // not private roads
 	}
 
