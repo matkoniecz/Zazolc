@@ -183,6 +183,6 @@ public class AddCycleway implements OsmElementQuestType
 
 	@Override public int getTitle() { return R.string.quest_cycleway_title; }
 
-	@Override public int getDefaultDisabledMessage() { return 0; }
+	@Override public int getDefaultDisabledMessage() { return R.string.quest_cycleway_disabled; }
 	@Override public String[] getDisabledForCountries() { return null; }
 }

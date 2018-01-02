@@ -468,4 +468,5 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_cycleway_answer_contraflow_cycleway">Also cycleway on other side</string>
     <string name="quest_cycleway_boolean_title">Is there any cycleway, bicycle road markings or any special rules for bicycles? Yes for contraflow without lane, no for missing bicycle infrastructure, hide otherwise.</string>
     <string name="need_specify_both_sides">You need to specify both sides</string>
+    <string name="quest_cycleway_disabled">disabled due to https://github.com/westnordost/StreetComplete/issues/746</string>
 </resources>
