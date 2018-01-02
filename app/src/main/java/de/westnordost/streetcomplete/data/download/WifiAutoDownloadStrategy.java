@@ -28,7 +28,7 @@ public class WifiAutoDownloadStrategy extends AActiveRadiusStrategy
 
 	@Override public int getQuestTypeDownloadCount()
 	{
-		return 7;
+		return 1000;
 	}
 
 	@Override protected int getMinQuestsInActiveRadiusPerKm2()
