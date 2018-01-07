@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import de.westnordost.osmapi.map.data.BoundingBox;
 import de.westnordost.osmapi.map.data.Element;
 import de.westnordost.streetcomplete.R;
+import de.westnordost.streetcomplete.data.osm.Countries;
 import de.westnordost.streetcomplete.data.osm.ElementGeometry;
 import de.westnordost.streetcomplete.data.osm.OsmElementQuestType;
 import de.westnordost.streetcomplete.data.osm.download.MapDataWithGeometryHandler;
@@ -154,7 +155,7 @@ public class AddRoadName implements OsmElementQuestType
 		return result;
 	}
 
-	@Override public boolean appliesTo(Element element)
+	@Override public Boolean isApplicableTo(Element element)
 	{
 		return ROADS_WITHOUT_NAMES_TFE.matches(element);
 	}
@@ -163,20 +164,15 @@ public class AddRoadName implements OsmElementQuestType
 	@Override public int getIcon() { return R.drawable.ic_quest_street_name; }
 	@Override public int getTitle() { return R.string.quest_streetName_title; }
 
-	@Override
-	public int getDefaultDisabledMessage() {
-		return 0;
-	}
-
 	@Override public int getTitle(Map<String,String> tags) { return getTitle(); }
 
-	@Override
-	public String[] getDisabledForCountries() {
-		return new String[0];
-	}
 
 	@Override
 	public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
 		return "";
 	}
+
+	@Override public int getDefaultDisabledMessage() { return 0; }
+	@Override public Countries getEnabledForCountries() { return Countries.ALL; }
+
 }

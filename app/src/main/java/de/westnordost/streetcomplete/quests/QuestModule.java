@@ -56,6 +56,7 @@ import de.westnordost.streetcomplete.quests.sport.AddSport;
 import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessPublicTransport;
+import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessToilets;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessBusiness;
 
 @Module
@@ -67,16 +68,13 @@ public class QuestModule
 			PutRoadNameSuggestionsHandler putRoadNameSuggestionsHandler)
 	{
 		QuestType[] questTypesOrderedByImportance = {
-				// ↓ 1. notes
 				osmNoteQuestType,
-				// ↓ may be shown as missing in QA tools
 				new multidesignatedFootwayToPath(o), //my own quest
                 new ShowFixme(o), //my own quest
 				new ShowInvalidSurface(o), //my own quest
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
 				new AddBikeParkingType(o), //my own quest
-				// ↓ may be shown as possibly missing in QA tools
 				new AddParkingAccess(o), //my own quest
 				// new AddPlaceName(o), doesn't make sense as long as the app cannot tell the generic name of elements
 				new AddRoadSurface(o),
@@ -84,12 +82,12 @@ public class QuestModule
 				new DetailUnpavedRoadSurface(o), //my own quest
 				new DetailUnpavedPathSurface(o), //my own quest
 				new DetailPavedPathSurface(o), //my own quest
-				new AddMaxSpeed(o),
-				// ↓ useful data that is used by some data consumers
+				new AddMaxSpeed(o), // should best be after road surface because it excludes unpaved roads
 				new AddOrchardProduce(o),
 				new AddWheelChairAccessPublicTransport(o),
 				new AddWheelchairAccessBusiness(o),
 				new AddToiletAvailability(o),
+				new AddWheelChairAccessToilets(o),
 				new AddBusStopShelter(o), // at least OsmAnd
 				new AddTactilePavingBusStop(o),
 				new AddToiletsFee(o),

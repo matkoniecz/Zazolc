@@ -211,7 +211,7 @@ To display the map, vector tiles are retrieved from the &lt;a href=\"https://map
     <string name="quest_maxspeed_answer_noSign">"There is no sign"</string>
     <string name="quest_maxspeed_answer_noSign_confirmation_title">"Are you sure no limit is posted?"</string>
     <string name="quest_maxspeed_answer_noSign_confirmation">"Did you check at the ends of the street?
-If there are no signs, default speed limits apply."</string>
+If there are no signs along the whole street which apply for the highlighted section, default speed limits apply."</string>
     <string name="quest_maxspeed_answer_noSign_confirmation_positive">"Yes, no sign"</string>
 
     <string name="quest_maxspeed_answer_noSign_info_urbanOrRural">"Where is this street?"</string>
@@ -305,10 +305,12 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_sport_roller_skating">Roller Skating</string>
     <string name="quest_wheelchairAccess_name_title">Is “%s” wheelchair accessible?</string>
     <string name="quest_wheelchairAccess_bus_station_title">Is this bus station wheelchair accessible?</string>
+    <string name="quest_wheelchairAccess_toilets_title">Are these toilets wheelchair accessible?</string>
     <string name="quest_wheelchairAccess_subway_entrance_title">Is this subway entrance wheelchair accessible?</string>
     <string name="quest_wheelchairAccess_railway_station_title">Is this railway station wheelchair accessible?</string>
     <string name="quest_wheelchairAccess_location_title">Is this location wheelchair accessible?</string>
     <string name="quest_wheelchairAccess_bus_station_name_title">Is the bus station “%s” wheelchair accessible?</string>
+    <string name="quest_wheelchairAccess_toilets_name_title">Are the toilets “%s” wheelchair accessible?</string>
     <string name="quest_wheelchairAccess_subway_entrance_name_title">Is the subway entrance “%s” wheelchair accessible?</string>
     <string name="quest_wheelchairAccess_railway_station_name_title">Is the railway station “%s” wheelchair accessible?</string>
     <string name="quest_wheelchairAccess_location_name_title">Is the location “%s” wheelchair accessible?</string>
@@ -319,6 +321,8 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="fixme_title">fixme=%1$s</string>
     <string name="show_invalid_surface_failed_title">something went wrong</string>
     <string name="show_invalid_surface_title">surface=%1$s</string>
+    <string name="quest_wheelchairAccess_description_toilets">A wheelchair sign like this might be visible if the toilets are accessible.
+    Partially means that a wheelchair can enter and use the toilets, but no handrail or adapted hand basin is present.</string>
     <string name="quest_recycling_type_title">What type of recycling facility is this?</string>
     <string name="recycling_centre">Centre</string>
     <string name="overground_recycling_container">Container</string>
@@ -470,4 +474,6 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_cycleway_answer_contraflow_cycleway">Also cycleway on other side</string>
     <string name="quest_cycleway_boolean_title">Is there any cycleway, bicycle road markings or any special rules for bicycles? Yes for contraflow without lane, no for missing bicycle infrastructure, hide otherwise.</string>
     <string name="need_specify_both_sides">You need to specify both sides</string>
+    <string name="quest_openingHours_emptyAnswer">You need to describe what is on the sign. If there is no sign, you should ask for the opening hours inside.</string>
+    <string name="quest_cycleway_value_none_but_no_oneway">none, but cyclists may use road in both directions</string>
 </resources>
