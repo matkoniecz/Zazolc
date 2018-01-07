@@ -40,7 +40,7 @@ public class AddPowerPolesMaterial extends SimpleOverpassQuestType
 			changes.add("material", values.get(0));
 		}
 	}
-
+	@Override public int getDefaultDisabledMessage() { return R.string.default_disabled_msg_boring; }
 	@Override public String getCommitMessage() { return "Add powerpoles material type"; }
 	@Override public int getIcon() { return R.drawable.ic_quest_power; }
 	@Override public int getTitle(@NonNull Map<String, String> tags)
