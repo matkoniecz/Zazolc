@@ -30,11 +30,6 @@ import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
 import de.westnordost.streetcomplete.quests.road_name.data.PutRoadNameSuggestionsHandler;
 import de.westnordost.streetcomplete.quests.road_name.data.RoadNameSuggestionsDao;
-import de.westnordost.streetcomplete.quests.road_surface.AddServiceRoadSurface;
-import de.westnordost.streetcomplete.quests.road_surface.DetailPavedPathSurface;
-import de.westnordost.streetcomplete.quests.road_surface.DetailPavedServiceRoadSurface;
-import de.westnordost.streetcomplete.quests.road_surface.DetailUnpavedPathSurface;
-import de.westnordost.streetcomplete.quests.road_surface.DetailUnpavedServiceRoadSurface;
 import de.westnordost.streetcomplete.quests.separate_sidewalk.AddWaySidewalk;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
@@ -47,9 +42,6 @@ import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed;
 import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess;
 import de.westnordost.streetcomplete.quests.road_name.AddRoadName;
 import de.westnordost.streetcomplete.quests.road_surface.AddRoadSurface;
-import de.westnordost.streetcomplete.quests.road_surface.DetailPavedRoadSurface;
-import de.westnordost.streetcomplete.quests.road_surface.DetailUnpavedRoadSurface;
-import de.westnordost.streetcomplete.quests.road_surface.ShowInvalidSurface;
 import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape;
 import de.westnordost.streetcomplete.quests.show_fixme.ShowFixme;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
@@ -71,17 +63,12 @@ public class QuestModule
 				osmNoteQuestType,
 				new multidesignatedFootwayToPath(o), //my own quest
                 new ShowFixme(o), //my own quest
-				new ShowInvalidSurface(o), //my own quest
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
 				new AddBikeParkingType(o), //my own quest
 				new AddParkingAccess(o), //my own quest
 				// new AddPlaceName(o), doesn't make sense as long as the app cannot tell the generic name of elements
 				new AddRoadSurface(o),
-				new DetailPavedRoadSurface(o), //my own quest
-				new DetailUnpavedRoadSurface(o), //my own quest
-				new DetailUnpavedPathSurface(o), //my own quest
-				new DetailPavedPathSurface(o), //my own quest
 				new AddMaxSpeed(o), // should best be after road surface because it excludes unpaved roads
 				new AddOrchardProduce(o),
 				new AddWheelChairAccessPublicTransport(o),
@@ -92,9 +79,6 @@ public class QuestModule
 				new AddTactilePavingBusStop(o),
 				new AddToiletsFee(o),
 				new AddWayLit(o),
-				new AddServiceRoadSurface(o),
-				new DetailUnpavedServiceRoadSurface(o),
-				new DetailPavedServiceRoadSurface(o),
 				new AddBabyChangingTable(o),
 				new AddFireHydrantType(o),
 				new AddTreeLeafCycle(o), //my own quest

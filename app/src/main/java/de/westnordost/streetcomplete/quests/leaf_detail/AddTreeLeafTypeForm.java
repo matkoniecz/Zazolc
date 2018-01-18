@@ -9,14 +9,15 @@ import java.util.List;
 
 import de.westnordost.streetcomplete.R;
 import de.westnordost.streetcomplete.quests.ImageListQuestAnswerFragment;
+import de.westnordost.streetcomplete.view.Item;
 
 public class AddTreeLeafTypeForm extends ImageListQuestAnswerFragment
 {
 	protected static final int MORE_THAN_99_PERCENT_COVERED = 2;
 
-	private static final OsmItem[] LEAF_TYPES = new OsmItem[]{
-			new OsmItem("needleleaved", R.drawable.leaf_type_needleleaved, R.string.quest_treeLeaf_needleleaved_answer),
-			new OsmItem("broadleaved", R.drawable.leaf_type_broadleaved, R.string.quest_treeLeaf_broadleaved_answer),
+	private static final Item[] LEAF_TYPES = new Item[]{
+			new Item("needleleaved", R.drawable.leaf_type_needleleaved, R.string.quest_treeLeaf_needleleaved_answer),
+			new Item("broadleaved", R.drawable.leaf_type_broadleaved, R.string.quest_treeLeaf_broadleaved_answer),
 	};
 
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,7 +39,7 @@ public class AddTreeLeafTypeForm extends ImageListQuestAnswerFragment
 		return MORE_THAN_99_PERCENT_COVERED;
 	}
 
-	@Override protected OsmItem[] getItems()
+	@Override protected Item[] getItems()
 	{
 		return LEAF_TYPES;
 	}

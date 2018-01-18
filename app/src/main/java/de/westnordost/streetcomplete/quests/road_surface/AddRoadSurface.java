@@ -15,14 +15,22 @@ import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
 
 public class AddRoadSurface extends SimpleOverpassQuestType
 {
-	public AddRoadSurface(OverpassMapDataDao overpassServer) {
-		super(overpassServer);
-	}
+	// well, all roads have surfaces, what I mean is that not all ways with highway key are
+	// "something with a surface"
+	private static final String[] ROADS_WITH_SURFACES = {
+			// "trunk","trunk_link","motorway","motorway_link", // too much, motorways are almost by definition asphalt (or concrete)
+			"primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link",
+			"unclassified", "residential", "living_street", "pedestrian",
+			"track", "road",
+			/*"service", */ // this is too much, and the information value is very low
+	};
+
+	@Inject public AddRoadSurface(OverpassMapDataDao overpassServer) { super(overpassServer); }
 
 	@Override protected String getTagFilters()
 	{
-		return " ways with highway ~ " + TextUtils.join("|", RoadSurfaceConfig.ROADS_WITH_SURFACES) + " and" +
-				" !surface and (access !~ private|no or (foot and foot !~ private|no))";
+		return " ways with highway ~ " + TextUtils.join("|",ROADS_WITH_SURFACES) + " and" +
+			   " !surface and (access !~ private|no or (foot and foot !~ private|no))";
 	}
 
 	public AbstractQuestAnswerFragment createForm()
@@ -35,7 +43,7 @@ public class AddRoadSurface extends SimpleOverpassQuestType
 		changes.add("surface", answer.getString(AddRoadSurfaceForm.SURFACE));
 	}
 
-	@Override public String getCommitMessage() { return "Add highway=* surfaces"; }
+	@Override public String getCommitMessage() { return "Add road surfaces"; }
 	@Override public int getIcon() { return R.drawable.ic_quest_street_surface; }
 	@Override public int getTitle(Map<String, String> tags)
 	{
