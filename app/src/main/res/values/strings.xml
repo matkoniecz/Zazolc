@@ -79,7 +79,7 @@
     <string name="action_about">"About Zażółć"</string>
     <string name="about_title_version">"Version"</string>
     <string name="about_title_authors">"Credits"</string>
-    <string name="about_summary_authors">"© 2016–2017 Tobias Zwick and contributors"</string>
+    <string name="about_summary_authors">"© 2016–2018 Tobias Zwick and contributors"</string>
     <string name="about_title_repository">"Source Repository"</string>
     <string name="about_summary_repository">"on GitHub"</string>
     <string name="about_title_report_error">"Report error"</string>
@@ -93,12 +93,12 @@
     <string name="no_gps_no_quests">"To scan for quests around you automatically, turn on location"</string>
     <string name="nothing_more_to_download">"No further quests available"</string>
     <string name="later">"Later"</string>
-    <string name="quest_streetName_answer_noProperStreet">"Not a proper street"</string>
-    <string name="quest_streetName_answer_noProperStreet_question">"What is it then?"</string>
+    <string name="quest_streetName_answer_noName_question">"Why does it have no name?"</string>
     <string name="quest_streetName_answer_noProperStreet_link">"it just links two roads"</string>
-    <string name="quest_streetName_answer_noProperStreet_service">"It is just a service road"</string>
+    <string name="quest_streetName_answer_noProperStreet_service2">"It is something like a driveway or parking aisle"</string>
     <string name="quest_streetName_answer_noProperStreet_leaveNote">"Something else (leave note)"</string>
-    <string name="quest_streetName_answer_noProperStreet_track">"It is just a track"</string>
+    <string name="quest_streetName_answer_noProperStreet_track2">"It is an agricultural or forestry road"</string>
+    <string name="quest_streetName_answer_noName_noname">None of the above, it simply has no name</string>
     <string name="about_title_privacy_statement">"Privacy Statement"</string>
     <string name="about_summary_privacy_statement">"and Data Usage"</string>
     <string name="quest_openingHours_public_holidays">"Public Holidays"</string>
@@ -220,7 +220,7 @@ If there are no signs along the whole street which apply for the highlighted sec
     <string name="quest_maxspeed_answer_noSign_ruralOk">"Rural"</string>
     <string name="quest_maxspeed_answer_noSign_info_zone">"If there is a sign like this at the main street intersection, you won't find individual signs within the zone because the speed limit posted there applies to the whole zone."</string>
     <string name="quest_cyclewaySurface_title">"What surface does the cycleway here have?"</string>
-    <string name="quest_cycleway_title">"Is there a cycleway in this street?"</string>
+    <string name="quest_cycleway_title2">"Is there a cycleway here? What type?"</string>
     <string name="quest_buildingType_title">"What kind of building is this?"</string>
     <string name="quest_serviceType_title">"What kind of service road is this?"</string>
     <string name="quest_streetLanes_title">"How many lanes does this road have?"</string>

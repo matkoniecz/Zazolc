@@ -113,12 +113,10 @@ public class MainActivity extends AppCompatActivity implements
 	private QuestsMapFragment mapFragment;
 	private Location lastLocation;
 
-	private Long clickedQuestId = null;
-	private QuestGroup clickedQuestGroup = null;
-
 	private ProgressBar progressBar;
 
 	private float mapRotation, mapTilt;
+	private boolean isFollowingPosition;
 
 	private boolean downloadServiceIsBound;
 	private QuestDownloadService.Interface downloadService;
@@ -603,6 +601,7 @@ public class MainActivity extends AppCompatActivity implements
 			f.onClickClose(() ->
 			{
 				mapFragment.removeQuestGeometry();
+				mapFragment.setIsFollowingPosition(isFollowingPosition);
 				MainActivity.super.onBackPressed();
 			});
 		}
@@ -708,18 +707,13 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	@AnyThread @Override
-	public synchronized void onQuestCreated(final Quest quest, final QuestGroup group, final Element element)
+	public synchronized void onQuestSelected(final Quest quest, final QuestGroup group, final Element element)
 	{
-		if (clickedQuestId != null && quest.getId().equals(clickedQuestId) && group == clickedQuestGroup)
+		runOnUiThread(() ->
 		{
-			runOnUiThread(() -> requestShowQuestDetails(quest, group, element));
-			clickedQuestId = null;
-			clickedQuestGroup = null;
-		}
-		else if (isQuestDetailsCurrentlyDisplayedFor(quest.getId(), group))
-		{
-			runOnUiThread(() -> mapFragment.addQuestGeometry(quest.getGeometry()));
-		}
+			showQuestDetails(quest, group, element);
+			mapFragment.addQuestGeometry(quest.getGeometry());
+		});
 	}
 
 	@AnyThread @Override
@@ -751,6 +745,8 @@ public class MainActivity extends AppCompatActivity implements
 			if (!isQuestDetailsCurrentlyDisplayedFor(questId, group)) continue;
 
 			runOnUiThread(this::closeBottomSheet);
+			questController.retrieveNextAt(questId, group);
+
 			break;
 		}
 
@@ -778,6 +774,7 @@ public class MainActivity extends AppCompatActivity implements
 
 		getSupportFragmentManager().popBackStackImmediate(BOTTOM_SHEET, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
+		mapFragment.setIsFollowingPosition(isFollowingPosition);
 		mapFragment.removeQuestGeometry();
 	}
 
@@ -787,20 +784,6 @@ public class MainActivity extends AppCompatActivity implements
 		return currentFragment != null
 				&& currentFragment.getQuestId() == questId
 				&& currentFragment.getQuestGroup() == group;
-	}
-
-	@UiThread private void requestShowQuestDetails(final Quest quest, final QuestGroup group,
-											final Element element)
-	{
-		if (isQuestDetailsCurrentlyDisplayedFor(quest.getId(), group)) return;
-
-		AbstractBottomSheetFragment f = getBottomSheetFragment();
-		if (f != null)
-		{
-			f.onClickClose(() -> showQuestDetails(quest, group, element));
-		} else {
-			showQuestDetails(quest, group, element);
-		}
 	}
 
 	@UiThread private void showQuestDetails(final Quest quest, final QuestGroup group,
@@ -831,6 +814,9 @@ public class MainActivity extends AppCompatActivity implements
 
 	private void showInBottomSheet(Fragment f)
 	{
+		isFollowingPosition = mapFragment.isFollowingPosition();
+		mapFragment.setIsFollowingPosition(false);
+
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.setCustomAnimations(
 				R.animator.quest_answer_form_appear, R.animator.quest_answer_form_disappear,
@@ -871,9 +857,17 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override public synchronized void onClickedQuest(QuestGroup questGroup, Long questId)
 	{
-		clickedQuestId = questId;
-		clickedQuestGroup = questGroup;
-		questController.retrieve(questGroup, questId);
+		if (isQuestDetailsCurrentlyDisplayedFor(questId, questGroup)) return;
+
+		AbstractBottomSheetFragment f = getBottomSheetFragment();
+		if (f != null)
+		{
+			f.onClickClose(() -> questController.retrieve(questGroup, questId));
+		}
+		else
+		{
+			questController.retrieve(questGroup, questId);
+		}
 	}
 
 	@Override public void onClickedMapAt(@Nullable LatLon position)
