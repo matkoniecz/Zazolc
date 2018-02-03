@@ -42,9 +42,4 @@ public class AddVegetarian extends SimpleOverpassQuestType
 	{
 		return R.string.quest_dietType_vegetarian_name_title;
 	}
-
-	@Override public int getDefaultDisabledMessage()
-	{
-		return R.string.default_disabled_msg_go_inside;
-	}
 }
