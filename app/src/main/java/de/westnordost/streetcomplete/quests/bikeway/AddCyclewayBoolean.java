@@ -1,6 +1,7 @@
 package de.westnordost.streetcomplete.quests.bikeway;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import java.util.Map;
 
@@ -31,10 +32,9 @@ public class AddCyclewayBoolean extends AddCycleway {
         }
     }
 
-    @Override public int getTitle(Map<String,String> tags)
-    {
-        return R.string.quest_cycleway_boolean_title;
-    }
+    @Override public int getTitle(@NonNull Map<String, String> tags) { return getTitle(); }
+
+    @Override public int getTitle() { return R.string.quest_cycleway_boolean_title; }
 
     @Override public int getDefaultDisabledMessage() { return 0; }
 }
