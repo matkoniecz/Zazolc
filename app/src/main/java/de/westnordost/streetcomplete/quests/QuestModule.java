@@ -63,6 +63,7 @@ public class QuestModule
 				osmNoteQuestType,
 				new multidesignatedFootwayToPath(o), //my own quest
                 new AddCyclewayBoolean(o), //my own quest, disabled by default but after enabling should be a top one
+                new AddWayLit(o), //frequent enable/disable cycle (enable for night)
                 new ShowFixme(o), //my own quest
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
@@ -79,7 +80,6 @@ public class QuestModule
 				new AddBusStopShelter(o), // at least OsmAnd
 				new AddTactilePavingBusStop(o),
 				new AddToiletsFee(o),
-				new AddWayLit(o),
 				new AddBabyChangingTable(o),
 				new AddFireHydrantType(o),
 				new AddTreeLeafCycle(o), //my own quest
