@@ -24,6 +24,7 @@ import de.westnordost.streetcomplete.quests.diet_type.AddVegan;
 import de.westnordost.streetcomplete.quests.diet_type.AddVegetarian;
 import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType;
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours;
+import de.westnordost.streetcomplete.quests.internet_access.AddInternetAccess;
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial;
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
@@ -86,6 +87,7 @@ public class QuestModule
 				new AddTreeLeafType(o), //my own quest
 				new AddParkingType(o),
                 //boring
+                new AddInternetAccess(o),
 				new AddCycleway(o), //reduced importance
 				new AddCrossingType(o), //reduced importance
 				new AddTactilePavingCrosswalk(o), //reduced importance
