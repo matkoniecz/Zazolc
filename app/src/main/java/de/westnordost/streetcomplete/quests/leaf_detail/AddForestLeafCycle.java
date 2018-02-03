@@ -14,41 +14,36 @@ import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
 
-public class AddTreeLeafType extends SimpleOverpassQuestType
-{
-	@Inject public AddTreeLeafType(OverpassMapDataDao overpassServer)
-	{
+public class AddForestLeafCycle extends SimpleOverpassQuestType {
+	@Inject
+	public AddForestLeafCycle(OverpassMapDataDao overpassServer) {
 		super(overpassServer);
 	}
 
 	@Override
-	protected String getTagFilters()
-	{
-		return "nodes with natural=tree and !leaf_type";
+	protected String getTagFilters() {
+		return "ways, relations with (natural=wood or landuse=forest) and !leaf_cycle";
 	}
 
-	public AbstractQuestAnswerFragment createForm()
-	{
-        return new AddTreeLeafTypeForm();
+	public AbstractQuestAnswerFragment createForm() {
+		return new AddForestLeafCycleForm();
 	}
 
-	public void applyAnswerTo(Bundle answer, StringMapChangesBuilder changes)
-	{
-		ArrayList<String> values = answer.getStringArrayList(AddTreeLeafTypeForm.OSM_VALUES);
-		if(values != null  && values.size() == 1)
-		{
-			changes.add("leaf_type", values.get(0));
+	public void applyAnswerTo(Bundle answer, StringMapChangesBuilder changes) {
+		ArrayList<String> values = answer.getStringArrayList(AddForestLeafCycleForm.OSM_VALUES);
+		if (values != null && values.size() == 1) {
+			changes.add("leaf_cycle", values.get(0));
 		}
 	}
 
-	@Override public String getCommitMessage()
-	{
-		return "Add leaf_type";
+	@Override
+	public String getCommitMessage() {
+		return "Add leaf_cycle";
 	}
 
 	@Override
 	public int getTitle(@NonNull Map<String, String> tags) {
-		return R.string.quest_treeLeaf_title;
+		return R.string.quest_forestLeafCycle_title;
 	}
 
 	@Override public int getIcon() { return R.drawable.ic_quest_leaf; }

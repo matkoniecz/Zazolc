@@ -23,6 +23,7 @@ import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType;
 import de.westnordost.streetcomplete.quests.diet_type.AddVegan;
 import de.westnordost.streetcomplete.quests.diet_type.AddVegetarian;
 import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType;
+import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType;
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours;
 import de.westnordost.streetcomplete.quests.internet_access.AddInternetAccess;
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
@@ -37,8 +38,7 @@ import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCross
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability;
 import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
 import de.westnordost.streetcomplete.quests.housenumber.AddHousenumber;
-import de.westnordost.streetcomplete.quests.leaf_detail.AddTreeLeafCycle;
-import de.westnordost.streetcomplete.quests.leaf_detail.AddTreeLeafType;
+import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafCycle;
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed;
 import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess;
 import de.westnordost.streetcomplete.quests.road_name.AddRoadName;
@@ -83,8 +83,8 @@ public class QuestModule
 				new AddToiletsFee(o),
 				new AddBabyChangingTable(o),
 				new AddFireHydrantType(o),
-				new AddTreeLeafCycle(o), //my own quest
-				new AddTreeLeafType(o), //my own quest
+				new AddForestLeafCycle(o), //my own quest
+				new AddForestLeafType(o), //my own quest
 				new AddParkingType(o),
                 //boring
                 new AddInternetAccess(o),
