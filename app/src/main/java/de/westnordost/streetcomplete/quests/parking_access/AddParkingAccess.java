@@ -24,7 +24,7 @@ public class AddParkingAccess extends SimpleOverpassQuestType
 	@Override
 	protected String getTagFilters()
 	{
-		return "nodes, ways, relations with amenity=parking and !access";
+		return "nodes, ways, relations with amenity=parking and (!access or access=unknown)";
 	}
 
 	public AbstractQuestAnswerFragment createForm()
@@ -37,7 +37,7 @@ public class AddParkingAccess extends SimpleOverpassQuestType
 		ArrayList<String> values = answer.getStringArrayList(AddParkingAccessForm.OSM_VALUES);
 		if(values != null  && values.size() == 1)
 		{
-			changes.add("access", values.get(0));
+			changes.addOrModify("access", values.get(0));
 		}
 	}
 
