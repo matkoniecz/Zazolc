@@ -24,7 +24,9 @@ public class ShowFixme extends SimpleOverpassQuestType
 	@Override
 	protected String getTagFilters()
 	{
-		return "nodes, ways, relations with fixme and fixme!=continue and !fixme:requires_aerial_image";
+		return "nodes, ways, relations with fixme and fixme!=continue " +
+                "and !fixme:requires_aerial_image " +
+                "and !fixme:use_better_tagging_scheme ";
 	}
 
 	public AbstractQuestAnswerFragment createForm()

@@ -16,6 +16,7 @@ public class ShowFixmeForm extends TextListQuestAnswerFragment {
 
     private static final OsmItem[] REFUSAL_TYPES = new OsmItem[]{
             new OsmItem("fixme:requires_aerial_image", R.string.quest_ShowFixme_requiresAerial_answer),
+            new OsmItem("fixme:use_better_tagging_scheme", R.string.quest_ShowFixme_pure_taggery_answer),
             new OsmItem("fixme:solved", R.string.quest_ShowFixme_solved_answer),
     };
 
