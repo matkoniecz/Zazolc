@@ -62,6 +62,7 @@ public class QuestModule
 		QuestType[] questTypesOrderedByImportance = {
 				osmNoteQuestType,
 				new multidesignatedFootwayToPath(o), //my own quest
+                new AddCyclewayBoolean(o), //my own quest, disabled by default but after enabling should be a top one
                 new ShowFixme(o), //my own quest
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
@@ -85,7 +86,6 @@ public class QuestModule
 				new AddTreeLeafType(o), //my own quest
 				new AddParkingType(o),
                 //boring
-				new AddCyclewayBoolean(o), //my own quest
 				new AddCycleway(o), //reduced importance
 				new AddCrossingType(o), //reduced importance
 				new AddTactilePavingCrosswalk(o), //reduced importance
