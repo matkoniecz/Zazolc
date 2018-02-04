@@ -30,6 +30,7 @@ import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial;
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
+import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship;
 import de.westnordost.streetcomplete.quests.road_name.data.PutRoadNameSuggestionsHandler;
 import de.westnordost.streetcomplete.quests.road_name.data.RoadNameSuggestionsDao;
 import de.westnordost.streetcomplete.quests.separate_sidewalk.AddWaySidewalk;
@@ -64,6 +65,7 @@ public class QuestModule
 				osmNoteQuestType,
 				new multidesignatedFootwayToPath(o), //my own quest
                 new AddCyclewayBoolean(o), //my own quest, disabled by default but after enabling should be a top one
+                new AddReligionToPlaceOfWorship(o),
                 new AddWayLit(o), //frequent enable/disable cycle (enable for night)
                 new ShowFixme(o), //my own quest
 				new AddBikeParkingCapacity(o),
