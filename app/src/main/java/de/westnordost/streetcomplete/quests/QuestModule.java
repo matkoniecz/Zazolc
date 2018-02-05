@@ -65,9 +65,9 @@ public class QuestModule
 				osmNoteQuestType,
 				new multidesignatedFootwayToPath(o), //my own quest
                 new AddCyclewayBoolean(o), //my own quest, disabled by default but after enabling should be a top one
-                new AddReligionToPlaceOfWorship(o),
                 new AddWayLit(o), //frequent enable/disable cycle (enable for night)
                 new ShowFixme(o), //my own quest
+                new AddReligionToPlaceOfWorship(o),
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
 				new AddBikeParkingType(o), //my own quest
