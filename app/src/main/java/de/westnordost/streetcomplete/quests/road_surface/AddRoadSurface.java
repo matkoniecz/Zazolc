@@ -21,7 +21,7 @@ public class AddRoadSurface extends SimpleOverpassQuestType
 			// "trunk","trunk_link","motorway","motorway_link", // too much, motorways are almost by definition asphalt (or concrete)
 			"primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link",
 			"unclassified", "residential", "living_street", "pedestrian",
-			"track", "road",
+			"track", "road", "footway", "path", "cycleway",
 			/*"service", */ // this is too much, and the information value is very low
 	};
 
