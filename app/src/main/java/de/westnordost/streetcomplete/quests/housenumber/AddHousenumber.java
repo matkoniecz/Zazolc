@@ -2,6 +2,7 @@ package de.westnordost.streetcomplete.quests.housenumber;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -134,7 +135,7 @@ public class AddHousenumber implements OsmElementQuestType
 		}
 	}
 
-	@Override public Boolean isApplicableTo(Element element)
+	@Nullable @Override public Boolean isApplicableTo(Element element)
 	{
 		/* Whether this element applies to this quest cannot be determined by looking at that
 		   element alone (see download()), an Overpass query would need to be made to find this out.
@@ -150,19 +151,22 @@ public class AddHousenumber implements OsmElementQuestType
 	@Override public AbstractQuestAnswerFragment createForm() { return new AddHousenumberForm(); }
 	@Override public String getCommitMessage() { return "Add housenumbers"; }
 	@Override public int getIcon() { return R.drawable.ic_quest_housenumber; }
-	@Override public int getTitle(Map<String,String> tags) { return getTitle(); }
 
 	@Override
 	public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
 		return "";
 	}
 
+	@Override public int getTitle(@NonNull Map<String,String> tags) { return getTitle(); }
+
 	@Override public int getTitle() { return R.string.quest_address_title; }
 
 	@Override public int getDefaultDisabledMessage() { return 0; }
 
-	@Override public Countries getEnabledForCountries()
+	@NonNull @Override public Countries getEnabledForCountries()
 	{
+		// See overview here: https://ent8r.github.io/blacklistr/?java=housenumber/AddHousenumber.java
+
 		return Countries.allExcept(new String[]{
 				"NL", // https://forum.openstreetmap.org/viewtopic.php?id=60356
 				"DK", // https://lists.openstreetmap.org/pipermail/talk-dk/2017-November/004898.html

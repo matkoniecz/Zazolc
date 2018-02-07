@@ -2,6 +2,7 @@ package de.westnordost.streetcomplete.quests.bikeway;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.util.Map;
@@ -148,7 +149,7 @@ public class AddCycleway implements OsmElementQuestType
 		}
 	}
 
-	@Override public Boolean isApplicableTo(Element element)
+	@Nullable @Override public Boolean isApplicableTo(Element element)
 	{
 		/* Whether this element applies to this quest cannot be determined by looking at that
 		   element alone (see download()), an Overpass query would need to be made to find this out.
@@ -206,8 +207,10 @@ public class AddCycleway implements OsmElementQuestType
 
 	@Override public int getDefaultDisabledMessage() { return R.string.quest_cycleway_disabled; }
 
-	@Override public Countries getEnabledForCountries()
+	@NonNull @Override public Countries getEnabledForCountries()
 	{
+		// See overview here: https://ent8r.github.io/blacklistr/?java=bikeway/AddCycleway.java
+
 		// #749. sources:
 		// Google Street View (driving around in virtual car)
 		// https://en.wikivoyage.org/wiki/Cycling

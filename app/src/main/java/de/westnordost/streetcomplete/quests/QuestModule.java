@@ -16,6 +16,7 @@ import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCov
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType;
 import de.westnordost.streetcomplete.quests.bikeway.AddCycleway;
 import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBoolean;
+import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure;
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType;
@@ -26,11 +27,14 @@ import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType;
 import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType;
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours;
 import de.westnordost.streetcomplete.quests.internet_access.AddInternetAccess;
+import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess;
+import de.westnordost.streetcomplete.quests.parking_fee.AddParkingFee;
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial;
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship;
+import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine;
 import de.westnordost.streetcomplete.quests.road_name.data.PutRoadNameSuggestionsHandler;
 import de.westnordost.streetcomplete.quests.road_name.data.RoadNameSuggestionsDao;
 import de.westnordost.streetcomplete.quests.separate_sidewalk.AddWaySidewalk;
@@ -51,6 +55,7 @@ import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessPublicTransport;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessToilets;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessBusiness;
+import de.westnordost.streetcomplete.quests.bench_backrest.AddBenchBackrest;
 
 @Module
 public class QuestModule
@@ -66,10 +71,12 @@ public class QuestModule
                 new AddCyclewayBoolean(o), //my own quest, disabled by default but after enabling should be a top one
                 new AddWayLit(o), //frequent enable/disable cycle (enable for night)
                 new ShowFixme(o), //my own quest
-                new AddReligionToPlaceOfWorship(o),
+				new AddBikeParkingType(o), //my own quest
+				new AddForestLeafCycle(o), //my own quest
+				new AddForestLeafType(o), //my own quest
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
-				new AddBikeParkingType(o), //my own quest
+				new AddReligionToPlaceOfWorship(o),
 				// new AddPlaceName(o), doesn't make sense as long as the app cannot tell the generic name of elements
 				new AddRoadSurface(o),
 				new AddMaxSpeed(o), // should best be after road surface because it excludes unpaved roads
@@ -77,15 +84,18 @@ public class QuestModule
 				new AddWheelChairAccessPublicTransport(o),
 				new AddWheelchairAccessBusiness(o),
 				new AddToiletAvailability(o),
+				new AddBridgeStructure(o),
 				new AddWheelChairAccessToilets(o),
 				new AddBusStopShelter(o), // at least OsmAnd
 				new AddTactilePavingBusStop(o),
+				new AddReligionToWaysideShrine(o),
 				new AddToiletsFee(o),
 				new AddBabyChangingTable(o),
 				new AddFireHydrantType(o),
-				new AddForestLeafCycle(o), //my own quest
-				new AddForestLeafType(o), //my own quest
+				new AddParkingAccess(o),
+				new AddParkingFee(o),
 				new AddParkingType(o),
+
                 //boring
                 new AddInternetAccess(o),
 				new AddCycleway(o), //reduced importance
@@ -103,6 +113,7 @@ public class QuestModule
 				new AddVegan(o), //reduced importance
 				new AddWaySidewalk(o), //my own quest
 				new AddCarWashType(o),
+				new AddBenchBackrest(o),
 		};
 
 		return new QuestTypeRegistry(Arrays.asList(questTypesOrderedByImportance));
