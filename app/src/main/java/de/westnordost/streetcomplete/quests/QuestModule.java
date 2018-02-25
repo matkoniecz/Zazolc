@@ -13,6 +13,7 @@ import de.westnordost.streetcomplete.data.osmnotes.OsmNoteQuestType;
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable;
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity;
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover;
+import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType;
 import de.westnordost.streetcomplete.quests.bikeway.AddCycleway;
 import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBoolean;
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure;
@@ -71,6 +72,7 @@ public class QuestModule
 				new multidesignatedFootwayToPath(o), //my own quest
                 new AddCyclewayBoolean(o), //my own quest, disabled by default but after enabling should be a top one
                 new AddWayLit(o), //frequent enable/disable cycle (enable for night)
+				new AddBikeParkingType(o),
                 new ShowFixme(o), //my own quest
 				new AddForestLeafCycle(o), //my own quest
 				new AddForestLeafType(o), //my own quest
