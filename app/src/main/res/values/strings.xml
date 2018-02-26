@@ -268,7 +268,6 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_way_lit_title">"Is this stretch of way lit?"</string>
     <string name="quest_way_lit_named_title">"Is \"%s\" lit here?"</string>
     <string name="quest_way_lit_road_title">"Is this stretch of road lit?"</string>
-    <string name="quest_way_lit_named_road_title">"Is \"%s\" road lit here?"</string>
     <string name="quest_way_lit_automatic">"It uses motion detection"</string>
     <string name="quest_way_lit_24_7">"It's lit night and day"</string>
     <string name="quest_tactilePaving_title_bus">"Does this bus stop have tactile pavings?"</string>
@@ -334,7 +333,7 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_streetName_answer_cantType">"Can't type the characters on the sign"</string>
     <string name="quest_streetName_cantType_title">Missing keyboard layout?</string>
     <string name="quest_streetName_cantType_open_settings">Open settings</string>
-    <string name="quest_streetName_cantType_open_store">Open store</string>
+    <string name="quest_streetName_cantType_open_store">Visit app store</string>
     <string name="quest_streetName_cantType_description">"If you use a default keyboard, chances are that you can simply enable the keyboard layout for the language you need in the input method settings.
 
 Otherwise, you can download another keyboard in the app store. Popular keyboards that support many languages are Google Gboard, SwiftKey Keyboard and Multiling O Keyboard."</string>
@@ -422,8 +421,8 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_dietType_vegetarian_name_title">Does "%s" have vegetarian meals on the menu?</string>
     <string name="quest_dietType_vegan_name_title">Does "%s" have vegan meals on the menu?</string>
     <string name="quest_hasFeature_only">Only</string>
-    <string name="quest_dietType_explanation_vegan">Vegan meals contain no animal products (no meat, no milk products, no eggs, …).</string>
-    <string name="quest_dietType_explanation_vegetarian">Vegetarian meals contain no meat.</string>
+    <string name="quest_dietType_explanation_vegan">Vegan meals contain no animal products (no meat, fish, poultry, milk products, eggs, …).</string>
+    <string name="quest_dietType_explanation_vegetarian">Vegetarian meals contain no meat, fish or poultry.</string>
     <string name="quest_dietType_explanation">Only answer "yes" if the place provides proper eating options for this diet, ignore starters etc.</string>
     <string name="quest_toiletAvailability_name_title">Does "%s" have a toilet?</string>
     <string name="quest_powerPolesMaterial_title">What is the material of this power pole?</string>
@@ -520,4 +519,12 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_parking_access_private">It is private</string>
     <string name="quest_parking_access_yes">It is public (with or without fee)</string>
     <string name="quest_parking_access_customers">It is only for customers</string>
+    <string name="quest_streetName_pedestrian_title">What is the name of this pedestrian street?</string>
+    <string name="quest_streetSurface_square_title">"What surface does this square have?"</string>
+    <string name="quest_streetSurface_square_name_title">"What surface does the square \"%s\" have here?"</string>
+    <string name="quest_fee_answer_hours">Depends on time and day</string>
+    <string name="quest_fee_add_times">"Add times"</string>
+    <string name="quest_fee_only_at_hours">Yes, but only…</string>
+    <string name="quest_fee_not_at_hours">Yes, but not…</string>
+    <string name="quest_fee_hours_title">at the following times:</string>
 </resources>

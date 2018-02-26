@@ -172,7 +172,7 @@ public class AddCycleway implements OsmElementQuestType
 	private static String getOverpassQuery(BoundingBox bbox)
 	{
 		int d = MIN_DIST_TO_CYCLEWAYS;
-		return OverpassQLUtil.getOverpassBBox(bbox) +
+		return OverpassQLUtil.getGlobalOverpassBBox(bbox) +
 			"way[highway ~ \"^(primary|secondary|tertiary|unclassified|residential)$\"]" +
 			   "[area != yes]" +
 				// only without cycleway tags
@@ -225,8 +225,8 @@ public class AddCycleway implements OsmElementQuestType
 			// East Asia
 			"JP","KR","TW",
 			// some of China (East Coast)
-			"CN-11","CN-12","CN-37","CN-32","CN-31",
-			"CN-33","CN-35","CN-44","CN-50",
+			"CN-BJ","CN-TJ","CN-SD","CN-JS","CN-SH",
+			"CN-ZJ","CN-FJ","CN-GD","CN-CQ",
 			// Australia etc
 			"NZ","AU",
 			// some of Canada
