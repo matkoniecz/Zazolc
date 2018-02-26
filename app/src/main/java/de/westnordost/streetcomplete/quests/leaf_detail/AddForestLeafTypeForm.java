@@ -13,8 +13,6 @@ import de.westnordost.streetcomplete.view.Item;
 
 public class AddForestLeafTypeForm extends ImageListQuestAnswerFragment
 {
-	protected static final int MORE_THAN_99_PERCENT_COVERED = 2;
-
 	private static final Item[] LEAF_TYPES = new Item[]{
             new Item("needleleaved", R.drawable.leaf_type_needleleaved, R.string.quest_forestLeaf_needleleaved_answer),
             new Item("mixed", R.drawable.ic_arrow_drop_down_white_24dp, R.string.quest_forestLeaf_mixed_answer),
@@ -37,7 +35,7 @@ public class AddForestLeafTypeForm extends ImageListQuestAnswerFragment
 
 	@Override protected int getMaxNumberOfInitiallyShownItems()
 	{
-		return MORE_THAN_99_PERCENT_COVERED;
+		return LEAF_TYPES.length;
 	}
 
 	@Override protected Item[] getItems()
