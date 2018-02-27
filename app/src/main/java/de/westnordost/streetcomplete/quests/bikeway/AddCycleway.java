@@ -184,6 +184,7 @@ public class AddCycleway implements OsmElementQuestType
 			   "[surface !~ \"^("+ TextUtils.join("|", OsmTaggings.ANYTHING_UNPAVED)+")$\"]" +
 			   // not any explicitly tagged as no bicycles
 			   "[bicycle != no]" +
+			   "[access !~ \"^private|no$\"]" +
 			   " -> .streets;" +
 			"(" +
 			   "way[highway=cycleway](around.streets: "+d+");" +
@@ -206,6 +207,12 @@ public class AddCycleway implements OsmElementQuestType
 	@Override public int getTitle() { return R.string.quest_cycleway_title2; }
 
 	@Override public int getDefaultDisabledMessage() { return R.string.quest_cycleway_disabled; }
+
+	@NonNull
+	@Override
+	public String getQuestTitleSuffixHack() {
+		return "";
+	}
 
 	@NonNull @Override public Countries getEnabledForCountries()
 	{

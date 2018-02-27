@@ -1,5 +1,7 @@
 package de.westnordost.streetcomplete.data.osmnotes;
 
+import android.support.annotation.NonNull;
+
 import de.westnordost.streetcomplete.R;
 import de.westnordost.streetcomplete.data.QuestType;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
@@ -12,4 +14,10 @@ public class OsmNoteQuestType implements QuestType
 	@Override public int getTitle() { return R.string.quest_noteDiscussion_title; }
 
 	@Override public int getDefaultDisabledMessage() { return 0; }
+
+	@NonNull
+	@Override
+	public String getQuestTitleSuffixHack() {
+		return "";
+	}
 }

@@ -20,11 +20,7 @@ public class AddRoofShape extends SimpleOverpassQuestType
 
 	@Override protected String getTagFilters()
 	{
-		return " ways, relations with " +
-				" building ~ house|residential|apartments|detached|terrace|farm|hotel|dormitory|houseboat|" +
-				"school|civic|college|university|public|hospital|kindergarten|transportation|train_station|"+
-				"retail|commercial|warehouse|industrial|manufacture" +
-				" and !roof:shape";
+		return "ways, relations with roof:levels and roof:levels!=0 and !roof:shape and !3dr:type and !3dr:roof";
 	}
 
 	public AbstractQuestAnswerFragment createForm()
@@ -43,6 +39,7 @@ public class AddRoofShape extends SimpleOverpassQuestType
 
 	@Override public String getCommitMessage() { return "Add roof shapes"; }
 	@Override public int getIcon() { return R.drawable.ic_quest_roof_shape; }
+
 	@Override public int getTitle(@NonNull Map<String, String> tags)
 	{
 		return R.string.quest_roofShape_title;

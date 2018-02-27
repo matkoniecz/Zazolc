@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -87,9 +88,8 @@ public abstract class AbstractQuestAnswerFragment extends AbstractBottomSheetFra
 		View view = inflater.inflate(R.layout.fragment_quest_answer, container, false);
 
 		TextView title = view.findViewById(R.id.title);
-		String titleText = getResources().getString(getQuestTitleResId(), getElementName());
-		titleText += getQuestTitleSuffixHack();
-		title.setText(titleText);
+		Spanned titleText = QuestUtil.getHtmlTitle(getResources(), questType, osmElement);
+		title.setText(QuestUtil.getHtmlTitle(getResources(), questType, osmElement));
 
 		buttonPanel = view.findViewById(R.id.buttonPanel);
 		buttonOtherAnswers = buttonPanel.findViewById(R.id.buttonOtherAnswers);
@@ -147,16 +147,12 @@ public abstract class AbstractQuestAnswerFragment extends AbstractBottomSheetFra
 		questAnswerComponent.onAttach((OsmQuestAnswerListener) ctx);
 	}
 
-	private String getElementName()
-	{
-		return osmElement != null && osmElement.getTags() != null ? osmElement.getTags().get("name") : null;
-	}
 
 	protected final void onClickCantSay()
 	{
 		DialogFragment leaveNote = new LeaveNoteDialog();
 		Bundle leaveNoteArgs = questAnswerComponent.getArguments();
-		String questTitle = getEnglishResources().getString(getQuestTitleResId(), getElementName());
+		String questTitle = QuestUtil.getTitle(getEnglishResources(), questType, osmElement);
 		leaveNoteArgs.putString(LeaveNoteDialog.ARG_QUEST_TITLE, questTitle + getQuestTitleSuffixHack());
 		leaveNote.setArguments(leaveNoteArgs);
 		leaveNote.show(getActivity().getSupportFragmentManager(), null);
@@ -191,20 +187,6 @@ public abstract class AbstractQuestAnswerFragment extends AbstractBottomSheetFra
 			return ((OsmElementQuestType) questType).getTitleSuffixHack(tags);
 		}
 		return "";
-	}
-
-	protected int getQuestTitleResId()
-	{
-		if(questType instanceof OsmElementQuestType)
-		{
-			Map<String,String> tags = Collections.emptyMap();
-			if(osmElement != null && osmElement.getTags() != null)
-			{
-				tags = osmElement.getTags();
-			}
-			return ((OsmElementQuestType) questType).getTitle(tags);
-		}
-		return questType.getTitle();
 	}
 
 	protected final View setContentView(int resourceId)

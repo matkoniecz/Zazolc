@@ -57,4 +57,10 @@ public abstract class SimpleOverpassQuestType implements OsmElementQuestType
 	@Override public int getDefaultDisabledMessage() { return 0; }
 
 	@NonNull @Override public Countries getEnabledForCountries()	{ return Countries.ALL; }
+
+	@NonNull
+	@Override
+	public String getQuestTitleSuffixHack() {
+		return "";
+	}
 }

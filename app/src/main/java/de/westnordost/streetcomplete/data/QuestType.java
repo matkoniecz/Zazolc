@@ -1,5 +1,7 @@
 package de.westnordost.streetcomplete.data;
 
+import android.support.annotation.NonNull;
+
 import java.util.Map;
 
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
@@ -18,4 +20,7 @@ public interface QuestType
 	/** @return the string resource id that explains why this quest is disabled by default or zero
 	 *          if it is not disabled by default */
 	int getDefaultDisabledMessage();
+
+	@NonNull
+	String getQuestTitleSuffixHack();
 }
