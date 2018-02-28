@@ -208,12 +208,6 @@ public class AddCycleway implements OsmElementQuestType
 
 	@Override public int getDefaultDisabledMessage() { return R.string.quest_cycleway_disabled; }
 
-	@NonNull
-	@Override
-	public String getQuestTitleSuffixHack() {
-		return "";
-	}
-
 	@NonNull @Override public Countries getEnabledForCountries()
 	{
 		// See overview here: https://ent8r.github.io/blacklistr/?java=bikeway/AddCycleway.java

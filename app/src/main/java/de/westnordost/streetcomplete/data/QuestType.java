@@ -21,6 +21,5 @@ public interface QuestType
 	 *          if it is not disabled by default */
 	int getDefaultDisabledMessage();
 
-	@NonNull
-	String getQuestTitleSuffixHack();
+	String getTitleSuffixHack(@NonNull Map<String, String> tags);
 }

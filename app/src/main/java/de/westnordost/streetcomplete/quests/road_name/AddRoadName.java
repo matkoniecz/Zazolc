@@ -178,11 +178,5 @@ public class AddRoadName implements OsmElementQuestType
 
 	@Override public int getDefaultDisabledMessage() { return 0; }
 
-	@NonNull
-	@Override
-	public String getQuestTitleSuffixHack() {
-		return "";
-	}
-
 	@NonNull @Override public Countries getEnabledForCountries() { return Countries.ALL; }
 }

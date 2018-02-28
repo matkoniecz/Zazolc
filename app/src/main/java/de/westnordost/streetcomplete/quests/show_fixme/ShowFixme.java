@@ -55,12 +55,12 @@ public class ShowFixme extends SimpleOverpassQuestType
 
 	@Override
 	public int getTitle(@NonNull Map<String, String> tags) {
-		return R.string.empty;
+		return R.string.fixme_title;
 	}
 
 	@Override
 	public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
-		return "fixme=" + tags.get("fixme");
+		return tags.get("fixme");
 	}
 
 	@Override public int getIcon() { return R.drawable.ic_quest_notes; }

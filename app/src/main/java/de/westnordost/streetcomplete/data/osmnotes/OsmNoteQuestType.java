@@ -2,6 +2,8 @@ package de.westnordost.streetcomplete.data.osmnotes;
 
 import android.support.annotation.NonNull;
 
+import java.util.Map;
+
 import de.westnordost.streetcomplete.R;
 import de.westnordost.streetcomplete.data.QuestType;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
@@ -17,7 +19,7 @@ public class OsmNoteQuestType implements QuestType
 
 	@NonNull
 	@Override
-	public String getQuestTitleSuffixHack() {
+	public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
 		return "";
 	}
 }

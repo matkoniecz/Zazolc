@@ -255,12 +255,6 @@ public class AddHousenumber implements OsmElementQuestType
 
 	@Override public int getDefaultDisabledMessage() { return 0; }
 
-	@NonNull
-	@Override
-	public String getQuestTitleSuffixHack() {
-		return "";
-	}
-
 	@NonNull @Override public Countries getEnabledForCountries()
 	{
 		// See overview here: https://ent8r.github.io/blacklistr/?java=housenumber/AddHousenumber.java
