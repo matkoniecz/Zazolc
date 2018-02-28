@@ -68,6 +68,7 @@ public class QuestModule
 	{
 		QuestType[] questTypesOrderedByImportance = {
 				osmNoteQuestType,
+				new AddPlaceName(o), //works with my horrible hack
 				new multidesignatedFootwayToPath(o), //my own quest
                 new AddCyclewayBoolean(o), //my own quest, disabled by default but after enabling should be a top one
                 new AddWayLit(o), //frequent enable/disable cycle (enable for night)
@@ -78,7 +79,6 @@ public class QuestModule
 				new AddBikeParkingCapacity(o),
 				new AddBikeParkingCover(o),
 				new AddReligionToPlaceOfWorship(o),
-				new AddPlaceName(o), //works with my horrible hack
 				new AddRoadSurface(o),
 				new AddMaxSpeed(o), // should best be after road surface because it excludes unpaved roads
 				new AddOrchardProduce(o),
