@@ -3,8 +3,8 @@ package de.westnordost.streetcomplete.quests.place_name;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -91,17 +91,17 @@ public class AddPlaceName extends SimpleOverpassQuestType
 	@Override @NonNull
 	public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
 		String returned = "";
-		if(tags.get("shop") != null){
-			returned += "shop=" + tags.get("shop");
+		ArrayList<String> interestingTags = new ArrayList<>(OBJECTS_WITH_NAMES.keySet());
+		if (!interestingTags.contains("shop")){
+			interestingTags.add("shop");
 		}
-		if(tags.get("amenity") != null){
-			returned += "amenity=" + tags.get("amenity");
+		if (!interestingTags.contains("tourism")){
+			interestingTags.add("tourism");
 		}
-		if(tags.get("tourism") != null){
-			returned += "tourism=" + tags.get("tourism");
-		}
-		if(tags.get("leisure") != null){
-			returned += "leisure=" + tags.get("leisure");
+		for(String key: interestingTags){
+			if(tags.get(key) != null){
+				returned += key + "=" + tags.get(key);
+			}
 		}
 		return returned;
 	}
