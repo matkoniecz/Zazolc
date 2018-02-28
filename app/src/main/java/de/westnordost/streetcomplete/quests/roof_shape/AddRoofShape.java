@@ -44,4 +44,6 @@ public class AddRoofShape extends SimpleOverpassQuestType
 	{
 		return R.string.quest_roofShape_title;
 	}
+
+	@Override public int getDefaultDisabledMessage() { return R.string.default_disabled_msg_boring; }
 }

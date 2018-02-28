@@ -53,4 +53,6 @@ public class AddBuildingLevels extends SimpleOverpassQuestType
 		if(isBuildingPart) return R.string.quest_buildingLevels_title_buildingPart;
 		else               return R.string.quest_buildingLevels_title;
 	}
+
+	@Override public int getDefaultDisabledMessage() { return R.string.default_disabled_msg_boring; }
 }
