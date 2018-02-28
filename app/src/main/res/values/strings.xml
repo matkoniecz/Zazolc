@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="quest_cycleway_disabled">disabled due to https://github.com/westnordost/StreetComplete/issues/746</string>
-    <string name="default_disabled_msg_boring">Disabled as boring and worth effort to answer</string>
+    <string name="default_disabled_msg_boring">Disabled as boring and not worth effort to answer</string>
     <string name="action_settings">"Settings"</string>
     <string name="oauth_communication_error">"Unable to reach the authorization server"</string>
     <string name="loading">"Loading"</string>
