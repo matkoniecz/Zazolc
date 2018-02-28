@@ -82,4 +82,22 @@ public class AddPlaceName extends SimpleOverpassQuestType
 	{
 		return R.string.quest_placeName_title;
 	}
+
+	@Override @NonNull
+	public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
+		String returned = "";
+		if(tags.get("shop") != null){
+			returned += "shop=" + tags.get("shop");
+		}
+		if(tags.get("amenity") != null){
+			returned += "amenity=" + tags.get("amenity");
+		}
+		if(tags.get("tourism") != null){
+			returned += "tourism=" + tags.get("tourism");
+		}
+		if(tags.get("leisure") != null){
+			returned += "leisure=" + tags.get("leisure");
+		}
+		return returned;
+	}
 }
