@@ -56,12 +56,12 @@ sources:
     # there is a tradeoff: larger tiles have a lower number of duplicated names, smaller ones
     # have less broken geometries
     mapzen:
-        type: TopoJSON #GeoJSON, MVT, TopoJSON
-        url:  https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson
+        type: MVT #GeoJSON, TopoJSON, TopoJSON
+        url: https://tiles.map-data.de/vector/v1/all/{z}/{x}/{y}.mvt
         max_zoom: 20
     mapzen_names:
         type: MVT #GeoJSON, MVT, TopoJSON
-        url:  https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.mvt
+        url: https://tiles.map-data.de/vector/v1/all/{z}/{x}/{y}.mvt
         max_zoom: 20
         tile_size: 1024
 camera:
