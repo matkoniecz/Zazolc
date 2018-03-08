@@ -51,6 +51,7 @@ import de.westnordost.streetcomplete.quests.road_surface.AddRoadSurface;
 import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape;
 import de.westnordost.streetcomplete.quests.show_fixme.ShowFixme;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
+import de.westnordost.streetcomplete.quests.validator.AccessPublicToYes;
 import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessPublicTransport;
@@ -96,6 +97,7 @@ public class QuestModule
 				new AddParkingAccess(o),
 				new AddParkingFee(o),
 				new AddParkingType(o),
+				new AccessPublicToYes(o),
 
                 //boring
                 new AddInternetAccess(o),
