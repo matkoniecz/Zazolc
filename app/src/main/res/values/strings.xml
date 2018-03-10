@@ -278,20 +278,12 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_tactilePaving_title_name_bus">"Does the bus stop %s have tactile pavings?"</string>
     <string name="quest_bicycleParkingCoveredStatus_title">"Is this bicycle parking covered (protected from rain)?"</string>
     <string name="dialog_session_dont_show_again">Don\'t show again for this session</string>
-    <string name="quest_bicycleParkingType_title">What is the bicycle parking type?</string>
-    <string name="quest_bicycleParkingType_stand_answer">Stand against which you can lean your entire bicycle. Makes it possible to lock the frame and a wheel to it.</string>
-    <string name="quest_bicycleParkingType_wall_loop_answer">Secures only the front wheel (or possibly back wheel).</string>
-    <string name="quest_parkingAccess_yes_answer">Available to anybody (may be paid or free)</string>
-    <string name="quest_parkingAccess_private_answer">Private parking</string>
-    <string name="quest_parkingAccess_customers_answer">Customers</string>
-    <string name="quest_parkingAccess_title">Who can use the parking?</string>
     <string name="quest_ShowFixme_requiresAerial_answer">fixme best solved with aerial image rather than survey</string>
     <string name="quest_ShowFixme_solved_answer">fixme is outdated now and may be removed</string>
     <string name="quest_forestLeaf_evergreen_answer">Plants that are never leafless.</string>
     <string name="quest_forestLeaf_decidous_answer">Plants that are leafless for a certain period during the year.</string>
     <string name="quest_forestLeaf_mixed_answer">Mixed</string>
     <string name="quest_forestLeafCycle_title">What is the lifecycle of trees in this tree-covered area?</string>
-    <string name="quest_forestLeaf_semievergreen_answer">Plants that lose most, but not all, of their foliage for a fraction of the year.</string>
     <string name="quest_forestLeaf_semi_deciduous_answer">Plants that lose their foliage for a very short period, when old leaves fall off and new foliage growth is starting.</string>
     <string name="quest_forestLeaf_needleleaved_answer">needleleaved</string>
     <string name="quest_forestLeaf_broadleaved_answer">broadleaved</string>
@@ -318,9 +310,7 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_wheelchairAccess_limited">Partially</string>
     <string name="quest_wheelchairAccess_limited_description_business">Partially means that there is no more than a single step to access the business and that most rooms inside are wheelchair accessible.</string>
     <string name="quest_wheelchairAccess_limited_description_public_transport">Partially means that there is no more than a single step to access it.</string>
-    <string name="fixme_title_on_missing_fixme_text">fixme went wrong</string>
     <string name="fixme_title">fixme=</string>
-    <string name="show_invalid_surface_failed_title">something went wrong</string>
     <string name="show_invalid_surface_title">surface=%1$s</string>
     <string name="quest_wheelchairAccess_description_toilets">A wheelchair sign like this might be visible if the toilets are accessible.
     Partially means that a wheelchair can enter and use the toilets, but no handrail or adapted hand basin is present.</string>
@@ -435,7 +425,6 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_address_house_name_label">House name:</string>
     <string name="quest_buildingLevels_roofLevelsLabel2">levels in the roof</string>
     <string name="quest_buildingLevels_levelsLabel2">regular levels (not counting the roof)</string>
-    <string name="empty"/>>
     <string name="quest_cycleway_value_track">cycle track</string>
     <string name="quest_cycleway_value_lane">cycle lane</string>
     <string name="quest_cycleway_value_lane_soft">cycle lane (dashed markings)</string>
