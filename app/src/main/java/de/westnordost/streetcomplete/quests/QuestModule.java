@@ -69,7 +69,6 @@ public class QuestModule
 	{
 		QuestType[] questTypesOrderedByImportance = {
 				osmNoteQuestType,
-				new AddPlaceName(o), //works with my horrible hack
 				new multidesignatedFootwayToPath(o), //my own quest
                 new AddCyclewayBoolean(o), //my own quest, disabled by default but after enabling should be a top one
                 new AddWayLit(o), //frequent enable/disable cycle (enable for night)
@@ -98,6 +97,7 @@ public class QuestModule
 				new AddParkingFee(o),
 				new AddParkingType(o),
 				new AccessPublicToYes(o),
+				new AddPlaceName(o), //works with my horrible hack
 
                 //boring
                 new AddInternetAccess(o),
