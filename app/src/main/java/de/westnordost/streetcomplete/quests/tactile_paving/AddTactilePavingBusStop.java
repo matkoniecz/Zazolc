@@ -38,6 +38,7 @@ public class AddTactilePavingBusStop extends SimpleOverpassQuestType
 		changes.add("tactile_paving", yesno);
 	}
 
+	@Override public int getDefaultDisabledMessage() { return R.string.default_disabled_msg_boring; }
 	@Override public String getCommitMessage() { return "Add tactile pavings on bus stops"; }
 	@Override public int getIcon() { return R.drawable.ic_quest_blind_bus; }
 	@Override public int getTitle(@NonNull Map<String,String> tags)
