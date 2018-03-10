@@ -39,6 +39,7 @@ public class AddBenchBackrest extends SimpleOverpassQuestType
 		}
 	}
 
+	@Override public int getDefaultDisabledMessage() { return R.string.default_disabled_msg_boring; }
 	@Override public String getCommitMessage() { return "Add backrest information to benches"; }
 	@Override public int getIcon() { return R.drawable.ic_quest_bench; }
 	@Override public int getTitle(Map<String, String> tags) { return R.string.quest_bench_backrest_title; }
