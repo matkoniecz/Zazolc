@@ -16,6 +16,7 @@ import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCov
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType;
 import de.westnordost.streetcomplete.quests.bikeway.AddCycleway;
 import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBoolean;
+import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBooleanAggressive;
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure;
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
@@ -70,7 +71,7 @@ public class QuestModule
 		QuestType[] questTypesOrderedByImportance = {
 				osmNoteQuestType,
 				new multidesignatedFootwayToPath(o), //my own quest
-                new AddCyclewayBoolean(o), //my own quest, disabled by default but after enabling should be a top one
+                new AddCyclewayBooleanAggressive(o), //my own quest, disabled by default but after enabling should be a top one
                 new AddWayLit(o), //frequent enable/disable cycle (enable for night)
 				new AddBikeParkingType(o),
                 new ShowFixme(o), //my own quest
@@ -100,6 +101,7 @@ public class QuestModule
 				new AddPlaceName(o), //works with my horrible hack
 
                 //boring
+				new AddCyclewayBoolean(o),
                 new AddInternetAccess(o),
 				new AddCycleway(o), //reduced importance
 				new AddCrossingType(o), //reduced importance

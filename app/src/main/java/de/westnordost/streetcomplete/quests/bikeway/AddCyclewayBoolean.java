@@ -37,4 +37,5 @@ public class AddCyclewayBoolean extends AddCycleway {
     @Override public int getTitle() { return R.string.quest_cycleway_boolean_title; }
 
     @Override public int getDefaultDisabledMessage() { return 0; }
+
 }
