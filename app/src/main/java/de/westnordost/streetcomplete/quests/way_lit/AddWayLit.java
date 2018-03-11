@@ -87,4 +87,7 @@ public class AddWayLit extends SimpleOverpassQuestType
 		else if (isRoad)  return R.string.quest_way_lit_road_title;
 		else              return R.string.quest_way_lit_title;
 	}
+
+	@Override public int getDefaultDisabledMessage() { return R.string.default_disabled_msg_special; }
+
 }
