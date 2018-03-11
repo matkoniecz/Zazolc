@@ -50,4 +50,6 @@ public class AddWaySidewalk extends SimpleOverpassQuestType
 		if (hasName) return R.string.quest_way_sidewalk_named_road_title;
 		else         return R.string.quest_way_sidewalk_road_title;
 	}
+
+	@Override public int getDefaultDisabledMessage() { return R.string.default_disabled_msg_special; }
 }
