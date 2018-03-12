@@ -101,9 +101,7 @@ public class QuestModule
 				new AddPlaceName(o), //works with my horrible hack
 
                 //boring
-				new AddCyclewayBoolean(o),
                 new AddInternetAccess(o),
-				new AddCycleway(o), //reduced importance
 				new AddCrossingType(o), //reduced importance
 				new AddTactilePavingCrosswalk(o), //reduced importance
 				new AddRecyclingType(o),  //reduced importance
@@ -119,6 +117,8 @@ public class QuestModule
 				new AddWaySidewalk(o), //my own quest
 				new AddCarWashType(o),
 				new AddBenchBackrest(o),
+				new AddCyclewayBoolean(o),
+				new AddCycleway(o), //reduced importance
 		};
 
 		return new QuestTypeRegistry(Arrays.asList(questTypesOrderedByImportance));
