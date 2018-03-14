@@ -282,7 +282,7 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_ShowFixme_solved_answer">fixme is outdated now and may be removed</string>
     <string name="quest_forestLeaf_evergreen_answer">Plants that are never leafless.</string>
     <string name="quest_forestLeaf_decidous_answer">Plants that are leafless for a certain period during the year.</string>
-    <string name="quest_forestLeaf_mixed_answer">Mixed</string>
+    <string name="quest_forestLeaf_mixed_answer">mixed</string>
     <string name="quest_forestLeafCycle_title">What is the lifecycle of trees in this tree-covered area?</string>
     <string name="quest_forestLeaf_semi_deciduous_answer">Plants that lose their foliage for a very short period, when old leaves fall off and new foliage growth is starting.</string>
     <string name="quest_forestLeaf_needleleaved_answer">needleleaved</string>
