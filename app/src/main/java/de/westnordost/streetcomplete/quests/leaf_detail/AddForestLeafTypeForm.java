@@ -15,7 +15,7 @@ public class AddForestLeafTypeForm extends ImageListQuestAnswerFragment
 {
 	private static final Item[] LEAF_TYPES = new Item[]{
             new Item("needleleaved", R.drawable.leaf_type_needleleaved, R.string.quest_forestLeaf_needleleaved_answer),
-            new Item("mixed", R.drawable.ic_arrow_drop_down_white_24dp, R.string.quest_forestLeaf_mixed_answer),
+            new Item("mixed", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_mixed_answer),
             new Item("broadleaved", R.drawable.leaf_type_broadleaved, R.string.quest_forestLeaf_broadleaved_answer),
 	};
 
