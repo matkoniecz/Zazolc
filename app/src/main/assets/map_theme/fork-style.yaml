@@ -497,3 +497,69 @@ layers:
                         fill: global.water_text_fill_color
                         size: global.text_size
                         stroke: global.text_stroke
+
+    landuse_names:
+        data: { source: mapzen_names, layer: landuse }
+        grassland_areas_text:
+            filter:
+              any:
+                # show labels for smaller landuse areas at higher zooms
+                # low zooms blocked by https://github.com/tilezen/vector-datasource/issues/977
+                - { $zoom: { min: 6 },  area: { min: 160000000 } }
+                - { $zoom: { min: 7 },  area: { min:  80000000 } }
+                - { $zoom: { min: 8 },  area: { min:  40000000 } }
+                - { $zoom: { min: 9 },  area: { min:  20000000 } }
+                - { $zoom: { min: 10 }, area: { min:  10000000 } }
+                - { $zoom: { min: 11 }, area: { min:    800000 } }
+                - { $zoom: { min: 12 }, area: { min:    400000 } }
+                - { $zoom: { min: 13 }, area: { min:    200000 } }
+                - { $zoom: { min: 14 }, area: { min:    100000 } }
+                - { $zoom: { min: 15 }, area: { min:     50000 } }
+                - { $zoom: { min: 16 }, area: { min:     20000 } }
+                - { $zoom: { min: 17 }, area: { min:      1000 } }
+                - { $zoom: { min: 18 } }
+            draw:
+                text:
+                    text_source: global.name_source
+                    buffer: 3px
+                    text_wrap: 18
+                    max_lines: 3
+                    font:
+                        family: global.text_font_family
+                        weight: normal
+                        fill: global.text_color
+                        size: global.text_size
+                        stroke: global.text_stroke
+
+    natural_names:
+        data: { source: mapzen_names, layer: natural }
+        grassland_areas_text:
+            filter:
+              any:
+                # show labels for smaller landuse areas at higher zooms
+                # low zooms blocked by https://github.com/tilezen/vector-datasource/issues/977
+                - { $zoom: { min: 6 },  area: { min: 160000000 } }
+                - { $zoom: { min: 7 },  area: { min:  80000000 } }
+                - { $zoom: { min: 8 },  area: { min:  40000000 } }
+                - { $zoom: { min: 9 },  area: { min:  20000000 } }
+                - { $zoom: { min: 10 }, area: { min:  10000000 } }
+                - { $zoom: { min: 11 }, area: { min:    800000 } }
+                - { $zoom: { min: 12 }, area: { min:    400000 } }
+                - { $zoom: { min: 13 }, area: { min:    200000 } }
+                - { $zoom: { min: 14 }, area: { min:    100000 } }
+                - { $zoom: { min: 15 }, area: { min:     50000 } }
+                - { $zoom: { min: 16 }, area: { min:     20000 } }
+                - { $zoom: { min: 17 }, area: { min:      1000 } }
+                - { $zoom: { min: 18 } }
+            draw:
+                text:
+                    text_source: global.name_source
+                    buffer: 3px
+                    text_wrap: 18
+                    max_lines: 3
+                    font:
+                        family: global.text_font_family
+                        weight: normal
+                        fill: global.text_color
+                        size: global.text_size
+                        stroke: global.text_stroke
