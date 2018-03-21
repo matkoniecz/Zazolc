@@ -19,7 +19,7 @@ public class AddRoadSurface extends SimpleOverpassQuestType
 	// well, all roads have surfaces, what I mean is that not all ways with highway key are
 	// "something with a surface"
 	private static final String[] ROADS_WITH_SURFACES = {
-			// "trunk","trunk_link","motorway","motorway_link", // too much, motorways are almost by definition asphalt (or concrete)
+			"trunk","trunk_link","motorway","motorway_link",
 			"primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link",
 			"unclassified", "residential", "living_street", "pedestrian",
 			"track", "road", "footway", "path", "cycleway",
