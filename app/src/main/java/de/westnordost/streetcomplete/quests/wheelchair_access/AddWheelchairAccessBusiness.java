@@ -75,4 +75,9 @@ public class AddWheelchairAccessBusiness extends SimpleOverpassQuestType
 	{
 		return R.string.quest_wheelchairAccess_name_title;
 	}
+
+	@Override public int getDefaultDisabledMessage()
+	{
+		return R.string.default_disabled_msg_go_inside;
+	}
 }
