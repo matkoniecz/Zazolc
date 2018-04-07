@@ -19,6 +19,7 @@ import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBoolean;
 import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBooleanAggressive;
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure;
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
+import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType;
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType;
@@ -32,14 +33,15 @@ import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess;
 import de.westnordost.streetcomplete.quests.parking_fee.AddParkingFee;
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
 import de.westnordost.streetcomplete.quests.place_name.AddPlaceName;
+import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxCollectionTimes;
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial;
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine;
-import de.westnordost.streetcomplete.quests.road_name.data.PutRoadNameSuggestionsHandler;
-import de.westnordost.streetcomplete.quests.road_name.data.RoadNameSuggestionsDao;
 import de.westnordost.streetcomplete.quests.separate_sidewalk.AddWaySidewalk;
+import de.westnordost.streetcomplete.quests.localized_name.data.PutRoadNameSuggestionsHandler;
+import de.westnordost.streetcomplete.quests.localized_name.data.RoadNameSuggestionsDao;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability;
@@ -47,7 +49,7 @@ import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
 import de.westnordost.streetcomplete.quests.housenumber.AddHousenumber;
 import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafCycle;
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed;
-import de.westnordost.streetcomplete.quests.road_name.AddRoadName;
+import de.westnordost.streetcomplete.quests.localized_name.AddRoadName;
 import de.westnordost.streetcomplete.quests.road_surface.AddRoadSurface;
 import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape;
 import de.westnordost.streetcomplete.quests.show_fixme.ShowFixme;
@@ -98,6 +100,7 @@ public class QuestModule
 				new AddParkingFee(o),
 				new AddParkingType(o),
 				new AccessPublicToYes(o),
+				new AddBusStopName(o),
 				new AddPlaceName(o), //works with my horrible hack
 
                 //boring
@@ -119,6 +122,7 @@ public class QuestModule
 				new AddBenchBackrest(o),
 				new AddCyclewayBoolean(o),
 				new AddCycleway(o), //reduced importance
+				new AddPostboxCollectionTimes(o), //reduced importance
 		};
 
 		return new QuestTypeRegistry(Arrays.asList(questTypesOrderedByImportance));
