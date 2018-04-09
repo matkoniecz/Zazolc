@@ -19,6 +19,8 @@ import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBoolean;
 import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBooleanAggressive;
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure;
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
+import de.westnordost.streetcomplete.quests.construction.MarkCompletedBuildingConstruction;
+import de.westnordost.streetcomplete.quests.construction.MarkCompletedHighwayConstruction;
 import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType;
@@ -72,6 +74,8 @@ public class QuestModule
 	{
 		QuestType[] questTypesOrderedByImportance = {
 			osmNoteQuestType,
+			new MarkCompletedHighwayConstruction(o),
+			new MarkCompletedBuildingConstruction(o),
 			new multidesignatedFootwayToPath(o), //my own quest
 			new AddCyclewayBooleanAggressive(o), //my own quest, disabled by default but after enabling should be a top one
 			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
