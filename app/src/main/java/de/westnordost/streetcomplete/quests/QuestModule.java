@@ -71,58 +71,58 @@ public class QuestModule
 			PutRoadNameSuggestionsHandler putRoadNameSuggestionsHandler)
 	{
 		QuestType[] questTypesOrderedByImportance = {
-				osmNoteQuestType,
-				new multidesignatedFootwayToPath(o), //my own quest
-                new AddCyclewayBooleanAggressive(o), //my own quest, disabled by default but after enabling should be a top one
-                new AddWayLit(o), //frequent enable/disable cycle (enable for night)
-				new AddBikeParkingType(o),
-                new ShowFixme(o), //my own quest
-				new AddForestLeafCycle(o), //my own quest
-				new AddForestLeafType(o), //my own quest
-				new AddBikeParkingCapacity(o),
-				new AddBikeParkingCover(o),
-				new AddReligionToPlaceOfWorship(o),
-				new AddRoadSurface(o),
-				new AddMaxSpeed(o), // should best be after road surface because it excludes unpaved roads
-				new AddOrchardProduce(o),
-				new AddWheelChairAccessPublicTransport(o),
-				new AddWheelchairAccessBusiness(o),
-				new AddToiletAvailability(o),
-				new AddBridgeStructure(o),
-				new AddWheelChairAccessToilets(o),
-				new AddBusStopShelter(o), // at least OsmAnd
-				new AddTactilePavingBusStop(o),
-				new AddReligionToWaysideShrine(o),
-				new AddToiletsFee(o),
-				new AddBabyChangingTable(o),
-				new AddFireHydrantType(o),
-				new AddParkingAccess(o),
-				new AddParkingFee(o),
-				new AddParkingType(o),
-				new AccessPublicToYes(o),
-				new AddBusStopName(o),
-				new AddPlaceName(o), //works with my horrible hack
+			osmNoteQuestType,
+			new multidesignatedFootwayToPath(o), //my own quest
+			new AddCyclewayBooleanAggressive(o), //my own quest, disabled by default but after enabling should be a top one
+			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
+			new AddBikeParkingType(o),
+			new ShowFixme(o), //my own quest
+			new AddForestLeafCycle(o), //my own quest
+			new AddForestLeafType(o), //my own quest
+			new AddBikeParkingCapacity(o),
+			new AddBikeParkingCover(o),
+			new AddReligionToPlaceOfWorship(o),
+			new AddToiletsFee(o),
+			new AddBabyChangingTable(o),
+			new AddFireHydrantType(o),
+			new AddParkingAccess(o),
+			new AddParkingFee(o),
+			new AddParkingType(o),
+			new AccessPublicToYes(o),
+			new AddBusStopName(o),
+			new AddPlaceName(o), //works with my horrible hack
+			new AddToiletAvailability(o),
+			new AddRoadSurface(o),
 
-                //boring
-                new AddInternetAccess(o),
-				new AddCrossingType(o), //reduced importance
-				new AddTactilePavingCrosswalk(o), //reduced importance
-				new AddRecyclingType(o),  //reduced importance
-				new AddSport(o), //reduced importance
-				new AddHousenumber(o), //reduced importance
-                new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler), //reduced importance
-                new AddRoofShape(o), //reduced importance
-                new AddBuildingLevels(o), //reduced importance
-                new AddOpeningHours(o), //reduced importance
-        		new AddPowerPolesMaterial(o),
-				new AddVegetarian(o), //reduced importance
-				new AddVegan(o), //reduced importance
-				new AddWaySidewalk(o), //my own quest
-				new AddCarWashType(o),
-				new AddBenchBackrest(o),
-				new AddCyclewayBoolean(o),
-				new AddCycleway(o), //reduced importance
-				new AddPostboxCollectionTimes(o), //reduced importance
+			//boring
+			new AddBusStopShelter(o),
+			new AddReligionToWaysideShrine(o),
+			new AddMaxSpeed(o),
+			new AddInternetAccess(o),
+			new AddCrossingType(o),
+			new AddTactilePavingCrosswalk(o),
+			new AddRecyclingType(o),
+			new AddSport(o),
+			new AddHousenumber(o),
+			new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
+			new AddRoofShape(o),
+			new AddBuildingLevels(o),
+			new AddOpeningHours(o),
+			new AddPowerPolesMaterial(o),
+			new AddVegetarian(o),
+			new AddVegan(o),
+			new AddWaySidewalk(o), //my own quest
+			new AddCarWashType(o),
+			new AddBenchBackrest(o),
+			new AddCyclewayBoolean(o),
+			new AddCycleway(o),
+			new AddWheelChairAccessPublicTransport(o),
+			new AddWheelChairAccessToilets(o),
+			new AddWheelchairAccessBusiness(o),
+			new AddPostboxCollectionTimes(o),
+			new AddTactilePavingBusStop(o),
+			new AddBridgeStructure(o),
+			new AddOrchardProduce(o),
 		};
 
 		return new QuestTypeRegistry(Arrays.asList(questTypesOrderedByImportance));
