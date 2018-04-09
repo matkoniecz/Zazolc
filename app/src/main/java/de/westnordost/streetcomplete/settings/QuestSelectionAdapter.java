@@ -175,15 +175,6 @@ public class QuestSelectionAdapter extends ListAdapter<QuestSelectionAdapter.Que
 			item.visible = b;
 			updateSelectionStatus();
 			visibleQuestTypeDao.setVisible(item.questType, item.visible);
-			if(b && item.questType.getDefaultDisabledMessage() > 0)
-			{
-				new AlertDialogBuilder(compoundButton.getContext())
-						.setTitle(R.string.enable_quest_confirmation_title)
-						.setMessage(item.questType.getDefaultDisabledMessage())
-						.setPositiveButton(android.R.string.yes, null)
-						.setNegativeButton(android.R.string.no, (dialog, which) -> compoundButton.setChecked(false))
-						.show();
-			}
 		}
 	}
 }
