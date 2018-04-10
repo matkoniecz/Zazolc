@@ -10,7 +10,8 @@ public class CountryInfo implements Serializable, Cloneable
 {
 	public static final long serialVersionUID = 1L;
 
-	// this value is not defined in the yaml file but it is the file name!
+	// this value is not defined in the yaml file but it is the ISO language code part of the file name!
+	// i.e. US for US-TX.yml
 	String countryCode;
 
 	List<String> speedUnit;
@@ -26,6 +27,7 @@ public class CountryInfo implements Serializable, Cloneable
 	List<String> orchardProduces;
 	Boolean isAdvisorySpeedLimitKnown;
 	Boolean isLeftHandTraffic;
+	Integer mobileCountryCode;
 
 	public List<String> getSpeedUnits()
 	{
@@ -110,5 +112,10 @@ public class CountryInfo implements Serializable, Cloneable
 	public boolean isLeftHandTraffic()
 	{
 		return isLeftHandTraffic;
+	}
+
+	public Integer getMobileCountryCode()
+	{
+		return mobileCountryCode;
 	}
 }

@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.Map;
-
 import de.westnordost.osmapi.map.data.Element;
 import de.westnordost.streetcomplete.data.meta.OsmTaggings;
 import de.westnordost.streetcomplete.data.osm.Countries;
