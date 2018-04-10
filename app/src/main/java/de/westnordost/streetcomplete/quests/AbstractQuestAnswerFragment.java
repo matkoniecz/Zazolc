@@ -194,7 +194,10 @@ public abstract class AbstractQuestAnswerFragment extends AbstractBottomSheetFra
 			{
 				tags = osmElement.getTags();
 			}
-			return questType.getTitleSuffixHack(tags);
+			String returned = questType.getTitleSuffixHack(tags);
+			if(returned == null){
+				return "";
+			}
 		}
 		return "";
 	}

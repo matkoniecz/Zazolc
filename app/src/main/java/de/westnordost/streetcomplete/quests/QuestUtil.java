@@ -19,7 +19,11 @@ public class QuestUtil
 		@NonNull Resources r, @NonNull QuestType questType, @Nullable Element element)
 	{
 		Map<String,String> tags = getTags(element);
-		return r.getString(getQuestTitleResId(questType, tags), getElementName(tags)) + questType.getTitleSuffixHack(tags);
+		String suffix = questType.getTitleSuffixHack(tags);
+		if(suffix == null){
+			suffix = "";
+		}
+		return r.getString(getQuestTitleResId(questType, tags), getElementName(tags)) + suffix;
 	}
 
 	public static Spanned getHtmlTitle(
@@ -28,8 +32,12 @@ public class QuestUtil
 		Map<String,String> tags = getTags(element);
 		String name = getElementName(tags);
 		String spanName = name != null ? "<i>"+Html.escapeHtml(name)+"</i>" : null;
+		String suffix = questType.getTitleSuffixHack(tags);
+		if(suffix == null){
+			suffix = "";
+		}
 
-		return Html.fromHtml(r.getString(getQuestTitleResId(questType, tags), spanName) + questType.getTitleSuffixHack(tags));
+		return Html.fromHtml(r.getString(getQuestTitleResId(questType, tags), spanName) + suffix);
 	}
 
 	private static Map<String,String> getTags(@Nullable Element element)
