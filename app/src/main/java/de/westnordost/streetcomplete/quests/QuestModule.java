@@ -74,13 +74,13 @@ public class QuestModule
 	{
 		QuestType[] questTypesOrderedByImportance = {
 			osmNoteQuestType,
-			new MarkCompletedHighwayConstruction(o),
-			new MarkCompletedBuildingConstruction(o),
 			new multidesignatedFootwayToPath(o), //my own quest
 			new AddCyclewayBooleanAggressive(o), //my own quest, disabled by default but after enabling should be a top one
 			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
 			new AddBikeParkingType(o),
 			new ShowFixme(o), //my own quest
+			new MarkCompletedHighwayConstruction(o),
+			new MarkCompletedBuildingConstruction(o),
 			new AddForestLeafCycle(o), //my own quest
 			new AddForestLeafType(o), //my own quest
 			new AddBikeParkingCapacity(o),
