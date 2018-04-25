@@ -99,6 +99,7 @@ public class QuestModule
 			new AddRoadSurface(o),
 
 			//boring
+			new AddOpeningHours(o),
 			new AddBusStopShelter(o),
 			new AddReligionToWaysideShrine(o),
 			new AddMaxSpeed(o),
@@ -111,7 +112,6 @@ public class QuestModule
 			new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
 			new AddRoofShape(o),
 			new AddBuildingLevels(o),
-			new AddOpeningHours(o),
 			new AddPowerPolesMaterial(o),
 			new AddVegetarian(o),
 			new AddVegan(o),
