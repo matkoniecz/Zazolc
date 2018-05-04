@@ -15,16 +15,16 @@ class AddCyclewayUtil {
 	{
 		int d = MIN_DIST_TO_CYCLEWAYS;
 		String query = OverpassQLUtil.getGlobalOverpassBBox(bbox) +
-			"way[highway ~ \"^(primary|secondary|tertiary|unclassified|residential)$\"]" +
+			"way[highway ~ \"^(primary|secondary|tertiary|unclassified)$\"]" +
 			"[area != yes]" +
 			// only without cycleway tags
 			"[!cycleway][!\"cycleway:left\"][!\"cycleway:right\"][!\"cycleway:both\"]" +
 			"[!\"sidewalk:bicycle\"][!\"sidewalk:both:bicycle\"][!\"sidewalk:left:bicycle\"][!\"sidewalk:right:bicycle\"]";
 			if(enableMaxspeedFilter){
 				// not any with low speed limit because they not very likely to have cycleway infrastructure
-				query += "[maxspeed !~ \"^(30|25|20|15|10|8|7|6|5|20 mph|15 mph|10 mph|5 mph|walk)$\"]";
+				query += "[maxspeed !~ \"^(20|15|10|8|7|6|5|20 mph|15 mph|10 mph|5 mph|walk)$\"]";
 			}
-			// not any unpaved because they not very likely to have cycleway infrastructure
+			// not any unpaved because of the same reason
 			query += "[surface !~ \"^("+ TextUtils.join("|", OsmTaggings.ANYTHING_UNPAVED)+")$\"]" +
 			// not any explicitly tagged as no bicycles
 			"[bicycle != no]" +
@@ -32,11 +32,15 @@ class AddCyclewayUtil {
 			" -> .streets;" +
 			"(" +
 			"way[highway=cycleway](around.streets: "+d+");" +
-			"way[highway ~ \"^(path|footway)$\"][bicycle ~ \"^(yes|designated)$\"](around.streets: "+d+");" +
+			// See #718: If a separate way exists, it may be that the user's answer should
+			// correctly be tagged on that separate way and not on the street -> this app would
+			// tag data on the wrong elements. So, don't ask at all for separately mapped ways.
+			// :-(
+			"way[highway ~ \"^(path|footway)$\"](around.streets: "+d+");" +
 			") -> .cycleways;" +
 			"way.streets(around.cycleways: "+d+") -> .streets_near_cycleways;" +
 			"(.streets; - .streets_near_cycleways;);" +
 			"out meta geom;";
-			return query;
+		return query;
 	}
 }
