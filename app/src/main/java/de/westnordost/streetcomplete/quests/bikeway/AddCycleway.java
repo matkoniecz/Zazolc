@@ -26,7 +26,7 @@ import static de.westnordost.streetcomplete.quests.bikeway.Cycleway.ADVISORY_LAN
 
 public class AddCycleway implements OsmElementQuestType
 {
-	private final OverpassMapDataDao overpassServer;
+	protected OverpassMapDataDao overpassServer;
 
 	@Inject public AddCycleway(OverpassMapDataDao overpassServer)
 	{
