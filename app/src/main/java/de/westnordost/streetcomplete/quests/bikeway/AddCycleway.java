@@ -182,7 +182,7 @@ public class AddCycleway implements OsmElementQuestType
 	 *  bicycles. */
 	private static String getOverpassQuery(BoundingBox bbox)
 	{
-		return AddCyclewayUtil.getOverpassQuery(bbox, true);
+		return AddCyclewayUtil.getOverpassQuery(bbox, false, false);
 	}
 
 	@Override public AbstractQuestAnswerFragment createForm() { return new AddCyclewayForm(); }

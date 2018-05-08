@@ -11,16 +11,20 @@ class AddCyclewayUtil {
 
 	/** @return overpass query string to get streets without cycleway info not near paths for
 	 *  bicycles. */
-	static String getOverpassQuery(BoundingBox bbox, boolean enableMaxspeedFilter)
+	static String getOverpassQuery(BoundingBox bbox, boolean disableMaxspeedFilter, boolean moreRoadTypes)
 	{
 		int d = MIN_DIST_TO_CYCLEWAYS;
-		String query = OverpassQLUtil.getGlobalOverpassBBox(bbox) +
-			"way[highway ~ \"^(primary|secondary|tertiary|unclassified)$\"]" +
-			"[area != yes]" +
+		String query = OverpassQLUtil.getGlobalOverpassBBox(bbox);
+		if(moreRoadTypes){
+			query += "way[highway ~ \"^(primary|primary_link|secondary|secondary_link|tertiary|tertiary_link|unclassified|residential|service|track|pedestrian)$\"]";
+		}else{
+			query += "way[highway ~ \"^(primary|secondary|tertiary|unclassified)$\"]";
+		}
+			query += "[area != yes]" +
 			// only without cycleway tags
 			"[!cycleway][!\"cycleway:left\"][!\"cycleway:right\"][!\"cycleway:both\"]" +
 			"[!\"sidewalk:bicycle\"][!\"sidewalk:both:bicycle\"][!\"sidewalk:left:bicycle\"][!\"sidewalk:right:bicycle\"]";
-			if(enableMaxspeedFilter){
+			if(!disableMaxspeedFilter){
 				// not any with low speed limit because they not very likely to have cycleway infrastructure
 				query += "[maxspeed !~ \"^(20|15|10|8|7|6|5|20 mph|15 mph|10 mph|5 mph|walk)$\"]";
 			}

@@ -14,7 +14,7 @@ public class AddCyclewayBooleanAggressive extends AddCyclewayBoolean {
 	 *  bicycles. */
 	private static String getOverpassQuery(BoundingBox bbox)
 	{
-		return AddCyclewayUtil.getOverpassQuery(bbox, false);
+		return AddCyclewayUtil.getOverpassQuery(bbox, true, true);
 	}
 
 	@Override public int getTitle() { return R.string.quest_cycleway_boolean_aggressive_title; }
