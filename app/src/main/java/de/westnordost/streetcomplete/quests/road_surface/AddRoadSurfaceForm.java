@@ -39,9 +39,9 @@ public class AddRoadSurfaceForm extends AbstractQuestFormAnswerFragment
 		SAND =			new Item("sand", R.drawable.surface_sand, R.string.quest_surface_value_sand)
 		;
 
-	// covers very roughly 90% of (non-generic) choices
+	// specialized to cover my typical tagging (fine_gravel -> sett)
 	private final Item[] TOP_SURFACES = new Item[] {
-			ASPHALT, CONCRETE, FINE_GRAVEL,
+			ASPHALT, CONCRETE, SETT,
 			PAVING_STONES, COMPACTED, DIRT
 	};
 
