@@ -41,8 +41,8 @@ public class AddRoadSurfaceForm extends AbstractQuestFormAnswerFragment
 
 	// specialized to cover my typical tagging (fine_gravel -> sett)
 	private final Item[] TOP_SURFACES = new Item[] {
-			ASPHALT, CONCRETE, SETT,
-			PAVING_STONES, COMPACTED, DIRT
+			ASPHALT, PAVING_STONES, DIRT,
+			SETT, COMPACTED, CONCRETE
 	};
 
 	private final Item[] ALL_SURFACES = new Item[] {
