@@ -57,6 +57,7 @@ import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape;
 import de.westnordost.streetcomplete.quests.show_fixme.ShowFixme;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
 import de.westnordost.streetcomplete.quests.validator.AccessPublicToYes;
+import de.westnordost.streetcomplete.quests.validator.AddAlsoShopForInsurance;
 import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessPublicTransport;
@@ -81,6 +82,7 @@ public class QuestModule
 			new ShowFixme(o), //my own quest
 			new MarkCompletedHighwayConstruction(o),
 			new MarkCompletedBuildingConstruction(o),
+			new AddAlsoShopForInsurance(o),
 			new AddForestLeafCycle(o), //my own quest
 			new AddForestLeafType(o), //my own quest
 			new AddBikeParkingCapacity(o),
