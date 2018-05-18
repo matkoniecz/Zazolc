@@ -542,4 +542,7 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_toiletAvailability_rest_area_title">Does this rest area have a toilet?</string>
     <string name="quest_maxspeed_name_title">What is the speed limit sign for %s?</string>
     <string name="quest_add_also_shop_variant_for_insurance_shop">Is there an insurance shop here (%s)?</string>
+    <string name="quest_openingHours_no_sign">Opening hours are unknown</string>
+    <string name="quest_openingHours_answer_noSign_confirmation_title">Are you sure that there is no easy way to obtain opening hours? Are you sure that there is no sign with opening hours? Note that you may, if you want to add opening hours info to the OSM, ask shopkeeper/owner/retail worker etc to obtain opening hours info and solve this quest as usual.</string>
+    <string name="quest_openingHours_noSign_confirmation_positive">Mark as shop without opening hours sign, hide this quest for everybody</string>
 </resources>
