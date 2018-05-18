@@ -54,6 +54,9 @@ public class AddPlaceName extends SimpleOverpassQuestType
 		put("water", new String[]{
 			"lake"
 		});
+		put("office", new String[]{
+			"insurance"
+		});
 	}};
 
 	@Inject public AddPlaceName(OverpassMapDataDao overpassServer) { super(overpassServer); }
