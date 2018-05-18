@@ -35,7 +35,7 @@ public class AddOpeningHours extends SimpleOverpassQuestType
 				"bureau_de_change",	"money_transfer", "post_office", "library",
 				"courthouse", "embassy", "car_wash", "car_rental",
 				"marketplace", "fuel", "driving_school", "dentist",
-				"doctors", "clinic", "pharmacy", "veterinary" };
+				"doctors", "clinic", "pharmacy", "veterinary", "toilets" };
 
 		String[] tourism = {
 				"zoo", "aquarium", "theme_park", "gallery",
