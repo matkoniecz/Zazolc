@@ -20,7 +20,7 @@ public class AddAlsoShopForInsurance extends SimpleOverpassQuestType {
 
 	@Override protected String getTagFilters()
 	{
-		return "nodes, ways, relations with office=insurance and !shop";
+		return "nodes, ways, relations with office=insurance and !shop and name";
 	}
 
 	public AbstractQuestAnswerFragment createForm()
