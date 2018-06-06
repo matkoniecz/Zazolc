@@ -31,6 +31,9 @@ import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType;
 import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType;
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours;
 import de.westnordost.streetcomplete.quests.internet_access.AddInternetAccess;
+import de.westnordost.streetcomplete.quests.oneway.AddOneway;
+import de.westnordost.streetcomplete.quests.oneway.TrafficFlowSegmentsDao;
+import de.westnordost.streetcomplete.quests.oneway.WayTrafficFlowDao;
 import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess;
 import de.westnordost.streetcomplete.quests.parking_fee.AddParkingFee;
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
@@ -69,12 +72,14 @@ import de.westnordost.streetcomplete.quests.bench_backrest.AddBenchBackrest;
 public class QuestModule
 {
 	@Provides @Singleton public static QuestTypeRegistry questTypeRegistry(
-			OsmNoteQuestType osmNoteQuestType, OverpassMapDataDao o,
-			RoadNameSuggestionsDao roadNameSuggestionsDao,
-			PutRoadNameSuggestionsHandler putRoadNameSuggestionsHandler)
+		OsmNoteQuestType osmNoteQuestType, OverpassMapDataDao o,
+		RoadNameSuggestionsDao roadNameSuggestionsDao,
+		PutRoadNameSuggestionsHandler putRoadNameSuggestionsHandler,
+		TrafficFlowSegmentsDao trafficFlowSegmentsDao, WayTrafficFlowDao trafficFlowDao)
 	{
 		QuestType[] questTypesOrderedByImportance = {
 			osmNoteQuestType,
+			new AddOneway(o, trafficFlowSegmentsDao, trafficFlowDao),
 			new multidesignatedFootwayToPath(o), //my own quest
 			new AddCyclewayBooleanAggressive(o), //my own quest, disabled by default but after enabling should be a top one
 			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
