@@ -26,7 +26,8 @@ public class ShowFixme extends SimpleOverpassQuestType
 	{
 		return "nodes, ways, relations with fixme and fixme!=continue " +
                 "and !fixme:requires_aerial_image " +
-                "and !fixme:use_better_tagging_scheme ";
+                "and !fixme:use_better_tagging_scheme " +
+                "and !fixme:3d_tagging ";
 	}
 
 	public AbstractQuestAnswerFragment createForm()

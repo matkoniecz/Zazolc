@@ -15,9 +15,10 @@ public class ShowFixmeForm extends TextListQuestAnswerFragment {
     protected static final int ALL_OF_THEM = 1000;
 
     private static final OsmItem[] REFUSAL_TYPES = new OsmItem[]{
+		new OsmItem("fixme:solved", R.string.quest_ShowFixme_solved_answer),
             new OsmItem("fixme:requires_aerial_image", R.string.quest_ShowFixme_requiresAerial_answer),
             new OsmItem("fixme:use_better_tagging_scheme", R.string.quest_ShowFixme_pure_taggery_answer),
-            new OsmItem("fixme:solved", R.string.quest_ShowFixme_solved_answer),
+            new OsmItem("fixme:3d_tagging", R.string.quest_ShowFixme_3d_tagging_answer),
     };
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
