@@ -22,7 +22,7 @@ public class AddRoadSurface extends SimpleOverpassQuestType
 			"trunk","trunk_link","motorway","motorway_link",
 			"primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link",
 			"unclassified", "residential", "living_street", "pedestrian",
-			"track", "road", "footway", "path", "cycleway",
+			"track", "road",
 			/*"service", */ // this is too much, and the information value is very low
 	};
 
