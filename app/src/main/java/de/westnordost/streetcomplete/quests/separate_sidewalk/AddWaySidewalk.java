@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import de.westnordost.streetcomplete.R;
+import de.westnordost.streetcomplete.data.meta.OsmTaggings;
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -28,6 +29,7 @@ public class AddWaySidewalk extends SimpleOverpassQuestType
 				" highway ~ " + TextUtils.join("|", WAYS_WITH_SIDEWALKS) +
 				" and !sidewalk" +
 				" and foot != no " +
+				" and surface !~" + TextUtils.join("|", OsmTaggings.ANYTHING_UNPAVED) +
 				" and (access !~ private|no or (foot and foot !~ private|no))"; // not private roads
 	}
 
