@@ -24,10 +24,10 @@ public class ShowFixme extends SimpleOverpassQuestType
 	@Override
 	protected String getTagFilters()
 	{
-		return "nodes, ways, relations with fixme and fixme!=continue " +
-                "and !fixme:requires_aerial_image " +
-                "and !fixme:use_better_tagging_scheme " +
-                "and !fixme:3d_tagging ";
+		return "nodes, ways, relations with fixme and fixme!=continue and highway!=proposed and railway!=proposed" +
+                " and !fixme:requires_aerial_image " +
+                " and !fixme:use_better_tagging_scheme " +
+                " and !fixme:3d_tagging ";
 	}
 
 	public AbstractQuestAnswerFragment createForm()
