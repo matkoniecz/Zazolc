@@ -548,4 +548,5 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_openingHours_answer_noSign_confirmation_title">Are you sure that there is no easy way to obtain opening hours? Are you sure that there is no sign with opening hours? Note that you may, if you want to add opening hours info to the OSM, ask shopkeeper/owner/retail worker etc to obtain opening hours info and solve this quest as usual.</string>
     <string name="quest_openingHours_noSign_confirmation_positive">Mark as shop without opening hours sign, hide this quest for everybody</string>
     <string name="quest_ShowFixme_3d_tagging_answer">hide this fixme and mark it as 3D tagging related</string>
+    <string name="pref_quests_reset">Reset both quest enablement and order to the default?</string>
 </resources>
