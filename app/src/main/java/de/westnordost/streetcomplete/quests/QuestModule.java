@@ -60,8 +60,10 @@ import de.westnordost.streetcomplete.quests.surface.AddRoadSurface;
 import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape;
 import de.westnordost.streetcomplete.quests.show_fixme.ShowFixme;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
+import de.westnordost.streetcomplete.quests.validator.AccessDestinationToPrivate;
 import de.westnordost.streetcomplete.quests.validator.AccessPublicToYes;
 import de.westnordost.streetcomplete.quests.validator.AddAlsoShopForInsurance;
+import de.westnordost.streetcomplete.quests.validator.VehicleDestinationToPrivate;
 import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessPublicTransport;
@@ -106,6 +108,8 @@ public class QuestModule
 			new AddToiletAvailability(o),
 			new AddRoadSurface(o),
 			new AddPathSurface(o),
+			new AccessDestinationToPrivate(o), //my own quest
+			new VehicleDestinationToPrivate(o), //my own quest
 
 			//boring
 			new AddOpeningHours(o),

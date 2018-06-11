@@ -549,4 +549,6 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_openingHours_noSign_confirmation_positive">Mark as shop without opening hours sign, hide this quest for everybody</string>
     <string name="quest_ShowFixme_3d_tagging_answer">hide this fixme and mark it as 3D tagging related</string>
     <string name="pref_quests_reset">Reset both quest enablement and order to the default?</string>
+    <string name="quest_convert_access_destination_to_access_private">Change access=destination to access=private?</string>
+    <string name="quest_convert_vehicle_destination_to_vehicle_private">Change vehicle=destination to vehicle=private?</string>
 </resources>
