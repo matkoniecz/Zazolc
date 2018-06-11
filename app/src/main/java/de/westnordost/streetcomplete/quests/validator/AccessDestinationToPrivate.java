@@ -30,7 +30,7 @@ public class AccessDestinationToPrivate extends SimpleOverpassQuestType {
 	public void applyAnswerTo(Bundle answer, StringMapChangesBuilder changes)
 	{
 	if (answer.getBoolean(YesNoQuestAnswerFragment.ANSWER)){
-		changes.modify("access", "yes");
+		changes.modify("access", "private");
 	}}
 
 
