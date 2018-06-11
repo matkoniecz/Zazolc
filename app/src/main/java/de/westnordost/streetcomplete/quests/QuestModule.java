@@ -106,8 +106,8 @@ public class QuestModule
 			new AddPlaceName(o), //works with my horrible hack
 			new AddToiletAvailability(o),
 			new AddPathSurface(o),
-			new AccessPublicToYes(o), //my own quest
 			new multidesignatedFootwayToPath(o), //my own quest
+			new AccessPublicToYes(o), //my own quest
 			new AccessDestinationToPrivate(o), //my own quest
 			new VehicleDestinationToPrivate(o), //my own quest
 
