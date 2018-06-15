@@ -21,6 +21,7 @@ import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure;
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels;
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedBuildingConstruction;
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedHighwayConstruction;
+import de.westnordost.streetcomplete.quests.building_type.AddBuildingType;
 import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType;
@@ -113,6 +114,7 @@ public class QuestModule
 
 			//boring
 			new AddOpeningHours(o),
+			new AddBuildingType(o),
 			new AddBusStopShelter(o),
 			new AddReligionToWaysideShrine(o),
 			new AddMaxSpeed(o),
