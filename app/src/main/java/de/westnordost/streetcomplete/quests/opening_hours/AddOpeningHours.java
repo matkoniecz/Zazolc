@@ -55,7 +55,7 @@ public class AddOpeningHours extends SimpleOverpassQuestType
 				" tourism = information and information = office or" +
 				" leisure ~ " + TextUtils.join("|",leisures) + " or" +
 				" office ~ " + TextUtils.join("|",offices) + ")" +
-				" and !opening_hours and name and opening_hours_sign != no" +
+				" and !opening_hours and name and opening_hours:signed != no" +
 				" and (access !~ private|no)"; // exclude ones without access to general public
 	}
 
@@ -69,7 +69,7 @@ public class AddOpeningHours extends SimpleOverpassQuestType
 		String openingHours = answer.getString(AddOpeningHoursForm.OPENING_HOURS);
 		if(answer.getBoolean(AddOpeningHoursForm.NO_SIGN))
 		{
-			changes.add("opening_hours_sign", "no");
+			changes.add("opening_hours:signed", "no");
 			return;
 		}
 		if(openingHours != null)
