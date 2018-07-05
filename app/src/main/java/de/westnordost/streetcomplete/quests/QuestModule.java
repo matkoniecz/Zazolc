@@ -114,10 +114,10 @@ public class QuestModule
 
 			//boring
 			new AddOpeningHours(o),
-			new AddBuildingType(o),
 			new AddBusStopShelter(o),
 			new AddReligionToWaysideShrine(o),
 			new AddMaxSpeed(o),
+			new AddBuildingType(o),
 			new AddInternetAccess(o),
 			new AddCrossingType(o),
 			new AddTactilePavingCrosswalk(o),
