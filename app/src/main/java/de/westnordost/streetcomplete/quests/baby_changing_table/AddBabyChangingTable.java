@@ -45,4 +45,9 @@ public class AddBabyChangingTable extends SimpleOverpassQuestType
 		if(hasName) return R.string.quest_baby_changing_table_title;
 		else        return R.string.quest_baby_changing_table_toilets_title;
 	}
+
+	@Override public int getDefaultDisabledMessage()
+	{
+		return R.string.default_disabled_msg_go_inside;
+	}
 }
