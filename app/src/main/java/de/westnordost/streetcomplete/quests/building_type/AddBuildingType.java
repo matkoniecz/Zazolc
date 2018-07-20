@@ -45,4 +45,5 @@ public class AddBuildingType extends SimpleOverpassQuestType
 	@Override public String getCommitMessage() { return "Add building types"; }
 	@Override public int getIcon() { return R.drawable.ic_quest_building; }
 	@Override public int getTitle(@NonNull Map<String, String> tags) { return R.string.quest_buildingType_title2; }
+	@Override public int getDefaultDisabledMessage() { return R.string.default_disabled_msg_boring; }
 }
