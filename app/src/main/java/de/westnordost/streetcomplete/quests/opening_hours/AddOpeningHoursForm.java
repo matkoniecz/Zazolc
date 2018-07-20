@@ -85,6 +85,7 @@ public class AddOpeningHoursForm extends AbstractQuestFormAnswerFragment
 
 	private void addOtherAnswers()
 	{
+		addOtherAnswer(R.string.quest_openingHours_no_sign, this::confirmNoSign);
 		addOtherAnswer(R.string.quest_openingHours_answer_no_regular_opening_hours, this::showInputCommentDialog);
 		addOtherAnswer(R.string.quest_openingHours_answer_247, this::showConfirm24_7Dialog);
 		addOtherAnswer(R.string.quest_openingHours_answer_seasonal_opening_hours, this::changeToMonthsMode);
