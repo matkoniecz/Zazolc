@@ -22,4 +22,5 @@ public class TestQuestType extends AOsmElementQuestType
 	@Override public int getIcon() { return 0; }
 	@Override public int getTitle(@NonNull Map<String,String> tags) { return 0; }
 	@Nullable @Override public Boolean isApplicableTo(Element element) { return false; }
+
 }
