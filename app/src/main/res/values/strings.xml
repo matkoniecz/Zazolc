@@ -543,9 +543,6 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_toiletAvailability_rest_area_title">Does this rest area have restroom facilities?</string>
     <string name="quest_maxspeed_name_title">What is the speed limit sign for %s?</string>
     <string name="quest_add_also_shop_variant_for_insurance_shop">Is there an insurance shop here (%s)?</string>
-    <string name="quest_openingHours_no_sign">Opening hours are unknown</string>
-    <string name="quest_openingHours_answer_noSign_confirmation_title">Are you sure that there is no opening hours sign?</string>
-    <string name="quest_openingHours_noSign_confirmation_positive">Yes, no sign.</string>
     <string name="quest_ShowFixme_3d_tagging_answer">hide this fixme and mark it as 3D tagging related</string>
     <string name="pref_quests_reset">Reset both quest enablement and order to the default?</string>
     <string name="quest_convert_access_destination_to_access_private">Change access=destination to access=private?</string>
@@ -642,4 +639,5 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_address_answer_no_housenumber_message1">The building was tagged as:</string>
     <string name="quest_address_answer_no_housenumber_message2">Is this correct and is it not just part of a building?</string>
     <string name="notification_channel_download">"Download"</string>
+    <string name="quest_playground_access_title">Is this playground publicly accessible?</string>
 </resources>

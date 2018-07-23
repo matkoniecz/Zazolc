@@ -39,6 +39,7 @@ import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess;
 import de.westnordost.streetcomplete.quests.parking_fee.AddParkingFee;
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
 import de.westnordost.streetcomplete.quests.place_name.AddPlaceName;
+import de.westnordost.streetcomplete.quests.playground_access.AddPlaygroundAccess;
 import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxCollectionTimes;
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial;
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
@@ -111,6 +112,8 @@ public class QuestModule
 			new AccessPublicToYes(o), //my own quest
 			new AccessDestinationToPrivate(o), //my own quest
 			new VehicleDestinationToPrivate(o), //my own quest
+			new AddPlaygroundAccess(o), //late as in many areas all needed access=private is already mapped
+
 
 			//boring
 			new AddOpeningHours(o),

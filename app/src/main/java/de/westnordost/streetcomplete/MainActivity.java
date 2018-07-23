@@ -91,6 +91,8 @@ import de.westnordost.streetcomplete.util.SlippyMapMath;
 import de.westnordost.streetcomplete.util.SphericalEarthMath;
 import de.westnordost.streetcomplete.view.dialogs.AlertDialogBuilder;
 
+import static de.westnordost.streetcomplete.ApplicationConstants.MANUAL_DOWNLOAD_QUEST_TYPE_COUNT;
+
 public class MainActivity extends AppCompatActivity implements
 		OsmQuestAnswerListener, CreateNoteListener, VisibleQuestListener,
 		QuestsMapFragment.Listener, MapFragment.Listener, MapControlsFragment.Listener
@@ -453,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements
 						ApplicationConstants.MIN_DOWNLOADABLE_RADIUS_IN_METERS);
 			}
 		}
-		questController.download(bbox, 5, true);
+		questController.download(bbox, MANUAL_DOWNLOAD_QUEST_TYPE_COUNT, true);
 	}
 
 
