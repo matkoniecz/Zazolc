@@ -114,7 +114,6 @@ public class QuestModule
 			new VehicleDestinationToPrivate(o), //my own quest
 			new AddPlaygroundAccess(o), //late as in many areas all needed access=private is already mapped
 
-
 			//boring
 			new AddOpeningHours(o),
 			new AddBusStopShelter(o),
