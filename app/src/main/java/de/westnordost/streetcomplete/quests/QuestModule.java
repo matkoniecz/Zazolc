@@ -32,6 +32,7 @@ import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType;
 import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType;
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours;
 import de.westnordost.streetcomplete.quests.internet_access.AddInternetAccess;
+import de.westnordost.streetcomplete.quests.max_height.AddMaxHeight;
 import de.westnordost.streetcomplete.quests.oneway.AddOneway;
 import de.westnordost.streetcomplete.quests.oneway.TrafficFlowSegmentsDao;
 import de.westnordost.streetcomplete.quests.oneway.WayTrafficFlowDao;
@@ -113,6 +114,7 @@ public class QuestModule
 			new AccessDestinationToPrivate(o), //my own quest
 			new VehicleDestinationToPrivate(o), //my own quest
 			new AddPlaygroundAccess(o), //late as in many areas all needed access=private is already mapped
+			new AddMaxHeight(o),
 
 			//boring
 			new AddOpeningHours(o),
