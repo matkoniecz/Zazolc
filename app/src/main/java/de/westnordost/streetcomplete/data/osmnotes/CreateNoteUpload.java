@@ -17,6 +17,8 @@ import de.westnordost.osmapi.map.data.BoundingBox;
 import de.westnordost.osmapi.map.data.Element;
 import de.westnordost.osmapi.notes.Note;
 import de.westnordost.osmapi.notes.NotesDao;
+import de.westnordost.streetcomplete.data.statistics.QuestStatisticsDao;
+import de.westnordost.streetcomplete.data.upload.OnUploadedChangeListener;
 import de.westnordost.streetcomplete.util.ImageUploader;
 
 public class CreateNoteUpload
@@ -29,13 +31,14 @@ public class CreateNoteUpload
 	private final OsmNoteQuestDao noteQuestDB;
 	private final MapDataDao mapDataDao;
 	private final OsmNoteQuestType questType;
+	private final QuestStatisticsDao statisticsDB;
 	private final ImageUploader imageUploader;
-
+	private OnUploadedChangeListener uploadedChangeListener;
 
 	@Inject public CreateNoteUpload(
 			CreateNoteDao createNoteDB, NotesDao osmDao, NoteDao noteDB,
 			OsmNoteQuestDao noteQuestDB, MapDataDao mapDataDao, OsmNoteQuestType questType,
-			ImageUploader imageUploader)
+			QuestStatisticsDao statisticsDB, ImageUploader imageUploader)
 	{
 		this.createNoteDB = createNoteDB;
 		this.noteQuestDB = noteQuestDB;
@@ -43,10 +46,16 @@ public class CreateNoteUpload
 		this.osmDao = osmDao;
 		this.mapDataDao = mapDataDao;
 		this.questType = questType;
+		this.statisticsDB = statisticsDB;
 		this.imageUploader = imageUploader;
 	}
 
-	public void upload(AtomicBoolean cancelState)
+	public synchronized void setProgressListener(OnUploadedChangeListener uploadedChangeListener)
+	{
+		this.uploadedChangeListener = uploadedChangeListener;
+	}
+
+	public synchronized void upload(AtomicBoolean cancelState)
 	{
 		int created = 0, obsolete = 0;
 		for(CreateNote createNote : createNoteDB.getAll(null))
@@ -55,10 +64,12 @@ public class CreateNoteUpload
 
 			if(uploadCreateNote(createNote) != null)
 			{
+				uploadedChangeListener.onUploaded();
 				created++;
 			}
 			else
 			{
+				uploadedChangeListener.onDiscarded();
 				obsolete++;
 			}
 		}
@@ -90,6 +101,7 @@ public class CreateNoteUpload
 			noteQuest.setStatus(QuestStatus.CLOSED);
 			noteDB.put(newNote);
 			noteQuestDB.add(noteQuest);
+			statisticsDB.addOneNote();
 		}
 		else
 		{
