@@ -44,6 +44,7 @@ import de.westnordost.streetcomplete.quests.playground_access.AddPlaygroundAcces
 import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxCollectionTimes;
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial;
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
+import de.westnordost.streetcomplete.quests.railway_crossing.AddRailwayCrossingBarrier;
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine;
@@ -148,6 +149,7 @@ public class QuestModule
 			new AddTactilePavingBusStop(o),
 			new AddBridgeStructure(o),
 			new AddOrchardProduce(o),
+			new AddRailwayCrossingBarrier(o),
 		};
 
 		return new QuestTypeRegistry(Arrays.asList(questTypesOrderedByImportance));

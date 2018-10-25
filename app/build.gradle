@@ -41,6 +41,7 @@ android {
     }
 
     lintOptions {
+        disable 'MissingTranslation'
         abortOnError false
     }
 }
@@ -106,7 +107,7 @@ dependencies {
 
     // talking with OSM Api
     implementation 'oauth.signpost:signpost-core:1.2.1.2'
-    implementation ('de.westnordost:osmapi:3.0') {
+    implementation ('de.westnordost:osmapi:3.1') {
         // it's already included in Android
         exclude group: 'net.sf.kxml', module: 'kxml2'
     }
@@ -123,7 +124,7 @@ dependencies {
     implementation 'org.objenesis:objenesis:2.6'
 
     // map and location
-    implementation 'com.mapzen.tangram:tangram:0.8.1'
+    implementation 'com.mapzen.tangram:tangram:0.9.6'
     implementation 'com.mapzen.android:lost:3.0.4'
 
     // config files
