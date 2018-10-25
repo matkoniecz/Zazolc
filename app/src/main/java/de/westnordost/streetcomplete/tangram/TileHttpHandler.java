@@ -30,7 +30,8 @@ public class TileHttpHandler extends HttpHandler
 	public boolean onRequest(String url, Callback cb) {
 		if(url != null) url += "?api_key=" + apiKey;
 		HttpUrl httpUrl = HttpUrl.parse(url);
-		Request.Builder builder = new Request.Builder().url(httpUrl).header("User-Agent", ApplicationConstants.USER_AGENT + " / " + Version.userAgent());
+		String userAgent = "Zazolc" + " / " + Version.userAgent();
+		Request.Builder builder = new Request.Builder().url(httpUrl).header("User-Agent", userAgent);
 		CacheControl cacheControl = cachePolicy.apply(httpUrl);
 		if (cacheControl != null) {
 			builder.cacheControl(cacheControl);
