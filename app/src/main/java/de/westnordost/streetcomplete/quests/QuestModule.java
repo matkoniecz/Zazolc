@@ -50,6 +50,7 @@ import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine;
 import de.westnordost.streetcomplete.quests.separate_sidewalk.AddWaySidewalk;
 import de.westnordost.streetcomplete.quests.localized_name.data.PutRoadNameSuggestionsHandler;
 import de.westnordost.streetcomplete.quests.localized_name.data.RoadNameSuggestionsDao;
+import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation;
 import de.westnordost.streetcomplete.quests.surface.AddPathSurface;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
@@ -113,6 +114,7 @@ public class QuestModule
 			new AccessPublicToYes(o), //my own quest
 			new AccessDestinationToPrivate(o), //my own quest
 			new VehicleDestinationToPrivate(o), //my own quest
+			new AddCyclewaySegregation(o),
 			new AddPlaygroundAccess(o), //late as in many areas all needed access=private is already mapped
 			new AddMaxHeight(o),
 

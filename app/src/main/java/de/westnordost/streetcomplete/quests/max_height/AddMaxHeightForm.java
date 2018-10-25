@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.quests.max_height;
 
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.text.Spanned;
+import android.text.method.DigitsKeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +74,18 @@ public class AddMaxHeightForm extends AbstractQuestFormAnswerFragment
 				}
 				return "";
 			}});
+		}
+		/* Workaround for an Android bug that it assumes the decimal separator to always be the "."
+		   for EditTexts with inputType "numberDecimal", independent of Locale. See
+		   https://issuetracker.google.com/issues/36907764 .
+
+		   Affected Android versions are all versions till (exclusive) Android Oreo. */
+		if(meterInput != null)
+		{
+			/* actually, let's not care about which separator the user uses, he might be confused
+			   whether he should use the one as displayed on the sign or in his phone's locale */
+			//char separator = DecimalFormatSymbols.getInstance(getCountryInfo().getLocale()).getDecimalSeparator();
+			meterInput.setKeyListener(DigitsKeyListener.getInstance("0123456789,."));
 		}
 
 		switchLayout(unit);
@@ -183,19 +193,18 @@ public class AddMaxHeightForm extends AbstractQuestFormAnswerFragment
 	{
 		if (isMetric())
 		{
-			String input = meterInput.getText().toString();
+			String input = meterInput.getText().toString().replaceAll(",",".");
 			if (!input.isEmpty())
 			{
-				NumberFormat format = NumberFormat.getInstance();
 				try
 				{
-					Number number = format.parse(input);
-					return new Height(number.doubleValue());
-				} catch (ParseException e) {
-					throw new RuntimeException(e);
+					return new Height(Double.parseDouble(input));
+				}
+				catch (NumberFormatException e)
+				{
+					return null;
 				}
 			}
-			return new Height();
 		}
 		else
 		{
@@ -206,8 +215,8 @@ public class AddMaxHeightForm extends AbstractQuestFormAnswerFragment
 					Integer.parseInt(inchInput.getText().toString())
 				);
 			}
-			return new Height();
 		}
+		return null;
 	}
 
 	private boolean isMetric()
@@ -237,6 +246,6 @@ public class AddMaxHeightForm extends AbstractQuestFormAnswerFragment
 
 	@Override public boolean hasChanges()
 	{
-		return !getHeightFromInput().isEmpty();
+		return getHeightFromInput() != null;
 	}
 }
