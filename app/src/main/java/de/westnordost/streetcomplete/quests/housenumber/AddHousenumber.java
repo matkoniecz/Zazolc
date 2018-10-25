@@ -47,7 +47,7 @@ public class AddHousenumber extends AOsmElementQuestType
 	{
 		return OverpassQLUtil.getGlobalOverpassBBox(bbox) +
 			"(way[!building]"+ANY_ADDRESS_FILTER+";rel[!building]"+ANY_ADDRESS_FILTER+";);" +
-			"out meta geom;";
+			"out geom;";
 	}
 
 	/** Query that returns all buildings that neither have an address node on their outline, nor
@@ -64,7 +64,7 @@ public class AddHousenumber extends AOsmElementQuestType
 			"node.building_nodes"+ANY_ADDRESS_FILTER+";< -> .buildings_with_addr_nodes;" +
 			// all buildings without housenumber minus ways that contain building nodes with addresses
 			"(.buildings; - .buildings_with_addr_nodes;);" +
-			"out meta geom;";
+			OverpassQLUtil.getQuestPrintStatement();
 	}
 
 	/** Query that returns all address nodes that are not part of any building outline */
@@ -75,7 +75,7 @@ public class AddHousenumber extends AOsmElementQuestType
 			"  node"+ANY_ADDRESS_FILTER+";" +
 			"  - ((way[building];relation[building];);>;);" +
 			");"+
-			"out meta geom;";
+			"out skel;";
 	}
 
 	private final OverpassMapDataDao overpassServer;
@@ -93,10 +93,10 @@ public class AddHousenumber extends AOsmElementQuestType
 		// empty result: We are done
 		if(buildings.isEmpty()) return true;
 
-		bbox = getBoundingBoxThatIncludes(buildings.values());
-
 		List<ElementGeometry> addrAreas = downloadAreasWithAddresses(bbox);
 		if(addrAreas == null) return false;
+
+		bbox = getBoundingBoxThatIncludes(buildings.values());
 
 		LatLonRaster addrPositions = downloadFreeFloatingPositionsWithAddresses(bbox);
 		if(addrPositions == null) return false;

@@ -18,7 +18,7 @@ class AddCyclewayUtil {
 		if(moreRoadTypes){
 			query += "way[highway ~ \"^(primary|primary_link|secondary|secondary_link|tertiary|tertiary_link|unclassified|residential|service|track|pedestrian)$\"]";
 		}else{
-			query += "way[highway ~ \"^(primary|secondary|tertiary|unclassified)$\"]";
+			query += "way[highway ~ \"^(primary|primary_link|secondary|secondary_link|tertiary|tertiary_link|unclassified)$\"]";
 		}
 			query += "[area != yes]" +
 			// only without cycleway tags
