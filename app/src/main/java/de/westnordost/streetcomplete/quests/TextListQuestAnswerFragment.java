@@ -118,7 +118,7 @@ public abstract class TextListQuestAnswerFragment extends AbstractQuestFormAnswe
 		{
 			answer.putStringArrayList(OSM_VALUES, osmValues);
 		}
-		applyFormAnswer(answer);
+		applyAnswer(answer);
 	}
 
     @Override public void onSaveInstanceState(Bundle outState)
@@ -128,10 +128,15 @@ public abstract class TextListQuestAnswerFragment extends AbstractQuestFormAnswe
 		outState.putBoolean(EXPANDED, showMoreButton.getVisibility() == View.GONE);
     }
 
-    @Override public boolean hasChanges()
+    public boolean isRejectingClose()
     {
-        return !textSelector.getSelectedIndices().isEmpty();
+        return isFormComplete();
     }
+
+	public boolean isFormComplete()
+	{
+		return !textSelector.getSelectedIndices().isEmpty();
+	}
 
     protected static class OsmItem extends TextSelectAdapter.Item
     {

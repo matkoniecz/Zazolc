@@ -26,6 +26,6 @@ public class multidesignatedFootwayToPathForm extends YesNoQuestAnswerFragment
 		Bundle bundle = new Bundle();
 		bundle.putBoolean(ANSWER, answer);
 		bundle.putString(FOOT_VALUE, foot);
-		applyImmediateAnswer(bundle);
+		applyAnswer(bundle);
 	}
 }
