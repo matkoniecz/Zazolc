@@ -3,12 +3,12 @@ package de.westnordost.streetcomplete.quests;
 import android.content.ContextWrapper;
 import android.support.annotation.AnyThread;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -85,6 +85,7 @@ public abstract class AbstractQuestAnswerFragment extends AbstractBottomSheetFra
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
 	{
+		otherAnswers = new ArrayList<>();
 		View view = inflater.inflate(R.layout.fragment_quest_answer, container, false);
 
 		TextView title = view.findViewById(R.id.title);
@@ -195,12 +196,8 @@ public abstract class AbstractQuestAnswerFragment extends AbstractBottomSheetFra
 
 	protected final void onClickCantSay()
 	{
-		DialogFragment leaveNote = new LeaveNoteDialog();
-		Bundle leaveNoteArgs = questAnswerComponent.getArguments();
-		String questTitle = QuestUtil.getTitle(getEnglishResources(), questType, osmElement);
-		leaveNoteArgs.putString(LeaveNoteDialog.ARG_QUEST_TITLE, questTitle + getQuestTitleSuffixHack());
-		leaveNote.setArguments(leaveNoteArgs);
-		leaveNote.show(getActivity().getSupportFragmentManager(), null);
+		String questTitle = QuestUtil.getTitle(getEnglishResources(), questType, osmElement) + getQuestTitleSuffixHack();
+		questAnswerComponent.onComposeNote(questTitle);
 	}
 
 	private Resources getEnglishResources()
