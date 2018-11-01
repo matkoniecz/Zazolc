@@ -33,7 +33,7 @@ import de.westnordost.streetcomplete.util.SphericalEarthMath;
 
 public class OsmQuestDownload
 {
-	public static final int MAX_GEOMETRY_LENGTH_IN_METERS = 500;
+	public static final int MAX_GEOMETRY_LENGTH_IN_METERS = 500000;
 
 	private static final String TAG = "QuestDownload";
 
