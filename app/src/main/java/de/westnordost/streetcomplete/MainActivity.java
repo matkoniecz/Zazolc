@@ -1,6 +1,7 @@
 package de.westnordost.streetcomplete;
 
 import android.animation.ObjectAnimator;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.support.annotation.DrawableRes;
@@ -196,7 +197,6 @@ public class MainActivity extends AppCompatActivity implements
 		soundFx.prepare(R.raw.plop2);
 		soundFx.prepare(R.raw.plop3);
 
-		setContentView(R.layout.activity_main);
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
 		if(prefs.getBoolean(Prefs.KEEP_SCREEN_ON, false))
@@ -204,11 +204,18 @@ public class MainActivity extends AppCompatActivity implements
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
 
+		questSource.onCreate(this);
+		questController.onCreate();
+
+		getSupportFragmentManager().beginTransaction()
+			.add(locationRequestFragment, LocationRequestFragment.class.getSimpleName())
+			.commit();
+
+		setContentView(R.layout.activity_main);
+
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		toolbar.setTitle("");
 		setSupportActionBar(toolbar);
-
-		questController.onCreate();
 
 		TextView uploadedAnswersView = findViewById(R.id.uploadedAnswersCounter);
 		TextView unsyncedChangesView = findViewById(R.id.unsyncedAnswersCounter);
@@ -226,23 +233,12 @@ public class MainActivity extends AppCompatActivity implements
 			}
 		});
 
-		questSource.onCreate(this);
-
-		getSupportFragmentManager().beginTransaction()
-				.add(locationRequestFragment, LocationRequestFragment.class.getSimpleName())
-				.commit();
-
 		downloadProgressBar = findViewById(R.id.download_progress);
 		downloadProgressBar.setMax(1000);
 
 		mapFragment = (QuestsMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
-		mapFragment.setQuestOffsets(new Rect(
-				getResources().getDimensionPixelSize(R.dimen.quest_form_leftOffset),
-				0,
-				getResources().getDimensionPixelSize(R.dimen.quest_form_rightOffset),
-				getResources().getDimensionPixelSize(R.dimen.quest_form_bottomOffset)));
-
 		mapFragment.getMapAsync(BuildConfig.MAPZEN_API_KEY);
+		updateMapQuestOffsets();
 	}
 
 	@Override public void onStart()
@@ -268,6 +264,7 @@ public class MainActivity extends AppCompatActivity implements
 
 		questController.onStart(this);
 		questAutoSyncer.onStart();
+		questAutoSyncer.triggerAutoUpload();
 
 		downloadProgressBar.setAlpha(0f);
 		downloadServiceIsBound = bindService(new Intent(this, QuestDownloadService.class),
@@ -328,6 +325,21 @@ public class MainActivity extends AppCompatActivity implements
 	{
 		super.onDestroy();
 		questController.onDestroy();
+	}
+
+	@Override public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		findViewById(R.id.main).requestLayout();
+		updateMapQuestOffsets();
+	}
+
+	private void updateMapQuestOffsets()
+	{
+		mapFragment.setQuestOffsets(new Rect(
+			getResources().getDimensionPixelSize(R.dimen.quest_form_leftOffset),
+			0,
+			getResources().getDimensionPixelSize(R.dimen.quest_form_rightOffset),
+			getResources().getDimensionPixelSize(R.dimen.quest_form_bottomOffset)));
 	}
 
 	@Override public boolean onCreateOptionsMenu(Menu menu)
@@ -810,6 +822,7 @@ public class MainActivity extends AppCompatActivity implements
 		LatLon position = mapFragment.getPositionAt(notePosition);
 		if(position == null) throw new NullPointerException();
 		questController.createNote(note, imagePaths, position);
+		questAutoSyncer.triggerAutoUpload();
 	}
 
 	/* ------------- VisibleQuestListener ------------- */
