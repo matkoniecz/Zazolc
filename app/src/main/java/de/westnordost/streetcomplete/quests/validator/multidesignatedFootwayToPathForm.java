@@ -15,17 +15,12 @@ import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment;
 public class multidesignatedFootwayToPathForm extends YesNoQuestAnswerFragment
 {
 	public static final String ANSWER = "answer";
-	public static final String FOOT_VALUE = "FOOT_VALUE";
 
 
 	protected void onClickYesNo(boolean answer)
 	{
-		OsmElement element = getOsmElement();
-		String foot = element != null && element.getTags() != null ? element.getTags().get("foot") : null;
-
 		Bundle bundle = new Bundle();
 		bundle.putBoolean(ANSWER, answer);
-		bundle.putString(FOOT_VALUE, foot);
 		applyAnswer(bundle);
 	}
 }

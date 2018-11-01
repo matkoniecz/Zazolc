@@ -39,15 +39,7 @@ public class multidesignatedFootwayToPath extends SimpleOverpassQuestType
 			//TODO: handle nonexisting pedestrian + cyclist route marked on the map
 			return;
 		}
-		String foot = answer.getString(multidesignatedFootwayToPathForm.FOOT_VALUE);
-		if(foot != null && !foot.equals("designated"))
-		{
-			//TODO: it should never happen
-			return;
-		}
-		if(foot == null){
-			changes.add("foot", "designated");
-		}
+		changes.addOrModify("foot", "designated");
 		changes.modify("highway", "path");
 	}
 
