@@ -21,6 +21,8 @@ class AddCyclewayUtil {
 			query += "way[highway ~ \"^(primary|primary_link|secondary|secondary_link|tertiary|tertiary_link|unclassified)$\"]";
 		}
 			query += "[area != yes]" +
+			// not any motorroads
+			"[motorroad != yes]" +
 			// only without cycleway tags
 			"[!cycleway][!\"cycleway:left\"][!\"cycleway:right\"][!\"cycleway:both\"]" +
 			"[!\"sidewalk:bicycle\"][!\"sidewalk:both:bicycle\"][!\"sidewalk:left:bicycle\"][!\"sidewalk:right:bicycle\"]";
