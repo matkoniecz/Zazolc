@@ -1,36 +1,21 @@
 package de.westnordost.streetcomplete.quests.show_fixme;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
 
-import java.util.List;
-
-import de.westnordost.osmapi.map.data.OsmElement;
 import de.westnordost.streetcomplete.R;
-import de.westnordost.streetcomplete.quests.TextListQuestAnswerFragment;
+import de.westnordost.streetcomplete.quests.ImageListQuestAnswerFragment;
+import de.westnordost.streetcomplete.view.Item;
 
-public class ShowFixmeForm extends TextListQuestAnswerFragment {
+public class ShowFixmeForm extends ImageListQuestAnswerFragment {
     protected static final int ALL_OF_THEM = 1000;
 
-    private static final OsmItem[] REFUSAL_TYPES = new OsmItem[]{
-		new OsmItem("fixme:solved", R.string.quest_ShowFixme_solved_answer),
-            new OsmItem("fixme:requires_aerial_image", R.string.quest_ShowFixme_requiresAerial_answer),
-            new OsmItem("fixme:use_better_tagging_scheme", R.string.quest_ShowFixme_pure_taggery_answer),
-            new OsmItem("fixme:3d_tagging", R.string.quest_ShowFixme_3d_tagging_answer),
-    };
-
-    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                       Bundle savedInstanceState)
-    {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        OsmElement element = getOsmElement();
-        String fixme = element != null && element.getTags() != null ? element.getTags().get("fixme") : null;
-        //setTitle(R.string.fixme_title, fixme);
-        textSelector.setCellLayout(R.layout.text_select_cell);
-        return view;
-    }
+	@Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+	{
+		super.onViewCreated(view, savedInstanceState);
+		imageSelector.setCellLayout(R.layout.cell_icon_select_with_label_below);
+	}
 
     @Override protected int getMaxSelectableItems()
     {
@@ -42,8 +27,11 @@ public class ShowFixmeForm extends TextListQuestAnswerFragment {
         return ALL_OF_THEM;
     }
 
-    @Override protected TextListQuestAnswerFragment.OsmItem[] getItems()
-    {
-        return REFUSAL_TYPES;
-    }
-}
+	@Override protected Item[] getItems() {
+		return new Item[]{
+			new Item("fixme:solved", R.drawable.ic_religion_christian, R.string.quest_ShowFixme_solved_answer),
+			new Item("fixme:requires_aerial_image", R.drawable.ic_religion_christian, R.string.quest_ShowFixme_requiresAerial_answer),
+			new Item("fixme:use_better_tagging_scheme", R.drawable.ic_religion_christian, R.string.quest_ShowFixme_pure_taggery_answer),
+			new Item("fixme:3d_tagging", R.drawable.ic_religion_christian, R.string.quest_ShowFixme_3d_tagging_answer),
+		};
+	}}

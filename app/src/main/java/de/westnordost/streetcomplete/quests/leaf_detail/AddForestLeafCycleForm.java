@@ -1,29 +1,20 @@
 package de.westnordost.streetcomplete.quests.leaf_detail;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import de.westnordost.streetcomplete.R;
-import de.westnordost.streetcomplete.quests.TextListQuestAnswerFragment;
+import de.westnordost.streetcomplete.quests.ImageListQuestAnswerFragment;
+import de.westnordost.streetcomplete.view.Item;
 
-public class AddForestLeafCycleForm extends TextListQuestAnswerFragment {
-	private static final OsmItem[] LEAF_TYPES = new OsmItem[]{
-			new OsmItem("deciduous", R.string.quest_forestLeaf_decidous_answer),
-			new OsmItem("evergreen", R.string.quest_forestLeaf_evergreen_answer),
-			new OsmItem("mixed", R.string.quest_forestLeaf_mixed_answer),
-			new OsmItem("semi_deciduous", R.string.quest_forestLeaf_semi_deciduous_answer),
-	};
-
-	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-									   Bundle savedInstanceState)
+public class AddForestLeafCycleForm extends ImageListQuestAnswerFragment {
+	@Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
 	{
-		View view = super.onCreateView(inflater, container, savedInstanceState);
-		textSelector.setCellLayout(R.layout.text_select_cell);
-		return view;
+		super.onViewCreated(view, savedInstanceState);
+		imageSelector.setCellLayout(R.layout.cell_icon_select_with_label_below);
 	}
 
 	@Override protected int getMaxSelectableItems()
@@ -33,11 +24,16 @@ public class AddForestLeafCycleForm extends TextListQuestAnswerFragment {
 
 	@Override protected int getMaxNumberOfInitiallyShownItems()
 	{
-		return LEAF_TYPES.length;
+		return getItems().length;
 	}
 
-	@Override protected OsmItem[] getItems()
-	{
-		return LEAF_TYPES;
+	@Override protected Item[] getItems() {
+		return new Item[]{
+			new Item("deciduous", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_decidous_answer),
+			new Item("evergreen", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_evergreen_answer),
+			new Item("mixed", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_mixed_answer),
+			new Item("semi_deciduous", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_semi_deciduous_answer),
+		};
 	}
 }
+
