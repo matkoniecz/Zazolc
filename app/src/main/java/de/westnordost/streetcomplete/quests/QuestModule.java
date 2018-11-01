@@ -57,6 +57,7 @@ import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusSt
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability;
 import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
+import de.westnordost.streetcomplete.quests.tracktype.AddTracktype;
 import de.westnordost.streetcomplete.quests.housenumber.AddHousenumber;
 import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafCycle;
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed;
@@ -93,6 +94,7 @@ public class QuestModule
 			new AddRoadSurface(o),
 			new AddBikeParkingType(o),
 			new ShowFixme(o), //my own quest
+			new AddTracktype(o),
 			new MarkCompletedHighwayConstruction(o),
 			new MarkCompletedBuildingConstruction(o),
 			new AddAlsoShopForInsurance(o),
