@@ -28,7 +28,7 @@ public class AddMaxHeight extends AOsmElementQuestType
 	private static final Lazy<TagFilterExpression> NODE_FILTER = new Lazy<>(() -> new FiltersParser().parse(
 		"nodes with" +
 		" (barrier=height_restrictor or amenity=parking_entrance and parking ~ underground|multi-storey)" +
-		" and !maxheight and !maxheight:physical"
+		" and access!~private|no and vehicle!~private|no and !maxheight and !maxheight:physical"
 	));
 
 	private static final Lazy<TagFilterExpression> WAY_FILTER = new Lazy<>(() -> new FiltersParser().parse(
