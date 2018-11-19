@@ -68,6 +68,8 @@ import de.westnordost.streetcomplete.quests.tracktype.AddTracktype;
 import de.westnordost.streetcomplete.quests.validator.AccessDestinationToPrivate;
 import de.westnordost.streetcomplete.quests.validator.AccessPublicToYes;
 import de.westnordost.streetcomplete.quests.validator.AddAlsoShopForInsurance;
+import de.westnordost.streetcomplete.quests.validator.ConfirmContraflowLane;
+import de.westnordost.streetcomplete.quests.validator.ConfirmContraflowWithoutLane;
 import de.westnordost.streetcomplete.quests.validator.VehicleDestinationToPrivate;
 import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
@@ -118,6 +120,8 @@ public class QuestModule
 			new AddCyclewaySegregation(o),
 			new AddPlaygroundAccess(o), //late as in many areas all needed access=private is already mapped
 			new AddMaxHeight(o),
+			new ConfirmContraflowLane(o),
+			new ConfirmContraflowWithoutLane(o),
 
 			//boring
 			new AddOpeningHours(o),
