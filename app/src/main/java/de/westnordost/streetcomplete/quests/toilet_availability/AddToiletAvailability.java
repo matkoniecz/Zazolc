@@ -23,7 +23,7 @@ public class AddToiletAvailability extends SimpleOverpassQuestType
 		// only for malls, big stores and rest areas because users should not need to go inside a non-public
 		// place to solve the quest. (Considering malls and department stores public enough)
 		// in this fork also McDonald's and KFC are considered public
-		return "nodes, ways with ( (shop ~ mall|department_store and name) or (highway ~ services|rest_area) or (name=McDonald's) or (name=KFC)) and !toilets";
+		return "nodes, ways with ( (shop ~ mall|department_store and name) or (highway ~ services|rest_area) or (name=McDonald's) or (name=KFC)) or amenity~fuel|restaurant and !toilets";
 	}
 
 	public AbstractQuestAnswerFragment createForm()
