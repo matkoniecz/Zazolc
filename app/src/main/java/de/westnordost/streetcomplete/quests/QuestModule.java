@@ -70,6 +70,7 @@ import de.westnordost.streetcomplete.quests.validator.AccessPublicToYes;
 import de.westnordost.streetcomplete.quests.validator.AddAlsoShopForInsurance;
 import de.westnordost.streetcomplete.quests.validator.ConfirmContraflowLane;
 import de.westnordost.streetcomplete.quests.validator.ConfirmContraflowWithoutLane;
+import de.westnordost.streetcomplete.quests.validator.RemoveFootYesFromFootways;
 import de.westnordost.streetcomplete.quests.validator.VehicleDestinationToPrivate;
 import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
@@ -122,6 +123,7 @@ public class QuestModule
 			new AddMaxHeight(o),
 			new ConfirmContraflowLane(o),
 			new ConfirmContraflowWithoutLane(o),
+			new RemoveFootYesFromFootways(o),
 
 			//boring
 			new AddOpeningHours(o),
