@@ -20,6 +20,8 @@ import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBoolean;
 import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBooleanAggressive;
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure;
 import de.westnordost.streetcomplete.quests.building_type.AddBuildingType;
+import de.westnordost.streetcomplete.quests.building_underground.IsBuildingUnderground;
+import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType;
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedBuildingConstruction;
@@ -38,6 +40,8 @@ import de.westnordost.streetcomplete.quests.localized_name.data.PutRoadNameSugge
 import de.westnordost.streetcomplete.quests.localized_name.data.RoadNameSuggestionsDao;
 import de.westnordost.streetcomplete.quests.max_height.AddMaxHeight;
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed;
+import de.westnordost.streetcomplete.quests.motorcycle_parking_capacity.AddMotorcycleParkingCapacity;
+import de.westnordost.streetcomplete.quests.motorcycle_parking_cover.AddMotorcycleParkingCover;
 import de.westnordost.streetcomplete.quests.oneway.AddOneway;
 import de.westnordost.streetcomplete.quests.oneway.TrafficFlowSegmentsDao;
 import de.westnordost.streetcomplete.quests.oneway.WayTrafficFlowDao;
@@ -65,6 +69,8 @@ import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCross
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability;
 import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
 import de.westnordost.streetcomplete.quests.tracktype.AddTracktype;
+import de.westnordost.streetcomplete.quests.traffic_signals_button.AddTrafficSignalsButton;
+import de.westnordost.streetcomplete.quests.traffic_signals_sound.AddTrafficSignalsSound;
 import de.westnordost.streetcomplete.quests.validator.AccessDestinationToPrivate;
 import de.westnordost.streetcomplete.quests.validator.AccessPublicToYes;
 import de.westnordost.streetcomplete.quests.validator.AddAlsoShopForInsurance;
@@ -77,6 +83,7 @@ import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessPublicTransport;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessToilets;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessBusiness;
+import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessOutside;
 
 @Module
 public class QuestModule
@@ -136,6 +143,7 @@ public class QuestModule
 			new AddTactilePavingCrosswalk(o),
 			new AddRecyclingType(o),
 			new AddSport(o),
+			new IsBuildingUnderground(o),
 			new AddHousenumber(o),
 			new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
 			new AddPowerPolesMaterial(o),
@@ -149,6 +157,11 @@ public class QuestModule
 			new AddWheelChairAccessPublicTransport(o),
 			new AddWheelChairAccessToilets(o),
 			new AddWheelchairAccessBusiness(o),
+			new AddMotorcycleParkingCapacity(o),
+			new AddTrafficSignalsSound(o),
+			new AddTrafficSignalsButton(o),
+			new AddWheelchairAccessOutside(o),
+			new AddMotorcycleParkingCover(o),
 			new AddPostboxCollectionTimes(o),
 			new AddTactilePavingBusStop(o),
 			new AddBridgeStructure(o),

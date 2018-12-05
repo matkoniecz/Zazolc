@@ -15,4 +15,5 @@ public abstract class AOsmElementQuestType implements OsmElementQuestType
 	@Override public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
 		return "";
 	}
+	@Override public boolean hasMarkersAtEnds() { return false; }
 }
