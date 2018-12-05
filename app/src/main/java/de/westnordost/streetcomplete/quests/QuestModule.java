@@ -76,6 +76,7 @@ import de.westnordost.streetcomplete.quests.validator.AccessPublicToYes;
 import de.westnordost.streetcomplete.quests.validator.AddAlsoShopForInsurance;
 import de.westnordost.streetcomplete.quests.validator.ConfirmContraflowLane;
 import de.westnordost.streetcomplete.quests.validator.ConfirmContraflowWithoutLane;
+import de.westnordost.streetcomplete.quests.validator.DetectHistoricRailwayTagging;
 import de.westnordost.streetcomplete.quests.validator.RemoveFootYesFromFootways;
 import de.westnordost.streetcomplete.quests.validator.VehicleDestinationToPrivate;
 import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
@@ -131,6 +132,7 @@ public class QuestModule
 			new ConfirmContraflowLane(o),
 			new ConfirmContraflowWithoutLane(o),
 			new RemoveFootYesFromFootways(o),
+			new DetectHistoricRailwayTagging(o),
 
 			//boring
 			new AddOpeningHours(o),
