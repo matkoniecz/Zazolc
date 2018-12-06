@@ -43,7 +43,7 @@ public class ConfirmContraflowWithoutLane extends SimpleOverpassQuestType {
 	@Override public int getIcon() { return R.drawable.ic_quest_bicycle; }
 	@Override public int getTitle(Map<String,String> tags)
 	{
-		return R.string.quest_confirm_contraflow_lane;
+		return R.string.quest_confirm_contraflow_without_lane;
 	}
 }
 
