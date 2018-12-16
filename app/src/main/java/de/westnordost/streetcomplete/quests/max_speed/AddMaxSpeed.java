@@ -92,9 +92,4 @@ public class AddMaxSpeed extends SimpleOverpassQuestType
 	}
 
 	@Override public boolean hasMarkersAtEnds() { return true; }
-
-	@Override public int getDefaultDisabledMessage()
-	{
-		return R.string.default_disabled_msg_maxspeed;
-	}
 }
