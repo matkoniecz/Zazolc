@@ -107,9 +107,18 @@ public class AddPlaceName extends SimpleOverpassQuestType
 		if (!interestingTags.contains("tourism")){
 			interestingTags.add("tourism");
 		}
+		if (!interestingTags.contains("ref")){
+			interestingTags.add("ref");
+		}
+		if (!interestingTags.contains("location")){
+			interestingTags.add("location");
+		}
+		if (!interestingTags.contains("level")){
+			interestingTags.add("level");
+		}
 		for(String key: interestingTags){
 			if(tags.get(key) != null){
-				returned += key + "=" + tags.get(key);
+				returned += key + "=" + tags.get(key) + " ";
 			}
 		}
 		return returned;
