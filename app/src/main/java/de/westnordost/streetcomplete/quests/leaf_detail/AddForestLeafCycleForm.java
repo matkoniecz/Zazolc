@@ -30,9 +30,9 @@ public class AddForestLeafCycleForm extends ImageListQuestAnswerFragment {
 	@Override protected Item[] getItems() {
 		return new Item[]{
 			new Item("deciduous", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_decidous_answer),
-			new Item("evergreen", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_evergreen_answer),
 			new Item("mixed", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_mixed_answer),
-			new Item("semi_deciduous", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_semi_deciduous_answer),
+			new Item("evergreen", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_evergreen_answer),
+			new Item("semi_deciduous", R.drawable.ic_religion_taoist, R.string.quest_forestLeaf_semi_deciduous_answer),
 		};
 	}
 }

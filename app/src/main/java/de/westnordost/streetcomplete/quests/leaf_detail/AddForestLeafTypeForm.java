@@ -14,9 +14,9 @@ import de.westnordost.streetcomplete.view.Item;
 public class AddForestLeafTypeForm extends ImageListQuestAnswerFragment
 {
 	private static final Item[] LEAF_TYPES = new Item[]{
+			new Item("broadleaved", R.drawable.leaf_type_broadleaved, R.string.quest_forestLeaf_broadleaved_answer),
+			new Item("mixed", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_mixed_answer),
             new Item("needleleaved", R.drawable.leaf_type_needleleaved, R.string.quest_forestLeaf_needleleaved_answer),
-            new Item("mixed", R.drawable.ic_religion_christian, R.string.quest_forestLeaf_mixed_answer),
-            new Item("broadleaved", R.drawable.leaf_type_broadleaved, R.string.quest_forestLeaf_broadleaved_answer),
 	};
 
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
