@@ -49,7 +49,7 @@ public class AddPlaceName extends SimpleOverpassQuestType
 			"adult_gaming_centre", "tanning_salon","horse_riding"
 		});
 		put("waterway", new String[]{
-			"river", "stream", "canal", "waterfall"
+			"river", "stream", "canal", "waterfall", "weir",
 		});
 		put("water", new String[]{
 			"lake"
