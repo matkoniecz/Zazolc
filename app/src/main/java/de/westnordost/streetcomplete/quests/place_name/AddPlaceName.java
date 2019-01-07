@@ -22,7 +22,7 @@ public class AddPlaceName extends SimpleOverpassQuestType
 	// not all amenities have names. Rather have an inclusive list here than an exclusive one. This
 	// list goes down to a few hundred (documented) elements in taginfo (Mar 2017)
 
-	private static final Hashtable<String, String[]> OBJECTS_WITH_NAMES = new Hashtable<String,String[]>() {{
+	public static final Hashtable<String, String[]> OBJECTS_WITH_NAMES = new Hashtable<String,String[]>() {{
 		put("amenity", new String[]{
 			"restaurant", "cafe", "ice_cream", "fast_food", "bar", "pub", "biergarten", "food_court", "nightclub",        // eat & drink
 			"cinema", "theatre", "planetarium", "arts_centre", "studio",                                            // culture

@@ -13,6 +13,7 @@ import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType;
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment;
+import de.westnordost.streetcomplete.quests.place_name.AddPlaceName;
 
 public class ShowFixme extends SimpleOverpassQuestType
 {
@@ -61,7 +62,33 @@ public class ShowFixme extends SimpleOverpassQuestType
 
 	@Override
 	public String getTitleSuffixHack(@NonNull Map<String, String> tags) {
-		return tags.get("fixme");
+		String returned = "";
+		ArrayList<String> interestingTags = new ArrayList<>(AddPlaceName.OBJECTS_WITH_NAMES.keySet());
+		if (!interestingTags.contains("shop")){
+			interestingTags.add("shop");
+		}
+		if (!interestingTags.contains("tourism")){
+			interestingTags.add("tourism");
+		}
+		if (!interestingTags.contains("ref")){
+			interestingTags.add("ref");
+		}
+		if (!interestingTags.contains("location")){
+			interestingTags.add("location");
+		}
+		if (!interestingTags.contains("level")){
+			interestingTags.add("level");
+		}
+		if (!interestingTags.contains("highway")){
+			interestingTags.add("highway");
+		}
+		interestingTags.add("fixme");
+		for(String key: interestingTags){
+			if(tags.get(key) != null){
+				returned += key + "=" + tags.get(key) + " ";
+			}
+		}
+		return returned;
 	}
 
 	@Override public int getIcon() { return R.drawable.ic_quest_notes; }
