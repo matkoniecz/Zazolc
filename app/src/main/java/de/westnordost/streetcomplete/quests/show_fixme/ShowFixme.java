@@ -91,6 +91,9 @@ public class ShowFixme extends SimpleOverpassQuestType
 		if (!interestingTags.contains("highway")){
 			interestingTags.add("highway");
 		}
+		if (!interestingTags.contains("name")){
+			interestingTags.add("name");
+		}
 		interestingTags.add("fixme");
 		for(String key: interestingTags){
 			if(tags.get(key) != null){
