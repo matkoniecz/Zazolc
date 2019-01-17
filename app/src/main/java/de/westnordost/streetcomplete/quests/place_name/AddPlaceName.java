@@ -113,6 +113,15 @@ public class AddPlaceName extends SimpleOverpassQuestType
 		if (!interestingTags.contains("location")){
 			interestingTags.add("location");
 		}
+		if (!interestingTags.contains("addr:street")){
+			interestingTags.add("addr:street");
+		}
+		if (!interestingTags.contains("addr:housenumber")){
+			interestingTags.add("addr:housenumber");
+		}
+		if (!interestingTags.contains("addr:housename")){
+			interestingTags.add("addr:housenumber");
+		}
 		if (!interestingTags.contains("level")){
 			interestingTags.add("level");
 		}
