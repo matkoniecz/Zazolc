@@ -3,11 +3,14 @@ package de.westnordost.streetcomplete.settings;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceManager;
+import androidx.fragment.app.DialogFragment;
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import android.widget.Toast;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -16,6 +19,9 @@ import de.westnordost.streetcomplete.FragmentContainerActivity;
 import de.westnordost.streetcomplete.Injector;
 import de.westnordost.streetcomplete.IntentListener;
 import de.westnordost.streetcomplete.Prefs;
+import de.westnordost.streetcomplete.data.QuestStatus;
+import de.westnordost.streetcomplete.data.osm.OsmQuest;
+import de.westnordost.streetcomplete.data.osm.persist.OsmQuestDao;
 import de.westnordost.streetcomplete.data.tiles.DownloadedTilesDao;
 import de.westnordost.streetcomplete.oauth.OAuthPrefs;
 import de.westnordost.streetcomplete.R;
@@ -31,6 +37,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 	@Inject OAuthPrefs oAuth;
 	@Inject Provider<ApplyNoteVisibilityChangedTask> applyNoteVisibilityChangedTask;
 	@Inject DownloadedTilesDao downloadedTilesDao;
+	@Inject OsmQuestDao osmQuestDao;
 
 	@Override public void onCreatePreferences(Bundle savedInstanceState, String rootKey)
 	{
@@ -63,6 +70,19 @@ public class SettingsFragment extends PreferenceFragmentCompat
 					.setNegativeButton(android.R.string.cancel, null)
 					.show();
 
+			return true;
+		});
+
+		Preference questsRestoreHidden = getPreferenceScreen().findPreference("quests.restore.hidden");
+		questsRestoreHidden.setOnPreferenceClickListener(preference ->
+		{
+			List<OsmQuest> hidden = osmQuestDao.getAll(null, QuestStatus.HIDDEN, null, null, null);
+			for (OsmQuest q : hidden)
+			{
+				q.setStatus(QuestStatus.NEW);
+			}
+			osmQuestDao.replaceAll(hidden);
+			Toast.makeText(getContext(), getString(R.string.restore_hidden_success, hidden.size()), Toast.LENGTH_LONG).show();
 			return true;
 		});
 	}
@@ -142,8 +162,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 			bundle.putString("key", preference.getKey());
 			fragment.setArguments(bundle);
 			fragment.setTargetFragment(this, 0);
-			fragment.show(getFragmentManager(),
-					"android.support.v7.preference.PreferenceFragment.DIALOG");
+			fragment.show(getFragmentManager(), "androidx.preference.PreferenceFragment.DIALOG");
 		} else super.onDisplayPreferenceDialog(preference);
 	}
 

@@ -16,11 +16,10 @@ import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParking
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover;
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType;
 import de.westnordost.streetcomplete.quests.bikeway.AddCycleway;
-import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBoolean;
-import de.westnordost.streetcomplete.quests.bikeway.AddCyclewayBooleanAggressive;
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure;
 import de.westnordost.streetcomplete.quests.building_type.AddBuildingType;
-import de.westnordost.streetcomplete.quests.building_underground.IsBuildingUnderground;
+import de.westnordost.streetcomplete.quests.building_underground.AddIsBuildingUnderground;
+import de.westnordost.streetcomplete.quests.foot.AddAccessibleForPedestrians;
 import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType;
@@ -32,9 +31,6 @@ import de.westnordost.streetcomplete.quests.diet_type.AddVegetarian;
 import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType;
 import de.westnordost.streetcomplete.quests.housenumber.AddHousenumber;
 import de.westnordost.streetcomplete.quests.internet_access.AddInternetAccess;
-import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafCycle;
-import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType;
-import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName;
 import de.westnordost.streetcomplete.quests.localized_name.AddRoadName;
 import de.westnordost.streetcomplete.quests.localized_name.data.PutRoadNameSuggestionsHandler;
 import de.westnordost.streetcomplete.quests.localized_name.data.RoadNameSuggestionsDao;
@@ -43,10 +39,10 @@ import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed;
 import de.westnordost.streetcomplete.quests.motorcycle_parking_capacity.AddMotorcycleParkingCapacity;
 import de.westnordost.streetcomplete.quests.motorcycle_parking_cover.AddMotorcycleParkingCover;
 import de.westnordost.streetcomplete.quests.oneway.AddOneway;
-import de.westnordost.streetcomplete.quests.oneway.TrafficFlowSegmentsDao;
-import de.westnordost.streetcomplete.quests.oneway.WayTrafficFlowDao;
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours;
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
+import de.westnordost.streetcomplete.quests.oneway.data.TrafficFlowSegmentsDao;
+import de.westnordost.streetcomplete.quests.oneway.data.WayTrafficFlowDao;
 import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess;
 import de.westnordost.streetcomplete.quests.parking_fee.AddParkingFee;
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
@@ -59,9 +55,8 @@ import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine;
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation;
-import de.westnordost.streetcomplete.quests.separate_sidewalk.AddWaySidewalk;
-import de.westnordost.streetcomplete.quests.show_fixme.ShowFixme;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
+import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk;
 import de.westnordost.streetcomplete.quests.surface.AddPathSurface;
 import de.westnordost.streetcomplete.quests.surface.AddRoadSurface;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
@@ -71,15 +66,9 @@ import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
 import de.westnordost.streetcomplete.quests.tracktype.AddTracktype;
 import de.westnordost.streetcomplete.quests.traffic_signals_button.AddTrafficSignalsButton;
 import de.westnordost.streetcomplete.quests.traffic_signals_sound.AddTrafficSignalsSound;
-import de.westnordost.streetcomplete.quests.validator.AccessDestinationToPrivate;
-import de.westnordost.streetcomplete.quests.validator.AccessPublicToYes;
 import de.westnordost.streetcomplete.quests.validator.AddAlsoShopForInsurance;
-import de.westnordost.streetcomplete.quests.validator.ConfirmContraflowLane;
-import de.westnordost.streetcomplete.quests.validator.ConfirmContraflowWithoutLane;
 import de.westnordost.streetcomplete.quests.validator.DetectHistoricRailwayTagging;
-import de.westnordost.streetcomplete.quests.validator.RemoveFootYesFromFootways;
-import de.westnordost.streetcomplete.quests.validator.VehicleDestinationToPrivate;
-import de.westnordost.streetcomplete.quests.validator.multidesignatedFootwayToPath;
+import de.westnordost.streetcomplete.quests.validator.MultidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessPublicTransport;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessToilets;
@@ -98,17 +87,14 @@ public class QuestModule
 		QuestType[] questTypesOrderedByImportance = {
 			osmNoteQuestType,
 			new AddOneway(o, trafficFlowSegmentsDao, trafficFlowDao),
-			new AddCyclewayBooleanAggressive(o), //my own quest, disabled by default but after enabling should be a top one
 			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
 			new AddRoadSurface(o),
 			new AddBikeParkingType(o),
-			new ShowFixme(o), //my own quest
+			//new ShowFixme(o), //my own quest
 			new AddTracktype(o),
 			new MarkCompletedHighwayConstruction(o),
 			new MarkCompletedBuildingConstruction(o),
 			new AddAlsoShopForInsurance(o),
-			new AddForestLeafCycle(o), //my own quest
-			new AddForestLeafType(o), //my own quest
 			new AddBikeParkingCapacity(o),
 			new AddBikeParkingCover(o),
 			new AddReligionToPlaceOfWorship(o),
@@ -122,17 +108,13 @@ public class QuestModule
 			new AddPlaceName(o), //works with my horrible hack
 			new AddToiletAvailability(o),
 			new AddPathSurface(o),
-			new multidesignatedFootwayToPath(o), //my own quest
-			new AccessPublicToYes(o), //my own quest
-			new AccessDestinationToPrivate(o), //my own quest
-			new VehicleDestinationToPrivate(o), //my own quest
+			new MultidesignatedFootwayToPath(o), //my own quest
 			new AddCyclewaySegregation(o),
 			new AddPlaygroundAccess(o), //late as in many areas all needed access=private is already mapped
 			new AddMaxHeight(o),
-			new ConfirmContraflowLane(o),
-			new ConfirmContraflowWithoutLane(o),
-			new RemoveFootYesFromFootways(o),
 			new DetectHistoricRailwayTagging(o),
+			new AddAccessibleForPedestrians(o),
+			new AddSidewalk(o),
 
 			//boring
 			new AddOpeningHours(o),
@@ -145,17 +127,14 @@ public class QuestModule
 			new AddTactilePavingCrosswalk(o),
 			new AddRecyclingType(o),
 			new AddSport(o),
-			new IsBuildingUnderground(o),
+			new AddIsBuildingUnderground(o),
 			new AddHousenumber(o),
 			new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
 			new AddPowerPolesMaterial(o),
 			new AddVegetarian(o),
 			new AddVegan(o),
-			new AddWaySidewalk(o), //my own quest
 			new AddCarWashType(o),
 			new AddBenchBackrest(o),
-			new AddCyclewayBoolean(o),
-			new AddCycleway(o),
 			new AddWheelChairAccessPublicTransport(o),
 			new AddWheelChairAccessToilets(o),
 			new AddWheelchairAccessBusiness(o),
@@ -169,6 +148,7 @@ public class QuestModule
 			new AddBridgeStructure(o),
 			new AddOrchardProduce(o),
 			new AddRailwayCrossingBarrier(o),
+			new AddCycleway(o),
 		};
 
 		return new QuestTypeRegistry(Arrays.asList(questTypesOrderedByImportance));

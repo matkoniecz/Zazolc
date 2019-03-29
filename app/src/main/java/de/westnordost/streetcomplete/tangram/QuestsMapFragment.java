@@ -5,9 +5,9 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
@@ -258,10 +258,11 @@ public class QuestsMapFragment extends MapFragment implements TouchInput.TapResp
 	protected void updateView()
 	{
 		super.updateView();
+		if(controller == null) return;
 
 		if(controller.getZoom() < TILES_ZOOM) return;
 
-		// check if anything changed (needs to be extended when I reenable tilt and rotation)
+		// check if anything changed (needs to be extended when I re-enable tilt and rotation)
 		LngLat positionNow = controller.getPosition();
 		if(lastPos != null  && lastPos.equals(positionNow)) return;
 		lastPos = positionNow;
