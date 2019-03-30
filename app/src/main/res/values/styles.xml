@@ -46,7 +46,7 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:background">?android:attr/selectableItemBackground</item>
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">18sp</item>
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">8dp</item>
@@ -72,7 +72,14 @@
         <item name="android:background">@drawable/background_housenumber_frame</item>
     </style>
 
-    <style name="RoundButton">
+    <style name="RoundWhiteButton">
+        <item name="android:background">@drawable/round_white_button</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:clickable">true</item>
+        <item name="android:elevation" tools:targetApi="21">4dp</item>
+    </style>
+
+    <style name="RoundAccentButton">
         <item name="android:background">@drawable/round_colored_button</item>
         <item name="android:textColor">#fff</item>
         <item name="android:clickable">true</item>
@@ -126,7 +133,7 @@
 
     <style name="BottomSheetButtonBarItem">
         <item name="android:background">?android:attr/selectableItemBackground</item>
-        <item name="android:textColor">@color/accent</item>
+        <item name="android:textColor">@color/button_bar_button_text</item>
         <item name="android:padding">16dp</item>
     </style>
 
@@ -135,7 +142,7 @@
     </style>
 
     <style name="NoteDiscussion.Comment">
-        <item name="android:textColor">#000</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
     <style name="NoteDiscussion.Info"/>
