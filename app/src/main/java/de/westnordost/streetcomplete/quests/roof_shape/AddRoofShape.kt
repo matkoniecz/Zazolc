@@ -21,4 +21,5 @@ class AddRoofShape(o: OverpassMapDataDao) : SimpleOverpassQuestType<String>(o) {
     override fun applyAnswerTo(answer: String, changes: StringMapChangesBuilder) {
         changes.add("roof:shape", answer)
     }
+    override val defaultDisabledMessage = R.string.default_disabled_msg_boring
 }

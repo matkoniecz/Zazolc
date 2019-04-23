@@ -30,4 +30,5 @@ class AddTactilePavingBusStop(o: OverpassMapDataDao) : SimpleOverpassQuestType<B
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
         changes.add("tactile_paving", if (answer) "yes" else "no")
     }
+    override val defaultDisabledMessage = R.string.default_disabled_msg_boring
 }

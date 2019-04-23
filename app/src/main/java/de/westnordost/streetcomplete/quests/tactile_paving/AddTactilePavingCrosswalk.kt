@@ -39,4 +39,5 @@ class AddTactilePavingCrosswalk(o: OverpassMapDataDao) : SimpleOverpassQuestType
             "AU","NZ"
         )
     }
+    override val defaultDisabledMessage = R.string.default_disabled_msg_boring
 }

@@ -20,4 +20,5 @@ class AddTrafficSignalsSound(o: OverpassMapDataDao) : SimpleOverpassQuestType<Bo
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
         changes.add("traffic_signals:sound", if (answer) "yes" else "no")
     }
+    override val defaultDisabledMessage = R.string.default_disabled_msg_boring
 }

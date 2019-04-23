@@ -26,4 +26,5 @@ class AddBenchBackrest(o: OverpassMapDataDao) : SimpleOverpassQuestType<BenchBac
             NO -> changes.add("backrest", "no")
         }
     }
+    override val defaultDisabledMessage = R.string.default_disabled_msg_boring
 }

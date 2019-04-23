@@ -33,4 +33,5 @@ class AddBuildingLevels(o: OverpassMapDataDao) : SimpleOverpassQuestType<Buildin
         changes.add("building:levels", answer.levels.toString())
         answer.roofLevels?.let { changes.addOrModify("roof:levels", it.toString()) }
     }
+    override val defaultDisabledMessage = R.string.default_disabled_msg_boring
 }

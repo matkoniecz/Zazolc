@@ -20,4 +20,5 @@ class AddTrafficSignalsButton(o: OverpassMapDataDao) : SimpleOverpassQuestType<B
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
         changes.add("button_operated", if (answer) "yes" else "no")
     }
+    override val defaultDisabledMessage = R.string.default_disabled_msg_boring
 }
