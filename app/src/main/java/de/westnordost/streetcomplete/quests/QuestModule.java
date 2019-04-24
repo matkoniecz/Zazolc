@@ -1,11 +1,13 @@
 package de.westnordost.streetcomplete.quests;
 
 import java.util.Arrays;
+import java.util.concurrent.FutureTask;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import de.westnordost.osmfeatures.FeatureDictionary;
 import de.westnordost.streetcomplete.data.QuestType;
 import de.westnordost.streetcomplete.data.QuestTypeRegistry;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
@@ -82,9 +84,11 @@ public class QuestModule
 		OsmNoteQuestType osmNoteQuestType, OverpassMapDataDao o,
 		RoadNameSuggestionsDao roadNameSuggestionsDao,
 		PutRoadNameSuggestionsHandler putRoadNameSuggestionsHandler,
-		TrafficFlowSegmentsDao trafficFlowSegmentsDao, WayTrafficFlowDao trafficFlowDao)
+		TrafficFlowSegmentsDao trafficFlowSegmentsDao, WayTrafficFlowDao trafficFlowDao,
+		FutureTask<FeatureDictionary> featureDictionaryFuture)
 	{
 		QuestType[] questTypesOrderedByImportance = {
+			new AddPlaceName(o, featureDictionaryFuture),
 			osmNoteQuestType,
 			new AddOneway(o, trafficFlowSegmentsDao, trafficFlowDao),
 			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
@@ -105,7 +109,6 @@ public class QuestModule
 			new AddParkingFee(o),
 			new AddParkingType(o),
 			new AddBusStopName(o),
-			new AddPlaceName(o), //works with my horrible hack
 			new AddToiletAvailability(o),
 			new AddPathSurface(o),
 			new MultidesignatedFootwayToPath(o), //my own quest
