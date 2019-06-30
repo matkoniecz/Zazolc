@@ -48,10 +48,10 @@ class AddPlaceName(
                 "amusement_arcade", "adult_gaming_centre", "tanning_salon", "horse_riding"
             ),
             "waterway" to arrayOf(
-                "river", "stream", "canal", "waterfall", "weir"
+                "river", "stream", "canal", "waterfall", "weir" // all only in my fork
             ),
             "water" to arrayOf(
-                "lake"
+                "lake", "pond" // all only in my fork
             ),
             "office" to arrayOf(
                 "insurance", "estate_agent", "travel_agent"
