@@ -76,6 +76,8 @@ import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAcces
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessToilets;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessBusiness;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessOutside;
+import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessMotorVehicle;
+import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessPedestrian;
 
 @Module
 public class QuestModule
@@ -88,6 +90,8 @@ public class QuestModule
 		FutureTask<FeatureDictionary> featureDictionaryFuture)
 	{
 		QuestType[] questTypesOrderedByImportance = {
+			new AddFerryAccessPedestrian(o),
+			new AddFerryAccessMotorVehicle(o),
 			new AddPlaceName(o, featureDictionaryFuture),
 			osmNoteQuestType,
 			new AddOneway(o, trafficFlowSegmentsDao, trafficFlowDao),
