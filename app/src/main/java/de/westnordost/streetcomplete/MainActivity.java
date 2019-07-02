@@ -694,7 +694,13 @@ public class MainActivity extends AppCompatActivity implements
 					(e instanceof OsmApiException && ((OsmApiException) e).getErrorCode() == 408);
 				if (isEnvironmentError)
 				{
-					Toast.makeText(MainActivity.this,R.string.download_server_error, Toast.LENGTH_LONG).show();
+					String message = getResources().getString(R.string.download_server_error);
+					if(e instanceof OsmApiException) {
+						message += " error code " + ((OsmApiException) e).getErrorCode();
+					} else {
+						message += " no error code available";
+					}
+					Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
 				}
 				else
 				{
