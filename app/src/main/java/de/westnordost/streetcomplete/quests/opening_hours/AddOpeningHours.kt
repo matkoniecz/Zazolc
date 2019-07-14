@@ -16,6 +16,7 @@ class AddOpeningHours (o: OverpassMapDataDao) : SimpleOverpassQuestType<OpeningH
         " or amenity = recycling and recycling_type = centre" +
         " or tourism = information and information = office" +
         " or tourism = attraction" +
+        " or heritage:operator=whc" +
         " or  " +
         mapOf(
             "amenity" to arrayOf(
