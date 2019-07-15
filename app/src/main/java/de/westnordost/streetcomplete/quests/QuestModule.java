@@ -21,6 +21,7 @@ import de.westnordost.streetcomplete.quests.bikeway.AddCycleway;
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure;
 import de.westnordost.streetcomplete.quests.building_type.AddBuildingType;
 import de.westnordost.streetcomplete.quests.building_underground.AddIsBuildingUnderground;
+import de.westnordost.streetcomplete.quests.fixme_show.ShowFixme;
 import de.westnordost.streetcomplete.quests.foot.AddProhibitedForPedestrians;
 import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
@@ -69,6 +70,7 @@ import de.westnordost.streetcomplete.quests.tracktype.AddTracktype;
 import de.westnordost.streetcomplete.quests.traffic_signals_button.AddTrafficSignalsButton;
 import de.westnordost.streetcomplete.quests.traffic_signals_sound.AddTrafficSignalsSound;
 import de.westnordost.streetcomplete.quests.validator.AddAlsoShopForInsurance;
+import de.westnordost.streetcomplete.quests.validator.DeprecateFIXME;
 import de.westnordost.streetcomplete.quests.validator.DetectHistoricRailwayTagging;
 import de.westnordost.streetcomplete.quests.validator.MultidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
@@ -90,6 +92,7 @@ public class QuestModule
 		FutureTask<FeatureDictionary> featureDictionaryFuture)
 	{
 		QuestType[] questTypesOrderedByImportance = {
+			new ShowFixme(o),
 			new AddFerryAccessPedestrian(o),
 			new AddFerryAccessMotorVehicle(o),
 			new AddPlaceName(o, featureDictionaryFuture),
@@ -124,6 +127,7 @@ public class QuestModule
 			new AddSidewalk(o),
 
 			//boring
+			new DeprecateFIXME(o),
 			new AddOpeningHours(o),
 			new AddBusStopShelter(o),
 			new AddReligionToWaysideShrine(o),
