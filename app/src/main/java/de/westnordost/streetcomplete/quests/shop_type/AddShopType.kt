@@ -8,7 +8,7 @@ import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
 class AddShopType(o: OverpassMapDataDao) : SimpleOverpassQuestType<Boolean>(o) {
 
-    override val tagFilters = "nodes, ways, relation with shop=yes and !amenity and !leisure"
+    override val tagFilters = "nodes, ways, relations with shop=yes and !amenity and !leisure"
     override val commitMessage = "Specify shop type"
     override val icon = R.drawable.ic_quest_label
 
