@@ -101,7 +101,6 @@ public class QuestModule
 			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
 			new AddRoadSurface(o),
 			new AddBikeParkingType(o),
-			//new ShowFixme(o), //my own quest
 			new AddTracktype(o),
 			new MarkCompletedHighwayConstruction(o),
 			new MarkCompletedBuildingConstruction(o),
