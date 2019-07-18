@@ -58,6 +58,7 @@ import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine;
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation;
+import de.westnordost.streetcomplete.quests.shop_type.AddShopType;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk;
 import de.westnordost.streetcomplete.quests.surface.AddPathSurface;
@@ -101,6 +102,7 @@ public class QuestModule
 			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
 			new AddRoadSurface(o),
 			new AddBikeParkingType(o),
+			new AddShopType(o),
 			new AddTracktype(o),
 			new MarkCompletedHighwayConstruction(o),
 			new MarkCompletedBuildingConstruction(o),
