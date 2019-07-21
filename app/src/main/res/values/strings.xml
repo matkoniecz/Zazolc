@@ -268,8 +268,8 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_source_dialog_note">Only information that was found on a survey should be entered.</string>
     <string name="quest_tactilePaving_title_name_bus">"Does the bus stop %s have tactile pavings?"</string>
     <string name="quest_bicycleParkingCoveredStatus_title">"Is this bicycle parking covered (protected from rain)?"</string>
-    <string name="quest_ShowFixme_requiresAerial_answer">fixme best solved with aerial image rather than survey</string>
-    <string name="quest_ShowFixme_solved_answer">fixme is outdated now and may be removed</string>
+    <string name="quest_ShowFixme_requiresAerial_answer">best solved with aerial image rather than survey</string>
+    <string name="quest_ShowFixme_solved_answer">remove this fixme</string>
     <string name="quest_forestLeaf_evergreen_answer">Plants that are never leafless.</string>
     <string name="quest_forestLeaf_decidous_answer">Plants that are leafless for a certain period during the year.</string>
     <string name="quest_forestLeaf_mixed_answer">mixed</string>
@@ -302,7 +302,6 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_wheelchairAccess_limited_description_business">Partially means that there is no more than a single step to access the place and that most rooms inside are wheelchair accessible.</string>
     <string name="quest_wheelchairAccess_limited_description_outside">Partially means that there is no more than a single step to access it.</string>
     <string name="quest_wheelchairAccess_limited_description_public_transport">Partially means that there is no more than a single step to access it.</string>
-    <string name="fixme_title"></string>
     <string name="show_invalid_surface_title">surface=%1$s</string>
     <string name="quest_wheelchairAccess_description_toilets">A wheelchair sign like this might be visible if the restroom is accessible.
     Partially means that a wheelchair can enter and use the restroom, but no handrail or adapted hand basin is present.</string>
@@ -471,7 +470,7 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_generic_looks_like_this">Usually looks like this:</string>
     <string name="quest_surface_value_metal">Metal</string>
     <string name="quest_surface_generic_surface_confirmation">Are you sure that you can not determine the surface more specifically?</string>
-    <string name="quest_ShowFixme_pure_taggery_answer">fixme requires no survey but inventing/finding a better tagging scheme</string>
+    <string name="quest_ShowFixme_pure_taggery_answer">inventing/finding a better tagging scheme needed, not survey</string>
     <string name="quest_generic_item_confirmation">Are you sure that you can not determine it more specifically?</string>
     <string name="quest_internet_access_name_title">What kind of Internet connection does %s offer?</string>
     <string name="quest_internet_access_wlan">Wi-Fi</string>
@@ -534,7 +533,7 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_toiletAvailability_rest_area_title">Does this rest area have restroom facilities?</string>
     <string name="quest_maxspeed_name_title">What is the speed limit sign for %s?</string>
     <string name="quest_add_also_shop_variant_for_insurance_shop">Is there an insurance shop here (%s)?</string>
-    <string name="quest_ShowFixme_3d_tagging_answer">hide this fixme and mark it as 3D tagging related</string>
+    <string name="quest_ShowFixme_3d_tagging_answer">hide fixme and mark it as 3D tagging related</string>
     <string name="quest_maxspeed_name_title2">What is the speed limit for %s here?</string>
     <string name="pref_quests_reset">Reset both quest enablement and order to the default?</string>
     <string name="quest_convert_access_destination_to_access_private">Change access=destination to access=private?</string>
