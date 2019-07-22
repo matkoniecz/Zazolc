@@ -268,7 +268,7 @@ The info you enter is then directly added to the OpenStreetMap in your name, wit
     <string name="quest_source_dialog_note">Only information that was found on a survey should be entered.</string>
     <string name="quest_tactilePaving_title_name_bus">"Does the bus stop %s have tactile pavings?"</string>
     <string name="quest_bicycleParkingCoveredStatus_title">"Is this bicycle parking covered (protected from rain)?"</string>
-    <string name="quest_ShowFixme_requiresAerial_answer">best solved with aerial image rather than survey</string>
+    <string name="quest_ShowFixme_requiresAerial_answer">aerial image needed, not survey</string>
     <string name="quest_ShowFixme_solved_answer">remove this fixme</string>
     <string name="quest_forestLeaf_evergreen_answer">Plants that are never leafless.</string>
     <string name="quest_forestLeaf_decidous_answer">Plants that are leafless for a certain period during the year.</string>
@@ -533,7 +533,7 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_toiletAvailability_rest_area_title">Does this rest area have restroom facilities?</string>
     <string name="quest_maxspeed_name_title">What is the speed limit sign for %s?</string>
     <string name="quest_add_also_shop_variant_for_insurance_shop">Is there an insurance shop here (%s)?</string>
-    <string name="quest_ShowFixme_3d_tagging_answer">hide fixme and mark it as 3D tagging related</string>
+    <string name="quest_ShowFixme_3d_tagging_answer">hide and mark as 3D related</string>
     <string name="quest_maxspeed_name_title2">What is the speed limit for %s here?</string>
     <string name="pref_quests_reset">Reset both quest enablement and order to the default?</string>
     <string name="quest_convert_access_destination_to_access_private">Change access=destination to access=private?</string>
