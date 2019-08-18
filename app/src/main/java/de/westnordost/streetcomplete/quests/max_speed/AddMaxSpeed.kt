@@ -25,7 +25,6 @@ class AddMaxSpeed(o: OverpassMapDataDao) : SimpleOverpassQuestType<MaxSpeedAnswe
 
     // see #813: US has different rules for each different state which need to be respected
     override val enabledForCountries = Countries.allExcept("US")
-    override val defaultDisabledMessage = R.string.default_disabled_msg_maxspeed
 
     override fun getTitle(tags: Map<String, String>) =
         if (tags.containsKey("name"))
