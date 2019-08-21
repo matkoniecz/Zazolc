@@ -1,23 +1,12 @@
-# for online testing (e.g. Tangram Play)
-#import:
-#    - https://raw.githubusercontent.com/ENT8R/streetcomplete-mapstyle/master/global.yaml
-#    - https://raw.githubusercontent.com/ENT8R/streetcomplete-mapstyle/master/layers/labels.yaml
-
-# for local testing (e.g. using an emulator)
-import:
-    - global.yaml
-    - layers/labels.yaml
-
+# code from https://github.com/tangrams/tangram/pull/695 - modified to drop unsupported {r}
 sources:
-    mapbox-satellite:
-        type: Raster
-        url: https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.png
-        url_params:
-            access_token: pk.eyJ1IjoiZW50OHIiLCJhIjoiY2o5aXBvZGI1MGMyZzJxbjJtNGxzZzllYiJ9.7vUh6rE_BUG1RdfEqQdtCg
+  raster:
+    type: Raster
+    url: https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
 
 layers:
-    terrain:
-        data: { source: mapbox-satellite }
-        draw:
-            raster:
-                order: 0
+  raster:
+    data: { source: raster }
+    draw:
+      raster:
+        order: 0
