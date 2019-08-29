@@ -23,6 +23,7 @@ import de.westnordost.streetcomplete.quests.building_type.AddBuildingType;
 import de.westnordost.streetcomplete.quests.building_underground.AddIsBuildingUnderground;
 import de.westnordost.streetcomplete.quests.fixme_show.ShowFixme;
 import de.westnordost.streetcomplete.quests.foot.AddProhibitedForPedestrians;
+import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType;
 import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType;
@@ -61,6 +62,7 @@ import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation;
 import de.westnordost.streetcomplete.quests.shop_type.AddShopType;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk;
+import de.westnordost.streetcomplete.quests.surface.AddCyclewayPartSurface;
 import de.westnordost.streetcomplete.quests.surface.AddPathSurface;
 import de.westnordost.streetcomplete.quests.surface.AddRoadSurface;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
@@ -119,12 +121,14 @@ public class QuestModule
 			new AddBusStopName(o),
 			new AddToiletAvailability(o),
 			new AddPathSurface(o),
-			new MultidesignatedFootwayToPath(o), //my own quest
+			new AddCyclewayPartSurface(o),
+			new MultidesignatedFootwayToPath(o), //my own validator quest
 			new AddCyclewaySegregation(o),
 			new AddPlaygroundAccess(o), //late as in many areas all needed access=private is already mapped
 			new AddMaxHeight(o),
 			new DetectHistoricRailwayTagging(o),
 			new AddProhibitedForPedestrians(o),
+			new AddForestLeafType(o), // used by OSM Carto
 			new AddSidewalk(o),
 
 			//boring
