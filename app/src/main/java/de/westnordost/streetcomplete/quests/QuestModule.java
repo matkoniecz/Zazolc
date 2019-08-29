@@ -63,6 +63,7 @@ import de.westnordost.streetcomplete.quests.shop_type.AddShopType;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk;
 import de.westnordost.streetcomplete.quests.surface.AddCyclewayPartSurface;
+import de.westnordost.streetcomplete.quests.surface.AddFootwayPartSurface;
 import de.westnordost.streetcomplete.quests.surface.AddPathSurface;
 import de.westnordost.streetcomplete.quests.surface.AddRoadSurface;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
@@ -124,6 +125,7 @@ public class QuestModule
 			new AddCyclewayPartSurface(o),
 			new MultidesignatedFootwayToPath(o), //my own validator quest
 			new AddCyclewaySegregation(o),
+			new AddFootwayPartSurface(o),
 			new AddPlaygroundAccess(o), //late as in many areas all needed access=private is already mapped
 			new AddMaxHeight(o),
 			new DetectHistoricRailwayTagging(o),

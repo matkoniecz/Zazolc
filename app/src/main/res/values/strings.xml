@@ -709,4 +709,5 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_shopType_title">What is the type of this shop?</string>
     <string name="quest_shopType_name_title">What is the shop type of %s?</string>
     <string name="quest_cyclewayPartSurface_title">What\'s the surface of the cycleway here?</string>
+    <string name="quest_footwayPartSurface_title">What\'s the surface of the footway here?</string>
 </resources>
