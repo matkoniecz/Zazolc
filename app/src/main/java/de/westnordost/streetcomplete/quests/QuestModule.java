@@ -78,12 +78,13 @@ import de.westnordost.streetcomplete.quests.validator.DeprecateFIXME;
 import de.westnordost.streetcomplete.quests.validator.DetectHistoricRailwayTagging;
 import de.westnordost.streetcomplete.quests.validator.MultidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
-import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessPublicTransport;
-import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelChairAccessToilets;
+import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessPublicTransport;
+import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToilets;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessBusiness;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessOutside;
 import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessMotorVehicle;
 import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessPedestrian;
+import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToiletsPart;
 
 @Module
 public class QuestModule
@@ -153,8 +154,9 @@ public class QuestModule
 			new AddVegan(o),
 			new AddCarWashType(o),
 			new AddBenchBackrest(o),
-			new AddWheelChairAccessPublicTransport(o),
-			new AddWheelChairAccessToilets(o),
+			new AddWheelchairAccessPublicTransport(o),
+			new AddWheelchairAccessToilets(o),
+			new AddWheelchairAccessToiletsPart(o),
 			new AddWheelchairAccessBusiness(o),
 			new AddMotorcycleParkingCapacity(o),
 			new AddTrafficSignalsSound(o),
