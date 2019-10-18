@@ -134,6 +134,7 @@ public class QuestModule
 			new AddProhibitedForPedestrians(o),
 			new AddForestLeafType(o), // used by OSM Carto
 			new AddGeneralFee(o),
+			new FixBogusGallery(o),
 			new AddSidewalk(o),
 
 			//boring
