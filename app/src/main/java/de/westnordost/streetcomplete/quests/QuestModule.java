@@ -77,6 +77,7 @@ import de.westnordost.streetcomplete.quests.traffic_signals_sound.AddTrafficSign
 import de.westnordost.streetcomplete.quests.validator.AddAlsoShopForInsurance;
 import de.westnordost.streetcomplete.quests.validator.DeprecateFIXME;
 import de.westnordost.streetcomplete.quests.validator.DetectHistoricRailwayTagging;
+import de.westnordost.streetcomplete.quests.validator.FixBogusGallery;
 import de.westnordost.streetcomplete.quests.validator.MultidesignatedFootwayToPath;
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit;
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessPublicTransport;
