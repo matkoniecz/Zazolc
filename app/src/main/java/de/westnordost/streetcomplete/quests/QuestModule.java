@@ -60,8 +60,12 @@ import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine;
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation;
+<<<<<<< HEAD
 import de.westnordost.streetcomplete.quests.shop_type.AddShopType;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
+=======
+import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry;
+>>>>>>> master
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk;
 import de.westnordost.streetcomplete.quests.surface.AddCyclewayPartSurface;
 import de.westnordost.streetcomplete.quests.surface.AddFootwayPartSurface;
@@ -140,6 +144,7 @@ public class QuestModule
 
 			//boring
 			new DeprecateFIXME(o),
+			new AddSelfServiceLaundry(o),
 			new AddOpeningHours(o),
 			new AddBusStopShelter(o),
 			new AddReligionToWaysideShrine(o),
