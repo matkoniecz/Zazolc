@@ -24,6 +24,7 @@ import de.westnordost.streetcomplete.quests.building_underground.AddIsBuildingUn
 import de.westnordost.streetcomplete.quests.fixme_show.ShowFixme;
 import de.westnordost.streetcomplete.quests.foot.AddProhibitedForPedestrians;
 import de.westnordost.streetcomplete.quests.general_fee.AddGeneralFee;
+import de.westnordost.streetcomplete.quests.handrail.AddHandrail;
 import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType;
 import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName;
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter;
@@ -41,6 +42,7 @@ import de.westnordost.streetcomplete.quests.localized_name.data.PutRoadNameSugge
 import de.westnordost.streetcomplete.quests.localized_name.data.RoadNameSuggestionsDao;
 import de.westnordost.streetcomplete.quests.max_height.AddMaxHeight;
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed;
+import de.westnordost.streetcomplete.quests.max_weight.AddMaxWeight;
 import de.westnordost.streetcomplete.quests.motorcycle_parking_capacity.AddMotorcycleParkingCapacity;
 import de.westnordost.streetcomplete.quests.motorcycle_parking_cover.AddMotorcycleParkingCover;
 import de.westnordost.streetcomplete.quests.oneway.AddOneway;
@@ -60,12 +62,9 @@ import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine;
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation;
-<<<<<<< HEAD
 import de.westnordost.streetcomplete.quests.shop_type.AddShopType;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
-=======
 import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry;
->>>>>>> master
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk;
 import de.westnordost.streetcomplete.quests.surface.AddCyclewayPartSurface;
 import de.westnordost.streetcomplete.quests.surface.AddFootwayPartSurface;
@@ -102,7 +101,7 @@ public class QuestModule
 		TrafficFlowSegmentsDao trafficFlowSegmentsDao, WayTrafficFlowDao trafficFlowDao,
 		FutureTask<FeatureDictionary> featureDictionaryFuture)
 	{
-		QuestType[] questTypesOrderedByImportance = {
+		QuestType<?>[] questTypesOrderedByImportance = {
 			new ShowFixme(o),
 			new AddFerryAccessPedestrian(o),
 			new AddFerryAccessMotorVehicle(o),
@@ -129,6 +128,7 @@ public class QuestModule
 			new AddBusStopName(o),
 			new AddToiletAvailability(o),
 			new AddPathSurface(o),
+			new AddMaxWeight(o),
 			new AddCyclewayPartSurface(o),
 			new MultidesignatedFootwayToPath(o), //my own validator quest
 			new AddCyclewaySegregation(o),
@@ -141,6 +141,7 @@ public class QuestModule
 			new AddGeneralFee(o),
 			new FixBogusGallery(o),
 			new AddSidewalk(o),
+			new AddHandrail(o), // for accessibility of pedestrian routing
 
 			//boring
 			new DeprecateFIXME(o),

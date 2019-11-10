@@ -1,5 +1,6 @@
 package de.westnordost.streetcomplete.data.osm
 
+import de.westnordost.countryboundaries.CountryBoundaries
 import org.junit.Before
 import org.junit.Test
 
@@ -14,11 +15,13 @@ import de.westnordost.streetcomplete.data.osm.persist.ElementGeometryDao
 import de.westnordost.streetcomplete.data.osm.persist.OsmQuestDao
 import de.westnordost.streetcomplete.data.osmnotes.OsmNoteQuestDao
 import de.westnordost.streetcomplete.data.visiblequests.OrderedVisibleQuestTypesProvider
+import de.westnordost.streetcomplete.mock
 import de.westnordost.streetcomplete.on
 
 import org.junit.Assert.*
-import org.mockito.Mockito.mock
+import org.mockito.ArgumentMatchers.anyDouble
 import org.mockito.Mockito.verify
+import java.util.concurrent.FutureTask
 
 class OsmQuestGiverTest {
 
@@ -26,26 +29,29 @@ class OsmQuestGiverTest {
     private lateinit var osmQuestDao: OsmQuestDao
     private lateinit var osmQuestUnlocker: OsmQuestGiver
     private lateinit var questType: OsmElementQuestType<*>
-
-	private val POS = OsmLatLon(10.0, 10.0)
-	private val NODE = OsmNode(1, 0, POS, null, null, null)
+    private lateinit var countryBoundaries: CountryBoundaries
 
     @Before fun setUp() {
-        val elementGeometryDao = mock(ElementGeometryDao::class.java)
-        on(elementGeometryDao.get(Element.Type.NODE, 1)).thenReturn(ElementGeometry(POS))
+        val elementGeometryDao: ElementGeometryDao = mock()
+        on(elementGeometryDao.get(Element.Type.NODE, 1)).thenReturn(ElementPointGeometry(POS))
 
-        osmNoteQuestDao = mock(OsmNoteQuestDao::class.java)
+        osmNoteQuestDao = mock()
         on(osmNoteQuestDao.getAllPositions(any())).thenReturn(emptyList())
 
-        osmQuestDao = mock(OsmQuestDao::class.java)
-        on(osmQuestDao.getAll(null, null, null, Element.Type.NODE, 1L)).thenReturn(emptyList())
+        osmQuestDao = mock()
+        on(osmQuestDao.getAll(element = ElementKey(Element.Type.NODE, 1))).thenReturn(emptyList())
 
-        questType = mock(OsmElementQuestType::class.java)
+        questType = mock()
+        on(questType.enabledForCountries).thenReturn(Countries.ALL)
 
-        val questTypeProvider = mock(OrderedVisibleQuestTypesProvider::class.java)
+        countryBoundaries = mock()
+        val future = FutureTask { countryBoundaries }
+        future.run()
+
+        val questTypeProvider: OrderedVisibleQuestTypesProvider = mock()
         on(questTypeProvider.get()).thenReturn(listOf(questType))
 
-        osmQuestUnlocker = OsmQuestGiver(osmNoteQuestDao, osmQuestDao, elementGeometryDao, questTypeProvider)
+        osmQuestUnlocker = OsmQuestGiver(osmNoteQuestDao, osmQuestDao, elementGeometryDao, questTypeProvider, future)
     }
 
     @Test fun `note blocks new quests`() {
@@ -56,8 +62,8 @@ class OsmQuestGiverTest {
     }
 
     @Test fun `previous quest blocks new quest`() {
-        val q = OsmQuest(questType, Element.Type.NODE, 1, ElementGeometry(POS))
-        on(osmQuestDao.getAll(null, null, null, Element.Type.NODE, 1L)).thenReturn(listOf(q))
+        val q = OsmQuest(questType, Element.Type.NODE, 1, ElementPointGeometry(POS))
+        on(osmQuestDao.getAll(element = ElementKey(Element.Type.NODE, 1))).thenReturn(listOf(q))
         on(questType.isApplicableTo(NODE)).thenReturn(true)
 
         val r = osmQuestUnlocker.updateQuests(NODE)
@@ -74,15 +80,15 @@ class OsmQuestGiverTest {
     }
 
     @Test fun `not applicable removes previous quest`() {
-        val q = OsmQuest(123L, questType, Element.Type.NODE, 1, QuestStatus.NEW, null, null, Date(), ElementGeometry(POS))
-        on(osmQuestDao.getAll(null, null, null, Element.Type.NODE, 1L)).thenReturn(listOf(q))
+        val q = OsmQuest(123L, questType, Element.Type.NODE, 1, QuestStatus.NEW, null, null, Date(), ElementPointGeometry(POS))
+        on(osmQuestDao.getAll(element = ElementKey(Element.Type.NODE, 1))).thenReturn(listOf(q))
         on(questType.isApplicableTo(NODE)).thenReturn(false)
 
         val r = osmQuestUnlocker.updateQuests(NODE)
         assertTrue(r.createdQuests.isEmpty())
         assertEquals(123L, r.removedQuestIds.single())
 
-        verify(osmQuestDao).deleteAll(listOf(123L))
+        verify(osmQuestDao).deleteAllIds(listOf(123L))
     }
 
     @Test fun `applicable adds new quest`() {
@@ -93,7 +99,50 @@ class OsmQuestGiverTest {
         assertEquals(Element.Type.NODE, quest.elementType)
         assertEquals(questType, quest.type)
 
-        verify(osmQuestDao).deleteAllReverted(Element.Type.NODE, 1)
+        verify(osmQuestDao).deleteAll(statusIn = listOf(QuestStatus.REVERT), element = ElementKey(Element.Type.NODE, 1))
         verify(osmQuestDao).addAll(listOf(quest))
     }
+
+    @Test fun `quest is disabled in every country`() {
+        on(questType.isApplicableTo(NODE)).thenReturn(true)
+        on(questType.enabledForCountries).thenReturn(Countries.NONE)
+        on(countryBoundaries.isInAny(anyDouble(), anyDouble(), any())).thenReturn(true)
+
+        assertTrue(osmQuestUnlocker.updateQuests(NODE).createdQuests.isEmpty())
+    }
+
+    @Test fun `quest is only enabled in the country the element is in`() {
+        on(questType.isApplicableTo(NODE)).thenReturn(true)
+        on(questType.enabledForCountries).thenReturn(Countries.noneExcept("DE"))
+        on(countryBoundaries.isInAny(anyDouble(), anyDouble(), any())).thenReturn(true)
+
+        assertEquals(1, osmQuestUnlocker.updateQuests(NODE).createdQuests.size)
+    }
+
+    @Test fun `quest is only enabled in a country the element is not in`() {
+        on(questType.isApplicableTo(NODE)).thenReturn(true)
+        on(questType.enabledForCountries).thenReturn(Countries.noneExcept("DE"))
+        on(countryBoundaries.isInAny(anyDouble(), anyDouble(), any())).thenReturn(false)
+
+        assertTrue(osmQuestUnlocker.updateQuests(NODE).createdQuests.isEmpty())
+    }
+
+    @Test fun `quest is disabled in the country the element is in`() {
+        on(questType.isApplicableTo(NODE)).thenReturn(true)
+        on(questType.enabledForCountries).thenReturn(Countries.allExcept("DE"))
+        on(countryBoundaries.isInAny(anyDouble(), anyDouble(), any())).thenReturn(true)
+
+        assertTrue(osmQuestUnlocker.updateQuests(NODE).createdQuests.isEmpty())
+    }
+
+    @Test fun `quest is disabled in the country the element is not in`() {
+        on(questType.isApplicableTo(NODE)).thenReturn(true)
+        on(questType.enabledForCountries).thenReturn(Countries.allExcept("DE"))
+        on(countryBoundaries.isInAny(anyDouble(), anyDouble(), any())).thenReturn(false)
+
+        assertEquals(1, osmQuestUnlocker.updateQuests(NODE).createdQuests.size)
+    }
 }
+
+private val POS = OsmLatLon(10.0, 10.0)
+private val NODE = OsmNode(1, 0, POS, null, null, null)

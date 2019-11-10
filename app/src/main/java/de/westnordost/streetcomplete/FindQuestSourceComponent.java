@@ -16,6 +16,8 @@ import de.westnordost.osmapi.map.data.LatLon;
 import de.westnordost.osmapi.map.data.OsmLatLon;
 import de.westnordost.streetcomplete.data.QuestGroup;
 import de.westnordost.streetcomplete.data.osm.ElementGeometry;
+import de.westnordost.streetcomplete.data.osm.ElementPolygonsGeometry;
+import de.westnordost.streetcomplete.data.osm.ElementPolylinesGeometry;
 import de.westnordost.streetcomplete.data.osm.persist.OsmQuestDao;
 import de.westnordost.streetcomplete.data.osmnotes.OsmNoteQuestDao;
 import de.westnordost.streetcomplete.util.SphericalEarthMath;
@@ -91,9 +93,11 @@ public class FindQuestSourceComponent
 			LatLon loc = new OsmLatLon(location.getLatitude(), location.getLongitude());
 
 			List<List<LatLon>> polyLines;
-			if(geometry.polygons != null) polyLines = geometry.polygons;
-			else if(geometry.polylines != null) polyLines = geometry.polylines;
-			else polyLines = Collections.singletonList(Collections.singletonList(geometry.center));
+			if (geometry instanceof ElementPolylinesGeometry)
+				polyLines = ((ElementPolylinesGeometry)geometry).getPolylines();
+			else if (geometry instanceof ElementPolygonsGeometry)
+				polyLines = ((ElementPolygonsGeometry)geometry).getPolygons();
+			else polyLines = Collections.singletonList(Collections.singletonList(geometry.getCenter()));
 
 			for (List<LatLon> polyLine : polyLines)
 			{

@@ -23,7 +23,7 @@ class DeprecateFIXME(o: OverpassMapDataDao) : SimpleOverpassQuestType<Boolean>(o
 
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
         if (answer){
-            val fixme = changes.getPreviousValue("FIXME")
+            val fixme = changes.getPreviousValue("FIXME")!!
             changes.delete("FIXME")
             changes.add("fixme", fixme)
         }

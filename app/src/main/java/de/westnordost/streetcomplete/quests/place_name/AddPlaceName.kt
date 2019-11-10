@@ -58,6 +58,12 @@ class AddPlaceName(
             ),
             "water" to arrayOf(
                 "lake", "pond" // all only in my fork
+            ),
+            "landuse" to arrayOf(
+                    "cemetery", "allotments"
+            ),
+            "military" to arrayOf(
+                "airfield", "barracks", "training_area"
             )
         ).map { it.key + " ~ " + it.value.joinToString("|") }.joinToString("\n  or ") + "\n" + """
         )

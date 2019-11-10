@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+// Kotlin: convert when quest download is converted
+
 public class Countries
 {
 	public static final Countries ALL = new Countries(true, null);
@@ -33,6 +35,11 @@ public class Countries
 	public boolean isAllCountries()
 	{
 		return defaultAll && (exceptions == null || exceptions.length == 0);
+	}
+
+	public boolean isNoCountries()
+	{
+		return !defaultAll && (exceptions == null || exceptions.length == 0);
 	}
 
 	/** @return true if it is all countries except the exceptions, false if it is no countries except the exceptions */

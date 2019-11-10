@@ -80,6 +80,7 @@ import de.westnordost.streetcomplete.data.QuestGroup;
 import de.westnordost.streetcomplete.data.VisibleQuestListener;
 import de.westnordost.streetcomplete.data.download.QuestDownloadProgressListener;
 import de.westnordost.streetcomplete.data.download.QuestDownloadService;
+import de.westnordost.streetcomplete.data.osm.ElementPolylinesGeometry;
 import de.westnordost.streetcomplete.data.osm.OsmQuest;
 import de.westnordost.streetcomplete.data.osm.changes.SplitPolylineAtPosition;
 import de.westnordost.streetcomplete.data.upload.QuestChangesUploadProgressListener;
@@ -809,7 +810,10 @@ public class MainActivity extends AppCompatActivity implements
 		if (quest == null) return;
 		OsmElement element = questController.getOsmElement((OsmQuest) quest);
 		if (!(element instanceof Way)) return;
-		showInBottomSheet(SplitWayFragment.create(osmQuestId, (Way) element, quest.getGeometry()));
+		mapFragment.setIsShowingQuests(false);
+		showInBottomSheet(SplitWayFragment.create(
+			osmQuestId, (Way) element, (ElementPolylinesGeometry) quest.getGeometry()
+		));
 	}
 
 	@Override public void onSkippedQuest(long questId, @NonNull QuestGroup group)
@@ -958,6 +962,7 @@ public class MainActivity extends AppCompatActivity implements
 	{
 		freezeMap();
 		showInBottomSheet(new CreateNoteFragment());
+		mapFragment.setShow3DBuildings(false);
 	}
 
 	/* ---------------------------------- VisibleQuestListener ---------------------------------- */
@@ -1007,6 +1012,7 @@ public class MainActivity extends AppCompatActivity implements
 			((IsCloseableBottomSheet)f).onClickClose(() ->
 			{
 				getSupportFragmentManager().popBackStackImmediate(BOTTOM_SHEET, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+				mapFragment.setShow3DBuildings(true);
 				unfreezeMap();
 			});
 		}
@@ -1114,6 +1120,7 @@ public class MainActivity extends AppCompatActivity implements
 		mapFragment.setCompassMode(isCompassMode);
 		mapFragment.removeQuestGeometry();
 		mapFragment.showMapControls();
+		mapFragment.setIsShowingQuests(true);
 	}
 
 	/* ---------------------------------- MapFragment.Listener ---------------------------------- */
