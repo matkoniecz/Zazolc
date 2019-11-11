@@ -130,7 +130,7 @@ public class QuestModule
 			//new AddMaxSpeed(o), moved to boring
 			new AddMaxHeight(o),
 			//new AddRailwayCrossingBarrier(o), moved to boring
-			new AddPostboxCollectionTimes(o),
+			//new AddPostboxCollectionTimes(o), moved to boring
 			//new AddOpeningHours(o), moved to boring
 			new AddBikeParkingCapacity(o), // cycle map layer on osm.org
 			//new AddOrchardProduce(o), moved to boring
@@ -169,7 +169,7 @@ public class QuestModule
 			new AddBabyChangingTable(o), // used by OsmAnd in the object description
 			new AddBikeParkingCover(o), // used by OsmAnd in the object description
 			new AddTactilePavingCrosswalk(o), // Paving can be completed while waiting to cross
-			new AddTrafficSignalsSound(o), // Sound needs to be done as or after you're crossing
+			//new AddTrafficSignalsSound(o),  moved to boring
 			//new AddRoofShape(o), removed as boring and tricky to get right
 			//new AddWheelchairAccessPublicTransport(o), moved to boring
 			//new AddWheelchairAccessOutside(o), moved to boring
@@ -185,14 +185,14 @@ public class QuestModule
 			//      the sake of mapping it in case it makes sense later
 			new AddCyclewayPartSurface(o),
 			new AddFootwayPartSurface(o),
-			new AddMotorcycleParkingCover(o),
+			//new AddMotorcycleParkingCover(o), moved to boring
 			new AddFireHydrantType(o),
 			new AddParkingType(o),
 			//new AddWheelchairAccessToiletsPart(o), moved to boring
 			//new AddPowerPolesMaterial(o), AddPowerPolesMaterial
 			//new AddCarWashType(o), moved to boring
 			//new AddBenchBackrest(o), moved to boring
-			new AddTrafficSignalsButton(o),
+			//new AddTrafficSignalsButton(o), moved to boring
 
 			//boring
 			new DeprecateFIXME(o), // my own validator quest
