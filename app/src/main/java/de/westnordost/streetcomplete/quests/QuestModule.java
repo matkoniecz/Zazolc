@@ -70,7 +70,6 @@ import de.westnordost.streetcomplete.quests.surface.AddCyclewayPartSurface;
 import de.westnordost.streetcomplete.quests.surface.AddFootwayPartSurface;
 import de.westnordost.streetcomplete.quests.surface.AddPathSurface;
 import de.westnordost.streetcomplete.quests.surface.AddRoadSurface;
-import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability;
 import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
@@ -102,63 +101,105 @@ public class QuestModule
 		FutureTask<FeatureDictionary> featureDictionaryFuture)
 	{
 		QuestType<?>[] questTypesOrderedByImportance = {
-			new ShowFixme(o),
+			// ↓ 1. group
+			osmNoteQuestType,
+
+			// ↓ 2. group
+			new ShowFixme(o), // my quest
+			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
+			new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
+			new AddPlaceName(o, featureDictionaryFuture),
+			new AddOneway(o, trafficFlowSegmentsDao, trafficFlowDao),
+			new AddBusStopName(o),
+			new AddIsBuildingUnderground(o), //to avoid asking AddHousenumber and other for underground buildings
+			new AddHousenumber(o),
+			new MarkCompletedHighwayConstruction(o),
+			new AddReligionToPlaceOfWorship(o), // icons on maps are different - OSM Carto, mapy.cz, OsmAnd, Sputnik etc
+			new AddParkingAccess(o), //OSM Carto, mapy.cz, OSMand, Sputnik etc
+			new AddShopType(o), // my hackish quest
+			new AddAlsoShopForInsurance(o), // my hackish quest
+			new MultidesignatedFootwayToPath(o), //my own validator quest
+			new DetectHistoricRailwayTagging(o), //my own validator quest
+			new FixBogusGallery(o), //my own validator quest
+
+
+			// ↓ 3. group
+			new AddRecyclingType(o),
+			new AddSport(o),
+			new AddRoadSurface(o),
+			//new AddMaxSpeed(o), moved to boring
+			new AddMaxHeight(o),
+			//new AddRailwayCrossingBarrier(o), moved to boring
+			new AddPostboxCollectionTimes(o),
+			//new AddOpeningHours(o), moved to boring
+			new AddBikeParkingCapacity(o), // cycle map layer on osm.org
+			//new AddOrchardProduce(o), moved to boring
+			//new AddCycleway(o), moved to boring
+			new AddSidewalk(o),
+			new AddProhibitedForPedestrians(o), // uses info from AddSidewalk quest, should be after it
+			new AddCrossingType(o),
+			new AddBusStopShelter(o), // at least OsmAnd
+			//new AddVegetarian(o),  moved to boring
+			//new AddVegan(o), moved to boring
+			//new AddInternetAccess(o), moved to boring
+			new AddParkingFee(o),
+			//new AddMotorcycleParkingCapacity(o), moved to boring
+			new AddPathSurface(o),
+			new AddTracktype(o),
+			new AddMaxWeight(o),
+			new AddForestLeafType(o), // used by OSM Carto
+			new AddBikeParkingType(o), // used by OsmAnd
+			//new AddWheelchairAccessToilets(o), moved to boring
+			new AddPlaygroundAccess(o), //late as in many areas all needed access=private is already mapped
+			//new AddWheelchairAccessBusiness(o), moved to boring
+			new AddToiletAvailability(o), //OSM Carto, shown in OsmAnd descriptions
 			new AddFerryAccessPedestrian(o),
 			new AddFerryAccessMotorVehicle(o),
-			new AddPlaceName(o, featureDictionaryFuture),
-			osmNoteQuestType,
-			new AddOneway(o, trafficFlowSegmentsDao, trafficFlowDao),
-			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
-			new AddRoadSurface(o),
-			new AddBikeParkingType(o),
-			new AddShopType(o),
-			new AddTracktype(o),
-			new MarkCompletedHighwayConstruction(o),
-			new MarkCompletedBuildingConstruction(o),
-			new AddAlsoShopForInsurance(o),
-			new AddBikeParkingCapacity(o),
-			new AddBikeParkingCover(o),
-			new AddReligionToPlaceOfWorship(o),
-			new AddToiletsFee(o),
-			new AddBabyChangingTable(o),
-			new AddFireHydrantType(o),
-			new AddParkingAccess(o),
-			new AddParkingFee(o),
-			new AddParkingType(o),
-			new AddBusStopName(o),
-			new AddToiletAvailability(o),
-			new AddPathSurface(o),
-			new AddMaxWeight(o),
-			new AddCyclewayPartSurface(o),
-			new MultidesignatedFootwayToPath(o), //my own validator quest
+
+			// ↓ 4. group
+
+			// ↓ 5. group
+			//new AddBuildingType(o), // moved to boring
+
+			// ↓ 6. may be shown as possibly missing in QA tools
+
+			// ↓ 7. data useful for only a specific use case
+			//new AddWayLit(o), //  bumped to top for easy disabling
+			new AddToiletsFee(o), // used by OsmAnd in the object description
+			new AddBabyChangingTable(o), // used by OsmAnd in the object description
+			new AddBikeParkingCover(o), // used by OsmAnd in the object description
+			new AddTactilePavingCrosswalk(o), // Paving can be completed while waiting to cross
+			new AddTrafficSignalsSound(o), // Sound needs to be done as or after you're crossing
+			//new AddRoofShape(o), removed as boring and tricky to get right
+			//new AddWheelchairAccessPublicTransport(o), moved to boring
+			//new AddWheelchairAccessOutside(o), moved to boring
+			//new AddBridgeStructure(o), moved as boring
+			new AddReligionToWaysideShrine(o),
 			new AddCyclewaySegregation(o),
-			new AddFootwayPartSurface(o),
-			new AddPlaygroundAccess(o), //late as in many areas all needed access=private is already mapped
-			new AddMaxHeight(o),
-			new DetectHistoricRailwayTagging(o),
-			new AddProhibitedForPedestrians(o),
-			new AddForestLeafType(o), // used by OSM Carto
+			new MarkCompletedBuildingConstruction(o),
 			new AddGeneralFee(o),
-			new FixBogusGallery(o),
-			new AddSidewalk(o),
+			new AddSelfServiceLaundry(o),
 			new AddHandrail(o), // for accessibility of pedestrian routing
 
+			// ↓ 8. defined in the wiki, but not really used by anyone yet. Just collected for
+			//      the sake of mapping it in case it makes sense later
+			new AddCyclewayPartSurface(o),
+			new AddFootwayPartSurface(o),
+			new AddMotorcycleParkingCover(o),
+			new AddFireHydrantType(o),
+			new AddParkingType(o),
+			//new AddWheelchairAccessToiletsPart(o), moved to boring
+			//new AddPowerPolesMaterial(o), AddPowerPolesMaterial
+			//new AddCarWashType(o), moved to boring
+			//new AddBenchBackrest(o), moved to boring
+			new AddTrafficSignalsButton(o),
+
 			//boring
-			new DeprecateFIXME(o),
-			new AddSelfServiceLaundry(o),
+			new DeprecateFIXME(o), // my own validator quest
 			new AddOpeningHours(o),
-			new AddBusStopShelter(o),
-			new AddReligionToWaysideShrine(o),
 			new AddMaxSpeed(o),
 			new AddBuildingType(o),
 			new AddInternetAccess(o),
-			new AddCrossingType(o),
-			new AddTactilePavingCrosswalk(o),
-			new AddRecyclingType(o),
-			new AddSport(o),
-			new AddIsBuildingUnderground(o),
-			new AddHousenumber(o),
-			new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
 			new AddPowerPolesMaterial(o),
 			new AddVegetarian(o),
 			new AddVegan(o),
@@ -174,7 +215,6 @@ public class QuestModule
 			new AddWheelchairAccessOutside(o),
 			new AddMotorcycleParkingCover(o),
 			new AddPostboxCollectionTimes(o),
-			new AddTactilePavingBusStop(o),
 			new AddBridgeStructure(o),
 			new AddOrchardProduce(o),
 			new AddRailwayCrossingBarrier(o),
