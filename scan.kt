@@ -5,12 +5,19 @@ class LicenceData(val licence: String, val file: String, val source: String) {}
 
 class MediaFile(val filePath: File) {}
 
+class LicencedFile(val licence: LicenceData, val file: MediaFile)
+
 fun validLicences() : Array<String> {
     return arrayOf("Public Domain", "CC0", "CC-BY-SA 1.0", "CC-BY-SA 2.0", "CC-BY-SA 2.5", "CC-BY-SA 3.0", "CC-BY-SA 4.0", "CC-BY 2.0", "CC-BY 3.0", "CC-BY 4.0")
 }
 
 fun publicDomainAsSimpleShapesFilenames() : Array<String> {
-    return arrayOf("speech_bubble_top.9.png", "speech_bubble_start.9.png", "speech_bubble_end.9.png", "crosshair_marker.png", "location_direction.png", "building_levels_illustration_bg_left.png", "building_levels_illustration_bg_right.png")
+    return arrayOf("speech_bubble_top.9.png", "speech_bubble_start.9.png",
+                   "speech_bubble_end.9.png", "speech_bubble_none.9.png",
+                   "crosshair_marker.png", "location_direction.png",
+                   "building_levels_illustration_bg_left.png",
+                   "building_levels_illustration_bg_right.png",
+                   "background_housenumber_frame_slovak.9")
 }
 
 fun cutoff() : Int {
@@ -85,6 +92,8 @@ fun main(args: Array<String>) {
     val knownLicenced = licencedMedia()
     val mediaFiles = mediaNeedingLicenes()
     val usedLicenced = mutableListOf<LicenceData>()
+    val billOfMaterials = mutableListOf<LicencedFile>()
+    
     for(file in mediaFiles) {
         var matched = false
         for(licenced in knownLicenced) {
@@ -92,6 +101,7 @@ fun main(args: Array<String>) {
                 if(matched) {
                     println(file.filePath.toString() + " matched to " + licenced.file + " but was matched already!")
                 } else {
+                    billOfMaterials += LicencedFile(licenced, file)
                     matched = true
                     usedLicenced += licenced
                 }
@@ -112,4 +122,13 @@ fun main(args: Array<String>) {
             println(licenced.file + " appears to be unused")
         }
     }
+    println("[")
+    for(licenced in billOfMaterials) {
+        println("{")
+        println("file: \"" + licenced.file.filePath + "\",")
+        println("licence: \"" + licenced.licence.licence + "\",")
+        println("author: \"" + licenced.licence.source + "\",")
+        println("},")
+    }
+    println("]")
 } 
