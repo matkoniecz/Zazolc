@@ -372,7 +372,7 @@ layers:
     bicycle_parking:
         data: { source: mapzen, layer: pois }
         filter:
-            kind: [bicycle_parking]
+            { $zoom: { min: 16 }, kind: [bicycle_parking] }
         draw:
             icons:
                 size: [[13, 14px], [16, 18px], [18, 19px]]
