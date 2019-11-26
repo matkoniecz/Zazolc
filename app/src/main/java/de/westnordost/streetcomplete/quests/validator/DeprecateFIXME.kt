@@ -14,7 +14,7 @@ class DeprecateFIXME(o: OverpassMapDataDao) : SimpleOverpassQuestType<Boolean>(o
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_convert_FIXME_to_fixme
 
-    override fun getTitleArgs(tags: Map<String, String>, featureName: Lazy<String?>): Array<String?> {
+    override fun getTitleArgs(tags: Map<String, String>, featureName: Lazy<String?>): Array<String> {
         val name = tags["FIXME"]
         return if (name != null) arrayOf(name) else arrayOf()
     }
