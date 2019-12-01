@@ -54,7 +54,7 @@ manually_licenced.each do |entry|
     if licence_translation.include?(licence)
         licence = licence_translation[licence]
     end
-    if entry[:file] =~ /\.json$/
+    if entry[:file] =~ /\.(json|txt)$/
         puts `reuse addheader --explicit-license --copyright="#{entry[:author]}" --license="#{licence}" "#{entry[:file]}"`
     else
         puts `reuse addheader --copyright="#{entry[:author]}" --license="#{licence}" "#{entry[:file]}"`
