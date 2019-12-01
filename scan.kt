@@ -25,9 +25,9 @@ fun cutoff() : Int {
 }
 
 fun licencedMedia() : MutableList<LicenceData> {
-    val firstLocation = "/home/mateusz/Documents/StreetComplete/res/authors.txt" // some noxious to process
-    val secondLocation = "/home/mateusz/Documents/StreetComplete/app/src/main/assets/authors.txt" //bunch of special cases
-    val thirdLocation = "/home/mateusz/Documents/StreetComplete/app/src/main/res/authors.txt"
+    val firstLocation = "/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/res/authors.txt" // some noxious to process
+    val secondLocation = "/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/app/src/main/assets/authors.txt" //bunch of special cases
+    val thirdLocation = "/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/app/src/main/res/authors.txt"
     val inputStream: InputStream = File(thirdLocation).inputStream()
     val inputString = inputStream.bufferedReader().use { it.readText() }
     val knownLicenced = mutableListOf<LicenceData>()
@@ -54,7 +54,7 @@ fun licencedMedia() : MutableList<LicenceData> {
 
 fun mediaNeedingLicenes() : MutableList<MediaFile> {
     val mediaFiles = mutableListOf<MediaFile>()
-    File("/home/mateusz/Documents/StreetComplete/app/src/main/res").walkTopDown().forEach {
+    File("/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/app/src/main/res").walkTopDown().forEach {
         if(it.getName().contains(".")) {
             val split_extension = it.getName().split(".")
             if(split_extension.size > 1) {
@@ -99,7 +99,7 @@ fun main(args: Array<String>) {
         for(licenced in knownLicenced) {
             if(fileMatchesLicenceDeclaration(file.filePath.getName(), licenced.file)) {
                 if(matched) {
-                    println(file.filePath.toString() + " matched to " + licenced.file + " but was matched already!")
+                    System.err.println(file.filePath.toString() + " matched to " + licenced.file + " but was matched already!")
                 } else {
                     billOfMaterials += LicencedFile(licenced, file)
                     matched = true
@@ -111,24 +111,28 @@ fun main(args: Array<String>) {
         if(!matched){
             val name = file.filePath.getName()
             if(name !in publicDomainAsSimpleShapesFilenames()) {
-                println(file.filePath.toString() + " remained unmatched")
-                println(name + " remained unmatched")
-                println()
+                System.err.println(file.filePath.toString() + " remained unmatched")
+                System.err.println(name + " remained unmatched")
+                System.err.println()
             }
         }
     }
     for(licenced in knownLicenced) {
         if(licenced !in usedLicenced) {
-            println(licenced.file + " appears to be unused")
+            System.err.println(licenced.file + " appears to be unused")
         }
     }
-    println("[")
+
+
+    println("def licence_data()")
+    println("  return [")
     for(licenced in billOfMaterials) {
-        println("{")
-        println("file: \"" + licenced.file.filePath + "\",")
-        println("licence: \"" + licenced.licence.licence + "\",")
-        println("author: \"" + licenced.licence.source + "\",")
-        println("},")
+        println("  {")
+        println("  file: \"" + licenced.file.filePath + "\",")
+        println("  licence: \"" + licenced.licence.licence + "\",")
+        println("  author: \"" + licenced.licence.source + "\",")
+        println("  },")
     }
-    println("]")
+    println("  ]")
+    println("end")
 } 
