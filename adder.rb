@@ -78,8 +78,14 @@ Dir.glob("#{root_folder}/**/*").reject{ |e| File.directory? e }.each do |file|
             next
         end
     end
-    explicit_extension_command = ""
-    if file =~ /\.kt$/
+    if the_same_authorship.include?(file)
+        if file =~ /\.bat$/
+            # comment form support for .bat files requested in https://github.com/fsfe/reuse-tool/issues/118
+            `reuse addheader --explicit-license --copyright="Tobias Zwick and contributors" --license=GPL-3.0-only "#{file}"`
+        else
+            `reuse addheader --copyright="Tobias Zwick and contributors" --license=GPL-3.0-only "#{file}"`
+        end
+    elsif file =~ /\.kt$/
         `reuse addheader --copyright="Tobias Zwick and contributors" --license=GPL-3.0-only --style c "#{file}"`
     elsif file =~ /\.java$/
         `reuse addheader --copyright="Tobias Zwick and contributors" --license=GPL-3.0-only --style c "#{file}"`
@@ -87,12 +93,8 @@ Dir.glob("#{root_folder}/**/*").reject{ |e| File.directory? e }.each do |file|
         `reuse addheader --copyright="Tobias Zwick and contributors" --license=GPL-3.0-only --style python "#{file}"`
     elsif file =~ /\.xml$/
         `reuse addheader --copyright="Tobias Zwick and contributors" --license=GPL-3.0-only --style html "#{file}"`
-    elsif file =~ /\.json$/ # https://github.com/fsfe/reuse-tool/issues/116
-        # json has no comments :(
-        next # broken due to https://github.com/fsfe/reuse-tool/issues/113
-        explicit_extension_command = "--explicit-license"
-    elsif file =~ /\.txt$/ # https://github.com/fsfe/reuse-tool/issues/116
-        next # broken due to https://github.com/fsfe/reuse-tool/issues/113
-        explicit_extension_command = "--explicit-license"
+    elsif file =~ /\.(json|txt|md)$/ 
+        # https://github.com/fsfe/reuse-tool/issues/116
+        `reuse addheader --explicit-license --copyright="Tobias Zwick and contributors" --license=GPL-3.0-only --style html "#{file}"`
     end
 end
