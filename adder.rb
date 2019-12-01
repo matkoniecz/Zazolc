@@ -1,28 +1,70 @@
 require_relative "licence_data"
-# TODOs
-# reuse addheader: error: '/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/gradle/wrapper/gradle-wrapper.properties' does not have a recognised file extension, please use --style
-# reuse addheader: error: '/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/build.gradle' does not have a recognised file extension, please use --style
-# reuse addheader: error: '/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/tools/view_test_db.bat' does not have a recognised file extension, please use --style
-# reuse addheader: error: '/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/tools/view_db.bat' does not have a recognised file extension, please use --style
-# reuse addheader: error: '/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/settings.gradle' does not have a recognised file extension, please use --style
-# reuse addheader: error: '/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/gradlew.bat' does not have a recognised file extension, please use --style
-#handle /home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/app/src/main/assets/map_theme/fonts
 
 root_folder = "/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero"
 pd_simple = ["#{root_folder}/app/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker",
              "#{root_folder}/app/proguard-rules.pro",
-             "#{root_folder}/gradle.properties"
+             "#{root_folder}/build.gradle",
+             "#{root_folder}/settings.gradle",
+             "#{root_folder}/.gitattributes",
+             "#{root_folder}/.editorconfig"
             ]
-
+the_same_authorship = [
+    "#{root_folder}/tools/view_db.bat",
+    "#{root_folder}/tools/view_test_db.bat",
+    "#{root_folder}/tools/find_popular_sports_by_country.py",
+    "#{root_folder}/metadata/en/images/phoneScreenshots/screenshot01.png",
+    "#{root_folder}/metadata/en/images/phoneScreenshots/screenshot02.png",
+    "#{root_folder}/metadata/en/images/phoneScreenshots/screenshot03.png",
+    "#{root_folder}/metadata/en/images/phoneScreenshots/screenshot04.png",
+    "#{root_folder}/metadata/en/images/phoneScreenshots/screenshot05.png",
+    "#{root_folder}/metadata/en/images/phoneScreenshots/screenshot06.png",
+    "#{root_folder}/metadata/en/images/phoneScreenshots/screenshot07.png",
+    "#{root_folder}/metadata/en/images/phoneScreenshots/screenshot08.png"
+]
 gitignore_rules = File.open("#{root_folder}/.gitignore").read.split("\n")
 
-licence_data().each do |entry|
-    `reuse addheader --copyright="#{entry[:author]}" --license=#{entry[:license]} "#{entry[:file]}"`
+licence_translation = {
+    "CC0" => "CC0-1.0",
+}
+
+manually_licenced = licence_data()
+manually_licenced << {licence: "Apache-2.0", file: "#{root_folder}/gradle/wrapper/gradle-wrapper.jar", author: "Gradle project authors"}
+manually_licenced << {licence: "Apache-2.0", file: "#{root_folder}/gradlew.bat", author: "Gradle project authors"}
+manually_licenced << {licence: "Apache-2.0", file: "#{root_folder}/gradle.properties", author: "Gradle project authors"}
+manually_licenced << {licence: "Apache-2.0", file: "#{root_folder}/gradle/wrapper/gradle-wrapper.properties", author: "Gradle project authors"}
+
+manually_licenced << {licence: "ODbL-1.0", file: "#{root_folder}/app/src/main/assets/boundaries.ser", author: "OpenStreetMap contributors"}
+
+Dir["#{root_folder}/app/src/main/assets/map_theme/fonts/*"].each do |file|
+    puts file
+    manually_licenced << {licence: "OFL-1.1", file: file, author: "The Montserrat Project Authors"}
+end
+
+Dir["#{root_folder}/app/src/main/assets/osmfeatures/*.json"].each do |file|
+    puts file
+    manually_licenced << {licence: "ISC", file: file, author: "The iD Project Authors"}
+end
+
+manually_licenced.each do |entry|
+    licence = entry[:licence]
+    if ["pd", "public domain"].include?(licence.downcase)
+        licence = "CC0-1.0" # https://github.com/fsfe/reuse-docs/issues/46
+    end
+    licence = licence.gsub(" ", "-")
+    if licence_translation.include?(licence)
+        licence = licence_translation[licence]
+    end
+    if entry[:file] =~ /\.json$/
+        puts `reuse addheader --explicit-license --copyright="#{entry[:author]}" --license="#{licence}" "#{entry[:file]}"`
+    else
+        puts `reuse addheader --copyright="#{entry[:author]}" --license="#{licence}" "#{entry[:file]}"`
+    end
 end
 
 `rm "#{root_folder}/COPYING"`
+`rm "#{root_folder}/app/src/main/res/authors.txt"`
 `rm "#{root_folder}/app/src/main/assets/map_theme/fonts/Apache License.txt"`
-Dir.glob('#{root_folder}/**/*').reject{ |e| File.directory? e }.each do |file|
+Dir.glob("#{root_folder}/**/*").reject{ |e| File.directory? e }.each do |file|
     if file =~ /\.license$/
         next
     end
