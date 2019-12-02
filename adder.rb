@@ -84,7 +84,7 @@ def main()
             next
         end
         if pd_simple_files.include?(file)
-            `reuse addheader --copyright="noone, file too simple to be covered by copyright" --license=CC0 --explicit-license "#{file}"`
+            `reuse addheader --copyright="noone, file too simple to be covered by copyright" --license=CC0-1.0 --explicit-license "#{file}"`
             next
         end
         for rule in gitignore_rules
