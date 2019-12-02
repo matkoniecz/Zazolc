@@ -726,4 +726,5 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_fix_mistagged_art_shop">Retag bogus tourism=gallery to shop=art? (%s)</string>
     <string name="quest_laundrySelfService_title">Is this laundry a self service laundry?</string>
     <string name="quest_handrail_title">Do these steps have a handrail?</string>
+    <string name="quest_street_side_puzzle_tutorial">Tap the question marks and select an answer for the given side of the road.</string>
 </resources>
