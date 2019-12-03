@@ -233,17 +233,24 @@ end
 
 def add_licence_metadata(author, licence, filepath)
     puts "#{filepath} is not existing" if File.file?(filepath)
-    if filepath =~ /\.(json|txt|md|bat|properties|editorconfig|gitignore|gitattributes|gradle|svg|png|xcf)$/ || filepath.include?(".") == false
+    if filepath =~ /\.(json|txt|md|bat|properties|editorconfig|gitignore|gitattributes|gradle|svg|png|xcf|pro|MockMaker)$/ || filepath.include?(".") == false
         # .gradle handling requested in https://github.com/fsfe/reuse-tool/issues/136
         
         # automatically handling git config files and more (editorconfig, gitignore, gitattributes)
         # is requested in https://github.com/fsfe/reuse-tool/issues/135
         
         # comment form support for .bat files requested in https://github.com/fsfe/reuse-tool/issues/118
-        execute_command("reuse addheader --explicit-license --copyright=\"#{author}\" --license=\"#{licence}\" \"#{filepath}\"")
-    else
+        add_licence_metadata_in_a_separate_file(author, licence, filepath)
+    elsif filepath =~ /\.(java|kt|py)/
         execute_command("reuse addheader --copyright=\"#{author}\" --license=\"#{licence}\" \"#{filepath}\"")
+    else
+        puts "unrecognised filetype for #{filepath}"
+        add_licence_metadata_in_a_separate_file(author, licence, filepath)
     end
+end
+
+def add_licence_metadata_in_a_separate_file(author, licence, filepath)
+    execute_command("reuse addheader --explicit-license --copyright=\"#{author}\" --license=\"#{licence}\" \"#{filepath}\"")
 end
 
 def execute_command(command)
