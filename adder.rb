@@ -238,7 +238,7 @@ def add_licence_metadata(author, licence, filepath)
         
         # comment form support for .bat files requested in https://github.com/fsfe/reuse-tool/issues/118
         add_licence_metadata_in_a_separate_file(author, licence, filepath)
-    elsif filepath =~ /\.(java|kt|py|xml|html)/
+    elsif filepath =~ /\.(java|kt|py|xml|html|yaml|yml)/
         execute_command("reuse addheader --copyright=\"#{author}\" --license=\"#{licence}\" \"#{filepath}\"")
     else
         puts "unrecognised filetype for #{filepath}"
