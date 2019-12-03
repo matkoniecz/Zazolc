@@ -1,4 +1,5 @@
 require_relative "licence_data"
+require "open3"
 
 def root_folder
     return "/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero"
@@ -242,9 +243,19 @@ def add_licence_metadata(author, licence, filepath)
         # is requested in https://github.com/fsfe/reuse-tool/issues/135
         
         # comment form support for .bat files requested in https://github.com/fsfe/reuse-tool/issues/118
-        `reuse addheader --explicit-license --copyright="#{author}" --license="#{licence}" "#{filepath}"`
+        execute_command("reuse addheader --explicit-license --copyright=\"#{author}\" --license=\"#{licence}\" \"#{filepath}\"")
     else
-        `reuse addheader --copyright="#{author}" --license="#{licence}" "#{filepath}"`
+        execute_command("reuse addheader --copyright=\"#{author}\" --license=\"#{licence}\" \"#{filepath}\"")
+    end
+end
+
+def execute_command(command)
+    stdout, stderr, status = Open3.capture3(command)
+    if !status.success?
+        puts "command failed!"
+        puts command
+        puts stdout
+        puts stderr
     end
 end
 
@@ -269,9 +280,9 @@ def main()
         filenames_processed_by_manually_licenced_files <<  entry["file"]
     end
 
-    `rm "#{root_folder}/COPYING"`
-    `rm "#{root_folder}/app/src/main/res/authors.txt"`
-    `rm "#{root_folder}/app/src/main/assets/map_theme/fonts/Apache License.txt"`
+    execute_command("rm \"#{root_folder}/COPYING\"")
+    execute_command("rm \"#{root_folder}/app/src/main/res/authors.txt\"")
+    execute_command("rm \"#{root_folder}/app/src/main/assets/map_theme/fonts/Apache License.txt\"")
     Dir.glob("#{root_folder}/**/*").reject{ |e| File.directory? e }.each do |file|
         if file =~ /\.license$/
             next
