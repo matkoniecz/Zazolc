@@ -228,8 +228,8 @@ def manually_licenced_files
 end
 
 def add_licence_metadata(author, licence, filepath)
-    puts "#{filepath} is not existing" if File.file?(filepath)
-    if filepath =~ /\.(json|txt|md|bat|properties|editorconfig|gitignore|gitattributes|gradle|svg|png|xcf|pro|MockMaker)$/ || filepath.include?(".") == false
+    puts "#{filepath} is not existing" if !File.file?(filepath)
+    if filepath =~ /\.(json|txt|md|bat|properties|editorconfig|gitignore|gitattributes|gradle|svg|png|jpg|xcf|pro|MockMaker)$/ || filepath.include?(".") == false
         # .gradle handling requested in https://github.com/fsfe/reuse-tool/issues/136
         
         # automatically handling git config files and more (editorconfig, gitignore, gitattributes)
@@ -237,7 +237,7 @@ def add_licence_metadata(author, licence, filepath)
         
         # comment form support for .bat files requested in https://github.com/fsfe/reuse-tool/issues/118
         add_licence_metadata_in_a_separate_file(author, licence, filepath)
-    elsif filepath =~ /\.(java|kt|py)/
+    elsif filepath =~ /\.(java|kt|py|xml|html)/
         execute_command("reuse addheader --copyright=\"#{author}\" --license=\"#{licence}\" \"#{filepath}\"")
     else
         puts "unrecognised filetype for #{filepath}"
