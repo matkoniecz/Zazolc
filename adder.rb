@@ -113,6 +113,7 @@ def made_by_main_author
         "#{root_folder}/res/speech_bubble_left.9.svg",
         "#{root_folder}/res/speech_bubble_none.9.svg",
         "#{root_folder}/res/speech_bubble_top.9.svg",
+        "#{root_folder}/res/speech_bubble_none.9.png",
     ]
 end
 
