@@ -179,9 +179,6 @@ def the_same_authorship
         "#{root_folder}/.editorconfig",
         "#{root_folder}/.gitignore",
         "#{root_folder}/app/.gitignore",
-        "#{root_folder}/.github/ISSUE_TEMPLATE/bug_report.md",
-        "#{root_folder}/.github/ISSUE_TEMPLATE/feature_request.md",
-        "#{root_folder}/.github/ISSUE_TEMPLATE/quest-suggestion.md",
     ]
 end
 
