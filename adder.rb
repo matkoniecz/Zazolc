@@ -277,7 +277,10 @@ def main()
             next
         end
         if pd_simple_files.include?(file)
-            `reuse addheader --copyright="noone, file too simple to be covered by copyright" --license=CC0-1.0 --explicit-license "#{file}"`
+            author = "noone, file too simple to be covered by copyright"
+            licence = "CC0-1.0"
+            filepath = file
+            add_licence_metadata(author, licence, filepath)
             next
         end
         for rule in gitignore_rules
