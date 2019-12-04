@@ -228,7 +228,7 @@ end
 
 def add_licence_metadata(author, licence, filepath)
     puts "#{filepath} is not existing" if !File.file?(filepath)
-    if filepath =~ /\.(json|txt|md|bat|properties|editorconfig|gitignore|gitattributes|gradle|svg|png|jpg|xcf|pro|MockMaker)$/ || filepath.include?(".") == false
+    if filepath =~ /\.(json|txt|md|bat|properties|editorconfig|gitignore|gitattributes|gradle|svg|png|jpg|xcf|pro|MockMaker|wav|jar|ser|woff)$/ || filepath.include?(".") == false
         # .gradle handling requested in https://github.com/fsfe/reuse-tool/issues/136
         
         # automatically handling git config files and more (editorconfig, gitignore, gitattributes)
