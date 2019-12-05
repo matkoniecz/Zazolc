@@ -281,7 +281,8 @@ def main()
     execute_command("rm \"#{root_folder}/COPYING\"")
     execute_command("rm \"#{root_folder}/app/src/main/res/authors.txt\"")
     execute_command("rm \"#{root_folder}/app/src/main/assets/map_theme/fonts/Apache License.txt\"")
-    Dir.glob("#{root_folder}/**/*").reject{ |e| File.directory? e }.each do |file|
+    files = Dir.glob("#{root_folder}/**/*", File::FNM_DOTMATCH) - ['.', '..']
+    files.reject{ |e| File.directory? e }.each do |file|
         if file =~ /\.license$/
             next
         end
