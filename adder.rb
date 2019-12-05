@@ -6,7 +6,8 @@ def root_folder
 end
 
 def pd_simple_files
-    return ["#{root_folder}/app/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker",
+    return [
+        "#{root_folder}/app/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker",
         "#{root_folder}/app/proguard-rules.pro",
         "#{root_folder}/build.gradle",
         "#{root_folder}/settings.gradle",
