@@ -3,7 +3,7 @@ All assets made by and (c) Tobias Zwick unless explicitly stated otherwise. Lice
 URLs to other sources used:
  - Twemoji 2 (MIT license)      https://github.com/twitter/twemoji/
  - EmojiOne 2 (CC-BY 4 license) https://github.com/emojione/emojione/tree/2.2.7
- - elegant themes (GPL)         https://www.elegantthemes.com/blog/freebie-of-the-week/beautiful-flat-icons-for-free
+ - elegant themes (GPL 2.0)     https://www.elegantthemes.com/blog/freebie-of-the-week/beautiful-flat-icons-for-free
 
 
 File                            Author if not Tobias Zwick / Source
@@ -57,7 +57,17 @@ building_icons.svg
 
 building_levels_illustration.svg
 
+cycleways.svg
+
+cycleway_segregation.svg
+
+feature_graphic.xcf             Maximilian Dörrbecker (CC-BY-SA-2.5 photo), Tobias Zwick (icons)
+
+ic_building_levels_illustration.svg
+
 living_street.svg
+
+osm_anon_avatar.svg
 
 roof_shape_icons.svg
 

@@ -8,7 +8,7 @@ import de.westnordost.streetcomplete.data.osm.download.MapDataWithGeometryHandle
 
 interface OsmElementQuestType<T> : QuestType<T> {
 
-    fun getTitleArgs(tags: Map<String, String>, featureName: Lazy<String?>): Array<String?> {
+    fun getTitleArgs(tags: Map<String, String>, featureName: Lazy<String?>): Array<String> {
         val name = tags["name"] ?: tags["brand"]
         return if (name != null) arrayOf(name) else arrayOf()
     }
@@ -50,6 +50,10 @@ interface OsmElementQuestType<T> : QuestType<T> {
     /** applies the data from [answer] to the given element. The element is not directly modified,
      *  instead, a map of [changes] is built */
     fun applyAnswerTo(answer: T, changes: StringMapChangesBuilder)
+
+    fun applyAnswerToUnsafe(answer: Any, changes: StringMapChangesBuilder) {
+        applyAnswerTo(answer as T, changes)
+    }
 
     /** The quest type can clean it's metadata here, if any  */
     fun cleanMetadata() {}
