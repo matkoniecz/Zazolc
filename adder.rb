@@ -172,6 +172,7 @@ def the_same_authorship
         "#{root_folder}/.editorconfig",
         "#{root_folder}/.gitignore",
         "#{root_folder}/app/.gitignore",
+        "#{root_folder}/app/build.gradle",
     ]
 end
 
