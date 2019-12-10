@@ -70,6 +70,7 @@ import de.westnordost.streetcomplete.quests.surface.AddCyclewayPartSurface;
 import de.westnordost.streetcomplete.quests.surface.AddFootwayPartSurface;
 import de.westnordost.streetcomplete.quests.surface.AddPathSurface;
 import de.westnordost.streetcomplete.quests.surface.AddRoadSurface;
+import de.westnordost.streetcomplete.quests.surface.DetailSurface;
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability;
 import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
@@ -105,6 +106,7 @@ public class QuestModule
 			osmNoteQuestType,
 
 			// ↓ 2. group
+			new DetailSurface(o), // my quest
 			new ShowFixme(o), // my quest
 			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
 			new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
