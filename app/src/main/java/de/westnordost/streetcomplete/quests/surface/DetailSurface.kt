@@ -10,6 +10,9 @@ class DetailSurface(o: OverpassMapDataDao) : SimpleOverpassQuestType<String>(o) 
 
     override val tagFilters = """
         ways, relations with surface ~ paved|unpaved
+        and segregated != yes 
+        and !cycleway:surface and !surface:cycleway 
+        and !footway:surface and !surface:footway 
         and (access !~ private|no or (foot and foot !~ private|no))
     """
     override val commitMessage = "Add more detailed surfaces"
