@@ -50,6 +50,7 @@ import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours;
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce;
 import de.westnordost.streetcomplete.quests.oneway.data.TrafficFlowSegmentsDao;
 import de.westnordost.streetcomplete.quests.oneway.data.WayTrafficFlowDao;
+import de.westnordost.streetcomplete.quests.footway.AddFootway;
 import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess;
 import de.westnordost.streetcomplete.quests.parking_fee.AddParkingFee;
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
@@ -197,6 +198,7 @@ public class QuestModule
 			//new AddTrafficSignalsButton(o), moved to boring
 
 			//boring
+			new AddFootway(o), // my own hackish quest
 			new DeprecateFIXME(o), // my own validator quest
 			new AddOpeningHours(o),
 			new AddMaxSpeed(o),

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/radioButtonGroup" >
+
+    <RadioButton
+        android:id="@+id/sidewalk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/quest_footway_sidewalk" />
+
+    <RadioButton
+        android:id="@+id/crossing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/quest_footway_crossing" />
+
+    <RadioButton
+        android:id="@+id/not_attached_to_the_road"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/quest_footway_not_attached_to_the_road" />
+</RadioGroup>
