@@ -93,6 +93,9 @@ class AddPlaceName(
             "water" to arrayOf(
                 "lake", "pond" // all only in my fork
             ),
+            "natural" to arrayOf(
+                "spring" // all only in my fork
+            ),
             "landuse" to arrayOf(
                 "cemetery", "allotments"
             ),
