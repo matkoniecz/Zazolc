@@ -65,7 +65,6 @@
     <string name="turn_on_location_request">"Positionshämtning är avstängd. Öppna inställningar för att slå på det nu?"</string>
     <string name="no_location_permission_warning">"Din plats är nödvändigt för att söka efter uppdrag i din närhet."</string>
     <string name="action_about">"Om StreetComplete"</string>
-    <string name="about_title_version">"Version"</string>
 
     <!-- Fuzzy -->
     <string name="about_title_authors">"Erkännande"</string>
@@ -408,7 +407,7 @@ Annars kan du ladda ner ett annat tangentbord i appbutiken. Populära tangentbor
     <!-- Fuzzy -->
     <string name="quest_buildingLevels_answer_multipleLevels">"varierar mellan olika husdelar"</string>
     <string name="quest_buildingLevels_answer_description">"I sådana fall, fyll i värdet för den högsta husdelen"</string>
-    <string name="unglue_hint">"Klicka för att lossa fixerad vy"</string>
+    <string name="unglue_hint">"Tryck för att lossa vy från position"</string>
     <string name="pref_title_not_authorized_summary2">"Logga in med din webbläsare för att ge programmet tillåtelse"</string>
     <string name="quest_maxspeed_answer_noSign_singleOrDualCarriageway_description">"Är körbanorna fysiskt separerade (till exempel genom en barriär)? Bashastigheten beror på om så är fallet eller inte."</string>
     <string name="about_category_feedback">"Återkoppling"</string>
@@ -455,7 +454,7 @@ Annars kan du ladda ner ett annat tangentbord i appbutiken. Populära tangentbor
     <string name="quest_streetName_answer_noName_noname">"Inget av ovanstående, den har helt enkelt inget namn"</string>
     <string name="quest_wheelchairAccess_toilets_title">"Är de här toaletterna tillgängliga med rullstol?"</string>
     <string name="quest_wheelchairAccess_toilets_name_title">"Är toaletterna %s tillgängliga med rullstol?"</string>
-    <string name="quest_wheelchairAccess_description_toilets">"Om toaletten är tillgänglig för rullstolsanvändare finns det oftast en sådan skylt.
+    <string name="quest_wheelchairAccess_description_toilets">"Om toaletten är tillgänglig för rullstolsanvändare finns det oftast en sådan skylt. 
     Delvis betyder att rullstolsanvändare kan komma in och använda toaletten men att det inte finns stödhandtag eller anpassad tvättho."</string>
     <string name="map_btn_create_note">"Skapa en ny anteckning"</string>
     <string name="create_new_note_unprecise">"Zooma in ytterligare för att skapa en anteckning"</string>
@@ -714,5 +713,8 @@ Annars kan du ladda ner ett annat tangentbord i appbutiken. Populära tangentbor
     <string name="quest_cyclewayPartSurface_title">"Vad är ytan på cykelvägen här?"</string>
     <string name="quest_generic_answer_differs_along_the_way">"Skiljer sig längs vägen…"</string>
     <string name="quest_split_way_too_imprecise">"Vänligen zooma in ytterligare"</string>
+    <string name="quest_footwayPartSurface_title">"Vad är ytan på gångvägen här?"</string>
     <string name="quest_wheelchairAccess_toiletsPart_title">"Är toaletten på %s tillgänglig med rullstol?"</string>
+    <string name="quest_maxweight_title">"Vad är viktgränsen här?"</string>
+    <string name="confirmation_authorize_now_note">"Du kan göra detta senare på inställningsskärmen."</string>
 </resources>

@@ -73,6 +73,7 @@ import de.westnordost.osmapi.map.data.OsmElement;
 import de.westnordost.osmapi.map.data.Way;
 import de.westnordost.osmfeatures.FeatureDictionary;
 import de.westnordost.streetcomplete.about.AboutFragment;
+import de.westnordost.streetcomplete.about.WhatsNewDialog;
 import de.westnordost.streetcomplete.data.Quest;
 import de.westnordost.streetcomplete.data.QuestAutoSyncer;
 import de.westnordost.streetcomplete.data.QuestController;
@@ -112,6 +113,7 @@ import de.westnordost.streetcomplete.util.SlippyMapMath;
 import de.westnordost.streetcomplete.util.SphericalEarthMath;
 
 
+import static de.westnordost.streetcomplete.ApplicationConstants.LAST_VERSION_WITHOUT_CHANGELOG;
 import static de.westnordost.streetcomplete.ApplicationConstants.MANUAL_DOWNLOAD_QUEST_TYPE_COUNT;
 
 public class MainActivity extends AppCompatActivity implements
@@ -211,6 +213,8 @@ public class MainActivity extends AppCompatActivity implements
 
 		Injector.instance.getApplicationComponent().inject(this);
 
+		getLifecycle().addObserver(questAutoSyncer);
+
 		crashReportExceptionHandler.askUserToSendCrashReportIfExists(this);
 
 		soundFx.prepare(R.raw.plop0);
@@ -226,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements
 		}
 
 		questSource.onCreate(this);
-		questController.onCreate();
+		getLifecycle().addObserver(questController);
 
 		getSupportFragmentManager().beginTransaction()
 			.add(locationRequestFragment, LocationRequestFragment.class.getSimpleName())
@@ -307,6 +311,12 @@ public class MainActivity extends AppCompatActivity implements
 	{
 		super.onStart();
 
+		String lastVersion = prefs.getString(Prefs.LAST_VERSION, LAST_VERSION_WITHOUT_CHANGELOG);
+		if (!(BuildConfig.VERSION_NAME).equals(lastVersion)) {
+			prefs.edit().putString(Prefs.LAST_VERSION, BuildConfig.VERSION_NAME).apply();
+			new WhatsNewDialog(this, "v" + lastVersion).show();
+		}
+
 		boolean isAutosync = Prefs.Autosync.valueOf(prefs.getString(Prefs.AUTOSYNC,"ON")) == Prefs.Autosync.ON;
 		ProgressBar uploadedAnswersProgressBar = findViewById(R.id.uploadedAnswersProgress);
 		ProgressBar unsyncedAnswersProgressBar = findViewById(R.id.unsyncedAnswersProgress);
@@ -324,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements
 		localBroadcaster.registerReceiver(locationRequestFinishedReceiver,
 				new IntentFilter(LocationRequestFragment.ACTION_FINISHED));
 
-		questController.onStart(this);
+		questController.setListener(this);
 
 		downloadProgressBar.setAlpha(0f);
 		downloadServiceIsBound = bindService(new Intent(this, QuestDownloadService.class),
@@ -345,14 +355,12 @@ public class MainActivity extends AppCompatActivity implements
 	@Override protected void onResume()
 	{
 		super.onResume();
-		questAutoSyncer.onResume();
 		questAutoSyncer.triggerAutoUpload();
 	}
 
 	@Override public void onPause()
 	{
 		super.onPause();
-		questAutoSyncer.onPause();
 
 		LngLat pos = mapFragment.getPosition();
 		prefs.edit()
@@ -370,7 +378,7 @@ public class MainActivity extends AppCompatActivity implements
 
 		unregisterReceiver(locationAvailabilityReceiver);
 
-		questController.onStop();
+		questController.setListener(null);
 
 		if (downloadServiceIsBound) unbindService(downloadServiceConnection);
 		if (downloadService != null)
@@ -387,12 +395,6 @@ public class MainActivity extends AppCompatActivity implements
 		{
 			uploadService.setProgressListener(null);
 		}
-	}
-
-	@Override public void onDestroy()
-	{
-		super.onDestroy();
-		questController.onDestroy();
 	}
 
 	@Override public void onConfigurationChanged(Configuration newConfig) {
@@ -560,7 +562,7 @@ public class MainActivity extends AppCompatActivity implements
 			}
 			else
 			{
-				if (questController.isPriorityDownloadRunning())
+				if (questController.isPriorityDownloadInProgress())
 				{
 					new AlertDialog.Builder(this)
 							.setMessage(R.string.confirmation_cancel_prev_download_title)
@@ -773,7 +775,7 @@ public class MainActivity extends AppCompatActivity implements
 		{
 			runOnUiThread(() ->
 			{
-				if (downloadService.currentDownloadHasPriority())
+				if (questController.isPriorityDownloadInProgress())
 				{
 					Toast.makeText(MainActivity.this, R.string.nothing_more_to_download, Toast.LENGTH_SHORT).show();
 				}
@@ -968,7 +970,7 @@ public class MainActivity extends AppCompatActivity implements
 	/* ---------------------------------- VisibleQuestListener ---------------------------------- */
 
 	@AnyThread @Override
-	public void onQuestsCreated(final Collection<? extends Quest> quests, final QuestGroup group)
+	public void onQuestsCreated(@NonNull final Collection<? extends Quest> quests, @NonNull final QuestGroup group)
 	{
 		runOnUiThread(() -> mapFragment.addQuests(quests, group));
 		// to recreate element geometry of selected quest (if any) after recreation of activity
@@ -987,7 +989,7 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	@AnyThread @Override
-	public synchronized void onQuestsRemoved(Collection<Long> questIds, QuestGroup group)
+	public synchronized void onQuestsRemoved(Collection<Long> questIds, @NonNull QuestGroup group)
 	{
 		runOnUiThread(() -> mapFragment.removeQuests(questIds, group));
 

@@ -3,11 +3,11 @@ package de.westnordost.streetcomplete.quests.fixme_show
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao
+import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataAndGeometryDao
 
 
 
-class ShowFixme(o: OverpassMapDataDao) : SimpleOverpassQuestType<List<String>>(o) {
+class ShowFixme(o: OverpassMapDataAndGeometryDao) : SimpleOverpassQuestType<List<String>>(o) {
 
     override val tagFilters =
                 "nodes, ways, relations with fixme and fixme!=continue and highway!=proposed and railway!=proposed" +

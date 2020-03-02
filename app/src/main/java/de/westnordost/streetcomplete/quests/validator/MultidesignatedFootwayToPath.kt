@@ -3,10 +3,10 @@ package de.westnordost.streetcomplete.quests.validator
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao
+import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataAndGeometryDao
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
-class MultidesignatedFootwayToPath(o: OverpassMapDataDao) : SimpleOverpassQuestType<Boolean>(o) {
+class MultidesignatedFootwayToPath(o: OverpassMapDataAndGeometryDao) : SimpleOverpassQuestType<Boolean>(o) {
 
     override val tagFilters = "ways with highway=footway and bicycle=designated and (foot=designated or !foot)"
     override val commitMessage = "fix misused highway=footway, confirmation that route for both pedestrian and cyclists exists"

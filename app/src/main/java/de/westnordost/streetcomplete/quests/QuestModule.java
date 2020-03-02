@@ -10,7 +10,7 @@ import dagger.Provides;
 import de.westnordost.osmfeatures.FeatureDictionary;
 import de.westnordost.streetcomplete.data.QuestType;
 import de.westnordost.streetcomplete.data.QuestTypeRegistry;
-import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataDao;
+import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataAndGeometryDao;
 import de.westnordost.streetcomplete.data.osmnotes.OsmNoteQuestType;
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable;
 import de.westnordost.streetcomplete.quests.bench_backrest.AddBenchBackrest;
@@ -38,7 +38,6 @@ import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType;
 import de.westnordost.streetcomplete.quests.housenumber.AddHousenumber;
 import de.westnordost.streetcomplete.quests.internet_access.AddInternetAccess;
 import de.westnordost.streetcomplete.quests.localized_name.AddRoadName;
-import de.westnordost.streetcomplete.quests.localized_name.data.PutRoadNameSuggestionsHandler;
 import de.westnordost.streetcomplete.quests.localized_name.data.RoadNameSuggestionsDao;
 import de.westnordost.streetcomplete.quests.max_height.AddMaxHeight;
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed;
@@ -57,11 +56,15 @@ import de.westnordost.streetcomplete.quests.parking_type.AddParkingType;
 import de.westnordost.streetcomplete.quests.place_name.AddPlaceName;
 import de.westnordost.streetcomplete.quests.playground_access.AddPlaygroundAccess;
 import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxCollectionTimes;
+import de.westnordost.streetcomplete.quests.postbox_ref.AddPostboxRef;
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial;
 import de.westnordost.streetcomplete.quests.railway_crossing.AddRailwayCrossingBarrier;
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType;
+import de.westnordost.streetcomplete.quests.recycling_glass.DetermineRecyclingGlass;
+import de.westnordost.streetcomplete.quests.recycling_material.AddRecyclingContainerMaterials;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship;
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine;
+import de.westnordost.streetcomplete.quests.localized_name.data.RoadNameSuggestionsDao;
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation;
 import de.westnordost.streetcomplete.quests.shop_type.AddShopType;
 import de.westnordost.streetcomplete.quests.sport.AddSport;
@@ -96,9 +99,8 @@ import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAcces
 public class QuestModule
 {
 	@Provides @Singleton public static QuestTypeRegistry questTypeRegistry(
-		OsmNoteQuestType osmNoteQuestType, OverpassMapDataDao o,
+		OsmNoteQuestType osmNoteQuestType, OverpassMapDataAndGeometryDao o,
 		RoadNameSuggestionsDao roadNameSuggestionsDao,
-		PutRoadNameSuggestionsHandler putRoadNameSuggestionsHandler,
 		TrafficFlowSegmentsDao trafficFlowSegmentsDao, WayTrafficFlowDao trafficFlowDao,
 		FutureTask<FeatureDictionary> featureDictionaryFuture)
 	{
@@ -110,7 +112,7 @@ public class QuestModule
 			new DetailSurface(o), // my quest
 			new ShowFixme(o), // my quest
 			new AddWayLit(o), //frequent enable/disable cycle (enable for night)
-			new AddRoadName(o, roadNameSuggestionsDao, putRoadNameSuggestionsHandler),
+			new AddRoadName(o, roadNameSuggestionsDao),
 			new AddPlaceName(o, featureDictionaryFuture),
 			new AddOneway(o, trafficFlowSegmentsDao, trafficFlowDao),
 			new AddBusStopName(o),
@@ -124,7 +126,8 @@ public class QuestModule
 			new MultidesignatedFootwayToPath(o), //my own validator quest
 			new DetectHistoricRailwayTagging(o), //my own validator quest
 			new FixBogusGallery(o), //my own validator quest
-
+			new AddRecyclingContainerMaterials(o),
+			new DetermineRecyclingGlass(o),
 
 			// ↓ 3. group
 			new AddRecyclingType(o),
@@ -158,8 +161,6 @@ public class QuestModule
 			new AddToiletAvailability(o), //OSM Carto, shown in OsmAnd descriptions
 			new AddFerryAccessPedestrian(o),
 			new AddFerryAccessMotorVehicle(o),
-
-			// ↓ 4. group
 
 			// ↓ 5. group
 			//new AddBuildingType(o), // moved to boring
@@ -200,7 +201,7 @@ public class QuestModule
 			//boring
 			new AddFootway(o), // my own hackish quest
 			new DeprecateFIXME(o), // my own validator quest
-			new AddOpeningHours(o),
+			new AddOpeningHours(o, featureDictionaryFuture),
 			new AddMaxSpeed(o),
 			new AddBuildingType(o),
 			new AddInternetAccess(o),
@@ -223,6 +224,7 @@ public class QuestModule
 			new AddOrchardProduce(o),
 			new AddRailwayCrossingBarrier(o),
 			new AddCycleway(o),
+			new AddPostboxRef(o),
 		};
 
 		return new QuestTypeRegistry(Arrays.asList(questTypesOrderedByImportance));
