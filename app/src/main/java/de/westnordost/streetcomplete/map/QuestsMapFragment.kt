@@ -17,7 +17,7 @@ import de.westnordost.streetcomplete.map.QuestPinLayerManager.Companion.MARKER_Q
 import de.westnordost.streetcomplete.map.QuestPinLayerManager.Companion.MARKER_QUEST_ID
 import de.westnordost.streetcomplete.map.tangram.CameraPosition
 import de.westnordost.streetcomplete.map.tangram.toTangramGeometry
-import de.westnordost.streetcomplete.util.SphericalEarthMath
+import de.westnordost.streetcomplete.util.distanceTo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -61,16 +61,12 @@ class QuestsMapFragment : LocationAwareMapFragment() {
         questPinLayerManager.mapFragment = this
     }
 
-    override fun onMapControllerReady() {
-        super.onMapControllerReady()
+    override fun onMapReady() {
         controller?.setPickRadius(1f)
-    }
-
-    override fun onSceneReady() {
         geometryLayer = controller?.addDataLayer(GEOMETRY_LAYER)
         questsLayer = controller?.addDataLayer(QUESTS_LAYER)
         questPinLayerManager.questsLayer = questsLayer
-        super.onSceneReady()
+        super.onMapReady()
     }
 
     override fun onMapIsChanging(position: LatLon, rotation: Float, tilt: Float, zoom: Float) {
@@ -115,7 +111,7 @@ class QuestsMapFragment : LocationAwareMapFragment() {
 
         val fingerRadius = CLICK_AREA_SIZE_IN_DP.toFloat().toPx(context) / 2
         val fingerEdgeClickPos = controller?.screenPositionToLatLon(PointF(x + fingerRadius, y)) ?: return
-        val fingerRadiusInMeters = SphericalEarthMath.distance(clickPos, fingerEdgeClickPos)
+        val fingerRadiusInMeters = clickPos.distanceTo(fingerEdgeClickPos)
 
         listener?.onClickedMapAt(clickPos, fingerRadiusInMeters)
     }

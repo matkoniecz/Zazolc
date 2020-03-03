@@ -1,5 +1,6 @@
 package de.westnordost.streetcomplete.map.tangram
 
+import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.PointF
 import android.graphics.RectF
@@ -12,7 +13,7 @@ import com.mapzen.tangram.viewholder.GLViewHolder
 import com.mapzen.tangram.viewholder.GLViewHolderFactory
 import de.westnordost.osmapi.map.data.BoundingBox
 import de.westnordost.osmapi.map.data.LatLon
-import de.westnordost.streetcomplete.util.SphericalEarthMath.*
+import de.westnordost.streetcomplete.util.*
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.coroutines.Continuation
@@ -34,8 +35,8 @@ import kotlin.math.pow
  *      <li>Use LatLon instead of LngLat</li>
  *  </ul>
  *  */
-class KtMapController(private val c: MapController) {
-    private val cameraManager = CameraManager(c)
+class KtMapController(private val c: MapController, contentResolver: ContentResolver) {
+    private val cameraManager = CameraManager(c, contentResolver)
     private val markerManager = MarkerManager(c)
     private val gestureManager = TouchGestureManager(c)
 
@@ -130,11 +131,6 @@ class KtMapController(private val c: MapController) {
 
     fun updateCameraPosition(duration: Long = 0, interpolator: Interpolator = defaultInterpolator, update: CameraUpdate) {
         cameraManager.updateCamera(duration, interpolator, update)
-        // workaround https://github.com/tangrams/tangram-es/issues/2129
-        if (duration == 0L) {
-            mapChangeListener?.onRegionIsChanging()
-            mapChangeListener?.onRegionDidChange(false)
-        }
     }
 
     fun setCameraPosition(camera: CameraPosition) {
@@ -196,12 +192,12 @@ class KtMapController(private val c: MapController) {
             screenPositionToLatLon(PointF(padding.left + size.x, padding.top + size.y))
         ).filterNotNull()
 
-        return enclosingBoundingBox(positions)
+        return positions.enclosingBoundingBox()
     }
 
     fun getEnclosingCameraPosition(bounds: BoundingBox, padding: RectF): CameraPosition? {
         val zoom = getMaxZoomThatContainsBounds(bounds, padding) ?: return null
-        val boundsCenter = centerPointOfPolyline(listOf(bounds.min, bounds.max))
+        val boundsCenter = listOf(bounds.min, bounds.max).centerPointOfPolyline()
         val pos = getLatLonThatCentersLatLon(boundsCenter, padding, zoom) ?: return null
         val camera = cameraPosition
         return CameraPosition(pos, camera.rotation, camera.tilt, zoom)
@@ -240,10 +236,10 @@ class KtMapController(private val c: MapController) {
         ) ?: return null
 
         val zoomDelta = zoom.toDouble() - cameraPosition.zoom
-        val distance = distance(offsetScreenCenter, screenCenter)
-        val angle = bearing(offsetScreenCenter, screenCenter)
+        val distance = offsetScreenCenter.distanceTo(screenCenter)
+        val angle = offsetScreenCenter.initialBearingTo(screenCenter)
         val distanceAfterZoom = distance * (2.0).pow(-zoomDelta)
-        return translate(position, distanceAfterZoom, angle)
+        return position.translate(distanceAfterZoom, angle)
     }
 
     /* -------------------------------------- Data Layers --------------------------------------- */
@@ -334,7 +330,7 @@ suspend fun MapView.initMap(
     suspendCoroutine<KtMapController?> { cont ->
         getMapAsync(MapView.MapReadyCallback { mapController ->
             cont.resume(mapController?.let {
-                KtMapController(it)
+                KtMapController(it, context.contentResolver)
             })
         }, glViewHolderFactory, httpHandler)
     }

@@ -75,6 +75,8 @@ That is not very clear to me. Any further explanations? -->
     <string name="no_location_permission_warning">"Votre position est nécessaire pour rechercher des quêtes"</string>
     <string name="action_about">"À propos de StreetComplete"</string>
     <string name="about_title_authors">"Auteurs"</string>
+
+    <!-- Fuzzy -->
     <string name="about_summary_authors">"© 2016–2020 Tobias Zwick et contributeurs"</string>
     <string name="about_title_repository">"Code Source"</string>
     <string name="about_summary_repository">"sur GitHub"</string>
@@ -507,6 +509,8 @@ Partiellement signifie qu’un fauteuil roulant peut entrer et utiliser les toil
     <string name="quest_parking_access_customers">"Réservé aux clients"</string>
     <string name="quest_streetName_pedestrian_title">"Quel est le nom de cette rue piétonne ?"</string>
     <string name="quest_streetSurface_square_title">"Quelle est la surface de cette place ?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_streetSurface_square_name_title">"Quelle est la surface de la place ici ?"</string>
     <string name="quest_fee_answer_hours">"Dépend du jour et de l’heure…"</string>
     <string name="quest_fee_add_times">"Ajouter des horaires"</string>
@@ -668,6 +672,8 @@ Partiellement signifie qu’un fauteuil roulant peut entrer et utiliser les toil
     <string name="quest_openingHours_timeSelect_next">"Suivant"</string>
     <string name="quest_tracktype_title">"Quelle est la fermeté de cette piste ?"</string>
     <string name="quest_tracktype_grade1">"Très compact"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_tracktype_grade2">"Compact, sans revêtement"</string>
     <string name="quest_tracktype_grade3">"Assez compact"</string>
     <string name="quest_tracktype_grade4">"Principalement mou, terre"</string>
@@ -790,4 +796,5 @@ Le séparer maintenant ?"</string>
 
     <!-- Fuzzy -->
     <string name="about_description_donate">"Merci de songer à soutenir cette application ! Pour voir l'état actuel des dons, cliquez sur la plateforme correspondante :"</string>
+    <string name="quest_religion_for_place_of_worship_name_title">"Quelle religion est pratiquée à %s ?"</string>
 </resources>

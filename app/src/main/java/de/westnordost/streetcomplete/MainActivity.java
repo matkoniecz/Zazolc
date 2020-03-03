@@ -85,13 +85,21 @@ import de.westnordost.streetcomplete.util.DpUtil;
 import de.westnordost.streetcomplete.util.GeoLocation;
 import de.westnordost.streetcomplete.util.GeoUriKt;
 import de.westnordost.streetcomplete.util.SlippyMapMath;
-import de.westnordost.streetcomplete.util.SphericalEarthMath;
+import de.westnordost.streetcomplete.util.SphericalEarthMathKt;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlin.coroutines.CoroutineContext;
+import kotlinx.coroutines.CoroutineScope;
+import kotlinx.coroutines.CoroutineScopeKt;
+import kotlinx.coroutines.Dispatchers;
+import kotlinx.coroutines.DispatchersKt;
+import kotlinx.coroutines.JobKt;
 
 
 import static de.westnordost.streetcomplete.ApplicationConstants.LAST_VERSION_WITHOUT_CHANGELOG;
 import static de.westnordost.streetcomplete.ApplicationConstants.MANUAL_DOWNLOAD_QUEST_TYPE_COUNT;
 
-public class MainActivity extends AppCompatActivity implements  MainFragment.Listener
+public class MainActivity extends AppCompatActivity implements  MainFragment.Listener, CoroutineScope
 {
 	@Inject CrashReportExceptionHandler crashReportExceptionHandler;
 
@@ -123,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements  MainFragment.Lis
 	private View unsyncedChangesContainer;
 	private MenuItem btnUndo;
 
+	private CoroutineScope coroutineScope = CoroutineScopeKt.CoroutineScope(Dispatchers.getMain());
 
 	private boolean downloadServiceIsBound;
 	private QuestDownloadService.Interface downloadService;
@@ -173,6 +182,11 @@ public class MainActivity extends AppCompatActivity implements  MainFragment.Lis
 		}
 	};
 
+	@NotNull @Override public CoroutineContext getCoroutineContext()
+	{
+		return coroutineScope.getCoroutineContext();
+	}
+
 	@Override protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -194,8 +208,6 @@ public class MainActivity extends AppCompatActivity implements  MainFragment.Lis
 		{
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
-
-		getLifecycle().addObserver(questController);
 
 		getSupportFragmentManager().beginTransaction()
 			.add(locationRequestFragment, LocationRequestFragment.class.getSimpleName())
@@ -233,7 +245,11 @@ public class MainActivity extends AppCompatActivity implements  MainFragment.Lis
 
 		if(savedInstanceState == null)
 		{
-			questController.deleteOld();
+			questController.deleteOld(new Continuation<Unit>()
+			{
+				@NotNull @Override public CoroutineContext getContext() { return coroutineScope.getCoroutineContext(); }
+				@Override public void resumeWith(@NotNull Object o){ }
+			});
 		}
 
 		handleGeoUri();
@@ -357,6 +373,12 @@ public class MainActivity extends AppCompatActivity implements  MainFragment.Lis
 		{
 			uploadService.setProgressListener(null);
 		}
+	}
+
+	@Override public void onDestroy()
+	{
+		super.onDestroy();
+		JobKt.cancel(coroutineScope.getCoroutineContext(), null);
 	}
 
 	@Override public void onConfigurationChanged(@NonNull Configuration newConfig) {
@@ -504,7 +526,7 @@ public class MainActivity extends AppCompatActivity implements  MainFragment.Lis
 		{
 			final BoundingBox enclosingBBox = SlippyMapMath.asBoundingBoxOfEnclosingTiles(
 					displayArea, ApplicationConstants.QUEST_TILE_ZOOM);
-			double areaInSqKm = SphericalEarthMath.enclosedArea(enclosingBBox) / 1000000;
+			double areaInSqKm = SphericalEarthMathKt.area(enclosingBBox, SphericalEarthMathKt.EARTH_RADIUS) / 1000000;
 			if (areaInSqKm > ApplicationConstants.MAX_DOWNLOADABLE_AREA_IN_SQKM)
 			{
 				Toast.makeText(this, R.string.download_area_too_big, Toast.LENGTH_LONG).show();
@@ -529,7 +551,7 @@ public class MainActivity extends AppCompatActivity implements  MainFragment.Lis
 
 	private void downloadAreaConfirmed(BoundingBox bbox)
 	{
-		double areaInSqKm = SphericalEarthMath.enclosedArea(bbox) / 1000000;
+		double areaInSqKm = SphericalEarthMathKt.area(bbox, SphericalEarthMathKt.EARTH_RADIUS) / 1000000;
 		// below a certain threshold, it does not make sense to download, so let's enlarge it
 		if (areaInSqKm < ApplicationConstants.MIN_DOWNLOADABLE_AREA_IN_SQKM)
 		{
@@ -537,8 +559,9 @@ public class MainActivity extends AppCompatActivity implements  MainFragment.Lis
 			if (cameraPosition != null)
 			{
 				LatLon pos = cameraPosition.getPosition();
-				bbox = SphericalEarthMath.enclosingBoundingBox(pos,
-						ApplicationConstants.MIN_DOWNLOADABLE_RADIUS_IN_METERS);
+				bbox = SphericalEarthMathKt.enclosingBoundingBox(pos,
+					ApplicationConstants.MIN_DOWNLOADABLE_RADIUS_IN_METERS,
+					SphericalEarthMathKt.EARTH_RADIUS);
 			}
 		}
 		questController.download(bbox, MANUAL_DOWNLOAD_QUEST_TYPE_COUNT, true);

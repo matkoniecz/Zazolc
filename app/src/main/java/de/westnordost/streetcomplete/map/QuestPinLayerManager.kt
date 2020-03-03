@@ -15,6 +15,10 @@ import de.westnordost.streetcomplete.ktx.values
 import de.westnordost.streetcomplete.map.tangram.toLngLat
 import de.westnordost.streetcomplete.quests.bikeway.AddCycleway
 import de.westnordost.streetcomplete.util.SlippyMapMath
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
@@ -25,7 +29,7 @@ class QuestPinLayerManager @Inject constructor(
     private val questTypesProvider: OrderedVisibleQuestTypesProvider,
     private val resources: Resources,
     private val questController: QuestController
-): LifecycleObserver, VisibleQuestListener {
+): LifecycleObserver, VisibleQuestListener, CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
     // draw order in which the quest types should be rendered on the map
     private val questTypeOrders: MutableMap<QuestType<*>, Int> = mutableMapOf()
@@ -62,18 +66,18 @@ class QuestPinLayerManager @Inject constructor(
         /* When reentering the fragment, the database may have changed (quest download in
         * background or change in settings), so the quests must be pulled from DB again */
         initializeQuestTypeOrders()
+        clear()
         onNewScreenPosition()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP) fun onStop() {
-        /* When reentering the fragment, the database may have changed (quest download in
-        * background or change in settings), so the quests must be pulled from DB again */
         clear()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY) fun onDestroy() {
         questsLayer = null
         questController.removeListener(this)
+        coroutineContext.cancel()
     }
 
     fun onNewScreenPosition() {
@@ -83,7 +87,7 @@ class QuestPinLayerManager @Inject constructor(
         val tilesRect = SlippyMapMath.enclosingTiles(displayedArea, TILES_ZOOM)
         if (lastDisplayedRect != tilesRect) {
             lastDisplayedRect = tilesRect
-            updateQuestsInRect(tilesRect)
+            launch { updateQuestsInRect(tilesRect) }
         }
     }
 
@@ -101,17 +105,17 @@ class QuestPinLayerManager @Inject constructor(
         updateLayer()
     }
 
-    private fun updateQuestsInRect(tilesRect: Rect) {
+    private suspend fun updateQuestsInRect(tilesRect: Rect) {
         // area too big -> skip
         if (tilesRect.width() * tilesRect.height() > 4) {
             return
         }
         val tiles = SlippyMapMath.asTileList(tilesRect)
-        tiles.removeAll(retrievedTiles)
+        synchronized(retrievedTiles) { tiles.removeAll(retrievedTiles) }
         val minRect = SlippyMapMath.minRect(tiles) ?: return
         val bbox = SlippyMapMath.asBoundingBox(minRect, TILES_ZOOM)
         questController.retrieve(bbox)
-        retrievedTiles.addAll(tiles)
+        synchronized(retrievedTiles) { retrievedTiles.addAll(tiles) }
     }
 
     private fun add(quest: Quest, group: QuestGroup) {
@@ -131,8 +135,10 @@ class QuestPinLayerManager @Inject constructor(
             )
             Point(position.toLngLat(), properties)
         }
-        if (quests[group] == null) quests[group] = LongSparseArray(256)
-        quests[group]?.put(quest.id!!, points)
+        synchronized(quests) {
+            if (quests[group] == null) quests[group] = LongSparseArray(256)
+            quests[group]?.put(quest.id!!, points)
+        }
     }
 
     private fun remove(questId: Long, group: QuestGroup) {
@@ -140,10 +146,14 @@ class QuestPinLayerManager @Inject constructor(
     }
 
     private fun clear() {
-        for (value in quests.values) {
-            value.clear()
+        synchronized(quests) {
+            for (value in quests.values) {
+                value.clear()
+            }
         }
-        retrievedTiles.clear()
+        synchronized(retrievedTiles) {
+            retrievedTiles.clear()
+        }
         questsLayer?.clear()
         lastDisplayedRect = null
     }
@@ -156,8 +166,12 @@ class QuestPinLayerManager @Inject constructor(
         }
     }
 
-    private fun getPoints(): List<Point> = quests.values.flatMap { questsById ->
-        questsById.values.flatten()
+    private fun getPoints(): List<Point> {
+        synchronized(quests) {
+            return quests.values.flatMap { questsById ->
+                questsById.values.flatten()
+            }
+        }
     }
 
     private fun initializeQuestTypeOrders() {
