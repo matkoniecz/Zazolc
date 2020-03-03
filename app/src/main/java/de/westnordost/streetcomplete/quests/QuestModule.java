@@ -12,6 +12,7 @@ import de.westnordost.streetcomplete.data.QuestType;
 import de.westnordost.streetcomplete.data.QuestTypeRegistry;
 import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataAndGeometryDao;
 import de.westnordost.streetcomplete.data.osmnotes.OsmNoteQuestType;
+import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash;
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable;
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity;
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover;
@@ -72,6 +73,7 @@ import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusSt
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk;
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability;
 import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee;
+import de.westnordost.streetcomplete.quests.tourism_information.AddInformationToTourism;
 import de.westnordost.streetcomplete.quests.tracktype.AddTracktype;
 import de.westnordost.streetcomplete.quests.housenumber.AddHousenumber;
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed;
@@ -175,6 +177,7 @@ public class QuestModule
 			new AddToiletsFee(o), // used by OsmAnd in the object description
 			new AddBabyChangingTable(o), // used by OsmAnd in the object description
 			new AddBikeParkingCover(o), // used by OsmAnd in the object description
+			new AddAcceptsCash(o),
 			new AddTactilePavingCrosswalk(o), // Paving can be completed while waiting to cross
 			//new AddTrafficSignalsSound(o),  moved to boring
 			//new AddRoofShape(o), removed as boring and tricky to get right
@@ -187,6 +190,7 @@ public class QuestModule
 			new AddGeneralFee(o),
 			new AddSelfServiceLaundry(o),
 			new AddHandrail(o), // for accessibility of pedestrian routing
+			new AddInformationToTourism(o),
 
 			// ↓ 8. defined in the wiki, but not really used by anyone yet. Just collected for
 			//      the sake of mapping it in case it makes sense later
