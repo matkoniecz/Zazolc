@@ -1,18 +1,18 @@
 package de.westnordost.streetcomplete.quests.surface
 
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.SimpleOverpassQuestType
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.download.OverpassMapDataAndGeometryDao
+import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
+import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
 
 
-class DetailSurface(o: OverpassMapDataAndGeometryDao) : SimpleOverpassQuestType<String>(o) {
+class DetailSurface(o: OverpassMapDataAndGeometryApi) : SimpleOverpassQuestType<String>(o) {
 
     override val tagFilters = """
         ways, relations with surface ~ paved|unpaved
-        and segregated != yes 
-        and !cycleway:surface and !surface:cycleway 
-        and !footway:surface and !surface:footway 
+        and segregated != yes
+        and !cycleway:surface and !surface:cycleway
+        and !footway:surface and !surface:footway
         and (access !~ private|no or (foot and foot !~ private|no))
     """
     override val commitMessage = "Add more detailed surfaces"

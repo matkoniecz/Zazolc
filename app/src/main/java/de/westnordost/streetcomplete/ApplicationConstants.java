@@ -1,18 +1,11 @@
 package de.westnordost.streetcomplete;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 public class ApplicationConstants
 {
 	public final static String
 		NAME = "zażółć",
 		USER_AGENT = "Zazolc" + " " + BuildConfig.VERSION_NAME, // crashes: JNI DETECTED ERROR IN APPLICATION: JNI NewString called with pending exception java.lang.IllegalArgumentException: Unexpected char 0x17c at 2 in User-Agent value: zażółć 17.3 / okhttp/3.12.0
 		QUESTTYPE_TAG_KEY = NAME + ":quest_type";
-
-	// date of birth of StreetComplete ;-) (first Google Play version)
-	public final static Date DATE_OF_BIRTH = new GregorianCalendar(2017,Calendar.FEBRUARY,20).getTime();
 
 	public final static double
 		MAX_DOWNLOADABLE_AREA_IN_SQKM = 20,
