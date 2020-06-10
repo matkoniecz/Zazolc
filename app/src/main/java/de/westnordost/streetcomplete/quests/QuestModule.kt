@@ -1,16 +1,13 @@
 package de.westnordost.streetcomplete.quests
 
-import java.util.concurrent.FutureTask
-
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
 import de.westnordost.osmfeatures.FeatureDictionary
-import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
 import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
 import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuestType
 import de.westnordost.streetcomplete.data.quest.QuestType
+import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
+import de.westnordost.streetcomplete.quests.address.AddAddressStreet;
 import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity
@@ -67,7 +64,7 @@ import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailab
 import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee
 import de.westnordost.streetcomplete.quests.tourism_information.AddInformationToTourism
 import de.westnordost.streetcomplete.quests.tracktype.AddTracktype
-import de.westnordost.streetcomplete.quests.housenumber.AddHousenumber
+import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours
 import de.westnordost.streetcomplete.quests.localized_name.AddRoadName
@@ -89,15 +86,19 @@ import de.westnordost.streetcomplete.quests.shop_type.AddShopType
 import de.westnordost.streetcomplete.quests.surface.*
 import de.westnordost.streetcomplete.quests.validator.*
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToiletsPart
+import java.util.concurrent.FutureTask
+import javax.inject.Singleton
 
 @Module
 object QuestModule
 {
-    @Provides @Singleton fun questTypeRegistry(
-        osmNoteQuestType: OsmNoteQuestType, o: OverpassMapDataAndGeometryApi,
-        roadNameSuggestionsDao: RoadNameSuggestionsDao,
-        trafficFlowSegmentsApi: TrafficFlowSegmentsApi, trafficFlowDao: WayTrafficFlowDao,
-        featureDictionaryFuture: FutureTask<FeatureDictionary>
+    @Provides
+    @Singleton
+    fun questTypeRegistry(
+            osmNoteQuestType: OsmNoteQuestType, o: OverpassMapDataAndGeometryApi,
+            roadNameSuggestionsDao: RoadNameSuggestionsDao,
+            trafficFlowSegmentsApi: TrafficFlowSegmentsApi, trafficFlowDao: WayTrafficFlowDao,
+            featureDictionaryFuture: FutureTask<FeatureDictionary>
     ): QuestTypeRegistry = QuestTypeRegistry(listOf(
 
             //modified--
@@ -117,6 +118,7 @@ object QuestModule
             AddBusStopName(o),
             AddIsBuildingUnderground(o), //to avoid asking AddHousenumber and other for underground buildings
             AddHousenumber(o),
+            AddAddressStreet(o, roadNameSuggestionsDao),
             MarkCompletedHighwayConstruction(o),
             AddReligionToPlaceOfWorship(o), // icons on maps are different - OSM Carto, mapy.cz, OsmAnd, Sputnik etc
             AddParkingAccess(o), //OSM Carto, mapy.cz, OSMand, Sputnik etc

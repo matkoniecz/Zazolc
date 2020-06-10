@@ -20,7 +20,10 @@ class WifiAutoDownloadStrategy @Inject constructor(
      *
      * Since download size is almost unlimited, we can be very generous here.
      * However, Overpass is as limited as always, so the number of quest types we download is
-     * limited as before  */
+     * limited as before
+     *
+     * Though in my for as unusually active mapper I decided than consuming more Overpass Resources is acceptable
+     * */
 
     override val questTypeDownloadCount = 1000
     override val minQuestsInActiveRadiusPerKm2 = 1000
