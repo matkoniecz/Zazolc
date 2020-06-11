@@ -20,7 +20,7 @@ class AddFootwayForm : AbstractQuestFormAnswerFragment<String>() {
         applyAnswer(when (radioButtonGroup.checkedRadioButtonId) {
             R.id.sidewalk                 -> "sidewalk"
             R.id.crossing                 -> "crossing"
-            R.id.not_attached_to_the_road -> "not_attached_to_the_road"
+            R.id.not_part_of_a_road -> "not_part_of_a_road"
             else -> throw NullPointerException()
         })
     }

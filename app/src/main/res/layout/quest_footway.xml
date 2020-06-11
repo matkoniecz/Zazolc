@@ -20,9 +20,9 @@
         android:text="@string/quest_footway_crossing" />
 
     <RadioButton
-        android:id="@+id/not_attached_to_the_road"
+        android:id="@+id/not_part_of_a_road"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/quest_footway_not_attached_to_the_road" />
+        android:text="@string/quest_footway_not_part_of_a_road" />
 </RadioGroup>
