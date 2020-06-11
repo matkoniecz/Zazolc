@@ -16,7 +16,7 @@ import de.westnordost.streetcomplete.data.quest.UnsyncedChangesCountListener
 import de.westnordost.streetcomplete.data.quest.UnsyncedChangesCountSource
 import de.westnordost.streetcomplete.data.user.*
 import de.westnordost.streetcomplete.data.user.achievements.UserAchievementsDao
-import de.westnordost.streetcomplete.util.BitmapUtil
+import de.westnordost.streetcomplete.ktx.createBitmap
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.*
 import java.io.File
@@ -53,12 +53,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile),
     }
 
     init {
-        Injector.instance.applicationComponent.inject(this)
+        Injector.applicationComponent.inject(this)
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        anonAvatar = BitmapUtil.createBitmapFrom(resources.getDrawable(R.drawable.ic_osm_anon_avatar))
+        anonAvatar = resources.getDrawable(R.drawable.ic_osm_anon_avatar).createBitmap()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

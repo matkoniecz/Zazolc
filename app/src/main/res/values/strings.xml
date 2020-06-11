@@ -125,8 +125,10 @@
     <string name="quest_openingHours_comment_title">"Describe opening hours"</string>
     <string name="quest_openingHours_comment_description">"Be concise, ideally use the wording from the sign, e.g. “by appointment”. The absence of a sign does not necessarily mean that there are no regular opening hours."</string>
     <string name="quest_buildingLevels_title">"How many levels does this building have?"</string>
+    <string name="quest_buildingLevels_address_title">"How many levels does the building with the number %s have?"</string>
     <string name="quest_buildingLevels_title_buildingPart">"How many levels does this building part have?"</string>
     <string name="quest_roofShape_title">"What basic shape does this building’s roof have?"</string>
+    <string name="quest_roofShape_address_title">"What basic shape does the roof of the building with the number %s have?"</string>
     <string name="quest_roofShape_select_one">"Select one:"</string>
     <string name="quest_roofShape_show_more">"Show more…"</string>
     <string name="quest_roofShape_answer_many">"It has several different shapes"</string>
@@ -564,6 +566,7 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_convert_vehicle_destination_to_vehicle_private">Change vehicle=destination to vehicle=private?</string>
 
     <string name="quest_buildingType_title">"What kind of building is this?"</string>
+    <string name="quest_buildingType_address_title">"What kind of building is number %s?"</string>
     <string name="quest_buildingType_title2">"What was this building constructed as?"</string>
     <string name="quest_generic_item_invalid_value">Please select a more specific value.</string>
     <string name="quest_buildingType_answer_multiple_types">It has multiple purposes</string>
@@ -751,11 +754,11 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_address_street_no_named_streets">It does not belong to a named street</string>
     <string name="quest_address_street_place_name_label">Place name:</string>
     <string name="quest_address_street_description">Tap the road it belongs to on the map or enter it without abbreviations in the field below:</string>
-    <string name="quest_street_side_puzzle_tutorial">Tap the question marks and select an answer for the given side of the road.</string>
+    <string name="quest_street_side_puzzle_tutorial">Tap the question marks on the illustration below to select an answer for the given side of the road. The road in the illustration is rotated the same as on the map at the location of the pin. </string>
     <string name="quest_footway_title">Footway type?</string>
     <string name="quest_footway_sidewalk">Sidewalk</string>
     <string name="quest_footway_crossing">Crossing</string>
-    <string name="quest_footway_not_attached_to_the_road">Not attached to the road</string>
+    <string name="quest_footway_not_part_of_a_road">not_part_of_a_road</string>
     <string name="quest_recycling_materials_title">What can be left here for recycling?</string>
     <string name="quest_recycling_materials_note">If anything different can be recycled than selectable here, please leave a note instead.</string>
     <string name="quest_recycling_type_batteries">Batteries</string>
@@ -773,6 +776,8 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_recycling_type_plastic_packaging">Plastic packaging only</string>
     <string name="quest_recycling_type_scrap_metal">Scrap metal</string>
     <string name="quest_recycling_type_any_glass">Any glass</string>
+    <string name="quest_recycling_type_cooking_oil">Cooking Oil</string>
+    <string name="quest_recycling_type_engine_oil">Engine Oil</string>
     <string name="quest_recycling_glass_title">Can only glass bottles and jars be recycled here, or any type of glass?</string>
     <string name="quest_determineRecyclingGlass_description_any_glass">Examples of glass that is often not accepted: tempered glass, window panes, glassware, light bulbs or mirrors.</string>
 
@@ -836,16 +841,19 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="link_openstreetcam_description">A service and app for sharing crowdsourced street-level photos, with explicit permission to use them for contributing to OSM</string>
     <string name="link_openrouteservice_wheelchair_description">Turn by turn navigation for wheelchair users</string>
     <string name="link_nominatim_description">The geocoder for OSM data, used by many other services</string>
+    <string name="link_photon_description">A standalone extension to Nominatim, featuring fuzzy search and search-as-you-type</string>
     <string name="link_city_roads_description">Render all roads of a city, for printing on T-Shirts, mugs, …</string>
     <string name="link_myosmatic_description">"Generate printable city maps in a few easy steps, optionally with a street directory"</string>
     <string name="link_brouter_description">Probably the best routing engine for cyclists</string>
     <string name="link_show_me_the_way_description">Watch OSM edits happen in real time</string>
     <string name="link_osrm_description">The fastest routing engine around</string>
+    <string name="link_graphhopper_description">A flexible routing engine</string>
     <string name="link_openrouteservice_description">Routing for a variety of vehicles and on foot, each with preferences. Can also show isochrones (reachable area in X minutes from a starting point).</string>
     <string name="link_osm_haiku_description">Using OSM data to generate a haiku (a form of Japanese poetry)</string>
     <string name="link_openinframap_description">A map showing power, telecoms, gas, and oil infrastructure</string>
     <string name="link_openorienteeringmap_description">Create printable maps for the orienteering sport</string>
     <string name="link_openstreetbrowser_description">A map to browse OpenStreetMap map features by category</string>
+    <string name="link_qwant_maps_description">A map with searchable places and directions</string>
     <string name="link_weeklyosm_description">The weekly news blog about what\'s happening in the OpenStreetMap world</string>
     <string name="link_figuregrounder_description">Create figure-ground diagram posters of a city or neighbourhood</string>
 
