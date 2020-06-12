@@ -5,7 +5,7 @@ public class ApplicationConstants
 	public final static String
 		NAME = "zażółć",
 		USER_AGENT = "Zazolc" + " " + BuildConfig.VERSION_NAME, // crashes: JNI DETECTED ERROR IN APPLICATION: JNI NewString called with pending exception java.lang.IllegalArgumentException: Unexpected char 0x17c at 2 in User-Agent value: zażółć 17.3 / okhttp/3.12.0
-		QUESTTYPE_TAG_KEY = NAME + ":quest_type";
+		QUESTTYPE_TAG_KEY = "StreetComplete:quest_type"; // https://github.com/westnordost/StreetComplete/issues/1894
 
 	public final static double
 		MAX_DOWNLOADABLE_AREA_IN_SQKM = 20,
