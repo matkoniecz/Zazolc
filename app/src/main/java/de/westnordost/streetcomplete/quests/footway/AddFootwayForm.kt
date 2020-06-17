@@ -21,6 +21,7 @@ class AddFootwayForm : AbstractQuestFormAnswerFragment<String>() {
             R.id.sidewalk                 -> "sidewalk"
             R.id.crossing                 -> "crossing"
             R.id.not_part_of_a_road -> "not_part_of_a_road"
+            R.id.connector -> "connector"
             else -> throw NullPointerException()
         })
     }
