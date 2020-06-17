@@ -13,6 +13,7 @@ class DetailSurface(o: OverpassMapDataAndGeometryApi) : SimpleOverpassQuestType<
         and segregated != yes
         and !cycleway:surface and !surface:cycleway
         and !footway:surface and !surface:footway
+        and !surface:left and !surface:right
         and (access !~ private|no or (foot and foot !~ private|no))
     """
     override val commitMessage = "Add more detailed surfaces"
