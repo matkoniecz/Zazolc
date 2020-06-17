@@ -19,7 +19,7 @@ class AddFootway(private val overpassServer: OverpassMapDataAndGeometryApi) : Os
     private fun getOverpassQuery(bbox: BoundingBox) = """
         ${bbox.toGlobalOverpassBBox()}
         way[!covered][!tunnel]["highway"~"motorway|motorway_link|trunk|trunk_link|primary|primary_link|secondary|secondary_link|tertiary|tertiary_link|service|residential|unclassified|living_street|track|pedestrian|road"]["access"!~"no|private"][!area];
-        (way(around:5)["highway"~"footway|path"]["footway"!="crossing"][!tunnel];);
+        (way(around:5)["highway"~"footway|path"][!"footway"];);
         ${getQuestPrintStatement()}""".trimIndent()
 
     //override val tagFilters = "ways with highway ~ footway|path and !footway"
