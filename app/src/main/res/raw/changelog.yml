@@ -1,3 +1,25 @@
+v21.0-beta1: |
+  <h3>🗺️ New Map Provider</h3>
+  <p>Big thanks to <a href="https://www.jawg.io">JawgMaps</a>, a provider of online
+   custom maps, geocoding, routing and elevation data. They are helping OpenStreetMap by providing
+   their map service to StreetComplete for free! <br/>
+   Their maps are also quite excellent:
+   You can look forward to <strong>daily map updates</strong> and <strong>map loading
+   times cut in half</strong>, as their map data is very lightweight.</p>
+  <p>But let's not forget to thank @Akasch for hosting the previous solution with zero budget over
+   the last years and maintaining it in his free time. Without his endeavor, there likely wouldn't
+   have been a map at all in this time.</p>
+  <h3>Enhancements</h3>
+  <ul>
+    <li>The app can now be moved to SD card in the Android settings (#1787), thanks @Mortein and @Atrate</li>
+    <li>Labels for countries and big cities stand out more, so they are better distinguishable from smaller places</li>
+    <li>Accessibility: The text on the map now scales up when zooming and when increasing the font size in the Android settings (#1877), by @matkoniecz</li>
+    <li>Accessibility: Increase contrast for orange text (#1899), by @matkoniecz</li>
+    <li>Recycling type: Added cooking and motor oil options (#1830)</li>
+    <li>Building type: Don't ask for (theme park) attractions (#1891)</li>
+    <li>Added some achievement links</li>
+  </ul>
+
 v20.1: |
   <h3>Fixes and Enhancements</h3>
   <ul>
@@ -47,49 +69,6 @@ v20.0: |
     <li>Fix close-button was not shown when bottom sheet was pulled up completely</li>
     <li>fix achievement icons would sometimes vanish (and other oddities) (#1834)</li>
     <li>if the text on the buttons in the button bar is too long, use several lines (#1372)</li>
-    <li>More minor / technical fixes</li>
-  </ul>
-
-
-v20.0-beta2: |
-  <h3>New Quests</h3>
-  <ul>
-  <li>What street does the (house) number ... belong to? (#1782, #213), by @dbdean, @matkoniecz and me</li>
-  </ul>
-  <h3>Fixes and Enhancements</h3>
-  <ul>
-    <li>bubbles in ball pit now display with shadow (#1840)</li>
-    <li>fix achievement icons would sometimes vanish (and other oddities) (#1834)</li>
-    <li>text is selectable now in changelog, credits and privacy statement (#1833)</li>
-    <li>move pointer pin below other map buttons (#1838)</li>
-    <li>buttons in bottom sheet button bar are a bit slimmer now (#1839)</li>
-    <li>smaller animation time for quest counter in statistics (#1832)</li>
-  </ul>
-
-
-v20.0-beta1: |
-  <h3>📈 New Statistics</h3>
-  <ul>
-    <li>🌍 See your solved quests grouped by country</li>
-    <li>See how you rank amongst other StreetComplete users</li>
-    <li>See how many days you contributed and the sum of your achievement levels</li>
-    <li>Access the mapping portal for each country you contributed to, with useful infos about local mapping efforts and for connecting with the local community</li>
-  </ul>
-  <h3>Enhancements</h3>
-  <ul>
-    <li>A pointer pin at the edge of the screen replaces the GPS button and points to your current location</li>
-    <li>📱 The app is now optimized to look great on tablets and phablets as well! (#1794)</li>
-    <li>Text in note discussions is now selectable</li>
-    <li>Add proper shadows for all the speech bubble forms</li>
-  </ul>
-  <h3>Fixes</h3>
-  <ul>
-    <li>on pressing the hardware menu button, don't open the menu twice (#1806)</li>
-    <li>bubbles in the statistics view shouldn't grow too large anymore (#1818)</li>
-    <li>Previous quest selection was still displayed when creating a note (#1820)</li>
-    <li>On splitting a way, require the user to zoom in far enough to use the scissors</li>
-    <li>Fix link collection sometimes appearing empty</li>
-    <li>Fix close-button was not shown when bottom sheet was pulled up completely</li>
     <li>More minor / technical fixes</li>
   </ul>
 
