@@ -9,6 +9,7 @@ import de.westnordost.streetcomplete.data.osm.elementgeometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
 import de.westnordost.streetcomplete.data.osm.osmquest.OsmElementQuestType
 import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
+import de.westnordost.streetcomplete.data.quest.QuestStatus
 import de.westnordost.streetcomplete.data.tagfilters.FiltersParser
 import de.westnordost.streetcomplete.data.tagfilters.getQuestPrintStatement
 import de.westnordost.streetcomplete.data.tagfilters.toGlobalOverpassBBox
@@ -63,7 +64,15 @@ class DetailRoadSurface(private val overpassMapDataApi: OverpassMapDataAndGeomet
         if(!REQUIRED_MINIMAL_MATCH_TFE.matches(element)) {
             return false;
         }
-        return false; //TODO("Not yet implemented filtering out :surface|surface:")
+        element.tags.forEach {
+            if(it.key.contains("surface:")) {
+                return false;
+            }
+            if(it.key.contains(":surface")) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private fun getOverpassQuery(bbox: BoundingBox) =
@@ -81,7 +90,7 @@ class DetailRoadSurface(private val overpassMapDataApi: OverpassMapDataAndGeomet
     private val HIGHWAY_TAG_MATCH = ROADS_WITH_SURFACES_BROADLY_DEFINED.joinToString("|")
     private val UNDETAILED_SURFACE_TAG_MATCH = "paved|unpaved"
     private val REQUIRED_MINIMAL_MATCH_TFE by lazy { FiltersParser().parse(
-            "ways with surface ~ ${UNDETAILED_SURFACE_TAG_MATCH} and segrehated!=yes and highway ~ ${HIGHWAY_TAG_MATCH}"
+            "ways with surface ~ ${UNDETAILED_SURFACE_TAG_MATCH} and segregated!=yes and highway ~ ${HIGHWAY_TAG_MATCH}"
     )}
 
     override val isSplitWayEnabled = true
@@ -89,16 +98,10 @@ class DetailRoadSurface(private val overpassMapDataApi: OverpassMapDataAndGeomet
     override fun applyAnswerTo(answer: DetailSurfaceAnswer, changes: StringMapChangesBuilder) {
         when(answer) {
             is SurfaceAnswer -> {
-                if(answer.value == "paved") {
-                    return  // and crash TODO!
-                }
-                if(answer.value == "unpaved") {
-                    return  // and crash TODO!
-                }
                 changes.modify("surface", answer.value)
             }
             is DetailingImpossibleAnswer -> {
-                changes.modify("surface:note", answer.value)
+                changes.add("surface:note", answer.value)
             }
         }
     }

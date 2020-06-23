@@ -12,34 +12,29 @@ import de.westnordost.streetcomplete.quests.OtherAnswer
 import de.westnordost.streetcomplete.util.TextChangedWatcher
 import de.westnordost.streetcomplete.view.Item
 
-class DetailRoadSurfaceForm  : AGroupedImageListQuestAnswerFragment<String, String>() {
+class DetailRoadSurfaceForm  : AGroupedImageListQuestAnswerFragment<String, DetailSurfaceAnswer>() {
 
-    ////////
-    //copied from AddRoadSurfaceForm
     override val topItems get() =
-            // tracks often have different surfaces than other roads
-        if (osmElement!!.tags["highway"] == "track")
-            listOf(Surface.DIRT, Surface.GRASS, Surface.PEBBLES, Surface.FINE_GRAVEL, Surface.COMPACTED, Surface.ASPHALT).toItems()
+        if (osmElement!!.tags["surface"] == "paved")
+            listOf(Surface.ASPHALT, Surface.CONCRETE, Surface.SETT, Surface.PAVING_STONES, Surface.WOOD, Surface.GRASS_PAVER).toItems()
         else
-            listOf(Surface.ASPHALT, Surface.CONCRETE, Surface.SETT, Surface.PAVING_STONES, Surface.COMPACTED, Surface.DIRT).toItems()
+            listOf(Surface.DIRT, Surface.GRASS, Surface.PEBBLES, Surface.FINE_GRAVEL, Surface.SAND, Surface.COMPACTED).toItems()
 
+    // note that for unspecific groups null is used as a value, it makes them unselecteable
     override val allItems = listOf(
-            Item("paved", R.drawable.panorama_surface_paved, R.string.quest_surface_value_paved, null, listOf(
+            Item(null, R.drawable.panorama_surface_paved, R.string.quest_surface_value_paved, null, listOf(
                     Surface.ASPHALT, Surface.CONCRETE, Surface.PAVING_STONES,
                     Surface.SETT, Surface.UNHEWN_COBBLESTONE, Surface.GRASS_PAVER,
                     Surface.WOOD, Surface.METAL
             ).toItems()),
-            Item("unpaved", R.drawable.panorama_surface_unpaved, R.string.quest_surface_value_unpaved, null, listOf(
+            Item(null, R.drawable.panorama_surface_unpaved, R.string.quest_surface_value_unpaved, null, listOf(
                     Surface.COMPACTED, Surface.FINE_GRAVEL, Surface.GRAVEL,
                     Surface.PEBBLES
             ).toItems()),
-            Item("ground", R.drawable.panorama_surface_ground, R.string.quest_surface_value_ground, null, listOf(
+            Item(null, R.drawable.panorama_surface_ground, R.string.quest_surface_value_ground, null, listOf(
                     Surface.DIRT, Surface.GRASS, Surface.SAND
             ).toItems())
     )
-    ////////
-
-
 
     private var isInExplanationMode = false;
     private var explanationInput: EditText? = null
@@ -54,7 +49,7 @@ class DetailRoadSurfaceForm  : AGroupedImageListQuestAnswerFragment<String, Stri
         val onChanged = TextChangedWatcher {
             checkIsFormComplete()
         }
-        explanationInput = view.findViewById(R.id.noteInput)
+        explanationInput = view.findViewById(R.id.explanationInput)
         explanationInput?.addTextChangedListener(onChanged)
     }
 
@@ -62,18 +57,23 @@ class DetailRoadSurfaceForm  : AGroupedImageListQuestAnswerFragment<String, Stri
 
     override fun isFormComplete(): Boolean {
         if(isInExplanationMode) {
-            return true
+            return explanation.isNotEmpty()
         } else {
             return super.isFormComplete()
         }
     }
 
-    override fun onClickOk(value: String) {
+    override fun onClickOk() {
         if(isInExplanationMode) {
             applyAnswer(DetailingImpossibleAnswer(explanation))
         } else {
-            applyAnswer(SurfaceAnswer(value))
+            super.onClickOk();
         }
+    }
+
+    override fun onClickOk(value: String) {
+        // must not happen in isInExplanationMode
+        applyAnswer(SurfaceAnswer(value))
     }
 
     private fun confirmSwitchToNoDetailedTagPossible() {

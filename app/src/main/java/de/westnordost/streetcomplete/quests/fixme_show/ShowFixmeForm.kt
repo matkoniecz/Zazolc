@@ -1,12 +1,8 @@
 package de.westnordost.streetcomplete.quests.fixme_show
 
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AlertDialog
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.quests.AImageListQuestAnswerFragment
-import de.westnordost.streetcomplete.quests.OtherAnswer
-import de.westnordost.streetcomplete.quests.sortedBy
 import de.westnordost.streetcomplete.view.Item
 
 class ShowFixmeForm : AImageListQuestAnswerFragment<String, List<String>>() {
