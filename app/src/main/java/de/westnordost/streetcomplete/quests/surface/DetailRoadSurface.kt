@@ -9,11 +9,15 @@ import de.westnordost.streetcomplete.data.osm.elementgeometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
 import de.westnordost.streetcomplete.data.osm.osmquest.OsmElementQuestType
 import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
+import de.westnordost.streetcomplete.data.tagfilters.FiltersParser
 import de.westnordost.streetcomplete.data.tagfilters.getQuestPrintStatement
 import de.westnordost.streetcomplete.data.tagfilters.toGlobalOverpassBBox
+import de.westnordost.streetcomplete.quests.address.PlaceName
+import de.westnordost.streetcomplete.quests.address.StreetName
+import de.westnordost.streetcomplete.quests.localized_name.AddRoadName
 
 
-class DetailRoadSurface(private val overpassMapDataApi: OverpassMapDataAndGeometryApi) : OsmElementQuestType<String> {
+class DetailRoadSurface(private val overpassMapDataApi: OverpassMapDataAndGeometryApi) : OsmElementQuestType<DetailSurfaceAnswer> {
     override val commitMessage = "Add more detailed surfaces"
     override val wikiLink = "Key:surface"
     override val icon = R.drawable.ic_quest_street_surface_paved_detail // consider changing icon or restricting to surface=paved
@@ -48,7 +52,7 @@ class DetailRoadSurface(private val overpassMapDataApi: OverpassMapDataAndGeomet
         }
     }
 
-    override fun createForm() = AddRoadSurfaceForm()
+    override fun createForm() = DetailRoadSurfaceForm()
 
     override fun download(bbox: BoundingBox, handler: (element: Element, geometry: ElementGeometry?) -> Unit): Boolean {
         Log.e("YAYAY", getOverpassQuery(bbox))
@@ -56,31 +60,47 @@ class DetailRoadSurface(private val overpassMapDataApi: OverpassMapDataAndGeomet
     }
 
     override fun isApplicableTo(element: Element): Boolean? {
-        TODO("Not yet implemented")
+        if(!REQUIRED_MINIMAL_MATCH_TFE.matches(element)) {
+            return false;
+        }
+        return false; //TODO("Not yet implemented filtering out :surface|surface:")
     }
 
     private fun getOverpassQuery(bbox: BoundingBox) =
         bbox.toGlobalOverpassBBox() + "\n" + """
 
-          nwr[surface~"^(paved|unpaved)${'$'}"][segregated!="yes"][highway ~ "^${ ROADS_WITH_SURFACES_BROADLY_DEFINED.joinToString("|")}${'$'}"] -> .surface_without_detail;
+          way[surface~"^(${UNDETAILED_SURFACE_TAG_MATCH})${'$'}"][segregated!="yes"][highway ~ "^${ HIGHWAY_TAG_MATCH }${'$'}"] -> .surface_without_detail;
           // https://taginfo.openstreetmap.org//search?q=%3Asurface
           // https://taginfo.openstreetmap.org//search?q=surface:
-          nwr[~"(:surface|surface:)"~"."] -> .extra_tags;
+          way[~"(:surface|surface:)"~"."] -> .extra_tags;
 
           (.surface_without_detail; - .extra_tags;);
         """.trimIndent() + "\n" +
         getQuestPrintStatement()
 
+    private val HIGHWAY_TAG_MATCH = ROADS_WITH_SURFACES_BROADLY_DEFINED.joinToString("|")
+    private val UNDETAILED_SURFACE_TAG_MATCH = "paved|unpaved"
+    private val REQUIRED_MINIMAL_MATCH_TFE by lazy { FiltersParser().parse(
+            "ways with surface ~ ${UNDETAILED_SURFACE_TAG_MATCH} and segrehated!=yes and highway ~ ${HIGHWAY_TAG_MATCH}"
+    )}
+
     override val isSplitWayEnabled = true
 
-    override fun applyAnswerTo(answer: String, changes: StringMapChangesBuilder) {
-        if(answer == "paved") {
-            return  // and crash TODO!
+    override fun applyAnswerTo(answer: DetailSurfaceAnswer, changes: StringMapChangesBuilder) {
+        when(answer) {
+            is SurfaceAnswer -> {
+                if(answer.value == "paved") {
+                    return  // and crash TODO!
+                }
+                if(answer.value == "unpaved") {
+                    return  // and crash TODO!
+                }
+                changes.modify("surface", answer.value)
+            }
+            is DetailingImpossibleAnswer -> {
+                changes.modify("surface:note", answer.value)
+            }
         }
-        if(answer == "unpaved") {
-            return  // and crash TODO!
-        }
-        changes.modify("surface", answer)
     }
 
     companion object {

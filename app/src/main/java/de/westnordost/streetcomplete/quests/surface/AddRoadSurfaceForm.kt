@@ -5,7 +5,7 @@ import de.westnordost.streetcomplete.quests.AGroupedImageListQuestAnswerFragment
 import de.westnordost.streetcomplete.view.Item
 import de.westnordost.streetcomplete.quests.surface.Surface.*
 
-class AddRoadSurfaceForm : AGroupedImageListQuestAnswerFragment<String,String>() {
+open class AddRoadSurfaceForm : AGroupedImageListQuestAnswerFragment<String,String>() {
 
     override val topItems get() =
         // tracks often have different surfaces than other roads
