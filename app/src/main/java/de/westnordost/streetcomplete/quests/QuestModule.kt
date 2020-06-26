@@ -108,6 +108,7 @@ object QuestModule
             osmNoteQuestType,
 
             // ↓ 2. important data that is used by many data consumers
+            AddRoadSurface(o),
             AddRoadName(o, roadNameSuggestionsDao),
             AddPlaceName(o, featureDictionaryFuture),
             AddOneway(o, trafficFlowSegmentsApi, trafficFlowDao),
@@ -132,7 +133,6 @@ object QuestModule
             AddRecyclingType(o),
             AddRecyclingContainerMaterials(o),
             AddSport(o),
-            AddRoadSurface(o),
             //AddMaxSpeed(o), //moved to boring
             AddMaxHeight(o),
             //AddRailwayCrossingBarrier(o), //moved to boring
