@@ -200,7 +200,7 @@ object QuestModule
             AddParkingType(o),
             AddPostboxRef(o),
             AddWheelchairAccessToiletsPart(o),
-            AddPowerPolesMaterial(o),
+            //AddPowerPolesMaterial(o), disabled as waste of time and is encouraging me to spend time on mapping power networks
             AddCarWashType(o),
             //AddBenchBackrest(o), disabled as waste of time
             //AddTrafficSignalsButton(o) //moved to boring
