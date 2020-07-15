@@ -50,11 +50,7 @@ class AddSidewalk(private val overpassApi: OverpassMapDataAndGeometryApi) : OsmE
             // footway=separate/sidepath but may have a hint that there is a separately tagged
             // sidewalk
             "[foot != use_sidepath]" +
-            " -> .streets;\n" +
-            "way[highway ~ '^(path|footway|cycleway)$'](around.streets: " + minDistToWays + ")" +
-            " -> .ways;\n" +
-            "way.streets(around.ways: " + minDistToWays + ") -> .streets_near_ways;\n" +
-            "(.streets; - .streets_near_ways;);\n" +
+            ";" +
             getQuestPrintStatement()
     }
 
