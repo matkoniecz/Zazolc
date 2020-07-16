@@ -63,6 +63,7 @@ import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee
 import de.westnordost.streetcomplete.quests.tourism_information.AddInformationToTourism
 import de.westnordost.streetcomplete.quests.tracktype.AddTracktype
 import de.westnordost.streetcomplete.quests.address.AddHousenumber
+import de.westnordost.streetcomplete.quests.construction.MarkCompletedConstructionMinorOrGeneric
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours
 import de.westnordost.streetcomplete.quests.localized_name.AddRoadName
@@ -195,6 +196,7 @@ object QuestModule
             //      the sake of mapping it in case it makes sense later
             AddCyclewayPartSurface(o),
             AddFootwayPartSurface(o),
+            MarkCompletedConstructionMinorOrGeneric(o),
             //AddMotorcycleParkingCover(o), //moved to boring
             AddFireHydrantType(o),
             AddParkingType(o),
