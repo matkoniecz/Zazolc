@@ -105,7 +105,6 @@ object QuestModule
             featureDictionaryFuture: FutureTask<FeatureDictionary>
     ): QuestTypeRegistry = QuestTypeRegistry(listOf(
             //modified--
-            //DetailRoadSurface(o), // my quest in testing
             ShowFixme(o), // my quest
             AddWayLit(o), //frequent enable/disable cycle (enable for night) - moved
             //--modified
