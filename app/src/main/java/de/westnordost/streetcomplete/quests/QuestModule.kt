@@ -7,20 +7,19 @@ import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometry
 import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuestType
 import de.westnordost.streetcomplete.data.quest.QuestType
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
-import de.westnordost.streetcomplete.quests.address.AddAddressStreet;
+import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash
+import de.westnordost.streetcomplete.quests.address.AddAddressStreet
+import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable
+import de.westnordost.streetcomplete.quests.bench_backrest.AddBenchBackrest
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType
 import de.westnordost.streetcomplete.quests.bikeway.AddCycleway
+import de.westnordost.streetcomplete.quests.board_type.AddBoardType
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure
 import de.westnordost.streetcomplete.quests.building_type.AddBuildingType
 import de.westnordost.streetcomplete.quests.building_underground.AddIsBuildingUnderground
-import de.westnordost.streetcomplete.quests.foot.AddProhibitedForPedestrians
-import de.westnordost.streetcomplete.quests.general_fee.AddGeneralFee
-import de.westnordost.streetcomplete.quests.handrail.*
-import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType
-import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedBuildingConstruction
@@ -29,7 +28,13 @@ import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType
 import de.westnordost.streetcomplete.quests.diet_type.AddVegan
 import de.westnordost.streetcomplete.quests.diet_type.AddVegetarian
 import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType
+import de.westnordost.streetcomplete.quests.foot.AddProhibitedForPedestrians
+import de.westnordost.streetcomplete.quests.general_fee.AddGeneralFee
+import de.westnordost.streetcomplete.quests.handrail.AddHandrail
 import de.westnordost.streetcomplete.quests.internet_access.AddInternetAccess
+import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType
+import de.westnordost.streetcomplete.quests.localized_name.AddBusStopName
+import de.westnordost.streetcomplete.quests.localized_name.data.RoadNameSuggestionsDao
 import de.westnordost.streetcomplete.quests.max_height.AddMaxHeight
 import de.westnordost.streetcomplete.quests.max_weight.AddMaxWeight
 import de.westnordost.streetcomplete.quests.motorcycle_parking_capacity.AddMotorcycleParkingCapacity
@@ -37,6 +42,7 @@ import de.westnordost.streetcomplete.quests.motorcycle_parking_cover.AddMotorcyc
 import de.westnordost.streetcomplete.quests.oneway.AddOneway
 import de.westnordost.streetcomplete.quests.oneway.data.TrafficFlowSegmentsApi
 import de.westnordost.streetcomplete.quests.oneway.data.WayTrafficFlowDao
+import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce
 import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess
 import de.westnordost.streetcomplete.quests.parking_fee.AddParkingFee
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType
@@ -45,46 +51,47 @@ import de.westnordost.streetcomplete.quests.playground_access.AddPlaygroundAcces
 import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxCollectionTimes
 import de.westnordost.streetcomplete.quests.postbox_ref.AddPostboxRef
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial
-import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce
 import de.westnordost.streetcomplete.quests.railway_crossing.AddRailwayCrossingBarrier
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType
 import de.westnordost.streetcomplete.quests.recycling_glass.DetermineRecyclingGlass
 import de.westnordost.streetcomplete.quests.recycling_material.AddRecyclingContainerMaterials
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine
-import de.westnordost.streetcomplete.quests.localized_name.data.RoadNameSuggestionsDao
+import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation
 import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk
+import de.westnordost.streetcomplete.quests.surface.*
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability
 import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee
 import de.westnordost.streetcomplete.quests.tourism_information.AddInformationToTourism
 import de.westnordost.streetcomplete.quests.tracktype.AddTracktype
-import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedConstructionMinorOrGeneric
-import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed
-import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours
-import de.westnordost.streetcomplete.quests.localized_name.AddRoadName
-import de.westnordost.streetcomplete.quests.sport.AddSport
-import de.westnordost.streetcomplete.quests.traffic_signals_sound.AddTrafficSignalsSound
+import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessMotorVehicle
+import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessPedestrian
 import de.westnordost.streetcomplete.quests.traffic_signals_button.AddTrafficSignalsButton
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessPublicTransport
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToilets
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessBusiness
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessOutside
-import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessMotorVehicle
-import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessPedestrian
 import de.westnordost.streetcomplete.quests.fixme_show.ShowFixme
 import de.westnordost.streetcomplete.quests.footway.AddFootway
+import de.westnordost.streetcomplete.quests.localized_name.AddRoadName
+import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed
+import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours
 import de.westnordost.streetcomplete.quests.shop_type.AddShopType
+import de.westnordost.streetcomplete.quests.sport.AddSport
 import de.westnordost.streetcomplete.quests.surface.*
+import de.westnordost.streetcomplete.quests.traffic_signals_sound.AddTrafficSignalsSound
 import de.westnordost.streetcomplete.quests.validator.*
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToiletsPart
 import java.util.concurrent.FutureTask
+import de.westnordost.streetcomplete.quests.wheelchair_access.*
 import javax.inject.Singleton
+
 
 @Module
 object QuestModule
@@ -97,7 +104,6 @@ object QuestModule
             trafficFlowSegmentsApi: TrafficFlowSegmentsApi, trafficFlowDao: WayTrafficFlowDao,
             featureDictionaryFuture: FutureTask<FeatureDictionary>
     ): QuestTypeRegistry = QuestTypeRegistry(listOf(
-
             //modified--
             //DetailRoadSurface(o), // my quest in testing
             ShowFixme(o), // my quest
@@ -196,6 +202,7 @@ object QuestModule
             //      the sake of mapping it in case it makes sense later
             AddCyclewayPartSurface(o),
             AddFootwayPartSurface(o),
+            DetailRoadSurface(o),
             MarkCompletedConstructionMinorOrGeneric(o),
             //AddMotorcycleParkingCover(o), //moved to boring
             AddFireHydrantType(o),
@@ -206,6 +213,7 @@ object QuestModule
             AddCarWashType(o),
             //AddBenchBackrest(o), disabled as waste of time
             //AddTrafficSignalsButton(o) //moved to boring
+            AddBoardType(o),
 
             // boring/lame/etc
             AddFootway(o), // my own hackish quest
