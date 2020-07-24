@@ -27,7 +27,7 @@ class DetailRoadSurfaceForm  : AImageListQuestAnswerFragment<String, DetailSurfa
         applyAnswer(SurfaceAnswer(selectedItems.single()))
     }
 
-    private var isInExplanationMode = false;
+    private var isInExplanationMode = false
     private var explanationInput: EditText? = null
 
     override val otherAnswers = listOf(
@@ -55,12 +55,12 @@ class DetailRoadSurfaceForm  : AImageListQuestAnswerFragment<String, DetailSurfa
         if(isInExplanationMode) {
             applyAnswer(DetailingImpossibleAnswer(explanation))
         } else {
-            super.onClickOk();
+            super.onClickOk()
         }
     }
 
     private fun confirmSwitchToNoDetailedTagPossible() {
-        AlertDialog.Builder(activity!!)
+        AlertDialog.Builder(requireContext())
                 .setMessage(R.string.quest_surface_detailed_answer_impossible_confirmation)
                 .setPositiveButton(R.string.quest_generic_confirmation_yes) {
                     _, _ -> switchToExplanationLayout()

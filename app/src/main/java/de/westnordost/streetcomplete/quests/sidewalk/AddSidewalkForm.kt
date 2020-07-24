@@ -12,6 +12,7 @@ import de.westnordost.streetcomplete.quests.StreetSideRotater
 import de.westnordost.streetcomplete.view.Item
 import de.westnordost.streetcomplete.view.dialogs.ImageListPickerDialog
 import kotlinx.android.synthetic.main.quest_street_side_puzzle.*
+import kotlinx.android.synthetic.main.view_little_compass.*
 
 class AddSidewalkForm : AbstractQuestFormAnswerFragment<SidewalkAnswer>() {
     override val otherAnswers = listOf(
@@ -70,7 +71,7 @@ class AddSidewalkForm : AbstractQuestFormAnswerFragment<SidewalkAnswer>() {
     }
 
     private fun confirmSeparatelyMappedSidewalk() {
-        AlertDialog.Builder(activity!!)
+        AlertDialog.Builder(requireContext())
                 .setTitle(R.string.quest_generic_confirmation_title)
                 .setPositiveButton(R.string.quest_generic_confirmation_yes) { _, _ -> applyAnswer(SeparatelyMapped) }
                 .setNegativeButton(R.string.quest_generic_confirmation_no, null)
