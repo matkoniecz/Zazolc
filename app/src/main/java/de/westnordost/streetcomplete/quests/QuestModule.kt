@@ -71,6 +71,7 @@ import de.westnordost.streetcomplete.quests.tracktype.AddTracktype
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedConstructionMinorOrGeneric
 import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessMotorVehicle
 import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessPedestrian
+import de.westnordost.streetcomplete.quests.fixme_show.ShowAddressInterpolation
 import de.westnordost.streetcomplete.quests.traffic_signals_button.AddTrafficSignalsButton
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessPublicTransport
@@ -106,6 +107,7 @@ object QuestModule
     ): QuestTypeRegistry = QuestTypeRegistry(listOf(
             //modified--
             ShowFixme(o), // my quest
+            ShowAddressInterpolation(o), // my quest
             AddWayLit(o), //frequent enable/disable cycle (enable for night) - moved
             //--modified
 
