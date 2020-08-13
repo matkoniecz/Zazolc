@@ -925,5 +925,6 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="at_conscription_number">conscription number %s:</string>
     <string name="at_housenumber">house number %s:</string>
     <string name="quest_show_address_interpolation">addr:interpolation waiting for proper mapping</string>
+    <string name="default_disabled_msg_false_positives">Warning: many false positives that require adding tags that will cause QA tools to complain</string>
 
 </resources>

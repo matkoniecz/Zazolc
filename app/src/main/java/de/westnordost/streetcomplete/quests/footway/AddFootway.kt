@@ -35,4 +35,6 @@ class AddFootway(private val overpassServer: OverpassMapDataAndGeometryApi) : Os
     }
 
     override fun isApplicableTo(element: Element):Boolean? = null
+
+    override val defaultDisabledMessage = R.string.default_disabled_msg_false_positives
 }
