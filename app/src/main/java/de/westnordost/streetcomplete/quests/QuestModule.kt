@@ -184,7 +184,6 @@ object QuestModule
             AddToiletsFee(o), // used by OsmAnd in the object description
             AddBabyChangingTable(o), // used by OsmAnd in the object description
             AddBikeParkingCover(o), // used by OsmAnd in the object description
-            AddTactilePavingCrosswalk(o), // Paving can be completed while waiting to cross
             //AddTrafficSignalsSound(o), // moved to boring
             //AddRoofShape(o), removed as boring and tricky to get right
             //AddWheelchairAccessPublicTransport(o), // moved to boring
@@ -234,6 +233,7 @@ object QuestModule
             AddTrafficSignalsSound(o), // moved to boring
             AddWheelchairAccessPublicTransport(o), // moved to boring
             AddWheelchairAccessOutside(o), // moved to boring
+            AddTactilePavingCrosswalk(o), // moved to boring (is disabled by default
             AddTactilePavingBusStop(o), // moved to boring
             AddBridgeStructure(o), // moved to boring
             AddMotorcycleParkingCover(o), //moved to boring
