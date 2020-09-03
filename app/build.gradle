@@ -31,10 +31,8 @@ android {
         applicationId "de.westnordost.streetcomplete"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 2204
-        def version = "22.3"
-        versionName version
-        buildConfigField "String", "VERSION", "\"$version\""
+        versionCode 2300
+        versionName "23.0-alpha1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -51,7 +49,6 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationIdSuffix ".debug"
-            versionNameSuffix '-DEBUG'
         }
     }
 
@@ -87,6 +84,12 @@ configurations {
     compile.exclude group: 'org.intellij', module:'annotations'
 }
 
+ext {
+    mockito_version = '2.28.2'
+    kotlinx_version = '1.3.8'
+    dagger_version = '2.14.1'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -95,18 +98,18 @@ dependencies {
 
     // tests
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.28.2'
-    testImplementation 'org.mockito:mockito-inline:2.28.2'
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.mockito:mockito-inline:$mockito_version"
     testImplementation 'org.assertj:assertj-core:2.8.0'
 
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'org.mockito:mockito-android:2.28.2'
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
     androidTestImplementation 'org.assertj:assertj-core:2.8.0'
 
     // dependency injection
-    implementation 'com.google.dagger:dagger:2.14.1'
-    kapt 'com.google.dagger:dagger-compiler:2.14.1'
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     // Android stuff
     implementation 'com.google.android.material:material:1.2.0'
@@ -124,9 +127,9 @@ dependencies {
     implementation 'androidx.exifinterface:exifinterface:1.2.0'
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.8'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_version"
 
     // scheduling background jobs
     implementation "androidx.work:work-runtime:2.4.0"
@@ -146,7 +149,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'me.grantland:autofittextview:0.2.1'
     implementation 'org.sufficientlysecure:html-textview:3.9'
-    implementation 'com.duolingo.open:rtl-viewpager:1.0.2'
+    implementation 'com.duolingo.open:rtl-viewpager:2.0.0'
     implementation 'com.google.android:flexbox:2.0.1'
 
     // box2d view
@@ -160,7 +163,10 @@ dependencies {
     implementation 'com.mapzen.tangram:tangram:0.13.0'
 
     // config files
-    implementation 'com.esotericsoftware.yamlbeans:yamlbeans:1.13'
+    implementation 'com.esotericsoftware.yamlbeans:yamlbeans:1.15'
+
+    // opening hours parser
+    implementation "ch.poole:OpeningHoursParser:0.22.0"
 }
 
 task generateMetadata(type: Exec) {

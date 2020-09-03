@@ -1,25 +1,28 @@
 package de.westnordost.streetcomplete.quests.construction
 
-import de.westnordost.osmapi.map.data.BoundingBox
-import de.westnordost.osmapi.map.data.Element
-import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.ALL_ROADS
+
+import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.SURVEY_MARK_KEY
-import de.westnordost.streetcomplete.data.osm.elementgeometry.ElementGeometry
+import de.westnordost.streetcomplete.data.meta.toCheckDateString
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
-import de.westnordost.streetcomplete.data.osm.osmquest.OsmElementQuestType
-import de.westnordost.streetcomplete.data.tagfilters.getQuestPrintStatement
-import de.westnordost.streetcomplete.data.tagfilters.toGlobalOverpassBBox
+import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
+import de.westnordost.streetcomplete.settings.ResurveyIntervalsStore
+import java.util.*
 
-open class MarkCompletedConstructionMinorOrGeneric(private val overpass: OverpassMapDataAndGeometryApi)
-    : OsmElementQuestType<Boolean> {
+class MarkCompletedConstructionMinorOrGeneric(o: OverpassMapDataAndGeometryApi, r: ResurveyIntervalsStore)
+    : SimpleOverpassQuestType<Boolean>(o) {
 
+    override val tagFilters = """
+        ways with construction = yes or construction = minor
+         and (!opening_date or opening_date < today)
+         and older today -${r} months
+    """
     override val commitMessage = "Determine whether construction is now completed"
     override val wikiLink = "Tag:construction=yes"
-    override val icon = R.drawable.ic_quest_road_construction
-    override val hasMarkersAtEnds = true
+    override val icon = R.drawable.ic_quest_building_construction
 
     override fun getTitle(tags: Map<String, String>): Int {
         val isRoad = ALL_ROADS.contains(tags["construction"])
@@ -36,46 +39,13 @@ open class MarkCompletedConstructionMinorOrGeneric(private val overpass: Overpas
         }
     }
 
-    override fun isApplicableTo(element: Element): Boolean? = null
-
-    override fun download(bbox: BoundingBox, handler: (element: Element, geometry: ElementGeometry?) -> Unit): Boolean {
-        return overpass.query(getOverpassQuery(bbox), handler)
-    }
-
-    /** @return overpass query string to get streets marked as under construction but excluding ones
-     * - with invalid construction tag
-     * - with tagged opening date that is in future
-     * - recently edited (includes adding/updating check_date tags)
-     */
-    private fun getOverpassQuery(bbox: BoundingBox): String {
-        return bbox.toGlobalOverpassBBox() + """
-            (
-            way[construction=yes]${isNotInFuture("opening_date")};
-            node[construction=yes]${isNotInFuture("opening_date")};
-            relation[construction=yes]${isNotInFuture("opening_date")};
-            way[construction=minor]${isNotInFuture("opening_date")};
-            node[construction=minor]${isNotInFuture("opening_date")};
-            relation[construction=minor]${isNotInFuture("opening_date")};
-            )-> .with_unknown_state;
-            (
-            way[construction=yes]${hasRecentlyBeenEdited(40)};
-            node[construction=yes]${hasRecentlyBeenEdited(40)};
-            relation[construction=yes]${hasRecentlyBeenEdited(40)};
-            way[construction=minor]${hasRecentlyBeenEdited(40)};
-            node[construction=minor]${hasRecentlyBeenEdited(40)};
-            relation[construction=minor]${hasRecentlyBeenEdited(40)};
-            )-> .recently_edited;
-            (.with_unknown_state; - .recently_edited;);
-        """.trimIndent() + "\n" + getQuestPrintStatement()
-    }
-
     override fun createForm() = YesNoQuestAnswerFragment()
 
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
         if (answer) {
             deleteTagsDescribingConstruction(changes) //includes deletion of construction=yes/minor
         } else {
-            changes.addOrModify(SURVEY_MARK_KEY, getCurrentDateString())
+            changes.addOrModify(SURVEY_MARK_KEY, Date().toCheckDateString())
         }
     }
 }

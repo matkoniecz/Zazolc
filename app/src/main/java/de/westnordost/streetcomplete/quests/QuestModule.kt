@@ -74,12 +74,8 @@ import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessPedestrian
 import de.westnordost.streetcomplete.quests.fixme_show.ShowAddressInterpolation
 import de.westnordost.streetcomplete.quests.traffic_signals_button.AddTrafficSignalsButton
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit
-import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessPublicTransport
-import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToilets
-import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessBusiness
-import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessOutside
+import de.westnordost.streetcomplete.quests.wheelchair_access.*
 import de.westnordost.streetcomplete.quests.fixme_show.ShowFixme
-import de.westnordost.streetcomplete.quests.footway.AddFootway
 import de.westnordost.streetcomplete.quests.localized_name.AddRoadName
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours
@@ -88,7 +84,7 @@ import de.westnordost.streetcomplete.quests.sport.AddSport
 import de.westnordost.streetcomplete.quests.surface.*
 import de.westnordost.streetcomplete.quests.traffic_signals_sound.AddTrafficSignalsSound
 import de.westnordost.streetcomplete.quests.validator.*
-import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToiletsPart
+import de.westnordost.streetcomplete.settings.ResurveyIntervalsStore
 import java.util.concurrent.FutureTask
 import de.westnordost.streetcomplete.quests.wheelchair_access.*
 import javax.inject.Singleton
@@ -97,18 +93,18 @@ import javax.inject.Singleton
 @Module
 object QuestModule
 {
-    @Provides
-    @Singleton
-    fun questTypeRegistry(
-            osmNoteQuestType: OsmNoteQuestType, o: OverpassMapDataAndGeometryApi,
-            roadNameSuggestionsDao: RoadNameSuggestionsDao,
-            trafficFlowSegmentsApi: TrafficFlowSegmentsApi, trafficFlowDao: WayTrafficFlowDao,
-            featureDictionaryFuture: FutureTask<FeatureDictionary>
+    @Provides @Singleton fun questTypeRegistry(
+        osmNoteQuestType: OsmNoteQuestType,
+        o: OverpassMapDataAndGeometryApi,
+        r: ResurveyIntervalsStore,
+        roadNameSuggestionsDao: RoadNameSuggestionsDao,
+        trafficFlowSegmentsApi: TrafficFlowSegmentsApi, trafficFlowDao: WayTrafficFlowDao,
+        featureDictionaryFuture: FutureTask<FeatureDictionary>
     ): QuestTypeRegistry = QuestTypeRegistry(listOf(
             //modified--
             ShowFixme(o), // my quest
             ShowAddressInterpolation(o), // my quest
-            AddWayLit(o), //frequent enable/disable cycle (enable for night) - moved
+            AddWayLit(o, r), //frequent enable/disable cycle (enable for night) - moved
             //--modified
 
             //kept--
@@ -116,7 +112,7 @@ object QuestModule
             osmNoteQuestType,
 
             // ↓ 2. important data that is used by many data consumers
-            AddRoadSurface(o),
+            AddRoadSurface(o, r),
             AddRoadName(o, roadNameSuggestionsDao),
             AddPlaceName(o, featureDictionaryFuture),
             AddOneway(o, trafficFlowSegmentsApi, trafficFlowDao),
@@ -124,7 +120,7 @@ object QuestModule
             AddIsBuildingUnderground(o), //to avoid asking AddHousenumber and other for underground buildings
             AddHousenumber(o),
             AddAddressStreet(o, roadNameSuggestionsDao),
-            MarkCompletedHighwayConstruction(o),
+            MarkCompletedHighwayConstruction(o, r),
             AddReligionToPlaceOfWorship(o), // icons on maps are different - OSM Carto, mapy.cz, OsmAnd, Sputnik etc
             AddParkingAccess(o), //OSM Carto, mapy.cz, OSMand, Sputnik etc
             //--kept
@@ -139,29 +135,29 @@ object QuestModule
 
             // ↓ 3. useful data that is used by some data consumers
             AddRecyclingType(o),
-            AddRecyclingContainerMaterials(o),
+            AddRecyclingContainerMaterials(o, r),
             AddSport(o),
             //AddMaxSpeed(o), //moved to boring
             AddMaxHeight(o),
-            //AddRailwayCrossingBarrier(o), //moved to boring
-            //AddPostboxCollectionTimes(o), //moved to boring
+            //AddRailwayCrossingBarrier(o, r), //moved to boring
+            //AddPostboxCollectionTimes(o, r), //moved to boring
             //AddOpeningHours(o, featureDictionaryFuture), //moved to boring
-            AddBikeParkingCapacity(o), // cycle map layer on osm.org
+            AddBikeParkingCapacity(o, r), // cycle map layer on osm.org
             //AddOrchardProduce(o), //moved to boring
             AddBuildingType(o),
-            //AddCycleway(o), //moved to boring
+            //AddCycleway(o, r), //moved to boring
             AddSidewalk(o), // SLOW QUERY
             AddProhibitedForPedestrians(o), // uses info from AddSidewalk quest, should be after it
-            AddCrossingType(o),
+            AddCrossingType(o, r),
             //AddBuildingLevels(o), removed as waste of time
-            AddBusStopShelter(o), // at least OsmAnd
-            //AddVegetarian(o), //moved to boring
-            //AddVegan(o), //moved to boring
-            //AddInternetAccess(o), //moved to boring
-            AddParkingFee(o),
-            //AddMotorcycleParkingCapacity(o),  //moved to boring (as waste of overpass query)
-            AddPathSurface(o),
-            AddTracktype(o),
+            AddBusStopShelter(o, r), // at least OsmAnd
+            //AddVegetarian(o, r), //moved to boring
+            //AddVegan(o, r), //moved to boring
+            //AddInternetAccess(o, r), //moved to boring
+            AddParkingFee(o, r),
+            //AddMotorcycleParkingCapacity(o, r),  //moved to boring (as waste of overpass query)
+            AddPathSurface(o, r),
+            AddTracktype(o, r),
             AddMaxWeight(o),
             AddForestLeafType(o), // used by OSM Carto
             AddBikeParkingType(o), // used by OsmAnd
@@ -191,24 +187,24 @@ object QuestModule
             //AddTactilePavingBusStop(o), // moved to boring
             //AddBridgeStructure(o), // moved to boring
             AddReligionToWaysideShrine(o),
-            AddCyclewaySegregation(o),
-            MarkCompletedBuildingConstruction(o),
+            AddCyclewaySegregation(o, r),
+            MarkCompletedBuildingConstruction(o, r),
             AddGeneralFee(o),
             AddSelfServiceLaundry(o),
-            AddHandrail(o), // for accessibility of pedestrian routing
+            AddHandrail(o, r), // for accessibility of pedestrian routing
             AddInformationToTourism(o),
 
             // ↓ 8. defined in the wiki, but not really used by anyone yet. Just collected for
             //      the sake of mapping it in case it makes sense later
-            AddCyclewayPartSurface(o),
-            AddFootwayPartSurface(o),
+            AddCyclewayPartSurface(o, r),
+            AddFootwayPartSurface(o, r),
             DetailRoadSurface(o),
-            MarkCompletedConstructionMinorOrGeneric(o),
+            MarkCompletedConstructionMinorOrGeneric(o, r),
             //AddMotorcycleParkingCover(o), //moved to boring
             AddFireHydrantType(o),
             AddParkingType(o),
             AddPostboxRef(o),
-            AddWheelchairAccessToiletsPart(o),
+            AddWheelchairAccessToiletsPart(o, r),
             //AddPowerPolesMaterial(o), disabled as waste of time and is encouraging me to spend time on mapping power networks
             AddCarWashType(o),
             //AddBenchBackrest(o), disabled as waste of time
@@ -216,25 +212,24 @@ object QuestModule
             AddBoardType(o),
 
             // boring/lame/etc
-            AddFootway(o), // my own hackish quest
             DeprecateFIXME(o), // my own validator quest
             AddMaxSpeed(o), //moved to boring
-            AddRailwayCrossingBarrier(o), //moved to boring
-            AddPostboxCollectionTimes(o), //moved to boring
-            AddOpeningHours(o, featureDictionaryFuture), //moved to boring
+            AddRailwayCrossingBarrier(o, r), //moved to boring
+            AddPostboxCollectionTimes(o, r), //moved to boring
+            AddOpeningHours(o, featureDictionaryFuture, r), //moved to boring
             AddOrchardProduce(o), //moved to boring
-            AddCycleway(o), //moved to boring
-            AddVegetarian(o), //moved to boring
-            AddVegan(o), //moved to boring
-            AddInternetAccess(o), //moved to boring
-            AddMotorcycleParkingCapacity(o),  //moved to boring (as waste of overpass query)
-            AddWheelchairAccessToilets(o),  //moved to boring
-            AddWheelchairAccessBusiness(o), //moved to boring
-            AddTrafficSignalsSound(o), // moved to boring
-            AddWheelchairAccessPublicTransport(o), // moved to boring
-            AddWheelchairAccessOutside(o), // moved to boring
-            AddTactilePavingCrosswalk(o), // moved to boring (is disabled by default
-            AddTactilePavingBusStop(o), // moved to boring
+            AddCycleway(o, r), //moved to boring
+            AddVegetarian(o, r), //moved to boring
+            AddVegan(o, r), //moved to boring
+            AddInternetAccess(o, r), //moved to boring
+            AddMotorcycleParkingCapacity(o, r),  //moved to boring (as waste of overpass query)
+            AddWheelchairAccessToilets(o, r),  //moved to boring
+            AddWheelchairAccessBusiness(o, featureDictionaryFuture), //moved to boring
+            AddTrafficSignalsSound(o, r), // moved to boring
+            AddWheelchairAccessPublicTransport(o, r), // moved to boring
+            AddWheelchairAccessOutside(o, r), // moved to boring
+            AddTactilePavingCrosswalk(o, r), // moved to boring (is disabled by default
+            AddTactilePavingBusStop(o, r), // moved to boring
             AddBridgeStructure(o), // moved to boring
             AddMotorcycleParkingCover(o), //moved to boring
             AddTrafficSignalsButton(o) //moved to boring

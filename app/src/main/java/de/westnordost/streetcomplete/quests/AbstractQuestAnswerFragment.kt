@@ -16,8 +16,8 @@ import android.widget.PopupMenu
 import androidx.annotation.AnyThread
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
+import androidx.core.text.parseAsHtml
 import androidx.core.view.isGone
-import androidx.core.text.HtmlCompat
 import com.google.android.flexbox.FlexboxLayout
 import de.westnordost.osmapi.map.data.OsmElement
 import de.westnordost.osmapi.map.data.Way
@@ -235,8 +235,8 @@ abstract class AbstractQuestAnswerFragment<T> : AbstractBottomSheetFragment(), I
         val houseNumber = tags["addr:housenumber"]
 
         if (houseName != null) {
-            return HtmlCompat.fromHtml(resources.getString(R.string.at_housename, "<i>" + Html.escapeHtml(houseName) + "</i>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY)
+            return resources.getString(R.string.at_housename, "<i>" + Html.escapeHtml(houseName) + "</i>")
+                .parseAsHtml()
         }
         if (conscriptionNumber != null) {
             if (streetNumber != null) {
@@ -335,7 +335,14 @@ abstract class AbstractQuestAnswerFragment<T> : AbstractBottomSheetFragment(), I
 
     protected fun setButtonsView(resourceId: Int) {
         otherAnswersButton.layoutParams = FlexboxLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+        removeButtonsView()
         activity?.layoutInflater?.inflate(resourceId, buttonPanel)
+    }
+
+    protected fun removeButtonsView() {
+        if (buttonPanel.childCount > 1) {
+            buttonPanel.removeViews(1, buttonPanel.childCount - 1)
+        }
     }
 
     @AnyThread open fun onMapOrientation(rotation: Float, tilt: Float) {
