@@ -52,6 +52,7 @@ import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxC
 import de.westnordost.streetcomplete.quests.postbox_ref.AddPostboxRef
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial
 import de.westnordost.streetcomplete.quests.railway_crossing.AddRailwayCrossingBarrier
+import de.westnordost.streetcomplete.quests.railway_crossing.AddSummitRegister
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType
 import de.westnordost.streetcomplete.quests.recycling_glass.DetermineRecyclingGlass
 import de.westnordost.streetcomplete.quests.recycling_material.AddRecyclingContainerMaterials
@@ -232,7 +233,8 @@ object QuestModule
             AddTactilePavingBusStop(o, r), // moved to boring
             AddBridgeStructure(o), // moved to boring
             AddMotorcycleParkingCover(o), //moved to boring
-            AddTrafficSignalsButton(o) //moved to boring
+            AddTrafficSignalsButton(o), //moved to boring
+            AddSummitRegister(o, r) // only in some countries
     ) as List<QuestType<*>>)
 
     @Provides @Singleton fun osmNoteQuestType(): OsmNoteQuestType = OsmNoteQuestType()
