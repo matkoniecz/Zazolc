@@ -18,7 +18,7 @@ class MarkCompletedConstructionMinorOrGeneric(o: OverpassMapDataAndGeometryApi, 
     override val tagFilters = """
         ways with construction = yes or construction = minor
          and (!opening_date or opening_date < today)
-         and older today -${r} months
+         and older today -${r * 1} months
     """
     override val commitMessage = "Determine whether construction is now completed"
     override val wikiLink = "Tag:construction=yes"
