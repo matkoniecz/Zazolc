@@ -25,6 +25,7 @@ class AddSummitRegister(
     override val wikiLink = "Key:summit:register"
     override val icon = R.drawable.ic_quest_peak
 
+    /*
     override val enabledInCountries = NoCountriesExcept(
         // regions gathered in
         // https://github.com/westnordost/StreetComplete/issues/561#issuecomment-325623974
@@ -35,6 +36,7 @@ class AddSummitRegister(
         //Americas
         "US", "AR", "PE"
     )
+    */
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_summit_register_title
 
