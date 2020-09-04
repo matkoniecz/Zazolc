@@ -25,6 +25,7 @@ import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedBuildingConstruction
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedHighwayConstruction
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType
+import de.westnordost.streetcomplete.quests.defibrillator.AddIsDefibrillatorIndoor
 import de.westnordost.streetcomplete.quests.diet_type.AddVegan
 import de.westnordost.streetcomplete.quests.diet_type.AddVegetarian
 import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType
@@ -52,7 +53,7 @@ import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxC
 import de.westnordost.streetcomplete.quests.postbox_ref.AddPostboxRef
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial
 import de.westnordost.streetcomplete.quests.railway_crossing.AddRailwayCrossingBarrier
-import de.westnordost.streetcomplete.quests.railway_crossing.AddSummitRegister
+import de.westnordost.streetcomplete.quests.summit_register.AddSummitRegister
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType
 import de.westnordost.streetcomplete.quests.recycling_glass.DetermineRecyclingGlass
 import de.westnordost.streetcomplete.quests.recycling_material.AddRecyclingContainerMaterials
@@ -211,6 +212,7 @@ object QuestModule
             //AddBenchBackrest(o), disabled as waste of time
             //AddTrafficSignalsButton(o) //moved to boring
             AddBoardType(o),
+            AddIsDefibrillatorIndoor(o),
 
             // boring/lame/etc
             DeprecateFIXME(o), // my own validator quest

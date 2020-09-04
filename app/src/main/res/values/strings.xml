@@ -942,5 +942,6 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_show_address_interpolation">addr:interpolation waiting for proper mapping</string>
     <string name="default_disabled_msg_false_positives">Warning: many false positives that require adding tags that will cause QA tools to complain</string>
     <string name="quest_summit_register_title">Is there a summit register at %s?</string>
+    <string name="quest_is_defibrillator_inside_title">Is this defibrillator (AED) inside a building?</string>
 
 </resources>
