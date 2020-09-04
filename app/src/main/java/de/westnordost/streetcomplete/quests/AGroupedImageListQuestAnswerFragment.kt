@@ -107,6 +107,10 @@ abstract class AGroupedImageListQuestAnswerFragment<I,T> : AbstractQuestFormAnsw
                 .show()
             }
         } else {
+            favs.add(javaClass.simpleName, itemValue)
+            onClickOk(item.value)
+            /*
+            //check skipped in fork
             if (item.isGroup) {
                 context?.let {
                     AlertDialog.Builder(it)
@@ -123,6 +127,7 @@ abstract class AGroupedImageListQuestAnswerFragment<I,T> : AbstractQuestFormAnsw
                 favs.add(javaClass.simpleName, itemValue)
                 onClickOk(item.value)
             }
+             */
         }
     }
 
