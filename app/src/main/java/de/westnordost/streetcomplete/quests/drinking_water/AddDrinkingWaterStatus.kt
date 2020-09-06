@@ -34,8 +34,8 @@ class AddDrinkingWaterStatus(o: OverpassMapDataAndGeometryApi) : SimpleOverpassQ
              changes.add("drinking_water:legal", "yes")
         } else if ("drinking_water:legal=no" == value) {
             changes.add("drinking_water:legal", "no")
-        } else if ("drinking_water:signed=no" == value) {
-            changes.add("drinking_water:signed", "no")
+        } else if ("drinking_water:legal=unknown" == value) {
+            changes.add("drinking_water:legal", "unknown")
         }
     }
 }
