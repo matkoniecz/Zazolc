@@ -171,6 +171,7 @@ object QuestModule
             AddFerryAccessPedestrian(o),
             AddFerryAccessMotorVehicle(o),
             //AddAcceptsCash(o), forcefully disabled as Sweden only
+            WatUndrinkableDrinkable(o),
 
             // ↓ 4. definitely shown as errors in QA tools
 
