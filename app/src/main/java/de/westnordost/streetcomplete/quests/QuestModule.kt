@@ -72,6 +72,7 @@ import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee
 import de.westnordost.streetcomplete.quests.tourism_information.AddInformationToTourism
 import de.westnordost.streetcomplete.quests.tracktype.AddTracktype
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedConstructionMinorOrGeneric
+import de.westnordost.streetcomplete.quests.drinking_water.AddDrinkingWaterStatus
 import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessMotorVehicle
 import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessPedestrian
 import de.westnordost.streetcomplete.quests.fixme_show.ShowAddressInterpolation
@@ -172,6 +173,7 @@ object QuestModule
             AddFerryAccessMotorVehicle(o),
             //AddAcceptsCash(o), forcefully disabled as Sweden only
             WatUndrinkableDrinkable(o),
+            AddDrinkingWaterStatus(o),
 
             // ↓ 4. definitely shown as errors in QA tools
 

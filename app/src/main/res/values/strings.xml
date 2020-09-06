@@ -949,5 +949,9 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_is_defibrillator_inside_title">Is this defibrillator (AED) inside a building?</string>
     <string name="dialog_tutorial_download">With auto-sync off, quests are not downloaded automatically. To do this manually, use the \"%s\" button in the menu at the location you want to download.</string>
     <string name="quest_wat_drinkability_status_detected">amenity=drinking_water and drinking_water=no</string>
+    <string name="quest_drinking_water_status">What is the official status of this drinking water?</string>
+    <string name="quest_drinkable_water_officially_not_drinkable">Signed as not drinkable</string>
+    <string name="quest_drinkable_water_officially_drinkable">Drinkable, quality verified by public authorities</string>
+    <string name="quest_drinkable_water_officiall_unknown">Official status unknown</string>
 
 </resources>
