@@ -11,6 +11,7 @@ import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash
 import de.westnordost.streetcomplete.quests.address.AddAddressStreet
 import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable
+import de.westnordost.streetcomplete.quests.barrier_specify.SpecifyBarrier
 import de.westnordost.streetcomplete.quests.bench_backrest.AddBenchBackrest
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover
@@ -174,6 +175,7 @@ object QuestModule
             //AddAcceptsCash(o), forcefully disabled as Sweden only
             WatUndrinkableDrinkable(o),
             AddDrinkingWaterStatus(o),
+            SpecifyBarrier(o),
 
             // ↓ 4. definitely shown as errors in QA tools
 

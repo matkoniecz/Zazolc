@@ -739,6 +739,9 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="map_application_missing">No other map application installed</string>
     <string name="label_housenumber">house number</string>
     <string name="label_blocknumber">block number</string>
+    <string name="quest_specify_fence">What kind of barrier is here?</string>
+    <string name="quest_specify_barier_fence">Fence</string>
+    <string name="quest_specify_barier_wall">Wall</string>
     <string name="quest_ferry_pedestrian_name_title">Does %s transport pedestrians?</string>
     <string name="quest_ferry_pedestrian_title">Does this ferry route transport pedestrians?</string>
     <string name="quest_ferry_motor_vehicle_name_title">Does %s transport motor vehicles?</string>
