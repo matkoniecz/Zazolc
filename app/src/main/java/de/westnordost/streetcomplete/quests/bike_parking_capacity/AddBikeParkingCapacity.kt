@@ -15,7 +15,7 @@ class AddBikeParkingCapacity(o: OverpassMapDataAndGeometryApi, r: ResurveyInterv
          and access !~ private|no
          and (
            !capacity
-           or bicycle_parking ~ stands|wall_loops and capacity older today -${r * 4} years
+           or bicycle_parking ~ stands|wall_loops and capacity older today -${r * 6} years
          )
     """
     /* Bike capacity may change more often for stands and wheelbenders as adding or
