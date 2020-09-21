@@ -8,7 +8,8 @@ class SpecifyBarrierForm : AImageListQuestAnswerFragment<String, String>() {
 
     override val items = listOf(
         Item("fence", R.drawable.ic_quest_power, R.string.quest_specify_barier_fence),
-        Item("wall", R.drawable.ic_quest_power, R.string.quest_specify_barier_wall)
+        Item("wall", R.drawable.ic_quest_power, R.string.quest_specify_barier_wall),
+        Item("bollard", R.drawable.ic_quest_power, R.string.quest_specify_barier_bollard)
     )
 
     override val itemsPerRow = 3
