@@ -5,43 +5,44 @@ import dagger.Provides
 import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
 import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuestType
-import de.westnordost.streetcomplete.data.quest.QuestType
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
+import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash
 import de.westnordost.streetcomplete.quests.address.AddAddressStreet
 import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable
-import de.westnordost.streetcomplete.quests.barrier_specify.SpecifyBarrier
+import de.westnordost.streetcomplete.quests.bench_backrest.AddBenchBackrest
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType
 import de.westnordost.streetcomplete.quests.bikeway.AddCycleway
 import de.westnordost.streetcomplete.quests.board_type.AddBoardType
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure
+import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels
 import de.westnordost.streetcomplete.quests.building_type.AddBuildingType
 import de.westnordost.streetcomplete.quests.building_underground.AddIsBuildingUnderground
 import de.westnordost.streetcomplete.quests.bus_stop_bench.AddBenchStatusOnBusStop
-import de.westnordost.streetcomplete.quests.bus_stop_name.AddBusStopName
-import de.westnordost.streetcomplete.quests.bus_stop_ref.AddBusStopRef
 import de.westnordost.streetcomplete.quests.bus_stop_shelter.AddBusStopShelter
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedBuildingConstruction
-import de.westnordost.streetcomplete.quests.construction.MarkCompletedConstructionMinorOrGeneric
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedHighwayConstruction
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType
+import de.westnordost.streetcomplete.quests.crossing_island.AddCrossingIsland
 import de.westnordost.streetcomplete.quests.defibrillator.AddIsDefibrillatorIndoor
 import de.westnordost.streetcomplete.quests.diet_type.AddVegan
 import de.westnordost.streetcomplete.quests.diet_type.AddVegetarian
-import de.westnordost.streetcomplete.quests.drinking_water.AddDrinkingWaterStatus
 import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessMotorVehicle
 import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessPedestrian
 import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType
-import de.westnordost.streetcomplete.quests.fixme_show.ShowAddressInterpolation
-import de.westnordost.streetcomplete.quests.fixme_show.ShowFixme
 import de.westnordost.streetcomplete.quests.foot.AddProhibitedForPedestrians
 import de.westnordost.streetcomplete.quests.general_fee.AddGeneralFee
 import de.westnordost.streetcomplete.quests.handrail.AddHandrail
+import de.westnordost.streetcomplete.quests.step_count.AddStepCount
 import de.westnordost.streetcomplete.quests.internet_access.AddInternetAccess
 import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType
+import de.westnordost.streetcomplete.quests.bus_stop_name.AddBusStopName
+import de.westnordost.streetcomplete.quests.bus_stop_ref.AddBusStopRef
+import de.westnordost.streetcomplete.quests.road_name.AddRoadName
+import de.westnordost.streetcomplete.quests.road_name.data.RoadNameSuggestionsDao
 import de.westnordost.streetcomplete.quests.max_height.AddMaxHeight
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed
 import de.westnordost.streetcomplete.quests.max_weight.AddMaxWeight
@@ -52,6 +53,14 @@ import de.westnordost.streetcomplete.quests.oneway_suspects.AddSuspectedOneway
 import de.westnordost.streetcomplete.quests.oneway_suspects.data.TrafficFlowSegmentsApi
 import de.westnordost.streetcomplete.quests.oneway_suspects.data.WayTrafficFlowDao
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours
+import de.westnordost.streetcomplete.quests.atm_operator.AddAtmOperator
+import de.westnordost.streetcomplete.quests.barrier_specify.SpecifyBarrier
+import de.westnordost.streetcomplete.quests.charging_station_operator.AddChargingStationOperator
+import de.westnordost.streetcomplete.quests.clothing_bin_operator.AddClothingBinOperator
+import de.westnordost.streetcomplete.quests.construction.MarkCompletedConstructionMinorOrGeneric
+import de.westnordost.streetcomplete.quests.drinking_water.AddDrinkingWaterStatus
+import de.westnordost.streetcomplete.quests.fixme_show.ShowAddressInterpolation
+import de.westnordost.streetcomplete.quests.fixme_show.ShowFixme
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce
 import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess
 import de.westnordost.streetcomplete.quests.parking_fee.AddParkingFee
@@ -60,22 +69,22 @@ import de.westnordost.streetcomplete.quests.place_name.AddPlaceName
 import de.westnordost.streetcomplete.quests.playground_access.AddPlaygroundAccess
 import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxCollectionTimes
 import de.westnordost.streetcomplete.quests.postbox_ref.AddPostboxRef
+import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial
 import de.westnordost.streetcomplete.quests.railway_crossing.AddRailwayCrossingBarrier
+import de.westnordost.streetcomplete.quests.summit_register.AddSummitRegister
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType
 import de.westnordost.streetcomplete.quests.recycling_glass.DetermineRecyclingGlass
 import de.westnordost.streetcomplete.quests.recycling_material.AddRecyclingContainerMaterials
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine
-import de.westnordost.streetcomplete.quests.road_name.AddRoadName
-import de.westnordost.streetcomplete.quests.road_name.data.RoadNameSuggestionsDao
+import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation
 import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry
 import de.westnordost.streetcomplete.quests.shop_type.AddShopType
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk
 import de.westnordost.streetcomplete.quests.sport.AddSport
-import de.westnordost.streetcomplete.quests.step_count.AddStepCount
 import de.westnordost.streetcomplete.quests.steps_incline.AddStepsIncline
-import de.westnordost.streetcomplete.quests.summit_register.AddSummitRegister
+import de.westnordost.streetcomplete.quests.steps_ramp.AddStepsRamp
 import de.westnordost.streetcomplete.quests.surface.*
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk
@@ -84,8 +93,8 @@ import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee
 import de.westnordost.streetcomplete.quests.tourism_information.AddInformationToTourism
 import de.westnordost.streetcomplete.quests.tracktype.AddTracktype
 import de.westnordost.streetcomplete.quests.traffic_signals_button.AddTrafficSignalsButton
-import de.westnordost.streetcomplete.quests.traffic_signals_sound.AddTrafficSignalsSound
 import de.westnordost.streetcomplete.quests.traffic_signals_vibrate.AddTrafficSignalsVibration
+import de.westnordost.streetcomplete.quests.traffic_signals_sound.AddTrafficSignalsSound
 import de.westnordost.streetcomplete.quests.validator.*
 import de.westnordost.streetcomplete.quests.way_lit.AddWayLit
 import de.westnordost.streetcomplete.quests.wheelchair_access.*
@@ -139,6 +148,7 @@ object QuestModule
             //--modified
 
             // ↓ 3. useful data that is used by some data consumers
+            AddStepsRamp(o, r),
             AddRecyclingType(o),
             AddRecyclingContainerMaterials(o, r),
             AddSport(o),
@@ -176,9 +186,6 @@ object QuestModule
             WatUndrinkableDrinkable(o),
             AddDrinkingWaterStatus(o),
             SpecifyBarrier(o),
-            AddBusStopRef(o),
-
-            // ↓ 4. definitely shown as errors in QA tools
 
             // ↓ 5. may be shown as missing in QA tools
             DetermineRecyclingGlass(o), // because most recycling:glass=yes is a tagging mistake
@@ -201,6 +208,10 @@ object QuestModule
             AddGeneralFee(o),
             AddSelfServiceLaundry(o),
             AddHandrail(o, r), // for accessibility of pedestrian routing
+            AddCrossingIsland(o),
+            AddAtmOperator(o),
+            AddChargingStationOperator(o),
+            AddClothingBinOperator(o),
 
             // ↓ 8. defined in the wiki, but not really used by anyone yet. Just collected for
             //      the sake of mapping it in case it makes sense later
@@ -220,7 +231,6 @@ object QuestModule
             AddBoardType(o),
             AddIsDefibrillatorIndoor(o),
             AddInformationToTourism(o),
-            AddTrafficSignalsSound(o, r), // Sound needs to be done as or after you're crossing
             AddTrafficSignalsVibration(o, r),
 
             // boring/lame/etc
@@ -248,8 +258,9 @@ object QuestModule
             AddSummitRegister(o, r), // only in some countries
             AddBenchStatusOnBusStop(o, r),
             AddStepsIncline(o), // can be gathered while walking perpendicular to the way e.g. the other side of the road or when running/cycling past
-            AddStepCount(o) // can only be gathered when walking along this way, also needs the most effort and least useful
-    ) as List<QuestType<*>>)
+            AddStepCount(o), // can only be gathered when walking along this way, also needs the most effort and least useful
+            AddBusStopRef(o) // not in Poland
+    ))
 
     @Provides @Singleton fun osmNoteQuestType(): OsmNoteQuestType = OsmNoteQuestType()
 }

@@ -102,15 +102,12 @@ abstract class AGroupedImageListQuestAnswerFragment<I,T> : AbstractQuestFormAnsw
         if (itemValue == null) {
             context?.let {
                 AlertDialog.Builder(it)
-                .setMessage(R.string.quest_generic_item_invalid_value)
-                .setPositiveButton(android.R.string.ok, null)
-                .show()
+                    .setMessage(R.string.quest_generic_item_invalid_value)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
             }
         } else {
-            favs.add(javaClass.simpleName, itemValue)
-            onClickOk(item.value)
             /*
-            //check skipped in fork
             if (item.isGroup) {
                 context?.let {
                     AlertDialog.Builder(it)
@@ -124,10 +121,10 @@ abstract class AGroupedImageListQuestAnswerFragment<I,T> : AbstractQuestFormAnsw
                 }
             }
             else {
+             */
                 favs.add(javaClass.simpleName, itemValue)
                 onClickOk(itemValue)
-            }
-             */
+            //}
         }
     }
 

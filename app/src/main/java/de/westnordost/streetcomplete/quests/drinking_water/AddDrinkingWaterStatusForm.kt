@@ -3,7 +3,7 @@ package de.westnordost.streetcomplete.quests.drinking_water
 import android.os.Bundle
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.quests.AImageListQuestAnswerFragment
-import de.westnordost.streetcomplete.view.Item
+import de.westnordost.streetcomplete.view.image_select.Item
 
 class ShowFixmeForm : AImageListQuestAnswerFragment<String, List<String>>() {
 
