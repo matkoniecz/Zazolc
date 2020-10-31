@@ -217,7 +217,6 @@ object QuestModule
             //      the sake of mapping it in case it makes sense later
             AddCyclewayPartSurface(o, r),
             AddFootwayPartSurface(o, r),
-            DetailRoadSurface(o),
             MarkCompletedConstructionMinorOrGeneric(o, r),
             //AddMotorcycleParkingCover(o), //moved to boring
             AddFireHydrantType(o),
