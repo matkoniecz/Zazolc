@@ -1,14 +1,13 @@
 package de.westnordost.streetcomplete.quests.validator
 
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
+import de.westnordost.streetcomplete.data.osm.osmquest.OsmFilterQuestType
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
-class MultidesignatedFootwayToPath(o: OverpassMapDataAndGeometryApi) : SimpleOverpassQuestType<Boolean>(o) {
+class MultidesignatedFootwayToPath() : OsmFilterQuestType<Boolean>() {
 
-    override val tagFilters = "ways with highway=footway and bicycle=designated and (foot=designated or !foot)"
+    override val elementFilter = "ways with highway=footway and bicycle=designated and (foot=designated or !foot)"
     override val commitMessage = "fix misused highway=footway, confirmation that route for both pedestrian and cyclists exists"
     override val icon = R.drawable.ic_quest_bicycle
 

@@ -1,14 +1,13 @@
 package de.westnordost.streetcomplete.quests.fixme_show
 
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
+import de.westnordost.streetcomplete.data.osm.osmquest.OsmFilterQuestType
 
 
-class ShowFixme(o: OverpassMapDataAndGeometryApi) : SimpleOverpassQuestType<List<String>>(o) {
+class ShowFixme() : OsmFilterQuestType<List<String>>() {
 
-    override val tagFilters =
+    override val elementFilter =
                 "nodes, ways, relations with fixme and fixme!=continue and highway!=proposed and railway!=proposed" +
                 " and !fixme:requires_aerial_image " +
                 " and !fixme:use_better_tagging_scheme " +

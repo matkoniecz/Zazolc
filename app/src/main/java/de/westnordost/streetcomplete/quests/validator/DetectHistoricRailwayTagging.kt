@@ -1,14 +1,13 @@
 package de.westnordost.streetcomplete.quests.validator
 
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
+import de.westnordost.streetcomplete.data.osm.osmquest.OsmFilterQuestType
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
-class DetectHistoricRailwayTagging(o: OverpassMapDataAndGeometryApi) : SimpleOverpassQuestType<Boolean>(o) {
+class DetectHistoricRailwayTagging() : OsmFilterQuestType<Boolean>() {
 
-    override val tagFilters = "nodes, ways, relations with railway=abandoned"
+    override val elementFilter = "nodes, ways, relations with railway=abandoned"
     override val commitMessage = ""
     override val icon = R.drawable.ic_quest_railway
 

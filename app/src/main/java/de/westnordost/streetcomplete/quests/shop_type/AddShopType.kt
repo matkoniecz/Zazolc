@@ -2,13 +2,12 @@ package de.westnordost.streetcomplete.quests.shop_type
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
-import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
+import de.westnordost.streetcomplete.data.osm.osmquest.OsmFilterQuestType
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
-class AddShopType(o: OverpassMapDataAndGeometryApi) : SimpleOverpassQuestType<Boolean>(o) {
+class AddShopType() : OsmFilterQuestType<Boolean>() {
 
-    override val tagFilters = "nodes, ways, relations with shop=yes and !amenity and !leisure"
+    override val elementFilter = "nodes, ways, relations with shop=yes and !amenity and !leisure"
     override val commitMessage = "Specify shop type"
     override val icon = R.drawable.ic_quest_label
 

@@ -1,14 +1,13 @@
 package de.westnordost.streetcomplete.quests.drinking_water
 
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
+import de.westnordost.streetcomplete.data.osm.osmquest.OsmFilterQuestType
 
 
-class AddDrinkingWaterStatus(o: OverpassMapDataAndGeometryApi) : SimpleOverpassQuestType<List<String>>(o) {
+class AddDrinkingWaterStatus() : OsmFilterQuestType<List<String>>() {
 
-    override val tagFilters =
+    override val elementFilter =
         """nodes, ways, relations with
            (amenity=drinking_water or drinking_water=yes)
            and drinking_water != no

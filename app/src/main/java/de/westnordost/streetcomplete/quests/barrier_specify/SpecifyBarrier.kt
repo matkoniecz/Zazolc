@@ -2,12 +2,11 @@ package de.westnordost.streetcomplete.quests.barrier_specify
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
-import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
+import de.westnordost.streetcomplete.data.osm.osmquest.OsmFilterQuestType
 
-class SpecifyBarrier(o: OverpassMapDataAndGeometryApi) : SimpleOverpassQuestType<String>(o) {
+class SpecifyBarrier() : OsmFilterQuestType<String>() {
 
-    override val tagFilters = "ways with barrier=yes"
+    override val elementFilter = "ways with barrier=yes"
     override val commitMessage = "Specify barrier type"
     override val icon = R.drawable.ic_quest_power
 

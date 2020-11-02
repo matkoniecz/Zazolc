@@ -1,17 +1,30 @@
 package de.westnordost.streetcomplete.quests.sidewalk
 
-import de.westnordost.osmapi.map.data.BoundingBox
-import de.westnordost.osmapi.map.data.Element
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.ANYTHING_UNPAVED
-import de.westnordost.streetcomplete.data.osm.elementgeometry.ElementGeometry
-import de.westnordost.streetcomplete.data.osm.osmquest.OsmElementQuestType
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
-import de.westnordost.streetcomplete.data.elementfilter.getQuestPrintStatement
-import de.westnordost.streetcomplete.data.elementfilter.toGlobalOverpassBBox
+import de.westnordost.streetcomplete.data.osm.osmquest.OsmFilterQuestType
 
-class AddSidewalk(private val overpassApi: OverpassMapDataAndGeometryApi) : OsmElementQuestType<SidewalkAnswer> {
+class AddSidewalk : OsmFilterQuestType<SidewalkAnswer>() {
+
+    /* the filter additionally filters out ways that are unlikely to have sidewalks:
+     * unpaved roads, roads with very low speed limits and roads that are probably not developed
+     * enough to have pavement (that are not lit).
+     * Also, anything explicitly tagged as no pedestrians or explicitly tagged that the sidewalk
+     * is mapped as a separate way
+    * */
+    override val elementFilter = """
+        ways with
+          highway ~ primary|primary_link|secondary|secondary_link|tertiary|tertiary_link|unclassified|residential
+          and area != yes
+          and motorroad != yes
+          and !sidewalk and !sidewalk:left and !sidewalk:right and !sidewalk:both
+          and (!maxspeed or maxspeed > 8 or maxspeed !~ "5 mph|walk")
+          and surface !~ ${ANYTHING_UNPAVED.joinToString("|")}
+          and lit = yes
+          and foot != no and access !~ private|no
+          and foot != use_sidepath
+    """
 
     override val commitMessage = "Add whether there are sidewalks"
     override val wikiLink = "Key:sidewalk"
@@ -19,42 +32,6 @@ class AddSidewalk(private val overpassApi: OverpassMapDataAndGeometryApi) : OsmE
     override val isSplitWayEnabled = true
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_sidewalk_title
-
-    override fun download(bbox: BoundingBox, handler: (element: Element, geometry: ElementGeometry?) -> Unit): Boolean {
-        return overpassApi.query(getOverpassQuery(bbox), handler)
-    }
-
-    /** returns overpass query string to get streets without sidewalk info not near separately mapped
-     *  sidewalks (and other paths)
-     */
-    private fun getOverpassQuery(bbox: BoundingBox): String {
-        val minDistToWays = 15 //m
-
-        // note: this query is very similar to the query in AddCycleway
-        return bbox.toGlobalOverpassBBox() + "\n" +
-            "way[highway ~ '^(primary|primary_link|secondary|secondary_link|tertiary|tertiary_link|unclassified|residential)$']" +
-            "[area != yes]" +
-            // not any motorroads
-            "[motorroad != yes]" +
-            // only without sidewalk tags
-            "[!sidewalk][!'sidewalk:left'][!'sidewalk:right'][!'sidewalk:both']" +
-            // not any with very low speed limit because they not very likely to have sidewalks
-            "[maxspeed !~ '^(8|7|6|5|5 mph|walk)$']" +
-            // not any unpaved because of the same reason
-            "[surface !~ '^(" + ANYTHING_UNPAVED.joinToString("|") + ")$']" +
-            "[lit = yes]" +
-            // not any explicitly tagged as no pedestrians
-            "[foot != no]" +
-            "[access !~ '^(private|no)$']" +
-            // some roads may be farther than minDistToWays from ways, not tagged with
-            // footway=separate/sidepath but may have a hint that there is a separately tagged
-            // sidewalk
-            "[foot != use_sidepath]" +
-            ";" +
-            getQuestPrintStatement()
-    }
-
-    override fun isApplicableTo(element: Element): Boolean? = null
 
     override fun createForm() = AddSidewalkForm()
 
@@ -72,4 +49,4 @@ class AddSidewalk(private val overpassApi: OverpassMapDataAndGeometryApi) : OsmE
                 else -> "none"
             }
         }
-    }
+}

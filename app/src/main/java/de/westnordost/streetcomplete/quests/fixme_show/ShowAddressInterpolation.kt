@@ -1,15 +1,14 @@
 package de.westnordost.streetcomplete.quests.fixme_show
 
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.osmquest.SimpleOverpassQuestType
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.osm.mapdata.OverpassMapDataAndGeometryApi
+import de.westnordost.streetcomplete.data.osm.osmquest.OsmFilterQuestType
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
 
-class ShowAddressInterpolation(o: OverpassMapDataAndGeometryApi) : SimpleOverpassQuestType<Boolean>(o) {
+class ShowAddressInterpolation() : OsmFilterQuestType<Boolean>() {
 
-    override val tagFilters =
+    override val elementFilter =
         "nodes, ways, relations with addr:interpolation"
 
     override val commitMessage = "unused commit message"
