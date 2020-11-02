@@ -35,8 +35,8 @@ android {
         applicationId = "de.westnordost.streetcomplete"
         minSdkVersion(17)
         targetSdkVersion(29)
-        versionCode = 2501
-        versionName = "25.1"
+        versionCode = 2602
+        versionName = "26.0-beta3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -93,9 +93,6 @@ dependencies {
     val mockitoVersion = "2.28.2"
     val kotlinxVersion = "1.3.8"
     val daggerVersion = "2.14.1"
-
-    // debugging
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.4")
 
     // tests
     testImplementation("junit:junit:4.12")
@@ -171,8 +168,8 @@ dependencies {
 
 /** Localizations that should be pulled from POEditor etc. */
 val bcp47ExportLanguages = setOf(
-    "ast","ca","cs","da","de","el","en","en-AU","en-GB","es","eu","fa","fi","fr","gl","hu","id","it",
-    "ja","ko","lt","ml","nb","no","nl","nn","pl","pt","pt-BR","ru","sk","sv","tr",
+    "ast","ca","cs","da","de","el","en","en-AU","en-GB","es","eu","fa","fi","fr","gl","hr","hu",
+    "id","it", "ja","ko","lt","ml","nb","no","nl","nn","pl","pt","pt-BR","ru","sk","sv","tr",
     "uk","zh","zh-CN","zh-HK","zh-TW"
 )
 
