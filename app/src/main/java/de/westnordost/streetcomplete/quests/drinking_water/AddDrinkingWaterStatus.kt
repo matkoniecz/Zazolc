@@ -37,4 +37,6 @@ class AddDrinkingWaterStatus() : OsmFilterQuestType<List<String>>() {
             changes.add("drinking_water:legal", "unknown")
         }
     }
+
+    override val wikiLink = "Key:drinking_water:legal"
 }

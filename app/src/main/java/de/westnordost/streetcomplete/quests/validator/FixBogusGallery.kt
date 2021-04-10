@@ -21,4 +21,6 @@ class FixBogusGallery() : OsmFilterQuestType<Boolean>() {
             changes.delete("tourism");
         }
     }
+
+    override val wikiLink = "Tag:shop=art"
 }

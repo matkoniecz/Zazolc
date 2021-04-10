@@ -27,4 +27,6 @@ class DeprecateFIXME() : OsmFilterQuestType<Boolean>() {
             changes.add("fixme", fixme)
         }
     }
+
+    override val wikiLink = "Key:fixme"
 }

@@ -23,4 +23,6 @@ class MultidesignatedFootwayToPath() : OsmFilterQuestType<Boolean>() {
         changes.addOrModify("foot", "designated")
         changes.modify("highway", "path")
     }
+
+    override val wikiLink = "Tag:highway=path"
 }

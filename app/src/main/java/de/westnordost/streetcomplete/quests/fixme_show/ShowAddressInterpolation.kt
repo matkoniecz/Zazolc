@@ -21,4 +21,7 @@ class ShowAddressInterpolation() : OsmFilterQuestType<Boolean>() {
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
         TODO("Not yet implemented")
     }
+
+    override val wikiLink: String?
+        get() = TODO("Not yet implemented")
 }

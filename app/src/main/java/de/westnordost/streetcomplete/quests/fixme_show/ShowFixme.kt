@@ -34,4 +34,6 @@ class ShowFixme() : OsmFilterQuestType<List<String>>() {
             changes.add(value, "yes")
         }
     }
+
+    override val wikiLink = "Key:fixme"
 }

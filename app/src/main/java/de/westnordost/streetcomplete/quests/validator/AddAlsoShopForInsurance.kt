@@ -20,4 +20,6 @@ class AddAlsoShopForInsurance() : OsmFilterQuestType<Boolean>() {
             changes.add("shop", "insurance");
         }
     }
+
+    override val wikiLink = "Tag:shop=insurance"
 }

@@ -21,4 +21,6 @@ class AddShopType() : OsmFilterQuestType<Boolean>() {
 
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
     }
+
+    override val wikiLink = "Tag:shop=yes"
 }

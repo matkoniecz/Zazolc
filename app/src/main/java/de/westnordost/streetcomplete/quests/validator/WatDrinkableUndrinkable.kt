@@ -15,4 +15,6 @@ class WatUndrinkableDrinkable() : OsmFilterQuestType<Boolean>() {
     override fun createForm() = YesNoQuestAnswerFragment()
 
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {}
+
+    override val wikiLink = "Tag:drinking_water=no"
 }

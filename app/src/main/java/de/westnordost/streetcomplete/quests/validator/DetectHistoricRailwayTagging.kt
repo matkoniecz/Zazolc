@@ -17,4 +17,6 @@ class DetectHistoricRailwayTagging() : OsmFilterQuestType<Boolean>() {
 
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
     }
+
+    override val wikiLink = "Tag:railway=abandoned"
 }
