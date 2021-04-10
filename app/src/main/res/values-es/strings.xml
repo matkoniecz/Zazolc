@@ -203,9 +203,6 @@
     <string name="no_gps_no_quests">"Para buscar tareas a tu alrededor automáticamente activa la ubicación"</string>
 
     <!-- Fuzzy -->
-    <string name="nothing_more_to_download">"No hay más tareas"</string>
-
-    <!-- Fuzzy -->
     <string name="later">"Luego"</string>
 
     <!-- Fuzzy -->
@@ -2357,7 +2354,6 @@ Tenga en cuenta que esta aplicación solicita el número de portal de un edifici
     <string name="quest_lanes_title">"¿Cuántos carriles para automóviles tiene esta carretera?"</string>
     <string name="quest_lanes_answer_lanes">"Carriles marcados"</string>
     <string name="quest_lanes_answer_noLanes">"Sin carriles marcados"</string>
-    <string name="quest_lanes_answer_lanes_odd">"Difiere para cada lado"</string>
     <string name="quest_lanes_answer_lanes_center_left_turn_lane">"Tiene un carril de giro a la izquierda de dos-vías"</string>
     <string name="quest_address_answer_no_housenumber_message2b">"¿Es esto correcto?"</string>
     <string name="quest_maxheight_below_bridge_title">"¿Cuál es el límite de altura debajo del puente?"</string>
@@ -2399,4 +2395,15 @@ Tenga en cuenta que esta aplicación solicita el número de portal de un edifici
     <string name="quest_shop_gone_replaced_answer_error">"No sé qué es esto. Considere dejar una nota."</string>
     <string name="quest_shop_vacant_type_title">"Este establecimiento ha estado vacío. ¿Qué hay aquí ahora?"</string>
     <string name="quest_lanes_answer_lanes_odd2">"El número de carriles es diferente para cada dirección"</string>
+    <string name="quest_pitchSurface_title">"¿Qué superficie tiene este cancha deportiva?"</string>
+    <string name="default_disabled_msg_go_inside_regional_warning">"Este tipo de misión está deshabilitado de forma predeterminada porque no es útil en algunas regiones y es probable que tengas que entrar en el lugar para poder responder a una misión de este tipo."</string>
+    <string name="quest_dietType_kosher_name_title">"¿%s ofrece productos kosher?"</string>
+    <string name="quest_dietType_explanation_kosher">"Los productos kosher deben prepararse de acuerdo con reglas especiales, y las agencias de certificación kashrut deben marcar los productos en cumplimiento."</string>
+    <string name="quest_cycleway_answer_no_bicycle_infrastructure">"No hay carril bici en absoluto"</string>
+    <string name="quest_cycleway_answer_no_bicycle_infrastructure_explanation">"Como de costumbre, toque un lado de la ilustración, seleccione una respuesta adecuada y haga lo mismo con el otro lado. Tenga en cuenta todas las opciones disponibles: algunos casos no son obvios, como una carretera de un solo sentido que permite a los ciclistas en ambas direcciones."</string>
+    <string name="quest_cycleway_answer_no_bicycle_infrastructure_title">"Seleccionar que no hay carril bici"</string>
+    <string name="quest_construction_completed_at_known_date">"Estará terminado en la fecha..."</string>
+    <string name="quest_construction_completion_date_title">"¿Cuándo estará terminado?"</string>
+    <string name="quest_surface_value_artificial_turf">"Césped artificial"</string>
+    <string name="quest_surface_value_tartan">"Tartán"</string>
 </resources>

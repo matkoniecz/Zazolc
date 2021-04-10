@@ -26,11 +26,6 @@
             <action android:name="android.intent.action.VIEW"/>
             <data android:scheme="geo"/>
         </intent>
-        <!-- send crash report mail -->
-        <intent>
-            <action android:name="android.intent.action.SENDTO"/>
-            <data android:scheme="mailto"/>
-        </intent>
     </queries>
 
     <application
@@ -41,22 +36,6 @@
         android:theme="@style/AppTheme"
         android:allowNativeHeapPointerTagging="false"
         android:supportsRtl="true">
-        <activity
-            android:windowSoftInputMode="adjustResize"
-            android:name="de.westnordost.streetcomplete.MainActivity"
-            android:label="@string/app_name"
-            android:configChanges="orientation|screenSize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="geo" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/action_settings"
@@ -74,7 +53,7 @@
             android:name=".user.UserActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <service android:name=".data.download.QuestDownloadService" />
+        <service android:name=".data.download.DownloadService" />
         <service android:name=".data.upload.UploadService" />
         <provider
             android:name="androidx.core.content.FileProvider"

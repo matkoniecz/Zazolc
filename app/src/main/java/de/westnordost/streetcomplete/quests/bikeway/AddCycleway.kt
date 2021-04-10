@@ -7,6 +7,7 @@ import de.westnordost.streetcomplete.data.elementfilter.filters.RelativeDate
 import de.westnordost.streetcomplete.data.elementfilter.filters.TagOlderThan
 import de.westnordost.streetcomplete.data.elementfilter.toElementFilterExpression
 import de.westnordost.streetcomplete.data.meta.ANYTHING_UNPAVED
+import de.westnordost.streetcomplete.data.meta.MAXSPEED_TYPE_KEYS
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.quest.NoCountriesExcept
 import de.westnordost.streetcomplete.data.meta.deleteCheckDatesForKey
@@ -301,7 +302,11 @@ class AddCycleway : OsmElementQuestType<CyclewayAnswer> {
         private val untaggedRoadsFilter by lazy { """
             ways with (
                 highway ~ primary|primary_link|secondary|secondary_link|tertiary|tertiary_link|unclassified
-                or highway = residential and maxspeed > 30
+                or highway = residential and (
+                  maxspeed > 30
+                  or (maxspeed ~ ".*mph" and maxspeed !~ "([1-9]|1[0-9]|20) mph")
+                  or $NOT_IN_30_ZONE_OR_LESS
+                )
               )
               and !cycleway
               and !cycleway:left
@@ -311,13 +316,22 @@ class AddCycleway : OsmElementQuestType<CyclewayAnswer> {
               and !sidewalk:left:bicycle
               and !sidewalk:right:bicycle
               and !sidewalk:both:bicycle
-              and (!maxspeed or maxspeed > 20 or maxspeed !~ "10 mph|5 mph|walk")
+              and (
+                !maxspeed
+                or maxspeed > 20
+                or (maxspeed ~ ".*mph" and maxspeed !~ "([1-9]|1[0-2]) mph")
+                or $NOT_IN_30_ZONE_OR_LESS
+              )
               and surface !~ ${ANYTHING_UNPAVED.joinToString("|")}
         """.toElementFilterExpression() }
 
         private val maybeSeparatelyMappedCyclewaysFilter by lazy { """
             ways with highway ~ path|footway|cycleway
         """.toElementFilterExpression() }
+
+        private val NOT_IN_30_ZONE_OR_LESS = MAXSPEED_TYPE_KEYS.joinToString(" or ") {
+            """$it and $it !~ ".*zone:?([1-9]|[1-2][0-9]|30)""""
+        }
 
         private val OLDER_THAN_4_YEARS = TagOlderThan("cycleway", RelativeDate(-(365 * 4).toFloat()))
 

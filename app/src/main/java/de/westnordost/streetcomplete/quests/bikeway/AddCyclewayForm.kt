@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete.quests.bikeway
 import android.os.Bundle
 import androidx.annotation.AnyThread
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 
 import java.util.Collections
 
@@ -30,8 +31,19 @@ class AddCyclewayForm : AbstractQuestFormAnswerFragment<CyclewayAnswer>() {
         if (!isDefiningBothSides && isNoRoundabout) {
             result.add(OtherAnswer(R.string.quest_cycleway_answer_contraflow_cycleway) { showBothSides() })
         }
+        result.add(OtherAnswer(R.string.quest_cycleway_answer_no_bicycle_infrastructure) { noBikewayHereHint() })
         return result
     }
+
+    private fun noBikewayHereHint() {
+        activity?.let { AlertDialog.Builder(it)
+            .setTitle(R.string.quest_cycleway_answer_no_bicycle_infrastructure_title)
+            .setMessage(R.string.quest_cycleway_answer_no_bicycle_infrastructure_explanation)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+        }
+    }
+
 
     private val likelyNoBicycleContraflow = """
             ways with oneway:bicycle != no and (
@@ -220,7 +232,8 @@ class AddCyclewayForm : AbstractQuestFormAnswerFragment<CyclewayAnswer>() {
         val values = DISPLAYED_CYCLEWAY_ITEMS.filter { it.isAvailableAsSelection(country) }.toMutableList()
         // different wording for a contraflow lane that is marked like a "shared" lane (just bicycle pictogram)
         if (isOneway && isReverseSideRight == isRight) {
-            Collections.replaceAll(values, Cycleway.PICTOGRAMS, Cycleway.NONE_NO_ONEWAY)
+            values.remove(Cycleway.PICTOGRAMS)
+            values.add(values.indexOf(Cycleway.NONE) + 1, Cycleway.NONE_NO_ONEWAY)
         }
         return values
     }

@@ -69,7 +69,6 @@
     <string name="not_authorized">"Nicht autorisiert"</string>
     <string name="version_banned_message">"Diese Version von StreetComplete ist zu alt. Bitte aktualisiere deine Version!"</string>
     <string name="no_gps_no_quests">"Um automatisch nach Aufgaben in deiner Nähe zu suchen, schalte Standort an"</string>
-    <string name="nothing_more_to_download">"Keine weiteren Aufgaben verfügbar"</string>
     <string name="later">"Später"</string>
     <string name="quest_streetName_answer_noProperStreet_link">"Sie ist eine Verbindung zwischen zwei Straßen"</string>
     <string name="quest_streetName_answer_noProperStreet_leaveNote">"Etwas anderes (Notiz hinterlassen)"</string>
@@ -395,7 +394,7 @@ Andernfalls kannst Du eine alternative Tastatur im App Store herunterladen. Beli
     <string name="quest_housenumber_street_number_optional">"Orientierungsnummer (optional)"</string>
     <string name="quest_cycleway_answer_contraflow_cycleway">"Fahrradweg auch auf anderer Seite…"</string>
     <string name="quest_openingHours_emptyAnswer">"Du musst schreiben, was auf dem Schild steht. Wenn es kein Schild gibt, solltest Du drinnen nach den Öffnungszeiten fragen."</string>
-    <string name="quest_cycleway_value_none_but_no_oneway">"kein, aber Radfahrer dürfen in beide Richtungen auf der Fahrbahn fahren"</string>
+    <string name="quest_cycleway_value_none_but_no_oneway">"keinen, aber Radfahrer dürfen in beiden Richtungen auf der Fahrbahn fahren"</string>
     <string name="quest_streetName_answer_noName_question">"Warum hat sie keinen Namen?"</string>
     <string name="quest_streetName_answer_noProperStreet_service2">"Ist bloß so etwas wie eine Zufahrt"</string>
     <string name="quest_streetName_answer_noProperStreet_track2">"Ist nur ein Feld- oder Waldweg"</string>
@@ -496,7 +495,10 @@ Teilweise bedeutet, dass man die Toilette schon im Rollstuhl benutzen kann, aber
     <string name="quest_buildingType_apartments">"Mehrfamilienhaus"</string>
     <string name="quest_buildingType_detached">"Freistehendes Haus"</string>
     <string name="quest_buildingType_detached_description">"Einfamilienhaus mit Garten rundherum"</string>
-    <string name="quest_buildingType_semi_detached">"Doppelhaus"</string>
+
+    <!-- Doppelhaushälfte ist der korrekte Ausdruck, es gab nachfragen OSM Dach Gruppe -->
+    <!-- Fuzzy -->
+    <string name="quest_buildingType_semi_detached">"Doppelhaus(-hälfte)"</string>
     <string name="quest_buildingType_semi_detached_description">"zwei aneinandergebaute Einfamilienhäuser"</string>
     <string name="quest_buildingType_terrace_description">"eine lange Reihe aus ähnlichen Einfamilienhäusern"</string>
     <string name="quest_buildingType_hotel">"Hotelgebäude"</string>
@@ -597,7 +599,7 @@ Teilweise bedeutet, dass man die Toilette schon im Rollstuhl benutzen kann, aber
     <string name="quest_building_underground_title">"Ist dieses Gebäude komplett unterirdisch?"</string>
     <string name="quest_wheelchairAccess_limited_description_outside">"Teilweise bedeutet, dass es nicht mehr als eine Stufe zu überwinden gilt."</string>
     <string name="quest_wheelchairAccess_outside_title">"Ist dieser Ort zugänglich für Rollstühle?"</string>
-    <string name="quest_traffic_signals_button_title">"Ist dies eine Druckampel?"</string>
+    <string name="quest_traffic_signals_button_title">"Ist dies eine Bedarfsampel?"</string>
     <string name="quest_motorcycleParkingCapacity_title">"Wie viele Motorräder können hier abgestellt werden?"</string>
     <string name="quest_motorcycleParkingCoveredStatus_title">"Ist der Motorradstellplatz überdacht (Schutz vor Regen)?"</string>
     <string name="default_disabled_msg_maxspeed">"Dieser Aufgabentyp ist standardmäßig deaktiviert, weil du normalerweise die ganze Straße nach entsprechenden Schildern absuchen musst, nicht nur den hervorgehobenen Abschnitt. Das kann manchmal eine ganz schöne Strecke sein, um bloß eine einzige Aufgabe zu lösen."</string>
@@ -897,7 +899,7 @@ Erfolge"</string>
     <string name="quest_step_count_title">"Wie viele Stufen hat diese Treppe?"</string>
     <string name="quest_traffic_signals_sound_title">"Gibt es hier akustische Signale für Sehbehinderte?"</string>
     <string name="quest_traffic_signals_vibrate_title">"Gibt es an dieser Ampel einen Taster für Blinde, der signalisiert, wenn man über die Straße gehen kann?"</string>
-    <string name="quest_traffic_signals_vibrate_description">"Hinweis: Dies ist oft ein vibrierender Taster oder drehender Konus auf der Unterseite des Druckampel-Kastens."</string>
+    <string name="quest_traffic_signals_vibrate_description">"Hinweis: Dies ist oft ein vibrierender Taster oder drehender Konus auf der Unterseite des Bedarfsampel-Kastens."</string>
     <string name="quest_busStopRef_title">"Was ist die Referenznummer dieser Bushaltestelle?"</string>
     <string name="quest_tramStopRef_title">"Was ist die Referenznummer dieser Straßenbahnhaltestelle?"</string>
     <string name="quest_buildingType_bungalow_description2">"kleines, freistehendes Haus (Gartenhaus, Ferienhaus oder -hütte)"</string>
@@ -938,7 +940,6 @@ Erfolge"</string>
     <string name="quest_lanes_title">"Wie viele Fahrstreifen für Autos hat diese Straße?"</string>
     <string name="quest_lanes_answer_lanes">"markierte Fahrstreifen"</string>
     <string name="quest_lanes_answer_noLanes">"Keine markierten Fahrstreifen"</string>
-    <string name="quest_lanes_answer_lanes_odd">"Je Seite unterschiedlich"</string>
     <string name="quest_lanes_answer_lanes_center_left_turn_lane">"Hat eine gemeinsame Linksabbiegerspur für beide Richtungen"</string>
     <string name="quest_address_answer_no_housenumber_message2b">"Ist das korrekt?"</string>
     <string name="quest_maxheight_below_bridge_title">"Was ist die Durchfahrtshöhe unter dieser Brücke?"</string>
@@ -977,4 +978,16 @@ Wenn es eine Busspur gibt, hinterlasse bitte stattdessen eine Notiz."</string>
     <string name="quest_shop_gone_replaced_answer_error">"Unbekannt. Hinterlasse stattdessen eine Notiz."</string>
     <string name="quest_shop_vacant_type_title">"Dieser Laden stand leer. Was ist hier jetzt?"</string>
     <string name="quest_lanes_answer_lanes_odd2">"Anzahl Fahrstreifen je Seite unterschiedlich"</string>
+    <string name="quest_pitchSurface_title">"Welchen Bodenbelag hat dieser Sportplatz?"</string>
+    <string name="default_disabled_msg_go_inside_regional_warning">"Dieser Fragentyp ist standardmäßig deaktiviert, weil er in manchen Regionen nicht sinnvoll ist und man wahrscheinlich einen Ort betreten muss, um eine Frage dieses Typs zu beantworten."</string>
+    <string name="quest_dietType_kosher_name_title">"Bietet %s koschere Produkte an?"</string>
+    <string name="quest_dietType_explanation_kosher">"Koschere Produkte werden nach den jüdischen Speisegesetzen hergestellt, wobei spezielle Kashrut-Zertifizierungs-Argenturen diese Produkte überprüfen."</string>
+    <string name="quest_cycleway_answer_no_bicycle_infrastructure">"Kein Radweg vorhanden"</string>
+    <string name="quest_cycleway_answer_no_bicycle_infrastructure_explanation">"Wie üblich, tippe auf eine Seite der Bildes, wähle die passende Antwort und wiederhole dies für die andere Seite. Beachte alle Auswahlmöglichkeiten: manche Kombinationen sind nicht offensichtlich, z.B eine Einbahnstraße, die für Fahrradfahrer beidseitig befahrbar ist!"</string>
+    <string name="quest_cycleway_answer_no_bicycle_infrastructure_title">"Auswählen, dass kein Radweg existiert"</string>
+    <string name="quest_construction_completed_at_known_date">"Wird zum folgenden Datum fertiggestellt…"</string>
+    <string name="quest_construction_completion_date_title">"Wann wird es fertig?"</string>
+    <string name="quest_surface_value_clay">"Sandplatz (Lehm)"</string>
+    <string name="quest_surface_value_artificial_turf">"Kunstrasen"</string>
+    <string name="quest_surface_value_tartan">"Tartanbahn"</string>
 </resources>

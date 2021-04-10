@@ -127,7 +127,7 @@
     <string name="confirmation_discard_title">"Descartar mudanças?"</string>
 
     <!-- Fuzzy -->
-    <string name="confirmation_discard_positive">"Decartar"</string>
+    <string name="confirmation_discard_positive">"Descartar"</string>
 
     <!-- Fuzzy -->
     <string name="confirmation_discard_negative">"Cancelar"</string>
@@ -201,9 +201,6 @@
 
     <!-- Fuzzy -->
     <string name="no_gps_no_quests">"Para escanear por missões em torno de você automaticamente, ative a localização"</string>
-
-    <!-- Fuzzy -->
-    <string name="nothing_more_to_download">"Sem novas missões disponíveis"</string>
 
     <!-- Fuzzy -->
     <string name="later">"Mais tarde"</string>
@@ -294,7 +291,7 @@ Como mencionado, o aplicativo se comunica diretamente com a infraestrutura do OS
     <string name="autosync_on">"Ligado"</string>
 
     <!-- Fuzzy -->
-    <string name="autosync_only_on_wifi">"Somente por WiFi"</string>
+    <string name="autosync_only_on_wifi">"Somente por Wi-Fi"</string>
 
     <!-- Fuzzy -->
     <string name="autosync_off">"Desligado"</string>
@@ -373,7 +370,7 @@ Como mencionado, o aplicativo se comunica diretamente com a infraestrutura do OS
     <!-- Fuzzy -->
     <string name="store_listing_full_description">"Ajude a melhorar o OpenStreetMap com StreetComplete!
 
-Este aplicativo encontra dados incompletos e extensíveis em sua vizinhança e os exibe em um mapa como marcadores. Cada um deles é resolvível respondendo a uma simples pergunta para completar a informação no site.
+Este aplicativo encontra dados incompletos e extensíveis em sua vizinhança e os exibe em um mapa como marcadores. Cada um deles pode ser resolvido respondendo a uma simples pergunta para completar a informação no site.
 
 As informações inseridas são adicionadas diretamente ao OpenStreetMap em seu nome, sem a necessidade de usar outro editor."</string>
 
@@ -1592,7 +1589,7 @@ Is "Altar" really fitting here? It is about a building type after all. -->
     <string name="quest_noteDiscussion_hide2">"Oculto por %1$s, %2$s"</string>
 
     <!-- Fuzzy -->
-    <string name="privacy_html_image_upload2">"&lt;p&gt;As fotos que você anexar a uma nota são enviadas para o meu servidor e são deletadas após a nota ser resolvida. Os meta-dados são deletados antes do envio.&lt;/p&gt;"</string>
+    <string name="privacy_html_image_upload2">"&lt;p&gt;As fotos que você anexar a uma nota são enviadas para o meu servidor e excluídas após a nota ser resolvida. Os metadados são removidos antes do envio.&lt;/p&gt;"</string>
 
     <!-- Fuzzy -->
     <string name="action_deselect_all">"Desmarcar todos"</string>
@@ -1715,7 +1712,7 @@ Is "Altar" really fitting here? It is about a building type after all. -->
     <string name="quest_ferry_motor_vehicle_title">"Esta rota de balsa transporta veículos automotivos?"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_leave_new_note_photos_are_useful">"Adicinar uma foto tornará a nota muito mais útil."</string>
+    <string name="quest_leave_new_note_photos_are_useful">"Adicionar uma foto tornará a nota muito mais útil."</string>
 
     <!-- Fuzzy -->
     <string name="quest_postboxCollectionTimes_name_title">"Quais os horários de coleta dessa caixa postal %s?"</string>
@@ -1904,7 +1901,7 @@ Dividir agora?"</string>
     <string name="osm_profile">"Perfil OSM"</string>
     <string name="next">"Próximo"</string>
     <string name="letsgo">"Vamos lá!"</string>
-    <string name="tutorial_welcome_to_osm">"Bem vindo ao OpenStreetMap"</string>
+    <string name="tutorial_welcome_to_osm">"Bem-vindo ao OpenStreetMap"</string>
     <string name="tutorial_welcome_to_osm_subtitle">"o mapa mundial livre"</string>
     <string name="tutorial_intro">"O StreetComplete facilita a contribuição para o OpenStreetMap.
  Ele procura automaticamente detalhes ausentes em sua vizinhança: ciclovias, números de casas, horário de funcionamento e muito mais..."</string>
@@ -1966,7 +1963,7 @@ Dividir agora?"</string>
     <string name="link_osrm_description">"O mecanismo de roteamento mais rápido"</string>
     <string name="link_openrouteservice_description">"Roteamento para uma variedade de veículos e a pé, cada um com preferências. Também pode mostrar isocronas (área acessível em X minutos a partir do ponto de partida)."</string>
     <string name="link_osm_haiku_description">"Usando dados do OSM para gerar um haiku (uma forma de poesia japonesa)"</string>
-    <string name="link_openinframap_description">"Um mapa mostrando infra-estrutura de energia, telecomunicações, gás e petróleo"</string>
+    <string name="link_openinframap_description">"Um mapa mostrando infraestrutura de energia, telecomunicações, gás e petróleo"</string>
     <string name="link_openorienteeringmap_description">"Crie mapas imprimíveis para o esporte de orientação"</string>
     <string name="link_openstreetbrowser_description">"Um mapa para navegar pelos recursos de mapa do OpenStreetMap por categoria"</string>
     <string name="link_weeklyosm_description">"O blog semanal de notícias sobre o que está acontecendo no mundo do OpenStreetMap"</string>
@@ -2116,7 +2113,7 @@ Observe que este aplicativo solicita o número da casa de uma construção somen
 
     <!-- Fuzzy -->
     <string name="quest_buildingType_historic_description">"edifício de valor histórico que não desempenha funções cívicas, religiosas ou comerciais"</string>
-    <string name="quest_buildingType_abandoned">"Abandoned"</string>
+    <string name="quest_buildingType_abandoned">"Abandonado"</string>
     <string name="quest_buildingType_abandoned_description">"edifício não utilizado, cuja função ou propósito original é desconhecido"</string>
     <string name="quest_buildingType_ruins">"Ruínas"</string>
     <string name="quest_buildingType_ruins_description">"edifício abandonado, em ruínas e não identificável"</string>
@@ -2125,7 +2122,6 @@ Observe que este aplicativo solicita o número da casa de uma construção somen
     <string name="quest_lanes_title">"Quantas faixas para carros essa estrada tem?"</string>
     <string name="quest_lanes_answer_lanes">"Pistas marcadas"</string>
     <string name="quest_lanes_answer_noLanes">"Sem pistas marcadas"</string>
-    <string name="quest_lanes_answer_lanes_odd">"Difere para cada lado"</string>
     <string name="quest_lanes_answer_lanes_center_left_turn_lane">"Tem uma via de mão dupla para virar à esquerda"</string>
     <string name="quest_address_answer_no_housenumber_message2b">"Isso está correto?"</string>
     <string name="quest_maxheight_below_bridge_title">"Qual é o limite de altura abaixo da ponte?"</string>
@@ -2168,4 +2164,16 @@ Se alguma faixa for reservada para ônibus, deixe uma nota."</string>
     <string name="quest_shop_gone_replaced_answer_error">"Não sei o que é isso.  Considere deixar uma nota."</string>
     <string name="quest_shop_vacant_type_title">"Esta loja está vazia.  O que está aqui agora?"</string>
     <string name="quest_lanes_answer_lanes_odd2">"A contagem de pistas difere para cada lado"</string>
+    <string name="quest_pitchSurface_title">"Qual superfície este campo esporte tem?"</string>
+    <string name="default_disabled_msg_go_inside_regional_warning">"Este tipo de missão é desativado por padrão porque não é útil em algumas regiões e você provavelmente terá que entrar no local para poder responder a uma missão deste tipo."</string>
+    <string name="quest_dietType_kosher_name_title">"%s oferece produtos kosher?"</string>
+    <string name="quest_dietType_explanation_kosher">"Os produtos kosher devem ser preparados de acordo com regras especiais, com agências de certificação de Kashrut marcando produtos em conformidade."</string>
+    <string name="quest_cycleway_answer_no_bicycle_infrastructure">"Nenhum ciclovia"</string>
+    <string name="quest_cycleway_answer_no_bicycle_infrastructure_explanation">"Como de costume, toque em um lado da ilustração, selecione uma resposta adequada e faça o mesmo para o outro lado. Observe todas as opções disponíveis: Alguns casos não são óbvios, como uma estrada que permite ciclistas em ambas as direções!"</string>
+    <string name="quest_cycleway_answer_no_bicycle_infrastructure_title">"Selecionando que não há ciclovia"</string>
+    <string name="quest_construction_completed_at_known_date">"Será concluído na data..."</string>
+    <string name="quest_construction_completion_date_title">"Quando será completo?"</string>
+    <string name="quest_surface_value_clay">"Argila"</string>
+    <string name="quest_surface_value_artificial_turf">"Relva artificial"</string>
+    <string name="quest_surface_value_tartan">"Tartan"</string>
 </resources>
