@@ -8,6 +8,7 @@ class SpecifyBarrier() : OsmFilterQuestType<String>() {
 
     override val elementFilter = "ways with barrier=yes"
     override val commitMessage = "Specify barrier type"
+    override val wikiLink = "Key:barrier"
     override val icon = R.drawable.ic_quest_power
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_specify_fence
