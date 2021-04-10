@@ -15,6 +15,7 @@ class ShowFixme() : OsmFilterQuestType<List<String>>() {
 
     override val commitMessage = "Handle fixme tag"
     override val icon = R.drawable.ic_quest_power
+    override val isSplitWayEnabled = true
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_show_fixme
 
