@@ -236,7 +236,6 @@ import javax.inject.Singleton
         //      the sake of mapping it in case it makes sense later
         AddPitchSurface(),
         AddIsDefibrillatorIndoor(),
-        AddSummitRegister(),
         AddCyclewayPartSurface(),
         AddFootwayPartSurface(),
         MarkCompletedConstructionMinorOrGeneric(),
@@ -250,7 +249,6 @@ import javax.inject.Singleton
         //AddBenchBackrest(), disabled as waste of time
         //AddTrafficSignalsButton() //moved to boring
         AddBoardType(),
-        AddIsDefibrillatorIndoor(),
         AddInformationToTourism(),
         AddTrafficSignalsVibration(),
 
