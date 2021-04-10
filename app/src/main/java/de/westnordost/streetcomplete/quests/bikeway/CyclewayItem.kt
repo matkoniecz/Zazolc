@@ -16,8 +16,12 @@ fun Cycleway.isAvailableAsSelection(countryCode: String): Boolean =
     /* unspecified lanes are only ok in Belgium (no distinction made, all lanes are dashed) */
     && (this != UNSPECIFIED_LANE || countryCode == "BE")
 
-fun Cycleway.asItem(isLeftHandTraffic: Boolean) : Item<Cycleway> =
-    Item(this, getIconResId(isLeftHandTraffic), getTitleResId())
+fun Cycleway.asItem(isLeftHandTraffic: Boolean) : Item<Cycleway> {
+    if(this == NONE) {
+        return Item(this, R.drawable.ic_cycleway_none_in_selection, getTitleResId())
+    }
+    return Item(this, getIconResId(isLeftHandTraffic), getTitleResId())
+}
 
 fun Cycleway.getIconResId(isLeftHandTraffic: Boolean): Int =
     if (isLeftHandTraffic) getLeftHandTrafficIconResId() else getRightHandTrafficIconResId()
@@ -29,7 +33,7 @@ private fun Cycleway.getRightHandTrafficIconResId(): Int = when(this) {
     SUGGESTION_LANE -> R.drawable.ic_cycleway_suggestion_lane
     TRACK -> R.drawable.ic_cycleway_track
     NONE -> R.drawable.ic_cycleway_none
-    NONE_NO_ONEWAY -> R.drawable.ic_cycleway_pictograms
+    NONE_NO_ONEWAY -> R.drawable.ic_cycleway_none_no_oneway
     PICTOGRAMS -> R.drawable.ic_cycleway_pictograms
     SIDEWALK_EXPLICIT -> R.drawable.ic_cycleway_sidewalk_explicit
     DUAL_LANE -> R.drawable.ic_cycleway_lane_dual
@@ -45,7 +49,7 @@ private fun Cycleway.getLeftHandTrafficIconResId(): Int = when(this) {
     SUGGESTION_LANE -> R.drawable.ic_cycleway_suggestion_lane
     TRACK -> R.drawable.ic_cycleway_track_l
     NONE -> R.drawable.ic_cycleway_none
-    NONE_NO_ONEWAY -> R.drawable.ic_cycleway_pictograms_l
+    NONE_NO_ONEWAY -> R.drawable.ic_cycleway_none_no_oneway_l
     PICTOGRAMS -> R.drawable.ic_cycleway_pictograms_l
     SIDEWALK_EXPLICIT -> R.drawable.ic_cycleway_sidewalk_explicit_l
     DUAL_LANE -> R.drawable.ic_cycleway_lane_dual_l
@@ -71,12 +75,12 @@ fun Cycleway.getTitleResId(): Int = when(this) {
 }
 
 val DISPLAYED_CYCLEWAY_ITEMS: List<Cycleway> = listOf(
+    NONE,
     EXCLUSIVE_LANE,
     ADVISORY_LANE,
     UNSPECIFIED_LANE,
     SUGGESTION_LANE,
     TRACK,
-    NONE,
     PICTOGRAMS,
     BUSWAY,
     SIDEWALK_EXPLICIT,

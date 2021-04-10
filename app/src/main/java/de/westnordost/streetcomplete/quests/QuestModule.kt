@@ -11,6 +11,7 @@ import de.westnordost.streetcomplete.quests.validator.*
 import dagger.Module
 import dagger.Provides
 import de.westnordost.osmfeatures.FeatureDictionary
+import de.westnordost.streetcomplete.data.meta.CountryInfos
 import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuestType
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
 import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash
@@ -113,8 +114,10 @@ import javax.inject.Singleton
     @Provides @Singleton fun questTypeRegistry(
         osmNoteQuestType: OsmNoteQuestType,
         roadNameSuggestionsDao: RoadNameSuggestionsDao,
-        trafficFlowSegmentsApi: TrafficFlowSegmentsApi, trafficFlowDao: WayTrafficFlowDao,
-        featureDictionaryFuture: FutureTask<FeatureDictionary>
+        trafficFlowSegmentsApi: TrafficFlowSegmentsApi,
+        trafficFlowDao: WayTrafficFlowDao,
+        featureDictionaryFuture: FutureTask<FeatureDictionary>,
+        countryInfos: CountryInfos
     ): QuestTypeRegistry = QuestTypeRegistry(listOf(
         //modified--
         ShowFixme(), // my quest
@@ -131,6 +134,10 @@ import javax.inject.Singleton
         AddRoadName(roadNameSuggestionsDao),
         AddPlaceName(featureDictionaryFuture),
         AddOneway(),
+        // not that useful as such, but should be shown before CheckExistence because this is
+        // basically the check whether the postbox is still there in countries in which it is enabled
+        // still moved to boring
+        //AddPostboxCollectionTimes(),
         CheckExistence(featureDictionaryFuture),
         AddSuspectedOneway(trafficFlowSegmentsApi, trafficFlowDao),
         AddBusStopName(),
@@ -152,15 +159,15 @@ import javax.inject.Singleton
         //--modified
 
         // ↓ 3. useful data that is used by some data consumers
-        AddLanes(), // abstreet, certainly most routing engines
         AddStepsRamp(),
         AddRecyclingType(),
         AddRecyclingContainerMaterials(),
         AddSport(),
+        //AddRoadSurface(), // moved up
         //AddMaxSpeed(), //moved to boring
         AddMaxHeight(),
+        AddLanes(), // abstreet, certainly most routing engines
         //AddRailwayCrossingBarrier(), //moved to boring
-        //AddPostboxCollectionTimes(), //moved to boring
         //AddOpeningHours(featureDictionaryFuture), //moved to boring
         AddBikeParkingCapacity(), // cycle map layer on osm.org
         //AddOrchardProduce(), //moved to boring
@@ -201,8 +208,12 @@ import javax.inject.Singleton
         AddToiletsFee(), // used by OsmAnd in the object description
         AddBabyChangingTable(), // used by OsmAnd in the object description
         AddBikeParkingCover(), // used by OsmAnd in the object description
+        //AddTactilePavingCrosswalk() // moved to boring
+        AddTactilePavingKerb(), // Paving can be completed while waiting to cross
+        AddKerbHeight(), // Should be visible while waiting to cross
         //AddTrafficSignalsSound(), // moved to boring
-        //AddRoofShape(), removed as boring and tricky to get right
+        //AddTrafficSignalsVibration(), //moved below
+        //AddRoofShape(countryInfos), removed as boring and tricky to get right
         //AddWheelchairAccessPublicTransport(), // moved to boring
         //AddWheelchairAccessOutside(), // moved to boring
         //AddTactilePavingBusStop(), // moved to boring
