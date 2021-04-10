@@ -1,4 +1,27 @@
-v27.2: |
+v28.0-beta1: |
+  <p>This update is devoted to checking whether things still exist the way they are mapped since
+  keeping data up-to-date is at least as important as contributing new data.</p>
+  <h3>New Quests</h3>
+  <ul>
+  <li><i>This shop has been vacant. What's here now?</i></li>
+  <li><i>Is this still here?</i> (#2074), asked periodically for benches, telephones, post boxes etc.</li>
+  </ul>
+  <h3>Enhanced Quests</h3>
+  <ul>
+  <li>Added "doesn't exist" answer option to many quests. If it was a shop of some kind, you can
+      directly specify what is there now.</li>
+  <li>Tracktypes: Better wording and pictures (#2294)</li>
+  <li>Parking type: Added lane and off-street parking (#2346)</li>
+  </ul>
+  <h3>Other Enhancements and Fixes</h3>
+  <ul>
+  <li>Serbian translation by Mario, Nemanja Bračko</li>
+  <li>Android 11: Enable smooth keyboard appear animation (#2133)</li>
+  <li>even slightly faster download</li>
+  <li>Other small enhancements and fixes (#2349, #2351...)</li>
+  </ul>
+
+g v27.2: |
   <ul>
   <li>Lanes quest: Don't ask for residential roads with a speed limit of 30 km/h and below (#2324)</li>
   <li>Lanes quest: A few tiny UX improvements (#2337, ...)</li>
@@ -13,7 +36,6 @@ v27.1: |
       marked lanes (#2328)</li>
   <li>Show tactile paving quests in Italy (#2320)</li>
   <li>Update translations</li>
-  </ul>
 
 v27.0: |
   <h3>New Quests</h3>

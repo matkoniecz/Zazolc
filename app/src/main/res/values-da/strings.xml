@@ -861,9 +861,6 @@ Ellers kan du downloade et andet keyboard i Forretning. Populære keyboards der 
     <string name="quest_crossing_type_signals">"Overgang med traffiklys"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_crossing_type_uncontrolled">"Ukontrolleret overgang"</string>
-
-    <!-- Fuzzy -->
     <string name="quest_crossing_type_unmarked">"Overgang uden markering på vejen"</string>
     <string name="compass_north_one_letter">"N"</string>
 
@@ -1617,12 +1614,6 @@ F.eks. 1,3 eller 2-6."</string>
     <string name="quest_tracktype_grade1">"Solid"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_tracktype_grade2">"Solid, men ikke fast underlag"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_tracktype_grade3">"Blanding"</string>
-
-    <!-- Fuzzy -->
     <string name="quest_tracktype_grade4">"Mest blød"</string>
 
     <!-- Fuzzy -->
@@ -1814,6 +1805,7 @@ Del det nu?"</string>
 
     <!-- Fuzzy -->
     <string name="quest_ref_answer_noRef">"Intet synligt referencenummer..."</string>
+    <string name="quest_street_side_puzzle_tutorial">"Vejen på illustrationen er roteret så den vender på samme måde som på kortet"</string>
 
     <!-- Fuzzy -->
     <string name="quest_recycling_materials_title">"Hvad kan afleveres her til genbrug?"</string>
@@ -1991,6 +1983,7 @@ aktiv"</string>
     <string name="quest_streetName_menuItem_language_with_script_native">"%1$s – %2$s (%3$s), %4$s"</string>
     <string name="quest_streetName_menuItem_international">"international"</string>
     <string name="quest_buildingType_terrace2">"Rækkehuse"</string>
+    <string name="quest_oneway_tutorial">"Vejen på illustrationen er roteret så den vender på samme måde som på kortet"</string>
     <string name="at_housename">"Husnavn %s:"</string>
     <string name="at_conscription_and_street_number">"Beskrivendenummer %1$s, retningsnummer %2$s:"</string>
 
@@ -2025,6 +2018,8 @@ aktiv"</string>
     <string name="quest_busStopRef_title">"Hvad er dette busstoppesteds referencenummer?"</string>
     <string name="quest_tramStopRef_title">"Hvad er dette sporvognsstoppesteds referencenummer?"</string>
     <string name="quest_buildingType_bungalow_description2">"Lille hus (sommerhus, feriehytte, ...)"</string>
+    <string name="quest_railway_crossing_barrier_title2">"Hvilken type bom er der ved denne jernbaneoverskæring?"</string>
+    <string name="quest_railway_crossing_barrier_none2">"Ingen bomme"</string>
     <string name="quest_steps_ramp_title">"Er der en rampe? Hvilken type?"</string>
     <string name="quest_steps_ramp_none">"Ingen (brugbar) rampe"</string>
     <string name="quest_steps_ramp_bicycle">"Cykelrampe"</string>
@@ -2034,7 +2029,6 @@ aktiv"</string>
     <string name="quest_clothes_container_operator_title">"Hvem modtager donationer til denne tøjindsamling?"</string>
     <string name="quest_charging_station_operator_title">"Hvem er operatør af denne ladestation"</string>
     <string name="link_indoorequal_description">"Indendørs kort over indkøbscentre, jernbanestationer osv."</string>
-    <string name="link_thenandnow_description">"Nysgerrig efter hvilke fremskridt der er sket gennem årene? Sammenlign med hvordan kortet så ud for mere end 10 år siden!"</string>
     <string name="achievement_rare_title">"Skattejagt"</string>
     <string name="achievement_rare_solved_X">"Du har fundet og fuldført %d opgaver der meget sjældent bliver løst. Tillykke!"</string>
     <string name="achievement_citizen_title">"Borger"</string>
@@ -2047,6 +2041,7 @@ aktiv"</string>
     <string name="quest_steps_ramp_separate_wheelchair_decline">"ikke separat"</string>
     <string name="pref_title_sync2">"Upload besvarelser automatisk"</string>
     <string name="quest_surface_detailed_answer_impossible_title">"Beskriv overfladen"</string>
+    <string name="open_url">"Åbn URL"</string>
     <string name="quest_buildingType_silo">"Silo"</string>
     <string name="quest_buildingType_historic">"Historisk"</string>
     <string name="quest_buildingType_historic_description">"bygning af historisk værdi, konstrueret til et ukendt eller uklart formål"</string>
@@ -2059,5 +2054,19 @@ aktiv"</string>
     <string name="quest_lanes_title">"Hvor mange kørebaner for biler har denne vej?"</string>
     <string name="quest_lanes_answer_lanes">"Markerede kørebaner"</string>
     <string name="quest_lanes_answer_noLanes">"Ingen markerede kørebaner"</string>
+    <string name="quest_lanes_answer_lanes_odd">"Forskelligt for de to sider"</string>
     <string name="quest_address_answer_no_housenumber_message2b">"Er dette korrekt?"</string>
+    <string name="quest_maxheight_below_bridge_title">"Hvad er højdebegrænsningen under broen?"</string>
+    <string name="quest_tactile_paving_kerb_title">"Er der taktil markering på kantstenen her?"</string>
+    <string name="quest_kerb_height_title">"Hvor høj er kantstenen?"</string>
+    <string name="quest_kerb_height_flush">"Samme niveau som vejens overflade"</string>
+    <string name="quest_kerb_height_lowered">"Lidt højere end vejens overflade"</string>
+    <string name="quest_kerb_height_raised">"Høj kantsten"</string>
+    <string name="quest_kerb_height_answer_no_kerb">"Der er ingen kantsten på denne side"</string>
+    <string name="quest_kerb_height_lowered_ramp">"Kantstensrampe"</string>
+    <string name="quest_lanes_answer_lanes_description2">"Angiv antallet af markerede vejbaner (begge retninget) for biltrafik her. Cykelbaner, dedikerede parkeringsbaner skal ikke tælles med. Hvis der er dedikerede busbaner, så efterlad en note i stedet. "</string>
+    <string name="quest_lanes_answer_lanes_description_one_side2">"Angiv antallet af markerede vejbaner for biltrafik her. Cykelbaner, dedikerede parkeringsbaner skal ikke tælles med. Hvis der er dedikerede busbaner, så efterlad en note i stedet."</string>
+    <string name="quest_surface_value_rock">"Sten"</string>
+    <string name="quest_maxheight_answer_noSign_question_yes">"Høje lastbiler kan passere"</string>
+    <string name="quest_maxheight_answer_noSign_question_no">"Høje lastbiler kan ikke passere"</string>
 </resources>
