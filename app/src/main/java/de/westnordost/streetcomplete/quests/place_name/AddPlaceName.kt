@@ -19,7 +19,9 @@ class AddPlaceName(
           shop and shop !~ no|vacant
           or craft
           or office
-          or tourism = information and information = office 
+          or place """ + // place is only in my fork
+          """
+          or tourism = information and information = office
           or """.trimIndent() +
 
         // The common list is shared by the name quest, the opening hours quest and the wheelchair quest.
