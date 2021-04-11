@@ -196,7 +196,6 @@ import javax.inject.Singleton
         AddBikeParkingFee(),
         //AddStepsRamp(), // moved higher
         //AddWheelchairAccessToilets(),  //moved to boring
-        AddWheelchairAccessToilets(), // used by wheelmap, OsmAnd, MAPS.ME
         AddPlaygroundAccess(), //late as in many areas all needed access=private is already mapped
         //AddWheelchairAccessBusiness(), //moved to boring
         AddToiletAvailability(), //OSM Carto, shown in OsmAnd descriptions
