@@ -73,7 +73,8 @@ class AddOpeningHours (
             ),
             "office" to arrayOf(
                 // common
-                "insurance", "government", "travel_agent", "tax_advisor", "religion", "employment_agency"
+                "insurance", "government", "travel_agent", "tax_advisor", "religion",
+                "employment_agency", "diplomatic"
             ),
             "craft" to arrayOf(
                 // common
@@ -87,7 +88,7 @@ class AddOpeningHours (
           or opening_hours older today -1 years
         )
         and (access !~ private|no)
-        and (name or brand or noname = yes)
+        and (name or brand or noname = yes or name:signed = no)
         and opening_hours:signed != no
     """.trimIndent()).toElementFilterExpression() }
 

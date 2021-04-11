@@ -1,3 +1,39 @@
+v31.2: |
+  <p><b>Remember:</b> Sync any edits before upgrading to the next major version, which will be
+  released around the end of April. If you have auto-sync on (the default), this does not concern you.</p>
+  <h3>Enhancements</h3>
+  <ul>
+  <li>Opening hours (etc.) are now displayed with AM/PM if that's how times are displayed on your phone (#2709)</li>
+  <li>Don't ask for housenumbers of buildings that are within an area that already has one tagged on its outline (#2686)</li>
+  <li>Ask periodically if various traffic calmings still exist (#2672)</li>
+  <li>Don't ask for the crossing barrier for disused railways (#2695)</li>
+  <li>Also ask for opening hours of shops with no signed name (#2716, #2718), by @Helium314</li>
+  <li>Vacant shops are not tagged as disused:shop=* (#2707, #2724), by @matkoniecz</li>
+  <li>Don't ask for the kerb height and type if tagging is suspect (#2654), by @matkoniecz</li>
+  <li>Other small enhancements and fixes: #2723, #2677 by @Eginhard, #2699 and #2680 by @matkoniecz</li>
+  </ul>
+
+v31.1: |
+  <h3>Warning: Upload your edits!</h3>
+  <p>If you have auto-sync on (the default), this does not concern you, as all edits are
+  uploaded immediately.
+  <br>Due to big changes under the hood, when you upgrade to the next major version, local edits
+  will be dropped! The next major version v32.0 will be in beta not earlier than in 2nd week of
+  April.</p>
+  <h3>Fixes</h3>
+  <ul>
+  <li>Fix crash issue when zooming too fast with the pinch gesture (#2601)</li>
+  <li>Fix link to the wheelchair-routing on openrouteservice (#2646)</li>
+  <li>Fix roof quest would show up for too many places (#2666, #2667, #2655), by @Helium314, by @matkoniecz</li>
+  <li>Fix the correction of magnetic North to true North (#2653), thanks @pkoby</li>
+  </ul>
+  <h3>Enhancements</h3>
+  <ul>
+  <li>Always show notes on the map that contain "#surveyme" (#2641)</li>
+  <li>Do not ask if a foot+cycle path is segregated if it alreay has a sidewalk (#2644)</li>
+  <li>Ask for opening hours and wheelchair eligibility for consulates and other diplomatic offices (#2645)</li>
+  </ul>
+
 v31.0: |
   <h3>🤝 Team mode!</h3>
   <p>(#2189, #2557) by @FloEdelmann</p>
