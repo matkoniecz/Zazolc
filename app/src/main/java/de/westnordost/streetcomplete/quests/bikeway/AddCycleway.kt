@@ -56,13 +56,11 @@ class AddCycleway : OsmElementQuestType<CyclewayAnswer> {
 
     override val isSplitWayEnabled = true
 
-    override fun getTitle(tags: Map<String, String>) : Int {
-        val sides = createCyclewaySides(tags, false)
-        return if (sides != null)
+    override fun getTitle(tags: Map<String, String>) : Int =
+        if (createCyclewaySides(tags, false) != null)
             R.string.quest_cycleway_resurvey_title
         else
             R.string.quest_cycleway_title2
-    }
 
     override fun getApplicableElements(mapData: MapDataWithGeometry): Iterable<Element> {
         val eligibleRoads = mapData.ways.filter { roadsFilter.matches(it) }
@@ -161,18 +159,11 @@ class AddCycleway : OsmElementQuestType<CyclewayAnswer> {
     private fun applySidewalkAnswerTo(
         cyclewayLeft: Cycleway?, cyclewayRight: Cycleway?, changes: StringMapChangesBuilder ) {
 
-        val hasSidewalkLeft = cyclewayLeft != null && cyclewayLeft.isOnSidewalk
-        val hasSidewalkRight = cyclewayRight != null && cyclewayRight.isOnSidewalk
-
-        val side = when {
-            hasSidewalkLeft && hasSidewalkRight -> Side.BOTH
-            hasSidewalkLeft -> Side.LEFT
-            hasSidewalkRight -> Side.RIGHT
-            else -> null
-        }
-
-        if (side != null) {
-            changes.addOrModify("sidewalk", side.value)
+        /* only tag if we know the sidewalk value for both sides (because it is not possible in
+           OSM to specify the sidewalk value only for one side. sidewalk:right/left=yes is not
+           well established. */
+        if (cyclewayLeft?.isOnSidewalk == true && cyclewayRight?.isOnSidewalk == true) {
+            changes.addOrModify("sidewalk", "both")
         }
     }
 

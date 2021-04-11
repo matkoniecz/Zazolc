@@ -80,6 +80,7 @@ import de.westnordost.streetcomplete.quests.place_name.AddPlaceName
 import de.westnordost.streetcomplete.quests.playground_access.AddPlaygroundAccess
 import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxCollectionTimes
 import de.westnordost.streetcomplete.quests.postbox_ref.AddPostboxRef
+import de.westnordost.streetcomplete.quests.postbox_royal_cypher.AddPostboxRoyalCypher
 import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial
 import de.westnordost.streetcomplete.quests.railway_crossing.AddRailwayCrossingBarrier
 import de.westnordost.streetcomplete.quests.summit_register.AddSummitRegister
@@ -285,8 +286,10 @@ import javax.inject.Singleton
         AddSummitRegister(), // only in some countries
         AddBenchStatusOnBusStop(),
         AddStepsIncline(), // can be gathered while walking perpendicular to the way e.g. the other side of the road or when running/cycling past
-        AddStepCount(), // can only be gathered when walking along this way, also needs the most effort and least useful
-        AddBusStopRef() // not in Poland
+        //AddStepCount(), // dropped in the fork
+        //AddBenchBackrest(), // dropped in the fork
+        AddBusStopRef(), // not in Poland
+        AddPostboxRoyalCypher() // not in Poland
     ))
 
     @Provides @Singleton fun osmNoteQuestType(): OsmNoteQuestType = OsmNoteQuestType()
