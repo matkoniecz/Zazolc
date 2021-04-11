@@ -378,8 +378,12 @@
     <string name="quest_dietType_vegetarian_name_title">"Чи має «%s» вегетаріанські страви в меню?"</string>
     <string name="quest_dietType_vegan_name_title">"Чи має «%s» веганські страви в меню?"</string>
     <string name="quest_hasFeature_only">"Лише"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_dietType_explanation_vegan">"Веганські страви не містять продуктів тваринного походження (без м'яса, молочних продуктів, яєць і т. д.)"</string>
     <string name="quest_dietType_explanation_vegetarian">"Вегетаріанські страви не містять м'яса, риби та птиці."</string>
+
+    <!-- Fuzzy -->
     <string name="quest_dietType_explanation">"Відповідайте «так», тільки якщо місце надає належні варіанти харчування для цієї дієти. Ігноруйте закуски і т. п."</string>
     <string name="quest_carWashType_title">"Якого типу ця автомийка?"</string>
     <string name="quest_carWashType_automated">"Автоматична"</string>
@@ -489,7 +493,6 @@
     <string name="quest_buildingType_residential">"Жила оселя"</string>
     <string name="quest_buildingType_residential_description">"дім, в якому живуть люди"</string>
     <string name="quest_buildingType_house">"Дім"</string>
-    <string name="quest_buildingType_house_description">"single-family home"</string>
     <string name="quest_buildingType_apartments_description">"будинок для декількох сімей, може мати роздрібні торговельні точки на першому поверсі"</string>
     <string name="quest_buildingType_apartments">"Житловий будинок"</string>
     <string name="quest_buildingType_detached">"Особняк"</string>

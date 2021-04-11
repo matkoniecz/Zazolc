@@ -35,8 +35,8 @@ android {
         applicationId = "de.westnordost.streetcomplete"
         minSdkVersion(17)
         targetSdkVersion(30)
-        versionCode = 2902
-        versionName = "29.1"
+        versionCode = 3002
+        versionName = "30.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -122,7 +122,7 @@ dependencies {
     implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.0.0")
 
     // photos
-    implementation("androidx.exifinterface:exifinterface:1.3.1")
+    implementation("androidx.exifinterface:exifinterface:1.3.2")
 
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
@@ -159,18 +159,18 @@ dependencies {
     implementation("org.objenesis:objenesis:2.6")
 
     // map and location
-    implementation("com.mapzen.tangram:tangram:0.13.0")
+    implementation("com.mapzen.tangram:tangram:0.14.1")
 
     // config files
     implementation("com.esotericsoftware.yamlbeans:yamlbeans:1.15")
 
     // opening hours parser
-    implementation("ch.poole:OpeningHoursParser:0.22.1")
+    implementation("ch.poole:OpeningHoursParser:0.23.0")
 }
 
 /** Localizations that should be pulled from POEditor etc. */
 val bcp47ExportLanguages = setOf(
-    "ast","ca","cs","da","de","el","en","en-AU","en-GB","es","eu","fa","fi","fr","gl","hr","hu",
+    "ast","bg","ca","cs","da","de","el","en","en-AU","en-GB","es","eu","fa","fi","fr","gl","hr","hu",
     "id","it", "ja","ko","lt","ml","nb","no","nl","nn","pl","pt","pt-BR","ru","sk","sr-cyrl","sv","tr",
     "uk","zh","zh-CN","zh-HK","zh-TW"
 )

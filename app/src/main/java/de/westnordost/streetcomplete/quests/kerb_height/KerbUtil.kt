@@ -4,6 +4,8 @@ import de.westnordost.osmapi.map.MapData
 import de.westnordost.osmapi.map.data.Node
 import de.westnordost.osmapi.map.data.Way
 import de.westnordost.streetcomplete.data.elementfilter.toElementFilterExpression
+import de.westnordost.streetcomplete.data.meta.ALL_PATHS
+import de.westnordost.streetcomplete.data.meta.ALL_ROADS
 import de.westnordost.streetcomplete.ktx.firstAndLast
 
 private val footwaysFilter by lazy {"""
@@ -11,11 +13,12 @@ private val footwaysFilter by lazy {"""
         highway ~ footway|path
         or highway = cycleway and foot ~ yes|designated
       )
+      and area != yes
       and access !~ private|no and foot !~ no
 """.toElementFilterExpression() }
 
 private val waysFilter by lazy {"""
-    ways with highway ~ footway|path|cycleway or construction ~ footway|path|cycleway
+    ways with highway ~ ${(ALL_ROADS + ALL_PATHS).joinToString("|")} or construction ~ ${(ALL_ROADS + ALL_PATHS).joinToString("|")}
 """.toElementFilterExpression() }
 
 fun MapData.findAllKerbNodes(): Iterable<Node> {

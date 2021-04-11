@@ -8,11 +8,11 @@ import de.westnordost.streetcomplete.data.meta.CountryInfos
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquest.OsmElementQuestType
 
-class AddRoofShape(private val countryInfos: CountryInfos) : OsmElementQuestType<String> {
+class AddRoofShape(private val countryInfos: CountryInfos) : OsmElementQuestType<RoofShape> {
 
     private val filter by lazy { """
-        ways, relations with
-          roof:levels and !roof:shape and !3dr:type and !3dr:roof
+        ways, relations with (building:levels or roof:levels)
+          and !roof:shape and !3dr:type and !3dr:roof
     """.toElementFilterExpression() }
 
     override val commitMessage = "Add roof shapes"
@@ -23,8 +23,8 @@ class AddRoofShape(private val countryInfos: CountryInfos) : OsmElementQuestType
 
     override fun createForm() = AddRoofShapeForm()
 
-    override fun applyAnswerTo(answer: String, changes: StringMapChangesBuilder) {
-        changes.add("roof:shape", answer)
+    override fun applyAnswerTo(answer: RoofShape, changes: StringMapChangesBuilder) {
+        changes.add("roof:shape", answer.osmValue)
     }
 
     override val defaultDisabledMessage = R.string.default_disabled_msg_boring
@@ -32,16 +32,17 @@ class AddRoofShape(private val countryInfos: CountryInfos) : OsmElementQuestType
     override fun getApplicableElements(mapData: MapDataWithGeometry) =
         mapData.filter {
             filter.matches(it) && (
-                it.tags?.get("roof:levels") != "0" ||
-                roofsAreUsuallyFlatAt(it, mapData) == false
+                it.tags?.get("roof:levels") ?: "0" != "0"
+                || roofsAreUsuallyFlatAt(it, mapData) == false
             )
         }
 
     override fun isApplicableTo(element: Element): Boolean? {
         if (!filter.matches(element)) return false
-        // if it has 0 roof levels, the quest should only be shown in certain countries. But whether
+        // if it has 0 roof levels, or the roof levels aren't specified,
+        // the quest should only be shown in certain countries. But whether
         // the element is in a certain country cannot be ascertained at this point
-        if (element.tags?.get("roof:levels") == "0") return null
+        if (element.tags?.get("roof:levels") ?: "0" == "0") return null
         return true
     }
 
