@@ -42,7 +42,18 @@ class CheckExistence(
             or tourism = information and information ~ board|terminal|map
             or advertising ~ column|board|poster_box
             or traffic_calming ~ bump|hump|island|cushion|choker|rumble_strip|chicane|dip
-            or traffic_calming = table and !highway and !crossing
+            or traffic_calming = table and !highway and !crossing""" +
+            //following is a fork only test group
+            """
+            or office
+            or amenity=toilets
+            or amenity=hunting_stand
+            or amenity=bicycle_repair_station
+            or amenity=car_sharing
+            or amenity=bicycle_rental
+            or amenity=taxi""" +
+            //above is a fork only test group
+            """
           )
           and (${lastChecked(4.0)})
         )) and access !~ no|private
