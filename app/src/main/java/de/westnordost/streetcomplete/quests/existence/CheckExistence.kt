@@ -32,8 +32,6 @@ class CheckExistence(
         ) or (
           (
             amenity = clock
-            or amenity = bench
-            or amenity = waste_basket
             or amenity = post_box
             or amenity = grit_bin
             or leisure = picnic_table
@@ -53,11 +51,14 @@ class CheckExistence(
             or amenity=car_sharing
             or amenity=bicycle_rental
             or amenity=taxi
-
-
-
           )
           and (${lastChecked(4.0)})
+        ) or (
+          (
+            amenity = bench
+            or amenity = waste_basket
+        )
+          and (${lastChecked(6.0)})
         )) and access !~ no|private
     """.toElementFilterExpression()
     }
