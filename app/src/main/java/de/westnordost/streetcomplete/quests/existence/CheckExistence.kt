@@ -51,13 +51,22 @@ class CheckExistence(
             or amenity=car_sharing
             or amenity=bicycle_rental
             or amenity=taxi
+            or man_made=flagpole
+            or emergency=life_ring
+            or amenity=bbq
+            or (emergency=defibrillator and location=outdoor)
           )
           and (${lastChecked(4.0)})
         ) or (
           (
             amenity = bench
             or amenity = waste_basket
-        )
+          )
+          and (${lastChecked(6.0)})
+        ) or (
+          (
+            emergency = phone
+          )
           and (${lastChecked(6.0)})
         )) and access !~ no|private
     """.toElementFilterExpression()
