@@ -92,6 +92,7 @@ import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine
 import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation
 import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry
+import de.westnordost.streetcomplete.quests.service_times.AddReligiousServiceTimes
 import de.westnordost.streetcomplete.quests.shop_type.CheckShopType
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk
 import de.westnordost.streetcomplete.quests.sport.AddSport
@@ -261,7 +262,7 @@ import javax.inject.Singleton
         AddTrafficSignalsVibration(),
 
         // boring/lame/etc
-
+        AddReligiousServiceTimes(), // testing
         DeprecateFIXME(), // my own validator quest
         AddMaxSpeed(), //moved to boring
         AddRailwayCrossingBarrier(), //moved to boring
