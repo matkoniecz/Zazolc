@@ -6,7 +6,6 @@ import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
 import de.westnordost.streetcomplete.data.elementfilter.toElementFilterExpression
 import de.westnordost.streetcomplete.data.osm.changes.StringMapChangesBuilder
-import de.westnordost.streetcomplete.data.quest.NoCountriesExcept
 import de.westnordost.streetcomplete.data.osm.osmquest.OsmElementQuestType
 import de.westnordost.streetcomplete.ktx.toYesNo
 
@@ -20,8 +19,9 @@ class AddTactilePavingCrosswalk : OsmElementQuestType<Boolean> {
           )
           and (
             !tactile_paving
+            or tactile_paving = unknown
             or tactile_paving = no and tactile_paving older today -4 years
-            or older today -8 years
+            or tactile_paving = yes and tactile_paving older today -8 years
           )
     """.toElementFilterExpression() }
 

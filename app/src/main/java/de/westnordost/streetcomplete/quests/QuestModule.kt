@@ -62,6 +62,7 @@ import de.westnordost.streetcomplete.quests.oneway_suspects.data.TrafficFlowSegm
 import de.westnordost.streetcomplete.quests.oneway_suspects.data.WayTrafficFlowDao
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours
 import de.westnordost.streetcomplete.quests.atm_operator.AddAtmOperator
+import de.westnordost.streetcomplete.quests.barrier_type.AddBarrierType
 import de.westnordost.streetcomplete.quests.charging_station_capacity.AddChargingStationCapacity
 import de.westnordost.streetcomplete.quests.charging_station_operator.AddChargingStationOperator
 import de.westnordost.streetcomplete.quests.clothing_bin_operator.AddClothingBinOperator
@@ -76,6 +77,7 @@ import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess
 import de.westnordost.streetcomplete.quests.parking_fee.AddBikeParkingFee
 import de.westnordost.streetcomplete.quests.parking_fee.AddParkingFee
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType
+import de.westnordost.streetcomplete.quests.pitch_lit.AddPitchLit
 import de.westnordost.streetcomplete.quests.place_name.AddPlaceName
 import de.westnordost.streetcomplete.quests.playground_access.AddPlaygroundAccess
 import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxCollectionTimes
@@ -94,6 +96,7 @@ import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation
 import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry
 import de.westnordost.streetcomplete.quests.service_times.AddReligiousServiceTimes
 import de.westnordost.streetcomplete.quests.shop_type.CheckShopType
+import de.westnordost.streetcomplete.quests.shop_type.SpecifyShopType
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk
 import de.westnordost.streetcomplete.quests.sport.AddSport
 import de.westnordost.streetcomplete.quests.steps_incline.AddStepsIncline
@@ -146,10 +149,12 @@ import javax.inject.Singleton
         //AddPostboxCollectionTimes(),
         CheckExistence(featureDictionaryFuture),
         AddSuspectedOneway(trafficFlowSegmentsApi, trafficFlowDao),
+        AddBarrierType(), // basically any more detailed rendering and routing: OSM Carto, mapy.cz, OSMand for start
         AddBusStopName(),
         AddIsBuildingUnderground(), //to avoid asking AddHousenumber and other for underground buildings
         AddHousenumber(),
         AddAddressStreet(roadNameSuggestionsDao),
+        SpecifyShopType(),
         CheckShopType(),
         MarkCompletedHighwayConstruction(),
         AddReligionToPlaceOfWorship(), // icons on maps are different - OSM Carto, mapy.cz, OsmAnd, Sputnik etc
@@ -179,7 +184,7 @@ import javax.inject.Singleton
         //AddOrchardProduce(), //moved to boring
         AddBuildingType(),
         //AddCycleway(), //moved to boring
-        AddSidewalk(), // SLOW QUERY
+        AddSidewalk(),
         AddProhibitedForPedestrians(), // uses info from AddSidewalk quest, should be after it
         AddCrossingType(),
         //AddBuildingLevels(), removed as waste of time
@@ -244,6 +249,7 @@ import javax.inject.Singleton
         // ↓ 8. defined in the wiki, but not really used by anyone yet. Just collected for
         //      the sake of mapping it in case it makes sense later
         AddPitchSurface(),
+        AddPitchLit(),
         AddIsDefibrillatorIndoor(),
         AddCyclewayPartSurface(),
         AddFootwayPartSurface(),
