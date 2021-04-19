@@ -27,6 +27,7 @@ class AddReligiousServiceTimes : OsmFilterQuestType<Boolean>() {
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
         if(!answer){
             changes.add("service_times:signed", answer.toYesNo())
+            changes.add("service_times:mass:signed", answer.toYesNo())
         }
     }
 }
