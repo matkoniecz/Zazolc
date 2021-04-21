@@ -25,7 +25,8 @@ class AddHousenumberForm : AbstractQuestFormAnswerFragment<HousenumberAnswer>() 
     override val otherAnswers = listOf(
         OtherAnswer(R.string.quest_address_answer_no_housenumber) { onNoHouseNumber() },
         OtherAnswer(R.string.quest_address_answer_house_name) { switchToHouseName() },
-        OtherAnswer(R.string.quest_housenumber_multiple_numbers) { showMultipleNumbersHint() }
+        OtherAnswer(R.string.quest_housenumber_multiple_numbers) { showMultipleNumbersHint() },
+        OtherAnswer(R.string.quest_buildingType_answer_construction_site) { onBuildingConstruction() }
     )
 
     private var houseNumberInput: EditText? = null
@@ -108,6 +109,12 @@ class AddHousenumberForm : AbstractQuestFormAnswerFragment<HousenumberAnswer>() 
             .setNegativeButton(R.string.quest_generic_hasFeature_no_leave_note) { _, _ -> composeNote() }
             .show()
     }
+
+    private fun onBuildingConstruction() {
+        val buildingValue = osmElement!!.tags["building"]!!
+        applyAnswer(StillBeingConstructed(buildingValue))
+    }
+
 
     /* -------------------------- Set (different) housenumber layout  --------------------------- */
 

@@ -129,6 +129,10 @@ class AddHousenumber :  OsmElementQuestType<HousenumberAnswer> {
 
     override fun applyAnswerTo(answer: HousenumberAnswer, changes: StringMapChangesBuilder) {
         when(answer) {
+            is StillBeingConstructed -> {
+                changes.modify("building", "construction")
+                changes.addOrModify("construction", answer.currentBuildingValue)
+            }
             is NoHouseNumber -> changes.add("nohousenumber", "yes")
             is HouseNumber   -> changes.add("addr:housenumber", answer.number)
             is HouseName     -> changes.add("addr:housename", answer.name)
