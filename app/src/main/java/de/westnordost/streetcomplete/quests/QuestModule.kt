@@ -130,6 +130,7 @@ import javax.inject.Singleton
         ShowFixme(), // my quest
         ShowAddressInterpolation(), // my quest
         AddWayLit(), //frequent enable/disable cycle (enable for night) - moved
+        AddPitchLit(), //frequent enable/disable cycle (enable for night) - moved
         //--modified
 
         //kept--
@@ -247,7 +248,7 @@ import javax.inject.Singleton
         // ↓ 8. defined in the wiki, but not really used by anyone yet. Just collected for
         //      the sake of mapping it in case it makes sense later
         AddPitchSurface(),
-        AddPitchLit(),
+        //AddPitchLit(), move to easily disabled
         AddIsDefibrillatorIndoor(),
         AddCyclewayPartSurface(),
         AddFootwayPartSurface(),
