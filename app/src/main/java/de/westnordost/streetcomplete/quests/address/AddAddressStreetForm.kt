@@ -12,6 +12,7 @@ import de.westnordost.streetcomplete.Injector
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.AbbreviationsByLocale
 import de.westnordost.streetcomplete.data.osm.mapdata.LatLon
+import de.westnordost.streetcomplete.ktx.showKeyboard
 import de.westnordost.streetcomplete.quests.AbstractQuestFormAnswerFragment
 import de.westnordost.streetcomplete.quests.OtherAnswer
 import de.westnordost.streetcomplete.quests.road_name.RoadNameSuggestionsSource
@@ -142,6 +143,8 @@ class AddAddressStreetForm : AbstractQuestFormAnswerFragment<AddressStreetAnswer
     private fun switchToPlaceNameLayout() {
         isPlaceName = true
         setLayout(R.layout.quest_housenumber_place)
+        placeNameInput!!.requestFocus()
+        placeNameInput!!.showKeyboard()
     }
 
     companion object {
