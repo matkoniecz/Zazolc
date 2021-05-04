@@ -8,6 +8,7 @@ import de.westnordost.streetcomplete.data.meta.toCheckDateString
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
+import java.time.LocalDate
 import java.util.*
 
 class MarkCompletedConstructionMinorOrGeneric() : OsmFilterQuestType<Boolean>() {
@@ -42,7 +43,7 @@ class MarkCompletedConstructionMinorOrGeneric() : OsmFilterQuestType<Boolean>() 
         if (answer) {
             deleteTagsDescribingConstruction(changes) //includes deletion of construction=yes/minor
         } else {
-            changes.addOrModify(SURVEY_MARK_KEY, Date().toCheckDateString())
+            changes.addOrModify(SURVEY_MARK_KEY, LocalDate.now().toCheckDateString())
         }
     }
 }

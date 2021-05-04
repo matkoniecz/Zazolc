@@ -23,6 +23,7 @@ import de.westnordost.streetcomplete.data.visiblequests.QuestTypeOrderList
 import de.westnordost.streetcomplete.data.visiblequests.VisibleQuestTypeController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /** Shows a screen in which the user can enable and disable quests as well as re-order them */
 class QuestSelectionFragment
@@ -33,11 +34,11 @@ class QuestSelectionFragment
     @Inject internal lateinit var visibleQuestTypeController: VisibleQuestTypeController
     @Inject internal lateinit var questTypeOrderList: QuestTypeOrderList
 
-    override val title: String get() = getString(R.string.pref_title_quests)
+    override val title: String get() = getString(R.string.pref_title_quests2)
 
     init {
         Injector.applicationComponent.inject(this)
-        questSelectionAdapter.list = createQuestTypeVisibilityList()
+        initQuestSelectionAdapter()
         questSelectionAdapter.listener = this
     }
 
@@ -92,15 +93,19 @@ class QuestSelectionFragment
         lifecycleScope.launch(Dispatchers.IO) {
             questTypeOrderList.clear()
             visibleQuestTypeController.clear()
-            questSelectionAdapter.list = createQuestTypeVisibilityList()
+            withContext(Dispatchers.Main) { initQuestSelectionAdapter() }
         }
     }
 
     private fun onDeselectAll() {
         lifecycleScope.launch(Dispatchers.IO) {
             visibleQuestTypeController.setAllVisible(questTypeRegistry.all.filter { it !is OsmNoteQuestType }, false)
-            questSelectionAdapter.list = createQuestTypeVisibilityList()
+            withContext(Dispatchers.Main) { initQuestSelectionAdapter() }
         }
+    }
+
+    private fun initQuestSelectionAdapter() {
+        questSelectionAdapter.list = createQuestTypeVisibilityList()
     }
 
     private fun createQuestTypeVisibilityList(): MutableList<QuestVisibility> {

@@ -30,7 +30,6 @@ import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import de.westnordost.osmapi.map.data.*
 import de.westnordost.streetcomplete.*
 import de.westnordost.streetcomplete.controls.MainMenuButtonFragment
 import de.westnordost.streetcomplete.controls.UndoButtonFragment
@@ -39,6 +38,9 @@ import de.westnordost.streetcomplete.data.edithistory.EditKey
 import de.westnordost.streetcomplete.data.osm.edits.split_way.SplitPolylineAtPosition
 import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.geometry.ElementPolylinesGeometry
+import de.westnordost.streetcomplete.data.osm.mapdata.BoundingBox
+import de.westnordost.streetcomplete.data.osm.mapdata.LatLon
+import de.westnordost.streetcomplete.data.osm.mapdata.Way
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmQuest
 import de.westnordost.streetcomplete.data.quest.*
 import de.westnordost.streetcomplete.edithistory.EditHistoryFragment
@@ -55,12 +57,12 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 /** Contains the quests map and the controls for it. */
 class MainFragment : Fragment(R.layout.fragment_main),
@@ -82,8 +84,6 @@ class MainFragment : Fragment(R.layout.fragment_main),
     @Inject internal lateinit var visibleQuestsSource: VisibleQuestsSource
     @Inject internal lateinit var soundFx: SoundFx
     @Inject internal lateinit var prefs: SharedPreferences
-
-    private val random = Random()
 
     private lateinit var locationManager: FineLocationManager
 
@@ -367,6 +367,7 @@ class MainFragment : Fragment(R.layout.fragment_main),
             val geometry = quest.geometry
             if (element is Way && geometry is ElementPolylinesGeometry) {
                 mapFragment?.pinMode = QuestsMapFragment.PinMode.NONE
+                mapFragment?.highlightElement(geometry)
                 showInBottomSheet(SplitWayFragment.create(osmQuestKey, element, geometry))
             }
         }
@@ -695,7 +696,7 @@ class MainFragment : Fragment(R.layout.fragment_main),
             locationPointerPin.visibility = View.GONE
             return
         }
-        val displayedPosition = OsmLatLon(location.latitude, location.longitude)
+        val displayedPosition = LatLon(location.latitude, location.longitude)
 
         var target = mapFragment.getClippedPointOf(displayedPosition) ?: return
         windowInsets?.let {
@@ -731,7 +732,7 @@ class MainFragment : Fragment(R.layout.fragment_main),
     private fun showEditHistorySidebar() {
         val appearAnim = R.animator.edit_history_sidebar_appear
         val disappearAnim = R.animator.edit_history_sidebar_disappear
-        childFragmentManager.commit {
+        childFragmentManager.commit(true) {
             setCustomAnimations(appearAnim, disappearAnim, appearAnim, disappearAnim)
             replace(R.id.edit_history_container, EditHistoryFragment(), EDIT_HISTORY)
             addToBackStack(EDIT_HISTORY)
@@ -740,7 +741,9 @@ class MainFragment : Fragment(R.layout.fragment_main),
     }
 
     private fun closeEditHistorySidebar() {
-        childFragmentManager.popBackStack(EDIT_HISTORY, POP_BACK_STACK_INCLUSIVE)
+        if (editHistoryFragment != null) {
+            childFragmentManager.popBackStack(EDIT_HISTORY, POP_BACK_STACK_INCLUSIVE)
+        }
         mapFragment?.pinMode = QuestsMapFragment.PinMode.QUESTS
     }
 
@@ -750,7 +753,9 @@ class MainFragment : Fragment(R.layout.fragment_main),
 
     @UiThread private fun closeBottomSheet() {
         activity?.currentFocus?.hideKeyboard()
-        childFragmentManager.popBackStackImmediate(BOTTOM_SHEET, POP_BACK_STACK_INCLUSIVE)
+        if (bottomSheetFragment != null) {
+            childFragmentManager.popBackStack(BOTTOM_SHEET, POP_BACK_STACK_INCLUSIVE)
+        }
         unfreezeMap()
     }
 
@@ -766,7 +771,9 @@ class MainFragment : Fragment(R.layout.fragment_main),
         if (isQuestDetailsCurrentlyDisplayedFor(quest.key)) return
         if (bottomSheetFragment != null) {
             activity?.currentFocus?.hideKeyboard()
-            childFragmentManager.popBackStackImmediate(BOTTOM_SHEET, POP_BACK_STACK_INCLUSIVE)
+            if (bottomSheetFragment != null) {
+                childFragmentManager.popBackStack(BOTTOM_SHEET, POP_BACK_STACK_INCLUSIVE)
+            }
             resetFreezeMap()
             mapFragment.startFocusQuest(quest, mapOffsetWithOpenBottomSheet)
         } else {
@@ -792,7 +799,7 @@ class MainFragment : Fragment(R.layout.fragment_main),
     private fun showInBottomSheet(f: Fragment) {
         val appearAnim = if (bottomSheetFragment == null) R.animator.quest_answer_form_appear else 0
         val disappearAnim = R.animator.quest_answer_form_disappear
-        childFragmentManager.commit {
+        childFragmentManager.commit(true) {
             setCustomAnimations(appearAnim, disappearAnim, appearAnim, disappearAnim)
             replace(R.id.map_bottom_sheet_container, f, BOTTOM_SHEET)
             addToBackStack(BOTTOM_SHEET)
@@ -859,7 +866,7 @@ class MainFragment : Fragment(R.layout.fragment_main),
         val view = view ?: return
 
         lifecycleScope.launch {
-            soundFx.play(resources.getIdentifier("plop" + random.nextInt(4), "raw", ctx.packageName))
+            soundFx.play(resources.getIdentifier("plop" + Random.nextInt(4), "raw", ctx.packageName))
         }
 
         val root = activity.window.decorView as ViewGroup

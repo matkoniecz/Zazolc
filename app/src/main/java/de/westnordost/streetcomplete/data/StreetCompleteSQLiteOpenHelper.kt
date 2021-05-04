@@ -32,22 +32,32 @@ import de.westnordost.streetcomplete.quests.oneway_suspects.data.WayTrafficFlowT
     override fun onCreate(db: SQLiteDatabase) {
         // OSM notes
         db.execSQL(NoteTable.CREATE)
+        db.execSQL(NoteTable.SPATIAL_INDEX_CREATE)
 
         // changes made on OSM notes
         db.execSQL(NoteEditsTable.CREATE)
+        db.execSQL(NoteEditsTable.SPATIAL_INDEX_CREATE)
+        db.execSQL(NoteEditsTable.NOTE_ID_INDEX_CREATE)
 
         // OSM map data
         db.execSQL(ElementGeometryTable.CREATE)
+        db.execSQL(ElementGeometryTable.SPATIAL_INDEX_CREATE)
+
         db.execSQL(NodeTable.CREATE)
+
         db.execSQL(WayTables.CREATE)
         db.execSQL(WayTables.NODES_CREATE)
         db.execSQL(WayTables.NODES_INDEX_CREATE)
+        db.execSQL(WayTables.WAYS_BY_NODE_ID_INDEX_CREATE)
+
         db.execSQL(RelationTables.CREATE)
         db.execSQL(RelationTables.MEMBERS_CREATE)
         db.execSQL(RelationTables.MEMBERS_INDEX_CREATE)
+        db.execSQL(RelationTables.MEMBERS_BY_ELEMENT_INDEX_CREATE)
 
         // changes made on OSM map data
         db.execSQL(ElementEditsTable.CREATE)
+        db.execSQL(ElementEditsTable.ELEMENT_INDEX_CREATE)
         db.execSQL(ElementIdProviderTable.CREATE)
         db.execSQL(ElementIdProviderTable.INDEX_CREATE)
 
@@ -56,6 +66,7 @@ import de.westnordost.streetcomplete.quests.oneway_suspects.data.WayTrafficFlowT
 
         // quests based on OSM elements
         db.execSQL(OsmQuestTable.CREATE)
+        db.execSQL(OsmQuestTable.SPATIAL_INDEX_CREATE)
         db.execSQL(OsmQuestsHiddenTable.CREATE)
 
         // quests based on OSM notes

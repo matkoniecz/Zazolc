@@ -24,9 +24,24 @@ class KerbUtilTest {
         assertEquals(1, mapData.findAllKerbNodes().toList().size)
     }
 
+    @Test fun `barrier=kerb nodes that are also something else don't count`() {
+        val kerb = node(id = 2, tags = mapOf(
+            "barrier" to "kerb",
+            "highway" to "crossing"
+        ))
+        val mapData = TestMapDataWithGeometry(listOf(
+            kerb,
+            way(1, listOf(1,2,3), mapOf(
+                "highway" to "footway"
+            ))
+        ))
+        assertEquals(0, mapData.findAllKerbNodes().toList().size)
+        assertFalse(kerb.couldBeAKerb())
+    }
+
     @Test fun `shared nodes between barrier=kerb ways and footways count`() {
         val mapData = TestMapDataWithGeometry(listOf(
-            node(id = 2, tags = null),
+            node(id = 2),
             way(1, listOf(1,2,3), mapOf(
                 "highway" to "footway"
             )),
@@ -39,7 +54,7 @@ class KerbUtilTest {
 
     @Test fun `shared endpoints between sidewalks and crossings count`() {
         val mapData = TestMapDataWithGeometry(listOf(
-            node(id = 1, tags = null),
+            node(id = 1),
             way(1, listOf(1,2), mapOf(
                 "highway" to "footway",
                 "footway" to "sidewalk"
@@ -54,7 +69,7 @@ class KerbUtilTest {
 
     @Test fun `shared endpoints between sidewalks and crossings and sidewalk without endpoint don't count`() {
         val mapData = TestMapDataWithGeometry(listOf(
-            node(id = 1, tags = null),
+            node(id = 1),
             way(1, listOf(1,2), mapOf(
                 "highway" to "footway",
                 "footway" to "sidewalk"
@@ -72,7 +87,7 @@ class KerbUtilTest {
 
     @Test fun `shared endpoints between two crossings don't count`() {
         val mapData = TestMapDataWithGeometry(listOf(
-            node(id = 1, tags = null),
+            node(id = 1),
             way(1, listOf(1,2), mapOf(
                 "highway" to "footway",
                 "footway" to "crossing"
@@ -87,7 +102,7 @@ class KerbUtilTest {
 
     @Test fun `shared endpoints between a crossing and not-endpoints of a sidewalk don't count`() {
         val mapData = TestMapDataWithGeometry(listOf(
-            node(id = 1, tags = null),
+            node(id = 1),
             way(1, listOf(1,2), mapOf(
                 "highway" to "footway",
                 "footway" to "crossing"
@@ -102,7 +117,7 @@ class KerbUtilTest {
 
     @Test fun `shared endpoints between crossings and several sidewalks don't count`() {
         val mapData = TestMapDataWithGeometry(listOf(
-            node(id = 1, tags = null),
+            node(id = 1),
             way(1, listOf(1,2), mapOf(
                 "highway" to "footway",
                 "footway" to "sidewalk"
@@ -140,7 +155,7 @@ class KerbUtilTest {
 
     @Test fun `shared endpoints between crossings and sidewalks, some not fully tagged, don't count`() {
         val mapData = TestMapDataWithGeometry(listOf(
-            node(tags = null),
+            node(),
             way(1L, listOf(1,2), mapOf(
                 "highway" to "footway",
                 "footway" to "sidewalk"
@@ -158,7 +173,7 @@ class KerbUtilTest {
 
     @Test fun `shared endpoints between crossings and sidewalk and cycleway don't count`() {
         val mapData = TestMapDataWithGeometry(listOf(
-            node(id = 1, tags = null),
+            node(id = 1),
             way(1, listOf(1,2), mapOf(
                 "highway" to "footway",
                 "footway" to "crossing"
@@ -176,7 +191,7 @@ class KerbUtilTest {
 
     @Test fun `shared endpoints between crossings and sidewalk and footway construction don't count`() {
         val mapData = TestMapDataWithGeometry(listOf(
-            node(id = 1, tags = null),
+            node(id = 1),
             way(1, listOf(1,2), mapOf(
                 "highway" to "footway",
                 "footway" to "crossing"
@@ -194,7 +209,7 @@ class KerbUtilTest {
 
     @Test fun `intersection with a road doesn't count`() {
         val mapData = TestMapDataWithGeometry(listOf(
-            node(id = 1, tags = null),
+            node(id = 1),
             way(1, listOf(1,2), mapOf(
                 "highway" to "footway",
                 "footway" to "crossing"

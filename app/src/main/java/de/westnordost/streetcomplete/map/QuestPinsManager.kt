@@ -5,7 +5,7 @@ import android.graphics.RectF
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import de.westnordost.osmapi.map.data.Element
+import de.westnordost.streetcomplete.data.osm.mapdata.ElementType
 import de.westnordost.streetcomplete.data.quest.*
 import de.westnordost.streetcomplete.data.visiblequests.QuestTypeOrderList
 import de.westnordost.streetcomplete.map.components.Pin
@@ -122,10 +122,11 @@ class QuestPinsManager(
         val bbox = minRect.asBoundingBox(TILES_ZOOM)
         lifecycleScope.launch {
             val quests = withContext(Dispatchers.IO) { visibleQuestsSource.getAllVisible(bbox) }
+            var addedAny = false
             for (quest in quests) {
-                add(quest)
+                if (add(quest)) addedAny = true
             }
-            updatePins()
+            if (addedAny) updatePins()
         }
         synchronized(retrievedTiles) { retrievedTiles.addAll(tiles) }
     }
@@ -225,7 +226,7 @@ private fun Map<String, String>.toQuestKey(): QuestKey? = when(get(MARKER_QUEST_
         OsmNoteQuestKey(getValue(MARKER_NOTE_ID).toLong())
     QUEST_GROUP_OSM ->
         OsmQuestKey(
-            getValue(MARKER_ELEMENT_TYPE).let { Element.Type.valueOf(it) },
+            getValue(MARKER_ELEMENT_TYPE).let { ElementType.valueOf(it) },
             getValue(MARKER_ELEMENT_ID).toLong(),
             getValue(MARKER_QUEST_TYPE)
         )

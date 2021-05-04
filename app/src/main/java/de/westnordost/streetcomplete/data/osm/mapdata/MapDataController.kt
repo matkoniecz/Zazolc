@@ -1,8 +1,6 @@
 package de.westnordost.streetcomplete.data.osm.mapdata
 
 import android.util.Log
-import de.westnordost.osmapi.map.*
-import de.westnordost.osmapi.map.data.*
 import de.westnordost.streetcomplete.data.osm.geometry.*
 import de.westnordost.streetcomplete.ktx.format
 import java.lang.System.currentTimeMillis
@@ -67,8 +65,8 @@ import javax.inject.Singleton
         onUpdateForBBox(bbox, mapDataWithGeometry)
     }
 
-    @Synchronized fun updateAll(elementUpdates: ElementUpdates) {
-        val elements = elementUpdates.updated
+    @Synchronized fun updateAll(mapDataUpdates: MapDataUpdates) {
+        val elements = mapDataUpdates.updated
         // need mapData in order to create (updated) geometry
         val mapData = MutableMapData(elements)
         completeMapData(mapData)
@@ -78,8 +76,8 @@ import javax.inject.Singleton
             geometry?.let { ElementGeometryEntry(element.type, element.id, geometry) }
         }
 
-        val oldElementKeys = elementUpdates.idUpdates.map { ElementKey(it.elementType, it.oldElementId) }
-        val deleted = elementUpdates.deleted + oldElementKeys
+        val oldElementKeys = mapDataUpdates.idUpdates.map { ElementKey(it.elementType, it.oldElementId) }
+        val deleted = mapDataUpdates.deleted + oldElementKeys
 
         val mapDataWithGeom = MutableMapDataWithGeometry(mapData, elementGeometryEntries)
 
@@ -96,16 +94,19 @@ import javax.inject.Singleton
         val missingWayIds = mutableListOf<Long>()
         for (relation in mapData.relations) {
             for (member in relation.members) {
-                if (member.type == Element.Type.NODE && mapData.getNode(member.ref) == null) {
+                if (member.type == ElementType.NODE && mapData.getNode(member.ref) == null) {
                     missingNodeIds.add(member.ref)
                 }
-                if (member.type == Element.Type.WAY && mapData.getWay(member.ref) == null) {
+                if (member.type == ElementType.WAY && mapData.getWay(member.ref) == null) {
                     missingWayIds.add(member.ref)
                 }
+                /* deliberately not recursively looking for relations of relations
+                   because that is also not how the OSM API works */
             }
         }
+
         val ways = wayDB.getAll(missingWayIds)
-        for (way in ways) {
+        for (way in mapData.ways + ways) {
             for (nodeId in way.nodeIds) {
                 if (mapData.getNode(nodeId) == null) {
                     missingNodeIds.add(nodeId)
@@ -118,9 +119,9 @@ import javax.inject.Singleton
         mapData.addAll(ways)
     }
 
-    fun get(type: Element.Type, id: Long) : Element? = elementDB.get(type, id)
+    fun get(type: ElementType, id: Long) : Element? = elementDB.get(type, id)
 
-    fun getGeometry(type: Element.Type, id: Long) : ElementGeometry? = geometryDB.get(type, id)
+    fun getGeometry(type: ElementType, id: Long) : ElementGeometry? = geometryDB.get(type, id)
 
     fun getGeometries(keys: Collection<ElementKey>): List<ElementGeometryEntry> =
         geometryDB.getAllEntries(keys)
@@ -134,6 +135,16 @@ import javax.inject.Singleton
         result.boundingBox = bbox
         Log.i(TAG, "Fetched ${elementKeys.size} elements and geometries in ${currentTimeMillis() - time}ms")
         return result
+    }
+
+    data class ElementCounts(val nodes: Int, val ways: Int, val relations: Int)
+    fun getElementCounts(bbox: BoundingBox): ElementCounts {
+        val keys = geometryDB.getAllKeys(bbox)
+        return ElementCounts(
+            keys.count { it.type == ElementType.NODE },
+            keys.count { it.type == ElementType.WAY },
+            keys.count { it.type == ElementType.RELATION }
+        )
     }
 
     fun getNode(id: Long): Node? = nodeDB.get(id)

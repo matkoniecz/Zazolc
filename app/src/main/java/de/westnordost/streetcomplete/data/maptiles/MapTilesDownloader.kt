@@ -1,8 +1,8 @@
 package de.westnordost.streetcomplete.data.maptiles
 
 import android.util.Log
-import de.westnordost.osmapi.map.data.BoundingBox
 import de.westnordost.streetcomplete.ApplicationConstants
+import de.westnordost.streetcomplete.data.osm.mapdata.BoundingBox
 import de.westnordost.streetcomplete.ktx.format
 import de.westnordost.streetcomplete.map.VectorTileProvider
 import de.westnordost.streetcomplete.util.enclosingTilesRect
@@ -29,7 +29,7 @@ class MapTilesDownloader @Inject constructor(
         var cachedSize = 0
         val time = currentTimeMillis()
 
-        coroutineScope {
+        supervisorScope {
             for (tile in getDownloadTileSequence(bbox)) {
                 launch {
                     val result = downloadTile(tile.zoom, tile.x, tile.y)

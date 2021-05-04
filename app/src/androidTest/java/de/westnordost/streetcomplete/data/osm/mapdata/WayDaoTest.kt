@@ -4,26 +4,22 @@ import org.junit.Before
 import org.junit.Test
 
 import de.westnordost.streetcomplete.data.ApplicationDbTestCase
-import de.westnordost.osmapi.map.data.OsmWay
-import de.westnordost.osmapi.map.data.Way
 import de.westnordost.streetcomplete.ktx.containsExactlyInAnyOrder
 import org.junit.Assert.*
-import java.util.Date
-
 
 class WayDaoTest : ApplicationDbTestCase() {
     private lateinit var dao: WayDao
 
     @Before fun createDao() {
-        dao = WayDao(database, serializer)
+        dao = WayDao(database)
     }
 
     @Test fun putGetNoTags() {
-        val way = way(5, 1, listOf(1L, 2L, 3L, 4L), null)
+        val way = way(5, 1, listOf(1L, 2L, 3L, 4L))
         dao.put(way)
         val dbWay = dao.get(5)
 
-        checkEqual(way, dbWay!!)
+        assertEquals(way, dbWay!!)
     }
 
     @Test fun putGetWithTags() {
@@ -31,7 +27,7 @@ class WayDaoTest : ApplicationDbTestCase() {
         dao.put(way)
         val dbWay = dao.get(5)
 
-        checkEqual(way, dbWay!!)
+        assertEquals(way, dbWay!!)
     }
 
     @Test fun putOverwrites() {
@@ -70,12 +66,12 @@ class WayDaoTest : ApplicationDbTestCase() {
         val e3 = way(3, nodeIds = listOf(8,1654))
         dao.putAll(listOf(e1,e2,e3))
         assertEquals(
-            listOf(e1, e2).map { it.id },
-            dao.getAll(listOf(1,2,4)).sortedBy { it.id }.map { it.id }
+            listOf(e1, e2),
+            dao.getAll(listOf(1,2,4)).sortedBy { it.id }
         )
         assertEquals(
-            listOf(e1,e2,e3).map { it.nodeIds },
-            dao.getAll(listOf(1,2,3)).sortedBy { it.id }.map { it.nodeIds }
+            listOf(e1,e2,e3),
+            dao.getAll(listOf(1,2,3)).sortedBy { it.id }
         )
     }
 
@@ -93,8 +89,8 @@ class WayDaoTest : ApplicationDbTestCase() {
         val e3 = way(3, nodeIds = listOf(8,1654))
         dao.putAll(listOf(e1,e2,e3))
         assertEquals(
-            listOf(e1, e2).map { it.id },
-            dao.getAllForNode(1).sortedBy { it.id }.map { it.id }
+            listOf(e1, e2),
+            dao.getAllForNode(1).sortedBy { it.id }
         )
     }
 
@@ -105,17 +101,10 @@ class WayDaoTest : ApplicationDbTestCase() {
     }
 }
 
-private fun checkEqual(way: Way, dbWay: Way) {
-    assertEquals(way.id, dbWay.id)
-    assertEquals(way.version, dbWay.version)
-    assertEquals(way.nodeIds, dbWay.nodeIds)
-    assertEquals(way.tags, dbWay.tags)
-}
-
 private fun way(
     id: Long = 1L,
     version: Int = 1,
     nodeIds: List<Long> = listOf(1,2,3),
-    tags: Map<String,String>? = emptyMap(),
+    tags: Map<String,String> = emptyMap(),
     timestamp: Long = 123L
-) = OsmWay(id, version, nodeIds, tags, null, Date(timestamp))
+) = Way(id, nodeIds, tags, version, timestamp)

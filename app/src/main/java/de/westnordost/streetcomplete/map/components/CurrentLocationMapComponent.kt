@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.PointF
 import android.location.Location
 import com.mapzen.tangram.MapController
-import de.westnordost.osmapi.map.data.OsmLatLon
 import de.westnordost.streetcomplete.R
+import de.westnordost.streetcomplete.data.osm.mapdata.LatLon
 import de.westnordost.streetcomplete.ktx.getBitmapDrawable
 import de.westnordost.streetcomplete.ktx.toDp
 import de.westnordost.streetcomplete.map.tangram.KtMapController
@@ -115,7 +115,7 @@ class CurrentLocationMapComponent(ctx: Context, private val ctrl: KtMapControlle
     /** Update the GPS position shown on the map */
     private fun updateLocation() {
         if (!isVisible) return
-        val pos = location?.let { OsmLatLon(it.latitude, it.longitude) } ?: return
+        val pos = location?.let { LatLon(it.latitude, it.longitude) } ?: return
 
         accuracyMarker.isVisible = true
         accuracyMarker.setPointEased(pos, 1000, MapController.EaseType.CUBIC)
@@ -141,7 +141,7 @@ class CurrentLocationMapComponent(ctx: Context, private val ctrl: KtMapControlle
             order: 2000,
             flat: true,
             collide: false
-        }""".trimIndent())
+        }""")
     }
 
     /** Update the marker that shows the direction in which the smartphone is held */
@@ -160,7 +160,7 @@ class CurrentLocationMapComponent(ctx: Context, private val ctrl: KtMapControlle
             collide: false,
             flat: true,
             angle: $rotation
-        }""".trimIndent())
+        }""")
     }
 
     private fun pixelsPerMeter(latitude: Double, zoom: Float): Double {

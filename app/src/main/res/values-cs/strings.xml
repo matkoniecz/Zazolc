@@ -251,7 +251,7 @@
     <string name="quest_buildingLevels_title_buildingPart">"Kolik podlaží má tato část budovy?"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_roofShape_title">"Jaký základní tvar má střecha této budovy?"</string>
+    <string name="quest_roofShape_title">"Jaký je základní tvar střechy této budovy?"</string>
 
     <!-- Fuzzy -->
     <string name="quest_roofShape_select_one">"Vyberte jeden:"</string>
@@ -274,7 +274,7 @@
 &lt;p&gt;&lt;b&gt;Přímé přispívání&lt;/b&gt;&lt;/p&gt;
 &lt;p&gt;
 Nejdříve musíte vědět, že pomocí této aplikace skutečně a přímo přispíváte do OpenStreetMap.&lt;br/&gt;
-Cokoliv, čím pomocí této aplikace přispějete, bude přímo přidáno do mapy bez toho, aby byla mezi aplikací a OSM nějaká třetí strana jako je tomu např. v případě služby &lt;a href=\"https://wheelmap.org\"&gt;wheelmap.org&lt;/a&gt; nebo &lt;a href=\"http://www.kort.ch\"&gt;Kortu&lt;/a&gt;.
+Cokoliv, čím pomocí této aplikace přispějete, bude přímo přidáno do mapy bez toho, aby byla mezi aplikací a OSM nějaká třetí strana.
 &lt;/p&gt;
 &lt;p&gt;
 OpenStreetMap nelze upravovat anonymně, proto jsou všechny vaše změny provedené s vaším uživatelským účtem na OSM. To znamená, že datum, obsah a poloha vašich změn jsou veřejně viditelné na webu openstreetmap a propojené s vaším účtem.
@@ -282,7 +282,7 @@ OpenStreetMap nelze upravovat anonymně, proto jsou všechny vaše změny proved
 
 &lt;b&gt;Poloha&lt;/b&gt;&lt;br/&gt;
 &lt;p&gt;
-Aplikace s nikým nesdílí vaši GPS polohu. Vaše poloha se používá jen pro automatické vyhledávání „úkolů“ ve vašem okolí a pro vycentrování mapy (a její stahování) na základě vaší polohy. 
+Aplikace s nikým nesdílí vaši GPS polohu. Vaše poloha se používá jen pro automatické vyhledávání „úkolů“ ve vašem okolí a pro vycentrování mapy (a její stahování) na základě vaší polohy.
 &lt;/p&gt;
 
 &lt;p&gt;&lt;b&gt;Použití dat&lt;/b&gt;&lt;/p&gt;
@@ -680,7 +680,7 @@ Mezi populární klávesnice, které podporují spoustu jazyků patří Google G
     <string name="quest_fireHydrant_type_pond">"Nádrž"</string>
 
     <!-- Fuzzy -->
-    <string name="credits_contributors">"Přečtěte si &lt;a href=\"https://github.com/westnordost/StreetComplete/graphs/contributors\"&gt;úplný seznam na GitHubu&lt;/a&gt;."</string>
+    <string name="credits_contributors">"Přečtěte si &lt;a href=\"https://github.com/streetcomplete/StreetComplete/graphs/contributors\"&gt;úplný seznam na GitHubu&lt;/a&gt;."</string>
 
     <!-- Fuzzy -->
     <string name="credits_translations">"Úplný seznam najdete v &lt;a href=\"https://poeditor.com/join/project/IE4GC127Ki\"&gt;projektu na POEditor.com&lt;/a&gt;."</string>
@@ -856,17 +856,11 @@ Mezi populární klávesnice, které podporují spoustu jazyků patří Google G
     <string name="quest_crossing_type_title">"Jaký je tento přechod?"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_crossing_type_signals">"Přechod řízený semaforem"</string>
-
-    <!-- Fuzzy -->
     <string name="quest_crossing_type_unmarked">"Přechod bez označení na cestě"</string>
     <string name="compass_north_one_letter">"S"</string>
 
     <!-- Fuzzy -->
     <string name="action_undo">"Zpět"</string>
-
-    <!-- Fuzzy -->
-    <string name="undo_confirm_title">"Vrátit následující poslední odpovědi?"</string>
 
     <!-- Fuzzy -->
     <string name="produce_mangosteen">"Mangostany"</string>
@@ -1080,19 +1074,6 @@ Mezi populární klávesnice, které podporují spoustu jazyků patří Google G
 
     <!-- Fuzzy -->
     <string name="create_new_note_description">"K tomuto místu můžete přidat poznámku, aby se ostatní uživatelé dozvěděli o zdejším problému. Posunutím mapy upravte umístění poznámky."</string>
-
-    <!-- Could this be translated as "Clear Quest Cache"? -->
-    <!-- Fuzzy -->
-    <string name="pref_title_quests_invalidation">"Zrušit platnost mezipaměti úkolů"</string>
-
-    <!-- Fuzzy -->
-    <string name="pref_title_quests_invalidation_summary">"Užitečné, pokud si myslíte, že jsou některé úkoly zastaralé."</string>
-
-    <!-- Fuzzy -->
-    <string name="invalidate_confirmation">"Zrušit platnost"</string>
-
-    <!-- Fuzzy -->
-    <string name="invalidation_dialog_message">"Zrušením platnosti mezipaměti docílíte toho, že úkoly budou při jejich příštím stažení aktualizovány. Platnost mezipaměti úkolů je automaticky zrušena po uplynutí jednoho týdne a okamžitě zrušena, když vámi vyřešený úkol již vyřešil někdo jiný."</string>
 
     <!-- Fuzzy -->
     <string name="quest_generic_looks_like_this">"Obvykle vypadá takhle:"</string>
@@ -1346,9 +1327,6 @@ Mezi populární klávesnice, které podporují spoustu jazyků patří Google G
 
     <!-- Fuzzy -->
     <string name="quest_buildingType_semi_detached">"Dvojdomek"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_buildingType_semi_detached_description">"pár dvou rodinných domů spojených zdí"</string>
 
     <!-- Fuzzy -->
     <string name="quest_buildingType_terrace_description">"řada podobně vypadajících rodinných domů"</string>
@@ -2176,7 +2154,7 @@ Pamatujte, že tato aplikace se zeptá na popisné číslo budovy až po určen�
     <!-- Fuzzy -->
     <string name="achievement_blind_title">"Šestý smysl"</string>
 
-    <!-- Is there way to write plurals correctly? In Czech language we have two groups of plurals for amount 2-4 and 5,6,7 etc... Other languages have different rules. 
+    <!-- Is there way to write plurals correctly? In Czech language we have two groups of plurals for amount 2-4 and 5,6,7 etc... Other languages have different rules.
 https://developer.android.com/guide/topics/resources/string-resource#Plurals
 
 It is not big issue, but it would be nice to have it correctly. -->
@@ -2304,7 +2282,7 @@ It is not big issue, but it would be nice to have it correctly. -->
     <string name="quest_openingHours_off_day">"Zavřeno"</string>
     <string name="quest_openingHours_unspecified_range">"Neurčeno"</string>
 
-    <!-- Could this be translated as: 
+    <!-- Could this be translated as:
 Is the situation on this cycleway still the same? -->
     <string name="quest_cycleway_resurvey_title">"Je to zde stále aktulální situace cyklostezky?"</string>
     <string name="quest_wheelchairAccess_name_type_title">"Má %1$s (%2$s) bezbariérový přístup?"</string>
@@ -2402,7 +2380,7 @@ Pokud jsou tu pruhy pro autobusy, napište to prosím do poznámky."</string>
     <string name="quest_parkingType_street_side">"Parkuje se přímo vedle cesty"</string>
     <string name="quest_parkingType_lane">"Parkuje se na cestě"</string>
     <string name="quest_existence_title">"Je to tu pořád? (%s)"</string>
-    <string name="quest_existence_name_title">"Je tu pořád %1$s? (%2$s)"</string>
+    <string name="quest_existence_name_title">"Je tu pořád %1$s (%2$s)?"</string>
     <string name="quest_tracktype_grade2a">"Víceméně pevný"</string>
     <string name="quest_tracktype_grade3a">"Spíše pevný"</string>
     <string name="quest_generic_answer_does_not_exist">"Neexistuje to..."</string>
@@ -2453,4 +2431,58 @@ Pokud jsou tu pruhy pro autobusy, napište to prosím do poznámky."</string>
     <string name="team_mode_choose_color">"Nyní si každý ve vaší skupině vybere unikátní barvu:"</string>
     <string name="team_mode_active">"Týmový režim je aktivní"</string>
     <string name="team_mode_deactivated">"Týmový režim deaktivován"</string>
+    <string name="quest_pitchLit_title">"Je toto sportoviště osvětleno?"</string>
+    <string name="quest_pitchLit_title_track">"Je tato závodní dráha osvětlená?"</string>
+    <string name="quest_crossing_type_signals_controlled">"Přechod řízený semaforem"</string>
+    <string name="undo_last">"Vrátit poslední úpravu"</string>
+    <string name="show_edit_history">"Zobrazit historii úprav"</string>
+    <string name="undo_confirm_title2">"Chcete vrátit následující úpravu?"</string>
+    <string name="synced">"Synchronizováno"</string>
+    <string name="toast_undo_unavailable">"Tato úprava je již synchronizovaná a proto ji nelze vrátit zpět"</string>
+    <string name="quest_cycleway_value_separate">"zobrazeno samostatně na mapě"</string>
+    <string name="created_note_action_title">"Vytvořená poznámka"</string>
+    <string name="commented_note_action_title">"Okomentovaná poznámka"</string>
+    <string name="hid_action_description">"Skryli jste to"</string>
+    <string name="split_way_action_description">"Rozdělili jste cestu"</string>
+    <string name="deleted_poi_action_description">"Smazali jste to"</string>
+    <string name="added_tag_action_title">"Přidáno %s"</string>
+    <string name="removed_tag_action_title">"Odstraněno %s"</string>
+    <string name="changed_tag_action_title">"Aktualizováno na %s"</string>
+    <string name="pref_title_delete_cache">"Promazat mezipaměť"</string>
+    <string name="pref_title_delete_cache_summary">"Pokud si myslíte, že jsou data zastaralá"</string>
+    <string name="delete_confirmation">"Smazat"</string>
+    <string name="delete_cache_dialog_message">"Chcete smazat všechna stažená mapová data včetně úkolů?
+Data jsou obnovena po %1$s dnech a nepoužitá data jsou smazána automaticky po %2$s dnech."</string>
+    <string name="quest_shop_type_title">"Jaký druh obchodu je %s?"</string>
+    <string name="quest_shop_type_title_no_name">"Jaký je tohle druh obchodu?"</string>
+    <string name="pref_background_type_select">"Vyberte pozadí"</string>
+    <string name="background_type_map">"Mapa"</string>
+    <string name="background_type_aerial_esri">"Letecká mapa (od Esri)"</string>
+    <string name="quest_barrier_type_title">"Jaký je tohle druh překážky?"</string>
+    <string name="quest_barrier_type_gate">"Brána"</string>
+    <string name="quest_barrier_type_lift_gate">"Závora, která se zvedá"</string>
+    <string name="quest_barrier_type_bollard">"Sloupek(y)"</string>
+    <string name="quest_barrier_type_chain">"Řetěz"</string>
+    <string name="quest_barrier_type_rope">"Provaz"</string>
+    <string name="quest_barrier_type_wire_gate">"Dočasný drátěný plot"</string>
+    <string name="quest_barrier_type_cattle_grid">"Mříže v zemi bránící zvířatům v průchodu"</string>
+    <string name="quest_barrier_type_block">"Velký nepohyblivý objekt "</string>
+    <string name="quest_barrier_jersey_barrier">"Prefabrikovaná betonová/plastová zábrana"</string>
+    <string name="quest_barrier_type_log">"Kláda"</string>
+    <string name="quest_barrier_type_kerb">"Obrubník"</string>
+    <string name="quest_barrier_type_height_restrictor">"Kontrola výšky"</string>
+    <string name="quest_barrier_full_height_turnstile">"Vysoký turniket"</string>
+    <string name="quest_barrier_type_turnstile">"Turniket"</string>
+    <string name="quest_barrier_type_passage">"Průchod zdí/plotem/atd."</string>
+    <string name="quest_barrier_type_debris_pile">"Hromada trosek "</string>
+    <string name="quest_barrier_type_stile_squeezer">"Zúžený průchod"</string>
+    <string name="quest_barrier_type_stile_ladder">"Přechod pomocí žebříku"</string>
+    <string name="quest_barrier_type_bicycle_barrier">"Překážka proti průjezdů cyklistů"</string>
+    <string name="quest_barrier_type_kissing_gate">"Branka proti dobytku"</string>
+    <string name="quest_barrier_type_stepover">"Přelézací schůdky (ve zdi)"</string>
+    <string name="quest_barrier_type_swing_gate">"Závora, která se otáčí do strany"</string>
+    <string name="quest_policeType_title">"Jaký je tohle druh policejní stanice?"</string>
+    <string name="quest_barrier_type_kissing_gate_conversion">"Zkonvertováno na branku proti dobytku"</string>
+    <string name="quest_stile_type_title">"Jaký je tohle druh průchodu?"</string>
+    <string name="quest_buildingType_semi_detached_description2">"dvojdomek(y) pro jednu rodinu"</string>
 </resources>

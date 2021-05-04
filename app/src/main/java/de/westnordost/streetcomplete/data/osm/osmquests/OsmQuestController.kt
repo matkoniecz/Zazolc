@@ -4,17 +4,12 @@ import android.util.Log
 import de.westnordost.countryboundaries.CountryBoundaries
 import de.westnordost.countryboundaries.intersects
 import de.westnordost.countryboundaries.isInAny
-import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
-import de.westnordost.osmapi.map.data.BoundingBox
-import de.westnordost.osmapi.map.data.Element
-import de.westnordost.osmapi.map.data.LatLon
-import de.westnordost.osmapi.map.data.OsmLatLon
-import de.westnordost.osmapi.notes.Note
 import de.westnordost.streetcomplete.ApplicationConstants
 import de.westnordost.streetcomplete.data.osm.edits.MapDataWithEditsSource
 import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.geometry.ElementPolylinesGeometry
-import de.westnordost.streetcomplete.data.osm.mapdata.ElementKey
+import de.westnordost.streetcomplete.data.osm.mapdata.*
+import de.westnordost.streetcomplete.data.osmnotes.Note
 import de.westnordost.streetcomplete.data.osmnotes.edits.NotesWithEditsSource
 import de.westnordost.streetcomplete.data.quest.OsmQuestKey
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
@@ -85,7 +80,8 @@ import javax.inject.Singleton
             val quests = runBlocking { deferredQuests.awaitAll().filterNotNull() }
 
             for (quest in quests) {
-                Log.d(TAG, "Created ${quest::class.simpleName!!} for ${quest.elementType.name}#${quest.elementId}")
+                val questTypeName = quest.type::class.simpleName!!
+                Log.d(TAG, "Created $questTypeName for ${quest.elementType.name}#${quest.elementId}")
             }
             val seconds = (currentTimeMillis() - time) / 1000.0
             Log.i(TAG,"Created ${quests.size} quests for $count updated elements in ${seconds.format(1)}s")
@@ -170,6 +166,7 @@ import javax.inject.Singleton
 
                 var appliesToElement = questType.isApplicableTo(element)
                 if (appliesToElement == null) {
+                    Log.d(TAG, "${questType::class.simpleName!!} requires surrounding map data to determine applicability to ${element.type.name}#${element.id}")
                     val mapData = withContext(Dispatchers.IO) { lazyMapData }
                     appliesToElement = questType.getApplicableElements(mapData)
                         .any{ it.id == element.id && it.type == element.type }
@@ -242,9 +239,6 @@ import javax.inject.Singleton
         if (isBlacklistedPosition(geometry.center)) return null
         return createOsmQuest(entry, geometry)
     }
-
-    override fun getAllInBBoxCount(bbox: BoundingBox): Int =
-        db.getAllInBBoxCount(bbox)
 
     override fun getAllVisibleInBBox(bbox: BoundingBox, questTypes: Collection<String>?): List<OsmQuest> {
         val hiddenIds = getHiddenQuests()
@@ -392,7 +386,7 @@ import javax.inject.Singleton
 }
 
 // the resulting precision is about ~1 meter (see #1089)
-private fun LatLon.truncateTo5Decimals() = OsmLatLon(latitude.truncateTo5Decimals(), longitude.truncateTo5Decimals())
+private fun LatLon.truncateTo5Decimals() = LatLon(latitude.truncateTo5Decimals(), longitude.truncateTo5Decimals())
 
 private fun Double.truncateTo5Decimals() = (this * 1e5).toInt().toDouble() / 1e5
 

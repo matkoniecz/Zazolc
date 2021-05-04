@@ -1,6 +1,6 @@
 package de.westnordost.streetcomplete.data.quest
 
-import de.westnordost.osmapi.map.data.BoundingBox
+import de.westnordost.streetcomplete.data.osm.mapdata.BoundingBox
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmQuest
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmQuestSource
 import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuest
@@ -67,10 +67,6 @@ import javax.inject.Singleton
         visibleQuestTypeSource.addListener(visibleQuestTypeSourceListener)
         teamModeQuestFilter.addListener(teamModeQuestFilterListener)
     }
-
-    /** Get count of all visible quests in given bounding box */
-    fun getCount(bbox: BoundingBox): Int =
-        osmQuestSource.getAllInBBoxCount(bbox)
 
     /** Retrieve all visible quests in the given bounding box from local database */
     fun getAllVisible(bbox: BoundingBox): List<Quest> {
