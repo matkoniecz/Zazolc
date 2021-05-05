@@ -266,7 +266,7 @@ class AddLanesForm : AbstractQuestFormAnswerFragment<LanesAnswer>() {
 
     private suspend fun showSelectMarkedLanesDialogForBothSides(selectedValue: Int?) = suspendCancellableCoroutine<Int> { cont ->
         ValuePickerDialog(requireContext(),
-            listOf(2,4,6,8,10,12,14),
+            listOf(1,2,4,6,8,10,12,14),
             selectedValue, null,
             R.layout.quest_lanes_select_lanes,
             { cont.resume(it) }
