@@ -1100,4 +1100,7 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_lanes_answer_noLanes_known_count">No markings, obvious lane count</string>
     <string name="quest_barrier_type_kissing_gate_conversion">Converted into a kissing gate</string>
     <string name="quest_stile_type_title">What type of stile is this?</string>
+    <string name="quest_wrong_surface_title">Which info about surface is correct?</string>
+    <string name="quest_surface_value_unpaved_tracktype_grade1_is_wrong">This way is not paved</string>
+    <string name="quest_surface_value_paved_tracktype_grade1_is_correct">This way is paved</string>
 </resources>

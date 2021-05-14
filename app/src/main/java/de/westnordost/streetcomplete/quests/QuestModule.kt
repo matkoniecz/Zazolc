@@ -134,6 +134,7 @@ import javax.inject.Singleton
         ShowAddressInterpolation(), // my quest
         AddWayLit(), //frequent enable/disable cycle (enable for night) - moved
         AddPitchLit(), //frequent enable/disable cycle (enable for night) - moved
+        RemoveWrongSurface(), // mine, tested
         //--modified
 
         //kept--
