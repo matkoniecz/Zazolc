@@ -61,7 +61,7 @@ class OpenQuestChangesetsManagerTest {
 
         verify(mapDataApi).openChangeset(mapOf(
             "source" to "my source",
-            "created_by" to ApplicationConstants.USER_AGENT,
+            "created_by" to ApplicationConstants.OSM_USER_AGENT,
             "comment" to "test me",
             "locale" to "es-AR",
             "StreetComplete:quest_type" to questType::class.simpleName!!

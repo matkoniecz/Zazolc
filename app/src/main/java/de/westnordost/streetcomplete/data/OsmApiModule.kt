@@ -21,7 +21,7 @@ object OsmApiModule {
 
     /** Returns an osm connection with the supplied consumer (note the difference to the above function)  */
     fun osmConnection(consumer: OAuthConsumer?): OsmConnection {
-        return OsmConnection(OSM_API_URL, ApplicationConstants.USER_AGENT, consumer)
+        return OsmConnection(OSM_API_URL, ApplicationConstants.OSM_USER_AGENT, consumer)
     }
 
     @Provides fun userDao(osm: OsmConnection): UserApi = UserApi(osm)

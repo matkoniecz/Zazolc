@@ -12,7 +12,7 @@ fun sendEmail(activity: Activity, email: String, subject: String, text: String? 
     val intent = Intent(Intent.ACTION_SENDTO).apply {
         data = "mailto:".toUri()
         putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
-        putExtra(Intent.EXTRA_SUBJECT, ApplicationConstants.USER_AGENT + " " + subject)
+        putExtra(Intent.EXTRA_SUBJECT, ApplicationConstants.OSM_USER_AGENT + " " + subject)
         if (text != null) {
             putExtra(Intent.EXTRA_TEXT, text)
         }

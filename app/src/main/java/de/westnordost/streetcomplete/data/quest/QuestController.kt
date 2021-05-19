@@ -51,7 +51,7 @@ import kotlin.collections.ArrayList
             val elementId = q.elementId
             fullText += " for https://osm.org/$lowercaseTypeName/$elementId"
         }
-        fullText += " via ${ApplicationConstants.USER_AGENT}:\n\n$text"
+        fullText += " via ${ApplicationConstants.OSM_USER_AGENT}:\n\n$text"
 
         noteEditsController.add(0, NoteEditAction.CREATE, q.position, fullText, imagePaths)
 
@@ -65,7 +65,7 @@ import kotlin.collections.ArrayList
         imagePaths: List<String>,
         position: LatLon
     ) = withContext(Dispatchers.IO) {
-        val fullText = "$text\n\nvia ${ApplicationConstants.USER_AGENT}"
+        val fullText = "$text\n\nvia ${ApplicationConstants.OSM_USER_AGENT}"
         noteEditsController.add(0, NoteEditAction.CREATE, position, fullText, imagePaths)
     }
 
