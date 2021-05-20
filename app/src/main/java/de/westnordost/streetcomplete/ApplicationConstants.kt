@@ -1,9 +1,11 @@
 package de.westnordost.streetcomplete
 
 object ApplicationConstants {
+    const val PARENT_NAME = "StreetComplete"
     const val NAME = "zażółć"
-    const val USER_AGENT = "Zazolc" + " " + BuildConfig.VERSION_NAME // crashes: JNI DETECTED ERROR IN APPLICATION: JNI NewString called with pending exception java.lang.IllegalArgumentException: Unexpected char 0x17c at 2 in User-Agent value: zażółć 17.3 / okhttp/3.12.0
-    const val QUESTTYPE_TAG_KEY = "StreetComplete:quest_type" // https://github.com/westnordost/StreetComplete/issues/1894
+    const val USER_AGENT = PARENT_NAME + " " + BuildConfig.VERSION_NAME
+    const val OSM_USER_AGENT = "Zazolc" + " " + BuildConfig.VERSION_NAME // crashes: JNI DETECTED ERROR IN APPLICATION: JNI NewString called with pending exception java.lang.IllegalArgumentException: Unexpected char 0x17c at 2 in User-Agent value: zażółć 17.3 / okhttp/3.12.0
+    const val QUESTTYPE_TAG_KEY = PARENT_NAME + ":quest_type" // https://github.com/westnordost/StreetComplete/issues/1894
 
     const val MAX_DOWNLOADABLE_AREA_IN_SQKM = 12.0
     const val MIN_DOWNLOADABLE_AREA_IN_SQKM = 0.1

@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.data.osm.edits.upload.changesets
 
 import android.util.Log
 import de.westnordost.streetcomplete.ApplicationConstants.QUESTTYPE_TAG_KEY
-import de.westnordost.streetcomplete.ApplicationConstants.USER_AGENT
+import de.westnordost.streetcomplete.ApplicationConstants.OSM_USER_AGENT
 import de.westnordost.streetcomplete.data.osm.edits.upload.LastEditTimeStore
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataApi
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmElementQuestType
@@ -55,7 +55,7 @@ class OpenQuestChangesetsManager @Inject constructor(
     private fun createChangesetTags(questType: OsmElementQuestType<*>, source: String) =
         mapOf(
             "comment" to questType.commitMessage,
-            "created_by" to USER_AGENT,
+            "created_by" to OSM_USER_AGENT,
             "locale" to Locale.getDefault().toBcp47LanguageTag(),
             QUESTTYPE_TAG_KEY to questType.name,
             "source" to source
