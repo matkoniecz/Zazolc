@@ -55,6 +55,8 @@
     <string name="confirmation_cancel_prev_download_title">"Stop the current search and scan here instead?"</string>
     <string name="notification_downloading">"Scanning for quests…"</string>
     <string name="turn_on_location_request">"Location is off. Open Settings to turn it on now?"</string>
+
+    <!-- Fuzzy -->
     <string name="no_location_permission_warning">"Your location is needed to scan for quests in your vicinity."</string>
     <string name="about_title_authors">"Credits"</string>
     <string name="about_summary_authors">"© 2016–2021 Tobias Zwick and contributors"</string>
@@ -542,8 +544,6 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_internet_access_wired">"Wired (LAN)"</string>
     <string name="quest_internet_access_terminal">"Computer with Internet access"</string>
     <string name="quest_internet_access_no">"No connection"</string>
-
-    <!-- Fuzzy -->
     <string name="quest_busStopShelter_tram_name_title">"Does the tram stop %s have a shelter?"</string>
     <string name="quest_busStopShelter_tram_title">"Does this tram stop have a shelter?"</string>
     <string name="quest_bench_backrest_title">"Does this bench have a backrest?"</string>
@@ -1275,8 +1275,8 @@ Data is refreshed after %1$s days and unused data is deleted after %2$s days aut
     <string name="quest_buildingType_semi_detached_description2">"adjoined single-family home(s)"</string>
     <string name="pref_title_quests2">"Quest selection and priority"</string>
     <string name="pref_subtitle_quests">"%1$d of %2$d enabled"</string>
-    <string name="quest_busStopLit_tram_name_title">"Is the streetcar stop %s lit?"</string>
-    <string name="quest_busStopLit_tram_title">"Is this streetcar stop lit?"</string>
+    <string name="quest_busStopLit_tram_name_title">"Is the tram stop %s lit?"</string>
+    <string name="quest_busStopLit_tram_title">"Is this tram stop lit?"</string>
     <string name="quest_busStopLit_title">"Is this bus stop lit?"</string>
     <string name="quest_busStopLit_name_title">"Is the bus stop %s lit?"</string>
 </resources>

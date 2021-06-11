@@ -21,6 +21,8 @@
     <string name="quest_generic_answer_notApplicable">"Nicht beantwortbar…"</string>
     <string name="quest_generic_confirmation_title">"Sicher?"</string>
     <string name="quest_generic_confirmation_yes">"Ja, sicher"</string>
+
+    <!-- Ich werde das prüfen (?) -->
     <string name="quest_generic_confirmation_no">"Prüfe ich"</string>
     <string name="quest_generic_error_field_empty">"Dieses Feld wurde leer gelassen"</string>
     <string name="quest_leave_new_note_title">"Stattdessen eine Notiz hinterlassen?"</string>
@@ -57,7 +59,7 @@
     <string name="confirmation_cancel_prev_download_title">"Aktuelle Suche abbrechen und stattdessen hier suchen?"</string>
     <string name="notification_downloading">"Suche nach Aufgaben…"</string>
     <string name="turn_on_location_request">"Standort ist aus. Jetzt in die Einstellungen gehen, um ihn anzuschalten?"</string>
-    <string name="no_location_permission_warning">"Dein Standort wird benötigt, um nach Aufgaben in deiner Nähe zu suchen."</string>
+    <string name="no_location_permission_warning">"Dein Standort wird benötigt, um deine Position auf der Karte anzuzeigen und nach Aufgaben in deiner Nähe zu suchen."</string>
     <string name="about_title_authors">"Autoren"</string>
     <string name="about_summary_authors">"© 2016–2021 Tobias Zwick und Mitwirkende"</string>
     <string name="about_title_repository">"Quellcode-Repository"</string>
@@ -83,7 +85,7 @@
     <string name="quest_openingHours_answer_seasonal_opening_hours">"Je nach Monat verschieden…"</string>
     <string name="quest_openingHours_answer_no_regular_opening_hours">"Keine regelmäßigen Öffnungszeiten…"</string>
     <string name="quest_openingHours_comment_title">"Öffnungszeiten beschreiben"</string>
-    <string name="quest_openingHours_comment_description">"Kurz und bündig, am besten direkt so, wie es auf dem Schild steht. Zum Beispiel „nach Vereinbarung“. Fehlt ein Schild, bedeutet dies nicht zwangsweise, dass es keine regulären Öffnungszeiten gibt."</string>
+    <string name="quest_openingHours_comment_description">"Kurz und bündig, am besten direkt so, wie es auf dem Schild steht, z.B. „nach Vereinbarung“. Fehlt ein Schild, bedeutet dies nicht zwangsweise, dass es keine regulären Öffnungszeiten gibt."</string>
     <string name="quest_buildingLevels_title">"Wie viele Stockwerke hat dieses Gebäude?"</string>
     <string name="quest_buildingLevels_title_buildingPart">"Wie viele Stockwerke hat dieser Gebäudeteil?"</string>
     <string name="quest_roofShape_title">"Welche grundlegende Dachform hat dieses Gebäude?"</string>
@@ -111,8 +113,8 @@ Diese App teilt deinen GPS-Standort mit niemandem. Er wird genutzt, um automatis
 
 &lt;p&gt;&lt;b&gt;Datennutzung&lt;/b&gt;&lt;/p&gt;
 &lt;p&gt;
-Wie schon gesagt, die App kommuniziert direkt mit der OSM-Infrastruktur. Bevor deine Änderungen hochgeladen werden, prüft die App allerdings &lt;a href=\"https://www.westnordost.de/streetcomplete/banned_versions.txt\"&gt;eine simple Textdatei&lt;/a&gt; auf meinem Server ab, um zu sehen, ob sie für den Upload gesperrt wurde. Das ist eine Vorsichtsmaßnahme, um Versionen dieser App, die möglicherweise kritische Fehler enthalten, davon abzuhalten, OSM-Daten zu korrumpieren.&lt;br/&gt;
-&lt;/p&gt;"</string>
+Wie schon gesagt, die App kommuniziert direkt mit der OSM-Infrastruktur.&lt;br/&gt;
+Bevor deine Änderungen hochgeladen werden, prüft die App allerdings &lt;a href=\"https://www.westnordost.de/streetcomplete/banned_versions.txt\"&gt;eine simple Textdatei&lt;/a&gt; auf meinem Server ab, um zu sehen, ob sie für den Upload gesperrt wurde. Das ist eine Vorsichtsmaßnahme, um Versionen dieser App, die möglicherweise kritische Fehler enthalten, davon abzuhalten, OSM-Daten zu korrumpieren.&lt;/p&gt;"</string>
     <string name="autosync_on">"An"</string>
     <string name="autosync_only_on_wifi">"Nur bei WLAN"</string>
     <string name="autosync_off">"Aus"</string>
@@ -353,7 +355,7 @@ Andernfalls kannst du eine alternative Tastatur im App Store herunterladen. Beli
     <string name="quest_address_answer_house_name">"Keine Nummer, aber ein Hausname…"</string>
     <string name="quest_address_house_name_label">"Hausname:"</string>
     <string name="quest_buildingLevels_roofLevelsLabel2">"Dachgeschosse"</string>
-    <string name="quest_buildingLevels_levelsLabel2">"Stockwerke"</string>
+    <string name="quest_buildingLevels_levelsLabel2">"Stockwerke (außer Dachgeschosse)"</string>
     <string name="quest_buildingLevels_answer_multipleLevels">"Je nach Gebäudeteil verschieden"</string>
     <string name="quest_buildingLevels_answer_description">"In diesem Fall einfach die Werte für den höchsten Gebäudeteil eingeben."</string>
     <string name="unglue_hint">"Antippen, um Ansicht von Position zu trennen"</string>
@@ -364,7 +366,7 @@ Andernfalls kannst du eine alternative Tastatur im App Store herunterladen. Beli
     <string name="quest_cycleway_value_track">"Fahrradweg"</string>
     <string name="quest_cycleway_value_lane">"Radfahrstreifen"</string>
     <string name="quest_cycleway_value_none">"kein"</string>
-    <string name="quest_cycleway_value_shared">"explizit gemeinsamer Fahrstreifen mit anderen Verkehrsteilnehmern"</string>
+    <string name="quest_cycleway_value_shared">"explizit gemeinsamer Fahrstreifen mit Autos"</string>
     <string name="quest_cycleway_value_bus_lane">"auf der Busspur"</string>
     <string name="quest_cycleway_value_sidewalk">"explizite Mitbenutzung des Bürgersteigs"</string>
     <string name="quest_leave_new_note_create_image_error">"Datei für Foto kann nicht erstellt werden"</string>
@@ -491,7 +493,6 @@ Teilweise bedeutet, dass man die Toilette schon im Rollstuhl benutzen kann, aber
     <string name="quest_buildingType_detached_description">"Einfamilienhaus mit Garten rundherum"</string>
 
     <!-- Doppelhaushälfte ist der korrekte Ausdruck, es gab nachfragen OSM Dach Gruppe -->
-    <!-- Fuzzy -->
     <string name="quest_buildingType_semi_detached">"Doppelhaus(-hälfte)"</string>
     <string name="quest_buildingType_terrace_description">"eine lange Reihe aus ähnlichen Einfamilienhäusern"</string>
     <string name="quest_buildingType_hotel">"Hotelgebäude"</string>
@@ -778,6 +779,8 @@ Zu guter Letzt, vergiss nicht, dich nicht in Gefahr zu begeben: Achte auf deine 
     <string name="achievement_surveyor_solved_X">"Du hast %d Aufgaben gelöst, weiter so! Es winken weitere Erfolge mit Links zu OSM und anderen kartenbezogenen Apps und Projekten!"</string>
     <string name="achievement_regular_title">"Stammgast"</string>
     <string name="achievement_regular_description">"Du hast %d Tage lang mit dieser App zu OSM beigetragen! Stammnutzer sind das Rückgrat von OSM, vielen Dank für dein Engagement! ❤"</string>
+
+    <!-- Ist hier nicht "Radfahrer" gebräuchlicher? -->
     <string name="achievement_bicyclist_title">"Fahrradfahrer"</string>
     <string name="achievement_bicyclist_solved_X">"Du hast %d Aufgaben gelöst, die Radfahrern helfen!"</string>
     <string name="achievement_wheelchair_title">"Mobilität"</string>
@@ -790,6 +793,8 @@ Diese Daten sind unentbehrlich nicht nur für Postboten, sondern auch für  Navi
 Beachte, dass diese App nur Hausnummern von Gebäuden abfragt, deren Typ bereits bestimmt wurde."</string>
     <string name="achievement_blind_title">"Sechster Sinn"</string>
     <string name="achievement_blind_solved_X">"Du hast %d Aufgaben gelöst, die relevant für Sehbehinderte sind."</string>
+
+    <!-- Wäre hier nicht "Pedestrian"/"Fußgänger" passender als "Runner"/"Läufer"? -->
     <string name="achievement_pedestrian_title">"Läufer"</string>
     <string name="achievement_pedestrian_solved_X">"Du hast %d Aufgaben gelöst, die relevant für Fußgänger sind."</string>
     <string name="achievement_veg_title">"Tierlieb"</string>
@@ -1069,4 +1074,6 @@ Die Daten werden nach %1$s Tagen aktualisiert und ungenutzte Daten werden nach %
     <string name="quest_busStopLit_tram_title">"Ist diese Straßenbahnhaltestelle beleuchtet?"</string>
     <string name="quest_busStopLit_title">"Ist diese Bushaltestelle beleuchtet?"</string>
     <string name="quest_busStopLit_name_title">"Ist die Bushaltestelle %s beleuchtet?"</string>
+    <string name="no_location_permission_warning_title">"Standortzugriff"</string>
+    <string name="quest_surface_value_woodchips">"Holzschnitzel"</string>
 </resources>
