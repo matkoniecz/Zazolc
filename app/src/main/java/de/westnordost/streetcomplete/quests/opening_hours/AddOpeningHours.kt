@@ -85,7 +85,7 @@ class AddOpeningHours (
             )
             and !opening_hours
           )
-          or opening_hours older today -0.5 years
+          or opening_hours older today -0.75 years
         )
         and (access !~ private|no)
         and (name or brand or noname = yes or name:signed = no)
