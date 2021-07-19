@@ -73,6 +73,7 @@ class CheckExistence(
 
 
             or amenity = recycling and recycling_type = container
+            or amenity = toilets
           )
           and (${lastChecked(6.0)})
         )) and access !~ no|private
