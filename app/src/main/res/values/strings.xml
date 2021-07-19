@@ -1121,4 +1121,5 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_camera_type_dome">Dome</string>
     <string name="quest_camera_type_fixed">Fixed</string>
     <string name="quest_camera_type_panning">Panning</string>
+    <string name="quest_waste_disposal_access_title">Is this garbage dumpster accessible to a general public?</string>
 </resources>

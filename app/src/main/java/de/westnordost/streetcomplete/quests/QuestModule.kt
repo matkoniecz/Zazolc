@@ -16,6 +16,7 @@ import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuestType
 import de.westnordost.streetcomplete.data.quest.QuestType
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
 import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash
+import de.westnordost.streetcomplete.quests.access_waste_disposal.AddWasteDisposalAccess
 import de.westnordost.streetcomplete.quests.address.AddAddressStreet
 import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable
@@ -138,6 +139,7 @@ import javax.inject.Singleton
         AddWayLit(), //frequent enable/disable cycle (enable for night) - moved
         AddPitchLit(), //frequent enable/disable cycle (enable for night) - moved
         RemoveWrongSurface(), // mine, tested
+        AddWasteDisposalAccess(), // mine, only I will do this and easy to process so lets keep high
         //--modified
 
         //kept--
