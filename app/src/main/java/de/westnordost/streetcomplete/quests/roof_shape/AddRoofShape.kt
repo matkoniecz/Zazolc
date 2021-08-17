@@ -29,8 +29,6 @@ class AddRoofShape(private val countryInfos: CountryInfos) : OsmElementQuestType
         changes.add("roof:shape", answer.osmValue)
     }
 
-    override val defaultDisabledMessage = R.string.default_disabled_msg_boring
-
     override fun getApplicableElements(mapData: MapDataWithGeometry) =
         mapData.filter { element ->
             filter.matches(element)
