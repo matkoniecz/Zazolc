@@ -78,6 +78,7 @@ import de.westnordost.streetcomplete.quests.drinking_water.AddDrinkingWater
 import de.westnordost.streetcomplete.quests.existence.CheckExistence
 import de.westnordost.streetcomplete.quests.lanes.AddLanes
 import de.westnordost.streetcomplete.quests.kerb_height.AddKerbHeight
+import de.westnordost.streetcomplete.quests.medicine_trash.AddAcceptsMedicineTrash
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce
 import de.westnordost.streetcomplete.quests.parking_access.AddBikeParkingAccess
 import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess
@@ -177,6 +178,7 @@ import javax.inject.Singleton
         MultidesignatedFootwayToPath(), //my own validator quest
         DetectHistoricRailwayTagging(), //my own validator quest
         FixBogusGallery(), //my own validator quest
+        AddAcceptsMedicineTrash(featureDictionaryFuture), // my own quest
         //--modified
 
         // ↓ 3. useful data that is used by some data consumers
