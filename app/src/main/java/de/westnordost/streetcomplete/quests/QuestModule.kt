@@ -291,7 +291,7 @@ import javax.inject.Singleton
         AddPostboxCollectionTimes(), //moved to boring
         AddOpeningHours(featureDictionaryFuture), //moved to boring
         AddOrchardProduce(), //moved to boring
-        AddCycleway(), //moved to boring
+        AddCycleway(countryInfos), //moved to boring
         AddVegetarian(), //moved to boring
         AddVegan(), //moved to boring
         AddInternetAccess(), //moved to boring

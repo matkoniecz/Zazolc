@@ -625,9 +625,11 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_construction_road_title">Is this road completed?</string>
     <string name="quest_construction_cycleway_title">Is this cycleway completed?</string>
     <string name="quest_construction_footway_title">Is this footway completed?</string>
+    <string name="quest_construction_steps_title">Are these steps completed?</string>
     <string name="quest_construction_generic_title">Is this way completed?</string>
     <string name="quest_construction_building_title">Is this building completed?</string>
     <string name="questList_disabled_in_country">Never shown in %s</string>
+    <string name="questList_disabled_at_day">Only shown at night</string>
     <string name="quest_toiletAvailability_rest_area_title">Does this rest area have restroom facilities?</string>
     <string name="quest_maxspeed_name_title">What is the speed limit sign for %s?</string>
     <string name="quest_add_also_shop_variant_for_insurance_shop">Is there an insurance shop here (%s)?</string>
@@ -913,9 +915,9 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="team_mode">Team Mode</string>
     <string name="team_mode_exit">Exit Team Mode</string>
     <string name="team_mode_description">When mapping the same area together in a group, you can enter team mode to split up quests between all team members.</string>
-    <string name="team_mode_team_size_label">How many people are there?</string>
+    <string name="team_mode_team_size_label2">How many people are mapping? Enter the same number on everyone\'s phone.</string>
     <string name="team_mode_team_size_hint">Team mode works for groups of 2 to 12 people.</string>
-    <string name="team_mode_choose_color2">Now everybody in your group chooses a unique color on their phone:</string>
+    <string name="team_mode_choose_color2">Next, each person must pick a different color. Choose yours:</string>
     <string name="team_mode_active">Team mode is active</string>
     <string name="team_mode_deactivated">Team mode deactivated</string>
 
@@ -953,7 +955,7 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="link_umap_description">Create maps with custom data quickly and embed them in your site</string>
     <string name="link_opnvkarte_description">A map of public transport routes and stops</string>
     <string name="link_pic4review_description">Contribute to OSM simply by looking at pictures of your city</string>
-    <string name="link_wiki_description">The wiki is your starting point to everything related OpenStreetMap</string>
+    <string name="link_wiki_description">The wiki is your starting point to everything related to OpenStreetMap</string>
     <string name="link_learnosm_description">New to OpenStreetMap? This is a beginner\'s guide</string>
     <string name="link_neis_one_description">A huge collection of statistics for OpenStreetMap contributors, like where and how you contributed, who else is around you plus leaderboards</string>
     <string name="link_disaster_ninja_description">Map that shows recent natural disasters, interesting for humanitarian mappers. Also, shows many interesting statistics to analyze how well-mapped and up-to-date places are.</string>
@@ -1112,7 +1114,8 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_barrier_type_stile_ladder">Ladder stile</string>
     <string name="quest_barrier_type_bicycle_barrier">Bicycle barrier</string>
     <string name="quest_barrier_type_kissing_gate">Kissing gate</string>
-    <string name="quest_barrier_type_stepover">Step-over stile</string>
+    <string name="quest_barrier_type_stepover_wooden">Wooden step-over stile</string>
+    <string name="quest_barrier_type_stepover_stone">Stone step-over stile</string>
     <string name="quest_barrier_type_swing_gate">Horizontal bar</string>
     <string name="quest_lanes_answer_noLanes_known_count">No markings, obvious lane count</string>
     <string name="quest_barrier_type_kissing_gate_conversion">Converted into a kissing gate</string>
@@ -1122,9 +1125,8 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_surface_value_paved_tracktype_grade1_is_correct">This way is paved</string>
     <string name="quest_bollard_type_title">What type of bollard is this?</string>
     <string name="quest_bollard_type_rising">Rising</string>
-    <string name="quest_bollard_type_removable_with_key">Removable with key</string>
-    <string name="quest_bollard_type_removable_without_key">Removable without key</string>
-    <string name="quest_bollard_type_foldable">Foldable</string>
+    <string name="quest_bollard_type_removable">Removable (with or without key)</string>
+    <string name="quest_bollard_type_foldable2">Foldable (with or without key)</string>
     <string name="quest_bollard_type_flexible">Flexible</string>
     <string name="quest_bollard_type_fixed">Fixed (not removable)</string>
     <string name="quest_camera_type_title">What type of surveillance camera is this?</string>
