@@ -1,6 +1,8 @@
 package de.westnordost.streetcomplete.data.osm.edits.upload.changesets
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import de.westnordost.streetcomplete.ApplicationConstants.QUESTTYPE_TAG_KEY
 import de.westnordost.streetcomplete.ApplicationConstants.OSM_USER_AGENT
 import de.westnordost.streetcomplete.data.osm.edits.upload.LastEditTimeStore
@@ -8,7 +10,6 @@ import de.westnordost.streetcomplete.data.osm.mapdata.MapDataApi
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmElementQuestType
 import de.westnordost.streetcomplete.data.quest.QuestType
 import de.westnordost.streetcomplete.data.upload.ConflictException
-import de.westnordost.streetcomplete.ktx.toBcp47LanguageTag
 import java.util.Locale
 import javax.inject.Inject
 
@@ -56,7 +57,7 @@ class OpenQuestChangesetsManager @Inject constructor(
         mapOf(
             "comment" to questType.commitMessage,
             "created_by" to OSM_USER_AGENT,
-            "locale" to Locale.getDefault().toBcp47LanguageTag(),
+            "locale" to Locale.getDefault().toLanguageTag(),
             QUESTTYPE_TAG_KEY to questType.name,
             "source" to source
         )
