@@ -12,7 +12,7 @@ class AddRailwayCrossingBarrier : OsmElementQuestType<RailwayCrossingBarrier> {
 
     private val crossingFilter by lazy { """
         nodes with
-          railway = level_crossing
+          (railway = level_crossing or railway=crossing)
           and (!crossing:barrier or crossing:barrier older today -8 years)
     """.toElementFilterExpression() }
 
