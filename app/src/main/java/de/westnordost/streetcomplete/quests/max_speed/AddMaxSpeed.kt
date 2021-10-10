@@ -6,6 +6,7 @@ import de.westnordost.streetcomplete.data.meta.MAXSPEED_TYPE_KEYS
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.quest.AllCountriesExcept
+import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.CAR
 
 class AddMaxSpeed : OsmFilterQuestType<MaxSpeedAnswer>() {
 
@@ -28,6 +29,8 @@ class AddMaxSpeed : OsmFilterQuestType<MaxSpeedAnswer>() {
 
     // see #813: US has different rules for each different state which need to be respected
     override val enabledInCountries = AllCountriesExcept("US")
+
+    override val questTypeAchievements = listOf(CAR)
 
     override fun getTitle(tags: Map<String, String>) =
         if (tags.containsKey("name"))
