@@ -19,7 +19,9 @@ import de.westnordost.streetcomplete.data.osmnotes.edits.NotesWithEditsSource
 import de.westnordost.streetcomplete.data.osmnotes.NotesModule
 import de.westnordost.streetcomplete.data.quest.OsmNoteQuestKey
 import de.westnordost.streetcomplete.data.user.User
-import de.westnordost.streetcomplete.databinding.*
+import de.westnordost.streetcomplete.databinding.QuestNoteDiscussionContentBinding
+import de.westnordost.streetcomplete.databinding.QuestNoteDiscussionItemBinding
+import de.westnordost.streetcomplete.databinding.QuestNoteDiscussionItemsBinding
 import de.westnordost.streetcomplete.ktx.createBitmap
 import de.westnordost.streetcomplete.quests.AbstractQuestFormAnswerFragment
 import de.westnordost.streetcomplete.quests.AnswerItem
