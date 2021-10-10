@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete.quests.validator
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
 class WatUndrinkableDrinkable() : OsmFilterQuestType<Boolean>() {
@@ -17,4 +18,7 @@ class WatUndrinkableDrinkable() : OsmFilterQuestType<Boolean>() {
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {}
 
     override val wikiLink = "Tag:drinking_water=no"
+
+    override val questTypeAchievements: List<QuestTypeAchievement>
+        get() = listOf()
 }

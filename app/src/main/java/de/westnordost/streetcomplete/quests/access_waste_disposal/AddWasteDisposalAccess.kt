@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete.quests.access_waste_disposal
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
+import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
 class AddWasteDisposalAccess : OsmFilterQuestType<Boolean>() {
@@ -19,4 +20,7 @@ class AddWasteDisposalAccess : OsmFilterQuestType<Boolean>() {
     override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
         changes.add("access", if (answer) "yes" else "private")
     }
+
+    override val questTypeAchievements: List<QuestTypeAchievement>
+        get() = listOf()
 }

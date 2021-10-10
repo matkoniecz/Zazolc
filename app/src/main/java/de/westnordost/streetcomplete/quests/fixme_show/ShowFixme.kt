@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete.quests.fixme_show
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
 
 
 class ShowFixme() : OsmFilterQuestType<List<String>>() {
@@ -37,4 +38,7 @@ class ShowFixme() : OsmFilterQuestType<List<String>>() {
     }
 
     override val wikiLink = "Key:fixme"
+
+    override val questTypeAchievements: List<QuestTypeAchievement>
+        get() = listOf()
 }

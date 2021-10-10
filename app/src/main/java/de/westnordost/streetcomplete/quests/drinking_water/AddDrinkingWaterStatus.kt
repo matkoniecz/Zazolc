@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete.quests.drinking_water
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
 
 
 class AddDrinkingWaterStatus() : OsmFilterQuestType<List<String>>() {
@@ -39,4 +40,7 @@ class AddDrinkingWaterStatus() : OsmFilterQuestType<List<String>>() {
     }
 
     override val wikiLink = "Key:drinking_water:legal"
+
+    override val questTypeAchievements: List<QuestTypeAchievement>
+        get() = listOf()
 }

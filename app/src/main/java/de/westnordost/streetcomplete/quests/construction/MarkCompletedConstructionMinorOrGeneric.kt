@@ -7,6 +7,7 @@ import de.westnordost.streetcomplete.data.meta.SURVEY_MARK_KEY
 import de.westnordost.streetcomplete.data.meta.toCheckDateString
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 import java.time.LocalDate
 import java.util.*
@@ -46,4 +47,7 @@ class MarkCompletedConstructionMinorOrGeneric() : OsmFilterQuestType<Boolean>() 
             changes.addOrModify(SURVEY_MARK_KEY, LocalDate.now().toCheckDateString())
         }
     }
+
+    override val questTypeAchievements: List<QuestTypeAchievement>
+        get() = listOf()
 }

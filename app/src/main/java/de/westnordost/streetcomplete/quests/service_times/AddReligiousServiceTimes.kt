@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete.quests.service_times
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
+import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
 import de.westnordost.streetcomplete.ktx.toYesNo
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
@@ -30,4 +31,7 @@ class AddReligiousServiceTimes : OsmFilterQuestType<Boolean>() {
             changes.add("service_times:mass:signed", answer.toYesNo())
         }
     }
+
+    override val questTypeAchievements: List<QuestTypeAchievement>
+        get() = listOf()
 }
