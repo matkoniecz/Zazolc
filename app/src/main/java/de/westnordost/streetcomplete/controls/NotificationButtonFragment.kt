@@ -45,8 +45,8 @@ class NotificationButtonFragment : Fragment(R.layout.fragment_notification_butto
 
     override fun onStart() {
         super.onStart()
-        //notificationsSource.addListener(notificationsSourceUpdateListener)
-        //viewLifecycleScope.launch { initializeButtonState() }
+        notificationsSource.addListener(notificationsSourceUpdateListener)
+        viewLifecycleScope.launch { initializeButtonState() }
     }
 
     override fun onStop() {
@@ -57,7 +57,7 @@ class NotificationButtonFragment : Fragment(R.layout.fragment_notification_butto
     private suspend fun initializeButtonState() {
         val numberOfNotifications = withContext(Dispatchers.IO) { notificationsSource.getNumberOfNotifications() }
         notificationButton.notificationsCount = numberOfNotifications
-        notificationButton.isGone = true // numberOfNotifications <= 0
+        notificationButton.isGone = numberOfNotifications <= 0
     }
 
     private fun updateButtonStateAnimated(numberOfNotifications: Int) {
