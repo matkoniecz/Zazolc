@@ -541,6 +541,8 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_bench_answer_picnic_table">It’s a picnic table</string>
     <string name="quest_religion_for_place_of_worship_name_title">What religion is practiced at %s?</string>
     <string name="quest_religion_for_place_of_worship_title">What religion is practiced at this place?</string>
+    <string name="quest_denomination_for_christian_place_of_worship_name_title">What type of Christianity is practiced at %s?</string>
+    <string name="quest_denomination_for_christian_place_of_worship_title">What type of Christianity is practiced at this place?</string>
     <string name="quest_religion_christian">Christianity</string>
     <string name="quest_religion_muslim">Islam</string>
     <string name="quest_religion_hindu">Hinduism</string>
@@ -1092,4 +1094,5 @@ If you are overwhelmed by the number of quests, you can always fine-tune which q
     <string name="quest_fireHydrant_diameter_title">What diameter is on this fire hydrant’s sign?</string>
     <string name="quest_fireHydrant_diameter_unusualInput_confirmation_description">This diameter looks implausible.</string>
     <string name="quest_fireHydrant_confirmation_title">"Are you sure? Sometimes the diameter can be found on the hydrant itself."</string>
+    <string name="quest_religion_roman_catholic">Roman catholic</string>
 </resources>

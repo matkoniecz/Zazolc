@@ -19,6 +19,7 @@ public class CountryInfo implements Serializable, Cloneable
 	List<String> weightLimitUnits;
 	List<String> popularSports;
 	List<String> popularReligions;
+	List<String> popularChristianDenominations;
 	String firstDayOfWorkweek;
 	Integer regularShoppingDays;
 	Integer workweekDays;
@@ -90,6 +91,12 @@ public class CountryInfo implements Serializable, Cloneable
 	{
 		if(popularReligions == null) return new ArrayList<>(1);
 		return Collections.unmodifiableList(popularReligions);
+	}
+
+	public List<String> getPopularChristianDenominations()
+	{
+		if(popularChristianDenominations == null) return new ArrayList<>(1);
+		return Collections.unmodifiableList(popularChristianDenominations);
 	}
 
 	public String getFirstDayOfWorkweek()

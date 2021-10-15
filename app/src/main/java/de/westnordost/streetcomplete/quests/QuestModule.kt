@@ -92,6 +92,7 @@ import de.westnordost.streetcomplete.quests.summit_register.AddSummitRegister
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType
 import de.westnordost.streetcomplete.quests.recycling_glass.DetermineRecyclingGlass
 import de.westnordost.streetcomplete.quests.recycling_material.AddRecyclingContainerMaterials
+import de.westnordost.streetcomplete.quests.religion.AddChristianDenomination
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine
 import de.westnordost.streetcomplete.quests.roof_shape.AddRoofShape
@@ -200,6 +201,7 @@ import javax.inject.Singleton
 
         AddReligionToPlaceOfWorship(), // icons on maps are different - OSM Carto, mapy.cz, OsmAnd, Sputnik etc
         AddReligionToWaysideShrine(),
+        AddChristianDenomination(),
 
         AddPowerPolesMaterial(),
 
