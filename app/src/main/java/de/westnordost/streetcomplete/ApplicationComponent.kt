@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete
 import dagger.Component
 import de.westnordost.streetcomplete.about.PrivacyStatementFragment
 import de.westnordost.streetcomplete.controls.*
+import de.westnordost.streetcomplete.data.CleanerWorker
 import de.westnordost.streetcomplete.data.DbModule
 import de.westnordost.streetcomplete.data.OsmApiModule
 import de.westnordost.streetcomplete.data.StreetCompleteSQLiteOpenHelper
@@ -21,6 +22,7 @@ import de.westnordost.streetcomplete.data.upload.UploadModule
 import de.westnordost.streetcomplete.data.upload.UploadService
 import de.westnordost.streetcomplete.data.user.UserModule
 import de.westnordost.streetcomplete.data.user.achievements.AchievementsModule
+import de.westnordost.streetcomplete.data.user.statistics.StatisticsModule
 import de.westnordost.streetcomplete.data.visiblequests.QuestPresetsModule
 import de.westnordost.streetcomplete.edithistory.EditHistoryFragment
 import de.westnordost.streetcomplete.edithistory.UndoDialog
@@ -57,6 +59,7 @@ import javax.inject.Singleton
     EditHistoryModule::class,
     MetadataModule::class,
     UserModule::class,
+    StatisticsModule::class,
     AchievementsModule::class,
     MapModule::class,
     ElementEditsModule::class,
@@ -107,4 +110,5 @@ interface ApplicationComponent {
     fun inject(streetCompleteSQLiteOpenHelper: StreetCompleteSQLiteOpenHelper)
     fun inject(editHistoryFragment: EditHistoryFragment)
     fun inject(questPresetsFragment: QuestPresetsFragment)
+    fun inject(cleanerWorker: CleanerWorker)
 }

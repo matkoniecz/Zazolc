@@ -44,6 +44,7 @@ import de.westnordost.streetcomplete.quests.diet_type.AddVegetarian
 import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessMotorVehicle
 import de.westnordost.streetcomplete.quests.ferry.AddFerryAccessPedestrian
 import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantType
+import de.westnordost.streetcomplete.quests.fire_hydrant.AddFireHydrantDiameter
 import de.westnordost.streetcomplete.quests.foot.AddProhibitedForPedestrians
 import de.westnordost.streetcomplete.quests.general_fee.AddGeneralFee
 import de.westnordost.streetcomplete.quests.handrail.AddHandrail
@@ -66,6 +67,7 @@ import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours
 import de.westnordost.streetcomplete.quests.atm_operator.AddAtmOperator
 import de.westnordost.streetcomplete.quests.barrier_type.AddBarrierType
 import de.westnordost.streetcomplete.quests.barrier_type.AddStileType
+import de.westnordost.streetcomplete.quests.barrier_type.AddTrafficCalmingType
 import de.westnordost.streetcomplete.quests.bollard_type.AddBollardType
 import de.westnordost.streetcomplete.quests.bus_stop_bin.AddBinStatusOnBusStop
 import de.westnordost.streetcomplete.quests.camera_type.AddCameraType
@@ -170,6 +172,7 @@ import javax.inject.Singleton
         SpecifyShopType(),
         CheckShopType(),
         MarkCompletedHighwayConstruction(),
+        AddTrafficCalmingType(),
         AddPicnicTableCover(),
         AddReligionToPlaceOfWorship(), // icons on maps are different - OSM Carto, mapy.cz, OsmAnd, Sputnik etc
         AddParkingAccess(), //OSM Carto, mapy.cz, OSMand, Sputnik etc
@@ -213,6 +216,7 @@ import javax.inject.Singleton
         AddTracktype(),
         AddMaxWeight(),
         AddForestLeafType(), // used by OSM Carto
+
         AddBikeParkingType(), // used by OsmAnd
         AddBikeParkingAccess(),
         AddBikeParkingFee(),
@@ -264,6 +268,7 @@ import javax.inject.Singleton
         AddStileType(),
         AddBollardType(), // useful for first responders
         AddCameraType(),
+
 
         // ↓ 8. defined in the wiki, but not really used by anyone yet. Just collected for
         //      the sake of mapping it in case it makes sense later
