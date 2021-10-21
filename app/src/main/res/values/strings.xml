@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="default_disabled_msg_boring">Disabled as boring and not worth effort to answer</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_settings">"Settings"</string>
     <string name="oauth_communication_error">"Unable to reach the authorization server"</string>
     <string name="user_profile">My Profile</string>
@@ -8,6 +7,7 @@
     <string name="user_logout">Logout</string>
     <string name="osm_profile">OSM Profile</string>
     <string name="next">Next</string>
+    <string name="default_disabled_msg_boring">Disabled as boring and not worth effort to answer</string>
     <string name="letsgo">Let’s go!</string>
     <string name="tutorial_welcome_to_osm">Welcome to OpenStreetMap</string>
     <string name="tutorial_welcome_to_osm_subtitle">the free wiki world map</string>
@@ -848,7 +848,6 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
     <string name="quest_address_street_place_name_label">Place name:</string>
     <string name="quest_address_street_description">Tap the road it belongs to on the map or enter it without abbreviations in the field below:</string>
     <string name="quest_street_side_puzzle_tutorial">The road in the illustration is rotated the same as on the map at the location of the pin. </string>
-    <string name="quest_oneway_tutorial">The road in the illustration is rotated the same as on the map at the location of the pin. Note the indicated direction. </string>
     <string name="quest_recycling_materials_title">What can be left here for recycling?</string>
     <string name="quest_recycling_materials_note">If anything different can be recycled than selectable here, please leave a note instead.</string>
     <string name="quest_recycling_type_batteries">Batteries</string>
