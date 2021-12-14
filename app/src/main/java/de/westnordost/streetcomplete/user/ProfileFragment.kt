@@ -21,10 +21,6 @@ import de.westnordost.streetcomplete.data.user.*
 import de.westnordost.streetcomplete.data.user.achievements.AchievementsSource
 import de.westnordost.streetcomplete.data.user.statistics.StatisticsSource
 import de.westnordost.streetcomplete.databinding.FragmentProfileBinding
-import de.westnordost.streetcomplete.ktx.createBitmap
-import de.westnordost.streetcomplete.ktx.tryStartActivity
-import de.westnordost.streetcomplete.ktx.viewBinding
-import de.westnordost.streetcomplete.ktx.viewLifecycleScope
 import kotlinx.coroutines.*
 import java.io.File
 import java.util.Locale
@@ -34,6 +30,10 @@ import android.graphics.Color
 
 import android.graphics.drawable.GradientDrawable
 import android.util.Log
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.RelativeLayout
+import de.westnordost.streetcomplete.controls.IconsDownloadProgressView
+import de.westnordost.streetcomplete.ktx.*
 
 
 /** Shows the user profile: username, avatar, star count and a hint regarding unpublished changes */
@@ -172,6 +172,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             statisticsSource.getCountryStatisticsOfCountryWithBiggestSolvedCount()
         }
         Log.wtf("HEREHERE2", statisticsSource.getCountryStatistics().toString())
+
+        var dp = 84
+        val pixels = dp * context!!.resources.displayMetrics.density
+        val layoutParams = RelativeLayout.LayoutParams(pixels, WRAP_CONTENT)
+        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+        v.layoutParams = layoutParams
+
         if (statistics == null) binding.localRankContainer.isGone = true
         else {
             val shouldShow = statistics.rank != null && statistics.rank > 0 && statistics.solvedCount > 50
