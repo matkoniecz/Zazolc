@@ -136,7 +136,7 @@
                                 android:id="@+id/frameView"
                                 android:layout_width="64dp"
                                 android:layout_height="64dp"
-                                android:background="@drawable/ic_symbolic_bubble"
+                                android:background="@drawable/ic_symbolic_leaves_export"
                                 android:gravity="center"
                                 android:padding="8dp"
                                 android:layout_centerHorizontal="true"
@@ -146,7 +146,6 @@
                             android:id="@+id/localRankText"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
-                            android:background="@drawable/ic_symbolic_bubble_inner"
                             android:gravity="center"
                             android:padding="8dp"
                             android:maxLines="1"
@@ -155,7 +154,7 @@
                             app:autoSizeTextType="uniform"
                             app:autoSizeMaxTextSize="22dp"
                             app:autoSizeMinTextSize="12dp"
-                            android:textColor="@color/background"
+                            android:textColor="@color/text"
                             tools:text="#1"/>
 
                         </RelativeLayout>
@@ -185,7 +184,7 @@
                             android:id="@+id/globalRankText"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
-                            android:background="@drawable/background_inverted_text_circle"
+                            android:background="@drawable/ic_symbolic_leaves_export_worse"
                             android:gravity="center"
                             android:padding="8dp"
                             android:maxLines="1"
@@ -194,7 +193,7 @@
                             app:autoSizeTextType="uniform"
                             app:autoSizeMaxTextSize="22dp"
                             app:autoSizeMinTextSize="12dp"
-                            android:textColor="@color/background"
+                            android:textColor="@color/text"
                             tools:text="#123456"/>
 
                         <TextView
