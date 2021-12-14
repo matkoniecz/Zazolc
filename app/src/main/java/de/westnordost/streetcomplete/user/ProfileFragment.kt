@@ -171,6 +171,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             Log.wtf("HEREHERE", statisticsSource.getCountryStatistics().toString())
             statisticsSource.getCountryStatisticsOfCountryWithBiggestSolvedCount()
         }
+        Log.wtf("HEREHERE2", statisticsSource.getCountryStatistics().toString())
         if (statistics == null) binding.localRankContainer.isGone = true
         else {
             val shouldShow = statistics.rank != null && statistics.rank > 0 && statistics.solvedCount > 50
@@ -184,8 +185,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             binding.localRankText.setBackgroundResource(R.drawable.ic_symbolic_bubble_inner)
 
-            val bgShape = binding.localRankText.background as GradientDrawable
-            bgShape.setColor(Color.rgb(255, 0, 0))
+            //val bgShape = binding.localRankText.background as GradientDrawable
+            //bgShape.setColor(Color.rgb(255, 0, 0))
 
             binding.localRankLabel.text = getString(R.string.user_profile_local_rank, countryLocale.displayCountry)
         }
