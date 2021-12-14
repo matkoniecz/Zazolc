@@ -126,11 +126,27 @@
                         android:layout_width="84dp"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/localRankBubble"
+                            >
+
+                            <ImageView
+                                android:id="@+id/frameView"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:background="@drawable/ic_symbolic_bubble"
+                                android:gravity="center"
+                                android:padding="8dp"
+                                android:layout_centerHorizontal="true"
+                            />
+
+                            <TextView
                             android:id="@+id/localRankText"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
-                            android:background="@drawable/background_inverted_text_circle"
+                            android:background="@drawable/ic_symbolic_bubble_inner"
                             android:gravity="center"
                             android:padding="8dp"
                             android:maxLines="1"
@@ -142,6 +158,9 @@
                             android:textColor="@color/background"
                             tools:text="#1"/>
 
+                        </RelativeLayout>
+
+
                         <TextView
                             android:id="@+id/localRankLabel"
                             android:layout_width="match_parent"
@@ -149,8 +168,8 @@
                             android:layout_centerHorizontal="true"
                             android:gravity="center"
                             android:textAppearance="@style/TextAppearance.Body"
-                            android:labelFor="@id/localRankText"
-                            android:layout_below="@+id/localRankText"
+                            android:labelFor="@id/localRankBubble"
+                            android:layout_below="@+id/localRankBubble"
                             android:layout_marginTop="4dp"
                             android:text="@string/user_profile_local_rank"
                             tools:text="Rank in\nUnited States of America"/>

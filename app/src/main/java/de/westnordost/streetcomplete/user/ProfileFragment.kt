@@ -1,11 +1,14 @@
 package de.westnordost.streetcomplete.user
 
+import android.R.attr
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -26,6 +29,12 @@ import kotlinx.coroutines.*
 import java.io.File
 import java.util.Locale
 import javax.inject.Inject
+import android.R.attr.button
+import android.graphics.Color
+
+import android.graphics.drawable.GradientDrawable
+import android.util.Log
+
 
 /** Shows the user profile: username, avatar, star count and a hint regarding unpublished changes */
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
@@ -159,6 +168,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private suspend fun updateLocalRankText() {
         val statistics = withContext(Dispatchers.IO) {
+            Log.wtf("HEREHERE", statisticsSource.getCountryStatistics().toString())
             statisticsSource.getCountryStatisticsOfCountryWithBiggestSolvedCount()
         }
         if (statistics == null) binding.localRankContainer.isGone = true
@@ -167,6 +177,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             val countryLocale = Locale("", statistics.countryCode)
             binding.localRankContainer.isGone = !shouldShow
             binding.localRankText.text = "#${statistics.rank}"
+
+            //binding.localRankText.setBackgroundColor(resources.getColor(R.color.design_default_color_error))
+
+            binding.localRankText.setBackgroundColor(ContextCompat.getColor(context!!, R.color.design_default_color_error))
+
+            binding.localRankText.setBackgroundResource(R.drawable.ic_symbolic_bubble_inner)
+
+            val bgShape = binding.localRankText.background as GradientDrawable
+            bgShape.setColor(Color.rgb(255, 0, 0))
+
             binding.localRankLabel.text = getString(R.string.user_profile_local_rank, countryLocale.displayCountry)
         }
     }
