@@ -175,8 +175,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         var dp = 84
         val pixels = dp * context!!.resources.displayMetrics.density
-        val layoutParams = RelativeLayout.LayoutParams(pixels, WRAP_CONTENT)
+        val layoutParams = RelativeLayout.LayoutParams(pixels.toInt(), WRAP_CONTENT)
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+
+
         v.layoutParams = layoutParams
 
         if (statistics == null) binding.localRankContainer.isGone = true
