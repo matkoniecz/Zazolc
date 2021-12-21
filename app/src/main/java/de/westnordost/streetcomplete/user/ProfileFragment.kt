@@ -1,11 +1,9 @@
 package de.westnordost.streetcomplete.user
 
-import android.R.attr
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -25,14 +23,14 @@ import kotlinx.coroutines.*
 import java.io.File
 import java.util.Locale
 import javax.inject.Inject
-import android.R.attr.button
-import android.graphics.Color
 
-import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.ImageView
 import android.widget.RelativeLayout
-import de.westnordost.streetcomplete.controls.IconsDownloadProgressView
+import android.widget.TextView
+import com.google.android.flexbox.FlexboxLayout
 import de.westnordost.streetcomplete.ktx.*
 
 
@@ -173,13 +171,25 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
         Log.wtf("HEREHERE2", statisticsSource.getCountryStatistics().toString())
 
-        var dp = 84
+        val dp = 84
         val pixels = dp * context!!.resources.displayMetrics.density
-        val layoutParams = RelativeLayout.LayoutParams(pixels.toInt(), WRAP_CONTENT)
-        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+        val bubbleContainerLayoutParams = RelativeLayout.LayoutParams(pixels.toInt(), WRAP_CONTENT)
+        val bubbleContainer = RelativeLayout(context)
+        bubbleContainer.layoutParams = bubbleContainerLayoutParams
 
+        val bubbleLayoutParams = RelativeLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        val bubble = RelativeLayout(context)
+        bubble.layoutParams = bubbleLayoutParams
 
-        v.layoutParams = layoutParams
+        val frameViewLayoutParams = RelativeLayout.LayoutParams(pixels.toInt(), WRAP_CONTENT)
+        frameViewLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+        val frameView = ImageView(context)
+
+        bubble.addView(frameView)
+        bubbleContainer.addView(bubble)
+
+        val badgesContainer : FlexboxLayout = view!!.findViewById(R.id.badgesContainer)
+        badgesContainer.addView(bubbleContainer)
 
         if (statistics == null) binding.localRankContainer.isGone = true
         else {
