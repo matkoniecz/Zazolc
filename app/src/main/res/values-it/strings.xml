@@ -44,7 +44,7 @@
     <string name="quest_noteDiscussion_anonymous">"Anonimo"</string>
     <string name="confirmation_discard_title">"Scartare l'input?"</string>
     <string name="confirmation_discard_positive">"Scarta"</string>
-    <string name="confirmation_discard_negative">"Cancella"</string>
+    <string name="confirmation_discard_negative">"Annulla"</string>
     <string name="action_download">"Trova le missioni in zona"</string>
     <string name="action_upload">"Carica risposte"</string>
     <string name="no_changes">"Non hai dato alcuna risposta"</string>
@@ -379,7 +379,7 @@ Altrimenti, è possibile scaricare un'altra tastiera. Le tastiere popolari che s
 
     <!-- Ho modificato questa risposta positiva e quella negativa "Cancel" rispettivamente in "Annulla" e "Non annullare" così da essere simili a quelle usate dai traduttori francesi; esse sono le risposte che può dare l’utente alla domanda "Undo the following last answer?" che è stata tradotta in "Annullare quest'ultima riposta?". Vedi la nota in francese alla voce undo_confirm_negative. -->
     <string name="undo_confirm_positive">"Annulla"</string>
-    <string name="undo_confirm_negative">"Cancella"</string>
+    <string name="undo_confirm_negative">"Annulla"</string>
     <string name="quest_dietType_vegetarian_name_title">"%s ha cibo vegetariano nel menu?"</string>
     <string name="quest_dietType_vegan_name_title">"%s offre cibo vegano nel menu?"</string>
     <string name="quest_hasFeature_only">"Solo"</string>
@@ -873,7 +873,6 @@ riconoscimento"</string>
     <string name="quest_streetName_menuItem_language_with_script_native">"%1$s – %2$s (%3$s), %4$s"</string>
     <string name="quest_streetName_menuItem_international">"Internazionale"</string>
     <string name="quest_buildingType_terrace2">"Case a schiera"</string>
-    <string name="quest_oneway_tutorial">"La strada è visualizzata con la stessa rotazione che hai nella mappa rispetto al puntatore. Fa attenzione alla direzione indicata."</string>
     <string name="at_housename">"Nome della casa %s:"</string>
     <string name="at_conscription_and_street_number">"Numero di coscrizione %1$s, orientamento dei numero %2$s:"</string>
     <string name="at_conscription_number">"Numero di coscrizione %s:"</string>
@@ -1162,9 +1161,29 @@ I dati vengono aggiornati dopo %1$s giorni e i dati inutilizzati vengono cancell
     <string name="quest_buildingType_bridge">"Ponte tra edifici"</string>
     <string name="quest_laundrySelfService_title2">"Questa lavanderia ha il servizio self service?"</string>
     <string name="quest_dietType_halal_name_title">"%s offre prodotti Halal?"</string>
-    <string name="quest_dietType_explanation_halal">"I prodotti Halal devono essere preparati in osservanza di speciali regole, con la certificazione Halal le agenzie le agenzie marchiano il prodotto in accordo."</string>
+    <string name="quest_dietType_explanation_halal">"I prodotti Halal devono essere preparati in osservanza di speciali regole, le agenzie di certificazione Halal marchiano i prodotti che le rispettano."</string>
     <string name="quest_picnicTableCover_title">"Questo tavolo da picnic è coperto (riparato dalla pioggia)?"</string>
 
     <!-- Fuzzy -->
     <string name="quest_generic_answer_is_actually_steps">"Questi sono scalini"</string>
+    <string name="quest_barrier_type_passage_conversion">"Convertito in un passaggio in un muro/barriera"</string>
+    <string name="quest_barrier_type_gate_conversion">"Convertito in cancello"</string>
+
+    <!-- Ho usato dissuasore di velocità perché mi sembra la definizione migliore per restare in un numero contenuto di parole. -->
+    <string name="quest_traffic_calming_type_title">"Che tipo di dissuasore di velocità è?"</string>
+    <string name="quest_traffic_calming_type_bump">"Dosso (breve)"</string>
+    <string name="quest_traffic_calming_type_hump">"Gobba (lungo)"</string>
+    <string name="quest_traffic_calming_type_table">"Tavola (lungo e piatto)"</string>
+    <string name="quest_traffic_calming_type_cushion">"Cuscino (non sentito da veicoli larghi)"</string>
+    <string name="quest_traffic_calming_type_choker">"Strada ristretta"</string>
+    <string name="quest_traffic_calming_type_island">"Isola"</string>
+    <string name="quest_traffic_calming_type_chicane">"Curve obbligate"</string>
+    <string name="quest_traffic_calming_type_rumble_strip">"Strisce rumorose"</string>
+    <string name="quest_surface_value_concrete_plates">"Lastre di cemento"</string>
+    <string name="quest_surface_value_concrete_lanes">"Linee in cemento"</string>
+
+    <!-- Fuzzy -->
+    <string name="quest_fireHydrant_diameter_title">"Qual è il diametro indicato sulla targa dell'idrante?"</string>
+    <string name="quest_fireHydrant_diameter_unusualInput_confirmation_description">"Questo diametro sembra implausibile."</string>
+    <string name="quest_fireHydrant_confirmation_title">"Sei Sicuro? Delle volte il diametro può essere trovato sull'idrante stesso."</string>
 </resources>
