@@ -25,6 +25,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 import android.util.Log
+import android.view.Gravity.CENTER
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.ImageView
@@ -113,6 +114,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             updateGlobalRankText()
             updateLocalRankText()
             updateAchievementLevelsText()
+            addAnExtraBubble()
         }
     }
 
@@ -166,31 +168,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private suspend fun updateLocalRankText() {
         val statistics = withContext(Dispatchers.IO) {
-            Log.wtf("HEREHERE", statisticsSource.getCountryStatistics().toString())
             statisticsSource.getCountryStatisticsOfCountryWithBiggestSolvedCount()
         }
-        Log.wtf("HEREHERE2", statisticsSource.getCountryStatistics().toString())
-
-        val dp = 84
-        val pixels = dp * context!!.resources.displayMetrics.density
-        val bubbleContainerLayoutParams = RelativeLayout.LayoutParams(pixels.toInt(), WRAP_CONTENT)
-        val bubbleContainer = RelativeLayout(context)
-        bubbleContainer.layoutParams = bubbleContainerLayoutParams
-
-        val bubbleLayoutParams = RelativeLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        val bubble = RelativeLayout(context)
-        bubble.layoutParams = bubbleLayoutParams
-
-        val frameViewLayoutParams = RelativeLayout.LayoutParams(pixels.toInt(), WRAP_CONTENT)
-        frameViewLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
-        val frameView = ImageView(context)
-
-        bubble.addView(frameView)
-        bubbleContainer.addView(bubble)
-
-        val badgesContainer : FlexboxLayout = view!!.findViewById(R.id.badgesContainer)
-        badgesContainer.addView(bubbleContainer)
-
         if (statistics == null) binding.localRankContainer.isGone = true
         else {
             val shouldShow = statistics.rank != null && statistics.rank > 0 && statistics.solvedCount > 50
@@ -198,9 +177,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             binding.localRankContainer.isGone = !shouldShow
             binding.localRankText.text = "#${statistics.rank}"
 
-            //binding.localRankText.setBackgroundColor(resources.getColor(R.color.design_default_color_error))
+            //binding.localRankText.setBackgroundColor(resources.getColor(R.color.accent_variant))
 
-            binding.localRankText.setBackgroundColor(ContextCompat.getColor(context!!, R.color.design_default_color_error))
+            binding.localRankText.setBackgroundColor(ContextCompat.getColor(context!!, R.color.accent_variant))
 
             binding.localRankText.setBackgroundResource(R.drawable.ic_symbolic_bubble_inner)
 
@@ -215,6 +194,59 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val levels = withContext(Dispatchers.IO) { achievementsSource.getAchievements().sumOf { it.second } }
         binding.achievementLevelsContainer.isGone = levels <= 0
         binding.achievementLevelsText.text = "$levels"
+    }
+
+    private suspend fun addAnExtraBubble() {
+        // buuble is added to android:id="@+id/badgesContainer"
+        // in fragment_profile.xml
+        val statistics = withContext(Dispatchers.IO) {
+            Log.wtf("HEREHERE", statisticsSource.getCountryStatistics().toString())
+            statisticsSource.getCountryStatisticsOfCountryWithBiggestSolvedCount()
+        }
+        Log.wtf("HEREHERE2", statisticsSource.getCountryStatistics().toString())
+
+        // RelativeLayout, equivalent of say @+id/localRankContainer
+        val pixelsForDp84 = 84 * context!!.resources.displayMetrics.density.toInt()
+        val bubbleContainerLayoutParams = RelativeLayout.LayoutParams(pixelsForDp84, WRAP_CONTENT)
+        val bubbleContainer = RelativeLayout(context)
+        bubbleContainer.layoutParams = bubbleContainerLayoutParams
+
+        // equivalent of @+id/localRankBubble
+        val bubbleLayoutParams = RelativeLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        val bubble = RelativeLayout(context)
+        bubble.layoutParams = bubbleLayoutParams
+
+        // equivalent of ImageView @+id/frameView inside localRankBubble
+        val pixelsForDp64 = 64 * context!!.resources.displayMetrics.density.toInt()
+        val bubbleImageLayoutParams = RelativeLayout.LayoutParams(pixelsForDp64, pixelsForDp64)
+        bubbleImageLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+        bubbleImageLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        val bubbleImage = ImageView(context)
+        bubbleImage.setImageDrawable(resources.getBitmapDrawable(R.drawable.ic_symbolic_leaves_export))
+        bubbleImage.layoutParams = bubbleImageLayoutParams
+
+        // equivalent of @+id/localRankText inside localRankBubble
+        val textInsideBubbleLayoutParams = RelativeLayout.LayoutParams(pixelsForDp64, pixelsForDp64)
+        val textViewInsideBubble = TextView(context)
+        textViewInsideBubble.gravity = CENTER
+        textViewInsideBubble.text = "145"
+        textViewInsideBubble.setTextAppearance(context, R.style.TextAppearance_AppCompat_Title) // deprecated but needed for SK 21, 22
+        textViewInsideBubble.layoutParams = textInsideBubbleLayoutParams
+
+        // equivalent of @+id/localRankLabel inside @+id/localRankContainer (bubbleContainer
+        val textBelowBubbleLayoutParams = RelativeLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        textBelowBubbleLayoutParams.addRule(RelativeLayout.BELOW, bubble.id);
+        val textViewBelowBubble = TextView(context)
+        textViewBelowBubble.text = "below"
+        textViewBelowBubble.layoutParams = textBelowBubbleLayoutParams
+
+        bubble.addView(bubbleImage)
+        bubble.addView(textViewInsideBubble)
+        bubbleContainer.addView(bubble)
+        bubbleContainer.addView(textViewBelowBubble)
+
+        val badgesContainer : FlexboxLayout = view!!.findViewById(R.id.badgesContainer)
+        badgesContainer.addView(bubbleContainer)
     }
 
     private fun openUrl(url: String): Boolean {
