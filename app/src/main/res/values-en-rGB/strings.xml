@@ -227,7 +227,11 @@ If there are no signs along the whole street which apply for the highlighted sec
     <string name="quest_wheelchairAccess_subway_entrance_name_title">"Is the underground entrance %s wheelchair accessible?"</string>
     <string name="quest_wheelchairAccess_railway_station_name_title">"Is the railway station %s wheelchair accessible?"</string>
     <string name="quest_wheelchairAccess_location_name_title">"Is the location %s wheelchair accessible?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_wheelchairAccess_limited_description_business">"Partially means that there is no more than a single step to access the place and that most rooms inside are wheelchair accessible."</string>
+
+    <!-- Fuzzy -->
     <string name="quest_wheelchairAccess_limited_description_public_transport">"Partially means that there is no more than a single step to access it."</string>
     <string name="quest_streetName_nameWithAbbreviations_confirmation_title_name">"Abbreviation in the name %s?"</string>
     <string name="quest_baby_changing_table_toilets_title">"Does this toilet have a baby changing table?"</string>
@@ -419,10 +423,6 @@ Partially means that a wheelchair can enter and use the toilet, but no handrail 
     <string name="quest_parking_fee_title">"Do you have to pay to park here?"</string>
     <string name="quest_cycleway_value_lane_soft">"cycle lane (dashed markings)"</string>
     <string name="quest_surface_value_unhewn_cobblestone">"Unhewn cobblestone"</string>
-    <string name="quest_parking_access_title">"Is it restricted who may park here?"</string>
-    <string name="quest_parking_access_private">"It is private"</string>
-    <string name="quest_parking_access_yes">"It is open to the public (with or without fee)"</string>
-    <string name="quest_parking_access_customers">"It is only for customers"</string>
     <string name="quest_streetName_pedestrian_title">"What is the name of this pedestrian street?"</string>
     <string name="quest_streetSurface_square_title">"What surface does this square have?"</string>
     <string name="quest_streetSurface_square_name_title">"What surface does the square %s have here?"</string>
@@ -570,6 +570,8 @@ Partially means that a wheelchair can enter and use the toilet, but no handrail 
     <string name="quest_tracktype_grade5">"Soft"</string>
     <string name="quest_building_underground_name_title">"Is %s completely underground?"</string>
     <string name="quest_building_underground_title">"Is this building completely underground?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_wheelchairAccess_limited_description_outside">"Partially means that there is no more than a single step to access it."</string>
     <string name="quest_wheelchairAccess_outside_title">"Is this place wheelchair accessible?"</string>
 
@@ -799,7 +801,7 @@ rank"</string>
 active"</string>
     <string name="user_profile_achievement_levels">"Achievement
 levels"</string>
-    <string name="quest_address_street_title">"What street does the (house) number %s belong to?"</string>
+    <string name="quest_address_street_title">"What street does (house) %s belong to?"</string>
     <string name="quest_address_street_no_named_streets">"It does not belong to a named street"</string>
     <string name="quest_address_street_place_name_label">"Place name:"</string>
     <string name="quest_address_street_description">"Tap the road it belongs to on the map or enter it without abbreviations in the field below:"</string>
@@ -938,7 +940,6 @@ If any lanes are reserved for buses, please leave a note instead."</string>
     <string name="quest_shop_gone_vacant_answer">"It’s vacant"</string>
     <string name="quest_shop_gone_replaced_answer">"A(n)…"</string>
     <string name="quest_shop_gone_replaced_answer_hint">"Type kind of place here"</string>
-    <string name="quest_shop_gone_replaced_answer_error">"Don’t know what this is. Consider leaving a note."</string>
     <string name="quest_shop_vacant_type_title">"This shop has been vacant. What’s here now?"</string>
     <string name="quest_lanes_answer_lanes_odd2">"Lane count differs for each side"</string>
     <string name="quest_pitchSurface_title">"What surface does this sports field have?"</string>
@@ -1064,7 +1065,6 @@ Data is refreshed after %1$s days and unused data is deleted after %2$s days aut
     <string name="default_disabled_msg_roofShape">"This quest type is disabled by default because the roof shapes are often not easily visible from the street. This quest type is also quite time-consuming; in most cases, it is easier and more efficient to map this from aerial imagery at home."</string>
     <string name="quest_religion_animist">"Animist"</string>
     <string name="quest_construction_steps_title">"Are these steps completed?"</string>
-    <string name="questList_disabled_at_day">"Only shown at night"</string>
     <string name="pref_quests_deselect_all">"Deselect all quests?"</string>
     <string name="quest_buildingType_boathouse">"Boathouse"</string>
     <string name="quest_buildingType_allotment_house">"Allotment building"</string>
@@ -1117,4 +1117,24 @@ Data is refreshed after %1$s days and unused data is deleted after %2$s days aut
     <string name="quest_fireHydrant_confirmation_title">"Are you sure? Sometimes the diameter can be found on the hydrant itself."</string>
     <string name="quest_diet_answer_no_food">"It has no food"</string>
     <string name="short_no_answer_on_button">"No"</string>
+    <string name="restore_confirmation">"Restore"</string>
+    <string name="restore_dialog_message">"Restore all quests you’ve hidden?"</string>
+    <string name="quest_parking_access_title2">"Who is allowed to park here? Parking may be free or paid."</string>
+    <string name="quest_access_yes">"Any member of the general public"</string>
+    <string name="quest_access_customers">"Any person visiting a specific place (e.g. customers only)"</string>
+    <string name="quest_access_private">"Only individual(s) with permission"</string>
+    <string name="quest_postboxCollectionTimes_resurvey_title">"Are the collection times of this postbox still correct?"</string>
+    <string name="quest_postboxCollectionTimes_resurvey_name_title">"Are the collection times of this %s postbox still correct?"</string>
+    <string name="quest_shop_gone_replaced_answer_error2">"Not recognized. Try entering the type of place, for example “bakery”. Otherwise, consider leaving a note."</string>
+    <string name="quest_bicycle_barrier_type_title">"What type of bicycle barrier is this?"</string>
+    <string name="quest_barrier_bicycle_type_diagonal">"Diagonal to the path"</string>
+    <string name="quest_barrier_bicycle_type_tilted">"Narrow passage, smaller toward top"</string>
+    <string name="quest_barrier_bicycle_type_single">"Passage between two barriers"</string>
+    <string name="quest_barrier_bicycle_type_double">"Chicane - barrier on each side"</string>
+    <string name="quest_barrier_bicycle_type_multiple">"Chicane - more than two barriers"</string>
+
+    <!-- Fuzzy -->
+    <string name="quest_level_title">"On which level is %s located?"</string>
+    <string name="pref_title_language_select">"Select language"</string>
+    <string name="language_default">"System default"</string>
 </resources>

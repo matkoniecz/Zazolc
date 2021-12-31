@@ -236,7 +236,11 @@
     <string name="quest_wheelchairAccess_subway_entrance_name_title">"Входът за метрото %s достъпен ли е за инвалидни колички?"</string>
     <string name="quest_wheelchairAccess_railway_station_name_title">"Гарата/станцията %s достъпна ли е за инвалидни колички?"</string>
     <string name="quest_wheelchairAccess_location_name_title">"Мястото %s достъпно ли е за инвалидни колички?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_wheelchairAccess_limited_description_business">"\"Частично\" означава, че няма повече от едно стъпало на входа и повечето стаи вътре са достъпни за инвалидни колички."</string>
+
+    <!-- Fuzzy -->
     <string name="quest_wheelchairAccess_limited_description_public_transport">"\"Частично\" означава, че няма повече от едно стъпало на входа."</string>
     <string name="quest_streetName_nameWithAbbreviations_confirmation_title_name">"Съкращението на името %s?"</string>
     <string name="quest_baby_changing_table_toilets_title">"Тоалетните имат ли маса за смяна на бебешки пелени?"</string>
@@ -435,10 +439,6 @@
     <string name="quest_parking_fee_title">"Платено ли е паркирането тук?"</string>
     <string name="quest_cycleway_value_lane_soft">"велоалея (пунктирана линия)"</string>
     <string name="quest_surface_value_unhewn_cobblestone">"Каменна настилка"</string>
-    <string name="quest_parking_access_title">"Има ли ограничения кой може да паркира тук?"</string>
-    <string name="quest_parking_access_private">"Частен"</string>
-    <string name="quest_parking_access_yes">"Публичен (безплатен или платен)"</string>
-    <string name="quest_parking_access_customers">"Само за клиенти"</string>
     <string name="quest_streetName_pedestrian_title">"Какво е името на пешеходната улица"</string>
     <string name="quest_streetSurface_square_title">"Каква настилка има този площад?"</string>
     <string name="quest_streetSurface_square_name_title">"Каква настилка има площад %s?"</string>
@@ -586,6 +586,8 @@
     <string name="quest_tracktype_grade5">"Мека"</string>
     <string name="quest_building_underground_name_title">"%s напълно ли е под земята?"</string>
     <string name="quest_building_underground_title">"Тази сграда напълно ли е под земята?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_wheelchairAccess_limited_description_outside">"\"Частично\" означава, че няма повече от едно стъпало."</string>
     <string name="quest_wheelchairAccess_outside_title">"Това място достъпно ли е за инвалидни колички?"</string>
     <string name="quest_traffic_signals_button_title">"Тези светофари имат ли бутон за пешеходци?"</string>
@@ -829,6 +831,8 @@
     <string name="user_profile_local_rank">"Класиране в %s"</string>
     <string name="user_profile_days_active">"Дни активност"</string>
     <string name="user_profile_achievement_levels">"Постижения"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_address_street_title">"Към коя улица е сградата с номер %s?"</string>
     <string name="quest_address_street_no_named_streets">"Няма определена улица"</string>
     <string name="quest_address_street_place_name_label">"Име на място:"</string>
@@ -1000,9 +1004,6 @@
     <string name="quest_shop_gone_replaced_answer_hint">"Какъв вид място е това"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_shop_gone_replaced_answer_error">"Не знам какво е това. Помислете да оставите бележка."</string>
-
-    <!-- Fuzzy -->
     <string name="quest_shop_vacant_type_title">"Този обект е отбелязан като празен. Какво има тук сега?"</string>
     <string name="quest_lanes_answer_lanes_odd2">"Броят ленти е различен за различните посоки"</string>
     <string name="quest_pitchSurface_title">"Каква повърхност има тази спортна площадка?"</string>
@@ -1133,16 +1134,18 @@
     <string name="quest_buildingLevels_title2">"Колко етажа над мазето има тази сграда?"</string>
     <string name="quest_buildingLevels_title_buildingPart2">"Колко етажа над мазето има тази част от сградата?"</string>
     <string name="quest_crossing_title">"Има ли бордюр на мястото къде този път се среща с улицата? Какъв вид?"</string>
+    <string name="pref_subtitle_quests_preset_name">"Настройка: %s"</string>
     <string name="default_disabled_msg_roofShape">"Тази задача е изключена по подразбиране, защото формата на покривите не е лесно видима от улицата и отнема много време. В повечето случаи е по-лесно и по-ефективно да се използват сателитни изображения."</string>
     <string name="quest_religion_animist">"Анимизъм"</string>
     <string name="quest_construction_steps_title">"Завършени ли са тези стълби?"</string>
-    <string name="questList_disabled_at_day">"Показва се само през нощта"</string>
+    <string name="pref_quests_deselect_all">"Изчистване избора на всички задачи?"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_buildingType_boathouse">"Къща лодка"</string>
+    <string name="quest_buildingType_boathouse">"Къща-лодка"</string>
     <string name="quest_buildingType_allotment_house">"Градинска пристройка"</string>
     <string name="quest_buildingType_grandstand">"Трибуна"</string>
     <string name="action_search">"Търсене"</string>
+    <string name="action_manage_presets">"Управление на настройките"</string>
     <string name="team_mode_team_size_label2">"Колко хора картографират? Въведете един и същ брой на всички телефони."</string>
     <string name="team_mode_choose_color2">"Всеки човек трябва да избере цвят. Изберете вашия:"</string>
     <string name="link_organic_maps_description">"Карти за пътешественици, туристи и велосипедисти, което работи офлайн"</string>
@@ -1185,6 +1188,8 @@
 
     <!-- Fuzzy -->
     <string name="quest_generic_answer_is_actually_steps">"Това са стълби"</string>
+    <string name="quest_barrier_type_passage_conversion">"Превърнато в проход в стена/ограда/друго"</string>
+    <string name="quest_barrier_type_gate_conversion">"Превърнато в портал"</string>
     <string name="quest_traffic_calming_type_title">"Какъв тип ограничител на скоростта е това?"</string>
 
     <!-- Fuzzy -->
@@ -1211,4 +1216,25 @@
     <string name="quest_fireHydrant_confirmation_title">"Сигурни ли сте? Твърде често диаметърът е посочен на самия хидрант."</string>
     <string name="quest_diet_answer_no_food">"Без храна"</string>
     <string name="short_no_answer_on_button">"Не"</string>
+    <string name="restore_confirmation">"Възстанови"</string>
+
+    <!-- Fuzzy -->
+    <string name="restore_dialog_message">"Възстановяване на всички куести, които сте скрили досега?"</string>
+    <string name="quest_parking_access_title2">"За кого е позволено да паркира тук? Паркирането може да бъде безплатно или платено."</string>
+    <string name="quest_access_yes">"Обществен"</string>
+    <string name="quest_access_customers">"Само за посетители (клиенти)"</string>
+    <string name="quest_access_private">"Само с разрешително (служебен паркинг)"</string>
+    <string name="quest_postboxCollectionTimes_resurvey_title">"Времената за събиране още ли са актуални за тази пощенска кутия?"</string>
+    <string name="quest_postboxCollectionTimes_resurvey_name_title">"Времената за събиране още ли са актуални за пощенска кутия %s?"</string>
+    <string name="quest_shop_gone_replaced_answer_error2">"Неразпознат тип. Опитайте да въведете типа, напр. \"bakery\". Или оставете бележка."</string>
+    <string name="quest_bicycle_barrier_type_title">"Какъв тип бариера за велосипеди е това?"</string>
+    <string name="quest_barrier_bicycle_type_diagonal">"Диагонална на пътя"</string>
+    <string name="quest_barrier_bicycle_type_tilted">"Стеснение на пътя (по посока на движението)"</string>
+    <string name="quest_barrier_bicycle_type_single">"Преминаване през две бариери"</string>
+    <string name="quest_barrier_bicycle_type_double">"Шикан - бариери от двете страни"</string>
+    <string name="quest_barrier_bicycle_type_multiple">"Шикан - повече от 2 бариери"</string>
+
+    <!-- Fuzzy -->
+    <string name="quest_level_title">"На кое ниво се намира %s?"</string>
+    <string name="pref_title_language_select">"Изберете език"</string>
 </resources>

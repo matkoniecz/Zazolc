@@ -1125,18 +1125,6 @@ Inak si môžete stiahnuť inú klávesnicu z obchodu z aplikáciami. Medzi popu
     <string name="quest_surface_value_unhewn_cobblestone">"Neotesané dlažobné kocky"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_parking_access_title">"Je obmedzené kto môže na tomto mieste parkovať?"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_parking_access_private">"Je privátne"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_parking_access_yes">"Je verejné (platené alebo neplatené)"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_parking_access_customers">"Iba pre zákazníkov"</string>
-
-    <!-- Fuzzy -->
     <string name="quest_streetName_pedestrian_title">"Ako sa volá táto pešia zóna?"</string>
 
     <!-- Fuzzy -->
@@ -2154,6 +2142,8 @@ Pamätajte, že táto aplikácia sa pýta na súpisné číslo budovy až po ur�
 
     <!-- Fuzzy -->
     <string name="user_profile_achievement_levels">"Úspechy"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_address_street_title">"Ku ktorej ulici patrí (dom) číslo %s?"</string>
     <string name="quest_address_street_no_named_streets">"Nepatrí k žiadnej pomenovanej ulici"</string>
     <string name="quest_address_street_place_name_label">"Názov miesta:"</string>
@@ -2328,9 +2318,6 @@ Pamätajte, že táto aplikácia sa pýta na súpisné číslo budovy až po ur�
     <string name="quest_shop_gone_replaced_answer_hint">"Napíšte druh miesta/obchodu"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_shop_gone_replaced_answer_error">"Neviem, čo tu je. Zvážte zanechanie poznámky."</string>
-
-    <!-- Fuzzy -->
     <string name="quest_shop_vacant_type_title">"Tento obchod bol prázdny. Čo tu je teraz?"</string>
     <string name="quest_lanes_answer_lanes_odd2">"Počet pruhov je na každej strane iný"</string>
     <string name="quest_pitchSurface_title">"Aký povrch má toto športovisko?"</string>
@@ -2450,7 +2437,6 @@ Pamätajte, že táto aplikácia sa pýta na súpisné číslo budovy až po ur�
     <string name="default_disabled_msg_roofShape">"Tento typ úlohy je v predvolenom nastavení zakázaný, pretože tvary striech nie sú z ulice často dobre viditeľné. Tento typ úlohy je tiež dosť časovo náročný; vo väčšine prípadov je jednoduchšie a efektívnejšie to zmapovať z leteckých snímok doma."</string>
     <string name="quest_religion_animist">"Animista"</string>
     <string name="quest_construction_steps_title">"Sú tieto schody dokončené?"</string>
-    <string name="questList_disabled_at_day">"Zobrazuje sa iba v noci"</string>
     <string name="pref_quests_deselect_all">"Zrušiť výber všetkých úloh?"</string>
     <string name="quest_buildingType_boathouse">"Lodenica"</string>
     <string name="quest_buildingType_allotment_house">"Prístavba záhradného pozemku"</string>

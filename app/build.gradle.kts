@@ -1,5 +1,6 @@
 import java.util.Properties
 import java.io.FileInputStream
+import java.io.FileWriter
 
 plugins {
     id("com.android.application")
@@ -35,8 +36,8 @@ android {
         applicationId = "de.westnordost.streetcomplete"
         minSdk = 21
         targetSdk = 30
-        versionCode = 3703
-        versionName = "37.2"
+        versionCode = 3900
+        versionName = "39.0-alpha"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -60,6 +61,11 @@ android {
         viewBinding = true
     }
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
 
     lintOptions {
         disable("MissingTranslation")
@@ -170,16 +176,13 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
 
     // map and location
-    implementation("com.mapzen.tangram:tangram:0.16.2")
+    implementation("com.mapzen.tangram:tangram:0.17.0")
 
     // config files
     implementation("com.esotericsoftware.yamlbeans:yamlbeans:1.15")
 
     // opening hours parser
     implementation("ch.poole:OpeningHoursParser:0.25.0")
-
-    // sunset-sunrise parser for lit quests
-    implementation("com.luckycatlabs:SunriseSunsetCalculator:1.2")
 }
 
 /** Localizations that should be pulled from POEditor etc. */
@@ -188,8 +191,18 @@ val bcp47ExportLanguages = setOf(
     "fa","fi","fr","gl","hr","hu","id","it", "ja","ko","lt","ml","nb","no","nl","nn",
     "pl","pt","pt-BR","ro","ru","sk","sr-cyrl","sv","th","tr","uk","zh","zh-CN","zh-HK","zh-TW"
 )
-val nsiVersion = "v6.0.20211103"
+val nsiVersion = "v6.0.20211117"
 val presetsVersion = "v3.1.0"
+
+tasks.register("updateAvailableLanguages") {
+    group = "streetcomplete"
+    doLast {
+        val fileWriter = FileWriter("$projectDir/src/main/res/raw/languages.yml", false)
+        fileWriter.write(bcp47ExportLanguages.joinToString("\n") { "- $it" })
+        fileWriter.write("\n")
+        fileWriter.close()
+    }
+}
 
 tasks.register<GetTranslatorCreditsTask>("updateTranslatorCredits") {
     group = "streetcomplete"

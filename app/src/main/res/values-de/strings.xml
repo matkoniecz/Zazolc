@@ -232,8 +232,12 @@ Wenn es keine Schilder entlang der gesamten Straße gibt, die für den hervorgeh
     <string name="quest_wheelchairAccess_subway_entrance_name_title">"Ist der U-Bahn-Eingang %s zugänglich für Rollstühle?"</string>
     <string name="quest_wheelchairAccess_railway_station_name_title">"Ist die Bahnstation %s zugänglich für Rollstühle?"</string>
     <string name="quest_wheelchairAccess_location_name_title">"Ist der Ort %s zugänglich für Rollstühle?"</string>
-    <string name="quest_wheelchairAccess_limited_description_business">"Teilweise bedeutet, dass es nicht mehr als eine Stufe zu überwinden gilt, um das Gebäude zu betreten und die meisten Räume darin zugänglich für Rollstühle sind."</string>
-    <string name="quest_wheelchairAccess_limited_description_public_transport">"Teilweise bedeutet, dass es nicht mehr als eine Stufe zu überwinden gilt."</string>
+
+    <!-- Fuzzy -->
+    <string name="quest_wheelchairAccess_limited_description_business">"Teilweise bedeutet, dass es nicht mehr als eine knöchelhohe Stufe zu überwinden gilt, um das Gebäude zu betreten und die meisten Räume darin zugänglich für Rollstühle sind."</string>
+
+    <!-- Fuzzy -->
+    <string name="quest_wheelchairAccess_limited_description_public_transport">"Teilweise bedeutet, dass es nicht mehr als eine knöchelhohe Stufe zu überwinden gilt."</string>
     <string name="quest_streetName_nameWithAbbreviations_confirmation_title_name">"Ist der Name %s abgekürzt?"</string>
     <string name="quest_baby_changing_table_toilets_title">"Gibt es einen Wickeltisch in dieser Toilette?"</string>
     <string name="quest_baby_changing_table_title">"Gibt es einen Wickeltisch in %s?"</string>
@@ -428,10 +432,6 @@ Teilweise bedeutet, dass man die Toilette schon im Rollstuhl benutzen kann, aber
     <string name="quest_parking_fee_title">"Fallen hier Parkgebühren an?"</string>
     <string name="quest_cycleway_value_lane_soft">"Schutzstreifen (gestrichelte Linie)"</string>
     <string name="quest_surface_value_unhewn_cobblestone">"Pflaster aus unbehauenem Stein"</string>
-    <string name="quest_parking_access_title">"Ist es eingeschränkt, wer hier parken darf?"</string>
-    <string name="quest_parking_access_private">"Es ist ein Privatparkplatz"</string>
-    <string name="quest_parking_access_yes">"Es ist ein öffentlicher Parkplatz (mit oder ohne Gebühr)"</string>
-    <string name="quest_parking_access_customers">"Es ist ein Kundenparkplatz"</string>
     <string name="quest_streetName_pedestrian_title">"Wie heißt diese Fußgängerzone?"</string>
     <string name="quest_streetSurface_square_title">"Welche Oberfläche hat dieser Platz?"</string>
     <string name="quest_streetSurface_square_name_title">"Welche Oberfläche hat der Platz %s hier?"</string>
@@ -449,8 +449,10 @@ Teilweise bedeutet, dass man die Toilette schon im Rollstuhl benutzen kann, aber
     <string name="quest_bicycle_parking_type_shed">"Schuppen"</string>
     <string name="quest_bicycle_parking_type_locker">"Schließfächer"</string>
     <string name="quest_bicycle_parking_type_building">"Gebäude"</string>
-    <string name="quest_bicycle_parking_type_title">"Was für eine Art von Fahrradabstellplatz ist das hier?"</string>
+    <string name="quest_bicycle_parking_type_title">"Was für ein Fahrradstellplatz ist das?"</string>
     <string name="quest_cycleway_value_suggestion_lane">"Mehrzweckstreifen"</string>
+
+    <!-- @FloEdelmann: Briefkasten ist das was man an der Haustür hat. Postkasten ist der gelbe von der Post. -->
     <string name="quest_postboxCollectionTimes_title">"Wann wird dieser Postkasten geleert?"</string>
     <string name="quest_collectionTimes_add_times">"Leerungszeit hinzufügen"</string>
     <string name="quest_collectionTimes_answer_no_times_specified">"Keine Zeiten angegeben"</string>
@@ -579,7 +581,9 @@ Teilweise bedeutet, dass man die Toilette schon im Rollstuhl benutzen kann, aber
     <string name="quest_tracktype_grade5">"Weich"</string>
     <string name="quest_building_underground_name_title">"Ist %s komplett unterirdisch?"</string>
     <string name="quest_building_underground_title">"Ist dieses Gebäude komplett unterirdisch?"</string>
-    <string name="quest_wheelchairAccess_limited_description_outside">"Teilweise bedeutet, dass es nicht mehr als eine Stufe zu überwinden gilt."</string>
+
+    <!-- Fuzzy -->
+    <string name="quest_wheelchairAccess_limited_description_outside">"Teilweise bedeutet, dass es nicht mehr als eine knöchelhohe Stufe zu überwinden gilt."</string>
     <string name="quest_wheelchairAccess_outside_title">"Ist dieser Ort zugänglich für Rollstühle?"</string>
     <string name="quest_traffic_signals_button_title">"Gibt es an dieser Ampel einen Knopf, um als Fußgänger Grün anzufordern?"</string>
     <string name="quest_motorcycleParkingCapacity_title">"Wie viele Motorräder können hier abgestellt werden?"</string>
@@ -646,8 +650,8 @@ Jetzt aufspalten?"</string>
     <string name="quest_handrail_title">"Gibt es an dieser Treppe ein Geländer?"</string>
     <string name="quest_openingHours_no_name_title">"Was sind die Öffnungszeiten von diesem Ort? (%s)"</string>
     <string name="about_summary_current_version">"Aktuelle Version: %s"</string>
-    <string name="quest_postboxRef_title">"Was ist die Referenznummer dieses Briefkastens?"</string>
-    <string name="quest_postboxRef_name_title">"Was ist die Referenznummer dieses %s Briefkastens?"</string>
+    <string name="quest_postboxRef_title">"Was ist die Referenznummer dieses Postkastens?"</string>
+    <string name="quest_postboxRef_name_title">"Was ist die Referenznummer dieses %s Postkastens?"</string>
     <string name="quest_ref_answer_noRef">"Keine Referenznummer sichtbar…"</string>
     <string name="quest_street_side_puzzle_tutorial">"Die Straße auf der Abbildung ist genauso gedreht wie auf der Karte an der Position des Pins."</string>
     <string name="quest_recycling_materials_title">"Was kann hier entsorgt werden?"</string>
@@ -814,7 +818,7 @@ Rang"</string>
 aktiv"</string>
     <string name="user_profile_achievement_levels">"Level aller
 Erfolge"</string>
-    <string name="quest_address_street_title">"Zu welcher Straße gehört die Hausnummer %s?"</string>
+    <string name="quest_address_street_title">"Zu welcher Straße gehört Haus %s?"</string>
     <string name="quest_address_street_no_named_streets">"Zu keiner mit Namen"</string>
     <string name="quest_address_street_place_name_label">"Ortsname:"</string>
     <string name="quest_address_street_description">"Tippe die entsprechende Straße auf der Karte an oder gib den Straßennamen ohne Abkürzungen im Feld unten ein:"</string>
@@ -851,7 +855,7 @@ Erfolge"</string>
     <string name="quest_openingHours_name_type_title">"Was sind die Öffnungszeiten von %1$s (%2$s)?"</string>
     <string name="quest_openingHours_resurvey_name_title">"Stimmen diese Öffnungszeiten für %s immer noch?"</string>
     <string name="quest_openingHours_resurvey_name_type_title">"Stimmen diese Öffnungszeiten für %1$s (%2$s) noch?"</string>
-    <string name="quest_openingHours_resurvey_no_name_title">"Stimmen diese Öffnungszeiten noch  (%s)?"</string>
+    <string name="quest_openingHours_resurvey_no_name_title">"Stimmen diese Öffnungszeiten noch (%s)?"</string>
     <string name="quest_openingHours_add_off_days">"Neuer Ruhetag"</string>
     <string name="quest_openingHours_off_day">"Ruhetag"</string>
     <string name="quest_openingHours_unspecified_range">"Nicht angegeben"</string>
@@ -957,7 +961,6 @@ Wenn es eine Busspur gibt, hinterlasse bitte stattdessen eine Notiz."</string>
     <string name="quest_shop_gone_vacant_answer">"Es steht leer"</string>
     <string name="quest_shop_gone_replaced_answer">"Ein(e)…"</string>
     <string name="quest_shop_gone_replaced_answer_hint">"Hier Art des Ortes eingeben"</string>
-    <string name="quest_shop_gone_replaced_answer_error">"Unbekannt. Hinterlasse stattdessen eine Notiz."</string>
     <string name="quest_shop_vacant_type_title">"Dieser Laden stand leer. Was ist hier jetzt?"</string>
     <string name="quest_lanes_answer_lanes_odd2">"Anzahl Fahrstreifen je Seite unterschiedlich"</string>
     <string name="quest_pitchSurface_title">"Welchen Bodenbelag hat dieser Sportplatz?"</string>
@@ -983,7 +986,7 @@ Beachte alle Auswahlmöglichkeiten: manche Kombinationen sind nicht offensichtli
     <string name="quest_drinking_water_potable_unsigned">"Trinkwasser (nicht beschildert)"</string>
     <string name="quest_drinking_water_not_potable_signed">"kein Trinkwasser (beschildert)"</string>
     <string name="quest_drinking_water_not_potable_unsigned">"kein Trinkwasser (nicht beschildert)"</string>
-    <string name="quest_postboxRoyalCypher_title">"Welches königliche Monogramm ist auf diesem Briefkasten zu sehen?"</string>
+    <string name="quest_postboxRoyalCypher_title">"Welches königliche Monogramm ist auf diesem Postkasten zu sehen?"</string>
     <string name="quest_postboxRoyalCypher_type_none">"Kein Monogramm sichtbar"</string>
     <string name="quest_postboxRoyalCypher_type_scottish_crown">"Die Krone von Schottland"</string>
     <string name="quest_buildingType_fire_station">"Feuerwehrhaus"</string>
@@ -1066,7 +1069,7 @@ Die Daten werden nach %1$s Tagen aktualisiert und ungenutzte Daten werden nach %
     <string name="quest_bollard_type_rising">"Versenkbar"</string>
     <string name="quest_bollard_type_flexible">"Flexibel"</string>
     <string name="quest_bollard_type_fixed">"Fest (nicht entfernbar)"</string>
-    <string name="quest_camera_type_title">"Welche Art von Überwachungskamera ist das?"</string>
+    <string name="quest_camera_type_title">"Was für eine Überwachungskamera ist das?"</string>
     <string name="quest_camera_type_dome">"Kuppel"</string>
     <string name="quest_camera_type_fixed">"Fest"</string>
     <string name="quest_camera_type_panning">"Schwenkend"</string>
@@ -1078,7 +1081,6 @@ Die Daten werden nach %1$s Tagen aktualisiert und ungenutzte Daten werden nach %
     <string name="default_disabled_msg_roofShape">"Dieser Aufgabentyp ist standardmäßig deaktiviert, weil die Dachformen oft nicht gut von der Straße aus sichtbar sind. Dieser Aufgabentyp ist außerdem recht zeitaufwändig; in den meisten Fällen ist es einfacher und effizienter, diese von zuhause von Luftbildern zu erfassen."</string>
     <string name="quest_religion_animist">"Animistisch"</string>
     <string name="quest_construction_steps_title">"Ist diese Treppe fertig gebaut?"</string>
-    <string name="questList_disabled_at_day">"Nur nachts angezeigt"</string>
     <string name="pref_quests_deselect_all">"Alle Aufgaben abwählen?"</string>
     <string name="quest_buildingType_boathouse">"Bootshaus"</string>
     <string name="quest_buildingType_allotment_house">"Kleingartenlaube"</string>
@@ -1129,4 +1131,25 @@ Die Daten werden nach %1$s Tagen aktualisiert und ungenutzte Daten werden nach %
     <string name="quest_fireHydrant_confirmation_title">"Bist du sicher? Manchmal steht der Durchmesser auf dem Hydranten selbst."</string>
     <string name="quest_diet_answer_no_food">"Hier gibt’s nichts zu essen"</string>
     <string name="short_no_answer_on_button">"Nein"</string>
+    <string name="restore_confirmation">"Wiederherstellen"</string>
+    <string name="restore_dialog_message">"Alle Aufgaben wiederherstellen, die du vorher versteckt hast?"</string>
+    <string name="quest_parking_access_title2">"Wer darf hier parken? Das Parken kann kostenlos oder kostenpflichtig sein."</string>
+    <string name="quest_access_yes">"Alle Personen der Öffentlichkeit"</string>
+    <string name="quest_access_customers">"Jede Person, die einen bestimmten Ort besucht (z.B. nur Kunden)"</string>
+    <string name="quest_access_private">"Nur Einzelne mit Erlaubnis"</string>
+    <string name="quest_postboxCollectionTimes_resurvey_title">"Stimmen diese Leerungszeiten für diesen Postkasten noch?"</string>
+    <string name="quest_postboxCollectionTimes_resurvey_name_title">"Stimmen diese Leerungszeiten für diesen %s Postkasten noch?"</string>
+    <string name="quest_shop_gone_replaced_answer_error2">"Nicht erkannt. Versuche, die Art des Ortes einzugeben, z.B. „Bäckerei“. Andernfalls kannst du eine Notiz hinterlassen."</string>
+    <string name="quest_bicycle_barrier_type_title">"Was für ein Fahrradhindernis ist das?"</string>
+    <string name="quest_barrier_bicycle_type_diagonal">"Diagonal zum Weg"</string>
+    <string name="quest_barrier_bicycle_type_tilted">"Enger Durchgang, nach oben hin kleiner"</string>
+    <string name="quest_barrier_bicycle_type_single">"Durchgang zwischen zwei Barrieren"</string>
+    <string name="quest_barrier_bicycle_type_double">"Schikane – Barriere auf beiden Seiten"</string>
+    <string name="quest_barrier_bicycle_type_multiple">"Schikane – mehr als zwei Barrieren"</string>
+
+    <!-- Fuzzy -->
+    <string name="quest_level_title">"Auf welcher Ebene ist %s?"</string>
+    <string name="pref_title_language_select">"Sprache auswählen"</string>
+    <string name="language_default">"Systemvorgabe"</string>
+    <string name="on_floor">"In Stockwerk %s:"</string>
 </resources>

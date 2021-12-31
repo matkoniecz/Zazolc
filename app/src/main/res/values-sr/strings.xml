@@ -225,7 +225,11 @@
     <string name="quest_wheelchairAccess_subway_entrance_name_title">"Да ли је улаз у метро %s доступан за инвалидска колица?"</string>
     <string name="quest_wheelchairAccess_railway_station_name_title">"Да ли је железничка станица %s доступна за инвалидска колица?"</string>
     <string name="quest_wheelchairAccess_location_name_title">"Да ли је локација %s доступна за инвалидска колица?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_wheelchairAccess_limited_description_business">"„Делимично“ значи да нема више од једног степеника за приступ, и да је већина просторија доступна за инвалидска колица."</string>
+
+    <!-- Fuzzy -->
     <string name="quest_wheelchairAccess_limited_description_public_transport">"„Делимично“ значи да нема више од једног степеника за приступ."</string>
     <string name="quest_streetName_nameWithAbbreviations_confirmation_title_name">"Да ли је то скраћеница у називу %s?"</string>
     <string name="quest_baby_changing_table_toilets_title">"Да ли овај тоалет има сто за пресвлачење беба?"</string>
@@ -419,10 +423,6 @@
     <string name="quest_parking_fee_title">"Да ли се плаћа овај паркинг?"</string>
     <string name="quest_cycleway_value_lane_soft">"бициклистичка трака (испрекидане ознаке)"</string>
     <string name="quest_surface_value_unhewn_cobblestone">"Нетесана калдрма"</string>
-    <string name="quest_parking_access_title">"Да ли је ограничено ко овде може паркирати?"</string>
-    <string name="quest_parking_access_private">"Приватно"</string>
-    <string name="quest_parking_access_yes">"Јавно (са или без наплате)"</string>
-    <string name="quest_parking_access_customers">"Само за купце"</string>
     <string name="quest_streetName_pedestrian_title">"Како се зове ова пешачка улица?"</string>
     <string name="quest_streetSurface_square_title">"Каква је површина овог трга?"</string>
     <string name="quest_streetSurface_square_name_title">"Каква је површина трга %s овде?"</string>
@@ -568,6 +568,8 @@
     <string name="quest_tracktype_grade5">"Мекана"</string>
     <string name="quest_building_underground_name_title">"Да ли је %s потпуно под земљом?"</string>
     <string name="quest_building_underground_title">"Да ли је овај објекат потпуно под земљом?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_wheelchairAccess_limited_description_outside">"„Делимично“ значи да нема више од једног степеника за приступ."</string>
     <string name="quest_wheelchairAccess_outside_title">"Да ли је ово место доступно за инвалидска колица?"</string>
     <string name="quest_traffic_signals_button_title">"Да ли ови семафори имају дугме за захтевање преласка?"</string>
@@ -811,6 +813,8 @@
 дани"</string>
     <string name="user_profile_achievement_levels">"Нивои
 у достигнућима"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_address_street_title">"Којој улици припада кућни број %s?"</string>
     <string name="quest_address_street_no_named_streets">"Не припада улици са именом"</string>
     <string name="quest_address_street_place_name_label">"Назив места:"</string>
@@ -974,9 +978,6 @@
     <string name="quest_shop_gone_replaced_answer_hint">"Упишите врсту радње и сл."</string>
 
     <!-- Fuzzy -->
-    <string name="quest_shop_gone_replaced_answer_error">"Не знам шта је ово. Оставите напомену."</string>
-
-    <!-- Fuzzy -->
     <string name="quest_shop_vacant_type_title">"Ова продавница је напуштена. Шта је сада овде?"</string>
     <string name="quest_lanes_answer_lanes_odd2">"Број трака се разликује по смеровима"</string>
     <string name="quest_pitchSurface_title">"Која подлога се налази на овом спортском игралишту?"</string>
@@ -1097,7 +1098,6 @@
     <string name="default_disabled_msg_roofShape">"Ова врста задатака је онемогућена јер се облици кровова често не виде добро са улице. Такође, одузимају доста врмена. Углавном је лакше и ефикасније кровове означити од куће, преко снимака из ваздуха."</string>
     <string name="quest_religion_animist">"Анимизам"</string>
     <string name="quest_construction_steps_title">"Да ли су ове степенице завршене?"</string>
-    <string name="questList_disabled_at_day">"Приказује се само ноћу"</string>
     <string name="pref_quests_deselect_all">"Желите ли да искључите све задатке?"</string>
     <string name="quest_buildingType_boathouse">"„Гаража“ за чамце"</string>
     <string name="quest_buildingType_allotment_house">"Вртна кућица"</string>

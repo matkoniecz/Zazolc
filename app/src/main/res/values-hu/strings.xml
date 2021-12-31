@@ -1065,18 +1065,6 @@ A „részben” azt jelenti, hogy kerekesszékkel ugyan be lehet menni és lehe
     <string name="quest_surface_value_unhewn_cobblestone">"Nagy kavics (nem vágott)"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_parking_access_title">"Korlátozva van, hogy ki parkolhat itt?"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_parking_access_private">"Magántulajdon"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_parking_access_yes">"Nyilvános (parkolási díjjal vagy ingyen)"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_parking_access_customers">"Csak ügyfeleknek"</string>
-
-    <!-- Fuzzy -->
     <string name="quest_streetName_pedestrian_title">"Mi a neve ennek a sétálóutcának?"</string>
 
     <!-- Fuzzy -->
@@ -2097,6 +2085,8 @@ napok"</string>
     <!-- Fuzzy -->
     <string name="user_profile_achievement_levels">"Kitüntetés
 szintek"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_address_street_title">"Ez a (ház)szám melyik utcához tartozik: %s?"</string>
     <string name="quest_address_street_no_named_streets">"Egyetlen elnevezett utcához sem tartozik"</string>
     <string name="quest_address_street_place_name_label">"Helynév:"</string>
@@ -2268,9 +2258,6 @@ szintek"</string>
     <string name="quest_shop_gone_replaced_answer_hint">"Add meg a hely típusát"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_shop_gone_replaced_answer_error">"Nem tudom pontosan. Inkább megjegyzést hagyok."</string>
-
-    <!-- Fuzzy -->
     <string name="quest_shop_vacant_type_title">"Ez az üzlet üresen állt. Mi található most itt?"</string>
     <string name="quest_lanes_answer_lanes_odd2">"A sávok száma eltérő a két oldalon"</string>
     <string name="quest_pitchSurface_title">"Mi a burkolata ennek a sportpályának?"</string>
@@ -2402,7 +2389,6 @@ megállóban?"</string>
     <string name="default_disabled_msg_roofShape">"Ez a kérdéstípus alapértelmezés szerint le van tiltva, mert a tetőformák az utcáról gyakran nehezen láthatók. Ez a kérdéstípus ráadásul meglehetősen időigényes is; az esetek többségében könnyebb és hatékonyabb ezt otthon légi felvételek segítségével feltérképezni."</string>
     <string name="quest_religion_animist">"Animista"</string>
     <string name="quest_construction_steps_title">"Be van-e fejezve ez a lépcső?"</string>
-    <string name="questList_disabled_at_day">"Csak éjszaka látható"</string>
     <string name="pref_quests_deselect_all">"Visszavonod az összes kérdés kijelölését?"</string>
     <string name="quest_buildingType_boathouse">"Csónakház"</string>
     <string name="quest_buildingType_allotment_house">"Kiskerti melléképület"</string>
@@ -2441,4 +2427,5 @@ megállóban?"</string>
 
     <!-- Fuzzy -->
     <string name="quest_generic_answer_is_actually_steps">"Ezek lépcsők"</string>
+    <string name="pref_title_language_select">"Nyelv kiválasztása"</string>
 </resources>

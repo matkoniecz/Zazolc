@@ -21,10 +21,13 @@ class FineLocationManager(context: Context, locationUpdateCallback: (Location) -
     private val mainExecutor = ContextCompat.getMainExecutor(context)
     private val currentLocationConsumer = Consumer<Location?> {
         if (it != null) {
-            locationUpdateCallback(it)
+            if (!networkCancellationSignal.isCanceled && !gpsCancellationSignal.isCanceled) {
+                locationUpdateCallback(it)
+            }
         }
     }
-    private var cancellationSignal = CancellationSignal()
+    private var gpsCancellationSignal = CancellationSignal()
+    private var networkCancellationSignal = CancellationSignal()
     private var lastLocation: Location? = null
 
     private val deviceHasGPS: Boolean get() = locationManager.allProviders.contains(GPS_PROVIDER)
@@ -32,10 +35,21 @@ class FineLocationManager(context: Context, locationUpdateCallback: (Location) -
 
     private val locationListener = object : LocationUpdateListener {
         override fun onLocationChanged(location: Location) {
-            if (isBetterLocation(location, lastLocation)) {
+            if (location.isBetterThan(lastLocation)) {
                 lastLocation = location
                 locationUpdateCallback(location)
             }
+        }
+    }
+
+    // Both signals are refreshed regardless of whether the device has both providers, because
+    // they are both canceled in removeUpdates and both checked in the locationListener
+    private fun refreshCancellationSignals() {
+        if (gpsCancellationSignal.isCanceled) {
+            gpsCancellationSignal = CancellationSignal()
+        }
+        if (networkCancellationSignal.isCanceled) {
+            networkCancellationSignal = CancellationSignal()
         }
     }
 
@@ -48,68 +62,63 @@ class FineLocationManager(context: Context, locationUpdateCallback: (Location) -
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getCurrentLocation() {
-        if (cancellationSignal.isCanceled) {
-            cancellationSignal = CancellationSignal()
-        }
+    @Synchronized fun getCurrentLocation() {
+        refreshCancellationSignals()
         if (deviceHasGPS) {
-            LocationManagerCompat.getCurrentLocation(locationManager, GPS_PROVIDER, cancellationSignal,
-                mainExecutor, currentLocationConsumer)
+            LocationManagerCompat.getCurrentLocation(
+                locationManager, GPS_PROVIDER, gpsCancellationSignal, mainExecutor, currentLocationConsumer
+            )
         }
         if (deviceHasNetworkLocationProvider) {
-            LocationManagerCompat.getCurrentLocation(locationManager, NETWORK_PROVIDER, cancellationSignal,
-                mainExecutor, currentLocationConsumer)
+            LocationManagerCompat.getCurrentLocation(
+                locationManager, NETWORK_PROVIDER, networkCancellationSignal, mainExecutor, currentLocationConsumer
+            )
         }
     }
 
-    fun removeUpdates() {
+    @Synchronized fun removeUpdates() {
         locationManager.removeUpdates(locationListener)
-        cancellationSignal.cancel()
+        gpsCancellationSignal.cancel()
+        networkCancellationSignal.cancel()
     }
 }
 
-// taken from https://developer.android.com/guide/topics/location/strategies.html#kotlin
+// Based on https://web.archive.org/web/20180424190538/https://developer.android.com/guide/topics/location/strategies.html#BestEstimate
 
 private const val TWO_MINUTES = 1000L * 60 * 2
 
-/** Determines whether one Location reading is better than the current Location fix
- * @param location The new Location that you want to evaluate
- * @param currentBestLocation The current Location fix, to which you want to compare the new one
- */
-private fun isBetterLocation(location: Location, currentBestLocation: Location?): Boolean {
-    // check whether this is a valid location at all. Happened once that lat/lon is NaN, maybe issue
-    // of that particular device
-    if (location.longitude.isNaN() || location.latitude.isNaN()) return false
+/** Determines whether this Location reading is better than the previous Location fix */
+private fun Location.isBetterThan(previous: Location?): Boolean {
+    // Check whether this is a valid location at all.
+    // Happened once that lat/lon is NaN, maybe issue of that particular device
+    if (this.longitude.isNaN() || this.latitude.isNaN()) return false
 
-    if (currentBestLocation == null) {
-        // A new location is always better than no location
-        return true
-    }
+    // A new location is always better than no location
+    if (previous == null) return true
 
     // Check whether the new location fix is newer or older
-    val timeDelta = location.time - currentBestLocation.time
-    val isSignificantlyNewer = timeDelta > TWO_MINUTES
-    val isSignificantlyOlder = timeDelta < -TWO_MINUTES
+    val timeDelta = this.time - previous.time
+    val isMuchNewer = timeDelta > TWO_MINUTES
+    val isMuchOlder = timeDelta < -TWO_MINUTES
     val isNewer = timeDelta > 0L
 
     // Check whether the new location fix is more or less accurate
-    val accuracyDelta = location.accuracy - currentBestLocation.accuracy
+    val accuracyDelta = this.accuracy - previous.accuracy
     val isLessAccurate = accuracyDelta > 0f
     val isMoreAccurate = accuracyDelta < 0f
-    val isSignificantlyLessAccurate = accuracyDelta > 200f
+    val isMuchLessAccurate = accuracyDelta > 200f
 
-    // Check if the old and new location are from the same provider
-    val isFromSameProvider = location.provider == currentBestLocation.provider
+    val isFromSameProvider = this.provider == previous.provider
 
     // Determine location quality using a combination of timeliness and accuracy
     return when {
         // the user has likely moved
-        isSignificantlyNewer -> return true
+        isMuchNewer -> true
         // If the new location is more than two minutes older, it must be worse
-        isSignificantlyOlder -> return false
+        isMuchOlder -> false
         isMoreAccurate -> true
         isNewer && !isLessAccurate -> true
-        isNewer && !isSignificantlyLessAccurate && isFromSameProvider -> true
+        isNewer && !isMuchLessAccurate && isFromSameProvider -> true
         else -> false
     }
 }

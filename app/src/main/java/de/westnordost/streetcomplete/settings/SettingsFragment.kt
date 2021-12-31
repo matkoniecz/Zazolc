@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -28,10 +29,9 @@ import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
 import de.westnordost.streetcomplete.data.visiblequests.QuestPresetsSource
 import de.westnordost.streetcomplete.data.visiblequests.VisibleQuestTypeSource
 import de.westnordost.streetcomplete.databinding.DialogDeleteCacheBinding
-import de.westnordost.streetcomplete.ktx.format
-import de.westnordost.streetcomplete.ktx.purge
-import de.westnordost.streetcomplete.ktx.toast
-import de.westnordost.streetcomplete.ktx.viewLifecycleScope
+import de.westnordost.streetcomplete.ktx.*
+import de.westnordost.streetcomplete.util.getSelectedLocales
+import de.westnordost.streetcomplete.util.setDefaultLocales
 import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
@@ -85,10 +85,15 @@ class SettingsFragment : PreferenceFragmentCompat(), HasTitle,
         }
 
         findPreference<Preference>("quests.restore.hidden")?.setOnPreferenceClickListener {
-            viewLifecycleScope.launch {
-                val hidden = questController.unhideAll()
-                context?.toast(getString(R.string.restore_hidden_success, hidden), Toast.LENGTH_LONG)
-            }
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.restore_dialog_message)
+                .setPositiveButton(R.string.restore_confirmation) { _, _ -> lifecycleScope.launch {
+                    val hidden = questController.unhideAll()
+                    context?.toast(getString(R.string.restore_hidden_success, hidden), Toast.LENGTH_LONG)
+                }}
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+
             true
         }
 
@@ -97,6 +102,27 @@ class SettingsFragment : PreferenceFragmentCompat(), HasTitle,
         findPreference<Preference>("debug.quests")?.setOnPreferenceClickListener {
             startActivity(Intent(context, ShowQuestFormsActivity::class.java))
             true
+        }
+
+        buildLanguageSelector()
+    }
+
+    private fun buildLanguageSelector() {
+        val entryValues = resources.getYamlObject<List<String>>(R.raw.languages).toMutableList()
+        val entries = entryValues.map {
+            val locale = Locale.forLanguageTag(it)
+            val name = locale.displayName
+            val nativeName = locale.getDisplayName(locale)
+            return@map nativeName + if (name != nativeName) " — $name" else ""
+        }.toMutableList()
+
+        // add default as first element
+        entryValues.add(0, "")
+        entries.add(0, getString(R.string.language_default))
+
+        findPreference<ListPreference>("language.select")?.also {
+            it.entries = entries.toTypedArray()
+            it.entryValues = entryValues.toTypedArray()
         }
     }
 
@@ -129,6 +155,10 @@ class SettingsFragment : PreferenceFragmentCompat(), HasTitle,
             Prefs.THEME_SELECT -> {
                 val theme = Prefs.Theme.valueOf(prefs.getString(Prefs.THEME_SELECT, "AUTO")!!)
                 AppCompatDelegate.setDefaultNightMode(theme.appCompatNightMode)
+                activity?.let { ActivityCompat.recreate(it) }
+            }
+            Prefs.LANGUAGE_SELECT -> {
+                setDefaultLocales(getSelectedLocales(requireContext()))
                 activity?.let { ActivityCompat.recreate(it) }
             }
             Prefs.RESURVEY_INTERVALS -> {

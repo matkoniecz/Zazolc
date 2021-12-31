@@ -78,7 +78,7 @@ class CheckExistence(
             or amenity = drinking_water
           )
           and (${lastChecked(6.0)})
-        )) and access !~ no|private and (!seasonal or seasonal=no)
+        )) and access !~ no|private and (!seasonal or seasonal = no)
     """.toElementFilterExpression()
     }
     // traffic_calming = table is often used as a property of a crossing: we don't want the app
@@ -86,11 +86,10 @@ class CheckExistence(
     // postboxes are in 4 years category so that postbox collection times is asked instead more often
 
     private val nodesWaysFilter by lazy { """
-        nodes, ways with (
-            leisure = pitch and sport = table_tennis
-        )
-        and access !~ no|private
-        and (${lastChecked(4.0)})
+        nodes, ways with
+          (leisure = pitch and sport = table_tennis)
+          and access !~ no|private
+          and (${lastChecked(4.0)})
     """.toElementFilterExpression() }
 
     /* not including bicycle parkings, motorcycle parkings because their capacity is asked every
@@ -119,6 +118,18 @@ class CheckExistence(
         (nodesFilter.matches(element) || nodesWaysFilter.matches(element))
         && hasAnyName(element.tags)
 
+    override fun getHighlightedElements(element: Element, getMapData: () -> MapDataWithGeometry): Sequence<Element> {
+        /* put markers for objects that are exactly the same as for which this quest is asking for
+           e.g. it's a ticket validator? -> display other ticket validators. Etc. */
+        val feature = featureDictionaryFuture.get()
+            .byTags(element.tags)
+            .isSuggestion(false) // not brands
+            .find()
+            .firstOrNull() ?: return emptySequence()
+
+        return getMapData().filter { it.tags.containsAll(feature.tags) }.asSequence()
+    }
+
     override fun createForm() = CheckExistenceForm()
 
     override fun applyAnswerTo(answer: Unit, changes: StringMapChangesBuilder) {
@@ -133,3 +144,5 @@ class CheckExistence(
     private fun hasAnyName(tags: Map<String, String>): Boolean =
         featureDictionaryFuture.get().byTags(tags).find().isNotEmpty()
 }
+
+private fun <X,Y> Map<X,Y>.containsAll(other: Map<X,Y>) = other.all { this[it.key] == it.value }

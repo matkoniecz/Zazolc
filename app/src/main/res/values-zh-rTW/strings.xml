@@ -1124,18 +1124,6 @@
     <string name="quest_surface_value_unhewn_cobblestone">"不破的鵝卵石"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_parking_access_title">"在這裡停車有資格限制嗎？"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_parking_access_private">"這裡是私人停車位"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_parking_access_yes">"這裡是公共停車位 (有可能需要付費)"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_parking_access_customers">"這裡只限顧客停車"</string>
-
-    <!-- Fuzzy -->
     <string name="quest_streetName_pedestrian_title">"徒步區的名稱是什麼？"</string>
 
     <!-- Fuzzy -->
@@ -1933,6 +1921,8 @@
     <string name="user_profile_local_rank">"在 %s 的排名"</string>
     <string name="user_profile_days_active">"天有效"</string>
     <string name="user_profile_achievement_levels">"成就等級"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_address_street_title">"房屋門牌 %s 是依靠在哪條街道上？"</string>
     <string name="quest_address_street_no_named_streets">"它並沒有依靠在有名稱的街道上"</string>
     <string name="quest_address_street_place_name_label">"地點名稱："</string>
@@ -2106,9 +2096,6 @@
     <string name="quest_shop_gone_replaced_answer_hint">"在這裡輸入是那種場所資訊"</string>
 
     <!-- Fuzzy -->
-    <string name="quest_shop_gone_replaced_answer_error">"並不知道這是什麼，請考慮留下註解。"</string>
-
-    <!-- Fuzzy -->
     <string name="quest_shop_vacant_type_title">"這個商家已經不在，現在這邊是做什麼的？"</string>
     <string name="quest_lanes_answer_lanes_odd2">"每一側的車道數不同"</string>
     <string name="quest_pitchSurface_title">"這個體育場的鋪面是什麼？"</string>
@@ -2233,7 +2220,6 @@
     <string name="quest_camera_type_panning">"平移"</string>
     <string name="about_title_faq">"常見問題"</string>
     <string name="pref_subtitle_quests_preset_name">"預設組合：%s"</string>
-    <string name="questList_disabled_at_day">"只在晚上出現"</string>
     <string name="pref_quests_deselect_all">"取消選擇所有任務？"</string>
     <string name="quest_buildingType_boathouse">"船屋"</string>
     <string name="action_search">"搜尋"</string>
