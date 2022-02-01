@@ -9,7 +9,17 @@ import de.westnordost.streetcomplete.ktx.forEachLine
 import de.westnordost.streetcomplete.util.math.arcIntersection
 import de.westnordost.streetcomplete.util.math.toLatLon
 import de.westnordost.streetcomplete.util.math.toNormalOnSphere
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.acos
+import kotlin.math.asin
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.pow
+import kotlin.math.sign
+import kotlin.math.sin
+import kotlin.math.sqrt
+import kotlin.math.tan
 
 /** Calculate stuff assuming a spherical Earth. The Earth is not spherical, but it is a good
  * approximation and totally sufficient for our use here.  */
@@ -549,10 +559,10 @@ private fun Double.toRadians() = this / 180.0 * PI
 private fun Double.toDegrees() = this / PI * 180.0
 
 fun normalizeLongitude(lon: Double): Double {
-	var lon = lon % 360 // lon is now -360..360
+    var lon = lon % 360 // lon is now -360..360
     lon = (lon + 360) % 360 // lon is now 0..360
     if (lon > 180) lon -= 360 // lon is now -180..180
-	return lon
+    return lon
 }
 
 

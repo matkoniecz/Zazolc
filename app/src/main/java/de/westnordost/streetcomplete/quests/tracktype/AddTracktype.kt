@@ -4,7 +4,7 @@ import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.ANYTHING_UNPAVED
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.CAR
 
 class AddTracktype : OsmFilterQuestType<Tracktype>() {
@@ -21,7 +21,7 @@ class AddTracktype : OsmFilterQuestType<Tracktype>() {
     """
     /* ~paved tracks are less likely to change the surface type */
 
-    override val commitMessage = "Add tracktype"
+    override val changesetComment = "Add tracktype"
     override val wikiLink = "Key:tracktype"
     override val icon = R.drawable.ic_quest_tractor
     override val isSplitWayEnabled = true
@@ -32,7 +32,7 @@ class AddTracktype : OsmFilterQuestType<Tracktype>() {
 
     override fun createForm() = AddTracktypeForm()
 
-    override fun applyAnswerTo(answer: Tracktype, changes: StringMapChangesBuilder) {
-        changes.updateWithCheckDate("tracktype", answer.osmValue)
+    override fun applyAnswerTo(answer: Tracktype, tags: Tags, timestampEdited: Long) {
+        tags.updateWithCheckDate("tracktype", answer.osmValue)
     }
 }

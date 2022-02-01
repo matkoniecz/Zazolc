@@ -55,7 +55,7 @@ class OpenQuestChangesetsManager @Inject constructor(
 
     private fun createChangesetTags(questType: OsmElementQuestType<*>, source: String) =
         mapOf(
-            "comment" to questType.commitMessage,
+            "comment" to questType.changesetComment,
             "created_by" to OSM_USER_AGENT,
             "locale" to Locale.getDefault().toLanguageTag(),
             QUESTTYPE_TAG_KEY to questType.name,

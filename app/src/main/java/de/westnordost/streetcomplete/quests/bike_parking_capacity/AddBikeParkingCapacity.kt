@@ -2,11 +2,11 @@ package de.westnordost.streetcomplete.quests.bike_parking_capacity
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
-import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
+import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.BICYCLIST
 
 class AddBikeParkingCapacity : OsmFilterQuestType<Int>() {
@@ -25,7 +25,7 @@ class AddBikeParkingCapacity : OsmFilterQuestType<Int>() {
        removing a few of them is minor work
      */
 
-    override val commitMessage = "Add bicycle parking capacities"
+    override val changesetComment = "Add bicycle parking capacities"
     override val wikiLink = "Tag:amenity=bicycle_parking"
     override val icon = R.drawable.ic_quest_bicycle_parking_capacity
     override val isDeleteElementEnabled = true
@@ -39,7 +39,7 @@ class AddBikeParkingCapacity : OsmFilterQuestType<Int>() {
 
     override fun createForm() = AddBikeParkingCapacityForm()
 
-    override fun applyAnswerTo(answer: Int, changes: StringMapChangesBuilder) {
-        changes.updateWithCheckDate("capacity", answer.toString())
+    override fun applyAnswerTo(answer: Int, tags: Tags, timestampEdited: Long) {
+        tags.updateWithCheckDate("capacity", answer.toString())
     }
 }

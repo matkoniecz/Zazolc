@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.*
+import androidx.core.view.isInvisible
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
@@ -44,6 +46,13 @@ abstract class AbstractBottomSheetFragment : Fragment(), IsCloseableBottomSheet 
     protected abstract val backButton: View?
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
+    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onStateChanged(bottomSheet: View, newState: Int) {}
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            updateCloseButtonVisibility()
+        }
+    }
 
     private var minBottomInset = Int.MAX_VALUE
 
@@ -96,14 +105,7 @@ abstract class AbstractBottomSheetFragment : Fragment(), IsCloseableBottomSheet 
             }
         }
 
-        bottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {}
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                updateCloseButtonVisibility()
-            }
-        })
+        bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback)
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE || defaultExpanded) {
             expand()
@@ -128,6 +130,11 @@ abstract class AbstractBottomSheetFragment : Fragment(), IsCloseableBottomSheet 
 
         bottomSheetBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.quest_form_peekHeight)
         bottomSheetContainer.updateLayoutParams { width = resources.getDimensionPixelSize(R.dimen.quest_form_width) }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        bottomSheetBehavior.removeBottomSheetCallback(bottomSheetCallback)
     }
 
     fun expand() {

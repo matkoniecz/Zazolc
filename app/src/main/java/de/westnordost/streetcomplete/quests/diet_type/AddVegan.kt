@@ -3,11 +3,11 @@ package de.westnordost.streetcomplete.quests.diet_type
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.isKindOfShopExpression
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
-import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
+import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.CITIZEN
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.VEG
 
@@ -28,7 +28,7 @@ class AddVegan : OsmFilterQuestType<DietAvailabilityAnswer>() {
           or diet:vegan != only and diet:vegan older today -2 years
         )
     """
-    override val commitMessage = "Add vegan diet type"
+    override val changesetComment = "Add vegan diet type"
     override val wikiLink = "Key:diet"
     override val icon = R.drawable.ic_quest_restaurant_vegan
     override val isReplaceShopEnabled = true
@@ -43,10 +43,10 @@ class AddVegan : OsmFilterQuestType<DietAvailabilityAnswer>() {
 
     override fun createForm() = AddDietTypeForm.create(R.string.quest_dietType_explanation_vegan)
 
-    override fun applyAnswerTo(answer: DietAvailabilityAnswer, changes: StringMapChangesBuilder) {
+    override fun applyAnswerTo(answer: DietAvailabilityAnswer, tags: Tags, timestampEdited: Long) {
         when(answer) {
-            is DietAvailability -> changes.updateWithCheckDate("diet:vegan", answer.osmValue)
-            NoFood -> changes.addOrModify("food", "no")
+            is DietAvailability -> tags.updateWithCheckDate("diet:vegan", answer.osmValue)
+            NoFood -> tags["food"] = "no"
         }
     }
 }

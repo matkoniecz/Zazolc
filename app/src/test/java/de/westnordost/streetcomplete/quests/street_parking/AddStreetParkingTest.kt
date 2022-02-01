@@ -1,7 +1,14 @@
 package de.westnordost.streetcomplete.quests.street_parking
 
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapEntryAdd
-import de.westnordost.streetcomplete.osm.street_parking.*
+import de.westnordost.streetcomplete.osm.street_parking.LeftAndRightStreetParking
+import de.westnordost.streetcomplete.osm.street_parking.NoStreetParking
+import de.westnordost.streetcomplete.osm.street_parking.ParkingOrientation
+import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition
+import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPositionAndOrientation
+import de.westnordost.streetcomplete.osm.street_parking.StreetParkingSeparate
+import de.westnordost.streetcomplete.osm.street_parking.StreetStandingProhibited
+import de.westnordost.streetcomplete.osm.street_parking.StreetStoppingProhibited
 import de.westnordost.streetcomplete.quests.verifyAnswer
 import org.junit.Test
 
@@ -19,8 +26,9 @@ class AddStreetParkingTest {
     @Test fun `apply different no parking on different sides`() {
         questType.verifyAnswer(
             LeftAndRightStreetParking(StreetStoppingProhibited, StreetStandingProhibited),
-            StringMapEntryAdd("parking:lane:left", "no_stopping"),
-            StringMapEntryAdd("parking:lane:right", "no_standing"),
+            StringMapEntryAdd("parking:lane:both", "no"),
+            StringMapEntryAdd("parking:condition:left", "no_stopping"),
+            StringMapEntryAdd("parking:condition:right", "no_standing"),
         )
     }
 

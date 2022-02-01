@@ -1,7 +1,13 @@
 package de.westnordost.streetcomplete.osm.street_parking
 
-import de.westnordost.streetcomplete.osm.street_parking.ParkingOrientation.*
-import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.*
+import de.westnordost.streetcomplete.osm.street_parking.ParkingOrientation.DIAGONAL
+import de.westnordost.streetcomplete.osm.street_parking.ParkingOrientation.PARALLEL
+import de.westnordost.streetcomplete.osm.street_parking.ParkingOrientation.PERPENDICULAR
+import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.HALF_ON_KERB
+import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.ON_KERB
+import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.ON_STREET
+import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.PAINTED_AREA_ONLY
+import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.STREET_SIDE
 
 data class LeftAndRightStreetParking(val left: StreetParking?, val right: StreetParking?)
 
@@ -61,12 +67,16 @@ private val ParkingPosition.estimatedWidthOnRoadFactor: Float get() = when(this)
 /** get the OSM value for the parking:lane key */
 fun StreetParking.toOsmLaneValue(): String? = when(this) {
     is StreetParkingPositionAndOrientation -> orientation.toOsmValue()
-    NoStreetParking -> "no"
+    NoStreetParking, StreetParkingProhibited, StreetStandingProhibited, StreetStoppingProhibited -> "no"
     StreetParkingSeparate -> "separate"
+    UnknownStreetParking, IncompleteStreetParking -> null
+}
+
+fun StreetParking.toOsmConditionValue(): String? = when(this) {
     StreetParkingProhibited -> "no_parking"
     StreetStandingProhibited -> "no_standing"
     StreetStoppingProhibited -> "no_stopping"
-    UnknownStreetParking, IncompleteStreetParking -> null
+    else -> null
 }
 
 fun ParkingPosition.toOsmValue() = when(this) {

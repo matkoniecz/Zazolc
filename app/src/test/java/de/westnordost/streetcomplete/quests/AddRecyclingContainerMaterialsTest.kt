@@ -1,16 +1,19 @@
 package de.westnordost.streetcomplete.quests
 
-import de.westnordost.streetcomplete.testutils.p
-import de.westnordost.streetcomplete.testutils.node
 import de.westnordost.streetcomplete.data.meta.toCheckDateString
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapEntryAdd
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapEntryDelete
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapEntryModify
 import de.westnordost.streetcomplete.quests.recycling_material.AddRecyclingContainerMaterials
-import de.westnordost.streetcomplete.quests.recycling_material.RecyclingMaterials
 import de.westnordost.streetcomplete.quests.recycling_material.IsWasteContainer
-import de.westnordost.streetcomplete.quests.recycling_material.RecyclingMaterial.*
-import de.westnordost.streetcomplete.util.translate
+import de.westnordost.streetcomplete.quests.recycling_material.RecyclingMaterial.CLOTHES
+import de.westnordost.streetcomplete.quests.recycling_material.RecyclingMaterial.PAPER
+import de.westnordost.streetcomplete.quests.recycling_material.RecyclingMaterial.PLASTIC
+import de.westnordost.streetcomplete.quests.recycling_material.RecyclingMaterial.PLASTIC_BOTTLES
+import de.westnordost.streetcomplete.quests.recycling_material.RecyclingMaterial.PLASTIC_PACKAGING
+import de.westnordost.streetcomplete.quests.recycling_material.RecyclingMaterial.SHOES
+import de.westnordost.streetcomplete.quests.recycling_material.RecyclingMaterials
+import de.westnordost.streetcomplete.testutils.node
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Instant
@@ -275,4 +278,11 @@ class AddRecyclingContainerMaterialsTest {
         )
     }
 
+    @Test fun `answer does not delete other =yes-keys`() {
+        questType.verifyAnswer(
+            mapOf("amenity" to "recycling", "access" to "yes"),
+            RecyclingMaterials(listOf(PAPER)),
+            StringMapEntryAdd("recycling:paper","yes")
+        )
+    }
 }

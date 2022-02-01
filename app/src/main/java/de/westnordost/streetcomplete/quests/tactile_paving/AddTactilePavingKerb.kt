@@ -1,13 +1,13 @@
 package de.westnordost.streetcomplete.quests.tactile_paving
 
-import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.elementfilter.toElementFilterExpression
-import de.westnordost.streetcomplete.data.osm.osmquests.OsmElementQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
+import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.Node
+import de.westnordost.streetcomplete.data.osm.osmquests.OsmElementQuestType
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.BLIND
 import de.westnordost.streetcomplete.ktx.toYesNo
 import de.westnordost.streetcomplete.osm.kerb.couldBeAKerb
@@ -23,7 +23,7 @@ class AddTactilePavingKerb : OsmElementQuestType<Boolean> {
           or tactile_paving = yes and tactile_paving older today -8 years
     """.toElementFilterExpression() }
 
-    override val commitMessage = "Add tactile paving on kerbs"
+    override val changesetComment = "Add tactile paving on kerbs"
     override val wikiLink = "Key:tactile_paving"
     override val icon = R.drawable.ic_quest_kerb_tactile_paving
     override val enabledInCountries = COUNTRIES_WHERE_TACTILE_PAVING_IS_COMMON
@@ -41,8 +41,8 @@ class AddTactilePavingKerb : OsmElementQuestType<Boolean> {
         if (!eligibleKerbsFilter.matches(element) || element !is Node || !element.couldBeAKerb()) false
         else null
 
-    override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
-        changes.updateWithCheckDate("tactile_paving", answer.toYesNo())
-        changes.addOrModify("barrier", "kerb")
+    override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
+        tags.updateWithCheckDate("tactile_paving", answer.toYesNo())
+        tags["barrier"] = "kerb"
     }
 }

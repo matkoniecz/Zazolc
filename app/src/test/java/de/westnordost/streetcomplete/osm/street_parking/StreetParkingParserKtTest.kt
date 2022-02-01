@@ -1,11 +1,14 @@
 package de.westnordost.streetcomplete.osm.street_parking
 
-import org.junit.Assert.*
+import de.westnordost.streetcomplete.osm.street_parking.ParkingOrientation.DIAGONAL
+import de.westnordost.streetcomplete.osm.street_parking.ParkingOrientation.PARALLEL
+import de.westnordost.streetcomplete.osm.street_parking.ParkingOrientation.PERPENDICULAR
+import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.HALF_ON_KERB
+import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.ON_KERB
+import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.ON_STREET
+import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.STREET_SIDE
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.*
-import de.westnordost.streetcomplete.osm.street_parking.ParkingOrientation.*
-
 
 class StreetParkingParserKtTest {
 
@@ -58,30 +61,64 @@ class StreetParkingParserKtTest {
         assertEquals(
             LeftAndRightStreetParking(NoStreetParking, null),
             createStreetParkingSides(mapOf("parking:lane:left" to "no")))
+
+        assertEquals(
+            LeftAndRightStreetParking(NoStreetParking, null),
+            createStreetParkingSides(mapOf(
+                "parking:lane:left" to "no",
+                "parking:condition:left" to "no"
+            )))
     }
 
     @Test fun `stopping prohibited`() {
         assertEquals(
             LeftAndRightStreetParking(StreetStoppingProhibited, null),
             createStreetParkingSides(mapOf("parking:lane:left" to "no_stopping")))
+
+        assertEquals(
+            LeftAndRightStreetParking(StreetStoppingProhibited, null),
+            createStreetParkingSides(mapOf(
+                "parking:lane:left" to "no",
+                "parking:condition:left" to "no_stopping"
+            )))
     }
 
     @Test fun `parking prohibited`() {
         assertEquals(
             LeftAndRightStreetParking(StreetParkingProhibited, null),
             createStreetParkingSides(mapOf("parking:lane:left" to "no_parking")))
+
+        assertEquals(
+            LeftAndRightStreetParking(StreetParkingProhibited, null),
+            createStreetParkingSides(mapOf(
+                "parking:lane:left" to "no",
+                "parking:condition:left" to "no_parking"
+            )))
     }
 
     @Test fun `standing prohibited`() {
         assertEquals(
             LeftAndRightStreetParking(StreetStandingProhibited, null),
             createStreetParkingSides(mapOf("parking:lane:left" to "no_standing")))
+
+        assertEquals(
+            LeftAndRightStreetParking(StreetStandingProhibited, null),
+            createStreetParkingSides(mapOf(
+                "parking:lane:left" to "no",
+                "parking:condition:left" to "no_standing"
+            )))
     }
 
     @Test fun `parking separate`() {
         assertEquals(
             LeftAndRightStreetParking(StreetParkingSeparate, null),
             createStreetParkingSides(mapOf("parking:lane:left" to "separate")))
+    }
+
+    @Test fun `parking yes`() {
+        assertEquals(
+            LeftAndRightStreetParking(IncompleteStreetParking, null),
+            createStreetParkingSides(mapOf("parking:lane:left" to "yes")))
     }
 
     @Test fun `unknown orientation leads to unknown`() {

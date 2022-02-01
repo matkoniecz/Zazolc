@@ -3,13 +3,14 @@ package de.westnordost.streetcomplete.quests.shop_type
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
 class AddShopType() : OsmFilterQuestType<Boolean>() {
 
     override val elementFilter = "nodes, ways, relations with shop=yes and !amenity and !leisure"
-    override val commitMessage = "Specify shop type"
+    override val changesetComment = "Specify shop type"
     override val icon = R.drawable.ic_quest_label
 
     override fun getTitle(tags: Map<String, String>): Int {
@@ -20,7 +21,7 @@ class AddShopType() : OsmFilterQuestType<Boolean>() {
 
     override fun createForm() = YesNoQuestAnswerFragment()
 
-    override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
+    override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
     }
 
     override val wikiLink = "Tag:shop=yes"

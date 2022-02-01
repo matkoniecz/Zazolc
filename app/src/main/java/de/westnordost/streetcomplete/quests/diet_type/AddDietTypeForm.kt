@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
-
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.databinding.QuestDietTypeExplanationBinding
 import de.westnordost.streetcomplete.quests.AbstractQuestAnswerFragment
 import de.westnordost.streetcomplete.quests.AnswerItem
-import de.westnordost.streetcomplete.quests.diet_type.DietAvailability.*
+import de.westnordost.streetcomplete.quests.diet_type.DietAvailability.DIET_NO
+import de.westnordost.streetcomplete.quests.diet_type.DietAvailability.DIET_ONLY
+import de.westnordost.streetcomplete.quests.diet_type.DietAvailability.DIET_YES
 
 class AddDietTypeForm : AbstractQuestAnswerFragment<DietAvailabilityAnswer>() {
 
@@ -18,7 +19,7 @@ class AddDietTypeForm : AbstractQuestAnswerFragment<DietAvailabilityAnswer>() {
         if (osmElement?.tags?.get("amenity") == "cafe") {
             result.add(AnswerItem(R.string.quest_diet_answer_no_food) { confirmNoFood() })
         }
-        return result;
+        return result
     }
 
     override val contentLayoutResId = R.layout.quest_diet_type_explanation

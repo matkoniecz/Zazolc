@@ -2,11 +2,11 @@ package de.westnordost.streetcomplete.quests.motorcycle_parking_capacity
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
-import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
+import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.CAR
 
 class AddMotorcycleParkingCapacity : OsmFilterQuestType<Int>() {
@@ -16,7 +16,7 @@ class AddMotorcycleParkingCapacity : OsmFilterQuestType<Int>() {
          and access !~ private|no
          and (!capacity or capacity older today -4 years)
     """
-    override val commitMessage = "Add motorcycle parking capacities"
+    override val changesetComment = "Add motorcycle parking capacities"
     override val wikiLink = "Tag:amenity=motorcycle_parking"
     override val icon = R.drawable.ic_quest_motorcycle_parking_capacity
     override val isDeleteElementEnabled = true
@@ -30,7 +30,7 @@ class AddMotorcycleParkingCapacity : OsmFilterQuestType<Int>() {
     override fun getHighlightedElements(element: Element, getMapData: () -> MapDataWithGeometry) =
         getMapData().filter("nodes, ways with amenity = motorcycle_parking")
 
-    override fun applyAnswerTo(answer: Int, changes: StringMapChangesBuilder) {
-        changes.updateWithCheckDate("capacity", answer.toString())
+    override fun applyAnswerTo(answer: Int, tags: Tags, timestampEdited: Long) {
+        tags.updateWithCheckDate("capacity", answer.toString())
     }
 }

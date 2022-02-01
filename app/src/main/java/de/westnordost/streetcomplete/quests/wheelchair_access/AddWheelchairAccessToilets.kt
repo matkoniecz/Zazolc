@@ -3,7 +3,7 @@ package de.westnordost.streetcomplete.quests.wheelchair_access
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.WHEELCHAIR
 
 class AddWheelchairAccessToilets : OsmFilterQuestType<WheelchairAccess>() {
@@ -17,7 +17,7 @@ class AddWheelchairAccessToilets : OsmFilterQuestType<WheelchairAccess>() {
            or wheelchair older today -8 years
          )
     """
-    override val commitMessage = "Add wheelchair access to toilets"
+    override val changesetComment = "Add wheelchair access to toilets"
     override val wikiLink = "Key:wheelchair"
     override val icon = R.drawable.ic_quest_toilets_wheelchair
     override val isDeleteElementEnabled = true
@@ -32,7 +32,7 @@ class AddWheelchairAccessToilets : OsmFilterQuestType<WheelchairAccess>() {
 
     override fun createForm() = AddWheelchairAccessToiletsForm()
 
-    override fun applyAnswerTo(answer: WheelchairAccess, changes: StringMapChangesBuilder) {
-        changes.updateWithCheckDate("wheelchair", answer.osmValue)
+    override fun applyAnswerTo(answer: WheelchairAccess, tags: Tags, timestampEdited: Long) {
+        tags.updateWithCheckDate("wheelchair", answer.osmValue)
     }
 }

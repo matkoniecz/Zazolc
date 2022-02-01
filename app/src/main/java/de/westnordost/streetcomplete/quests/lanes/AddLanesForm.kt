@@ -10,17 +10,20 @@ import de.westnordost.streetcomplete.data.osm.geometry.ElementPolylinesGeometry
 import de.westnordost.streetcomplete.databinding.QuestLanesSelectTypeBinding
 import de.westnordost.streetcomplete.databinding.QuestStreetLanesPuzzleBinding
 import de.westnordost.streetcomplete.ktx.viewLifecycleScope
+import de.westnordost.streetcomplete.osm.isForwardOneway
+import de.westnordost.streetcomplete.osm.isOneway
+import de.westnordost.streetcomplete.osm.isReversedOneway
 import de.westnordost.streetcomplete.quests.AbstractQuestFormAnswerFragment
 import de.westnordost.streetcomplete.quests.AnswerItem
 import de.westnordost.streetcomplete.quests.StreetSideRotater
-import de.westnordost.streetcomplete.quests.lanes.LanesType.*
+import de.westnordost.streetcomplete.quests.lanes.LanesType.MARKED
+import de.westnordost.streetcomplete.quests.lanes.LanesType.MARKED_SIDES
+import de.westnordost.streetcomplete.quests.lanes.LanesType.UNMARKED
+import de.westnordost.streetcomplete.quests.lanes.LanesType.UNMARKED_KNOWN_LANE_COUNT
 import de.westnordost.streetcomplete.view.dialogs.ValuePickerDialog
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
-import de.westnordost.streetcomplete.osm.isForwardOneway
-import de.westnordost.streetcomplete.osm.isReversedOneway
-import de.westnordost.streetcomplete.osm.isOneway
 
 class AddLanesForm : AbstractQuestFormAnswerFragment<LanesAnswer>() {
 
@@ -105,6 +108,7 @@ class AddLanesForm : AbstractQuestFormAnswerFragment<LanesAnswer>() {
                 applyAnswer(MarkedLanesSides(forwardLanes, backwardLanes, hasCenterLeftTurnLane))
             }
             UNMARKED_KNOWN_LANE_COUNT -> applyAnswer(UnmarkedLanesKnowLaneCount(totalLanes))
+            null -> {}
         }
     }
 
@@ -188,6 +192,7 @@ class AddLanesForm : AbstractQuestFormAnswerFragment<LanesAnswer>() {
                 puzzleView.onClickListener = null
                 puzzleView.onClickSideListener = this::selectNumberOfLanesOnOneSide
             }
+            else -> {}
         }
         puzzleView.isShowingLaneMarkings = selectedLanesType in listOf(MARKED, MARKED_SIDES)
         puzzleView.isShowingBothSides = !isOneway

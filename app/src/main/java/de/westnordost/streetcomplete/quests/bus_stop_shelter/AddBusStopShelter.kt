@@ -3,11 +3,13 @@ package de.westnordost.streetcomplete.quests.bus_stop_shelter
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.PEDESTRIAN
 import de.westnordost.streetcomplete.ktx.arrayOfNotNull
 import de.westnordost.streetcomplete.ktx.containsAnyKey
-import de.westnordost.streetcomplete.quests.bus_stop_shelter.BusStopShelterAnswer.*
+import de.westnordost.streetcomplete.quests.bus_stop_shelter.BusStopShelterAnswer.COVERED
+import de.westnordost.streetcomplete.quests.bus_stop_shelter.BusStopShelterAnswer.NO_SHELTER
+import de.westnordost.streetcomplete.quests.bus_stop_shelter.BusStopShelterAnswer.SHELTER
 
 class AddBusStopShelter : OsmFilterQuestType<BusStopShelterAnswer>() {
 
@@ -25,7 +27,7 @@ class AddBusStopShelter : OsmFilterQuestType<BusStopShelterAnswer>() {
     /* Not asking again if it is covered because it means the stop itself is under a large
        building or roof building so this won't usually change */
 
-    override val commitMessage = "Add bus stop shelter"
+    override val changesetComment = "Add bus stop shelter"
     override val wikiLink = "Key:shelter"
     override val icon = R.drawable.ic_quest_bus_stop_shelter
 
@@ -47,13 +49,13 @@ class AddBusStopShelter : OsmFilterQuestType<BusStopShelterAnswer>() {
 
     override fun createForm() = AddBusStopShelterForm()
 
-    override fun applyAnswerTo(answer: BusStopShelterAnswer, changes: StringMapChangesBuilder) {
+    override fun applyAnswerTo(answer: BusStopShelterAnswer, tags: Tags, timestampEdited: Long) {
         when(answer) {
-            SHELTER -> changes.updateWithCheckDate("shelter", "yes")
-            NO_SHELTER -> changes.updateWithCheckDate("shelter", "no")
+            SHELTER -> tags.updateWithCheckDate("shelter", "yes")
+            NO_SHELTER -> tags.updateWithCheckDate("shelter", "no")
             COVERED -> {
-                changes.deleteIfExists("shelter")
-                changes.add("covered", "yes")
+                tags.remove("shelter")
+                tags["covered"] = "yes"
             }
         }
     }

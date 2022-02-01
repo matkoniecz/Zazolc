@@ -3,11 +3,11 @@ package de.westnordost.streetcomplete.quests.diet_type
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.isKindOfShopExpression
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.CITIZEN
 
 class AddKosher : OsmFilterQuestType<DietAvailabilityAnswer>() {
@@ -17,14 +17,14 @@ class AddKosher : OsmFilterQuestType<DietAvailabilityAnswer>() {
         (
           amenity ~ restaurant|cafe|fast_food|ice_cream and food != no
           or amenity ~ pub|nightclub|biergarten|bar and food = yes
-          or shop ~ butcher|supermarket|ice_cream
+          or shop ~ butcher|supermarket|ice_cream|convenience
         )
         and name and (
           !diet:kosher
           or diet:kosher != only and diet:kosher older today -4 years
         )
     """
-    override val commitMessage = "Add kosher status"
+    override val changesetComment = "Add kosher status"
     override val wikiLink = "Key:diet:kosher"
     override val icon = R.drawable.ic_quest_kosher
     override val isReplaceShopEnabled = true
@@ -39,10 +39,10 @@ class AddKosher : OsmFilterQuestType<DietAvailabilityAnswer>() {
 
     override fun createForm() = AddDietTypeForm.create(R.string.quest_dietType_explanation_kosher)
 
-    override fun applyAnswerTo(answer: DietAvailabilityAnswer, changes: StringMapChangesBuilder) {
+    override fun applyAnswerTo(answer: DietAvailabilityAnswer, tags: Tags, timestampEdited: Long) {
         when(answer) {
-            is DietAvailability -> changes.updateWithCheckDate("diet:kosher", answer.osmValue)
-            NoFood -> changes.addOrModify("food", "no")
+            is DietAvailability -> tags.updateWithCheckDate("diet:kosher", answer.osmValue)
+            NoFood -> tags["food"] = "no"
         }
     }
 }

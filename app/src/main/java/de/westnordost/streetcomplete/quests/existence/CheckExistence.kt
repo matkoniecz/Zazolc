@@ -1,14 +1,14 @@
 package de.westnordost.streetcomplete.quests.existence
 
-import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.elementfilter.toElementFilterExpression
 import de.westnordost.streetcomplete.data.meta.LAST_CHECK_DATE_KEYS
 import de.westnordost.streetcomplete.data.meta.updateCheckDate
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
+import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmElementQuestType
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.CITIZEN
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.OUTDOORS
 import de.westnordost.streetcomplete.ktx.arrayOfNotNull
@@ -95,7 +95,7 @@ class CheckExistence(
     /* not including bicycle parkings, motorcycle parkings because their capacity is asked every
     *  few years already, so if it's gone now, it will be noticed that way. */
 
-    override val commitMessage = "Check if element still exists"
+    override val changesetComment = "Check if element still exists"
     override val wikiLink: String? = null
     override val icon = R.drawable.ic_quest_check
 
@@ -132,8 +132,8 @@ class CheckExistence(
 
     override fun createForm() = CheckExistenceForm()
 
-    override fun applyAnswerTo(answer: Unit, changes: StringMapChangesBuilder) {
-        changes.updateCheckDate()
+    override fun applyAnswerTo(answer: Unit, tags: Tags, timestampEdited: Long) {
+        tags.updateCheckDate()
     }
 
     private fun lastChecked(yearsAgo: Double): String = """

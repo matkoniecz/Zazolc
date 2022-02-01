@@ -3,18 +3,17 @@ package de.westnordost.streetcomplete.quests.building_levels
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.appcompat.app.AlertDialog
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
-
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.databinding.QuestBuildingLevelsBinding
 import de.westnordost.streetcomplete.databinding.QuestBuildingLevelsLastPickedButtonBinding
 import de.westnordost.streetcomplete.quests.AbstractQuestFormAnswerFragment
-import de.westnordost.streetcomplete.quests.LastPickedValuesStore
 import de.westnordost.streetcomplete.quests.AnswerItem
+import de.westnordost.streetcomplete.quests.LastPickedValuesStore
 import de.westnordost.streetcomplete.quests.mostCommonWithin
 import de.westnordost.streetcomplete.util.TextChangedWatcher
 
@@ -85,7 +84,10 @@ class AddBuildingLevelsForm : AbstractQuestFormAnswerFragment<BuildingLevelsAnsw
         }
     }
 
-    override fun isFormComplete() = levels.isNotEmpty()
+    override fun isFormComplete() =
+        // levels must be an int >= 0. IF roof levels is specified, it must also be an int >= 0
+        levels.toIntOrNull()?.let { it >= 0 } ?: false
+        && (roofLevels.isEmpty() || roofLevels.toIntOrNull()?.let { it >= 0 } ?: false)
 }
 
 private class LastPickedAdapter(

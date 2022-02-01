@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.quests.step_count
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.PEDESTRIAN
 
 class AddStepCount : OsmFilterQuestType<Int>() {
@@ -15,13 +15,13 @@ class AddStepCount : OsmFilterQuestType<Int>() {
          and !step_count
     """
 
-    override val commitMessage = "Add step count"
+    override val changesetComment = "Add step count"
     override val wikiLink = "Key:step_count"
     override val icon = R.drawable.ic_quest_steps_count
     override val defaultDisabledMessage = R.string.default_disabled_msg_boring
-    override val isSplitWayEnabled = true
     // because the user needs to start counting at the start of the steps
     override val hasMarkersAtEnds = true
+    override val isSplitWayEnabled = true
 
     override val questTypeAchievements = listOf(PEDESTRIAN)
 
@@ -29,7 +29,7 @@ class AddStepCount : OsmFilterQuestType<Int>() {
 
     override fun createForm() = AddStepCountForm()
 
-    override fun applyAnswerTo(answer: Int, changes: StringMapChangesBuilder) {
-        changes.add("step_count", answer.toString())
+    override fun applyAnswerTo(answer: Int, tags: Tags, timestampEdited: Long) {
+        tags["step_count"] = answer.toString()
     }
 }

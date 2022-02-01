@@ -3,8 +3,8 @@ package de.westnordost.streetcomplete.quests.way_lit
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.MAXSPEED_TYPE_KEYS
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.PEDESTRIAN
 
 class AddWayLit : OsmFilterQuestType<WayLitOrIsStepsAnswer>() {
@@ -41,7 +41,7 @@ class AddWayLit : OsmFilterQuestType<WayLitOrIsStepsAnswer>() {
         and indoor != yes
     """
 
-    override val commitMessage = "Add whether way is lit"
+    override val changesetComment = "Add whether way is lit"
     override val wikiLink = "Key:lit"
     override val icon = R.drawable.ic_quest_lantern
     override val isSplitWayEnabled = true
@@ -62,10 +62,10 @@ class AddWayLit : OsmFilterQuestType<WayLitOrIsStepsAnswer>() {
 
     override fun createForm() = WayLitForm()
 
-    override fun applyAnswerTo(answer: WayLitOrIsStepsAnswer, changes: StringMapChangesBuilder) {
+    override fun applyAnswerTo(answer: WayLitOrIsStepsAnswer, tags: Tags, timestampEdited: Long) {
         when (answer) {
-            is IsActuallyStepsAnswer -> changes.modify("highway", "steps")
-            is WayLit -> changes.updateWithCheckDate("lit", answer.osmValue)
+            is IsActuallyStepsAnswer -> tags["highway"] = "steps"
+            is WayLit -> tags.updateWithCheckDate("lit", answer.osmValue)
         }
     }
 

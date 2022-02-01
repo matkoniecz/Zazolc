@@ -1,14 +1,15 @@
 package de.westnordost.streetcomplete.quests.crossing_island
 
-import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.elementfilter.toElementFilterExpression
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
+import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmElementQuestType
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.BLIND
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.PEDESTRIAN
 import de.westnordost.streetcomplete.ktx.toYesNo
+import de.westnordost.streetcomplete.osm.isCrossing
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
 
 class AddCrossingIsland : OsmElementQuestType<Boolean> {
@@ -30,13 +31,16 @@ class AddCrossingIsland : OsmElementQuestType<Boolean> {
           or highway and oneway and oneway != no
     """.toElementFilterExpression()}
 
-    override val commitMessage = "Add whether pedestrian crossing has an island"
+    override val changesetComment = "Add whether pedestrian crossing has an island"
     override val wikiLink = "Key:crossing:island"
     override val icon = R.drawable.ic_quest_pedestrian_crossing_island
 
     override val questTypeAchievements = listOf(PEDESTRIAN, BLIND)
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_pedestrian_crossing_island
+
+    override fun getHighlightedElements(element: Element, getMapData: () -> MapDataWithGeometry) =
+        getMapData().filter { it.isCrossing() }.asSequence()
 
     override fun getApplicableElements(mapData: MapDataWithGeometry): Iterable<Element> {
         val excludedWayNodeIds = mutableSetOf<Long>()
@@ -53,7 +57,7 @@ class AddCrossingIsland : OsmElementQuestType<Boolean> {
 
     override fun createForm() = YesNoQuestAnswerFragment()
 
-    override fun applyAnswerTo(answer: Boolean, changes: StringMapChangesBuilder) {
-        changes.add("crossing:island", answer.toYesNo())
+    override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
+        tags["crossing:island"] = answer.toYesNo()
     }
 }

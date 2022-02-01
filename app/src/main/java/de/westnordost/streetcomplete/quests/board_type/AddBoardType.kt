@@ -1,14 +1,14 @@
 package de.westnordost.streetcomplete.quests.board_type
 
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.CITIZEN
-import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.RARE
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.OUTDOORS
+import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.RARE
 
 class AddBoardType : OsmFilterQuestType<BoardType>() {
 
@@ -19,7 +19,7 @@ class AddBoardType : OsmFilterQuestType<BoardType>() {
          and access !~ private|no
          and (!board_type or board_type ~ yes|board)
     """
-    override val commitMessage = "Add board type"
+    override val changesetComment = "Add board type"
     override val wikiLink = "Key:board_type"
     override val icon = R.drawable.ic_quest_board_type
     override val isDeleteElementEnabled = true
@@ -33,11 +33,11 @@ class AddBoardType : OsmFilterQuestType<BoardType>() {
 
     override fun createForm() = AddBoardTypeForm()
 
-    override fun applyAnswerTo(answer: BoardType, changes: StringMapChangesBuilder) {
+    override fun applyAnswerTo(answer: BoardType, tags: Tags, timestampEdited: Long) {
         if(answer == BoardType.MAP) {
-            changes.modify("information", "map")
+            tags["information"] = "map"
         } else {
-            changes.addOrModify("board_type", answer.osmValue)
+            tags["board_type"] = answer.osmValue
         }
     }
 }

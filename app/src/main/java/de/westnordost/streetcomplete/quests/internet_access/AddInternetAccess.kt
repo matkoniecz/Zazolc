@@ -3,7 +3,7 @@ package de.westnordost.streetcomplete.quests.internet_access
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.meta.updateWithCheckDate
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
+import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.CITIZEN
 
 class AddInternetAccess : OsmFilterQuestType<InternetAccess>() {
@@ -25,7 +25,7 @@ class AddInternetAccess : OsmFilterQuestType<InternetAccess>() {
     /* Asked less often than for example opening hours because this quest is only asked for
        tendentially larger places which are less likely to change often */
 
-    override val commitMessage = "Add internet access"
+    override val changesetComment = "Add internet access"
     override val wikiLink = "Key:internet_access"
     override val icon = R.drawable.ic_quest_wifi
     override val defaultDisabledMessage = R.string.default_disabled_msg_go_inside
@@ -36,7 +36,7 @@ class AddInternetAccess : OsmFilterQuestType<InternetAccess>() {
 
     override fun createForm() = AddInternetAccessForm()
 
-    override fun applyAnswerTo(answer: InternetAccess, changes: StringMapChangesBuilder) {
-        changes.updateWithCheckDate("internet_access", answer.osmValue)
+    override fun applyAnswerTo(answer: InternetAccess, tags: Tags, timestampEdited: Long) {
+        tags.updateWithCheckDate("internet_access", answer.osmValue)
     }
 }
