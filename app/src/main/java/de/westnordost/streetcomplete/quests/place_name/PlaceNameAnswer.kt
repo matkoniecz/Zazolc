@@ -6,3 +6,4 @@ sealed class PlaceNameAnswer
 
 data class PlaceName(val localizedNames: List<LocalizedName>) : PlaceNameAnswer()
 object NoPlaceNameSign : PlaceNameAnswer()
+object NoName : PlaceNameAnswer()

@@ -136,6 +136,9 @@ class AddPlaceName(
             is NoPlaceNameSign -> {
                 tags["name:signed"] = "no"
             }
+            is NoName -> {
+                tags["noname"] = "yes"
+            }
             is PlaceName -> {
                 for ((languageTag, name) in answer.localizedNames) {
                     val key = when (languageTag) {
