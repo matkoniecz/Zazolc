@@ -2286,6 +2286,8 @@
     <string name="quest_pitchSurface_title_track">"جنس سطح این میدان ورزشی چیست؟"</string>
     <string name="quest_bicycle_parking_access_title">"آیا برای کسی که اینجا دوچرخه پارک می‌کند محدودیتی هست؟"</string>
     <string name="quest_bicycle_parking_fee_title">"برای پارک دوچرخه در اینجا باید هزینه پرداخت کرد؟"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_house_description2">"خانه متصل و تک‌خانواری"</string>
     <string name="quest_drinking_water_title">"آیا در اینجا آب قابل شرب است؟  (%s)"</string>
     <string name="quest_drinking_water_potable_signed">"آب شرب (تایید شده)"</string>
@@ -2585,6 +2587,8 @@
     <string name="quest_playground_access_title2">"چه کسانی مجاز به استفاده از این زمین بازی هستند؟"</string>
     <string name="quest_fireHydrant_position_ref_title">"این شیر آتش‌نشانی در کجا قرار دارد؟ (شماره مرجع: %s)"</string>
     <string name="quest_sidewalk_answer_none_title">"انتخاب‌کردن اینکه پیاده روها وجود ندارد"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_side_select_interface_explanation">"روی هر طرف ضربه بزنید و وضعیت آن طرف را انتخاب کنید.
 در صورت وجود همین کار را برای طرف دیگر انجام دهید."</string>
     <string name="ar_measure">"اندازه گیری"</string>

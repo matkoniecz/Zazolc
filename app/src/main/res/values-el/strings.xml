@@ -2132,6 +2132,8 @@
     <string name="quest_pitchSurface_title_track">"Τι επιφάνεια έχει αυτή η αθλητική πίστα; "</string>
     <string name="quest_bicycle_parking_access_title">"Είναι περιορισμένο ποιος μπορεί να σταθμεύσει ένα ποδήλατο εδώ;"</string>
     <string name="quest_bicycle_parking_fee_title">"Πρέπει να πληρώσετε για να σταθμεύσετε ένα ποδήλατο εδώ;"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_house_description2">"μη ανεξάρτητη μονοκατοικία "</string>
     <string name="quest_drinking_water_title">"Είναι το νερό πόσιμο εδώ; (%s)"</string>
     <string name="quest_drinking_water_potable_signed">"Ασφαλές για κατανάλωση (επισημασμένο) "</string>

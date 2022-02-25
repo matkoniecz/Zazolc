@@ -54,6 +54,8 @@
     <string name="no_location_permission_warning">"Platsbehörighet är nödvändigt för att visa din position på kartan och söka efter uppdrag i din närhet."</string>
     <string name="about_title_authors">"Tack till"</string>
     <string name="about_summary_authors">"© %s Tobias Zwick och bidragsgivare"</string>
+
+    <!-- Fuzzy -->
     <string name="about_title_repository">"Källkodsarkiv"</string>
     <string name="about_summary_repository">"på GitHub"</string>
     <string name="about_title_report_error">"Rapportera fel"</string>
@@ -624,6 +626,8 @@ Delvis betyder att rullstolsanvändare kan komma in och använda toaletten men a
     <string name="quest_ferry_motor_vehicle_title">"Transporterar denna färjelinje motorfordon?"</string>
     <string name="quest_leave_new_note_photos_are_useful">"Genom att lägga till ett foto gör du anteckningen mycket mer användbar."</string>
     <string name="quest_postboxCollectionTimes_name_title">"Vilka är tömningstiderna för denna %s brevlåda?"</string>
+
+    <!-- Fuzzy -->
     <string name="create_new_note_hint">"Det är bäst att skriva anteckningen på det lokala språket eller på engelska."</string>
     <string name="quest_leafType_title">"Har träden här barr eller blad?"</string>
     <string name="quest_leaf_type_needles">"Barr"</string>
@@ -1027,6 +1031,8 @@ Observera alla tillgängliga alternativ: vissa fall är inte uppenbara, som en e
     <string name="quest_pitchSurface_title_track">"Vilket underlag har denna sportbana?"</string>
     <string name="quest_bicycle_parking_access_title">"Är det begränsat vem som får parkera en cykel här?"</string>
     <string name="quest_bicycle_parking_fee_title">"Kostar det att parkera en cykel här?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_house_description2">"enfamiljsradhus"</string>
     <string name="quest_drinking_water_title">"Är vattnet drickbart här? (%s)"</string>
     <string name="quest_drinking_water_potable_signed">"Drickbart (skyltat)"</string>
@@ -1346,6 +1352,8 @@ Du kan också lämna en anteckning (med bild)."</string>
     <string name="quest_playground_access_title2">"Vem får använda den här lekplatsen?"</string>
     <string name="quest_fireHydrant_position_ref_title">"Var ligger denna brandpost? (referensnummer: %s)"</string>
     <string name="quest_sidewalk_answer_none_title">"Väljer att trottoarer saknas"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_side_select_interface_explanation">"Tryck på respektive sida och välj vad som gäller för den sidan.
 Gör detta för varje sida som finns."</string>
     <string name="ar_measure">"Mätning"</string>

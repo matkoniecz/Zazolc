@@ -2323,6 +2323,8 @@ Let op dat deze app alleen naar het huisnummer van een gebouw vraagt nadat het g
     <string name="quest_pitchSurface_title_track">"Welk oppervlak heeft deze sportbaan?"</string>
     <string name="quest_bicycle_parking_access_title">"Is er een beperking wie hier een fiets mag parkeren?"</string>
     <string name="quest_bicycle_parking_fee_title">"Moet je hier betalen om een fiets te parkeren?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_house_description2">"niet-vrijstaande eengezinswoning"</string>
     <string name="quest_drinking_water_title">"Is het water hier drinkbaar? (%s)"</string>
     <string name="quest_drinking_water_potable_signed">"Veilig om te drinken (aangegeven)"</string>

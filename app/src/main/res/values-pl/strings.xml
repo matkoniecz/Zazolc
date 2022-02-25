@@ -68,6 +68,8 @@
 
     <!-- Fuzzy -->
     <string name="about_summary_authors">"© %s Tobias Zwick i współautorzy"</string>
+
+    <!-- Fuzzy -->
     <string name="about_title_repository">"Repozytorium kodu źródłowego"</string>
     <string name="about_summary_repository">"na GitHubie"</string>
     <string name="about_title_report_error">"Zgłoś błąd"</string>
@@ -2151,6 +2153,8 @@ Dane są odświeżane automatycznie po %1$s dniach a nieużyte kasowane automaty
     <string name="quest_playground_access_title2">"Kto może używać tego placu zabaw?"</string>
     <string name="quest_fireHydrant_position_ref_title">"Gdzie znajduje się ten hydrant? (numer referencyjny: %s)"</string>
     <string name="quest_sidewalk_answer_none_title">"Zaznacz, że brakuje chodników"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_side_select_interface_explanation">"Dotknij każdej strony i wybierz sytuację dla tej strony.
 Zrób to samo dla drugiej strony, jeśli jest obecna."</string>
     <string name="ar_measure">"Zmierz"</string>

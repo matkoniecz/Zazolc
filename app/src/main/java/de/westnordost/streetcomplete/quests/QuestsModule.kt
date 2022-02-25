@@ -1,10 +1,12 @@
 package de.westnordost.streetcomplete.quests
 
+import de.westnordost.countryboundaries.CountryBoundaries
 import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.data.meta.CountryInfos
 import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuestType
 import de.westnordost.streetcomplete.data.quest.QuestType
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
+import de.westnordost.streetcomplete.measure.ArSupportChecker
 import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash
 import de.westnordost.streetcomplete.quests.address.AddAddressStreet
 import de.westnordost.streetcomplete.quests.address.AddHousenumber
@@ -65,6 +67,7 @@ import de.westnordost.streetcomplete.quests.lanes.AddLanes
 import de.westnordost.streetcomplete.quests.leaf_detail.AddForestLeafType
 import de.westnordost.streetcomplete.quests.level.AddLevel
 import de.westnordost.streetcomplete.quests.max_height.AddMaxHeight
+import de.westnordost.streetcomplete.quests.max_height.AddMaxPhysicalHeight
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed
 import de.westnordost.streetcomplete.quests.max_weight.AddMaxWeight
 import de.westnordost.streetcomplete.quests.motorcycle_parking_capacity.AddMotorcycleParkingCapacity
@@ -134,6 +137,8 @@ import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAcces
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessPublicTransport
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToilets
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToiletsPart
+import de.westnordost.streetcomplete.quests.width.AddCyclewayWidth
+import de.westnordost.streetcomplete.quests.width.AddRoadWidth
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import java.util.concurrent.FutureTask
@@ -142,9 +147,14 @@ val questsModule = module {
     factory { RoadNameSuggestionsSource(get()) }
     factory { WayTrafficFlowDao(get()) }
 
-    single {
-        questTypeRegistry(get(), get(), get(named("FeatureDictionaryFuture")), get())
-    }
+    single { questTypeRegistry(
+        get(),
+        get(),
+        get(named("FeatureDictionaryFuture")),
+        get(),
+        get(named("CountryBoundariesFuture")),
+        get(),
+    ) }
 }
 
 fun questTypeRegistry(
@@ -152,6 +162,8 @@ fun questTypeRegistry(
     trafficFlowDao: WayTrafficFlowDao,
     featureDictionaryFuture: FutureTask<FeatureDictionary>,
     countryInfos: CountryInfos,
+    countryBoundariesFuture: FutureTask<CountryBoundaries>,
+    arSupportChecker: ArSupportChecker
 ) = QuestTypeRegistry(listOf<QuestType<*>>(
 
     /* The quest types are primarily sorted by how easy they can be solved:
@@ -326,6 +338,7 @@ whether the postbox is still there in countries in which it is enabled */
     // road but information is visible usually at the beginning of the marked stretch of way
     AddMaxWeight(), // used by OSRM and other routing engines
     AddMaxHeight(), // OSRM and other routing engines
+    AddMaxPhysicalHeight(arSupportChecker), // same as above, best if it appears right after (if enabled)
     AddRoadName(),
     AddOneway(),
     AddSuspectedOneway(trafficFlowSegmentsApi, trafficFlowDao),
@@ -380,10 +393,11 @@ whether the postbox is still there in countries in which it is enabled */
     AddSidewalk(), // for any pedestrian routers, needs minimal thinking
     AddRoadSurface(), // used by BRouter, OsmAnd, OSRM, graphhopper, HOT map style... - sometimes requires way to be split
     AddTracktype(), // widely used in map rendering - OSM Carto, OsmAnd...
-    AddCycleway(countryInfos), // for any cyclist routers (and cyclist maps)
+    AddCycleway(countryInfos, countryBoundariesFuture), // for any cyclist routers (and cyclist maps)
     AddLanes(), // abstreet, certainly most routing engines - often requires way to be split
     // AddStreetParking(),
     AddShoulder(), // needs minimal thinking, but after AddStreetParking because a parking lane can be/look very similar to a shoulder
+    AddRoadWidth(arSupportChecker),
     AddRoadSmoothness(),
     AddPathSmoothness(),
 
@@ -392,6 +406,7 @@ whether the postbox is still there in countries in which it is enabled */
     AddCyclewaySegregation(), // Cyclosm, Valhalla, Bike Citizens Bicycle Navigation...
     AddFootwayPartSurface(),
     AddCyclewayPartSurface(),
+    AddCyclewayWidth(arSupportChecker), // should be after cycleway segregation
 
     /* should best be after road surface because it excludes unpaved roads, also, need to search
     *  for the sign which is one reason why it is disabled by default */
@@ -400,7 +415,7 @@ whether the postbox is still there in countries in which it is enabled */
     // buildings
     AddBuildingType(),
     AddBuildingLevels(),
-    AddRoofShape(countryInfos),
+    AddRoofShape(countryInfos, countryBoundariesFuture),
 
     AddStepCount(), // can only be gathered when walking along this way, also needs the most effort and least useful
 

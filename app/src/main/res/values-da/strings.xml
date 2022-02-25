@@ -2110,6 +2110,8 @@ fortrolighedserklæring&lt;/a&gt;  for mere information.&lt;/p&gt;"</string>
     <string name="quest_pitchSurface_title_track">"Hvilken overflade har denne sportsbane?"</string>
     <string name="quest_bicycle_parking_access_title">"Er det begrænset hvem der må parkere en cykel her?"</string>
     <string name="quest_bicycle_parking_fee_title">"Skal man betale for at parkere en cykel her?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_house_description2">"Ikke-fritliggende enfamiliehjem"</string>
     <string name="quest_drinking_water_title">"Er vandet drikkevand her? (%s)"</string>
     <string name="quest_drinking_water_potable_signed">"Drikkevand (skiltet)"</string>

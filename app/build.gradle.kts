@@ -35,8 +35,8 @@ android {
         applicationId = "de.westnordost.streetcomplete"
         minSdk = 21
         targetSdk = 31
-        versionCode = 4003
-        versionName = "40.2"
+        versionCode = 4100
+        versionName = "41.0-beta1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -153,6 +153,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$kotlinxVersion")
 
     // scheduling background jobs
     implementation("androidx.work:work-runtime:2.7.1")
@@ -181,15 +182,17 @@ dependencies {
 
     // serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    implementation("com.charleskorn.kaml:kaml:0.40.0")
 
     // map and location
     implementation("com.mapzen.tangram:tangram:0.17.1")
 
-    // config files
-    implementation("com.esotericsoftware.yamlbeans:yamlbeans:1.15")
-
     // opening hours parser
     implementation("ch.poole:OpeningHoursParser:0.26.0")
+
+    // measuring distance with AR
+    implementation("com.google.ar:core:1.29.0")
+    implementation("com.google.ar.sceneform:core:1.17.1")
 }
 
 /** Localizations that should be pulled from POEditor etc. */

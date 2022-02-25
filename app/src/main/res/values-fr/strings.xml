@@ -67,6 +67,8 @@ That is not very clear to me. Any further explanations? -->
     <string name="no_location_permission_warning">"Votre position est nécessaire pour rechercher des quêtes autour de vous."</string>
     <string name="about_title_authors">"Auteurs"</string>
     <string name="about_summary_authors">"© %s Tobias Zwick et contributeurs"</string>
+
+    <!-- Fuzzy -->
     <string name="about_title_repository">"Code source"</string>
     <string name="about_summary_repository">"sur GitHub"</string>
     <string name="about_title_report_error">"Signaler une erreur"</string>
@@ -714,6 +716,8 @@ Sinon, vous pouvez télécharger un autre clavier dans l’app store. Les clavie
     <string name="quest_ferry_motor_vehicle_title">"Cette ligne de ferry transporte-t-elle des véhicules à moteur ?"</string>
     <string name="quest_leave_new_note_photos_are_useful">"L’ajout d’une photo rendra la note beaucoup plus utile."</string>
     <string name="quest_postboxCollectionTimes_name_title">"Quels sont les horaires de levée de cette boîte aux lettres %s ?"</string>
+
+    <!-- Fuzzy -->
     <string name="create_new_note_hint">"Il est préférable d’écrire la note dans la langue parlée localement ou en anglais."</string>
     <string name="quest_leafType_title">"Les arbres d’ici ont-ils des aiguilles ou des feuilles ?"</string>
 
@@ -1131,6 +1135,8 @@ Prenez garde de voire toutes les options, certains cas sont non triviaux, comme 
     <string name="quest_pitchSurface_title_track">"Quelle est la surface de ce terrain de sport ?"</string>
     <string name="quest_bicycle_parking_access_title">"Qui peut garer un vélo ici ?"</string>
     <string name="quest_bicycle_parking_fee_title">"Doit-on payer pour garer son vélo ici ?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_house_description2">"maison familiale mitoyenne"</string>
     <string name="quest_drinking_water_title">"L’eau est-elle potable ici ? (%s)"</string>
     <string name="quest_drinking_water_potable_signed">"Eau potable (panneau)"</string>
@@ -1452,6 +1458,8 @@ En alternative, vous pouvez laisser une note (avec une photo)"</string>
     <string name="quest_playground_access_title2">"Qui est autorisé à utiliser cette aire de jeux ?"</string>
     <string name="quest_fireHydrant_position_ref_title">"Où cette borne incendie est-elle située ? (numéro de référence : %s)"</string>
     <string name="quest_sidewalk_answer_none_title">"Sélectionner que les trottoirs sont manquants"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_side_select_interface_explanation">"Sélectionnez un côté et précisez sa situation. Faites la même chose pour l’autre côté, si présent."</string>
     <string name="ar_measure">"Mesure"</string>
     <string name="ar_core_tracking_error_too_steep_angle">"Angle trop important, reculez un peu"</string>
@@ -1464,5 +1472,5 @@ En alternative, vous pouvez laisser une note (avec une photo)"</string>
     <string name="quest_road_width_explanation">"La taille de la route de bord à bord : ceci inclut tout ce qui se trouve sur la surface de la rue comme les emplacements de stationnement et les bandes cyclables, mais exclut tout ce qui se trouve au delà, comme les pistes cyclables ou les places de parking."</string>
     <string name="quest_sidewalk_answer_none">"Pas de trottoir du tout"</string>
     <string name="about_description_donate_google_play">"Merci de vouloir donner pour supporter cette application !
-Malheureusement, les conditions d'utilisation du Google Play Store ne nous permettent pas d'afficher le lien de don dans l'application. Vous pouvez trouver toutes les informations sur ce projet, y compris les moyens de soutenir le développement de cette application, sur le site :"</string>
+Malheureusement, les conditions d’utilisation du Google Play Store ne nous permettent pas d’afficher le lien de don dans l’application. Vous pouvez trouver toutes les informations sur ce projet, y compris les moyens de soutenir le développement de cette application, sur le site :"</string>
 </resources>

@@ -55,6 +55,8 @@
     <string name="no_location_permission_warning">"Cal la vostra ubicació per a cercar missions a prop vostre."</string>
     <string name="about_title_authors">"Crèdits"</string>
     <string name="about_summary_authors">"© %s Tobias Zwick i contribuïdors"</string>
+
+    <!-- Fuzzy -->
     <string name="about_title_repository">"Repositori font"</string>
     <string name="about_summary_repository">"a GitHub"</string>
     <string name="about_title_report_error">"Informa d'un error"</string>
@@ -613,6 +615,8 @@ Parcialment significa que una cadira de rodes pot entrar i utilitzar els lavabos
     <string name="quest_ferry_motor_vehicle_title">"Aquest ferri transporta vehicles a motor?"</string>
     <string name="quest_leave_new_note_photos_are_useful">"Afegir una foto farà la nota molt més útil."</string>
     <string name="quest_postboxCollectionTimes_name_title">"Quin és l'horari de recollida d'aquesta bústia %s?"</string>
+
+    <!-- Fuzzy -->
     <string name="create_new_note_hint">"Millor que escriviu la nota en la llengua local o en anglès."</string>
     <string name="quest_leafType_title">"Els arbres aquí tenen fulles amples o d'agulla?"</string>
     <string name="quest_leaf_type_needles">"Agulles"</string>
@@ -993,6 +997,8 @@ Si algun dels carrils estan reservats per busos, deixeu una nota com a alternati
     <string name="quest_pitchSurface_title_track">"Quina superfície té aquesta pista d'esports?"</string>
     <string name="quest_bicycle_parking_access_title">"Està restringit qui pot aparcar una bici aquí?"</string>
     <string name="quest_bicycle_parking_fee_title">"S'ha de pagar per aparcar una bicicleta aquí?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_house_description2">"llar monofamília no desconectada"</string>
     <string name="quest_drinking_water_title">"És potable l'aigua aquí? (%s)"</string>
     <string name="quest_drinking_water_potable_signed">"És segur beure (senyalat)"</string>

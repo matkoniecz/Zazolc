@@ -2293,6 +2293,8 @@ Pokud jsou tu pruhy pro autobusy, napište to prosím do poznámky."</string>
     <string name="quest_pitchSurface_title_track">"Jaký povrch má tato sportovní dráha?"</string>
     <string name="quest_bicycle_parking_access_title">"Je nějak omezeno, kdo zde může parkovat kolo?"</string>
     <string name="quest_bicycle_parking_fee_title">"Je zde potřeba platit za parkování kola?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_house_description2">"řadový dům pro jednu rodinu"</string>
     <string name="quest_drinking_water_title">"Je tento zdroj vody pitný? (%s)"</string>
     <string name="quest_drinking_water_potable_signed">"Pitná voda (rozbor)"</string>
@@ -2606,6 +2608,7 @@ Také můžete napsat poznámku (s fotografií)"</string>
     <string name="quest_playground_access_title2">"Kdo může používat toto hřiště?"</string>
     <string name="quest_fireHydrant_position_ref_title">"Kde je tento požární hydrant umístěn? (referenční číslo: %s)"</string>
     <string name="quest_sidewalk_answer_none_title">"Chybí výběr těchto chodníků"</string>
+    <string name="ar_measure">"Měření"</string>
     <string name="ar_core_tracking_error_too_steep_angle">"Příliš velký úhel, trochu ustupte"</string>
     <string name="default_disabled_msg_no_ar">"Pro vyřešení tohoto úkolu potřebujete svinovací metr, protože měření pomocí fotoaparátu není na tomto zařízení podporováno."</string>
     <string name="quest_cycleway_width_title">"Jaká je zde šířka této cyklostezky?"</string>

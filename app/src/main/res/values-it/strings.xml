@@ -58,6 +58,8 @@
 
     <!-- Fuzzy -->
     <string name="about_summary_authors">"© %s Tobias Zwick e contributori"</string>
+
+    <!-- Fuzzy -->
     <string name="about_title_repository">"Repository codice sorgente"</string>
     <string name="about_summary_repository">"su GitHub"</string>
     <string name="about_title_report_error">"Segnala errore"</string>
@@ -634,6 +636,8 @@ Altrimenti, è possibile scaricare un'altra tastiera. Le tastiere popolari che s
     <string name="quest_ferry_motor_vehicle_title">"Questa linea di traghetti trasporta veicoli a motore?"</string>
     <string name="quest_leave_new_note_photos_are_useful">"L’aggiunta di una foto renderà la nota molto più utile."</string>
     <string name="quest_postboxCollectionTimes_name_title">"Quali sono gli orari di raccolta della buca delle lettere %s?"</string>
+
+    <!-- Fuzzy -->
     <string name="create_new_note_hint">"Sarebbe meglio scrivere la nota nella lingua locale oppure in inglese."</string>
     <string name="quest_leafType_title">"Gli alberi hanno aghi o foglie?"</string>
     <string name="quest_leaf_type_needles">"Aghi"</string>
@@ -1027,6 +1031,8 @@ riconoscimento"</string>
     <string name="quest_pitchSurface_title_track">"Qual è la superficie di questa pista sportiva?"</string>
     <string name="quest_bicycle_parking_access_title">"Il parcheggio bici qui è riservato?"</string>
     <string name="quest_bicycle_parking_fee_title">"Si paga per parcheggiare la bici qua?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_house_description2">"casa unifamiliare non indipendente"</string>
     <string name="quest_drinking_water_title">"Qui l’acqua è potabile? (%s)"</string>
     <string name="quest_drinking_water_potable_signed">"È sicura da bere (è scritto così)"</string>

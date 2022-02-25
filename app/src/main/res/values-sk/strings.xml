@@ -2235,6 +2235,8 @@ Pamätajte, že táto aplikácia sa pýta na súpisné číslo budovy až po ur�
     <string name="quest_pitchSurface_title_track">"Aký povrch má táto športová trať?"</string>
     <string name="quest_bicycle_parking_access_title">"Je obmedzené kto tu môže parkovať bickel?"</string>
     <string name="quest_bicycle_parking_fee_title">"Platí sa tu za parkovanie bicykla?"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_house_description2">"samostatne stojaci rodinný dom"</string>
     <string name="quest_drinking_water_title">"Je táto voda pitná? (%s)"</string>
     <string name="quest_drinking_water_potable_signed">"Pitná voda (značená)"</string>
