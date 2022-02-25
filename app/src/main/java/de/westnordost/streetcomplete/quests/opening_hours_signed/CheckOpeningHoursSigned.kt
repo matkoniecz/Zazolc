@@ -33,7 +33,10 @@ class CheckOpeningHoursSigned (
             or older today -1 years
           )
           and access !~ private|no
-          and (name or brand or noname = yes or name:signed = no or amenity = recycling)
+          and (
+            name or brand or noname = yes or name:signed = no
+            or amenity ~ recycling|toilets|bicycle_rental|charging_station or leisure=park or barrier
+          )
     """.toElementFilterExpression() }
 
     private val hasOldOpeningHoursCheckDateFilter: String get() =
@@ -73,11 +76,13 @@ class CheckOpeningHoursSigned (
     override fun getApplicableElements(mapData: MapDataWithGeometry): Iterable<Element> =
         mapData.filter { isApplicableTo(it) }
 
-    override fun isApplicableTo(element: Element) : Boolean =
+    override fun isApplicableTo(element: Element): Boolean =
         filter.matches(element) && hasName(element.tags)
 
     override fun getHighlightedElements(element: Element, getMapData: () -> MapDataWithGeometry) =
-        getMapData().filter("nodes, ways, relations with " + isKindOfShopExpression())
+        getMapData().filter("nodes, ways, relations with " +
+            isKindOfShopExpression() + " or " + isKindOfShopExpression("disused")
+        )
 
     override fun createForm() = YesNoQuestAnswerFragment()
 

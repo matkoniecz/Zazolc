@@ -66,9 +66,9 @@ class AddLanes : OsmFilterQuestType<LanesAnswer>() {
             tags.remove("turn:lanes:both_ways")
         }
 
-        when(answer) {
+        when (answer) {
             is MarkedLanes, is UnmarkedLanesKnowLaneCount -> {
-                if (answer.total == 1) {
+                if (answer.count == 1) {
                     tags.remove("lanes:forward")
                     tags.remove("lanes:backward")
                 } else {
@@ -99,4 +99,3 @@ class AddLanes : OsmFilterQuestType<LanesAnswer>() {
         )
     }
 }
-

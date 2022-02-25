@@ -25,8 +25,9 @@ class AddPlaceName(
           or office
           or place """ + // place is only in my fork
           """
+          or amenity = recycling and recycling_type = centre
           or tourism = information and information = office
-          or """.trimIndent() +
+          or """ +
 
         // The common list is shared by the name quest, the opening hours quest and the wheelchair quest.
         // So when adding other tags to the common list keep in mind that they need to be appropriate for all those quests.
@@ -42,6 +43,7 @@ class AddPlaceName(
                 "car_wash", "car_rental", "fuel",                                                                      // car stuff
                 "dentist", "doctors", "clinic", "pharmacy", "veterinary",                                              // health
                 "animal_boarding", "animal_shelter", "animal_breeding",                                                // animals
+                "coworking_space",                                                                                     // work
 
                 // name & opening hours
                 "boat_rental",
@@ -102,11 +104,19 @@ class AddPlaceName(
             ),
             "military" to arrayOf(
                 "airfield", "barracks", "training_area"
-            )
+            ),
+            "healthcare" to arrayOf(
+                // common
+                "audiologist", "optometrist", "counselling", "speech_therapist",
+                "sample_collection", "blood_donation",
+
+                // name & opening hours
+                "physiotherapist", "podiatrist",
+            ),
         ).map { it.key + " ~ " + it.value.joinToString("|") }.joinToString("\n  or ") + "\n" + """
         )
         and !name and !brand and noname != yes and name:signed != no
-    """.trimIndent()).toElementFilterExpression() }
+    """).toElementFilterExpression() }
 
     override val changesetComment = "Determine place names"
     override val wikiLink = "Key:name"
@@ -127,12 +137,14 @@ class AddPlaceName(
         filter.matches(element) && hasFeatureName(element.tags)
 
     override fun getHighlightedElements(element: Element, getMapData: () -> MapDataWithGeometry) =
-        getMapData().filter("nodes, ways, relations with " + isKindOfShopExpression())
+        getMapData().filter("nodes, ways, relations with " +
+            isKindOfShopExpression() + " or " + isKindOfShopExpression("disused")
+        )
 
     override fun createForm() = AddPlaceNameForm()
 
     override fun applyAnswerTo(answer: PlaceNameAnswer, tags: Tags, timestampEdited: Long) {
-        when(answer) {
+        when (answer) {
             is NoPlaceNameSign -> {
                 tags["name:signed"] = "no"
             }
@@ -153,5 +165,5 @@ class AddPlaceName(
     }
 
     private fun hasFeatureName(tags: Map<String, String>): Boolean =
-        featureDictionaryFuture.get().byTags(tags).find().isNotEmpty()
+        featureDictionaryFuture.get().byTags(tags).isSuggestion(false).find().isNotEmpty()
 }

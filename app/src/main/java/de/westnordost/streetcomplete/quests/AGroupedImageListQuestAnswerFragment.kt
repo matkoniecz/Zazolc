@@ -19,7 +19,7 @@ import kotlin.math.max
  *
  * Saving and restoring state is not implemented
  */
-abstract class AGroupedImageListQuestAnswerFragment<I,T> : AbstractQuestFormAnswerFragment<T>() {
+abstract class AGroupedImageListQuestAnswerFragment<I, T> : AbstractQuestFormAnswerFragment<T>() {
 
     final override val contentLayoutResId = R.layout.quest_generic_list
     private val binding by contentViewBinding(QuestGenericListBinding::bind)
@@ -98,7 +98,7 @@ abstract class AGroupedImageListQuestAnswerFragment<I,T> : AbstractQuestFormAnsw
     }
 
     private fun getInitialItems(): List<GroupableDisplayItem<I>> =
-        favs.get().mostCommonWithin(6, historyCount = 30, first = 1).padWith(topItems).toList()
+        favs.get().mostCommonWithin(6, historyCount = 50, first = 1).padWith(topItems).toList()
 
     override fun onClickOk() {
         val item = selectedItem!!
@@ -124,8 +124,7 @@ abstract class AGroupedImageListQuestAnswerFragment<I,T> : AbstractQuestFormAnsw
                         }
                         .show()
                 }
-            }
-            else {
+            } else {
              */
                 favs.add(item)
                 onClickOk(itemValue)

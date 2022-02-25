@@ -7,7 +7,7 @@ object UnmarkedLanes : LanesAnswer()
 data class UnmarkedLanesKnowLaneCount(val count: Int) : LanesAnswer()
 data class MarkedLanesSides(val forward: Int, val backward: Int, val centerLeftTurnLane: Boolean) : LanesAnswer()
 
-val LanesAnswer.total: Int? get() = when(this) {
+val LanesAnswer.total: Int? get() = when (this) {
     is MarkedLanes -> count
     is UnmarkedLanesKnowLaneCount -> count
     is UnmarkedLanes -> null

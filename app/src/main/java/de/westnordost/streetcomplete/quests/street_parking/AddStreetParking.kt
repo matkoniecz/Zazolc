@@ -14,7 +14,6 @@ import de.westnordost.streetcomplete.osm.street_parking.toOsmConditionValue
 import de.westnordost.streetcomplete.osm.street_parking.toOsmLaneValue
 import de.westnordost.streetcomplete.osm.street_parking.toOsmValue
 
-
 class AddStreetParking : OsmFilterQuestType<LeftAndRightStreetParking>() {
 
     override val elementFilter = """
@@ -27,7 +26,7 @@ class AddStreetParking : OsmFilterQuestType<LeftAndRightStreetParking>() {
                 sidewalk ~ both|left|right|yes|separate
                 or ~${(MAXSPEED_TYPE_KEYS + "maxspeed").joinToString("|")} ~ .*urban|.*zone.*
                 or maxspeed <= 60
-                or maxspeed ~ "(5|10|15|20|25|30|35) mph"
+                or maxspeed ~ "([1-9]|[1-2][0-9]|3[0-5]) mph"
               )
             )
           )
