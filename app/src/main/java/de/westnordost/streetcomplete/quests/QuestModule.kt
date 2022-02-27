@@ -1,12 +1,12 @@
 package de.westnordost.streetcomplete.quests
 
-import dagger.Module
-import dagger.Provides
+import de.westnordost.countryboundaries.CountryBoundaries
 import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.data.meta.CountryInfos
 import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuestType
 import de.westnordost.streetcomplete.data.quest.QuestType
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
+import de.westnordost.streetcomplete.measure.ArSupportChecker
 import de.westnordost.streetcomplete.quests.access_waste_disposal.AddWasteDisposalAccess
 import de.westnordost.streetcomplete.quests.address.AddAddressStreet
 import de.westnordost.streetcomplete.quests.address.AddHousenumber
@@ -100,6 +100,7 @@ import de.westnordost.streetcomplete.quests.recycling_material.AddRecyclingConta
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine
 import de.westnordost.streetcomplete.quests.road_name.AddRoadName
+import de.westnordost.streetcomplete.quests.road_name.RoadNameSuggestionsSource
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation
 import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry
 import de.westnordost.streetcomplete.quests.service_times.AddReligiousServiceTimes
@@ -139,17 +140,32 @@ import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAcces
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessPublicTransport
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToilets
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToiletsPart
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 import java.util.concurrent.FutureTask
-import javax.inject.Singleton
 
-@Module object QuestModule
-{
-    @Provides @Singleton fun questTypeRegistry(
-        trafficFlowSegmentsApi: TrafficFlowSegmentsApi,
-        trafficFlowDao: WayTrafficFlowDao,
-        featureDictionaryFuture: FutureTask<FeatureDictionary>,
-        countryInfos: CountryInfos
-    ): QuestTypeRegistry = QuestTypeRegistry(listOf<QuestType<*>>(
+val questsModule = module {
+    factory { RoadNameSuggestionsSource(get()) }
+    factory { WayTrafficFlowDao(get()) }
+
+    single { questTypeRegistry(
+        get(),
+        get(),
+        get(named("FeatureDictionaryFuture")),
+        get(),
+        get(named("CountryBoundariesFuture")),
+        get(),
+    ) }
+}
+
+fun questTypeRegistry(
+    trafficFlowSegmentsApi: TrafficFlowSegmentsApi,
+    trafficFlowDao: WayTrafficFlowDao,
+    featureDictionaryFuture: FutureTask<FeatureDictionary>,
+    countryInfos: CountryInfos,
+    countryBoundariesFuture: FutureTask<CountryBoundaries>,
+    arSupportChecker: ArSupportChecker
+) = QuestTypeRegistry(listOf<QuestType<*>>(
         //modified--
         ShowFixme(), // my quest
         ShowAddressInterpolation(), // my quest
@@ -327,7 +343,7 @@ import javax.inject.Singleton
         AddPostboxCollectionTimes(), //moved to boring
         AddOpeningHours(featureDictionaryFuture), //moved to boring
         AddOrchardProduce(), //moved to boring
-        AddCycleway(countryInfos), //moved to boring
+        AddCycleway(countryInfos, countryBoundariesFuture), //moved to boring
         AddVegetarian(), //moved to boring
         AddVegan(), //moved to boring
         AddInternetAccess(), //moved to boring
@@ -351,5 +367,4 @@ import javax.inject.Singleton
         //AddBenchBackrest(), // dropped in the fork
         AddBusStopRef(), // not in Poland
         AddPostboxRoyalCypher() // not in Poland
-    ))
-}
+))
