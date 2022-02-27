@@ -173,7 +173,7 @@ class AddLanesForm : AbstractQuestFormAnswerFragment<LanesAnswer>() {
 
     private fun setStreetSideLayout() {
         puzzleView?.let {
-            it.pause()
+            it.onPause(this)
             lifecycle.removeObserver(it)
         }
 
