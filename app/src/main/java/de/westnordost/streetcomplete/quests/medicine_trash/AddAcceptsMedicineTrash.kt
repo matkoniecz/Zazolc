@@ -2,14 +2,11 @@ package de.westnordost.streetcomplete.quests.medicine_trash;
 
 import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.quest.NoCountriesExcept
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
-import de.westnordost.streetcomplete.ktx.arrayOfNotNull
-import de.westnordost.streetcomplete.ktx.toYesNo
 import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
+import de.westnordost.streetcomplete.util.ktx.toYesNo
 import java.util.concurrent.FutureTask
 
 public class AddAcceptsMedicineTrash(

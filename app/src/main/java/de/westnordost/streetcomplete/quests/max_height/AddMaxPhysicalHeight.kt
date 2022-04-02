@@ -7,8 +7,8 @@ import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmElementQuestType
 import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
-import de.westnordost.streetcomplete.measure.ArSupportChecker
 import de.westnordost.streetcomplete.osm.ALL_ROADS
+import de.westnordost.streetcomplete.screens.measure.ArSupportChecker
 
 class AddMaxPhysicalHeight(
     private val checkArSupport: ArSupportChecker
@@ -61,7 +61,7 @@ class AddMaxPhysicalHeight(
     override fun isApplicableTo(element: Element): Boolean =
         nodeFilter.matches(element) || wayFilter.matches(element)
 
-    override fun createForm() = AddHeightForm()
+    override fun createForm() = AddMaxPhysicalHeightForm()
 
     override fun applyAnswerTo(answer: MaxPhysicalHeightAnswer, tags: Tags, timestampEdited: Long) {
         // overwrite maxheight value but retain the info that there is no sign onto another tag

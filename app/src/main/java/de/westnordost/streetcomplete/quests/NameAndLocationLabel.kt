@@ -7,7 +7,7 @@ import androidx.core.os.ConfigurationCompat
 import androidx.core.text.parseAsHtml
 import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.ktx.toList
+import de.westnordost.streetcomplete.util.ktx.toList
 import java.util.Locale
 
 fun Resources.getNameAndLocationLabelString(tags: Map<String, String>, featureDictionary: FeatureDictionary): Spanned? {
@@ -63,18 +63,29 @@ private fun getFeatureName(
 fun getNameLabel(tags: Map<String, String>): String? {
     val name = tags["name"]
     val brand = tags["brand"]
+    val localRef = tags["local_ref"]
     val ref = tags["ref"]
     val operator = tags["operator"]
 
-    var returned = name
+    // Favour local ref over ref as it's likely to be more local/visible, e.g. bus stop point versus text code
+    var returned = if (name != null && localRef != null) "$name ($localRef)" else null
+        ?: name
         ?: brand
-        ?: if (ref != null && operator != null) "$operator $ref" else null
+        ?: if (localRef != null && operator != null) "$operator ($localRef)" else null
+        ?: if (ref != null && operator != null) "$operator [$ref]" else null
         ?: operator
+        ?: localRef
         ?: ref
     if(tags.containsKey("fixme")) {
+        if(returned == null) {
+            returned = ""
+        }
         returned += "fixme=" + tags["fixme"]
     }
     if(tags.containsKey("FIXME")) {
+        if(returned == null) {
+            returned = ""
+        }
         returned += "FIXME=" + tags["fixme"]
     }
     return returned

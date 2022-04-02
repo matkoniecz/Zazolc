@@ -6,8 +6,8 @@ import de.westnordost.streetcomplete.data.meta.CountryInfos
 import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuestType
 import de.westnordost.streetcomplete.data.quest.QuestType
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
-import de.westnordost.streetcomplete.measure.ArSupportChecker
 import de.westnordost.streetcomplete.quests.access_waste_disposal.AddWasteDisposalAccess
+import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash
 import de.westnordost.streetcomplete.quests.address.AddAddressStreet
 import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.air_conditioning.AddAirConditioning
@@ -147,6 +147,7 @@ import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAcces
 import de.westnordost.streetcomplete.quests.wheelchair_access.AddWheelchairAccessToiletsPart
 import de.westnordost.streetcomplete.quests.width.AddCyclewayWidth
 import de.westnordost.streetcomplete.quests.width.AddRoadWidth
+import de.westnordost.streetcomplete.screens.measure.ArSupportChecker
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import java.util.concurrent.FutureTask
@@ -274,8 +275,8 @@ fun questTypeRegistry(
     AddCrossingType(),
     AddTactilePavingCrosswalk(),
     AddTrafficSignalsSound(), // Sound needs to be done as or after you're crossing
-    AddTrafficSignalsVibration(),
     AddTrafficSignalsButton(),
+    AddTrafficSignalsVibration(),
 
     /* ↓ 2.solvable when right in front of it ----------------------------------------------- */
     AddInformationToTourism(), // OSM Carto

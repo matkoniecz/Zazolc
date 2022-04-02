@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.core.net.toUri
 import de.westnordost.streetcomplete.ApplicationConstants
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.ktx.toast
+import de.westnordost.streetcomplete.util.ktx.toast
 
 fun sendEmail(activity: Activity, email: String, subject: String, text: String? = null) {
     val intent = Intent(Intent.ACTION_SENDTO).apply {
