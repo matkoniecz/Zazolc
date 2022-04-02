@@ -21,11 +21,6 @@ class ShowFixme() : OsmFilterQuestType<List<String>>() {
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_show_fixme
 
-    override fun getTitleArgs(tags: Map<String, String>, featureName: Lazy<String?>): Array<String> {
-        val name = tags["fixme"]
-        return if (name != null) arrayOf(name) else arrayOf()
-    }
-
     override fun createForm() = ShowFixmeForm()
 
     override fun applyAnswerTo(answer: List<String>, tags: Tags, timestampEdited: Long) {

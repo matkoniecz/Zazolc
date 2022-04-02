@@ -15,11 +15,6 @@ class DeprecateFIXME() : OsmFilterQuestType<Boolean>() {
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_convert_FIXME_to_fixme
 
-    override fun getTitleArgs(tags: Map<String, String>, featureName: Lazy<String?>): Array<String> {
-        val name = tags["FIXME"]
-        return if (name != null) arrayOf(name) else arrayOf()
-    }
-
     override fun createForm() = YesNoQuestAnswerFragment()
 
     override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {

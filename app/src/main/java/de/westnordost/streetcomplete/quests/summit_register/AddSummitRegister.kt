@@ -42,7 +42,7 @@ class AddSummitRegister : OsmElementQuestType<Boolean> {
     )
     */
 
-    override fun getTitle(tags: Map<String, String>) = R.string.quest_summit_register_title
+    override fun getTitle(tags: Map<String, String>) = R.string.quest_summit_register_title2
 
     override fun getApplicableElements(mapData: MapDataWithGeometry): Iterable<Element> {
         val peaks = mapData.nodes.filter { filter.matches(it) }

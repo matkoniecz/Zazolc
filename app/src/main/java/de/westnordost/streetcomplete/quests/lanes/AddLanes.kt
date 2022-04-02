@@ -69,7 +69,7 @@ class AddLanes : OsmFilterQuestType<LanesAnswer>() {
 
         when (answer) {
             is MarkedLanes, is UnmarkedLanesKnowLaneCount -> {
-                if (answer.count == 1) {
+                if (answer.total == 1) {
                     tags.remove("lanes:forward")
                     tags.remove("lanes:backward")
                 } else {

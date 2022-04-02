@@ -32,11 +32,7 @@ class AddMaxSpeed : OsmFilterQuestType<MaxSpeedAnswer>() {
     override val enabledInCountries = AllCountriesExcept("US")
     override val questTypeAchievements = listOf(CAR)
 
-    override fun getTitle(tags: Map<String, String>) =
-        if (tags.containsKey("name"))
-            R.string.quest_maxspeed_name_title2
-        else
-            R.string.quest_maxspeed_title_short2
+    override fun getTitle(tags: Map<String, String>) = R.string.quest_maxspeed_title_short2
 
     override fun createForm() = AddMaxSpeedForm()
 

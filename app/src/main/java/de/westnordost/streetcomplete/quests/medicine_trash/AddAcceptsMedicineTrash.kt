@@ -27,12 +27,7 @@ public class AddAcceptsMedicineTrash(
 
         //override val enabledInCountries = NoCountriesExcept("PL")
 
-        override fun getTitle(tags: Map<String, String>) =
-            if (hasFeatureName(tags)) R.string.quest_accepts_medicine_trash_type_title
-            else                      R.string.quest_accepts_medicine_trash_title
-
-        override fun getTitleArgs(tags: Map<String, String>, featureName: Lazy<String?>): Array<String> =
-            arrayOfNotNull(tags["name"] ?: tags["brand"], featureName.value.toString())
+        override fun getTitle(tags: Map<String, String>) = R.string.quest_accepts_medicine_trash_title
 
         override fun createForm() = YesNoQuestAnswerFragment()
 
