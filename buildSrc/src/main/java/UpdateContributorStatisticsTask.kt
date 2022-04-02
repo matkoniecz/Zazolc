@@ -1,7 +1,8 @@
-
+import com.charleskorn.kaml.Yaml
+import com.charleskorn.kaml.YamlConfiguration
+import com.charleskorn.kaml.encodeToStream
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
@@ -40,8 +41,12 @@ open class UpdateContributorStatisticsTask : DefaultTask() {
         val linesOfInterfaceMarkupChangedByCommit = mutableMapOf<String, Int>()
         val linesOfCodeChangedByCommit = mutableMapOf<String, Int>()
         val ignoredCommits = mutableSetOf<String>()
-        val command = "git log --pretty=\"name: %an%nhash: %H%nsubject: %s%ntimestamp: %at\" --numstat"
-        Runtime.getRuntime().exec(command).inputStream.bufferedReader().useLines { lines ->
+        ProcessBuilder(
+            "git",
+            "log",
+            "--pretty=name: %an%nhash: %H%nsubject: %s%ntimestamp: %at",
+            "--numstat",
+        ).start().inputStream.bufferedReader().useLines { lines ->
             var name = ""
             var hash = ""
             var subject = ""
@@ -136,7 +141,12 @@ open class UpdateContributorStatisticsTask : DefaultTask() {
         val contributorsByGithubUsername = contributors.groupBy { it.githubUsername }
         for ((githubUsername, contributor) in contributorsByGithubUsername) {
             if (githubUsername == null) {
-                result.addAll(contributor)
+                result.addAll(contributor.map { Contributor(
+                    name = it.name,
+                    linesOfCodeChanged = it.linesOfCodeChanged,
+                    linesOfInterfaceMarkupChanged = it.linesOfInterfaceMarkupChanged,
+                    assetFilesChanged = it.assetFilesChanged
+                ) })
             } else {
                 result.add(Contributor(
                     name = contributor.maxByOrNull { it.lastChangeTimestamp }!!.name,
@@ -151,9 +161,10 @@ open class UpdateContributorStatisticsTask : DefaultTask() {
     }
 
     private fun writeContributors(contributors: List<Contributor>) {
-        val jsonFormat = Json { prettyPrint = true }
-        val text = jsonFormat.encodeToString(contributors)
-        File(targetFile).writeText(text)
+        File(targetFile).outputStream().use {
+            val yamlFormat = Yaml(configuration = YamlConfiguration(encodeDefaults = false))
+            yamlFormat.encodeToStream(contributors, it)
+        }
     }
 }
 
