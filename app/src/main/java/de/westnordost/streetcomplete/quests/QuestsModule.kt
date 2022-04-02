@@ -584,7 +584,6 @@ whether the postbox is still there in countries in which it is enabled */
     AddPitchSurface(),
     //AddPitchLit(), move to easily disabled
     AddIsDefibrillatorIndoor(),
-    AddFuelSelfService(),
     AddSmoking(), // often marked on the entrance, if not, visible/smellable inside
     AddSeating(),
     AddSidewalkSurface(),
