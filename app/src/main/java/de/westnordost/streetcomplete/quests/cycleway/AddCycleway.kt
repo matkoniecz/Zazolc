@@ -170,13 +170,75 @@ class AddCycleway(
             deleteCyclewayAnswerIfExists(Side.RIGHT, tags)
         } else {
             answer.left?.let { applyCyclewayAnswerTo(it.cycleway, Side.LEFT, it.dirInOneway, tags) }
-            answer.right?.let { applyCyclewayAnswerTo(it.cycleway, Side.RIGHT, it.dirInOneway, tags) }
+            answer.right?.let {
+                applyCyclewayAnswerTo(it.cycleway,
+                    Side.RIGHT,
+                    it.dirInOneway,
+                    tags)
+            }
             deleteCyclewayAnswerIfExists(Side.BOTH, tags)
         }
         deleteCyclewayAnswerIfExists(null, tags)
 
         applySidewalkAnswerTo(answer.left?.cycleway, answer.right?.cycleway, tags)
 
+        if (
+            (answer.left == answer.right && answer.right != null && answer.right.cycleway == FORBIDDEN)
+            || (answer.left != null && answer.left.cycleway == FORBIDDEN && answer.right == null)
+            || (answer.right != null && answer.right.cycleway == FORBIDDEN && answer.left == null)
+        ) {
+            // simple case, bicycles fully banned in both directions
+            tags["bicycle"] = "no"
+        } else if (answer.left != null && answer.left.cycleway == FORBIDDEN) {
+            // tricky case, bicycle banned in exactly one direction
+            // so allowed in the other direction
+            val expectedOnewayBicycle = when {
+                answer.right!!.dirInOneway > 0 -> "yes" // TODO: is !! justified here
+                answer.right.dirInOneway < 0 -> "-1"
+                else -> null
+            }!! // TODO: is !! justified here
+            if(tags.containsKey("oneway")) {
+                // road is marked as oneway, so do not add oneway:bicycle equal to oneway
+                // but if oneway=yes oneway:bicycle=yes is tagged - do not remove it
+                // (in some places it may be added that lack of contraflow is true)
+                if(tags["oneway"] == expectedOnewayBicycle) {
+                    if(tags["oneway"] != tags["oneway:bicycle"]) {
+                        tags.remove("oneway:bicycle")
+                    }
+                }
+            } else {
+                // road is not oneway for cars, it is oneway for bicycles
+                tags["oneway:bicycle"] = expectedOnewayBicycle
+            }
+        } else if (answer.right != null && answer.right.cycleway == FORBIDDEN) {
+            // TODO: deduplicate this mess
+            // tricky case, bicycle banned in exactly one direction
+            // so allowed in the other direction
+            val expectedOnewayBicycle = when {
+                answer.left!!.dirInOneway > 0 -> "yes" // TODO: is !! justified here
+                answer.left.dirInOneway < 0 -> "-1"
+                else -> null
+            }!!  // TODO: is !! justified here
+            if(tags.containsKey("oneway")) {
+                // road is marked as oneway, so do not add oneway:bicycle equal to oneway
+                // but if oneway=yes oneway:bicycle=yes is tagged - do not remove it
+                // (in some places it may be added that lack of contraflow is true)
+                if(tags["oneway"] == expectedOnewayBicycle) {
+                    if(tags["oneway"] != tags["oneway:bicycle"]) {
+                        tags.remove("oneway:bicycle")
+                    }
+                }
+            } else {
+                // road is not oneway for cars, it is oneway for bicycles
+                tags["oneway:bicycle"] = expectedOnewayBicycle
+            }
+        }
+/*
+                } else {
+                    val expectedOnewayBicycle = oppositeDirectionValue!!
+                }
+
+ */
         if (answer.isOnewayNotForCyclists) {
             tags["oneway:bicycle"] = "no"
         } else {
@@ -212,11 +274,6 @@ class AddCycleway(
             dir < 0 -> "-1"
             else -> null
         }
-        val oppositeDirectionValue = when {
-            dir > 0 -> "-1"
-            dir < 0 -> "yes"
-            else -> null
-        }
 
         val cyclewayKey = "cycleway:" + side.value
         when (cycleway) {
@@ -225,28 +282,11 @@ class AddCycleway(
             }
             FORBIDDEN -> {
                 if(tags[cyclewayKey] != "no") {
+                    // there is no need to add cycleway:*=no tag in addition to bicycle=no / oneway tags
+                    // especially as there are degenerate case where cycleway infrastructure exists
+                    // but cyclists are not allowed to use it
                     tags.remove(cyclewayKey)
-                }
-                if (side == Side.BOTH) {
-                    // simple case, bicycles banned in both directions
-                    tags["bicycle"] = "no"
-                } else {
-                    // tricky case, bicycle banned in exactly one direction
-                    // so allowed in the other direction
-                    val expectedOnewayBicycle = oppositeDirectionValue!!
-                    if(tags.containsKey("oneway")) {
-                        // road is marked as oneway, so do not add oneway:bicycle equal to oneway
-                        // but if say oneway=yes oneway:bicycle=yes is tagged - do not remove it
-                        // (in some places it may be added that lack of contraflow is true)
-                        if(tags["oneway"] == expectedOnewayBicycle) {
-                            if(tags["oneway"] != tags["oneway:bicycle"]) {
-                                tags.remove("oneway:bicycle")
-                            }
-                        }
-                    } else {
-                        // road is not oneway for cars, it is oneway for bicycles
-                        tags["oneway:bicycle"] = expectedOnewayBicycle
-                    }
+                    // note: oneway:bicycle and potential bicycle=no are aplied elsewhere
                 }
             }
             EXCLUSIVE_LANE, ADVISORY_LANE, UNSPECIFIED_LANE -> {

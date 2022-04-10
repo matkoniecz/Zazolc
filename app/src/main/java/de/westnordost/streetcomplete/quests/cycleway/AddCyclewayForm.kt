@@ -294,6 +294,38 @@ class AddCyclewayForm : AbstractQuestFormAnswerFragment<CyclewayAnswer>() {
                 || (if (isReverseSideRight) rightSide else leftSide) !== Cycleway.FORBIDDEN
         }
 
+        if((leftSide == Cycleway.FORBIDDEN) xor (rightSide == Cycleway.FORBIDDEN)) {
+            // one direction of road is banned for cyclists
+            // note that another may have track/lane allowing traffic in both directions!
+            // see https://lists.openstreetmap.org/pipermail/tagging/2022-April/064324.html
+            if(leftSide == Cycleway.FORBIDDEN && rightSide != null) {
+                if(rightSide.isDualTrackOrLane()) {
+                    // TODO: what about explicitly shared sidewalk, where other direction is forbidden?
+                    // TODO: what about dual-direction track, where other direction is forbidden?
+                    // TODO: what about dual-direction lane, where other direction is forbidden?
+                } else {
+                    val roadDirection = if (isReversedOneway) -1 else 1
+                    rightSideDir = roadDirection // TODO: maybe enums would be betetr over magic code?
+                    if (isLeftHandTraffic) {
+                        rightSideDir *= -1 // TODO: test is it actually applicable
+                    }
+                }
+            }
+            if(rightSide == Cycleway.FORBIDDEN && leftSide != null) {
+                if(leftSide.isDualTrackOrLane()) {
+                    // TODO: what about explicitly shared sidewalk, where other direction is forbidden?
+                    // TODO: what about dual-direction track, where other direction is forbidden?
+                    // TODO: what about dual-direction lane, where other direction is forbidden?
+                } else {
+                    val roadDirection = if (isReversedOneway) -1 else 1
+                    leftSideDir = -roadDirection // TODO: maybe enums would be betetr over magic code?
+                    if (isLeftHandTraffic) {
+                        leftSideDir *= -1 // TODO: test is it actually applicable
+                    }
+                }
+            }
+        }
+
         val answer = CyclewayAnswer(
             left = leftSide?.let { CyclewaySide(it, leftSideDir) },
             right = rightSide?.let { CyclewaySide(it, rightSideDir) },
