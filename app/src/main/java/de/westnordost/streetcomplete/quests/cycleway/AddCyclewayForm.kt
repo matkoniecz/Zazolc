@@ -211,6 +211,7 @@ class AddCyclewayForm : AbstractQuestFormAnswerFragment<CyclewayAnswer>() {
         if (isOneway && isReverseSideRight == isRight) {
             values.remove(Cycleway.PICTOGRAMS)
             values.add(values.indexOf(Cycleway.NONE) + 1, Cycleway.NONE_NO_ONEWAY)
+            values.remove(Cycleway.NONE)
         }
         return values
     }
@@ -290,7 +291,7 @@ class AddCyclewayForm : AbstractQuestFormAnswerFragment<CyclewayAnswer>() {
             }
 
             isOnewayNotForCyclists = leftSide.isDualTrackOrLane() || rightSide.isDualTrackOrLane()
-                || (if (isReverseSideRight) rightSide else leftSide) !== Cycleway.NONE
+                || (if (isReverseSideRight) rightSide else leftSide) !== Cycleway.FORBIDDEN
         }
 
         val answer = CyclewayAnswer(
