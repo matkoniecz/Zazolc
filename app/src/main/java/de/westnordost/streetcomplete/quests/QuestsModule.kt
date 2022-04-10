@@ -11,6 +11,8 @@ import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash
 import de.westnordost.streetcomplete.quests.address.AddAddressStreet
 import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.air_conditioning.AddAirConditioning
+import de.westnordost.streetcomplete.quests.air_pump.AddAirCompressor
+import de.westnordost.streetcomplete.quests.air_pump.AddBicyclePump
 import de.westnordost.streetcomplete.quests.atm_operator.AddAtmOperator
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable
 import de.westnordost.streetcomplete.quests.barrier_bicycle_barrier_type.AddBicycleBarrierType
@@ -114,6 +116,8 @@ import de.westnordost.streetcomplete.quests.smoking.AddSmoking
 import de.westnordost.streetcomplete.quests.smoothness.AddPathSmoothness
 import de.westnordost.streetcomplete.quests.smoothness.AddRoadSmoothness
 import de.westnordost.streetcomplete.quests.sport.AddSport
+import de.westnordost.streetcomplete.quests.step_count.AddStepCount
+import de.westnordost.streetcomplete.quests.step_count.AddStepCountStile
 import de.westnordost.streetcomplete.quests.steps_incline.AddStepsIncline
 import de.westnordost.streetcomplete.quests.steps_ramp.AddStepsRamp
 import de.westnordost.streetcomplete.quests.street_parking.AddStreetParking
@@ -254,6 +258,10 @@ fun questTypeRegistry(
 
     AddIsBuildingUnderground(), // should be before AddHousenumber to avoid asking for underground buildings
 
+    // air pump
+    AddAirCompressor(),
+    AddBicyclePump(),
+
     // motorcycle parking
     AddMotorcycleParkingCover(),
     AddMotorcycleParkingCapacity(), // counting + number input required but usually well visible
@@ -299,6 +307,7 @@ whether the postbox is still there in countries in which it is enabled */
     AddBarrierOnPath(),
     AddBarrierOnRoad(),
     AddStileType(),
+    AddStepCountStile(), // here to keep stile quest together - this quest will appear in low quest density anyway
     AddBicycleBarrierType(),
 
     AddBollardType(), // useful for first responders
@@ -334,6 +343,7 @@ whether the postbox is still there in countries in which it is enabled */
     SpecifyShopType(),
     CheckShopType(),
     AddOpeningHours(featureDictionaryFuture),
+    AddSeating(), // easily visible from outside, but only seasonally
 
     AddAtmOperator(),
 
@@ -399,7 +409,6 @@ whether the postbox is still there in countries in which it is enabled */
     AddKosher(),
     AddWheelchairAccessBusiness(), // used by wheelmap, OsmAnd, Organic Maps
     AddInternetAccess(), // used by OsmAnd
-    AddSeating(),
 
     AddFuelSelfService(),
 
@@ -575,6 +584,7 @@ whether the postbox is still there in countries in which it is enabled */
     AddKosher(),
     AddHalal(),
     AddStileType(),
+    AddStepCountStile(),
     AddBicycleBarrierType(),
     AddBollardType(), // useful for first responders
     AddCameraType(),
@@ -596,6 +606,9 @@ whether the postbox is still there in countries in which it is enabled */
 
     AddCyclewayPartSurface(),
     AddFootwayPartSurface(),
+    // air pump
+    AddAirCompressor(),
+    AddBicyclePump(),
     //AddMotorcycleParkingCover(), //moved to boring
     AddFireHydrantType(),
     AddFireHydrantPosition(),
