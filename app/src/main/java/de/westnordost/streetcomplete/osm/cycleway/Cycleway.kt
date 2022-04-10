@@ -56,6 +56,9 @@ enum class Cycleway {
      *  should not be confused with [PICTOGRAMS]) */
     NONE_NO_ONEWAY,
 
+    /** cycling not allowed */
+    FORBIDDEN,
+
     /** cycleway is mapped as a separate way */
     SEPARATE,
 

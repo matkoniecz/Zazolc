@@ -832,6 +832,7 @@ However, before uploading your changes, the app checks with a &lt;a href=\"https
     <string name="quest_cycleway_value_lane">cycle lane</string>
     <string name="quest_cycleway_value_lane_soft">cycle lane (dashed markings)</string>
     <string name="quest_cycleway_value_none">none</string>
+    <string name="quest_cycleway_value_banned">cycling forbidden</string>
     <string name="quest_cycleway_value_shared">lane shared explicitly with other traffic</string>
     <string name="quest_cycleway_value_suggestion_lane">bicycle suggestion lane</string>
     <string name="quest_cycleway_value_bus_lane">on bus lane</string>

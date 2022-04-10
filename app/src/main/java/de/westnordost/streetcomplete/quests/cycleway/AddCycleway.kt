@@ -24,6 +24,7 @@ import de.westnordost.streetcomplete.osm.cycleway.Cycleway.DUAL_TRACK
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.EXCLUSIVE_LANE
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.INVALID
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.NONE
+import de.westnordost.streetcomplete.osm.cycleway.Cycleway.FORBIDDEN
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.NONE_NO_ONEWAY
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.PICTOGRAMS
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.SEPARATE
@@ -211,11 +212,42 @@ class AddCycleway(
             dir < 0 -> "-1"
             else -> null
         }
+        val oppositeDirectionValue = when {
+            dir > 0 -> "-1"
+            dir < 0 -> "yes"
+            else -> null
+        }
 
         val cyclewayKey = "cycleway:" + side.value
         when (cycleway) {
             NONE, NONE_NO_ONEWAY -> {
                 tags[cyclewayKey] = "no"
+            }
+            FORBIDDEN -> {
+                if(tags[cyclewayKey] != "no") {
+                    tags.remove(cyclewayKey)
+                }
+                if (side == Side.BOTH) {
+                    // simple case, bicycles banned in both directions
+                    tags["bicycle"] = "no"
+                } else {
+                    // tricky case, bicycle banned in exactly one direction
+                    // so allowed in the other direction
+                    val expectedOnewayBicycle = oppositeDirectionValue!!
+                    if(tags.containsKey("oneway")) {
+                        // road is marked as oneway, so do not add oneway:bicycle equal to oneway
+                        // but if say oneway=yes oneway:bicycle=yes is tagged - do not remove it
+                        // (in some places it may be added that lack of contraflow is true)
+                        if(tags["oneway"] == expectedOnewayBicycle) {
+                            if(tags["oneway"] != tags["oneway:bicycle"]) {
+                                tags.remove("oneway:bicycle")
+                            }
+                        }
+                    } else {
+                        // road is not oneway for cars, it is oneway for bicycles
+                        tags["oneway:bicycle"] = expectedOnewayBicycle
+                    }
+                }
             }
             EXCLUSIVE_LANE, ADVISORY_LANE, UNSPECIFIED_LANE -> {
                 tags[cyclewayKey] = "lane"

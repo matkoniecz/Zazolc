@@ -8,6 +8,7 @@ import de.westnordost.streetcomplete.osm.cycleway.Cycleway.DUAL_LANE
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.DUAL_TRACK
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.EXCLUSIVE_LANE
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.NONE
+import de.westnordost.streetcomplete.osm.cycleway.Cycleway.FORBIDDEN
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.NONE_NO_ONEWAY
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.PICTOGRAMS
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.SEPARATE
@@ -36,6 +37,7 @@ private fun Cycleway.getRightHandTrafficIconResId(): Int = when (this) {
     ADVISORY_LANE -> R.drawable.ic_cycleway_shared_lane
     SUGGESTION_LANE -> R.drawable.ic_cycleway_suggestion_lane
     TRACK -> R.drawable.ic_cycleway_track
+    FORBIDDEN -> R.drawable.ic_quest_no_bicycles
     NONE -> R.drawable.ic_cycleway_none
     NONE_NO_ONEWAY -> R.drawable.ic_cycleway_none_no_oneway
     PICTOGRAMS -> R.drawable.ic_cycleway_pictograms
@@ -53,6 +55,7 @@ private fun Cycleway.getLeftHandTrafficIconResId(): Int = when (this) {
     ADVISORY_LANE -> R.drawable.ic_cycleway_shared_lane_l
     SUGGESTION_LANE -> R.drawable.ic_cycleway_suggestion_lane
     TRACK -> R.drawable.ic_cycleway_track_l
+    FORBIDDEN -> R.drawable.ic_quest_no_bicycles
     NONE -> R.drawable.ic_cycleway_none
     NONE_NO_ONEWAY -> R.drawable.ic_cycleway_none_no_oneway_l
     PICTOGRAMS -> R.drawable.ic_cycleway_pictograms_l
@@ -71,6 +74,7 @@ fun Cycleway.getTitleResId(): Int = when (this) {
     SUGGESTION_LANE -> R.string.quest_cycleway_value_suggestion_lane
     TRACK -> R.string.quest_cycleway_value_track
     NONE -> R.string.quest_cycleway_value_none
+    FORBIDDEN -> R.string.quest_cycleway_value_banned
     NONE_NO_ONEWAY -> R.string.quest_cycleway_value_none_but_no_oneway
     PICTOGRAMS -> R.string.quest_cycleway_value_shared
     SIDEWALK_EXPLICIT -> R.string.quest_cycleway_value_sidewalk
@@ -83,6 +87,7 @@ fun Cycleway.getTitleResId(): Int = when (this) {
 
 val DISPLAYED_CYCLEWAY_ITEMS: List<Cycleway> = listOf(
     NONE,
+    FORBIDDEN,
     TRACK,
     EXCLUSIVE_LANE,
     ADVISORY_LANE,

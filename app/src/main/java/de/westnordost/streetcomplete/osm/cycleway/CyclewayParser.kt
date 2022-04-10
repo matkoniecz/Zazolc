@@ -5,6 +5,7 @@ import de.westnordost.streetcomplete.osm.cycleway.Cycleway.BUSWAY
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.DUAL_LANE
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.DUAL_TRACK
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.EXCLUSIVE_LANE
+import de.westnordost.streetcomplete.osm.cycleway.Cycleway.FORBIDDEN
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.INVALID
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.NONE
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.NONE_NO_ONEWAY
@@ -50,24 +51,23 @@ fun createCyclewaySides(tags: Map<String, String>, isLeftHandTraffic: Boolean): 
     *  E.g. a cycleway=lane in a oneway=yes probably means that only in the flow direction, there
     *  is a lane. E.g. cycleway=opposite_lane means that there is a lane in opposite traffic flow
     *  direction.
-    *  Whether there is anything each in the other direction, is not defined, so we have to treat
-    *  it that way. */
+    */
     val cycleway = createCyclewayForSide(tags, null)
     if (isOneway && cycleway != null && cycleway != NONE) {
         if (isOpposite) {
             if (isReverseSideRight) {
-                left = null
+                left = FORBIDDEN
                 right = cycleway
             } else {
                 left = cycleway
-                right = null
+                right = FORBIDDEN
             }
         } else {
             if (isReverseSideRight) {
                 left = cycleway
-                right = null
+                right = FORBIDDEN
             } else {
-                left = null
+                left = FORBIDDEN
                 right = cycleway
             }
         }
