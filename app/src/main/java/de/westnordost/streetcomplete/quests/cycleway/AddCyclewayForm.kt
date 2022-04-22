@@ -23,6 +23,7 @@ import de.westnordost.streetcomplete.util.math.normalizeDegrees
 import de.westnordost.streetcomplete.view.ResImage
 import de.westnordost.streetcomplete.view.ResText
 import de.westnordost.streetcomplete.view.image_select.ImageListPickerDialog
+import de.westnordost.streetcomplete.view.image_select.Item
 import kotlin.math.absoluteValue
 
 class AddCyclewayForm : AbstractQuestFormAnswerFragment<CyclewayAnswer>() {
@@ -182,7 +183,7 @@ class AddCyclewayForm : AbstractQuestFormAnswerFragment<CyclewayAnswer>() {
 
     private fun showCyclewaySelectionDialog(isRight: Boolean) {
         val ctx = context ?: return
-        val items = getCyclewayItems(isRight).map { it.asItem(isLeftHandTraffic) }
+        val items = getCyclewayItems(isRight).map { it.asItem(ctx, isLeftHandTraffic) }
         ImageListPickerDialog(ctx, items, R.layout.labeled_icon_button_cell, 2) {
             onSelectedSide(it.value!!, isRight)
         }.show()

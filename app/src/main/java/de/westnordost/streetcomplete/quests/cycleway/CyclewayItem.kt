@@ -1,5 +1,12 @@
 package de.westnordost.streetcomplete.quests.cycleway
 
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.ColorFilter
+import android.graphics.Path
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
+import androidx.core.graphics.toRectF
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.ADVISORY_LANE
@@ -15,17 +22,59 @@ import de.westnordost.streetcomplete.osm.cycleway.Cycleway.SIDEWALK_EXPLICIT
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.SUGGESTION_LANE
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.TRACK
 import de.westnordost.streetcomplete.osm.cycleway.Cycleway.UNSPECIFIED_LANE
-import de.westnordost.streetcomplete.view.image_select.Item
+import de.westnordost.streetcomplete.view.DrawableImage
+import de.westnordost.streetcomplete.view.Image
+import de.westnordost.streetcomplete.view.ResImage
+import de.westnordost.streetcomplete.view.ResText
+import de.westnordost.streetcomplete.view.image_select.Item2
 
-fun Cycleway.asItem(isLeftHandTraffic: Boolean) =
-    Item(this, getDialogIconResId(isLeftHandTraffic), getTitleResId())
+fun Cycleway.asItem(context: Context, isLeftHandTraffic: Boolean) =
+    Item2(this, getDialogIcon(context, isLeftHandTraffic), ResText(getTitleResId()))
 
-fun Cycleway.getDialogIconResId(isLeftHandTraffic: Boolean): Int =
-    when (this) {
-        NONE -> R.drawable.ic_cycleway_none_in_selection
-        SEPARATE -> R.drawable.ic_cycleway_separate
-        else -> getIconResId(isLeftHandTraffic)
+fun Cycleway.getDialogIcon(context: Context, isLeftHandTraffic: Boolean): Image {
+    val id = getIconResId(isLeftHandTraffic)
+    return if(isLeftHandTraffic) {
+        when (this) {
+            NONE -> ResImage(R.drawable.ic_cycleway_none_in_selection_left)
+            SEPARATE -> ResImage(R.drawable.ic_cycleway_separate_left)
+            else -> DrawableImage(LeftHandSideTransform(context.getDrawable(id)!!))
+        }
+    } else {
+        when (this) {
+            NONE -> ResImage(R.drawable.ic_cycleway_none_in_selection)
+            SEPARATE -> ResImage(R.drawable.ic_cycleway_separate)
+            else -> ResImage(id)
+        }
     }
+}
+
+class LeftHandSideTransform(val drawable: Drawable) : Drawable() {
+
+    override fun getIntrinsicWidth(): Int = drawable.intrinsicWidth
+    override fun getIntrinsicHeight(): Int = drawable.intrinsicHeight
+
+    override fun setAlpha(alpha: Int) { drawable.alpha = alpha }
+    override fun getAlpha(): Int = drawable.alpha
+
+    override fun setColorFilter(colorFilter: ColorFilter?) { drawable.colorFilter = colorFilter }
+    override fun getColorFilter() = drawable.colorFilter
+
+    override fun getOpacity(): Int = drawable.opacity
+
+    var rotation: Float = 0f
+        set(value) {
+            field = value
+            invalidateSelf()
+        }
+
+    override fun draw(canvas: Canvas) {
+        val width = bounds.width()
+        val height = bounds.height()
+        canvas.scale(-1f, -1f, width / 2f, height / 2f)
+        drawable.bounds = bounds
+        drawable.draw(canvas)
+    }
+}
 
 fun Cycleway.getIconResId(isLeftHandTraffic: Boolean): Int =
     if (isLeftHandTraffic) getLeftHandTrafficIconResId() else getRightHandTrafficIconResId()
