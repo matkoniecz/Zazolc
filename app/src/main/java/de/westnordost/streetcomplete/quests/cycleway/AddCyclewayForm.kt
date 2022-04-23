@@ -223,8 +223,8 @@ class AddCyclewayForm : AbstractQuestFormAnswerFragment<CyclewayAnswer>() {
         updateLastAnswerButtonVisibility()
 
         lastSelection?.let {
-            binding.lastAnswerButton.leftSideImageView.setImageResource(it.left.getDialogIconResId(isLeftHandTraffic))
-            binding.lastAnswerButton.rightSideImageView.setImageResource(it.right.getDialogIconResId(isLeftHandTraffic))
+            binding.lastAnswerButton.leftSideImageView.setImageResource(it.left.getPreviousIconDisplayResId(isLeftHandTraffic, true))
+            binding.lastAnswerButton.rightSideImageView.setImageResource(it.right.getPreviousIconDisplayResId(isLeftHandTraffic, right))
         }
 
         binding.lastAnswerButton.root.setOnClickListener { applyLastSelection() }

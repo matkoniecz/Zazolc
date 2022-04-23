@@ -48,6 +48,22 @@ fun Cycleway.getDialogIcon(context: Context, isLeftHandTraffic: Boolean): Image 
     }
 }
 
+fun Cycleway.getPreviousIconDisplayResId(isLeftHandTraffic: Boolean, isRightSide: Boolean): Int =
+    if(isRightSide) {
+        when (this) {
+            NONE -> R.drawable.ic_cycleway_none_in_selection
+            SEPARATE -> R.drawable.ic_cycleway_separate
+            else -> getIconResId(isLeftHandTraffic)
+        }
+    } else {
+        when (this) {
+            // DrawableImage(FlipTransform(context.getDrawable(id)!!, true, true))
+            NONE -> R.drawable.ic_cycleway_none_in_selection_flipped_vertically
+            SEPARATE -> R.drawable.ic_cycleway_separate_flipped_vertically
+            else -> getIconResId(isLeftHandTraffic)
+        }
+    }
+
 class LeftHandSideTransform(val drawable: Drawable) : Drawable() {
 
     override fun getIntrinsicWidth(): Int = drawable.intrinsicWidth
