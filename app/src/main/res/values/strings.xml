@@ -1374,6 +1374,13 @@ Otherwise, you can download another keyboard in the app store. Popular keyboards
 
 Alternatively, you can leave a note (with a photo)."</string>
 
+    <string name="street_parking_permission_free">Free</string>
+    <string name="street_parking_permission_time_limit">Time limit</string>
+    <string name="street_parking_permission_residents_only">Residents only</string>
+    <string name="street_parking_permission_paid">Paid</string>
+    <string name="street_parking_permission_private">Private parking</string>
+    <string name="street_parking_permission_no_parking">No parking</string>
+
     <string name="quest_streetSurface_title">"What surface does this piece of road have?"</string>
     <string name="quest_streetSurface_square_title">"What surface does this square have?"</string>
 

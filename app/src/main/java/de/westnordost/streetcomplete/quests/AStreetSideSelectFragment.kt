@@ -26,14 +26,14 @@ import kotlin.math.absoluteValue
 abstract class AStreetSideSelectFragment<I, T> : AbstractQuestFormAnswerFragment<T>() {
 
     override val contentLayoutResId = R.layout.quest_street_side_puzzle_with_last_answer_button
-    private val binding by contentViewBinding(QuestStreetSidePuzzleWithLastAnswerButtonBinding::bind)
+    public val binding by contentViewBinding(QuestStreetSidePuzzleWithLastAnswerButtonBinding::bind)
 
     override val contentPadding = false
 
     private var streetSideRotater: StreetSideRotater? = null
 
-    private var left: StreetSideDisplayItem<I>? = null
-    private var right: StreetSideDisplayItem<I>? = null
+    public var left: StreetSideDisplayItem<I>? = null
+    public var right: StreetSideDisplayItem<I>? = null
 
     private lateinit var favs: LastPickedValuesStore<LastSelection<I>>
     private val lastSelection get() = favs.get().firstOrNull()
