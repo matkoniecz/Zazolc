@@ -31,49 +31,57 @@ import de.westnordost.streetcomplete.quests.StreetSideItem
 class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPermission, LeftAndRightStreetParkingPermission>() {
     private var leftWasNoParking: Boolean = false //TODO: keep it in memory!
     private var rightWasNoParking: Boolean = false //TODO: keep it in memory!
-    override val items: List<StreetSideDisplayItem<StreetParkingPermission>> = listOf(
-        StreetSideItem(
-            FreeParking,
-            R.drawable.ic_quest_leaf,
-            R.string.street_parking_permission_free,
-            R.drawable.ic_quest_leaf // TODO
-        ),
-        StreetSideItem(
-            TimeLimit,
-            R.drawable.ic_shoulder_illustration_no, // TODO
-            R.string.street_parking_permission_time_limit,
-            R.drawable.ic_shoulder_no // TODO
-        ),
-        StreetSideItem(
-            ResidentsOnlyParking,
-            R.drawable.ic_shoulder_illustration_yes, // TODO
-            R.string.street_parking_permission_residents_only,
-            R.drawable.ic_shoulder_yes // TODO
-        ),
-        StreetSideItem(
-            PaidParking,
-            R.drawable.ic_pin_money, // TODO
-            R.string.street_parking_permission_paid,
-            R.drawable.ic_pin_money // TODO
-        ),
-        StreetSideItem(
+
+    override val items = listOf(FreeParking, PaidParking, TimeLimit, ResidentsOnlyParking, PrivateParking)
+
+
+    // TODO: refactor this
+    override fun getDisplayItem(value: StreetParkingPermission): StreetSideDisplayItem<StreetParkingPermission> {
+        if(value == FreeParking) {
+            return StreetSideItem(
+                FreeParking,
+                R.drawable.ic_quest_leaf,
+                R.string.street_parking_permission_free,
+            )
+        }
+        if(value == PaidParking) {
+            return StreetSideItem(
+                PaidParking,
+                R.drawable.ic_pin_money,
+                R.string.street_parking_permission_free,
+            )
+        }
+        if(value == TimeLimit) {
+            return StreetSideItem(
+                TimeLimit,
+                R.drawable.ic_shoulder_no,
+                R.string.street_parking_permission_time_limit
+            )
+        }
+        if(value == ResidentsOnlyParking) {
+            return StreetSideItem(
+                ResidentsOnlyParking,
+                R.drawable.ic_shoulder_two_yellow_lines,
+                R.string.street_parking_permission_residents_only,
+            )
+        }
+        return StreetSideItem(
             PrivateParking,
-            R.drawable.ic_shoulder_illustration_yes, // TODO
+            R.drawable.ic_shoulder_two_yellow_lines, // TODO
             R.string.street_parking_permission_private,
-            R.drawable.ic_shoulder_yes // TODO
-        ),
-    )
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<TextView>(R.id.descriptionLabel)
-            .setText(R.string.quest_shoulder_explanation)
+            .setText(R.string.quest_dietType_explanation) // TODO!!!!
         if (savedInstanceState == null) {
             initStateFromTags()
         }
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onClickOk(leftSide: StreetParkingPermission, rightSide: StreetParkingPermission) {
+    override fun onClickOk(leftSide: StreetParkingPermission?, rightSide: StreetParkingPermission?) {
         Log.wtf("aaaaaa", "leftWasNoParking $leftWasNoParking")
         Log.wtf("aaaaaa", "rightWasNoParking $rightWasNoParking")
         if(leftSide is NoParking != leftWasNoParking) {
@@ -85,7 +93,7 @@ class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPe
         applyAnswer(LeftAndRightStreetParkingPermission(leftSide, rightSide))
     }
 
-    private fun initStateFromTags() {
+    override fun initStateFromTags() {
         // not checking parking:condition:both as in such cases there is no parking to ask about
         // in case of enabling resurvey it would need to be checked
         val parsed = createStreetParkingSides(osmElement!!.tags)
@@ -96,23 +104,13 @@ class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPe
             || parsed?.left is StreetStandingProhibited
             || parsed?.left is StreetStoppingProhibited) {
             leftWasNoParking = true
-            left = StreetSideItem(
-                NoParking,
-                R.drawable.ic_shoulder_illustration_no, // TODO
-                R.string.street_parking_no,
-                R.drawable.ic_shoulder_no // TODO
-            )
+            left = NoParking
         }
         if(parsed?.right is NoStreetParking
             || parsed?.right is StreetParkingProhibited
             || parsed?.right is StreetStandingProhibited
             || parsed?.right is StreetStoppingProhibited) {
-            right = StreetSideItem(
-                NoParking,
-                R.drawable.ic_shoulder_illustration_no, // TODO
-                R.string.street_parking_no,
-                R.drawable.ic_shoulder_no // TODO
-            )
+            right = NoParking
         }
     }
 }
