@@ -15,7 +15,7 @@ object NoParking : StreetParkingPermission()
 /** When an unknown/unsupported value has been used */
 object UnknownStreetParkingPermission : StreetParkingPermission()
 /** There is street parking, but it is mapped as separate geometry */
-object StreetParkingPermissionSeparate : StreetParkingPermission()
+object StreetParkingPermissionParkingMappedSeparately : StreetParkingPermission()
 
 fun StreetParkingPermission.toOsmConditionValue() = when (this) {
     FreeParking -> "free"
@@ -23,6 +23,6 @@ fun StreetParkingPermission.toOsmConditionValue() = when (this) {
     ResidentsOnlyParking -> "residents"
     PaidParking -> "ticket"
     PrivateParking -> "private"
-    UnknownStreetParkingPermission, StreetParkingPermissionSeparate -> null
+    UnknownStreetParkingPermission, StreetParkingPermissionParkingMappedSeparately -> null
     else -> null
 }

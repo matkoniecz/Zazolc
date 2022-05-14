@@ -1,39 +1,16 @@
 package de.westnordost.streetcomplete.quests.street_parking_permission
 
-import android.content.Context
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.meta.CountryInfo
 import de.westnordost.streetcomplete.osm.street_parking.FreeParking
-import de.westnordost.streetcomplete.osm.street_parking.IncompleteStreetParking
 import de.westnordost.streetcomplete.osm.street_parking.NoParking
 import de.westnordost.streetcomplete.osm.street_parking.TimeLimit
-import de.westnordost.streetcomplete.osm.street_parking.NoStreetParking
 import de.westnordost.streetcomplete.osm.street_parking.ResidentsOnlyParking
-import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition
-import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.HALF_ON_KERB
-import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.ON_KERB
-import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.ON_STREET
-import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.PAINTED_AREA_ONLY
-import de.westnordost.streetcomplete.osm.street_parking.ParkingPosition.STREET_SIDE
 import de.westnordost.streetcomplete.osm.street_parking.PaidParking
 import de.westnordost.streetcomplete.osm.street_parking.PrivateParking
 import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPermission
-import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPermissionSeparate
-import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPositionAndOrientation
-import de.westnordost.streetcomplete.osm.street_parking.StreetParkingProhibited
-import de.westnordost.streetcomplete.osm.street_parking.StreetParkingSeparate
-import de.westnordost.streetcomplete.osm.street_parking.StreetStandingProhibited
-import de.westnordost.streetcomplete.osm.street_parking.StreetStoppingProhibited
-import de.westnordost.streetcomplete.osm.street_parking.UnknownStreetParking
+import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPermissionParkingMappedSeparately
 import de.westnordost.streetcomplete.osm.street_parking.UnknownStreetParkingPermission
 import de.westnordost.streetcomplete.quests.StreetSideItem
-import de.westnordost.streetcomplete.util.ktx.noParkingLineStyleResId
-import de.westnordost.streetcomplete.util.ktx.noParkingSignDrawableResId
-import de.westnordost.streetcomplete.util.ktx.noStandingLineStyleResId
-import de.westnordost.streetcomplete.util.ktx.noStandingSignDrawableResId
-import de.westnordost.streetcomplete.util.ktx.noStoppingLineStyleResId
-import de.westnordost.streetcomplete.util.ktx.noStoppingSignDrawableResId
-import de.westnordost.streetcomplete.view.DrawableImage
 import de.westnordost.streetcomplete.view.Image
 import de.westnordost.streetcomplete.view.ResImage
 import de.westnordost.streetcomplete.view.ResText
@@ -63,7 +40,7 @@ val StreetParkingPermission.titleResId: Int? get() = when (this) {
     ResidentsOnlyParking -> R.string.street_parking_permission_residents_only
     PaidParking -> R.string.street_parking_permission_paid
     PrivateParking -> R.string.street_parking_permission_private
-    StreetParkingPermissionSeparate, UnknownStreetParkingPermission -> null
+    StreetParkingPermissionParkingMappedSeparately, UnknownStreetParkingPermission -> null
     else -> R.string.street_parking_permission_no_parking
 }
 
@@ -77,7 +54,7 @@ fun StreetParkingPermission.getIcon(): Image = when (this) {
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
     ResidentsOnlyParking ->
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
-    StreetParkingPermissionSeparate ->
+    StreetParkingPermissionParkingMappedSeparately ->
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
     TimeLimit ->
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
@@ -97,7 +74,7 @@ fun StreetParkingPermission.getDialogIcon(): Image = when (this) {
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
     ResidentsOnlyParking ->
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
-    StreetParkingPermissionSeparate ->
+    StreetParkingPermissionParkingMappedSeparately ->
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
     NoParking ->
         ResImage(R.drawable.ic_parking_no)
@@ -113,7 +90,7 @@ fun StreetParkingPermission.getFloatingIcon(): Image? = when (this) {
     PaidParking -> R.drawable.ic_pin_money
     PrivateParking -> R.drawable.ic_shoulder_two_yellow_lines
     ResidentsOnlyParking -> R.drawable.ic_shoulder_two_yellow_lines
-    StreetParkingPermissionSeparate -> R.drawable.ic_shoulder_two_yellow_lines
+    StreetParkingPermissionParkingMappedSeparately -> R.drawable.ic_shoulder_two_yellow_lines
     TimeLimit -> R.drawable.ic_shoulder_two_yellow_lines
     NoParking -> R.drawable.ic_parking_no
     UnknownStreetParkingPermission -> null
@@ -125,7 +102,7 @@ fun StreetParkingPermission.getIconResource(): Int? = when (this) {
     PaidParking -> R.drawable.ic_pin_money
     PrivateParking -> R.drawable.ic_shoulder_two_yellow_lines
     ResidentsOnlyParking -> R.drawable.ic_shoulder_two_yellow_lines
-    StreetParkingPermissionSeparate -> R.drawable.ic_shoulder_two_yellow_lines
+    StreetParkingPermissionParkingMappedSeparately -> R.drawable.ic_shoulder_two_yellow_lines
     TimeLimit -> R.drawable.ic_shoulder_two_yellow_lines
     NoParking -> R.drawable.ic_parking_no
     UnknownStreetParkingPermission -> null

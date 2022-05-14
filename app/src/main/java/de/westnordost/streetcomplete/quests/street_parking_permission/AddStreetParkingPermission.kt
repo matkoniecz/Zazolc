@@ -9,6 +9,8 @@ import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.CAR
 import de.westnordost.streetcomplete.osm.ALL_ROADS
 import de.westnordost.streetcomplete.osm.street_parking.LeftAndRightStreetParkingPermission
+import de.westnordost.streetcomplete.osm.street_parking.NoParking
+import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPermissionParkingMappedSeparately
 import de.westnordost.streetcomplete.osm.street_parking.toOsmConditionValue
 
 class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingPermission>() {
@@ -93,14 +95,27 @@ class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingP
            Note: If a resurvey is implemented, old
            parking:lane:*:(parallel|diagonal|perpendicular|...) values must be cleaned up */
 
-        // parking:condition:<left/right/both>
-        val conditionRight = answer.right!!.toOsmConditionValue() ?: throw IllegalArgumentException()
-        val conditionLeft = answer.left!!.toOsmConditionValue() ?: throw IllegalArgumentException()
+        //TODO: what if answwers need to override waht is tagged now?
 
-        if (conditionLeft == conditionRight) {
-            tags["parking:condition:both"] = conditionRight
-        } else {
+        // parking:condition:<left/right/both>
+        val conditionRight = answer.right!!.toOsmConditionValue()
+        val conditionLeft = answer.left!!.toOsmConditionValue()
+
+        if (conditionLeft == conditionRight && conditionLeft != null) {
+            tags["parking:condition:both"] = conditionLeft
+            return
+        }
+
+        if(!(answer.left is NoParking || answer.left is StreetParkingPermissionParkingMappedSeparately)) {
+            if(conditionLeft == null) {
+                throw IllegalArgumentException()
+            }
             tags["parking:condition:left"] = conditionLeft
+        }
+        if(!(answer.right is NoParking || answer.right is StreetParkingPermissionParkingMappedSeparately)) {
+            if(conditionRight == null) {
+                throw IllegalArgumentException()
+            }
             tags["parking:condition:right"] = conditionRight
         }
     }
