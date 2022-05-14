@@ -45,10 +45,10 @@ class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPe
 
     override fun onClickOk(leftSide: StreetParkingPermission?, rightSide: StreetParkingPermission?) {
         if(leftSide is NoParking != areTagsIndicatingNoParkingOnLeft(osmElement!!.tags)) {
-            // dammit, handle this somehow!
+            // dammit, handle this somehow! TODO
         }
         if(rightSide is NoParking != areTagsIndicatingNoParkingOnRight(osmElement!!.tags)) {
-            // dammit, handle this somehow!
+            // dammit, handle this somehow! TODO
         }
         applyAnswer(LeftAndRightStreetParkingPermission(leftSide, rightSide))
     }
