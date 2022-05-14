@@ -15,6 +15,7 @@ import de.westnordost.streetcomplete.osm.street_parking.NoStreetParking
 import de.westnordost.streetcomplete.osm.street_parking.PaidParking
 import de.westnordost.streetcomplete.osm.street_parking.PrivateParking
 import de.westnordost.streetcomplete.osm.street_parking.ResidentsOnlyParking
+import de.westnordost.streetcomplete.osm.street_parking.StreetParking
 import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPermission
 import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPositionAndOrientation
 import de.westnordost.streetcomplete.osm.street_parking.StreetParkingProhibited
@@ -29,9 +30,6 @@ import de.westnordost.streetcomplete.quests.StreetSideDisplayItem
 import de.westnordost.streetcomplete.quests.StreetSideItem
 
 class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPermission, LeftAndRightStreetParkingPermission>() {
-    private var leftWasNoParking: Boolean = false //TODO: keep it in memory!
-    private var rightWasNoParking: Boolean = false //TODO: keep it in memory!
-
     override val items = listOf(FreeParking, PaidParking, TimeLimit, ResidentsOnlyParking, PrivateParking)
 
     override fun getDisplayItem(value: StreetParkingPermission): StreetSideDisplayItem<StreetParkingPermission> = value.asStreetSideItem()
@@ -46,34 +44,50 @@ class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPe
     }
 
     override fun onClickOk(leftSide: StreetParkingPermission?, rightSide: StreetParkingPermission?) {
-        Log.wtf("aaaaaa", "leftWasNoParking $leftWasNoParking")
-        Log.wtf("aaaaaa", "rightWasNoParking $rightWasNoParking")
-        if(leftSide is NoParking != leftWasNoParking) {
+        if(leftSide is NoParking != areTagsIndicatingNoParkingOnLeft(osmElement!!.tags)) {
             // dammit, handle this somehow!
         }
-        if(rightSide is NoParking != rightWasNoParking) {
+        if(rightSide is NoParking != areTagsIndicatingNoParkingOnRight(osmElement!!.tags)) {
             // dammit, handle this somehow!
         }
         applyAnswer(LeftAndRightStreetParkingPermission(leftSide, rightSide))
     }
 
+    private fun StreetParking.isIndicatingNoParking(): Boolean {
+        if(this is NoStreetParking
+            || this is StreetParkingProhibited
+            || this is StreetStandingProhibited
+            || this is StreetStoppingProhibited) {
+            return true
+        }
+        return false
+    }
+    private fun areTagsIndicatingNoParkingOnLeft(tags: Map<String, String>): Boolean {
+        val parsed = createStreetParkingSides(tags)
+        return if(parsed?.left == null) {
+            false
+        } else {
+            parsed.left.isIndicatingNoParking()
+        }
+    }
+
+    private fun areTagsIndicatingNoParkingOnRight(tags: Map<String, String>): Boolean {
+        val parsed = createStreetParkingSides(tags)
+        return if(parsed?.right == null) {
+            false
+        } else {
+            parsed.right.isIndicatingNoParking()
+        }
+    }
     override fun initStateFromTags() {
+        //TODO : test in left sided countries
+
         // not checking parking:condition:both as in such cases there is no parking to ask about
         // in case of enabling resurvey it would need to be checked
-        val parsed = createStreetParkingSides(osmElement!!.tags)
-        Log.wtf("aaaaaa", "parsed left " + parsed?.left)
-        Log.wtf("aaaaaa", "parsed right " + parsed?.right)
-        if(parsed?.left is NoStreetParking
-            || parsed?.left is StreetParkingProhibited
-            || parsed?.left is StreetStandingProhibited
-            || parsed?.left is StreetStoppingProhibited) {
-            leftWasNoParking = true
+        if(areTagsIndicatingNoParkingOnLeft(osmElement!!.tags)) {
             left = NoParking
         }
-        if(parsed?.right is NoStreetParking
-            || parsed?.right is StreetParkingProhibited
-            || parsed?.right is StreetStandingProhibited
-            || parsed?.right is StreetStoppingProhibited) {
+        if(areTagsIndicatingNoParkingOnRight(osmElement!!.tags)) {
             right = NoParking
         }
     }

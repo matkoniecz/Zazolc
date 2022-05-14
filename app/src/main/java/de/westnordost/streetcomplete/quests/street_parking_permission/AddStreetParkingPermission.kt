@@ -77,7 +77,7 @@ class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingP
 
     override val changesetComment = "Add which cars are allowed to park here"
     override val wikiLink = "Key:parking:condition"
-    override val icon = R.drawable.ic_quest_parking_lane
+    override val icon = R.drawable.ic_quest_parking_access
     override val isSplitWayEnabled = true
     override val questTypeAchievements = listOf(CAR)
     override val defaultDisabledMessage = R.string.default_disabled_msg_difficult_and_time_consuming
@@ -95,7 +95,8 @@ class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingP
            Note: If a resurvey is implemented, old
            parking:lane:*:(parallel|diagonal|perpendicular|...) values must be cleaned up */
 
-        //TODO: what if answwers need to override waht is tagged now?
+        //TODO: what if answers need to override what is tagged now?
+        //TODO: what if old-style tagging of parking:lane:left=no_parking is present? Retag it?
 
         // parking:condition:<left/right/both>
         val conditionRight = answer.right!!.toOsmConditionValue()
