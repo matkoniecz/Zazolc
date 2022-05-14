@@ -34,43 +34,7 @@ class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPe
 
     override val items = listOf(FreeParking, PaidParking, TimeLimit, ResidentsOnlyParking, PrivateParking)
 
-
-    // TODO: refactor this
-    override fun getDisplayItem(value: StreetParkingPermission): StreetSideDisplayItem<StreetParkingPermission> {
-        if(value == FreeParking) {
-            return StreetSideItem(
-                FreeParking,
-                R.drawable.ic_quest_leaf,
-                R.string.street_parking_permission_free,
-            )
-        }
-        if(value == PaidParking) {
-            return StreetSideItem(
-                PaidParking,
-                R.drawable.ic_pin_money,
-                R.string.street_parking_permission_free,
-            )
-        }
-        if(value == TimeLimit) {
-            return StreetSideItem(
-                TimeLimit,
-                R.drawable.ic_shoulder_no,
-                R.string.street_parking_permission_time_limit
-            )
-        }
-        if(value == ResidentsOnlyParking) {
-            return StreetSideItem(
-                ResidentsOnlyParking,
-                R.drawable.ic_shoulder_two_yellow_lines,
-                R.string.street_parking_permission_residents_only,
-            )
-        }
-        return StreetSideItem(
-            PrivateParking,
-            R.drawable.ic_shoulder_two_yellow_lines, // TODO
-            R.string.street_parking_permission_private,
-        )
-    }
+    override fun getDisplayItem(value: StreetParkingPermission): StreetSideDisplayItem<StreetParkingPermission> = value.asStreetSideItem()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<TextView>(R.id.descriptionLabel)
