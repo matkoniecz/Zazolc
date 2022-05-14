@@ -37,8 +37,8 @@ class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPe
     override fun getDisplayItem(value: StreetParkingPermission): StreetSideDisplayItem<StreetParkingPermission> = value.asStreetSideItem()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.findViewById<TextView>(R.id.descriptionLabel)
-            .setText(R.string.quest_dietType_explanation) // TODO!!!!
+        //view.findViewById<TextView>(R.id.descriptionLabel)
+        //    .setText(R.string.quest_dietType_explanation) // TODO!!!!
         if (savedInstanceState == null) {
             initStateFromTags()
         }

@@ -80,7 +80,7 @@ class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingP
     override val questTypeAchievements = listOf(CAR)
     override val defaultDisabledMessage = R.string.default_disabled_msg_difficult_and_time_consuming
 
-    override fun getTitle(tags: Map<String, String>) = R.string.quest_street_parking_title
+    override fun getTitle(tags: Map<String, String>) = R.string.quest_street_parking_permission_title
 
     override fun getHighlightedElements(element: Element, getMapData: () -> MapDataWithGeometry) =
         getMapData().filter("ways, relations with amenity = parking")
