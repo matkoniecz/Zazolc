@@ -32,6 +32,9 @@ class AddStreetParking : OsmFilterQuestType<LeftAndRightStreetParking>() {
           )
           and !parking:lane and !parking:lane:left and !parking:lane:right and !parking:lane:both
           and !parking:condition and !parking:condition:left and !parking:condition:right and !parking:condition:both
+          and !parking:condition:both:maxstay and !parking:condition:left:maxstay and !parking:condition:right:maxstay
+          and !parking:condition:both:conditional and !parking:condition:left:conditional and !parking:condition:right:conditional
+          and !parking:lane:both:conditional and !parking:lane:left:conditional and !parking:lane:right:conditional
           and area != yes
           and motorroad != yes
           and tunnel != yes

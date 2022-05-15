@@ -1,33 +1,24 @@
 package de.westnordost.streetcomplete.quests.street_parking_permission
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.TextView
-import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.osm.cycleway.createCyclewaySides
-import de.westnordost.streetcomplete.osm.cycleway.isAvailableAsSelection
 import de.westnordost.streetcomplete.osm.street_parking.FreeParking
-import de.westnordost.streetcomplete.osm.street_parking.IncompleteStreetParking
 import de.westnordost.streetcomplete.osm.street_parking.LeftAndRightStreetParkingPermission
-import de.westnordost.streetcomplete.osm.street_parking.NoParking
+import de.westnordost.streetcomplete.osm.street_parking.AnswerInconsistentWithExistingTagging
+import de.westnordost.streetcomplete.osm.street_parking.GenericNoStreetParking
 import de.westnordost.streetcomplete.osm.street_parking.NoStreetParking
 import de.westnordost.streetcomplete.osm.street_parking.PaidParking
 import de.westnordost.streetcomplete.osm.street_parking.PrivateParking
 import de.westnordost.streetcomplete.osm.street_parking.ResidentsOnlyParking
 import de.westnordost.streetcomplete.osm.street_parking.StreetParking
 import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPermission
-import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPositionAndOrientation
 import de.westnordost.streetcomplete.osm.street_parking.StreetParkingProhibited
-import de.westnordost.streetcomplete.osm.street_parking.StreetParkingSeparate
 import de.westnordost.streetcomplete.osm.street_parking.StreetStandingProhibited
 import de.westnordost.streetcomplete.osm.street_parking.StreetStoppingProhibited
 import de.westnordost.streetcomplete.osm.street_parking.TimeLimit
-import de.westnordost.streetcomplete.osm.street_parking.UnknownStreetParking
 import de.westnordost.streetcomplete.osm.street_parking.createStreetParkingSides
 import de.westnordost.streetcomplete.quests.AStreetSideSelectFragment
 import de.westnordost.streetcomplete.quests.StreetSideDisplayItem
-import de.westnordost.streetcomplete.quests.StreetSideItem
 
 class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPermission, LeftAndRightStreetParkingPermission>() {
     override val items = listOf(FreeParking, PaidParking, TimeLimit, ResidentsOnlyParking, PrivateParking)
@@ -44,11 +35,11 @@ class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPe
     }
 
     override fun onClickOk(leftSide: StreetParkingPermission?, rightSide: StreetParkingPermission?) {
-        if(leftSide is NoParking != areTagsIndicatingNoParkingOnLeft(osmElement!!.tags)) {
-            // dammit, handle this somehow! TODO
+        if(leftSide is GenericNoStreetParking != areTagsIndicatingNoParkingOnLeft(osmElement!!.tags)) {
+            applyAnswer(AnswerInconsistentWithExistingTagging)
         }
-        if(rightSide is NoParking != areTagsIndicatingNoParkingOnRight(osmElement!!.tags)) {
-            // dammit, handle this somehow! TODO
+        if(rightSide is GenericNoStreetParking != areTagsIndicatingNoParkingOnRight(osmElement!!.tags)) {
+            applyAnswer(AnswerInconsistentWithExistingTagging)
         }
         applyAnswer(LeftAndRightStreetParkingPermission(leftSide, rightSide))
     }
@@ -85,10 +76,10 @@ class AddStreetParkingPermissionForm : AStreetSideSelectFragment<StreetParkingPe
         // not checking parking:condition:both as in such cases there is no parking to ask about
         // in case of enabling resurvey it would need to be checked
         if(areTagsIndicatingNoParkingOnLeft(osmElement!!.tags)) {
-            left = NoParking
+            left = GenericNoStreetParking
         }
         if(areTagsIndicatingNoParkingOnRight(osmElement!!.tags)) {
-            right = NoParking
+            right = GenericNoStreetParking
         }
     }
 }

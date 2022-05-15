@@ -8,8 +8,9 @@ import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
 import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement.CAR
 import de.westnordost.streetcomplete.osm.ALL_ROADS
+import de.westnordost.streetcomplete.osm.street_parking.AnswerInconsistentWithExistingTagging
 import de.westnordost.streetcomplete.osm.street_parking.LeftAndRightStreetParkingPermission
-import de.westnordost.streetcomplete.osm.street_parking.NoParking
+import de.westnordost.streetcomplete.osm.street_parking.GenericNoStreetParking
 import de.westnordost.streetcomplete.osm.street_parking.StreetParkingPermissionParkingMappedSeparately
 import de.westnordost.streetcomplete.osm.street_parking.toOsmConditionValue
 
@@ -51,7 +52,7 @@ class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingP
                     (
                         parking:condition:right ~ no|no_stopping|no_parking|no_standing
                         or
-                        ACTUALLYNOSUPPORTparking:lane:right ~ no|no_stopping|no_parking|no_standing
+                        parking:lane:right ~ no|no_stopping|no_parking|no_standing
                     )
                 )
                 or
@@ -59,7 +60,7 @@ class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingP
                     (
                         parking:condition:left ~ no|no_stopping|no_parking|no_standing
                         or
-                        ACTUALLYNOSUPPORTparking:lane:left ~ no|no_stopping|no_parking|no_standing
+                        parking:lane:left ~ no|no_stopping|no_parking|no_standing
                     )
                     and
                     parking:lane:right ~ parallel|diagonal|perpendicular|marked
@@ -68,6 +69,10 @@ class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingP
                 )
             )
           and !parking:condition
+          and !parking:condition:both:maxstay and !parking:condition:left:maxstay and !parking:condition:right:maxstay
+          and !parking:condition:both:maxstay:conditional and !parking:condition:left:maxstay:conditional and !parking:condition:right:maxstay:conditional
+          and !parking:condition:both:conditional and !parking:condition:left:conditional and !parking:condition:right:conditional
+          and !parking:lane:both:conditional and !parking:lane:left:conditional and !parking:lane:right:conditional
           and (
             access !~ private|no
             or foot and foot !~ private|no
@@ -77,7 +82,7 @@ class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingP
 
     override val changesetComment = "Add which cars are allowed to park here"
     override val wikiLink = "Key:parking:condition"
-    override val icon = R.drawable.ic_quest_parking_access
+    override val icon = R.drawable.ic_quest_parking_lane_access
     override val isSplitWayEnabled = true
     override val questTypeAchievements = listOf(CAR)
     override val defaultDisabledMessage = R.string.default_disabled_msg_difficult_and_time_consuming
@@ -95,9 +100,9 @@ class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingP
            Note: If a resurvey is implemented, old
            parking:lane:*:(parallel|diagonal|perpendicular|...) values must be cleaned up */
 
-        //TODO: what if answers need to override what is tagged now?
-        //TODO: what if old-style tagging of parking:lane:left=no_parking is present? Retag it?
-
+        if(answer is AnswerInconsistentWithExistingTagging) {
+            deleteParkingLaneTags(tags)
+        }
         // parking:condition:<left/right/both>
         val conditionRight = answer.right!!.toOsmConditionValue()
         val conditionLeft = answer.left!!.toOsmConditionValue()
@@ -106,18 +111,22 @@ class AddStreetParkingPermission : OsmFilterQuestType<LeftAndRightStreetParkingP
             tags["parking:condition:both"] = conditionLeft
             return
         }
-
-        if(!(answer.left is NoParking || answer.left is StreetParkingPermissionParkingMappedSeparately)) {
-            if(conditionLeft == null) {
-                throw IllegalArgumentException()
-            }
+        if(conditionLeft != null) {
             tags["parking:condition:left"] = conditionLeft
         }
-        if(!(answer.right is NoParking || answer.right is StreetParkingPermissionParkingMappedSeparately)) {
-            if(conditionRight == null) {
-                throw IllegalArgumentException()
-            }
+        if(conditionRight != null) {
             tags["parking:condition:right"] = conditionRight
+        }
+    }
+
+    private fun deleteParkingLaneTags(tags: Tags) {
+        for(side in setOf("both", "left", "right")) {
+            tags.remove("parking:condition:$side")
+            tags.remove("parking:condition:$side:maxstay")
+            tags.remove("parking:lane:$side")
+            tags.remove("parking:condition:$side:conditional")
+            tags.remove("parking:condition:$side:maxstay:conditional")
+            tags.remove("parking:lane:$side:conditional")
         }
     }
 }

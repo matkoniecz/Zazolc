@@ -1,7 +1,8 @@
 package de.westnordost.streetcomplete.osm.street_parking
 
-data class LeftAndRightStreetParkingPermission(val left: StreetParkingPermission?, val right: StreetParkingPermission?)
 
+open class LeftAndRightStreetParkingPermission(val left: StreetParkingPermission?, val right: StreetParkingPermission?)
+object AnswerInconsistentWithExistingTagging : LeftAndRightStreetParkingPermission(null, null)
 
 sealed class StreetParkingPermission
 
@@ -10,7 +11,7 @@ object PaidParking : StreetParkingPermission()
 object ResidentsOnlyParking : StreetParkingPermission()
 object PrivateParking : StreetParkingPermission()
 object TimeLimit : StreetParkingPermission()
-object NoParking : StreetParkingPermission()
+object GenericNoStreetParking : StreetParkingPermission()
 
 /** When an unknown/unsupported value has been used */
 object UnknownStreetParkingPermission : StreetParkingPermission()

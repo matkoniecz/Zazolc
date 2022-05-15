@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.quests.street_parking_permission
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.osm.street_parking.FreeParking
-import de.westnordost.streetcomplete.osm.street_parking.NoParking
+import de.westnordost.streetcomplete.osm.street_parking.GenericNoStreetParking
 import de.westnordost.streetcomplete.osm.street_parking.TimeLimit
 import de.westnordost.streetcomplete.osm.street_parking.ResidentsOnlyParking
 import de.westnordost.streetcomplete.osm.street_parking.PaidParking
@@ -58,7 +58,7 @@ fun StreetParkingPermission.getIcon(): Image = when (this) {
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
     TimeLimit ->
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
-    NoParking ->
+    GenericNoStreetParking ->
         ResImage(R.drawable.ic_parking_no)
     UnknownStreetParkingPermission ->
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
@@ -76,7 +76,7 @@ fun StreetParkingPermission.getDialogIcon(): Image = when (this) {
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
     StreetParkingPermissionParkingMappedSeparately ->
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
-    NoParking ->
+    GenericNoStreetParking ->
         ResImage(R.drawable.ic_parking_no)
     TimeLimit ->
         ResImage(R.drawable.ic_shoulder_two_yellow_lines)
@@ -92,7 +92,7 @@ fun StreetParkingPermission.getFloatingIcon(): Image? = when (this) {
     ResidentsOnlyParking -> R.drawable.ic_shoulder_two_yellow_lines
     StreetParkingPermissionParkingMappedSeparately -> R.drawable.ic_shoulder_two_yellow_lines
     TimeLimit -> R.drawable.ic_shoulder_two_yellow_lines
-    NoParking -> R.drawable.ic_parking_no
+    GenericNoStreetParking -> R.drawable.ic_parking_no
     UnknownStreetParkingPermission -> null
 }?.let { ResImage(it) }
 
@@ -104,7 +104,7 @@ fun StreetParkingPermission.getIconResource(): Int? = when (this) {
     ResidentsOnlyParking -> R.drawable.ic_shoulder_two_yellow_lines
     StreetParkingPermissionParkingMappedSeparately -> R.drawable.ic_shoulder_two_yellow_lines
     TimeLimit -> R.drawable.ic_shoulder_two_yellow_lines
-    NoParking -> R.drawable.ic_parking_no
+    GenericNoStreetParking -> R.drawable.ic_parking_no
     UnknownStreetParkingPermission -> null
 }
 
