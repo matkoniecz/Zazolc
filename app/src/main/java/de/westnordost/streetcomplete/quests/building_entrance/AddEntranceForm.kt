@@ -21,5 +21,6 @@ class AddEntranceForm : AListQuestAnswerFragment<EntranceAnswer>() {
         TextItem(SHOP, R.string.quest_building_entrance_shop),
         TextItem(GENERIC, R.string.quest_building_entrance_yes),
         TextItem(DeadEnd, R.string.quest_building_entrance_dead_end),
+        TextItem(Private, R.string.quest_building_entrance_private),
     )
 }

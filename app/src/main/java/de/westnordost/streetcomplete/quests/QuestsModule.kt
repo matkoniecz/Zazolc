@@ -33,6 +33,7 @@ import de.westnordost.streetcomplete.quests.board_type.AddBoardType
 import de.westnordost.streetcomplete.quests.bollard_type.AddBollardType
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure
 import de.westnordost.streetcomplete.quests.building_entrance.AddEntrance
+import de.westnordost.streetcomplete.quests.building_entrance.SpecifyEntrance
 import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels
 import de.westnordost.streetcomplete.quests.building_type.AddBuildingType
 import de.westnordost.streetcomplete.quests.building_underground.AddIsBuildingUnderground
@@ -561,6 +562,7 @@ fun questTypeRegistry(
     AddSecondHandBicycleAvailability(),
 
     AddEntrance(),
+    SpecifyEntrance(),
     AddFerryAccessPedestrian(),
     AddFerryAccessMotorVehicle(),
     AddAcceptsCards(),

@@ -4,6 +4,8 @@ sealed interface EntranceAnswer
 
 object DeadEnd : EntranceAnswer
 
+object Private : EntranceAnswer
+
 enum class EntranceExistsAnswer(val osmValue: String) : EntranceAnswer {
     MAIN("main"),
     STAIRCASE("staircase"),

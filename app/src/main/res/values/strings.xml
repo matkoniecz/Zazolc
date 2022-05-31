@@ -743,6 +743,7 @@ Before uploading your changes, the app checks with a &lt;a href=\"https://www.we
     <string name="quest_building_entrance_shop">Storefront entrance</string>
     <string name="quest_building_entrance_yes">Other entrance type</string>
     <string name="quest_building_entrance_dead_end">Dead end, no entrance</string>
+    <string name="quest_building_entrance_private">Private entrance</string>
 
     <string name="quest_building_underground_title">Is this building completely underground?</string>
 
