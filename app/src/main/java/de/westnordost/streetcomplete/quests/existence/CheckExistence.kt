@@ -46,7 +46,7 @@ class CheckExistence(
             )
 
 
-
+            or THINGS_CHECKED_ONLY_IN_FORK=yes
             or office
             or amenity=toilets
             or amenity=hunting_stand
@@ -58,6 +58,7 @@ class CheckExistence(
             or emergency=life_ring
             or amenity=bbq
             or (emergency=defibrillator and location=outdoor)
+            or highway=speed_camera
           )
           and (${lastChecked(4.0)})
         ) or (
@@ -70,6 +71,7 @@ class CheckExistence(
 
 
 
+            or THINGS_CHECKED_ONLY_IN_FORK=yes
             or amenity = recycling and recycling_type = container
             or amenity = toilets
             or amenity = drinking_water
