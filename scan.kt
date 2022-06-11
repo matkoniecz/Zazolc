@@ -25,7 +25,7 @@ fun publicDomainAsSimpleShapesFilenames() : Array<String> {
 }
 
 fun cutoff() : Int {
-    return 28
+    return 30
 }
 
 fun licencedMedia(root : String) : MutableList<LicenceData> {
@@ -35,7 +35,8 @@ fun licencedMedia(root : String) : MutableList<LicenceData> {
     val inputStream: InputStream = File(thirdLocation).inputStream()
     val inputString = inputStream.bufferedReader().use { it.readText() }
     val knownLicenced = mutableListOf<LicenceData>()
-    for(line in inputString.split("\n").drop(3)) { // remove header lines
+    for(entire_line in inputString.split("\n").drop(3)) { // remove header lines
+        val line = entire_line.trim()
         if(line.length == 0) {
             continue
         }
@@ -77,14 +78,21 @@ fun truncatedfileMatchesLicenceDeclaration(fileName : String, licencedFile : Str
         truncatedFile = truncatedFile.substring(0, truncationLength)
     }
     var truncatedLicence = licencedFile
+    var removedPartFromLicenseInfo = ""
     if(truncatedLicence.length >= truncationLength ) {
+        removedPartFromLicenseInfo = truncatedLicence.substring(truncationLength, truncatedLicence.length)
         truncatedLicence = truncatedLicence.substring(0, truncationLength)
+    }
+    for(letter in removedPartFromLicenseInfo) {
+        if((letter != '.') and (letter != '…')) {
+            return false
+        }
     }
     return truncatedFile.equals(truncatedLicence)
 }
 
 fun fileMatchesLicenceDeclaration(fileName : String, licencedFile : String): Boolean {
-    for(delta in listOf(0, 1, 2)) {
+    for(delta in listOf(0, 1, 2, 3)) {
         if (truncatedfileMatchesLicenceDeclaration(fileName, licencedFile, cutoff() - delta) ) {
             return true
         }
@@ -92,13 +100,52 @@ fun fileMatchesLicenceDeclaration(fileName : String, licencedFile : String): Boo
     return false
 }
 
+fun selfTest() {
+    val matchingPairs = arrayOf(
+        // actually missing
+        // panorama_surface_ground 
+        
+        mapOf("filename" to "surface_paving_stones_bad.jpg", "licensedIdentifier" to "surface_paving_stones_bad.jpg"),
+        mapOf("filename" to "recycling_container_underground.jpg", "licensedIdentifier" to "recycling_container_undergr..."),
+        mapOf("filename" to "barrier_passage.jpg", "licensedIdentifier" to "barrier_passage.jpg"),
+        mapOf("filename" to "text", "licensedIdentifier" to "text"),
+        )
+    for(pair in matchingPairs) {
+        if(!fileMatchesLicenceDeclaration(pair["filename"]!!, pair["licensedIdentifier"]!!)) { // TODO: !! should be not needed here
+            throw Exception(pair.toString() + " failed to match")
+        }
+    }
+}
+
 fun main(args: Array<String>) {
+    selfTest()
+
+
     val root = "../StreetComplete"
     val knownLicenced = licencedMedia(root)
     val mediaFiles = mediaNeedingLicenes(root)
     val usedLicenced = mutableListOf<LicenceData>()
     val billOfMaterials = mutableListOf<LicencedFile>()
 
+    /*
+    println("---identifiers")
+    println("---------")
+    println("---------")
+    for(licenced in knownLicenced) {
+        println("-----------")
+        println(licenced.file)
+    }
+    return
+    println("---file names")
+    println("---------")
+    println("---------")
+    for(file in mediaFiles) {
+        println("-----------")
+        println(file.filePath.getName())
+    }
+    return
+    */
+    
     for(file in mediaFiles) {
         var matched = false
         for(licenced in knownLicenced) {
