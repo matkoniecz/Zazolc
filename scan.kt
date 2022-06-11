@@ -96,7 +96,7 @@ fun main(args: Array<String>) {
     val mediaFiles = mediaNeedingLicenes(root)
     val usedLicenced = mutableListOf<LicenceData>()
     val billOfMaterials = mutableListOf<LicencedFile>()
-    
+
     for(file in mediaFiles) {
         var matched = false
         for(licenced in knownLicenced) {
