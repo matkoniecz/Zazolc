@@ -26,10 +26,10 @@ fun cutoff() : Int {
     return 28
 }
 
-fun licencedMedia() : MutableList<LicenceData> {
-    val firstLocation = "/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/res/authors.txt" // some noxious to process
-    val secondLocation = "/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/app/src/main/assets/authors.txt" //bunch of special cases
-    val thirdLocation = "/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/app/src/main/res/authors.txt"
+fun licencedMedia(root : String) : MutableList<LicenceData> {
+    val firstLocation = root + "/res/authors.txt" // some noxious to process
+    val secondLocation = root + "/app/src/main/assets/authors.txt" //bunch of special cases
+    val thirdLocation = root + "/app/src/main/res/authors.txt"
     val inputStream: InputStream = File(thirdLocation).inputStream()
     val inputString = inputStream.bufferedReader().use { it.readText() }
     val knownLicenced = mutableListOf<LicenceData>()
@@ -54,9 +54,9 @@ fun licencedMedia() : MutableList<LicenceData> {
     return knownLicenced
 }
 
-fun mediaNeedingLicenes() : MutableList<MediaFile> {
+fun mediaNeedingLicenes(root : String) : MutableList<MediaFile> {
     val mediaFiles = mutableListOf<MediaFile>()
-    File("/home/mateusz/Documents/Archiwum/StreetComplete-ngi-zero/app/src/main/res").walkTopDown().forEach {
+    File(root + "/app/src/main/res").walkTopDown().forEach {
         if(it.getName().contains(".")) {
             val split_extension = it.getName().split(".")
             if(split_extension.size > 1) {
@@ -91,8 +91,9 @@ fun fileMatchesLicenceDeclaration(fileName : String, licencedFile : String): Boo
 }
 
 fun main(args: Array<String>) {
-    val knownLicenced = licencedMedia()
-    val mediaFiles = mediaNeedingLicenes()
+    val root = "../StreetComplete"
+    val knownLicenced = licencedMedia(root)
+    val mediaFiles = mediaNeedingLicenes(root)
     val usedLicenced = mutableListOf<LicenceData>()
     val billOfMaterials = mutableListOf<LicencedFile>()
     
