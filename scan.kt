@@ -16,7 +16,7 @@ fun validLicences() : Array<String> {
 fun publicDomainAsSimpleShapesFilenames() : Array<String> {
     return arrayOf("speech_bubble_top.9.png", "speech_bubble_start.9.png",
                    "speech_bubble_end.9.png", "speech_bubble_none.9.png",
-                   "speech_bubble_bottom.9.png"
+                   "speech_bubble_bottom.9.png",
                    "crosshair_marker.png", "location_direction.png",
                    "building_levels_illustration_bg_left.png",
                    "building_levels_illustration_bg_right.png",
