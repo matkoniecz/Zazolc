@@ -88,3 +88,4 @@ val GENERIC_ROAD_SURFACES = listOf(
 )
 
 val Surface.shouldBeDescribed: Boolean get() = this == PAVED_ROAD || this == UNPAVED_ROAD || this == PAVED_AREA || this == UNPAVED_AREA
+

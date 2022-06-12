@@ -858,7 +858,6 @@ class MainFragment :
             locationWhenOpenedQuest = mapFragment.displayedLocation
         }
 
-        val f = quest.type.createForm()
         val element = if (quest is OsmQuest) {
             questController.getOsmElement(quest) ?: return
         } else {
@@ -868,6 +867,7 @@ class MainFragment :
         val rotation = camera?.rotation ?: 0f
         val tilt = camera?.tilt ?: 0f
         val args = AbstractQuestAnswerFragment.createArguments(quest, element, rotation, tilt)
+        val f = quest.type.createForm()
         if (f.arguments != null) {
             f.arguments!!.putAll(args)
         } else {
