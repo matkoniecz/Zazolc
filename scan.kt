@@ -102,9 +102,6 @@ fun fileMatchesLicenceDeclaration(fileName : String, licencedFile : String): Boo
 
 fun selfTest() {
     val matchingPairs = arrayOf(
-        // actually missing
-        // panorama_surface_ground 
-        
         mapOf("filename" to "surface_paving_stones_bad.jpg", "licensedIdentifier" to "surface_paving_stones_bad.jpg"),
         mapOf("filename" to "recycling_container_underground.jpg", "licensedIdentifier" to "recycling_container_undergr..."),
         mapOf("filename" to "barrier_passage.jpg", "licensedIdentifier" to "barrier_passage.jpg"),
