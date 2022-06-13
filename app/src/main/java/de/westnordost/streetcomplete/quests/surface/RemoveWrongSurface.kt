@@ -1,28 +1,16 @@
 package de.westnordost.streetcomplete.quests.surface
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
+
 
 class RemoveWrongSurface : OsmFilterQuestType<WrongSurfaceAnswer>() {
     override val elementFilter = """
         ways with
-            (
-                (
-                  tracktype = grade1
-                  and surface ~ sand|gravel|fine_gravel|compacted|grass|earth|dirt|mud|pebbles|unpaved
-                )
-                or
-                (
-                  tracktype = grade2
-                  and surface ~ sand|grass|earth|dirt|mud
-                )
-                or
-                (
-                  tracktype ~ grade3|grade4|grade5
-                  and surface ~ asphalt|concrete|paving_stones|paved
-                )
-            )
+          tracktype = grade1
+          and surface ~ sand|gravel|fine_gravel|compacted|grass|earth|dirt|mud|pebbles
           and !surface:note
           and !note:surface
     """
@@ -32,7 +20,7 @@ class RemoveWrongSurface : OsmFilterQuestType<WrongSurfaceAnswer>() {
     override val icon = R.drawable.ic_quest_way_surface
     override val isSplitWayEnabled = true
 
-    override fun getTitle(tags: Map<String, String>) = R.string.quest_surface_title
+    override fun getTitle(tags: Map<String, String>) = R.string.quest_wrong_surface_title
 
     override fun createForm() = RemoveWrongSurfaceForm()
 

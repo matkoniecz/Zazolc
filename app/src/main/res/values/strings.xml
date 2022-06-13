@@ -31,8 +31,9 @@
     <string name="quest_accepts_medicine_trash_title">"Does this place allows to leave unwanted, for example expired, medicines?"</string>
     <string name="quest_service_times">Are there posted service times (answering yes will crash, add service_times / service_times:mass instead)</string>
     <string name="quest_generic_answer_no_name">No name</string>
-    <string name="quest_surface_value_surface_is_not_solid">This way is not paved (surface such as grass, earth, gravel, pavement with holes for grass)</string>
-    <string name="quest_surface_value_surface_is_solid">This way is paved (surface such as concrete, asphalt or paving stones)</string>
+    <string name="quest_wrong_surface_title">Which info about surface is correct?</string>
+    <string name="quest_surface_value_unpaved_tracktype_grade1_is_wrong">This way is not paved</string>
+    <string name="quest_surface_value_paved_tracktype_grade1_is_correct">This way is paved</string>
 
     <!-- Store description -->
 
