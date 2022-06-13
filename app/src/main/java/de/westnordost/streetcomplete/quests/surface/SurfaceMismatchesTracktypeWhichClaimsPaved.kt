@@ -1,12 +1,10 @@
 package de.westnordost.streetcomplete.quests.surface
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.Tags
 import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
 
-
-class RemoveWrongSurface : OsmFilterQuestType<WrongSurfaceAnswer>() {
+class SurfaceMismatchesTracktypeWhichClaimsPaved : OsmFilterQuestType<WrongSurfaceAnswer>() {
     override val elementFilter = """
         ways with
           tracktype = grade1
@@ -20,9 +18,9 @@ class RemoveWrongSurface : OsmFilterQuestType<WrongSurfaceAnswer>() {
     override val icon = R.drawable.ic_quest_way_surface
     override val isSplitWayEnabled = true
 
-    override fun getTitle(tags: Map<String, String>) = R.string.quest_wrong_surface_title
+    override fun getTitle(tags: Map<String, String>) = R.string.quest_wrong_surface_title_paved_according_to_tracktype
 
-    override fun createForm() = RemoveWrongSurfaceForm()
+    override fun createForm() = SurfaceMismatchesTracktypeWhichClaimsPavedForm()
 
     override fun applyAnswerTo(answer: WrongSurfaceAnswer, tags: Tags, timestampEdited: Long) {
         when (answer) {

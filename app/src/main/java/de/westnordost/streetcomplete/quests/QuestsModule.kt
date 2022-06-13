@@ -8,7 +8,6 @@ import de.westnordost.streetcomplete.data.quest.QuestType
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
 import de.westnordost.streetcomplete.quests.access_waste_disposal.AddWasteDisposalAccess
 import de.westnordost.streetcomplete.quests.accepts_cards.AddAcceptsCards
-import de.westnordost.streetcomplete.quests.accepts_cash.AddAcceptsCash
 import de.westnordost.streetcomplete.quests.address.AddAddressStreet
 import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.air_conditioning.AddAirConditioning
@@ -34,7 +33,6 @@ import de.westnordost.streetcomplete.quests.bollard_type.AddBollardType
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure
 import de.westnordost.streetcomplete.quests.building_entrance.AddEntrance
 import de.westnordost.streetcomplete.quests.building_entrance.SpecifyEntrance
-import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels
 import de.westnordost.streetcomplete.quests.building_type.AddBuildingType
 import de.westnordost.streetcomplete.quests.building_underground.AddIsBuildingUnderground
 import de.westnordost.streetcomplete.quests.bus_stop_bench.AddBenchStatusOnBusStop
@@ -124,7 +122,6 @@ import de.westnordost.streetcomplete.quests.smoking.AddSmoking
 import de.westnordost.streetcomplete.quests.smoothness.AddPathSmoothness
 import de.westnordost.streetcomplete.quests.smoothness.AddRoadSmoothness
 import de.westnordost.streetcomplete.quests.sport.AddSport
-import de.westnordost.streetcomplete.quests.step_count.AddStepCount
 import de.westnordost.streetcomplete.quests.step_count.AddStepCountStile
 import de.westnordost.streetcomplete.quests.steps_incline.AddStepsIncline
 import de.westnordost.streetcomplete.quests.steps_ramp.AddStepsRamp
@@ -136,7 +133,8 @@ import de.westnordost.streetcomplete.quests.surface.AddPathSurface
 import de.westnordost.streetcomplete.quests.surface.AddPitchSurface
 import de.westnordost.streetcomplete.quests.surface.AddRoadSurface
 import de.westnordost.streetcomplete.quests.surface.AddSidewalkSurface
-import de.westnordost.streetcomplete.quests.surface.RemoveWrongSurface
+import de.westnordost.streetcomplete.quests.surface.SurfaceMismatchesTracktypeWhichClaimsPaved
+import de.westnordost.streetcomplete.quests.surface.SurfaceMismatchesTracktypeWhichClaimsUnpaved
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingKerb
@@ -470,7 +468,8 @@ fun questTypeRegistry(
     ShowAddressInterpolation(), // my quest
     AddWayLit(), //frequent enable/disable cycle (enable for night) - moved
     AddPitchLit(), //frequent enable/disable cycle (enable for night) - moved
-    RemoveWrongSurface(), // mine, tested
+    SurfaceMismatchesTracktypeWhichClaimsPaved(), // mine, tested
+    SurfaceMismatchesTracktypeWhichClaimsUnpaved(), // mine, tested
     AddWasteDisposalAccess(), // mine, only I will do this and easy to process so lets keep high
     //--modified
 

@@ -31,7 +31,8 @@
     <string name="quest_accepts_medicine_trash_title">"Does this place allows to leave unwanted, for example expired, medicines?"</string>
     <string name="quest_service_times">Are there posted service times (answering yes will crash, add service_times / service_times:mass instead)</string>
     <string name="quest_generic_answer_no_name">No name</string>
-    <string name="quest_wrong_surface_title">Which info about surface is correct?</string>
+    <string name="quest_wrong_surface_title_unpaved_according_to_tracktype">Which info about surface is correct? Tracktype claims unpaved</string>
+    <string name="quest_wrong_surface_title_paved_according_to_tracktype">Which info about surface is correct? Tracktype claims paved</string>
     <string name="quest_surface_value_unpaved_tracktype_grade1_is_wrong">This way is not paved</string>
     <string name="quest_surface_value_paved_tracktype_grade1_is_correct">This way is paved</string>
 
