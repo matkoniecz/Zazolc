@@ -2,9 +2,9 @@ package de.westnordost.streetcomplete.quests.service_times
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.osmquests.Tags
-import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
-import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
+import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
+import de.westnordost.streetcomplete.osm.Tags
+import de.westnordost.streetcomplete.quests.YesNoQuestForm
 import de.westnordost.streetcomplete.util.ktx.toYesNo
 
 class AddReligiousServiceTimes : OsmFilterQuestType<Boolean>() {
@@ -23,7 +23,7 @@ class AddReligiousServiceTimes : OsmFilterQuestType<Boolean>() {
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_service_times
 
-    override fun createForm() = YesNoQuestAnswerFragment()
+    override fun createForm() = YesNoQuestForm()
 
     override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
         if(!answer){
@@ -32,6 +32,5 @@ class AddReligiousServiceTimes : OsmFilterQuestType<Boolean>() {
         }
     }
 
-    override val questTypeAchievements: List<QuestTypeAchievement>
-        get() = listOf()
+    override val achievements: List<EditTypeAchievement> = listOf()
 }

@@ -4,7 +4,6 @@ import de.westnordost.countryboundaries.CountryBoundaries
 import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.data.meta.CountryInfos
 import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuestType
-import de.westnordost.streetcomplete.data.quest.QuestType
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
 import de.westnordost.streetcomplete.quests.access_waste_disposal.AddWasteDisposalAccess
 import de.westnordost.streetcomplete.quests.accepts_cards.AddAcceptsCards
@@ -80,6 +79,7 @@ import de.westnordost.streetcomplete.quests.max_height.AddMaxPhysicalHeight
 import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed
 import de.westnordost.streetcomplete.quests.max_weight.AddMaxWeight
 import de.westnordost.streetcomplete.quests.medicine_trash.AddAcceptsMedicineTrash
+import de.westnordost.streetcomplete.quests.memorial_type.AddMemorialType
 import de.westnordost.streetcomplete.quests.motorcycle_parking_capacity.AddMotorcycleParkingCapacity
 import de.westnordost.streetcomplete.quests.motorcycle_parking_cover.AddMotorcycleParkingCover
 import de.westnordost.streetcomplete.quests.oneway.AddOneway
@@ -186,7 +186,7 @@ fun questTypeRegistry(
     countryInfos: CountryInfos,
     countryBoundariesFuture: FutureTask<CountryBoundaries>,
     arSupportChecker: ArSupportChecker
-) = QuestTypeRegistry(listOf<QuestType<*>>(
+) = QuestTypeRegistry(listOf(
 
     /* The quest types are primarily sorted by how easy they can be solved:
     1. quests that are solvable from a distance or while passing by (fast)
@@ -219,6 +219,8 @@ fun questTypeRegistry(
     OsmNoteQuestType,
 
     /* ↓ 1. solvable from a distance or while passing by -----------------------------------  */
+
+    AddMemorialType(),
 
     // bus stop quests
     AddBusStopShelter(),  // used by at least OsmAnd
@@ -468,6 +470,7 @@ fun questTypeRegistry(
     ShowAddressInterpolation(), // my quest
     AddWayLit(), //frequent enable/disable cycle (enable for night) - moved
     AddPitchLit(), //frequent enable/disable cycle (enable for night) - moved
+    AddMemorialType(),
     SurfaceMismatchesTracktypeWhichClaimsPaved(), // mine, tested
     SurfaceMismatchesTracktypeWhichClaimsUnpaved(), // mine, tested
     AddWasteDisposalAccess(), // mine, only I will do this and easy to process so lets keep high

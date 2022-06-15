@@ -3,9 +3,8 @@ package de.westnordost.streetcomplete.quests.barrier_specify
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.osmquests.Tags
-import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
-
+import de.westnordost.streetcomplete.osm.Tags
+import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 class SpecifyBarrier() : OsmFilterQuestType<String>() {
 
     override val elementFilter = "ways with barrier=yes"
@@ -21,6 +20,5 @@ class SpecifyBarrier() : OsmFilterQuestType<String>() {
         tags["barrier"] = answer
     }
 
-    override val questTypeAchievements: List<QuestTypeAchievement>
-        get() = listOf()
+    override val achievements: List<EditTypeAchievement> = listOf()
 }

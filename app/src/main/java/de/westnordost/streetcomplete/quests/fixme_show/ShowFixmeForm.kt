@@ -2,10 +2,10 @@ package de.westnordost.streetcomplete.quests.fixme_show
 
 import android.os.Bundle
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.quests.AImageListQuestAnswerFragment
+import de.westnordost.streetcomplete.quests.AImageListQuestForm
 import de.westnordost.streetcomplete.view.image_select.Item
 
-class ShowFixmeForm : AImageListQuestAnswerFragment<String, List<String>>() {
+class ShowFixmeForm : AImageListQuestForm<String, List<String>>() {
 
     override val items get() = listOf(
             Item("fixme:solved", R.drawable.ic_religion_christian, R.string.quest_ShowFixme_solved_answer),
@@ -17,7 +17,6 @@ class ShowFixmeForm : AImageListQuestAnswerFragment<String, List<String>>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         imageSelector.cellLayoutId = R.layout.cell_icon_select_with_label_below
-
     }
 
     override fun onClickOk(selectedItems: List<String>) {

@@ -1,11 +1,10 @@
 package de.westnordost.streetcomplete.quests.validator
 
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.osmquests.Tags
-import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
-import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
+import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
+import de.westnordost.streetcomplete.osm.Tags
+import de.westnordost.streetcomplete.quests.YesNoQuestForm
 
 class AddAlsoShopForInsurance() : OsmFilterQuestType<Boolean>() {
 
@@ -15,7 +14,7 @@ class AddAlsoShopForInsurance() : OsmFilterQuestType<Boolean>() {
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_add_also_shop_variant_for_insurance_shop
 
-    override fun createForm() = YesNoQuestAnswerFragment()
+    override fun createForm() = YesNoQuestForm()
 
     override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
         if (answer){
@@ -25,6 +24,5 @@ class AddAlsoShopForInsurance() : OsmFilterQuestType<Boolean>() {
 
     override val wikiLink = "Tag:shop=insurance"
 
-    override val questTypeAchievements: List<QuestTypeAchievement>
-        get() = listOf()
+    override val achievements: List<EditTypeAchievement> = listOf()
 }

@@ -1,11 +1,10 @@
 package de.westnordost.streetcomplete.quests.validator
 
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.osmquests.Tags
-import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
-import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
+import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
+import de.westnordost.streetcomplete.osm.Tags
+import de.westnordost.streetcomplete.quests.YesNoQuestForm
 
 class DeprecateFIXME() : OsmFilterQuestType<Boolean>() {
 
@@ -15,10 +14,10 @@ class DeprecateFIXME() : OsmFilterQuestType<Boolean>() {
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_convert_FIXME_to_fixme
 
-    override fun createForm() = YesNoQuestAnswerFragment()
+    override fun createForm() = YesNoQuestForm()
 
     override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
-        if (answer){
+        if (answer) {
             tags["fixme"] = tags["FIXME"]!!
             tags.remove("FIXME")
         }
@@ -26,6 +25,5 @@ class DeprecateFIXME() : OsmFilterQuestType<Boolean>() {
 
     override val wikiLink = "Key:fixme"
 
-    override val questTypeAchievements: List<QuestTypeAchievement>
-        get() = listOf()
+    override val achievements: List<EditTypeAchievement> = listOf()
 }

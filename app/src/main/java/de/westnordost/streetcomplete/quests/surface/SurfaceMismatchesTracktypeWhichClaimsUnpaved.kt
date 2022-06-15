@@ -1,9 +1,8 @@
 package de.westnordost.streetcomplete.quests.surface
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.osmquests.Tags
-import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
-
+import de.westnordost.streetcomplete.osm.Tags
+import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 class SurfaceMismatchesTracktypeWhichClaimsUnpaved : OsmFilterQuestType<WrongSurfaceAnswer>() {
     override val elementFilter = """
         ways with
@@ -26,7 +25,6 @@ class SurfaceMismatchesTracktypeWhichClaimsUnpaved : OsmFilterQuestType<WrongSur
     override val changesetComment = "Remove wrong surface info"
     override val wikiLink = "Key:surface"
     override val icon = R.drawable.ic_quest_way_surface
-    override val isSplitWayEnabled = true
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_wrong_surface_title_unpaved_according_to_tracktype
 
@@ -43,6 +41,5 @@ class SurfaceMismatchesTracktypeWhichClaimsUnpaved : OsmFilterQuestType<WrongSur
         }
     }
 
-    override val questTypeAchievements: List<QuestTypeAchievement>
-        get() = listOf()
+    override val achievements: List<EditTypeAchievement> = listOf()
 }

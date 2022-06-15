@@ -3,9 +3,8 @@ package de.westnordost.streetcomplete.quests.fixme_show
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.osmquests.Tags
-import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
-
+import de.westnordost.streetcomplete.osm.Tags
+import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 
 class ShowFixme() : OsmFilterQuestType<List<String>>() {
 
@@ -17,7 +16,6 @@ class ShowFixme() : OsmFilterQuestType<List<String>>() {
 
     override val changesetComment = "Handle fixme tag"
     override val icon = R.drawable.ic_quest_power
-    override val isSplitWayEnabled = true
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_show_fixme
 
@@ -35,6 +33,5 @@ class ShowFixme() : OsmFilterQuestType<List<String>>() {
 
     override val wikiLink = "Key:fixme"
 
-    override val questTypeAchievements: List<QuestTypeAchievement>
-        get() = listOf()
+    override val achievements: List<EditTypeAchievement> = listOf()
 }

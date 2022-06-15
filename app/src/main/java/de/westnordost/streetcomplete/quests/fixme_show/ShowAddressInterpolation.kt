@@ -1,12 +1,10 @@
 package de.westnordost.streetcomplete.quests.fixme_show
 
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.osm.osmquests.Tags
-import de.westnordost.streetcomplete.data.user.achievements.QuestTypeAchievement
-import de.westnordost.streetcomplete.quests.YesNoQuestAnswerFragment
-
+import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
+import de.westnordost.streetcomplete.osm.Tags
+import de.westnordost.streetcomplete.quests.YesNoQuestForm
 
 class ShowAddressInterpolation() : OsmFilterQuestType<Boolean>() {
 
@@ -18,7 +16,7 @@ class ShowAddressInterpolation() : OsmFilterQuestType<Boolean>() {
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_show_address_interpolation
 
-    override fun createForm() = YesNoQuestAnswerFragment();
+    override fun createForm() = YesNoQuestForm();
 
     override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
         TODO("Not yet implemented")
@@ -27,6 +25,5 @@ class ShowAddressInterpolation() : OsmFilterQuestType<Boolean>() {
     override val wikiLink: String?
         get() = TODO("Not yet implemented")
 
-    override val questTypeAchievements: List<QuestTypeAchievement>
-        get() = listOf()
+    override val achievements: List<EditTypeAchievement> = listOf()
 }
