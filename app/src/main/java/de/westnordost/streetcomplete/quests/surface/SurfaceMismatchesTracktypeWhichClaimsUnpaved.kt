@@ -1,8 +1,8 @@
 package de.westnordost.streetcomplete.quests.surface
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
+import de.westnordost.streetcomplete.osm.Tags
 class SurfaceMismatchesTracktypeWhichClaimsUnpaved : OsmFilterQuestType<WrongSurfaceAnswer>() {
     override val elementFilter = """
         ways with
