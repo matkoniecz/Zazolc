@@ -16,7 +16,6 @@ class SurfaceMismatchesTracktypeWhichClaimsUnpaved : OsmFilterQuestType<WrongSur
                   tracktype ~ grade3|grade4|grade5
                   and surface ~ asphalt|concrete|paving_stones|paved
                 )
-            )
         )
         and !surface:note
         and !note:surface
