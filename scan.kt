@@ -78,8 +78,8 @@ fun containsSkippedFile(pattern: String): Boolean {
 }
 
 fun licencedMedia(root : String) : MutableList<LicenceData> {
-    val firstLocation = root + "/res/authors.txt" // some noxious to process
-    val secondLocation = root + "/app/src/main/assets/authors.txt" //bunch of special cases
+    val firstLocation = root + "/res/graphics/authors.txt" // some noxious to process TODO: use
+    val secondLocation = root + "/app/src/main/assets/authors.txt" //bunch of special cases  TODO: use
     val thirdLocation = root + "/app/src/main/res/authors.txt"
     val inputStream: InputStream = File(thirdLocation).inputStream()
     val inputString = inputStream.bufferedReader().use { it.readText() }
