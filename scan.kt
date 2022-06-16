@@ -59,7 +59,8 @@ fun publicDomainAsSimpleShapesFilenames() : Array<String> {
                    "building_levels_illustration_bg_left.png",
                    "building_levels_illustration_bg_right.png",
                    "background_housenumber_frame_slovak.9.png", "pin.png",
-                   "ic_star_white_shadow_32dp.png")
+                   "ic_star_white_shadow_32dp.png",
+                   "ic_none.png")
 }
 
 fun cutoff() : Int {
