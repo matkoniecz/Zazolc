@@ -5,10 +5,10 @@ import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.data.quest.NoCountriesExcept
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.CITIZEN
 import de.westnordost.streetcomplete.osm.IS_SHOP_OR_DISUSED_SHOP_EXPRESSION
+import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.quests.YesNoQuestForm
 import de.westnordost.streetcomplete.util.ktx.toYesNo
 
@@ -45,7 +45,7 @@ class AddAcceptsCash : OsmFilterQuestType<Boolean>() {
               or tourism ~ ${tourismsWithImpliedFees.joinToString("|")}
               or tourism ~ ${tourismsWithoutImpliedFees.joinToString("|")} and fee = yes
             )
-            and (name or brand) and !payment:cash and !payment:coins and !payment:notes
+            and !payment:cash and !payment:coins and !payment:notes
         """
     }
 

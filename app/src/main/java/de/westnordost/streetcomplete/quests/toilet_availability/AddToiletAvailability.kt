@@ -2,8 +2,8 @@ package de.westnordost.streetcomplete.quests.toilet_availability
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.CITIZEN
+import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.quests.YesNoQuestForm
 import de.westnordost.streetcomplete.util.ktx.toYesNo
 
@@ -14,7 +14,7 @@ class AddToiletAvailability : OsmFilterQuestType<Boolean>() {
     override val elementFilter = """
         nodes, ways with
         (
-          (shop ~ mall|department_store and name)
+          shop ~ mall|department_store
           or highway ~ services|rest_area
         )
         and !toilets

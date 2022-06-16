@@ -2,8 +2,8 @@ package de.westnordost.streetcomplete.quests.internet_access
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.CITIZEN
+import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.osm.updateWithCheckDate
 
 class AddInternetAccess : OsmFilterQuestType<InternetAccess>() {
@@ -15,7 +15,6 @@ class AddInternetAccess : OsmFilterQuestType<InternetAccess>() {
           or tourism ~ hotel|guest_house|motel|hostel|alpine_hut|apartment|resort|camp_site|caravan_site|chalet
         )
         and access !~ no|private
-        and name
         and (
           !internet_access
           or internet_access = yes

@@ -5,10 +5,10 @@ import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.CITIZEN
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.VEG
 import de.westnordost.streetcomplete.osm.IS_SHOP_OR_DISUSED_SHOP_EXPRESSION
+import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.osm.updateWithCheckDate
 
 class AddVegan : OsmFilterQuestType<DietAvailabilityAnswer>() {
@@ -19,11 +19,11 @@ class AddVegan : OsmFilterQuestType<DietAvailabilityAnswer>() {
           amenity = ice_cream
           or diet:vegetarian ~ yes|only and
           (
-            amenity ~ restaurant|cafe|fast_food and food != no
+            amenity ~ restaurant|cafe|fast_food|food_court and food != no
             or amenity ~ pub|nightclub|biergarten|bar and food = yes
           )
         )
-        and name and (
+        and (
           !diet:vegan
           or diet:vegan != only and diet:vegan older today -4 years
         )

@@ -5,10 +5,10 @@ import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.CITIZEN
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.VEG
 import de.westnordost.streetcomplete.osm.IS_SHOP_OR_DISUSED_SHOP_EXPRESSION
+import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.osm.updateWithCheckDate
 
 class AddVegetarian : OsmFilterQuestType<DietAvailabilityAnswer>() {
@@ -16,10 +16,10 @@ class AddVegetarian : OsmFilterQuestType<DietAvailabilityAnswer>() {
     override val elementFilter = """
         nodes, ways with
         (
-          amenity ~ restaurant|cafe|fast_food and food != no
+          amenity ~ restaurant|cafe|fast_food|food_court and food != no
           or amenity ~ pub|nightclub|biergarten|bar and food = yes
         )
-        and name and diet:vegan != only and (
+        and diet:vegan != only and (
           !diet:vegetarian
           or diet:vegetarian != only and diet:vegetarian older today -4 years
         )

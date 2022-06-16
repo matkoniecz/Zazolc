@@ -2,8 +2,8 @@ package de.westnordost.streetcomplete.quests.baby_changing_table
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.CITIZEN
+import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.quests.YesNoQuestForm
 import de.westnordost.streetcomplete.util.ktx.toYesNo
 
@@ -14,7 +14,6 @@ class AddBabyChangingTable : OsmFilterQuestType<Boolean>() {
         (
           (
             (amenity ~ restaurant|cafe|fuel|fast_food or shop ~ mall|department_store)
-            and name
             and toilets = yes
           )
           or amenity = toilets

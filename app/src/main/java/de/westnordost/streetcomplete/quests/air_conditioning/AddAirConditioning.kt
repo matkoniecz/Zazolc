@@ -5,9 +5,9 @@ import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.CITIZEN
 import de.westnordost.streetcomplete.osm.IS_SHOP_OR_DISUSED_SHOP_EXPRESSION
+import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.quests.YesNoQuestForm
 import de.westnordost.streetcomplete.util.ktx.toYesNo
 
@@ -16,7 +16,7 @@ class AddAirConditioning : OsmFilterQuestType<Boolean>() {
     override val elementFilter = """
         nodes, ways, relations with
         (
-          amenity ~ restaurant|bar|pub|cafe|library
+          amenity ~ restaurant|cafe|fast_food|ice_cream|food_court|pub|bar|library
           or tourism ~ apartment|hotel
         )
         and !air_conditioning
