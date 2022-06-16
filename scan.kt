@@ -12,6 +12,43 @@ fun validLicences() : Array<String> {
     // and "SIL OFL-1.1" as alias for "OFL-1.1"
     return arrayOf("Public Domain", "CC0", "CC-BY-SA 1.0", "CC-BY-SA 2.0", "CC-BY-SA 2.5", "CC-BY-SA 3.0", "CC-BY-SA 4.0", "CC-BY 2.0", "CC-BY 3.0", "CC-BY 4.0", "SIL OFL-1.1", "OFL-1.1",)
 }
+
+fun filesWithKnownProblemsAndSkipped() : Array<String> {
+    // TODO: should be empty
+    return arrayOf(
+        "ic_link_cyclosm.xml", // https://github.com/cyclosm/cyclosm-cartocss-style/issues/615#issuecomment-1152875875
+        "ramp_wheelchair.jpg", "ramp_stroller.jpg", "ramp_none.jpg", "ramp_bicycle.jpg", // https://github.com/streetcomplete/StreetComplete/issues/4103
+        "location_nyan.png", "car_nyan.png", // note it as a a fair use in authors file?
+        "ic_link_weeklyosm.png", // https://wiki.openstreetmap.org/wiki/File:Weeklyosm_red_cut.svg https://wiki.openstreetmap.org/wiki/File:Logo_weeklyOSM.svg
+        "ic_link_brouter.png",
+        "ic_link_heigit.png",
+        "ic_link_learnosm.png",
+        "ic_link_openstreetmap.png",
+        "ic_link_osmhydrant.png",
+        "ic_link_pic4review.png",
+        "ic_link_city_roads.png",
+        "ic_link_mapy_tactile.png",
+        "ic_link_openvegemap.png", // https://wiki.openstreetmap.org/wiki/OpenVegeMap
+        "ic_link_osmlab.png",
+        "ic_link_sunders.png",
+        "ic_link_wheelmap.png",
+        "ic_link_figuregrounder.png",
+        "ic_link_indoorequal.png",
+        "ic_link_myosmatic.png",
+        "ic_link_opnvkarte.png",
+        "ic_link_osrm.png",
+        "ic_link_thenandnow.png",
+        "ic_link_wiki.png", // https://wiki.openstreetmap.org/wiki/File:Wikilogo.png
+        "ic_link_graphhopper.png", // https://wiki.openstreetmap.org/wiki/GraphHopper
+        "ic_link_openstreetbrowser.png",
+        "ic_link_organic_maps.png",
+        "ic_link_photon.png",
+        "ic_link_valhalla.png",
+        "plop0.wav",
+        "plop1.wav",
+        "plop2.wav",
+        "plop3.wav",
+    )
 }
 
 fun publicDomainAsSimpleShapesFilenames() : Array<String> {
@@ -29,6 +66,16 @@ fun cutoff() : Int {
     return 30
 }
 
+fun containsSkippedFile(pattern: String): Boolean {
+    for (file in filesWithKnownProblemsAndSkipped()) {
+        if(pattern.contains(file)) {
+            return true
+            println("skipping " + file + " as listed on files with known problems")
+        }
+    }
+    return false
+}
+
 fun licencedMedia(root : String) : MutableList<LicenceData> {
     val firstLocation = root + "/res/authors.txt" // some noxious to process
     val secondLocation = root + "/app/src/main/assets/authors.txt" //bunch of special cases
@@ -37,6 +84,7 @@ fun licencedMedia(root : String) : MutableList<LicenceData> {
     val inputString = inputStream.bufferedReader().use { it.readText() }
     val knownLicenced = mutableListOf<LicenceData>()
     for(entire_line in inputString.split("\n").drop(3)) { // remove header lines
+        var skipped = false
         val line = entire_line.trim()
         if(line.length == 0) {
             continue
@@ -51,7 +99,11 @@ fun licencedMedia(root : String) : MutableList<LicenceData> {
                 knownLicenced += LicenceData(licence, file, source)
             }
         }
-        if (licenceFound == null) {
+        if(containsSkippedFile(line)) {
+            skipped = true
+            println("skipping " + line + " as listed on files with known problems")
+        }
+        if (licenceFound == null && skipped == false) {
                 throw Exception("unexpected licence in the input file was encountered, on " + line)
         }
     }
@@ -158,12 +210,16 @@ fun main(args: Array<String>) {
                 //println(file.filePath.toString() + " matched to " + licenced.file)
             }
         }
-        if(!matched){
+        if(!matched) {
             val name = file.filePath.getName()
             if(name !in publicDomainAsSimpleShapesFilenames()) {
-                System.err.println(file.filePath.toString() + " remained unmatched")
-                System.err.println(name + " remained unmatched")
-                System.err.println()
+                if(containsSkippedFile(name)) {
+                    println("skipping " + name + " as listed on files with known problems")
+                } else {
+                    System.err.println(file.filePath.toString() + " remained unmatched")
+                    System.err.println(name + " remained unmatched")
+                    System.err.println()
+                }
             }
         }
     }
