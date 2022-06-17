@@ -133,14 +133,15 @@ fun mediaNeedingLicenes(root : String) : MutableList<MediaFile> {
 }
 fun truncatedfileMatchesLicenceDeclaration(fileName : String, licencedFile : String, truncationLength: Int): Boolean {
     var truncatedFile = fileName
-    if(truncatedFile.length >= truncationLength ) {
-        truncatedFile = truncatedFile.substring(0, truncationLength)
+    val lenghtLimit = licencedFile.length-truncationLength
+    if(truncatedFile.length >= lenghtLimit ) {
+        truncatedFile = truncatedFile.substring(0, lenghtLimit)
     }
     var truncatedLicence = licencedFile
     var removedPartFromLicenseInfo = ""
-    if(truncatedLicence.length >= truncationLength ) {
-        removedPartFromLicenseInfo = truncatedLicence.substring(truncationLength, truncatedLicence.length)
-        truncatedLicence = truncatedLicence.substring(0, truncationLength)
+    if(truncatedLicence.length >= lenghtLimit ) {
+        removedPartFromLicenseInfo = truncatedLicence.substring(lenghtLimit, truncatedLicence.length)
+        truncatedLicence = truncatedLicence.substring(0, lenghtLimit)
     }
     for(letter in removedPartFromLicenseInfo) {
         if((letter != '.') and (letter != '…')) {
@@ -152,7 +153,7 @@ fun truncatedfileMatchesLicenceDeclaration(fileName : String, licencedFile : Str
 
 fun fileMatchesLicenceDeclaration(fileName : String, licencedFile : String): Boolean {
     for(delta in listOf(0, 1, 2, 3)) {
-        if (truncatedfileMatchesLicenceDeclaration(fileName, licencedFile, cutoff() - delta) ) {
+        if (truncatedfileMatchesLicenceDeclaration(fileName, licencedFile, delta) ) {
             return true
         }
     }
