@@ -18,7 +18,7 @@ fun filesWithKnownProblemsAndSkipped() : Array<String> {
     return arrayOf(
         "ic_link_cyclosm.xml", // https://github.com/cyclosm/cyclosm-cartocss-style/issues/615#issuecomment-1152875875
         "ramp_wheelchair.jpg", "ramp_stroller.jpg", "ramp_none.jpg", "ramp_bicycle.jpg", // https://github.com/streetcomplete/StreetComplete/issues/4103
-        "location_nyan.png", "car_nyan.png", // note it as a a fair use in authors file?
+        "location_nyan.png", "car_nyan.png", // note it as a a fair use in authors file? https://en.wikipedia.org/wiki/File:Nyan_cat_250px_frame.PNG
         "ic_link_weeklyosm.png", // https://wiki.openstreetmap.org/wiki/File:Weeklyosm_red_cut.svg https://wiki.openstreetmap.org/wiki/File:Logo_weeklyOSM.svg
         "ic_link_brouter.png",
         "ic_link_heigit.png",
@@ -55,6 +55,7 @@ fun publicDomainAsSimpleShapesFilenames() : Array<String> {
     return arrayOf("speech_bubble_top.9.png", "speech_bubble_start.9.png",
                    "speech_bubble_end.9.png", "speech_bubble_none.9.png",
                    "speech_bubble_bottom.9.png",
+                   "speech_bubble_bottom_center.9.png",
                    "crosshair_marker.png", "location_direction.png",
                    "building_levels_illustration_bg_left.png",
                    "building_levels_illustration_bg_right.png",
