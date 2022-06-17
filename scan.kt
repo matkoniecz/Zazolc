@@ -98,7 +98,11 @@ fun licencedMedia(root : String) : MutableList<LicenceData> {
                 val file = splitted[0].trim()
                 val source = splitted[1].trim()
                 licenceFound = licence
-                knownLicenced += LicenceData(licence, file, source)
+                if(file.length > 0 && source.length > 0) {
+                    knownLicenced += LicenceData(licence, file, source)
+                } else {
+                    println("line <" + line + "> skipped <" + file + "><" + source + ">")
+                }
             }
         }
         if(containsSkippedFile(line)) {
