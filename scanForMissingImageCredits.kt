@@ -1,3 +1,10 @@
+/*
+To check whether StreetComplete authorship file contains all required credit run:
+
+`kotlinc scan.kt -include-runtime -d out.jar` compiles Kotlin script
+
+`java -jar out.jar` run compiled script
+ */
 import java.io.File
 import java.io.InputStream
 
@@ -235,17 +242,4 @@ fun main(args: Array<String>) {
             System.err.println(licenced.file + " appears to be unused")
         }
     }
-
-
-    println("def licence_data()")
-    println("  return [")
-    for(licenced in billOfMaterials) {
-        println("  {")
-        println("  file: \"" + licenced.file.filePath + "\",")
-        println("  licence: \"" + licenced.licence.licence + "\",")
-        println("  author: \"" + licenced.licence.source + "\",")
-        println("  },")
-    }
-    println("  ]")
-    println("end")
 } 
