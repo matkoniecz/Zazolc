@@ -52,6 +52,10 @@ tasks.register<SophoxCountValueByCountryTask>("updateChargingStationOperators") 
     minPercent = 0.1
 }
 
+tasks.register<DetectMissingImageCreditsTask>("detectMissingImageCreditsTask") {
+    group = "streetcomplete"
+}
+
 tasks.register<GenerateQuestListTask>("generateQuestList") {
     group = "streetcomplete"
     targetFile = "$projectDir/quest-list.csv"
@@ -98,6 +102,7 @@ tasks.register("updateStreetCompleteData") {
         // "updateChargingStationOperators",
         // "updateClothesContainerOperators",
         // "updateAtmOperators",
+        "detectMissingImageCredits",
         "generateQuestList",
         "app:updatePresets",
         "app:updateNsiPresets",

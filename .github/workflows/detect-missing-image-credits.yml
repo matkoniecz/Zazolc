@@ -4,9 +4,19 @@ on:
   push:
 
 jobs:
-  example-action:
+  detect-missing-image-credits:
+    name: Detect cases where images are not credited in authors file
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run the script
-        run: kotlin buildSrc/src/main/java/DetectMissingImageCreditsCI.main.kts
+      - name: set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: List detected missing credits
+        run: ./gradlew detectMissingImageCreditsTask
+
