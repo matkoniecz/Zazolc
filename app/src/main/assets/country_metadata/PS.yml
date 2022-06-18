@@ -1,0 +1,7 @@
+# Do not edit. Source files are in /res/country_metadata
+firstDayOfWorkweek: Sa
+mobileCountryCode: 425
+officialLanguages: [ar]
+popularReligions: [muslim, jewish]
+workweekDays: 6
+orchardProduces: [olive, grape, almond, tomato, date, plum, apricot, chilli_pepper, sweet_pepper, lemon, lime, peach, fig, cherry, orange, apple, strawberry]

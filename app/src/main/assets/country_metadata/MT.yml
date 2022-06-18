@@ -1,0 +1,10 @@
+# Do not edit. Source files are in /res/country_metadata
+edgeLineStyle: white
+hasSlowZone: true
+isLeftHandTraffic: true
+mobileCountryCode: 278
+noStoppingLineStyle: double yellow
+officialLanguages: [mt, en]
+roofsAreUsuallyFlat: true
+atmOperators: [BOV, HSBC, Euronet, Bank of Valletta, Bank of Valleta, APS]
+orchardProduces: [grape]

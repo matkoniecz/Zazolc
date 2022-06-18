@@ -1,0 +1,1 @@
+app di raccolta dati per OpenStreetMap

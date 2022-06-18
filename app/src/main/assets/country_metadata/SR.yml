@@ -1,0 +1,11 @@
+# Do not edit. Source files are in /res/country_metadata
+isLeftHandTraffic: true
+mobileCountryCode: 746
+noParkingLineStyle: dashed yellow
+noParkingSignStyle: vienna
+noStoppingLineStyle: yellow
+noStoppingSignStyle: vienna
+officialLanguages: [nl]
+popularReligions: [christian, hindu, muslim]
+atmOperators: [DSB, Hakrinbank, Republic Bank, De Surinaamsche Bank]
+orchardProduces: [banana, orange, coconut, coffee, pineapple, guava, mango, mangosteen, cacao, grapefruit, tomato, papaya, cherry, lemon, lime]

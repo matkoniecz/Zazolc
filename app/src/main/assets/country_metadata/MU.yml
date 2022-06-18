@@ -1,0 +1,16 @@
+# Do not edit. Source files are in /res/country_metadata
+centerLineStyle: white
+edgeLineStyle: short white dashes
+hasLivingStreet: true
+hasSlowZone: true
+isLeftHandTraffic: true
+livingStreetSignStyle: sadc
+mobileCountryCode: 617
+noParkingSignStyle: sadc
+noStoppingSignStyle: sadc
+officialLanguages: [en, fr, mfe]
+popularReligions: [hindu, christian, muslim]
+slowZoneLabelPosition: bottom
+slowZoneLabelText: ZONE
+atmOperators: [SBM, MCB, Mauritius Commercial Bank, Barclays, HSBC, MCB ATM]
+orchardProduces: [tea, tomato, banana, pineapple, chilli_pepper, sweet_pepper, coconut]
