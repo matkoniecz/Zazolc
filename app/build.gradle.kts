@@ -216,6 +216,11 @@ val nsiVersion = "v6.0.20220530"
 // see https://github.com/openstreetmap/id-tagging-schema/releases for latest version
 val presetsVersion = "v3.2.2"
 
+
+tasks.register<DetectMissingImageCreditTask>("DetectMissingImageCreditTask") {
+    group = "streetcomplete"
+}
+
 tasks.register("updateAvailableLanguages") {
     group = "streetcomplete"
     doLast {

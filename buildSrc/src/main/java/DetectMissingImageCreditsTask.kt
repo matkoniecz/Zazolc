@@ -1,12 +1,20 @@
+@file:JvmName("MyScript")
+@file:CompilerOptions("-jvm-target", "11")
+@file:Repository("https://repo.maven.apache.org/maven2")
+// @file:DependsOn("com.example:library:1.2.3")
+
+import org.gradle.api.DefaultTask
 import java.io.File
 import java.io.InputStream
 /*
 To check whether StreetComplete authorship file contains all required credit run:
 
-`kotlinc scan.kt -include-runtime -d out.jar` compiles Kotlin script
+`kotlinc DetectMissingImageCreditsTask.kt -include-runtime -d out.jar` compiles Kotlin script
 
 `java -jar out.jar` run compiled script
  */
+class DetectMissingImageCreditsTask : DefaultTask() {
+}
 
 class LicenceData(val licence: String, val file: String, val source: String) {}
 
@@ -209,7 +217,7 @@ fun main(args: Array<String>) {
     }
     return
     */
-    
+
     for(file in mediaFiles) {
         var matched = false
         for(licenced in knownLicenced) {
@@ -242,4 +250,4 @@ fun main(args: Array<String>) {
             System.err.println(licenced.file + " appears to be unused")
         }
     }
-} 
+}
