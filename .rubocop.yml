@@ -1,3 +1,0 @@
-inherit_gem:
-  matkoniecz-ruby-style:
-    - standard_rubocop_config.yml
