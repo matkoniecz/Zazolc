@@ -3,7 +3,6 @@
 @file:Repository("https://repo.maven.apache.org/maven2")
 // @file:DependsOn("com.example:library:1.2.3")
 
-import org.gradle.api.DefaultTask
 import java.io.File
 import java.io.InputStream
 /*
@@ -13,8 +12,6 @@ To check whether StreetComplete authorship file contains all required credit run
 
 `java -jar out.jar` run compiled script
  */
-class DetectMissingImageCreditsTask : DefaultTask() {
-}
 
 class LicenceData(val licence: String, val file: String, val source: String) {}
 
