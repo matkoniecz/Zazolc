@@ -1,3 +1,5 @@
+import java.io.File
+import java.io.InputStream
 /*
 To check whether StreetComplete authorship file contains all required credit run:
 
@@ -5,8 +7,6 @@ To check whether StreetComplete authorship file contains all required credit run
 
 `java -jar out.jar` run compiled script
  */
-import java.io.File
-import java.io.InputStream
 
 class LicenceData(val licence: String, val file: String, val source: String) {}
 
