@@ -2,6 +2,8 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.io.InputStream
+import kotlin.system.exitProcess
+
 /*
 To check whether StreetComplete authorship file contains all required credit run:
 
@@ -39,6 +41,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         return
         */
 
+        var problemsFound = false
         for(file in mediaFiles) {
             var matched = false
             for(licenced in knownLicenced) {
@@ -62,6 +65,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
                         System.err.println(file.filePath.toString() + " remained unmatched")
                         System.err.println(name + " remained unmatched")
                         System.err.println()
+                        problemsFound = true
                     }
                 }
             }
@@ -70,6 +74,9 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             if(licenced !in usedLicenced) {
                 System.err.println(licenced.file + " appears to be unused")
             }
+        }
+        if(problemsFound){
+            exitProcess(10)
         }
     }
 }
