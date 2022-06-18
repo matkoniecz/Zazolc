@@ -7,3 +7,4 @@
 
 System.out.println("out")
 System.err.println("err")
+main(arrayOf())
