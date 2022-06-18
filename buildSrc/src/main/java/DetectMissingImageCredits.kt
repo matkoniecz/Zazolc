@@ -187,7 +187,7 @@ fun main(args: Array<String>) {
     selfTest()
 
 
-    val root = "../StreetComplete"
+    val root = "../../../.."
     val knownLicenced = licencedMedia(root)
     val mediaFiles = mediaNeedingLicenes(root)
     val usedLicenced = mutableListOf<LicenceData>()
