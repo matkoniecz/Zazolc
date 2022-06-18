@@ -150,8 +150,8 @@ fun cutoff(): Int {
 fun containsSkippedFile(pattern: String): Boolean {
     for (file in filesWithKnownProblemsAndSkipped()) {
         if (pattern.contains(file)) {
-            return true
             println("skipping " + file + " as listed on files with known problems")
+            return true
         }
     }
     return false
