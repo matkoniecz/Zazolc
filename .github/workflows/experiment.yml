@@ -1,0 +1,12 @@
+name: Example
+
+on:
+  push:
+
+jobs:
+  example-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run the script
+        run: kotlin buildSrc/src/main/java/Experiment.kt
