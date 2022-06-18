@@ -9,4 +9,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run the script
-        run: kotlin buildSrc/src/main/java/Experiment.kt
+        run: kotlin Experiment.kt
