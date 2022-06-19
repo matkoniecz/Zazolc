@@ -92,7 +92,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             for (licenced in knownLicenced) {
                 if (fileMatchesLicenceDeclaration(file.filePath.getName(), licenced.file)) {
                     if (matched) {
-                        System.err.println(file.filePath.toString() + " matched to " + licenced.file + " but was matched already!")
+                        System.err.println(file.filePath.toString() + " matched to " + licenced.file + " but was matched already! License info should not be ambiguous and matching to multiple files!")
                     } else {
                         billOfMaterials += LicencedFile(licenced, file)
                         matched = true
@@ -107,7 +107,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
                     if (containsSkippedFile(name)) {
                         println("skipping " + name + " as listed on files with known problems")
                     } else {
-                        System.err.println(file.filePath.toString() + " remained unmatched")
+                        System.err.println(file.filePath.toString() + " remained unmatched! It means that this file has no specified licensing status and is not on list of ignored ones. Likely it should be listed in authors.txt file")
                         System.err.println(name + " remained unmatched")
                         System.err.println()
                         problemsFound = true
@@ -117,7 +117,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         }
         for (licenced in knownLicenced) {
             if (licenced !in usedLicenced) {
-                System.err.println(licenced.file + " appears to be unused")
+                System.err.println(licenced.file + " appears to be unused credit line, either there is some type of this file was deleted and credit also should be removed.")
             }
         }
         if (problemsFound) {
