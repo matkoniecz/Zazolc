@@ -63,7 +63,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
 
         val root = "app/.."
         val knownLicenced = licencedMedia(root)
-        val mediaFiles = mediaNeedingLicenes(root)
+        val mediaFiles = mediaNeedingLicences(root)
         val usedLicenced = mutableListOf<LicenceData>()
         val billOfMaterials = mutableListOf<LicencedFile>()
 
@@ -179,7 +179,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         return knownLicenced
     }
 
-    private fun mediaNeedingLicenes(root: String): MutableList<MediaFile> {
+    private fun mediaNeedingLicences(root: String): MutableList<MediaFile> {
         val mediaFiles = mutableListOf<MediaFile>()
         File(root + "/app/src/main/res").walkTopDown().forEach {
             if (it.getName().contains(".")) {
@@ -214,13 +214,13 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
 
     private fun selfTest() {
         val matchingPairs = arrayOf(
-            mapOf("filename" to "surface_paving_stones_bad.jpg", "licensedIdentifier" to "surface_paving_stones_bad.jpg"),
-            mapOf("filename" to "recycling_container_underground.jpg", "licensedIdentifier" to "recycling_container_undergr..."),
-            mapOf("filename" to "barrier_passage.jpg", "licensedIdentifier" to "barrier_passage.jpg"),
-            mapOf("filename" to "text", "licensedIdentifier" to "text"),
+            mapOf("filename" to "surface_paving_stones_bad.jpg", "licencedIdentifier" to "surface_paving_stones_bad.jpg"),
+            mapOf("filename" to "recycling_container_underground.jpg", "licencedIdentifier" to "recycling_container_undergr..."),
+            mapOf("filename" to "barrier_passage.jpg", "licencedIdentifier" to "barrier_passage.jpg"),
+            mapOf("filename" to "text", "licencedIdentifier" to "text"),
         )
         for (pair in matchingPairs) {
-            if (!fileMatchesLicenceDeclaration(pair["filename"]!!, pair["licensedIdentifier"]!!)) { // TODO: !! should be not needed here
+            if (!fileMatchesLicenceDeclaration(pair["filename"]!!, pair["licencedIdentifier"]!!)) { // TODO: !! should be not needed here
                 throw Exception(pair.toString() + " failed to match")
             }
         }
