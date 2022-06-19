@@ -61,9 +61,8 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
     @TaskAction fun run() {
         selfTest()
 
-        val root = "app/.."
-        val knownLicenced = licencedMedia(root)
-        val mediaFiles = mediaNeedingLicences(root)
+        val knownLicenced = licencedMedia()
+        val mediaFiles = mediaNeedingLicences()
         val usedLicenced = mutableListOf<LicenceData>()
         val billOfMaterials = mutableListOf<LicencedFile>()
 
@@ -141,10 +140,10 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         return false
     }
 
-    private fun licencedMedia(root: String): MutableList<LicenceData> {
-        val firstLocation = root + "/res/graphics/authors.txt" // some noxious to process TODO: use
-        val secondLocation = root + "/app/src/main/assets/authors.txt" // bunch of special cases  TODO: use
-        val thirdLocation = root + "/app/src/main/res/authors.txt"
+    private fun licencedMedia(): MutableList<LicenceData> {
+        val firstLocation = "res/graphics/authors.txt" // some noxious to process TODO: use
+        val secondLocation = "app/src/main/assets/authors.txt" // bunch of special cases  TODO: use
+        val thirdLocation = "app/src/main/res/authors.txt"
         val inputStream: InputStream = File(thirdLocation).inputStream()
         val inputString = inputStream.bufferedReader().use { it.readText() }
         val knownLicenced = mutableListOf<LicenceData>()
@@ -179,9 +178,9 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         return knownLicenced
     }
 
-    private fun mediaNeedingLicences(root: String): MutableList<MediaFile> {
+    private fun mediaNeedingLicences(): MutableList<MediaFile> {
         val mediaFiles = mutableListOf<MediaFile>()
-        File(root + "/app/src/main/res").walkTopDown().forEach {
+        File("app/src/main/res").walkTopDown().forEach {
             if (it.getName().contains(".")) {
                 val split_extension = it.getName().split(".")
                 if (split_extension.size > 1) {
