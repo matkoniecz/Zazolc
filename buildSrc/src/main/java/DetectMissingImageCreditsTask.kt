@@ -89,7 +89,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         for (file in mediaFiles) {
             var matched = false
             for (licenced in knownLicenced) {
-                if (fileMatchesLicenceDeclaration(file.filePath.getName(), licenced.file)) {
+                if (fileMatchesLicenceDeclaration(file.filePath.name, licenced.file)) {
                     if (matched) {
                         System.err.println(file.filePath.toString() + " matched to " + licenced.file + " but was matched already! License info should not be ambiguous and matching to multiple files!")
                     } else {
@@ -101,13 +101,13 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
                 }
             }
             if (!matched) {
-                val name = file.filePath.getName()
+                val name = file.filePath.name
                 if (name !in publicDomainAsSimpleShapesFilenames()) {
                     if (containsSkippedFile(name)) {
-                        println("skipping " + name + " as listed on files with known problems")
+                        println("skipping $name as listed on files with known problems")
                     } else {
                         System.err.println(file.filePath.toString() + " remained unmatched! It means that this file has no specified licensing status and is not on list of ignored ones. Likely it should be listed in authors.txt file")
-                        System.err.println(name + " remained unmatched")
+                        System.err.println("$name remained unmatched")
                         System.err.println()
                         problemsFound = true
                     }
@@ -133,7 +133,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
     private fun containsSkippedFile(pattern: String): Boolean {
         for (file in filesWithKnownProblemsAndSkipped()) {
             if (pattern.contains(file)) {
-                println("skipping " + file + " as listed on files with known problems")
+                println("skipping $file as listed on files with known problems")
                 return true
             }
         }
@@ -163,16 +163,16 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
                     if (file.length > 0 && source.length > 0) {
                         knownLicenced += LicenceData(licence, file, source)
                     } else {
-                        println("either file or source is empty, so skipping the entire line: <" + line + "> file: <" + file + "> source: <" + source + ">")
+                        println("either file or source is empty, so skipping the entire line: <$line> file: <$file> source: <$source>")
                     }
                 }
             }
             if (containsSkippedFile(line)) {
                 skipped = true
-                println("skipping " + line + " as listed on files with known problems")
+                println("skipping $line as listed on files with known problems")
             }
-            if (licenceFound == null && skipped == false) {
-                throw Exception("unexpected licence in the input file was encountered, on " + line)
+            if (licenceFound == null && !skipped) {
+                throw Exception("unexpected licence in the input file was encountered, on $line")
             }
         }
         return knownLicenced
@@ -181,10 +181,10 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
     private fun mediaNeedingLicences(): MutableList<MediaFile> {
         val mediaFiles = mutableListOf<MediaFile>()
         File("app/src/main/res").walkTopDown().forEach {
-            if (it.getName().contains(".")) {
-                val split_extension = it.getName().split(".")
-                if (split_extension.size > 1) {
-                    var extension = split_extension.last()
+            if (it.name.contains(".")) {
+                val splitExtension = it.name.split(".")
+                if (splitExtension.size > 1) {
+                    val extension = splitExtension.last()
                     if (extension !in listOf("yaml", "yml", "xml", "txt")) {
                         mediaFiles += MediaFile(it)
                     }
