@@ -143,10 +143,6 @@ fun publicDomainAsSimpleShapesFilenames(): Array<String> {
         "ic_none.png")
 }
 
-fun cutoff(): Int {
-    return 30
-}
-
 fun containsSkippedFile(pattern: String): Boolean {
     for (file in filesWithKnownProblemsAndSkipped()) {
         if (pattern.contains(file)) {
