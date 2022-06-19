@@ -195,33 +195,21 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         return mediaFiles
     }
 
-    private fun truncatedfileMatchesLicenceDeclaration(fileName: String, licencedFile: String, truncationLength: Int): Boolean {
-        var truncatedFile = fileName
-        val lenghtLimit = licencedFile.length - truncationLength
-        if (truncatedFile.length >= lenghtLimit ) {
-            truncatedFile = truncatedFile.substring(0, lenghtLimit)
+    private fun fileMatchesLicenceDeclaration(fileName: String, licencedFile: String): Boolean {
+        if (licencedFile[licencedFile.length - 1] == '…') {
+            return fileMatchesShortenedLicenceDeclaration(fileName, licencedFile.substring(0, licencedFile.length - 1))
         }
-        var truncatedLicence = licencedFile
-        var removedPartFromLicenseInfo = ""
-        if (truncatedLicence.length >= lenghtLimit ) {
-            removedPartFromLicenseInfo = truncatedLicence.substring(lenghtLimit, truncatedLicence.length)
-            truncatedLicence = truncatedLicence.substring(0, lenghtLimit)
+        if (licencedFile.substring(licencedFile.length - 3, licencedFile.length) == "...") {
+            return fileMatchesShortenedLicenceDeclaration(fileName, licencedFile.substring(0, licencedFile.length - 3))
         }
-        for (letter in removedPartFromLicenseInfo) {
-            if ((letter != '.') and (letter != '…')) {
-                return false
-            }
-        }
-        return truncatedFile.equals(truncatedLicence)
+        return fileName == licencedFile
     }
 
-    private fun fileMatchesLicenceDeclaration(fileName: String, licencedFile: String): Boolean {
-        for (delta in listOf(0, 1, 2, 3)) {
-            if (truncatedfileMatchesLicenceDeclaration(fileName, licencedFile, delta) ) {
-                return true
-            }
+    private fun fileMatchesShortenedLicenceDeclaration(fileName: String, licencedFile: String): Boolean {
+        if (licencedFile.length > fileName.length) {
+            return false
         }
-        return false
+        return fileName.substring(0, licencedFile.length) == licencedFile
     }
 
     private fun selfTest() {
