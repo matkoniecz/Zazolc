@@ -175,7 +175,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
                     if (file.length > 0 && source.length > 0) {
                         knownLicenced += LicenceData(licence, file, source)
                     } else {
-                        println("line <" + line + "> skipped <" + file + "><" + source + ">")
+                        println("either file or source is empty, so skipping the entire line: <" + line + "> file: <" + file + "> source: <" + source + ">")
                     }
                 }
             }
