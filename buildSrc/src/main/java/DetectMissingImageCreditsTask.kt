@@ -10,6 +10,54 @@ This will try to report entries missing in StreetComplete image authorship file
 ./gradlew detectMissingImageCreditsTask
  */
 open class DetectMissingImageCreditsTask : DefaultTask() {
+    private fun filesWithKnownProblemsAndSkipped(): Array<String> {
+        // TODO: should be empty
+        return arrayOf(
+            "ic_link_cyclosm.xml", // https://github.com/cyclosm/cyclosm-cartocss-style/issues/615#issuecomment-1152875875
+            "ramp_wheelchair.jpg", "ramp_stroller.jpg", "ramp_none.jpg", "ramp_bicycle.jpg", // https://github.com/streetcomplete/StreetComplete/issues/4103
+            "location_nyan.png", "car_nyan.png", // note it as a a fair use in authors file? https://en.wikipedia.org/wiki/File:Nyan_cat_250px_frame.PNG
+            "ic_link_weeklyosm.png", // https://wiki.openstreetmap.org/wiki/File:Weeklyosm_red_cut.svg https://wiki.openstreetmap.org/wiki/File:Logo_weeklyOSM.svg
+            "plop0.wav",
+            "plop1.wav",
+            "plop2.wav",
+            "plop3.wav",
+
+            // maybe just note all of that as fair use?
+            "ic_link_thenandnow.png",
+            "ic_link_openstreetbrowser.png",
+            "ic_link_photon.png",
+            "ic_link_valhalla.png",
+            "ic_link_heigit.png", // https://wiki.openstreetmap.org/wiki/File:HeiGIT.svg
+            "ic_link_openstreetmap.png", // https://wiki.openstreetmap.org/wiki/File:Public-images-osm_logo.svg
+            "ic_link_openvegemap.png", // https://wiki.openstreetmap.org/wiki/OpenVegeMap
+            "ic_link_wheelmap.png", // https://wiki.openstreetmap.org/wiki/File:Wheelmap.org_logo.svg
+            "ic_link_osrm.png", // https://wiki.openstreetmap.org/wiki/File:OSRM-Logo.png
+            "ic_link_wiki.png", // https://wiki.openstreetmap.org/wiki/File:Wikilogo.png
+            "ic_link_graphhopper.png", // https://wiki.openstreetmap.org/wiki/GraphHopper
+            "ic_link_organic_maps.png", // https://github.com/organicmaps/organicmaps/discussions/1974#discussioncomment-2980726
+        )
+    }
+
+    private fun publicDomainAsSimpleShapesFilenames(): Array<String> {
+        return arrayOf("speech_bubble_top.9.png", "speech_bubble_start.9.png",
+            "speech_bubble_end.9.png", "speech_bubble_none.9.png",
+            "speech_bubble_bottom.9.png",
+            "speech_bubble_bottom_center.9.png",
+            "crosshair_marker.png", "location_direction.png",
+            "building_levels_illustration_bg_left.png",
+            "building_levels_illustration_bg_right.png",
+            "background_housenumber_frame_slovak.9.png", "pin.png",
+            "ic_star_white_shadow_32dp.png",
+            "ic_none.png")
+    }
+
+    private fun validLicences(): Array<String> {
+        // entries from https://spdx.org/licenses/
+        // and "SIL OFL-1.1" as alias for "OFL-1.1"
+        // and "fair use"
+        return arrayOf("Public Domain", "CC0", "CC-BY-SA 1.0", "CC-BY-SA 2.0", "CC-BY-SA 2.5", "CC-BY-SA 3.0", "CC-BY-SA 4.0", "CC-BY 2.0", "CC-BY 3.0", "CC-BY 4.0", "SIL OFL-1.1", "OFL-1.1", "GPL-2.0-only", "WTFPL", "fair use")
+    }
+
     @TaskAction fun run() {
         selfTest()
 
@@ -82,54 +130,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
     private class MediaFile(val filePath: File)
 
     private class LicencedFile(val licence: LicenceData, val file: MediaFile)
-
-    private fun validLicences(): Array<String> {
-        // entries from https://spdx.org/licenses/
-        // and "SIL OFL-1.1" as alias for "OFL-1.1"
-        // and "fair use"
-        return arrayOf("Public Domain", "CC0", "CC-BY-SA 1.0", "CC-BY-SA 2.0", "CC-BY-SA 2.5", "CC-BY-SA 3.0", "CC-BY-SA 4.0", "CC-BY 2.0", "CC-BY 3.0", "CC-BY 4.0", "SIL OFL-1.1", "OFL-1.1", "GPL-2.0-only", "WTFPL", "fair use")
-    }
-
-    private fun filesWithKnownProblemsAndSkipped(): Array<String> {
-        // TODO: should be empty
-        return arrayOf(
-            "ic_link_cyclosm.xml", // https://github.com/cyclosm/cyclosm-cartocss-style/issues/615#issuecomment-1152875875
-            "ramp_wheelchair.jpg", "ramp_stroller.jpg", "ramp_none.jpg", "ramp_bicycle.jpg", // https://github.com/streetcomplete/StreetComplete/issues/4103
-            "location_nyan.png", "car_nyan.png", // note it as a a fair use in authors file? https://en.wikipedia.org/wiki/File:Nyan_cat_250px_frame.PNG
-            "ic_link_weeklyosm.png", // https://wiki.openstreetmap.org/wiki/File:Weeklyosm_red_cut.svg https://wiki.openstreetmap.org/wiki/File:Logo_weeklyOSM.svg
-            "plop0.wav",
-            "plop1.wav",
-            "plop2.wav",
-            "plop3.wav",
-
-            // maybe just note all of that as fair use?
-            "ic_link_thenandnow.png",
-            "ic_link_openstreetbrowser.png",
-            "ic_link_photon.png",
-            "ic_link_valhalla.png",
-            "ic_link_heigit.png", // https://wiki.openstreetmap.org/wiki/File:HeiGIT.svg
-            "ic_link_openstreetmap.png", // https://wiki.openstreetmap.org/wiki/File:Public-images-osm_logo.svg
-            "ic_link_openvegemap.png", // https://wiki.openstreetmap.org/wiki/OpenVegeMap
-            "ic_link_wheelmap.png", // https://wiki.openstreetmap.org/wiki/File:Wheelmap.org_logo.svg
-            "ic_link_osrm.png", // https://wiki.openstreetmap.org/wiki/File:OSRM-Logo.png
-            "ic_link_wiki.png", // https://wiki.openstreetmap.org/wiki/File:Wikilogo.png
-            "ic_link_graphhopper.png", // https://wiki.openstreetmap.org/wiki/GraphHopper
-            "ic_link_organic_maps.png", // https://github.com/organicmaps/organicmaps/discussions/1974#discussioncomment-2980726
-        )
-    }
-
-    private fun publicDomainAsSimpleShapesFilenames(): Array<String> {
-        return arrayOf("speech_bubble_top.9.png", "speech_bubble_start.9.png",
-            "speech_bubble_end.9.png", "speech_bubble_none.9.png",
-            "speech_bubble_bottom.9.png",
-            "speech_bubble_bottom_center.9.png",
-            "crosshair_marker.png", "location_direction.png",
-            "building_levels_illustration_bg_left.png",
-            "building_levels_illustration_bg_right.png",
-            "background_housenumber_frame_slovak.9.png", "pin.png",
-            "ic_star_white_shadow_32dp.png",
-            "ic_none.png")
-    }
 
     private fun containsSkippedFile(pattern: String): Boolean {
         for (file in filesWithKnownProblemsAndSkipped()) {
