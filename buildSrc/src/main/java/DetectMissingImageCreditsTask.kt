@@ -97,8 +97,14 @@ fun filesWithKnownProblemsAndSkipped(): Array<String> {
         "ramp_wheelchair.jpg", "ramp_stroller.jpg", "ramp_none.jpg", "ramp_bicycle.jpg", // https://github.com/streetcomplete/StreetComplete/issues/4103
         "location_nyan.png", "car_nyan.png", // note it as a a fair use in authors file? https://en.wikipedia.org/wiki/File:Nyan_cat_250px_frame.PNG
         "ic_link_weeklyosm.png", // https://wiki.openstreetmap.org/wiki/File:Weeklyosm_red_cut.svg https://wiki.openstreetmap.org/wiki/File:Logo_weeklyOSM.svg
+        "plop0.wav",
+        "plop1.wav",
+        "plop2.wav",
+        "plop3.wav",
+
+        // maybe just note all of that as fair use?
         "ic_link_brouter.png",
-        "ic_link_heigit.png",
+        "ic_link_heigit.png", // https://wiki.openstreetmap.org/wiki/File:HeiGIT.svg
         "ic_link_learnosm.png",
         "ic_link_openstreetmap.png",
         "ic_link_osmhydrant.png",
@@ -108,23 +114,19 @@ fun filesWithKnownProblemsAndSkipped(): Array<String> {
         "ic_link_openvegemap.png", // https://wiki.openstreetmap.org/wiki/OpenVegeMap
         "ic_link_osmlab.png",
         "ic_link_sunders.png",
-        "ic_link_wheelmap.png",
+        "ic_link_wheelmap.png", // https://wiki.openstreetmap.org/wiki/File:Wheelmap.org_logo.svg
         "ic_link_figuregrounder.png",
         "ic_link_indoorequal.png",
         "ic_link_myosmatic.png",
         "ic_link_opnvkarte.png",
-        "ic_link_osrm.png",
+        "ic_link_osrm.png", // https://wiki.openstreetmap.org/wiki/File:OSRM-Logo.png
         "ic_link_thenandnow.png",
         "ic_link_wiki.png", // https://wiki.openstreetmap.org/wiki/File:Wikilogo.png
         "ic_link_graphhopper.png", // https://wiki.openstreetmap.org/wiki/GraphHopper
         "ic_link_openstreetbrowser.png",
-        "ic_link_organic_maps.png",
+        "ic_link_organic_maps.png", // https://github.com/organicmaps/organicmaps/discussions/1974#discussioncomment-2980726
         "ic_link_photon.png",
         "ic_link_valhalla.png",
-        "plop0.wav",
-        "plop1.wav",
-        "plop2.wav",
-        "plop3.wav",
     )
 }
 
