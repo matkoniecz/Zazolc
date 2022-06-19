@@ -103,18 +103,18 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "plop3.wav",
 
             // maybe just note all of that as fair use?
+            "ic_link_thenandnow.png",
+            "ic_link_openstreetbrowser.png",
+            "ic_link_photon.png",
+            "ic_link_valhalla.png",
             "ic_link_heigit.png", // https://wiki.openstreetmap.org/wiki/File:HeiGIT.svg
             "ic_link_openstreetmap.png", // https://wiki.openstreetmap.org/wiki/File:Public-images-osm_logo.svg
             "ic_link_openvegemap.png", // https://wiki.openstreetmap.org/wiki/OpenVegeMap
             "ic_link_wheelmap.png", // https://wiki.openstreetmap.org/wiki/File:Wheelmap.org_logo.svg
             "ic_link_osrm.png", // https://wiki.openstreetmap.org/wiki/File:OSRM-Logo.png
-            "ic_link_thenandnow.png",
             "ic_link_wiki.png", // https://wiki.openstreetmap.org/wiki/File:Wikilogo.png
             "ic_link_graphhopper.png", // https://wiki.openstreetmap.org/wiki/GraphHopper
-            "ic_link_openstreetbrowser.png",
             "ic_link_organic_maps.png", // https://github.com/organicmaps/organicmaps/discussions/1974#discussioncomment-2980726
-            "ic_link_photon.png",
-            "ic_link_valhalla.png",
         )
     }
 
