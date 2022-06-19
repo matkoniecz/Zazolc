@@ -5,11 +5,9 @@ import java.io.InputStream
 import kotlin.system.exitProcess
 
 /*
-To check whether StreetComplete authorship file contains all required credit run:
+This will try to report entries missing in StreetComplete image authorship file
 
-`kotlinc DetectMissingImageCreditsTask.kt -include-runtime -d out.jar` compiles Kotlin script
-
-`java -jar out.jar` run compiled script
+./gradlew detectMissingImageCreditsTask
  */
 open class DetectMissingImageCreditsTask : DefaultTask() {
     @TaskAction fun run() {
