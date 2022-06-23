@@ -35,6 +35,37 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "ic_link_wiki.png", // https://wiki.openstreetmap.org/wiki/File:Wikilogo.png
             "ic_link_graphhopper.png", // https://wiki.openstreetmap.org/wiki/GraphHopper
             "ic_link_organic_maps.png", // https://github.com/organicmaps/organicmaps/discussions/1974#discussioncomment-2980726
+
+            // res/graphics/building - TODO ask Tobias, check sources
+            "fire_truck.svg",
+            "ruins.svg",
+            "abandoned.svg",
+            "allotment_house.svg",
+            "silo.svg",
+            "boathouse.svg",
+            "historic.svg",
+
+            // res/graphics/quest - TODO ask Tobias, check sources
+            "no_cow.svg",
+            "kerb_type.svg",
+            "no_cars.svg",
+
+            // res/graphics/achievement
+            "pedestrian.svg",
+            "citizen.svg",
+            "car.svg",
+            "first_edit.svg",
+            "bicyclist.svg",
+            "rare.svg",
+            "lifesaver.svg",
+            "tourist.svg",
+            "regular.svg",
+            "shine.svg",
+            "achievement_frame.svg",
+            "surveyor.svg",
+            "outdoors.svg",
+            "veg.svg",
+            "postman.svg",
         )
     }
 
@@ -48,7 +79,51 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "building_levels_illustration_bg_right.png",
             "background_housenumber_frame_slovak.9.png", "pin.png",
             "ic_star_white_shadow_32dp.png",
-            "ic_none.png")
+            "ic_none.png",
+            
+            //res/graphics/street parking
+            "street_shoulder.svg",
+            "street_shoulder_broad.svg",
+            "street_very_narrow.svg",
+            "street_none.svg",
+            "street_narrow.svg",
+            "street.svg",
+            "street_broad.svg",
+
+            // res/graphics/street parking/street edge marking
+            "yellow_dashes.svg",
+            "yellow_dash_x.svg",
+            "yellow_zig_zag.svg",
+            "double_yellow_zig_zag.svg",
+            "yellow_on_curb.svg",
+            "yellow_dashes_on_curb.svg",
+            "yellow.svg",
+            "red_double.svg",
+            "red_on_curb.svg",
+            "white_on_curb.svg",
+            "yellow_white_dashes_on_curb.svg",
+            "red.svg",
+            "yellow_double.svg",
+            "red_white_dashes_on_curb.svg",
+
+
+            // res/graphics/shoulder
+            "white_line.svg",
+            "short_white_dashes.svg",
+            "white_dashes.svg",
+            "yellow_line.svg",
+            "two_yellow_lines.svg",
+            "short_yellow_dashes.svg",
+
+            // res/graphics/cycleway
+            "none.svg",
+
+            // res/graphics/religion
+            "christian.svg",
+
+            // res/graphics/undo
+            "delete.svg",
+            )
     }
 
     private fun validLicences(): Array<String> {
@@ -140,13 +215,39 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         return false
     }
 
-    private fun licencedMedia(): MutableList<LicenceData> {
+    private fun licencedMedia(): List<LicenceData> {
+        val knownLicenced = mutableListOf<LicenceData>()
         val firstLocation = "res/graphics/authors.txt" // some noxious to process TODO: use
         val secondLocation = "app/src/main/assets/authors.txt" // bunch of special cases  TODO: use
-        val thirdLocation = "app/src/main/res/authors.txt"
-        val inputStream: InputStream = File(thirdLocation).inputStream()
-        val inputString = inputStream.bufferedReader().use { it.readText() }
+
+        val firstInputStream: InputStream = File(firstLocation).inputStream()
+        val secondInputStream: InputStream = File(secondLocation).inputStream()
+        val firstInputString = firstInputStream.bufferedReader().use { it.readText() }
+        val secondInputString = secondInputStream.bufferedReader().use { it.readText() }
+        var folder: String? = null
+        for (entire_line in (firstInputString.split("\n").drop(8) + secondInputString.split("\n").drop(8))) { // remove header lines
+            val line = entire_line.trim()
+            if (line.length == 0) {
+                continue
+            }
+            val splitted = line.split(" ")
+            val file = splitted[0].trim()
+            if("/" in file) {
+                folder = file
+                continue
+            }
+            val source = "?"
+            val licence = "?"
+            knownLicenced += LicenceData(licence, file, source)
+        }
+        return knownLicenced + licencedMediaInApplicationResourceFile()
+    }
+
+    private fun licencedMediaInApplicationResourceFile(): MutableList<LicenceData> {
+        val location = "app/src/main/res/authors.txt"
         val knownLicenced = mutableListOf<LicenceData>()
+        val inputStream: InputStream = File(location).inputStream()
+        val inputString = inputStream.bufferedReader().use { it.readText() }
         for (entire_line in inputString.split("\n").drop(3)) { // remove header lines
             var skipped = false
             val line = entire_line.trim()
@@ -180,13 +281,17 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
 
     private fun mediaNeedingLicences(): MutableList<MediaFile> {
         val mediaFiles = mutableListOf<MediaFile>()
-        File("app/src/main/res").walkTopDown().forEach {
-            if (it.name.contains(".")) {
-                val splitExtension = it.name.split(".")
-                if (splitExtension.size > 1) {
-                    val extension = splitExtension.last()
-                    if (extension !in listOf("yaml", "yml", "xml", "txt")) {
-                        mediaFiles += MediaFile(it)
+        for(path in arrayOf("app/", "res/")) {
+            File(path).walkTopDown().forEach {
+                if (!("app/build/" in it.path)) {
+                    if (it.name.contains(".")) {
+                        val splitExtension = it.name.split(".")
+                        if (splitExtension.size > 1) {
+                            val extension = splitExtension.last()
+                            if (extension !in listOf("yaml", "yml", "xml", "txt", "json", "jar", "kt", "bin", "md")) {
+                                mediaFiles += MediaFile(it)
+                            }
+                        }
                     }
                 }
             }
