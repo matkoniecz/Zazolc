@@ -48,6 +48,7 @@ import de.westnordost.streetcomplete.quests.clothing_bin_operator.AddClothingBin
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedBuildingConstruction
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedHighwayConstruction
 import de.westnordost.streetcomplete.quests.crossing.AddCrossing
+import de.westnordost.streetcomplete.quests.building_entrance_reference.AddEntranceReference
 import de.westnordost.streetcomplete.quests.crossing_island.AddCrossingIsland
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType
 import de.westnordost.streetcomplete.quests.cycleway.AddCycleway
@@ -213,7 +214,7 @@ fun questTypeRegistry(
     AddMemorialType(),
 
     // bus stop quests
-    AddBusStopShelter(),  // used by at least OsmAnd
+    AddBusStopShelter(), // used by at least OsmAnd
     AddBenchStatusOnBusStop(), // can be seen from across the street
     AddBinStatusOnBusStop(), // can be seen from across the street
     AddTactilePavingBusStop(), // requires you to be very close to it
@@ -366,13 +367,14 @@ fun questTypeRegistry(
     AddOneway(),
     AddSuspectedOneway(trafficFlowSegmentsApi, trafficFlowDao),
 
+    AddEntrance(),
+    AddEntranceReference(),
+
     /* ↓ 3.quests that may need some exploration / walking around --------------------------- */
 
     // ferry: usually visible from looking at the boat, but not always...
     AddFerryAccessPedestrian(),
     AddFerryAccessMotorVehicle(),
-
-    AddEntrance(),
 
     AddProhibitedForPedestrians(), // need to understand the pedestrian situation
 

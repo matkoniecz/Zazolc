@@ -35,8 +35,8 @@ android {
         applicationId = "de.westnordost.streetcomplete"
         minSdk = 21
         targetSdk = 31
-        versionCode = 4500
-        versionName = "45.0-alpha1"
+        versionCode = 4501
+        versionName = "45.0-beta1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -97,7 +97,8 @@ if (keystorePropertiesFile.exists()) {
 repositories {
     google()
     mavenCentral()
-    jcenter {
+    maven {
+        url = uri("https://jcenter.bintray.com/")
         content {
             includeGroup("org.sufficientlysecure")
         }
@@ -212,9 +213,9 @@ val bcp47ExportLanguages = setOf(
 )
 
 // see https://github.com/osmlab/name-suggestion-index/tags for latest version
-val nsiVersion = "v6.0.20220530"
+val nsiVersion = "v6.0.20220613"
 // see https://github.com/openstreetmap/id-tagging-schema/releases for latest version
-val presetsVersion = "v3.2.2"
+val presetsVersion = "v3.3.0"
 
 tasks.register("updateAvailableLanguages") {
     group = "streetcomplete"
