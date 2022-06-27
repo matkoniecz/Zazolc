@@ -49,38 +49,59 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "no_cow.svg",
             "kerb_type.svg",
             "no_cars.svg",
+            "halal.svg", // see https://github.com/streetcomplete/StreetComplete/commits/6e419923e6732030a7d41196676230b242c92ece/res/graphics/quest%20icons/halal.svg?browsing_rename_history=true&new_path=res/graphics/quest/halal.svg&original_branch=master for ping
 
-            // res/graphics/achievement
-            "pedestrian.svg",
-            "citizen.svg",
-            "car.svg",
-            "first_edit.svg",
-            "bicyclist.svg",
-            "rare.svg",
-            "lifesaver.svg",
-            "tourist.svg",
-            "regular.svg",
-            "shine.svg",
-            "achievement_frame.svg",
-            "surveyor.svg",
-            "outdoors.svg",
-            "veg.svg",
-            "postman.svg",
+            // Tobias - sole or used something else?
+            "card.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/card.svg
+
+            "check.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/check.svg
+            "door.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/door.svg
+            "seating.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/seating.svg
+            "bin.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bin.svg
+            "bench.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bench.svg
+            "water.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/water.svg
+            "bicycle_pump.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bicycle_pump.svg
+
+            // res/graphics/living street
+            // definitely fine, just not sure why (traffic signs transformed by Tobias)
+            "australia.svg",
+            "default.svg",
+            "france.svg",
+            "mexico.svg",
+            "portrait.svg",
+            "sadc.svg",
+
         )
     }
 
     private fun publicDomainAsSimpleShapesFilenames(): Array<String> {
-        return arrayOf("speech_bubble_top.9.png", "speech_bubble_start.9.png",
-            "speech_bubble_end.9.png", "speech_bubble_none.9.png",
+        return arrayOf(
+            "speech_bubble_top.9.png",
+            "speech_bubble_top.9.svg",
+            "speech_bubble_start.9.png",
+            "speech_bubble_end.9.png",
+            "speech_bubble_none.9.png",
+            "speech_bubble_none.9.svg",
             "speech_bubble_bottom.9.png",
             "speech_bubble_bottom_center.9.png",
+            "speech_bubble_bottom_center.9.svg",
+            "speech_bubble_left.9.svg",
             "crosshair_marker.png", "location_direction.png",
             "building_levels_illustration_bg_left.png",
             "building_levels_illustration_bg_right.png",
             "background_housenumber_frame_slovak.9.png", "pin.png",
             "ic_star_white_shadow_32dp.png",
             "ic_none.png",
-            
+
+            // res/graphics/oneway/no entry signs
+            "arrow.svg",
+            "default.svg",
+            "do_not_enter.svg",
+            "no_entre.svg",
+            "no_entry.svg",
+            "no_entry_on_white.svg",
+            "yellow.svg",
+
             //res/graphics/street parking
             "street_shoulder.svg",
             "street_shoulder_broad.svg",
@@ -89,6 +110,10 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "street_narrow.svg",
             "street.svg",
             "street_broad.svg",
+
+            // res/graphics/street parking/bi-weekly no parking sign/
+            "no_parking_first_half_of_month.svg",
+            "no_parking_second_half_of_month.svg",
 
             // res/graphics/street parking/street edge marking
             "yellow_dashes.svg",
@@ -106,6 +131,21 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "yellow_double.svg",
             "red_white_dashes_on_curb.svg",
 
+            // res/graphics/street parking/no parking sign
+            "australia.svg",
+            "mutcd_latin.svg",
+            "mutcd.svg",
+            "mutcd_text_spanish.svg",
+            "mutcd_text.svg",
+            "sadc.svg",
+            "taiwan.svg",
+            "vienna.svg",
+            "vienna_variant.svg",
+
+            // res/graphics/street parking/alternate side parking sign
+            "alternate_parking_on_days.svg",
+            "no_parking_on_even_days.svg",
+            "no_parking_on_odd_days.svg",
 
             // res/graphics/shoulder
             "white_line.svg",
@@ -121,8 +161,22 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             // res/graphics/religion
             "christian.svg",
 
+            // res/graphics/sidewalk
+            "illustration_yes.svg",
+            "illustration_no.svg",
+            "separate.svg",
+            "separate_floating.svg",
+
             // res/graphics/undo
             "delete.svg",
+
+            // app/src/main/assets/map_theme/jawg/images
+            "oneway_arrow@2x.png",
+            "pin_dot@2x.png",
+
+            // res/graphics
+            "compass_needle.svg",
+            "1x1-transparent.png", // such small can be skipped automatically, probably
             )
     }
 
