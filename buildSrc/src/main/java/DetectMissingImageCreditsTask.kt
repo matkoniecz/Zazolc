@@ -281,13 +281,15 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         return
         */
 
-        var problemsFound = false
+        var problemsFoundCount = 0
+        var skippedProblemsFoundCount = 0
         for (file in mediaFiles) {
             var matched = false
             for (licenced in knownLicenced) {
-                if (fileMatchesLicenceDeclaration(file.filePath.name, licenced.file)) {
+                if (fileMatchesLicenceDeclaration(file.filePath, licenced)) {
                     if (matched) {
                         System.err.println(file.filePath.toString() + " matched to " + licenced.file + " but was matched already! License info should not be ambiguous and matching to multiple files!")
+                        problemsFoundCount += 1
                     } else {
                         billOfMaterials += LicencedFile(licenced, file)
                         matched = true
@@ -301,27 +303,33 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
                 if (name !in publicDomainAsSimpleShapesFilenames()) {
                     if (containsSkippedFile(name)) {
                         println("skipping $name as listed on files with known problems")
+                        skippedProblemsFoundCount += 1
                     } else {
-                        System.err.println(file.filePath.toString() + " remained unmatched! It means that this file has no specified licensing status and is not on list of ignored ones. Likely it should be listed in authors.txt file")
+                        System.err.println(file.filePath.toString() + ",")
                         System.err.println("$name remained unmatched")
                         System.err.println()
-                        problemsFound = true
+                        problemsFoundCount += 1
                     }
                 }
             }
         }
         for (licenced in knownLicenced) {
             if (licenced !in usedLicenced) {
-                System.err.println(licenced.file + " appears to be unused credit line, either there is some type of this file was deleted and credit also should be removed.")
+                System.err.println(licenced.file + " with path filter " + licenced.folderPathFilter + " from " + licenced.source + " appears to be credit for nonexisting file, either there is some typo or this file was deleted and credit also should be removed.")
+                problemsFoundCount += 1
             }
         }
-        if (problemsFound) {
-            System.err.println("problems found with licensing - will exit with an error now")
+        if (problemsFoundCount > 0) {
+            System.err.println((problemsFoundCount + skippedProblemsFoundCount).toString() + " problems, including $problemsFoundCount not even skipped problems, found with licensing - will exit with an error now")
             exitProcess(10)
+        } else if (skippedProblemsFoundCount > 0) {
+            System.err.println("$skippedProblemsFoundCount problems found with licensing - but only ones silensed (still should be fixed)")
+        } else {
+            System.err.println("No problems found with licensing")
         }
     }
 
-    private class LicenceData(val licence: String, val file: String, val source: String)
+    private class LicenceData(val licence: String, val folderPathFilter: String, val file: String, val source: String)
 
     private class MediaFile(val filePath: File)
 
@@ -339,36 +347,53 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
 
     private fun licencedMedia(): List<LicenceData> {
         val knownLicenced = mutableListOf<LicenceData>()
-        val firstLocation = "res/graphics/authors.txt" // some noxious to process TODO: use
-        val secondLocation = "app/src/main/assets/authors.txt" // bunch of special cases  TODO: use
+        val firstLocation = "res/graphics"
+        val secondLocation = "app/src/main/assets"
 
-        val firstInputStream: InputStream = File(firstLocation).inputStream()
-        val secondInputStream: InputStream = File(secondLocation).inputStream()
-        val firstInputString = firstInputStream.bufferedReader().use { it.readText() }
-        val secondInputString = secondInputStream.bufferedReader().use { it.readText() }
+        knownLicenced += licensedMediaGreedyScan(firstLocation, 8)
+        knownLicenced += licensedMediaGreedyScan(secondLocation, 8)
+        return knownLicenced + licencedMediaInApplicationResourceFile()
+    }
+
+    private fun licensedMediaGreedyScan(folderPath: String, skippedLines: Int):  MutableList<LicenceData> {
+        val source = "$folderPath/authors.txt"
+        val inputStream: InputStream = File(source).inputStream()
+        val inputString = inputStream.bufferedReader().use { it.readText() }
+        val lines: List<String> = inputString.split("\n").drop(skippedLines)
+        val knownLicenced = mutableListOf<LicenceData>()
         var folder: String? = null
-        for (entire_line in (firstInputString.split("\n").drop(8) + secondInputString.split("\n").drop(8))) { // remove header lines
+        for (entire_line in lines) { // remove header lines
+            if (entire_line.indexOf("                                ") == 0) {
+                // continuation of previous line due to overly long line - should be skipped
+                // TODO: merge such line with previous ones for processing
+                continue
+            }
             val line = entire_line.trim()
             if (line.length == 0) {
+                folder = null
+                continue
+            }
+            if (line[line.length - 1] == '/') {
+                folder = line
                 continue
             }
             val splitted = line.split(" ")
             val file = splitted[0].trim()
-            if("/" in file) {
-                folder = file
-                continue
-            }
-            val source = "?"
             val licence = "?"
-            knownLicenced += LicenceData(licence, file, source)
+            val filter = if (folder == null) {
+                folderPath
+            } else {
+                "$folderPath/$folder"
+            }
+            knownLicenced += LicenceData(licence, filter, file, source)
         }
-        return knownLicenced + licencedMediaInApplicationResourceFile()
+        return knownLicenced
     }
 
     private fun licencedMediaInApplicationResourceFile(): MutableList<LicenceData> {
-        val location = "app/src/main/res/authors.txt"
+        val location = "app/src/main/res"
         val knownLicenced = mutableListOf<LicenceData>()
-        val inputStream: InputStream = File(location).inputStream()
+        val inputStream: InputStream = File(location + "/authors.txt").inputStream()
         val inputString = inputStream.bufferedReader().use { it.readText() }
         for (entire_line in inputString.split("\n").drop(3)) { // remove header lines
             var skipped = false
@@ -384,7 +409,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
                     val source = splitted[1].trim()
                     licenceFound = licence
                     if (file.length > 0 && source.length > 0) {
-                        knownLicenced += LicenceData(licence, file, source)
+                        knownLicenced += LicenceData(licence, location, file, source)
                     } else {
                         println("either file or source is empty, so skipping the entire line: <$line> file: <$file> source: <$source>")
                     }
@@ -410,7 +435,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
                         val splitExtension = it.name.split(".")
                         if (splitExtension.size > 1) {
                             val extension = splitExtension.last()
-                            if (extension !in listOf("yaml", "yml", "xml", "txt", "json", "jar", "kt", "bin", "md")) {
+                            if (extension !in listOf("yaml", "yml", "xml", "txt", "json", "jar", "kt", "kts", "bin", "md", "gitignore", "MockMaker")) {
                                 mediaFiles += MediaFile(it)
                             }
                         }
@@ -421,7 +446,29 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         return mediaFiles
     }
 
-    private fun fileMatchesLicenceDeclaration(fileName: String, licencedFile: String): Boolean {
+    private fun fileMatchesLicenceDeclaration(file: File, licencedData: LicenceData): Boolean {
+        /*
+        if ("cable-stayed" in file.name || "flask" in file.name) {
+            if (licencedData.folderPathFilter !in file.path) {
+                println("<<<<<<<<<<<<<<<<<<")
+                println(licencedData.folderPathFilter)
+                println("is not in")
+                println(file.path)
+                println(">>>>>>>>>>>>>>>>>>>>>>>>")
+            } else {
+                println("<<-----")
+                println(licencedData.folderPathFilter)
+                println("is in")
+                println(file.path)
+                println(">>-----")
+            }
+        }
+         */
+        if (licencedData.folderPathFilter !in file.path) {
+            return false
+        }
+        val fileName = file.name
+        val licencedFile = licencedData.file
         if (licencedFile[licencedFile.length - 1] == '…') {
             return fileMatchesShortenedLicenceDeclaration(fileName, licencedFile.substring(0, licencedFile.length - 1))
         }
@@ -446,8 +493,8 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             mapOf("filename" to "text", "licencedIdentifier" to "text"),
         )
         for (pair in matchingPairs) {
-            if (!fileMatchesLicenceDeclaration(pair["filename"]!!, pair["licencedIdentifier"]!!)) { // TODO: !! should be not needed here
-                throw Exception(pair.toString() + " failed to match")
+            if (!fileMatchesLicenceDeclaration(File("path/" + pair["filename"]!!), LicenceData("license", "path", pair["licencedIdentifier"]!!, "source"))) { // TODO: !! should be not needed here
+                throw Exception("$pair failed to match")
             }
         }
     }
