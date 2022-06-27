@@ -249,6 +249,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             }
         }
         if (problemsFound) {
+            System.err.println("problems found with licensing - will exit with an error now")
             exitProcess(10)
         }
     }
