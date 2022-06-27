@@ -45,6 +45,24 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "boathouse.svg",
             "historic.svg",
 
+            // res/graphics/pins/
+            "clock.svg",
+            "parking.svg",
+            "motorcycle_parking.svg",
+            "money.svg",
+            "toilets.svg",
+            "car_charger.svg",
+            "bicycle_parking.svg",
+            "phone.svg",
+            "fire_hydrant.svg",
+            "bollard.svg",
+            "recycling_container.svg",
+            "picnic_table.svg",
+            "power.svg",
+            "book.svg",
+            "crossing.svg",
+            "defibrillator.svg",
+
             // res/graphics/quest - TODO ask Tobias, check sources
             "no_cow.svg",
             "kerb_type.svg",
@@ -61,6 +79,36 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "bench.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bench.svg
             "water.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/water.svg
             "bicycle_pump.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bicycle_pump.svg
+            "crown.svg",
+            "no_bicycles.svg", // https://github.com/streetcomplete/StreetComplete/commit/756433648af92b17e319c01b85f815b24766c114
+            "board_type.svg",
+            "surveillance_camera.svg",
+            "steps_count.svg",
+            "steps_count_brown.svg",
+            "way_surface_detail.svg",
+            "bicycleway_surface_detail.svg",
+            "footway_surface.svg",
+            "sidewalk_surface.svg",
+            "mail.svg",
+            "bus_stop_lit.svg",
+            "surveillance.svg",
+            "police.svg",
+            "car_air_compressor.svg",
+            "bicycle_second_hand.svg",
+            "fuel_self_service.svg",
+            "check_shop.svg",
+            "pitch_lantern.svg",
+            "picnic_table_cover.svg",
+            "recycling_clothes.svg",
+            "door_address.svg",
+            "kerb_tactile_paving.svg",
+            "bicycle_parking_fee.svg",
+            "fire_hydrant_grass.svg",
+            "bicycle_rental.svg",
+            "bicycle_repair.svg",
+            "bicycle_parking_access.svg",
+            "fee.svg",
+            "max_height_measure.svg",
 
             // res/graphics/living street
             // definitely fine, just not sure why (traffic signs transformed by Tobias)
@@ -71,6 +119,12 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "portrait.svg",
             "sadc.svg",
 
+            // res/documentation
+            // skipped for now
+            "get_poeditor_cookie.png",
+            "how-it-handles edits.odp",
+            "overview_data_flow.svg",
+            "overview_data_flow.drawio",
         )
     }
 
@@ -110,6 +164,7 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "street_narrow.svg",
             "street.svg",
             "street_broad.svg",
+            "fat_footnote.svg",
 
             // res/graphics/street parking/bi-weekly no parking sign/
             "no_parking_first_half_of_month.svg",
@@ -142,12 +197,24 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "vienna.svg",
             "vienna_variant.svg",
 
+            // res/graphics/street parking/no stopping sign
+            "australia.svg",
+            "canada.svg",
+            "colombia.svg",
+            "israel.svg",
+            "mutcd_latin.svg",
+            "mutcd.svg",
+            "mutcd_text_spanish.svg",
+            "mutcd_text.svg",
+            "vienna.svg",
+
             // res/graphics/street parking/alternate side parking sign
             "alternate_parking_on_days.svg",
             "no_parking_on_even_days.svg",
             "no_parking_on_odd_days.svg",
 
             // res/graphics/shoulder
+            "no.svg",
             "white_line.svg",
             "short_white_dashes.svg",
             "white_dashes.svg",
