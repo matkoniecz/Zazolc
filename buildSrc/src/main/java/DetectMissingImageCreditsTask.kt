@@ -543,12 +543,15 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             }
         }
          */
-        if (licencedData.folderPathFilter !in file.path) {
-            if (".." in licencedData.folderPathFilter) {
-                // once such relative paths will start having conflict something smart will need to be implemented
-                // no need for that for now
-                return false
-            }
+        var filterTakenIntoAccount = licencedData.folderPathFilter
+        while (filterTakenIntoAccount.indexOf("..") != -1) {
+            val cut_start = filterTakenIntoAccount.indexOf("..") + 3
+            filterTakenIntoAccount = filterTakenIntoAccount.substring(cut_start, filterTakenIntoAccount.length - 1)
+            // once such relative paths will start having conflict something smart will need to be implemented
+            // no need for that for now, only part after last /../ is processed
+        }
+        if (filterTakenIntoAccount !in file.path) {
+            return false
         }
         val fileName = file.name
         val licencedFile = licencedData.file
