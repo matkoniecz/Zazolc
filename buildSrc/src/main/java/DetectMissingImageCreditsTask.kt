@@ -11,113 +11,151 @@ This will try to report entries missing in StreetComplete image authorship file
  */
 open class DetectMissingImageCreditsTask : DefaultTask() {
     private fun filesWithKnownProblemsAndSkipped(): Array<String> {
+/*
+Fix copyright credits
+
+Credit Tobias Zwick where missing (confirmed with him that he is the author)
+Add some missing credits
+Fix attribution after more file renames
+Fix typos such as no_bicycles.svg vs no_bicycle.svg
+
+All changes were verified
+*/
+        // TODO: detect missing .SVG drawables
+        // is each app/src/main/res/drawable having a matching SVG being stored?
+/*
+./app/src/main/res/drawable/ic_quest_lantern.xml
+./res/graphics/quest/lantern.svg
+
+./app/src/main/res/drawable/ic_quest_pitch_lantern.xml
+./res/graphics/quest/pitch_lantern.svg
+*/
+
         // TODO: should be empty
         return arrayOf(
-            "ic_link_cyclosm.xml", // https://github.com/cyclosm/cyclosm-cartocss-style/issues/615#issuecomment-1152875875
+            //////////////////////////////////////////////
+            //////////////////////////////////////////////
+            // issue on the StreetComplete bug tracker was created
+            //////////////////////////////////////////////
+            //////////////////////////////////////////////
+
             "ramp_wheelchair.jpg", "ramp_stroller.jpg", "ramp_none.jpg", "ramp_bicycle.jpg", // https://github.com/streetcomplete/StreetComplete/issues/4103
-            "location_nyan.png", "car_nyan.png", // note it as a a fair use in authors file? https://en.wikipedia.org/wiki/File:Nyan_cat_250px_frame.PNG
-            "ic_link_weeklyosm.png", // https://wiki.openstreetmap.org/wiki/File:Weeklyosm_red_cut.svg https://wiki.openstreetmap.org/wiki/File:Logo_weeklyOSM.svg
+
+            //////////////////////////////////////////////
+            //////////////////////////////////////////////
+            // uploaders contacted recently and/or media is safe but with not specified source
+            //////////////////////////////////////////////
+            //////////////////////////////////////////////
+
+            // contacted FloEdelmann on https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
+            "bin_public_transport.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bin_public_transport.svg - note that it was later edited
+            // https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
+            "bin.svg", // pin - https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
+            "picnic_table_cover.svg", // https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
+            "bicycle_parking_access.svg", // https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
+            "bicycle_rental_capacity",// https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bicycle_rental_capacity.svg https://github.com/streetcomplete/StreetComplete/commit/396dfbb7b6805f28de893eaf1e77960f85e177e2#diff-8cecc5df0db2b095b9deff1360855887da42441340b1d83e75648f39f2971a09
+
+            // Contacted Naposm on https://github.com/streetcomplete/StreetComplete/pull/2675#issuecomment-1168967696
+            "costiera.svg", // https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281 https://commons.wikimedia.org/wiki/File:Guardia_Costiera.svg
+             "police.svg",  // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/police.svg https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281
+            "fuel_self_service.svg",  // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/fuel_self_service.svg https://github.com/streetcomplete/StreetComplete/commit/dbc19c8651cd987acb4044343c5d07c5d2ff56e6
+
+            //////////////////////////////////////////////
+            //////////////////////////////////////////////
+            // safe, but failed to track down actual source
+            //////////////////////////////////////////////
+            //////////////////////////////////////////////
+
+            // https://github.com/streetcomplete/StreetComplete/pull/1641#issuecomment-554031078
             "plop0.wav",
             "plop1.wav",
             "plop2.wav",
             "plop3.wav",
 
-            // maybe just note all of that as fair use?
-            "ic_link_thenandnow.png",
-            "ic_link_openstreetbrowser.png",
-            "ic_link_photon.png",
-            "ic_link_valhalla.png",
-            "ic_link_heigit.png", // https://wiki.openstreetmap.org/wiki/File:HeiGIT.svg
-            "ic_link_openstreetmap.png", // https://wiki.openstreetmap.org/wiki/File:Public-images-osm_logo.svg
-            "ic_link_openvegemap.png", // https://wiki.openstreetmap.org/wiki/OpenVegeMap
-            "ic_link_wheelmap.png", // https://wiki.openstreetmap.org/wiki/File:Wheelmap.org_logo.svg
-            "ic_link_osrm.png", // https://wiki.openstreetmap.org/wiki/File:OSRM-Logo.png
-            "ic_link_wiki.png", // https://wiki.openstreetmap.org/wiki/File:Wikilogo.png
-            "ic_link_graphhopper.png", // https://wiki.openstreetmap.org/wiki/GraphHopper
-            "ic_link_organic_maps.png", // https://github.com/organicmaps/organicmaps/discussions/1974#discussioncomment-2980726
+            //////////////////////////////////////////////
+            //////////////////////////////////////////////
+            // ongoing processing
+            //////////////////////////////////////////////
+            //////////////////////////////////////////////
 
-            // res/graphics/building - TODO ask Tobias, check sources
-            "fire_truck.svg",
-            "ruins.svg",
-            "abandoned.svg",
-            "allotment_house.svg",
-            "silo.svg",
-            "boathouse.svg",
-            "historic.svg",
+
+            /*
+            https://github.com/streetcomplete/StreetComplete/discussions/new
+            More copyright botherings
+            @westnordost
+
+Sorry for bothering you about this, but some of media that were likely created fully by you are missing copyright info. Can you confirm that you took this photos?
+
+            */
+
+
+            "location_nyan.png", "car_nyan.png", // note it as a a fair use in authors file? https://en.wikipedia.org/wiki/File:Nyan_cat_250px_frame.PNG
 
             // res/graphics/pins/
             "clock.svg",
-            "parking.svg",
-            "motorcycle_parking.svg",
-            "money.svg",
-            "toilets.svg",
-            "car_charger.svg",
-            "bicycle_parking.svg",
-            "phone.svg",
-            "fire_hydrant.svg",
-            "bollard.svg",
-            "recycling_container.svg",
             "picnic_table.svg",
-            "power.svg",
             "book.svg",
             "crossing.svg",
-            "defibrillator.svg",
 
             // res/graphics/quest - TODO ask Tobias, check sources
-            "no_cow.svg",
-            "kerb_type.svg",
-            "no_cars.svg",
+            
             "halal.svg", // see https://github.com/streetcomplete/StreetComplete/commits/6e419923e6732030a7d41196676230b242c92ece/res/graphics/quest%20icons/halal.svg?browsing_rename_history=true&new_path=res/graphics/quest/halal.svg&original_branch=master for ping
 
             // Tobias - sole or used something else?
-            "card.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/card.svg
+            /*
 
-            "check.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/check.svg
-            "door.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/door.svg
-            "seating.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/seating.svg
-            "bin.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bin.svg
-            "bench.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bench.svg
-            "water.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/water.svg
-            "bicycle_pump.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bicycle_pump.svg
-            "crown.svg",
-            "no_bicycles.svg", // https://github.com/streetcomplete/StreetComplete/commit/756433648af92b17e319c01b85f815b24766c114
-            "board_type.svg",
-            "surveillance_camera.svg",
-            "steps_count.svg",
-            "steps_count_brown.svg",
-            "way_surface_detail.svg",
-            "bicycleway_surface_detail.svg",
-            "footway_surface.svg",
-            "sidewalk_surface.svg",
-            "mail.svg",
-            "bus_stop_lit.svg",
-            "surveillance.svg",
-            "police.svg",
-            "car_air_compressor.svg",
-            "bicycle_second_hand.svg",
-            "fuel_self_service.svg",
-            "check_shop.svg",
-            "pitch_lantern.svg",
-            "picnic_table_cover.svg",
-            "recycling_clothes.svg",
-            "door_address.svg",
-            "kerb_tactile_paving.svg",
-            "bicycle_parking_fee.svg",
-            "fire_hydrant_grass.svg",
-            "bicycle_rental.svg",
-            "bicycle_repair.svg",
-            "bicycle_parking_access.svg",
-            "fee.svg",
-            "max_height_measure.svg",
+I have the next authorship question as I review files (let me know if it will become too annoying) - is it necessary to credit anyone else except you for following ones (quest icons unless mentioned otherwise):
+
+footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/commit/b6d9fc144c38dae74c7362b56bbdad993f48b27c#diff-85f51c694a65e4eae5e63b8bb238cd69e38a76cf38677c2c730c78636bddca9d ) is solely you work, right?
+
+*/
+
+
+//------------------
+//new questions
+            "footway_surface.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/footway_surface.svg https://github.com/streetcomplete/StreetComplete/commit/b6d9fc144c38dae74c7362b56bbdad993f48b27c#diff-85f51c694a65e4eae5e63b8bb238cd69e38a76cf38677c2c730c78636bddca9d
+
+
+// https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
+// https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/board_type.svg
+
+            "bicycleway_surface_detail.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
+
+
+            "sidewalk_surface.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
+
+            "check_shop.svg",  // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/check_shop.svg
+
+
+            "max_height_measure.svg",// https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/max_height_measure.svg
+
+            // res/graphics/recycling
+            // confirm
+            // https://github.com/streetcomplete/StreetComplete/commits/fa8bcd6ee5fa58334a8b844ae1c12522135fda8d/res/recycling%20icons/glass_bottles.svg?browsing_rename_history=true&new_path=res/graphics/recycling/glass_bottles.svg&original_branch=master
+            // https://github.com/streetcomplete/StreetComplete/commit/575424b3a3009b75927d0f3c5a9c6f4c26ebea11#diff-6bf317e40f3d87cd7ecce87cca6d4d5f7d191303725529369cafe6728971bca3
+            "glass.svg",
+            "glass_bottles.svg",
 
             // res/graphics/living street
             // definitely fine, just not sure why (traffic signs transformed by Tobias)
-            "australia.svg",
-            "default.svg",
-            "france.svg",
-            "mexico.svg",
-            "portrait.svg",
-            "sadc.svg",
+            "mexico.svg", // https://github.com/streetcomplete/StreetComplete/commit/d457a6d737020bbd8ded4e994895fe98633e8944#diff-5cfacbd57f9f933ea18b64f99f291230e36d968531bb21af6e114324dd9c22b6
+            // should it be also "Tobias Zwick CC-BY-SA 4.0 (based on public domain traffic sign design)"
+            // BTW, is "Tobias Zwick CC-BY-SA 4.0 (based on public domain traffic sign design)" OK for other files in https://github.com/streetcomplete/StreetComplete/tree/master/res/graphics/living%20street ?
+
+            // res/graphics/ar/
+            "camera_measure_24dp.svg",
+            "start_over.svg", // also PD-shape anyway
+            "hand_phone.svg",
+
+
+            // res/graphics/street parking
+            "street_parking_bays_parallel.svg",
+            "parking_and_stopping_signs_overview.xcf",
+            "street_marked_parking_diagonal.svg",
+            "street_marked_parking_perpendicular.svg",
+            "street_parking_bays_diagonal.svg",
+            "street_parking_bays_perpendicular.svg",
+            "street_marked_parking_parallel.svg",
 
             // res/documentation
             // skipped for now
@@ -147,6 +185,21 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "ic_star_white_shadow_32dp.png",
             "ic_none.png",
 
+            // res/graphics/pins/
+            // TODO still worth asking Tobias but with a lower priority
+            "parking.svg",
+            "phone.svg",
+            "bollard.svg",
+            "pedestrian_traffic_light.svg",
+
+            // res/graphics/achievement
+            "shine.svg",
+
+            // res/graphics/lanes
+            "lanes_marked_odd.svg",
+            "lanes_marked.svg",
+            "lanes_unmarked.svg",
+
             // res/graphics/oneway/no entry signs
             "arrow.svg",
             "default.svg",
@@ -156,7 +209,19 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "no_entry_on_white.svg",
             "yellow.svg",
 
-            //res/graphics/street parking
+            // res/graphics/oneway
+            "oneway_no.svg",
+            "oneway_yes_reverse.svg",
+            "oneway_yes.svg",
+
+            // res/graphics/pin
+            "pin.svg",
+            "pin.xcf",
+            "pin_bubble.svg",
+            "pin_pointer.svg",
+            "pin_dot.xcf",
+
+            // res/graphics/street parking
             "street_shoulder.svg",
             "street_shoulder_broad.svg",
             "street_very_narrow.svg",
@@ -208,6 +273,10 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "mutcd_text.svg",
             "vienna.svg",
 
+            // res/graphics/street parking/no standing sign
+            "mutcd_text_waiting.svg",
+            "mutcd_text_standing.svg",
+
             // res/graphics/street parking/alternate side parking sign
             "alternate_parking_on_days.svg",
             "no_parking_on_even_days.svg",
@@ -244,6 +313,9 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             // res/graphics
             "compass_needle.svg",
             "1x1-transparent.png", // such small can be skipped automatically, probably
+
+            // res/graphics/ar
+            "start_over.svg",
             )
     }
 
