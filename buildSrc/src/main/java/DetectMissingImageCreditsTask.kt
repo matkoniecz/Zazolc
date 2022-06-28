@@ -469,7 +469,11 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
         }
          */
         if (licencedData.folderPathFilter !in file.path) {
-            return false
+            if (".." in licencedData.folderPathFilter) {
+                // once such relative paths will start having conflict something smart will need to be implemented
+                // no need for that for now
+                return false
+            }
         }
         val fileName = file.name
         val licencedFile = licencedData.file
