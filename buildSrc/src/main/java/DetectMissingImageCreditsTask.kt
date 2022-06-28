@@ -310,6 +310,9 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
                         System.err.println()
                         problemsFoundCount += 1
                     }
+                } else {
+                    val licenced = LicenceData("public domain", "not actually applicable", name, "listed in publicDomainAsSimpleShapesFilenames() as simple enough to not be copyrightable")
+                    billOfMaterials += LicencedFile(licenced, file)
                 }
             }
         }
