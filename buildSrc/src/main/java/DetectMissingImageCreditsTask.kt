@@ -435,8 +435,12 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
                         val splitExtension = it.name.split(".")
                         if (splitExtension.size > 1) {
                             val extension = splitExtension.last()
-                            if (extension !in listOf("yaml", "yml", "xml", "txt", "json", "jar", "kt", "kts", "bin", "md", "gitignore", "MockMaker")) {
-                                mediaFiles += MediaFile(it)
+                            if (extension !in listOf("yaml", "yml", "xml", "txt", "json", "jar", "kt", "kts", "bin", "md", "gitignore", "MockMaker", "pro")) {
+                                if (extension in listOf("jpg", "svg", "png", "wav", "xcf", "ser", "odp", "drawio")) {
+                                    mediaFiles += MediaFile(it)
+                                } else {
+                                    println("not recognised extension: $extension")
+                                }
                             }
                         }
                     }
