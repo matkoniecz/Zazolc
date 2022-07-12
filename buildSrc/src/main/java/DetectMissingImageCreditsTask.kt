@@ -9,21 +9,11 @@ This will try to report entries missing in StreetComplete image authorship file
 
 ./gradlew detectMissingImageCreditsTask
  */
-open class DetectMissingImageCreditsTask : DefaultTask() {
-    private fun filesWithKnownProblemsAndSkipped(): Array<String> {
-/*
-Fix copyright credits
 
-Credit Tobias Zwick where missing (confirmed with him that he is the author)
-Add some missing credits
-Fix attribution after more file renames
-Fix typos such as no_bicycles.svg vs no_bicycle.svg
-
-All changes were verified
-*/
-        // TODO: detect missing .SVG drawables
-        // is each app/src/main/res/drawable having a matching SVG being stored?
 /*
+TODO: detect missing .SVG drawables
+
+is each app/src/main/res/drawable having a matching SVG being stored?
 ./app/src/main/res/drawable/ic_quest_lantern.xml
 ./res/graphics/quest/lantern.svg
 
@@ -31,6 +21,8 @@ All changes were verified
 ./res/graphics/quest/pitch_lantern.svg
 */
 
+open class DetectMissingImageCreditsTask : DefaultTask() {
+    private fun filesWithKnownProblemsAndSkipped(): Array<String> {
         // TODO: should be empty
         return arrayOf(
             //////////////////////////////////////////////
@@ -97,7 +89,7 @@ Sorry for bothering you about this, but some of media that were likely created f
             "crossing.svg",
 
             // res/graphics/quest - TODO ask Tobias, check sources
-            
+
             "halal.svg", // see https://github.com/streetcomplete/StreetComplete/commits/6e419923e6732030a7d41196676230b242c92ece/res/graphics/quest%20icons/halal.svg?browsing_rename_history=true&new_path=res/graphics/quest/halal.svg&original_branch=master for ping
 
             // Tobias - sole or used something else?
@@ -109,22 +101,18 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
 */
 
-
 //------------------
 //new questions
             "footway_surface.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/footway_surface.svg https://github.com/streetcomplete/StreetComplete/commit/b6d9fc144c38dae74c7362b56bbdad993f48b27c#diff-85f51c694a65e4eae5e63b8bb238cd69e38a76cf38677c2c730c78636bddca9d
-
 
 // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
 // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/board_type.svg
 
             "bicycleway_surface_detail.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
 
-
             "sidewalk_surface.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
 
             "check_shop.svg",  // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/check_shop.svg
-
 
             "max_height_measure.svg",// https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/max_height_measure.svg
 
@@ -145,7 +133,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "camera_measure_24dp.svg",
             "start_over.svg", // also PD-shape anyway
             "hand_phone.svg",
-
 
             // res/graphics/street parking
             "street_parking_bays_parallel.svg",
