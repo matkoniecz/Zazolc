@@ -32,6 +32,8 @@ import de.westnordost.streetcomplete.quests.bollard_type.AddBollardType
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure
 import de.westnordost.streetcomplete.quests.building_entrance.AddEntrance
 import de.westnordost.streetcomplete.quests.building_entrance.SpecifyEntrance
+import de.westnordost.streetcomplete.quests.building_entrance_reference.AddEntranceReference
+import de.westnordost.streetcomplete.quests.building_levels.AddBuildingLevels
 import de.westnordost.streetcomplete.quests.building_type.AddBuildingType
 import de.westnordost.streetcomplete.quests.building_underground.AddIsBuildingUnderground
 import de.westnordost.streetcomplete.quests.bus_stop_bench.AddBenchStatusOnBusStop
@@ -48,7 +50,6 @@ import de.westnordost.streetcomplete.quests.clothing_bin_operator.AddClothingBin
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedBuildingConstruction
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedHighwayConstruction
 import de.westnordost.streetcomplete.quests.crossing.AddCrossing
-import de.westnordost.streetcomplete.quests.building_entrance_reference.AddEntranceReference
 import de.westnordost.streetcomplete.quests.crossing_island.AddCrossingIsland
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType
 import de.westnordost.streetcomplete.quests.cycleway.AddCycleway
@@ -222,8 +223,6 @@ fun questTypeRegistry(
 
     /* ↓ 1. solvable from a distance or while passing by -----------------------------------  */
 
-    AddMemorialType(),
-
     // bus stop quests
     AddBusStopShelter(), // used by at least OsmAnd
     AddBenchStatusOnBusStop(), // can be seen from across the street
@@ -260,6 +259,8 @@ fun questTypeRegistry(
     AddHandrail(), // for accessibility of pedestrian routing, can be gathered when walking past
     AddStepsRamp(),
     AddStepsIncline(), // can be gathered while walking perpendicular to the way e.g. the other side of the road or when running/cycling past, confuses some people, so not as high as it theoretically should be
+
+    AddMemorialType(), // sometimes a bit hard to decide between the different types (something something sculpture)
 
     AddReligionToPlaceOfWorship(), // icons on maps are different - OSM Carto, mapy.cz, OsmAnd, Sputnik etc
     AddReligionToWaysideShrine(),
