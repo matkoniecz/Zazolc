@@ -841,6 +841,7 @@ Before uploading your changes, the app checks with a &lt;a href=\"https://www.we
     <string name="quest_buildingType_hangar">Hangar</string>
     <string name="quest_buildingType_hangar_description">storage for airplanes, helicopters or spacecraft</string>
     <string name="quest_buildingType_bunker">Bunker</string>
+    <string name="quest_buildingType_guard_post">Guard post</string>
     <string name="quest_buildingType_historic">Historic</string>
     <string name="quest_buildingType_historic_description">building of historic value, constructed for an unknown or unclear purpose</string>
     <string name="quest_buildingType_abandoned">Abandoned</string>

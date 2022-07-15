@@ -131,6 +131,7 @@ fun BuildingType.asItem(): Item<BuildingType?> = when (this) {
     HISTORIC -> Item(this, R.drawable.ic_building_historic, R.string.quest_buildingType_historic, R.string.quest_buildingType_historic_description)
     ABANDONED -> Item(this, R.drawable.ic_building_abandoned, R.string.quest_buildingType_abandoned, R.string.quest_buildingType_abandoned_description)
     RUINS -> Item(this, R.drawable.ic_building_ruins, R.string.quest_buildingType_ruins, R.string.quest_buildingType_ruins_description)
+    BuildingType.GUARD_POST -> Item(this, R.drawable.ic_building_bunker, R.string.quest_buildingType_guard_post)
 
     RESIDENTIAL -> BuildingTypeCategory.RESIDENTIAL.asItem()
     COMMERCIAL -> BuildingTypeCategory.COMMERCIAL.asItem()

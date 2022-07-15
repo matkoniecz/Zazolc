@@ -22,6 +22,7 @@ import de.westnordost.streetcomplete.quests.building_type.BuildingType.GARAGES
 import de.westnordost.streetcomplete.quests.building_type.BuildingType.GOVERNMENT
 import de.westnordost.streetcomplete.quests.building_type.BuildingType.GRANDSTAND
 import de.westnordost.streetcomplete.quests.building_type.BuildingType.GREENHOUSE
+import de.westnordost.streetcomplete.quests.building_type.BuildingType.GUARD_POST
 import de.westnordost.streetcomplete.quests.building_type.BuildingType.HANGAR
 import de.westnordost.streetcomplete.quests.building_type.BuildingType.HISTORIC
 import de.westnordost.streetcomplete.quests.building_type.BuildingType.HOSPITAL
@@ -123,6 +124,7 @@ enum class BuildingType(val osmKey: String, val osmValue: String) {
     HISTORIC        ("historic", "yes"),
     ABANDONED       ("abandoned", "yes"),
     RUINS           ("ruins", "yes"),
+    GUARD_POST    ("building", "guard_post"),
 
     RESIDENTIAL     ("building", "residential"),
     COMMERCIAL      ("building", "commercial"),
@@ -163,7 +165,7 @@ enum class BuildingTypeCategory(val type: BuildingType?, val subTypes: List<Buil
     )),
     OTHER(null, listOf(
         SHED, ROOF, BRIDGE, ALLOTMENT_HOUSE, SERVICE, HUT, TOILETS, HANGAR, BUNKER, HISTORIC, BOATHOUSE,
-        ABANDONED, RUINS
+        ABANDONED, RUINS, GUARD_POST
     )),
 }
 
