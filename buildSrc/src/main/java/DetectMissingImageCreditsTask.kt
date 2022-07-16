@@ -50,6 +50,9 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
              "police.svg",  // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/police.svg https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281
             "fuel_self_service.svg",  // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/fuel_self_service.svg https://github.com/streetcomplete/StreetComplete/commit/dbc19c8651cd987acb4044343c5d07c5d2ff56e6
 
+            // https://github.com/streetcomplete/StreetComplete/commit/e651adad062d283bd4a3399556fe413401ab272d
+            "overlay.svg",
+
             //////////////////////////////////////////////
             //////////////////////////////////////////////
             // safe, but failed to track down actual source
