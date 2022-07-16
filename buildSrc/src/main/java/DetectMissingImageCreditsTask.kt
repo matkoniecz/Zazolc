@@ -78,9 +78,6 @@ Sorry for bothering you about this, but some of media that were likely created f
 
             */
 
-
-            "location_nyan.png", "car_nyan.png", // note it as a a fair use in authors file? https://en.wikipedia.org/wiki/File:Nyan_cat_250px_frame.PNG
-
             // res/graphics/pins/
             "clock.svg",
             "picnic_table.svg",
