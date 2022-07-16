@@ -39,7 +39,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             //////////////////////////////////////////////
 
             // contacted FloEdelmann on https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
-            "bin_public_transport.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bin_public_transport.svg - note that it was later edited
             // https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
             "bin.svg", // pin - https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
             "picnic_table_cover.svg", // https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
