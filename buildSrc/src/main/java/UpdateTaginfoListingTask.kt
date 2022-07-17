@@ -652,7 +652,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun getNameOfFunctionFromNavigationSuffix(dotAndFunction: AstNode): String {
-        if(dotAndFunction.description != "navigationSuffix") {
+        if (dotAndFunction.description != "navigationSuffix") {
             exitProcess(1)
         }
         val expectedPackagedDot = dotAndFunction.children[0]
