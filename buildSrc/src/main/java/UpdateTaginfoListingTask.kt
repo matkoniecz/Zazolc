@@ -47,7 +47,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     companion object {
         const val NAME_OF_FUNCTION_EDITING_TAGS = "applyAnswerTo"
         const val QUEST_ROOT = "app/src/main/java/de/westnordost/streetcomplete/quests/"
-        const val SURVEY_MARK_KEY = "check_date" // TODO: si it possible to use directly SC constant?
+        const val SURVEY_MARK_KEY = "check_date" // TODO: is it possible to use directly SC constant?
         val EXPECTED_TAG_PER_QUEST = mapOf(
             "accepts_cards/AddAcceptsCards.kt" to setOf(Tag("payment:debit_cards", "yes"), Tag("payment:debit_cards", "no"), Tag("payment:credit_cards", "yes"), Tag("payment:credit_cards", "no")),
             "address/AddHousenumber.kt" to setOf(Tag("addr:conscriptionnumber", null), Tag("addr:streetnumber", null), Tag("addr:housenumber", null), Tag("addr:block_number", null), Tag("addr:housename", null), Tag("nohousenumber", "yes"), Tag("building", "yes")),
