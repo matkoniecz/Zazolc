@@ -107,8 +107,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             File(folder.toString()).walkTopDown().forEach {
                 if (".kt" in it.name && "Form" !in it.name && "Adapter" !in it.name && "Utils" !in it.name && it.name !in listOf("AddressStreetAnswer.kt")) {
                     if ("Add" in it.name || "Check" in it.name || "Determine" in it.name || "MarkCompleted" in it.name) {
-                        println(it)
-                        println(it.name)
                         foundQuestFile = true
                         val fileSourceCode = loadFileFromPath(it.toString())
                         val got = addedOrEditedTags(it.name, fileSourceCode)
