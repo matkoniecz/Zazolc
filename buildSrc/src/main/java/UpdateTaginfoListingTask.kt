@@ -14,8 +14,27 @@ import kotlinx.ast.grammar.kotlin.common.summary
 import kotlinx.ast.grammar.kotlin.target.antlr.kotlin.KotlinGrammarAntlrKotlinParser
 import kotlin.system.exitProcess
 
+/*
+This program is parsing files of StreetComplete project
+to detect what kind of changes this editor will make to OpenStreetMap database
+
+It relies on editing functionality being defined in applyAnswerTo function
+and always involving modification of tags variable
+
+Alternative - maintaining such list manually is too time-consuming and too boring.
+There was an attempt to do this but it failed.
+*/
+
+// git clone https://github.com/matkoniecz/StreetComplete.git
+// git checkout taginfo
+// ./gradlew updateTaginfoListing
+
+// following pages were useful to jumpstart coding:
+// https://github.com/kotlinx/ast/blob/a96e681f906f1ec1ab4db8a81ffbbcbbe529317f/grammar-kotlin-parser-test/src/jvmMain/kotlin/kotlinx/ast/grammar/kotlin/test/AbstractKotlinGrammarParserTestDataTest.kt
+// https://github.com/2bad2furious/kotlinx-ast-demo
+// https://github.com/peternewman/StreetComplete/blob/a388043854bf04545dfbc0beb7decda5208a750e/.github/generate-quest-metadata.main.kts
+
 open class UpdateTaginfoListingTask : DefaultTask() {
-    // ./gradlew updateTaginfoListing
     @TaskAction fun run() {
 
         var processed = 0
@@ -32,30 +51,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         println(it)
                         println(it.name)
                         foundQuestFile = true
-                        try {
-                            val got = addedOrEditedTags(it.name, loadFileFromPath(it.toString()))
-                            if (got != null) {
-                                println(got)
-                                println(foundTags)
-                                println()
-                                println()
-                                processed += 1
-                                got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
-                            } else {
-                                println("failed")
-                                println()
-                                println()
-                                failed += 1
-                            }
-                        } catch (e: ParsingInterpretationException) {
-                            println(e)
-                            println("PARSING FAILED after $processed")
-                            println("PARSING FAILED after $processed")
-                            println("PARSING FAILED after $processed")
-                            println("PARSING FAILED after $processed")
-                            println("PARSING FAILED after $processed")
-                            println("PARSING FAILED after $processed")
-                            throw(e)
+                        val got = addedOrEditedTags(it.name, loadFileFromPath(it.toString()))
+                        if (got != null) {
+                            println(got)
+                            println(foundTags)
+                            println()
+                            println()
+                            processed += 1
+                            got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
+                        } else {
+                            println("failed")
+                            println()
+                            println()
+                            failed += 1
                         }
                     }
                 }
@@ -85,24 +93,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-/*
-This program is parsing files of StreetComplete project
-to detect what kind of changes this editor will make to OpenStreetMap database
-
-It relies on editing functionality being defined in applyAnswerTo function
-and always involving modification of tags variable
-
-Alternative - maintaining such list manually is too time-consuming and too boring.
-There was an attempt to do this but it failed.
-*/
-
-// git clone https://github.com/streetcomplete/StreetComplete.git
-// git clone TODO - push this to the github to allow reproductions
-
-// following pages were useful to jumpstart coding:
-// https://github.com/kotlinx/ast/blob/a96e681f906f1ec1ab4db8a81ffbbcbbe529317f/grammar-kotlin-parser-test/src/jvmMain/kotlin/kotlinx/ast/grammar/kotlin/test/AbstractKotlinGrammarParserTestDataTest.kt
-// https://github.com/2bad2furious/kotlinx-ast-demo
-// https://github.com/peternewman/StreetComplete/blob/a388043854bf04545dfbc0beb7decda5208a750e/.github/generate-quest-metadata.main.kts
 
 fun questFolderGenerator() = iterator {
     val root = "app/src/main/java/de/westnordost/streetcomplete/quests"
