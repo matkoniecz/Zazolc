@@ -103,7 +103,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun freeformKeys(): List<String> {
-        // most have own sytax and limitations obeyed by SC
+        // most have own syntax and limitations obeyed by SC
         return listOf("name", "maxheight", "ref", "addr:flats", "addr:housenumber",
             "collection_times", "opening_hours", "surface:note", "capacity",
             "maxspeed",
