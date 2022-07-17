@@ -136,7 +136,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return listOf("name", "maxheight", "ref", "addr:flats", "addr:housenumber",
             "collection_times", "opening_hours", "surface:note", "capacity",
             "maxspeed", "opening_date",
-            "source:width", "source:maxheigt",
+            "source:width", "source:maxheight",
             "lanes", "lanes:forward", "lanes:backward", "lanes:both_ways",
             "operator" // technically not fully, but does ot make sense to list all that autocomplete values
         )
