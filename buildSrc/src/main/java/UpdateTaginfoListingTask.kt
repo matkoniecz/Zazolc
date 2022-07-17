@@ -76,11 +76,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         foundTags.forEach { println(it) }
         val specificTags = foundTags.filter { it.tag.value != null }.size
         println("${foundTags.size} entries registered, $specificTags have specific tags, $processed quests processed, $failed failed")
-        val tagsFoundPreviously = 220
+        val tagsFoundPreviously = 223
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val specificTagsFoundPreviously = 93
+        val specificTagsFoundPreviously = 99
         if (specificTags != specificTagsFoundPreviously) {
             println("Something changed in processing! specificTags count $specificTags vs $specificTagsFoundPreviously previously")
         }
@@ -290,7 +290,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder, fileSourceCode)
                         if (valueIfItIsSimpleText != null) {
                             usedIndexes.add(Tag(key, valueIfItIsSimpleText))
-                        } else if (valueHolder.relatedSourceCode(fileSourceCode) == "answer.toYesNo()") {
+                        } else if (valueHolder.relatedSourceCode(fileSourceCode) in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()")) {
                             // should it be treated as a hack?
                             usedIndexes.add(Tag(key, "yes"))
                             usedIndexes.add(Tag(key, "no"))
