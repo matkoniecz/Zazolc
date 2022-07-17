@@ -40,7 +40,6 @@ There was an attempt to do this but it failed.
 
 open class UpdateTaginfoListingTask : DefaultTask() {
     @TaskAction fun run() {
-
         var processed = 0
         var failed = 0
         val foundTags = mutableListOf<TagQuestInfo>()
