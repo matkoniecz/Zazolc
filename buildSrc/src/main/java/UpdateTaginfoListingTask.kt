@@ -191,7 +191,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (failedExtraction) {
             return null
         }
-        print(usedIndexes)
         if (failedExtraction) {
             print("extraction known to be a partial failure")
         }
