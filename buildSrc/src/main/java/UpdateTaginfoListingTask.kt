@@ -292,12 +292,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             usedIndexes.add(Tag(key, valueIfItIsSimpleText))
                         } else if (valueHolder.relatedSourceCode(fileSourceCode) in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()")) {
                             // should it be treated as a hack?
+                            // parse code and detect toYesNo() at the end?
                             usedIndexes.add(Tag(key, "yes"))
                             usedIndexes.add(Tag(key, "no"))
                         } else {
                             usedIndexes.add(Tag(key, null)) // TODO - get also value...
                             valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                            valueHolder.showRelatedSourceCode(fileSourceCode, "get value from this somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText")
+                            valueHolder.showRelatedSourceCode(fileSourceCode, "get value ($key= is known) from this somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText")
                         }
                     } else if (potentialVariable != null) {
                         expression.showHumanReadableTree()
