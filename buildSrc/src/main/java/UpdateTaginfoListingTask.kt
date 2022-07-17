@@ -135,7 +135,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // most have own syntax and limitations obeyed by SC
         return listOf("name", "maxheight", "ref", "addr:flats", "addr:housenumber",
             "collection_times", "opening_hours", "surface:note", "capacity",
-            "maxspeed",
+            "maxspeed", "opening_date",
+            "source:width", "source:maxheigt",
+            "lanes", "lanes:forward", "lanes:backward", "lanes:both_ways",
             "operator" // technically not fully, but does ot make sense to list all that autocomplete values
         )
     }
