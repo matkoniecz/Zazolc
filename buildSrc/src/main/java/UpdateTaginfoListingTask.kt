@@ -460,28 +460,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 if (dotAndFunction !is AstNode) {
                     throw ParsingInterpretationException("unexpected!")
                 }
-                val expectedPackagedDot = dotAndFunction.children[0]
-                if (expectedPackagedDot.description != "memberAccessOperator") {
-                    throw ParsingInterpretationException("unexpected!")
-                }
-                if (expectedPackagedDot !is AstNode) {
-                    throw ParsingInterpretationException("unexpected!")
-                }
-                val expectedDot = expectedPackagedDot.children[0]
-                if (expectedDot !is DefaultAstTerminal) {
-                    throw ParsingInterpretationException("unexpected!")
-                }
-                if (expectedDot.text != ".") {
-                    throw ParsingInterpretationException("unexpected!")
-                }
-                val expectedFunctionIdentifier = dotAndFunction.children[1]
-                if (expectedFunctionIdentifier.description != "simpleIdentifier") {
-                    throw ParsingInterpretationException("unexpected!")
-                }
-                if (expectedFunctionIdentifier.root() !is KlassIdentifier) {
-                    throw ParsingInterpretationException("unexpected! expectedFunctionIdentifier.root() is ${primary::class}")
-                }
-                val functionName = (expectedFunctionIdentifier.root() as KlassIdentifier).identifier
+                val functionName = getNameOfFunctionFromNavigationSuffix(dotAndFunction)
                 if (functionName in listOf(
                         "updateWithCheckDate", // TODO: check date is also an affected key!
                         "setCheckDateForKey",
@@ -541,6 +520,34 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         return appliedTags
+    }
+
+    private fun getNameOfFunctionFromNavigationSuffix(dotAndFunction: AstNode): String {
+        if(dotAndFunction.description != "navigationSuffix") {
+            exitProcess(1)
+        }
+        val expectedPackagedDot = dotAndFunction.children[0]
+        if (expectedPackagedDot.description != "memberAccessOperator") {
+            throw ParsingInterpretationException("unexpected!")
+        }
+        if (expectedPackagedDot !is AstNode) {
+            throw ParsingInterpretationException("unexpected!")
+        }
+        val expectedDot = expectedPackagedDot.children[0]
+        if (expectedDot !is DefaultAstTerminal) {
+            throw ParsingInterpretationException("unexpected!")
+        }
+        if (expectedDot.text != ".") {
+            throw ParsingInterpretationException("unexpected!")
+        }
+        val expectedFunctionIdentifier = dotAndFunction.children[1]
+        if (expectedFunctionIdentifier.description != "simpleIdentifier") {
+            throw ParsingInterpretationException("unexpected!")
+        }
+        if (expectedFunctionIdentifier.root() !is KlassIdentifier) {
+            throw ParsingInterpretationException("unexpected! expectedFunctionIdentifier.root() is ${expectedFunctionIdentifier.root()!!::class}")
+        }
+        return (expectedFunctionIdentifier.root() as KlassIdentifier).identifier
     }
 
     class ParsingInterpretationException(private val s: String) : Throwable() {
