@@ -556,34 +556,26 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
                 val functionName = getNameOfFunctionFromNavigationSuffix(dotAndFunction)
                 if (functionName in listOf(
-                        "updateWithCheckDate", // TODO: check date is also an affected key!
                         "setCheckDateForKey",
                         "updateCheckDateForKey"
                     )
                 ) {
-                    val arguments = it.locateByDescriptionDirectChild("postfixUnarySuffix")[1]
-                        .locateSingleByDescriptionDirectChild("callSuffix")
-                        .locateSingleByDescriptionDirectChild("valueArguments")
-                    val argumentList = arguments.locateByDescription("valueArgument")
-                    val key = argumentList[0].locateSingleByDescription("primaryExpression")
-                    if (key.children.size == 1) {
-                        if (key.children[0].description == "stringLiteral") {
-                            val stringObject = (key.children[0].root() as KlassString).children[0]
-                            val keyString = (stringObject as StringComponentRaw).string
-                            appliedTags.add(Tag(keyString, null)) // TODO which value
-                            dotAndFunction.showRelatedSourceCode(fileSourceCode, "extractCasesWhereTagsAreAccessedWithFunction - value extraction possible from that?")
-                        } else {
-                            // TODO handle this
-                            key.showHumanReadableTree()
-                            argumentList[0].showRelatedSourceCode(fileSourceCode, "unhandled key access")
-                            println("unhandled key access")
-                            return null
-                        }
+                    // only check data for
+                    val keyString = extractKeyValueInFunctionCall(it, fileSourceCode)
+                    if (keyString != null) {
+                        appliedTags.add(Tag("$SURVEY_MARK_KEY:$keyString", null))
+                    }
+                } else if (functionName in listOf(
+                        "updateWithCheckDate", // TODO: check date is also an affected key!
+                    )
+                ) {
+                    val keyString = extractKeyValueInFunctionCall(it, fileSourceCode)
+                    if (keyString != null) {
+                        appliedTags.add(Tag(keyString, null)) // TODO which value
+                        // dotAndFunction is without argument
+                        // possibleDotAndFunction[0] also
+                        it.showRelatedSourceCode(fileSourceCode, "it - value extraction possible from that?")
                     } else {
-                        // TODO handle this
-                        argumentList[0].showHumanReadableTree()
-                        argumentList[0].showRelatedSourceCode(fileSourceCode, "unhandled key access")
-                        println("unhandled key access")
                         return null
                     }
                 } else if (functionName in listOf("remove", "containsKey", "removeCheckDatesForKey", "hasChanges", "entries", "hasCheckDateForKey", "hasCheckDate")) {
@@ -614,6 +606,33 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         return appliedTags
+    }
+
+    private fun extractKeyValueInFunctionCall(it: AstNode, fileSourceCode: String): String? {
+        println(it.description)
+        val arguments = it.locateByDescriptionDirectChild("postfixUnarySuffix")[1]
+            .locateSingleByDescriptionDirectChild("callSuffix")
+            .locateSingleByDescriptionDirectChild("valueArguments")
+        val argumentList = arguments.locateByDescription("valueArgument")
+        val key = argumentList[0].locateSingleByDescription("primaryExpression")
+        if (key.children.size == 1) {
+            if (key.children[0].description == "stringLiteral") {
+                val stringObject = (key.children[0].root() as KlassString).children[0]
+                return (stringObject as StringComponentRaw).string
+            } else {
+                // TODO handle this
+                key.showHumanReadableTree()
+                argumentList[0].showRelatedSourceCode(fileSourceCode, "unhandled key access")
+                println("unhandled key access")
+                return null
+            }
+        } else {
+            // TODO handle this
+            argumentList[0].showHumanReadableTree()
+            argumentList[0].showRelatedSourceCode(fileSourceCode, "unhandled key access")
+            println("unhandled key access")
+            return null
+        }
     }
 
     private fun getNameOfFunctionFromNavigationSuffix(dotAndFunction: AstNode): String {
