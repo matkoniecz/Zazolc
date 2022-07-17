@@ -1,8 +1,3 @@
-import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.TaskAction
-import java.io.File
-import java.io.InputStream
-import kotlin.system.exitProcess
 import kotlinx.ast.common.AstSource
 import kotlinx.ast.common.ast.*
 import kotlinx.ast.common.klass.KlassDeclaration
@@ -12,6 +7,10 @@ import kotlinx.ast.common.klass.StringComponentRaw
 import kotlinx.ast.grammar.kotlin.common.KotlinGrammarParserType
 import kotlinx.ast.grammar.kotlin.common.summary
 import kotlinx.ast.grammar.kotlin.target.antlr.kotlin.KotlinGrammarAntlrKotlinParser
+import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.TaskAction
+import java.io.File
+import java.io.InputStream
 import kotlin.system.exitProcess
 
 /*
@@ -89,10 +88,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         val failedQuestsPreviously = 24
         if (failed != failedQuestsPreviously) {
-            println("Something changed in processing! failed count ${failed} vs $failedQuestsPreviously previously")
+            println("Something changed in processing! failed count $failed vs $failedQuestsPreviously previously")
         }
     }
-
 
 fun questFolderGenerator() = iterator {
     val root = "app/src/main/java/de/westnordost/streetcomplete/quests"
@@ -280,7 +278,7 @@ fun extractCasesWhereTagsAreAccessedWithIndex(relevantFunction: AstNode, fileSou
                         throw ParsingInterpretationException("not handled, ${potentialWhenExpressionCandidate.size} when expressions")
                     }
                     if (potentialWhenExpressionCandidate.size == 1) {
-                        if(potentialWhenExpressionCandidate[0].relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
+                        if (potentialWhenExpressionCandidate[0].relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
                             throw ParsingInterpretationException("parse this as when expression!")
                         } else {
                             throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
