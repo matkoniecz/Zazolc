@@ -16,9 +16,8 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.io.InputStream
-import kotlin.system.exitProcess
-import java.lang.Exception
 import java.net.URL
+import kotlin.system.exitProcess
 
 /*
 This program is parsing files of StreetComplete project
@@ -98,7 +97,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("Something changed in processing! failed count $failed vs $failedQuestsPreviously previously")
         }
         foundTags.forEach {
-            if(!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.tag.key}")) {
+            if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.tag.key}")) {
                 println("$it has no OSM Wiki page")
             }
             if (it.tag.value !in listOf(null, "no", "yes") && it.tag.key !in freeformKeys()) {
@@ -113,10 +112,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println(test2)
     }
 
-    private fun isPageExisting(url : String): Boolean {
+    private fun isPageExisting(url: String): Boolean {
         try {
             URL(url).openStream().bufferedReader().use { it.readText() }
-        }catch (e: java.io.FileNotFoundException) {
+        } catch (e: java.io.FileNotFoundException) {
             return false
         }
         return true
