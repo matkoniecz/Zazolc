@@ -44,6 +44,39 @@ There was an attempt to do this but it failed.
 // https://github.com/peternewman/StreetComplete/blob/a388043854bf04545dfbc0beb7decda5208a750e/.github/generate-quest-metadata.main.kts
 
 open class UpdateTaginfoListingTask : DefaultTask() {
+    companion object {
+        const val NAME_OF_FUNCTION_EDITING_TAGS = "applyAnswerTo"
+        const val QUEST_ROOT = "app/src/main/java/de/westnordost/streetcomplete/quests/"
+        const val SURVEY_MARK_KEY = "check_date" // TODO: si it possible to use directly SC constant?
+        val EXPECTED_TAG_PER_QUEST = mapOf(
+            "accepts_cards/AddAcceptsCards.kt" to setOf(Tag("payment:debit_cards", "yes"), Tag("payment:debit_cards", "no"), Tag("payment:credit_cards", "yes"), Tag("payment:credit_cards", "no")),
+            "address/AddHousenumber.kt" to setOf(Tag("addr:conscriptionnumber", null), Tag("addr:streetnumber", null), Tag("addr:housenumber", null), Tag("addr:block_number", null), Tag("addr:housename", null), Tag("nohousenumber", "yes"), Tag("building", "yes")),
+            "atm_operator/AddAtmOperator.kt" to setOf(Tag("operator", null)),
+            "air_conditioning/AddAirConditioning.kt" to setOf(Tag("air_conditioning", "yes"), Tag("air_conditioning", "no")),
+            "bike_parking_capacity/AddBikeParkingCapacity.kt" to setOf(Tag("capacity", null)),
+            "bike_parking_cover/AddBikeParkingCover.kt" to setOf(Tag("covered", "yes"), Tag("covered", "no")),
+            "bike_rental_capacity/AddBikeRentalCapacity.kt" to setOf(Tag("capacity", null)),
+            "building_entrance_reference/AddEntranceReference.kt" to setOf(Tag("addr:flats", null), Tag("ref", null), Tag("ref:signed", "no")),
+            "building_levels/AddBuildingLevels.kt" to setOf(Tag("building:levels", null), Tag("roof:levels", null)),
+            "charging_station_operator/AddChargingStationOperator.kt" to setOf(Tag("operator", null)),
+            "clothing_bin_operator/AddClothingBinOperator.kt" to setOf(Tag("operator", null)),
+            "construction/MarkCompletedBuildingConstruction.kt" to setOf(Tag("opening_date", null), Tag("building", null)),
+            "crossing_island/AddCrossingIsland.kt" to setOf(Tag("crossing:island", "yes"), Tag("crossing:island", "no")),
+            "defibrillator/AddIsDefibrillatorIndoor.kt" to setOf(Tag("indoor", "yes"), Tag("indoor", "no")),
+            "fire_hydrant_diameter/AddFireHydrantDiameter.kt" to setOf(Tag("fire_hydrant:diameter", null), Tag("fire_hydrant:diameter:signed", "no")),
+            "foot/AddProhibitedForPedestrians.kt" to setOf(Tag("foot", "no"), Tag("foot", "yes"), Tag("sidewalk", "separate"), Tag("highway", "living_street")),
+            "lanes/AddLanes.kt" to setOf(Tag("lanes", null), Tag("lane_markings", "yes"), Tag("lane_markings", "no"), Tag("lanes:both_ways", "1"), Tag("turn:lanes:both_ways", "left"), Tag("lanes:forward", null), Tag("lanes:backward", null)),
+            "max_height/AddMaxPhysicalHeight.kt" to setOf(Tag("maxheight", null), Tag("maxheight:signed", "no"), Tag("source:maxheight", "ARCore")),
+            "motorcycle_parking_capacity/AddMotorcycleParkingCapacity.kt" to setOf(Tag("capacity", null)),
+            "motorcycle_parking_cover/AddMotorcycleParkingCover.kt" to setOf(Tag("covered", "yes"), Tag("covered", "no")),
+            "postbox_ref/AddPostboxRef.kt" to setOf(Tag("ref:signed", "no"), Tag("ref", null)),
+            "postbox_collection_times/AddPostboxCollectionTimes.kt" to setOf(Tag("collection_times:signed", "no"), Tag("collection_times", null)),
+            "recycling/AddRecyclingType.kt" to setOf(Tag("recycling_type", "centre"), Tag("recycling_type", "container"), Tag("location", "overground"), Tag("location", "underground")),
+            "recycling_glass/DetermineRecyclingGlass.kt" to setOf(Tag("recycling:glass_bottles", "yes"), Tag("recycling:glass", "no")),
+            "seating/AddSeating.kt" to setOf(Tag("outdoor_seating", "yes"), Tag("outdoor_seating", "no"), Tag("indoor_seating", "yes"), Tag("indoor_seating", "no")),
+            "width/AddRoadWidth.kt" to setOf(Tag("width", null), Tag("source:width", "ARCore")),
+        )
+    }
     @TaskAction fun run() {
         var processed = 0
         var failed = 0
@@ -53,7 +86,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val folder = folderGenerator.next()
             var foundQuestFile = false
             File(folder.toString()).walkTopDown().forEach {
-                if (".kt" in it.name && "Form" !in it.name) {
+                if (".kt" in it.name && "Form" !in it.name && "Adapter" !in it.name && "Utils" !in it.name && it.name !in listOf("AddressStreetAnswer.kt")) {
                     if ("Add" in it.name || "Check" in it.name || "Determine" in it.name || "MarkCompleted" in it.name) {
                         println(it)
                         println(it.name)
@@ -61,12 +94,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         val fileSourceCode = loadFileFromPath(it.toString())
                         val got = addedOrEditedTags(it.name, fileSourceCode)
                         if (got != null) {
-                            println(got)
-                            println()
                             processed += 1
-                            val ast = AstSource.String(fileSourceCode, fileSourceCode)
-                            val relevantFunction = getAstTreeForFunctionEditingTags(ast)
-                            relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
+                            reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT), fileSourceCode)
                             got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
                         } else {
                             println("failed")
@@ -81,6 +110,40 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 throw ParsingInterpretationException("not found quest file for $folder")
             }
         }
+        reportResultOfDataCollection(foundTags, processed, failed)
+    }
+    private fun reportResultOfScanInSingleQuest(got: Set<Tag>?, filepath: String, fileSourceCode: String) {
+        var mismatch = false
+        if (filepath in EXPECTED_TAG_PER_QUEST) {
+            if (got == EXPECTED_TAG_PER_QUEST[filepath]) {
+                return
+            } else {
+                mismatch = true
+            }
+        }
+        println()
+        println("-----------------")
+        if (mismatch) {
+            println("MISMATCH")
+            println("MISMATCH")
+            println("MISMATCH")
+            println("MISMATCH")
+            println("MISMATCH")
+            println("MISMATCH")
+            println("MISMATCH")
+        }
+        println(filepath)
+        val ast = AstSource.String(filepath, fileSourceCode)
+        val relevantFunction = getAstTreeForFunctionEditingTags(filepath, ast)
+        relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
+        println(got)
+        val classesReadyToCreate = got?.map { it.reproduceCode() }!!.joinToString(", ")
+        println("\"$filepath\" to setOf($classesReadyToCreate),")
+        println("-----------------")
+        println()
+    }
+
+    private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failed: Int) {
         foundTags.forEach { println("$it ${if (it.tag.value == null && it.tag.key !in freeformKeys()) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && it.tag.key !in freeformKeys() }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, $failed failed")
@@ -131,9 +194,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun questFolderGenerator() = iterator {
-        val root = "app/src/main/java/de/westnordost/streetcomplete/quests"
-        File(root).walkTopDown().maxDepth(1).forEach { folder ->
-            if (folder.isDirectory && folder.toString() != root) {
+        File(QUEST_ROOT).walkTopDown().maxDepth(1).forEach { folder ->
+            if (folder.isDirectory && folder.toString() != QUEST_ROOT) {
                 yield(folder)
             }
         }
@@ -191,6 +253,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             result = 31 * result + (value?.hashCode() ?: 0)
             return result
         }
+
+        fun reproduceCode(): String {
+            return if (value == null) {
+                "Tag(\"${key}\", $value)"
+            } else {
+                "Tag(\"${key}\", \"${value}\")"
+            }
+        }
     }
 
     class TagQuestInfo(val tag: Tag, private val quest: String) {
@@ -213,8 +283,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-
-    private fun getAstTreeForFunctionEditingTags(ast: AstSource.String): AstNode {
+    private fun getAstTreeForFunctionEditingTags(description: String, ast: AstSource.String): AstNode {
         val found = ast.parse().extractFunctionByName(NAME_OF_FUNCTION_EDITING_TAGS)
         if (found.isEmpty()) {
             println("$NAME_OF_FUNCTION_EDITING_TAGS not found in $description")
@@ -231,7 +300,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val appliedTags = mutableSetOf<Tag>()
         var failedExtraction = false
         val ast = AstSource.String(description, fileSourceCode)
-        val relevantFunction = getAstTreeForFunctionEditingTags(ast)
+        val relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
         var got = extractCasesWhereTagsAreAccessedWithIndex(relevantFunction, fileSourceCode)
         if (got != null) {
             appliedTags += got
