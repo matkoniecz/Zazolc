@@ -456,7 +456,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     return@forEach
                 }
                 val dotAndFunction =
-                    possibleDotAndFunction[0].locateSingleByDescriptionDirectChild("navigationSuffix")
+                    possibleDotAndFunction[0].locateSingleByDescriptionDirectChild("navigationSuffix") // TODO: why [0]
                 if (dotAndFunction !is AstNode) {
                     throw ParsingInterpretationException("unexpected!")
                 }
