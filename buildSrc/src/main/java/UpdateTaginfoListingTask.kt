@@ -106,10 +106,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
         }
-        val test = URL("https://wiki.openstreetmap.org/w/index.php?title=Key:office").openStream().bufferedReader().use { it.readText() }
-        println(test)
-        val test2 = URL("https://wiki.openstreetmap.org/w/index.php?title=Key:nonexistingpageeeee").openStream().bufferedReader().use { it.readText() }
-        println(test2)
     }
 
     private fun isPageExisting(url: String): Boolean {
