@@ -1,10 +1,10 @@
 import kotlinx.ast.common.AstSource
-import kotlinx.ast.common.ast.astInfoOrNull
 import kotlinx.ast.common.ast.Ast
-import kotlinx.ast.common.ast.AstWithAstInfo
 import kotlinx.ast.common.ast.AstNode
-import kotlinx.ast.common.ast.DefaultAstTerminal
+import kotlinx.ast.common.ast.AstWithAstInfo
 import kotlinx.ast.common.ast.DefaultAstNode
+import kotlinx.ast.common.ast.DefaultAstTerminal
+import kotlinx.ast.common.ast.astInfoOrNull
 import kotlinx.ast.common.klass.KlassDeclaration
 import kotlinx.ast.common.klass.KlassIdentifier
 import kotlinx.ast.common.klass.KlassString
@@ -101,6 +101,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 yield(folder)
             }
         }
+    }
+
+    private fun freeformKeys(): List<String> {
+        // most have own sytax and limitations obeyed by SC
+        return listOf("name", "maxheight", "ref", "addr:flats", "addr:housenumber",
+            "collection_times", "opening_hours", "surface:note", "capacity",
+            "maxspeed",
+            "operator" // technically not fully, but does ot make sense to list all that autocomplete values
+        )
     }
 
     private fun loadFileFromPath(filepath: String): String {
@@ -273,7 +282,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         // WS
                         // expression ( for example: "steps" )
                         val valueHolder = assignment.locateSingleByDescriptionDirectChild("expression")
-                        appliedTags += extractTagsWhenKeyIsKnown(key, valueHolder, fileSourceCode)
+                        appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, key in freeformKeys())
                     } else if (potentialVariable != null) {
                         expression.showHumanReadableTree()
                         expression.showRelatedSourceCode(fileSourceCode, "expression")
@@ -296,7 +305,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun extractTagsWhenKeyIsKnown(key: String, valueHolder: Ast, fileSourceCode: String): MutableSet<Tag> {
+    private fun extractValuesForKnownKey(key: String, valueHolder: Ast, fileSourceCode: String, freeformValueExpected: Boolean): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         val potentialWhenExpressionCandidate = valueHolder.locateByDescription("whenExpression")
         if (potentialWhenExpressionCandidate.size > 1) {
@@ -304,7 +313,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         if (potentialWhenExpressionCandidate.size == 1) {
             if (potentialWhenExpressionCandidate[0].relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
-                throw ParsingInterpretationException("parse this as when expression!")
+                val whenExpression = potentialWhenExpressionCandidate[0]
+                return extractValuesForKnownKeyFromWhenExpression(key, whenExpression, fileSourceCode, freeformValueExpected)
             } else {
                 throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
             }
@@ -320,8 +330,47 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             appliedTags.add(Tag(key, "no"))
         } else {
             appliedTags.add(Tag(key, null)) // TODO - get also value...
-            valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
-            valueHolder.showRelatedSourceCode(fileSourceCode, "get value (key is known: $key) from this somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText")
+            if (!freeformValueExpected) {
+                valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                valueHolder.showRelatedSourceCode(fileSourceCode, "get value (key is known: $key) from this somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText")
+            }
+        }
+        return appliedTags
+    }
+
+    private fun extractValuesForKnownKeyFromWhenExpression(key: String, whenExpression: AstNode, fileSourceCode: String, freeformValueExpected: Boolean): MutableSet<Tag> {
+        val appliedTags = mutableSetOf<Tag>()
+        whenExpression.showRelatedSourceCode(fileSourceCode, "expression")
+        whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
+        whenExpression.locateByDescription("whenEntry").forEach { it ->
+            it.showRelatedSourceCode(fileSourceCode, "expression")
+            it.showHumanReadableTreeWithSourceCode(fileSourceCode)
+            val structure = it.children.filter { it.description != "WS" }
+            /*
+            structure.forEach { child ->
+                println()
+                println()
+                println("child")
+                println(child.description)
+                child.showRelatedSourceCode(fileSourceCode, "child")
+            }
+            */
+            if (structure[0].description != "whenCondition") {
+                throw ParsingInterpretationException("unexpected when structure!")
+            }
+            if (structure[1].description != "ARROW") {
+                throw ParsingInterpretationException("unexpected when structure!")
+            }
+            if (structure[2].description != "controlStructureBody") {
+                throw ParsingInterpretationException("unexpected when structure!")
+            }
+            if (structure[3].description != "semi") {
+                throw ParsingInterpretationException("unexpected when structure!")
+            }
+            if (structure.size != 4) {
+                throw ParsingInterpretationException("unexpected when structure!")
+            }
+            appliedTags += extractValuesForKnownKey(key, structure[2], fileSourceCode, freeformValueExpected)
         }
         return appliedTags
     }
