@@ -58,11 +58,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         println(it)
                         println(it.name)
                         foundQuestFile = true
-                        val got = addedOrEditedTags(it.name, loadFileFromPath(it.toString()))
+                        val fileSourceCode = loadFileFromPath(it.toString())
+                        val got = addedOrEditedTags(it.name, fileSourceCode)
                         if (got != null) {
                             println(got)
                             println()
                             processed += 1
+                            val ast = AstSource.String(fileSourceCode, fileSourceCode)
+                            val relevantFunction = getAstTreeForFunctionEditingTags(ast)
+                            relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
                             got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
                         } else {
                             println("failed")
@@ -209,21 +213,25 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun addedOrEditedTags(description: String, fileSourceCode: String): Set<Tag>? {
-        val ast = AstSource.String(description, fileSourceCode)
-        val found = ast.parse().extractFunctionByName("applyAnswerTo")
+
+    private fun getAstTreeForFunctionEditingTags(ast: AstSource.String): AstNode {
+        val found = ast.parse().extractFunctionByName(NAME_OF_FUNCTION_EDITING_TAGS)
         if (found.isEmpty()) {
-            println("applyAnswerTo not found in $description")
-            return null
+            println("$NAME_OF_FUNCTION_EDITING_TAGS not found in $description")
+            exitProcess(1)
         }
         if (found.size != 1) {
             println("unexpected function count found")
             exitProcess(1)
         }
+        return found[0]
+    }
+
+    private fun addedOrEditedTags(description: String, fileSourceCode: String): Set<Tag>? {
         val appliedTags = mutableSetOf<Tag>()
         var failedExtraction = false
-        val relevantFunction = found[0]
-        relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
+        val ast = AstSource.String(description, fileSourceCode)
+        val relevantFunction = getAstTreeForFunctionEditingTags(ast)
         var got = extractCasesWhereTagsAreAccessedWithIndex(relevantFunction, fileSourceCode)
         if (got != null) {
             appliedTags += got
