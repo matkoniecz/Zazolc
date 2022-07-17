@@ -1,6 +1,7 @@
 repositories {
     google()
     mavenCentral()
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -10,6 +11,7 @@ dependencies {
     implementation("org.jsoup:jsoup:1.14.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     implementation("com.charleskorn.kaml:kaml:0.42.0")
+    implementation("com.github.kotlinx.ast:grammar-kotlin-parser-antlr-kotlin:9b264ee306")
 }
 
 plugins {
