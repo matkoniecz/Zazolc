@@ -96,9 +96,18 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (failed != failedQuestsPreviously) {
             println("Something changed in processing! failed count $failed vs $failedQuestsPreviously previously")
         }
+        println()
+        println()
         foundTags.forEach {
             if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.tag.key}")) {
-                println("$it has no OSM Wiki page")
+                if (it.tag.value != null) {
+                    // if value page exists, then it is likely fine
+                    if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.tag.key}=${it.tag.value}")) {
+                        println("${it.tag.key}= has no OSM Wiki page and has no value page")
+                    }
+                } else {
+                    println("${it.tag.key}= has no OSM Wiki page")
+                }
             }
             if (it.tag.value !in listOf(null, "no", "yes") && it.tag.key !in freeformKeys()) {
                 if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.tag.key}=${it.tag.value}")) {
