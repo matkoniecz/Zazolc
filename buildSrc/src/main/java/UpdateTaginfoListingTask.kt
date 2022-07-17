@@ -1,5 +1,10 @@
 import kotlinx.ast.common.AstSource
-import kotlinx.ast.common.ast.*
+import kotlinx.ast.common.ast.astInfoOrNull
+import kotlinx.ast.common.ast.Ast
+import kotlinx.ast.common.ast.AstWithAstInfo
+import kotlinx.ast.common.ast.AstNode
+import kotlinx.ast.common.ast.DefaultAstTerminal
+import kotlinx.ast.common.ast.DefaultAstNode
 import kotlinx.ast.common.klass.KlassDeclaration
 import kotlinx.ast.common.klass.KlassIdentifier
 import kotlinx.ast.common.klass.KlassString
@@ -92,7 +97,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    fun questFolderGenerator() = iterator {
+    private fun questFolderGenerator() = iterator {
         val root = "app/src/main/java/de/westnordost/streetcomplete/quests"
         File(root).walkTopDown().maxDepth(1).forEach { folder ->
             if (folder.isDirectory && folder.toString() != root) {
@@ -101,7 +106,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    fun loadFileFromPath(filepath: String): String {
+    private fun loadFileFromPath(filepath: String): String {
         val inputStream: InputStream = File(filepath).inputStream()
         return inputStream.bufferedReader().use { it.readText() }
     }
@@ -157,7 +162,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    fun addedOrEditedTags(description: String, fileSourceCode: String): Set<Tag>? {
+    private fun addedOrEditedTags(description: String, fileSourceCode: String): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode)
         val found = ast.parse().extractFunctionByName("applyAnswerTo")
         if (found.isEmpty()) {
@@ -199,7 +204,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return usedIndexes
     }
 
-    fun extractTextFromHardcodedString(passedTextHolder: Ast, fileSourceCode: String): String? {
+    private fun extractTextFromHardcodedString(passedTextHolder: Ast, fileSourceCode: String): String? {
         var textHolder = passedTextHolder
 
         val plausibleText = textHolder.locateByDescription("stringLiteral")
@@ -224,7 +229,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return null
     }
 
-    fun extractCasesWhereTagsAreAccessedWithIndex(relevantFunction: AstNode, fileSourceCode: String): Set<Tag>? {
+    private fun extractCasesWhereTagsAreAccessedWithIndex(relevantFunction: AstNode, fileSourceCode: String): Set<Tag>? {
         // it is trying to detect things like
         // tags["bollard"] = answer.osmValue
 
@@ -319,7 +324,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return usedIndexes
     }
 
-    fun extractCasesWhereTagsAreAccessedWithFunction(relevantFunction: AstNode, fileSourceCode: String): Set<Tag>? {
+    private fun extractCasesWhereTagsAreAccessedWithFunction(relevantFunction: AstNode, fileSourceCode: String): Set<Tag>? {
         // it is trying to detect things like
         // tags.updateWithCheckDate("smoking", answer.osmValue)
         val usedIndexes = mutableSetOf<Tag>()
@@ -399,12 +404,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         } else {
                             // TODO handle this
                             key.showHumanReadableTree()
+                            argumentList[0].showRelatedSourceCode(fileSourceCode, "unhandled key access")
                             println("unhandled key access")
+                            return null
                         }
                     } else {
                         // TODO handle this
                         argumentList[0].showHumanReadableTree()
+                        argumentList[0].showRelatedSourceCode(fileSourceCode, "unhandled key access")
                         println("unhandled key access")
+                        return null
                     }
                 } else if (functionName in listOf("remove", "containsKey", "removeCheckDatesForKey", "hasChanges", "entries", "hasCheckDateForKey", "hasCheckDate")) {
                     // skip, as only added or edited tags are listed - and removed one and influencing ones are ignored
@@ -442,7 +451,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    fun Ast.relatedSourceCode(sourceCode: String): String {
+    private fun Ast.relatedSourceCode(sourceCode: String): String {
         if (root() == null) {
             return "<source code not available>"
         }
@@ -451,17 +460,18 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return sourceCode.subSequence(start, end).toString()
     }
 
-    fun Ast.showRelatedSourceCode(sourceCode: String, description: String) {
+    private fun Ast.showRelatedSourceCode(sourceCode: String, description: String) {
         println("--------------------here is the $description (source code)---<")
         println(relatedSourceCode(sourceCode))
         println(">---------------------------here is the $description (source code)")
     }
 
-    fun Ast.showHumanReadableTreeWithSourceCode(fileSourceCode: String) {
+    private fun Ast.showHumanReadableTreeWithSourceCode(fileSourceCode: String) {
         println("---------------------------------------showHumanReadableTreeWithSourceCode")
         humanReadableTreeWithSourceCode(0, fileSourceCode).forEach { println(it) }
     }
-    fun Ast.humanReadableTreeWithSourceCode(indent: Int, fileSourceCode: String): List<String> {
+
+    private fun Ast.humanReadableTreeWithSourceCode(indent: Int, fileSourceCode: String): List<String> {
         val info = ((this as? AstWithAstInfo)?.info?.toString() ?: "").padEnd(34)
         val infoHuman = humanReadableDescriptionInfo()
         val self = "$info${"--".repeat(indent)} ${infoHuman?.humanReadableDescription} <${relatedSourceCode(fileSourceCode)}>" // detachRaw()
@@ -474,11 +484,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    fun Ast.showHumanReadableTree() {
+    private fun Ast.showHumanReadableTree() {
         println("---------------------------------------")
         humanReadableTree(0).forEach { println(it) }
     }
-    fun Ast.humanReadableTree(indent: Int): List<String> {
+
+    private fun Ast.humanReadableTree(indent: Int): List<String> {
         val info = ((this as? AstWithAstInfo)?.info?.toString() ?: "").padEnd(34)
         val self = "$info${"  ".repeat(indent)} ${humanReadableDescriptionInfo()?.humanReadableDescription} " // detachRaw()
         return if (this is AstNode) {
@@ -490,7 +501,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    fun Ast.locateSingleByDescription(filter: String, debug: Boolean = false): AstNode {
+    private fun Ast.locateSingleByDescription(filter: String, debug: Boolean = false): AstNode {
         val found = locateByDescription(filter, debug)
         if (found.size != 1) {
             throw ParsingInterpretationException("unexpected count!")
@@ -499,7 +510,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    fun Ast.locateByDescription(filter: String, debug: Boolean = false): List<AstNode> {
+    private fun Ast.locateByDescription(filter: String, debug: Boolean = false): List<AstNode> {
         if (this is AstNode) {
             val fromChildren = children.flatMap { child ->
                 child.locateByDescription(filter, debug)
@@ -520,7 +531,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    fun Ast.locateSingleByDescriptionDirectChild(filter: String): Ast {
+    private fun Ast.locateSingleByDescriptionDirectChild(filter: String): Ast {
         val found = locateByDescriptionDirectChild(filter)
         if (found.size != 1) {
             showHumanReadableTree()
@@ -530,7 +541,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    fun Ast.locateByDescriptionDirectChild(filter: String): List<Ast> {
+    private fun Ast.locateByDescriptionDirectChild(filter: String): List<Ast> {
         val returned = mutableListOf<Ast>()
         if (this is AstNode) {
             for (child in children) {
@@ -542,7 +553,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return returned
     }
 
-    fun Ast.extractFunctionByName(functionName: String): List<AstNode> {
+    private fun Ast.extractFunctionByName(functionName: String): List<AstNode> {
         if (description == "functionDeclaration") {
             if (this is AstNode) {
                 children.forEach {
@@ -574,7 +585,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun Ast.humanReadableDescriptionInfo(): ElementInfo? {
         val current = this.root() ?: return null
-        val textReadable = description + " " + when (current) {
+        val textReadable = "$description " + when (current) {
             is KlassDeclaration -> "KlassDeclaration, identifier: ${current.identifier}}"
             is StringComponentRaw -> "string<${current.string}> ${current::class}"
             is DefaultAstTerminal -> "DefaultAstTerminal, text: ${current.text}"
@@ -588,5 +599,5 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     class ElementInfo(val humanReadableDescription: String, val start: Int, val end: Int)
 
-    fun AstSource.parse() = KotlinGrammarAntlrKotlinParser.parseKotlinFile(this)
+    private fun AstSource.parse() = KotlinGrammarAntlrKotlinParser.parseKotlinFile(this)
 }
