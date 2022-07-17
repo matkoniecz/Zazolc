@@ -17,6 +17,8 @@ import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.io.InputStream
 import kotlin.system.exitProcess
+import java.lang.Exception
+import java.net.URL
 
 /*
 This program is parsing files of StreetComplete project
@@ -91,6 +93,29 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (failed != failedQuestsPreviously) {
             println("Something changed in processing! failed count $failed vs $failedQuestsPreviously previously")
         }
+        foundTags.forEach {
+            if(!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.tag.key}")) {
+                println("$it has no OSM Wiki page")
+            }
+            if(it.tag.value != null && it.tag.key !in freeformKeys()) {
+                if(!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.tag.key}=${it.tag.value}")) {
+                    println("$it has no OSM Wiki page")
+                }
+            }
+        }
+        val test = URL("https://wiki.openstreetmap.org/w/index.php?title=Key:office").openStream().bufferedReader().use { it.readText() }
+        println(test)
+        val test2 = URL("https://wiki.openstreetmap.org/w/index.php?title=Key:nonexistingpageeeee").openStream().bufferedReader().use { it.readText() }
+        println(test2)
+    }
+
+    private fun isPageExisting(url : String): Boolean {
+        try {
+            URL(url).openStream().bufferedReader().use { it.readText() }
+        }catch (e: java.io.FileNotFoundException) {
+            return false
+        }
+        return true
     }
 
     private fun questFolderGenerator() = iterator {
@@ -124,7 +149,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println(">===========================here is the entire content (source code)>===")
     }
 
-    class Tag(private val key: String, val value: String?) {
+    class Tag(val key: String, val value: String?) {
         override fun toString(): String {
             if (value == null) {
                 return "$key=*"
