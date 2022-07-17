@@ -376,8 +376,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         } else {
             appliedTags.add(Tag(key, null)) // TODO - get also value...
             if (!freeformValueExpected) {
+                println()
+                println()
+                println()
+                val description = "get value (key is known: $key) from <${valueHolder.relatedSourceCode(fileSourceCode)}> somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText"
+                println(description)
                 valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                valueHolder.showRelatedSourceCode(fileSourceCode, "get value (key is known: $key) from this somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText")
+                valueHolder.showRelatedSourceCode(fileSourceCode, description)
             }
         }
         return appliedTags
