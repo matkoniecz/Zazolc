@@ -391,8 +391,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun extractValuesForKnownKeyFromWhenExpression(key: String, whenExpression: AstNode, fileSourceCode: String, freeformValueExpected: Boolean): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         whenExpression.locateByDescription("whenEntry").forEach { it ->
-            it.showRelatedSourceCode(fileSourceCode, "expression")
-            it.showHumanReadableTreeWithSourceCode(fileSourceCode)
             val structure = it.children.filter { it.description != "WS" }
             /*
             structure.forEach { child ->
