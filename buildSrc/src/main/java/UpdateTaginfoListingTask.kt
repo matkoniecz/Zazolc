@@ -137,12 +137,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun freeformKeys(): List<String> {
         // most have own syntax and limitations obeyed by SC
-        return listOf("name", "maxheight", "ref", "addr:flats", "addr:housenumber",
-            "collection_times", "opening_hours", "surface:note", "capacity",
-            "maxspeed", "opening_date",
-            "source:width", "source:maxheight",
+        return listOf("name", "ref",
+            "addr:flats", "addr:housenumber", "addr:street", "addr:place", "addr:block_number",
+            "addr:conscriptionnumber", "addr:housename",
+            "building:levels", "roof:levels", "level",
+            "collection_times", "opening_hours", "opening_date", "check_date",
+            "fire_hydrant:diameter", "maxheight", "width",
+            "surface:note", "source:width", "source:maxheight",
+            "maxspeed",
+            "capacity", "step_count",
             "lanes", "lanes:forward", "lanes:backward", "lanes:both_ways",
-            "operator" // technically not fully, but does ot make sense to list all that autocomplete values
+            "turn:lanes:both_ways", "turn:lanes", "turn:lanes:forward", "turn:lanes:backward",
+            "operator", // technically not fully, but does ot make sense to list all that autocomplete values
+            "brand",
         )
     }
 
