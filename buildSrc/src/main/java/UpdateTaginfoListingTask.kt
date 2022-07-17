@@ -161,8 +161,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failed: Int) {
-        foundTags.forEach { println("$it ${if (it.tag.value == null && it.tag.key !in freeformKeys()) {"????????"} else {""}}") }
-        val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && it.tag.key !in freeformKeys() }.size
+        foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
+        val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, $failed failed")
         val tagsFoundPreviously = 229
         if (foundTags.size != tagsFoundPreviously) {
@@ -193,7 +193,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     println("${it.tag.key}= has no OSM Wiki page")
                 }
             }
-            if (it.tag.value !in listOf(null, "no", "yes") && it.tag.key !in freeformKeys()) {
+            if (it.tag.value !in listOf(null, "no", "yes") && !freeformKey(it.tag.key)) {
                 if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.tag.key}=${it.tag.value}")) {
                     println("$it has no OSM Wiki page")
                 }
@@ -218,9 +218,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun freeformKeys(): List<String> {
+    private fun freeformKey(key : String): Boolean {
         // most have own syntax and limitations obeyed by SC
-        return listOf("name", "ref",
+        // maybe move to general StreetComplete file about OSM tagging?
+        if (key in listOf("name", "ref",
             "addr:flats", "addr:housenumber", "addr:street", "addr:place", "addr:block_number",
             "addr:conscriptionnumber", "addr:housename",
             "building:levels", "roof:levels", "level",
@@ -233,7 +234,22 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "turn:lanes:both_ways", "turn:lanes", "turn:lanes:forward", "turn:lanes:backward",
             "operator", // technically not fully, but does ot make sense to list all that autocomplete values
             "brand",
-        )
+        )) {
+            return true
+        }
+        if (SURVEY_MARK_KEY in key) {
+            return true
+        }
+        if (key.endsWith(":note")) {
+            return true
+        }
+        if (key.startsWith("lanes:")) {
+            return true
+        }
+        if (key.startsWith("source:")) {
+            return true
+        }
+        return false
     }
 
     private fun loadFileFromPath(filepath: String): String {
@@ -417,7 +433,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         // WS
                         // expression ( for example: "steps" )
                         val valueHolder = assignment.locateSingleByDescriptionDirectChild("expression")
-                        appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, key in freeformKeys())
+                        appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, freeformKey(key))
                     } else if (potentialVariable != null) {
                         expression.showHumanReadableTree()
                         expression.showRelatedSourceCode(fileSourceCode, "expression in identified access as a variable")
