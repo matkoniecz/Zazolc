@@ -170,20 +170,20 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("unexpected function count found")
             exitProcess(1)
         }
-        val usedIndexes = mutableSetOf<Tag>()
+        val appliedTags = mutableSetOf<Tag>()
         var failedExtraction = false
         val relevantFunction = found[0]
         relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
         var got = extractCasesWhereTagsAreAccessedWithIndex(relevantFunction, fileSourceCode)
         if (got != null) {
-            usedIndexes += got
+            appliedTags += got
         } else {
             failedExtraction = true
         }
 
         got = extractCasesWhereTagsAreAccessedWithFunction(relevantFunction, fileSourceCode)
         if (got != null) {
-            usedIndexes += got
+            appliedTags += got
         } else {
             failedExtraction = true
         }
@@ -194,10 +194,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (failedExtraction) {
             print("extraction known to be a partial failure")
         }
-        if (usedIndexes.size == 0) {
+        if (appliedTags.size == 0) {
             return null // parsing definitely failed
         }
-        return usedIndexes
+        return appliedTags
     }
 
     private fun extractTextFromHardcodedString(passedTextHolder: Ast, fileSourceCode: String): String? {
@@ -229,7 +229,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // it is trying to detect things like
         // tags["bollard"] = answer.osmValue
 
-        // val usedIndexes = mutableSetOf<Tag>()
+        // val appliedTags = mutableSetOf<Tag>()
         // relevantFunction.showHumanReadableTreeWithSourceCode(fileSourceCode)
         /*
           [1495..1529] [34:9..34:43]  ------ statements DefaultAstNode <tags["indoor"] = answer.toYesNo()\n>
@@ -239,7 +239,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
           we want to get entire statement, not just directlyAssignableExpression - this allows us to get info also about the assigned value
          */
-        val usedIndexes = mutableSetOf<Tag>()
+        val appliedTags = mutableSetOf<Tag>()
         relevantFunction.locateByDescription("assignment").forEach { assignment ->
             assignment.children.forEach { tagsDictAccess ->
                 if (tagsDictAccess.description == "directlyAssignableExpression" &&
@@ -288,14 +288,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
                         val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder, fileSourceCode)
                         if (valueIfItIsSimpleText != null) {
-                            usedIndexes.add(Tag(key, valueIfItIsSimpleText))
+                            appliedTags.add(Tag(key, valueIfItIsSimpleText))
                         } else if (valueHolder.relatedSourceCode(fileSourceCode) in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()")) {
                             // should it be treated as a hack?
                             // parse code and detect toYesNo() at the end?
-                            usedIndexes.add(Tag(key, "yes"))
-                            usedIndexes.add(Tag(key, "no"))
+                            appliedTags.add(Tag(key, "yes"))
+                            appliedTags.add(Tag(key, "no"))
                         } else {
-                            usedIndexes.add(Tag(key, null)) // TODO - get also value...
+                            appliedTags.add(Tag(key, null)) // TODO - get also value...
                             valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
                             valueHolder.showRelatedSourceCode(fileSourceCode, "get value ($key= is known) from this somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText")
                         }
@@ -318,13 +318,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
         }
-        return usedIndexes
+        return appliedTags
     }
 
     private fun extractCasesWhereTagsAreAccessedWithFunction(relevantFunction: AstNode, fileSourceCode: String): Set<Tag>? {
         // it is trying to detect things like
         // tags.updateWithCheckDate("smoking", answer.osmValue)
-        val usedIndexes = mutableSetOf<Tag>()
+        val appliedTags = mutableSetOf<Tag>()
         relevantFunction.locateByDescription("postfixUnaryExpression").forEach {
             if (it.root() is KlassIdentifier && ((it.root() as KlassIdentifier).identifier == "tags")) {
                 val primary = it.locateSingleByDescriptionDirectChild("primaryExpression")
@@ -397,7 +397,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         if (key.children[0].description == "stringLiteral") {
                             val stringObject = (key.children[0].root() as KlassString).children[0]
                             val keyString = (stringObject as StringComponentRaw).string
-                            usedIndexes.add(Tag(keyString, null)) // TODO which value
+                            appliedTags.add(Tag(keyString, null)) // TODO which value
                         } else {
                             // TODO handle this
                             key.showHumanReadableTree()
@@ -431,7 +431,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 val processed = text.root()
                 if (processed is StringComponentRaw) {
                     println(processed.string)
-                    usedIndexes.add(processed.string)
+                    appliedTags.add(processed.string)
                 } else {
                     it.showHumanReadableTree()
                     println("found directlyAssignableExpression with tags, not managed to parse it")
@@ -439,7 +439,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 */
             }
         }
-        return usedIndexes
+        return appliedTags
     }
 
     class ParsingInterpretationException(private val s: String) : Throwable() {
