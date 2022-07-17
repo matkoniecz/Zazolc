@@ -101,8 +101,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             if(!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.tag.key}")) {
                 println("$it has no OSM Wiki page")
             }
-            if(it.tag.value != null && it.tag.key !in freeformKeys()) {
-                if(!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.tag.key}=${it.tag.value}")) {
+            if (it.tag.value !in listOf(null, "no", "yes") && it.tag.key !in freeformKeys()) {
+                if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.tag.key}=${it.tag.value}")) {
                     println("$it has no OSM Wiki page")
                 }
             }
