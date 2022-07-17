@@ -373,8 +373,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun extractValuesForKnownKeyFromWhenExpression(key: String, whenExpression: AstNode, fileSourceCode: String, freeformValueExpected: Boolean): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
-        whenExpression.showRelatedSourceCode(fileSourceCode, "expression")
-        whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
         whenExpression.locateByDescription("whenEntry").forEach { it ->
             it.showRelatedSourceCode(fileSourceCode, "expression")
             it.showHumanReadableTreeWithSourceCode(fileSourceCode)
@@ -485,6 +483,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             val stringObject = (key.children[0].root() as KlassString).children[0]
                             val keyString = (stringObject as StringComponentRaw).string
                             appliedTags.add(Tag(keyString, null)) // TODO which value
+                            dotAndFunction.showRelatedSourceCode(fileSourceCode, "extractCasesWhereTagsAreAccessedWithFunction - value extraction possible from that?")
                         } else {
                             // TODO handle this
                             key.showHumanReadableTree()
