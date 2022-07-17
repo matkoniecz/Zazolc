@@ -90,6 +90,10 @@ tasks.register<UpdateContributorStatisticsTask>("updateContributorStatistics") {
     githubApiToken = properties["GithubApiToken"] as String
 }
 
+tasks.register<UpdateTaginfoListingTask>("updateTaginfoListing") {
+    group = "streetcomplete"
+}
+
 tasks.register("updateStreetCompleteData") {
     group = "streetcomplete"
     dependsOn(
@@ -99,6 +103,7 @@ tasks.register("updateStreetCompleteData") {
         // "updateClothesContainerOperators",
         // "updateAtmOperators",
         "generateQuestList",
+        "updateTaginfoListing",
         "app:updatePresets",
         "app:updateNsiPresets",
         "app:updateTranslations",
