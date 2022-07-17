@@ -315,16 +315,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, key in freeformKeys())
                     } else if (potentialVariable != null) {
                         expression.showHumanReadableTree()
-                        expression.showRelatedSourceCode(fileSourceCode, "expression")
+                        expression.showRelatedSourceCode(fileSourceCode, "expression in identified access as a variable")
                         println(KotlinGrammarParserType.identifier.toString() + " identified as accessing index as a variable (potentialTexts.size = ${potentialTexts.size})")
                         return null
                     } else if (complexPotentialVariable.size == 1) {
                         expression.showHumanReadableTree()
-                        expression.showRelatedSourceCode(fileSourceCode, "expression")
+                        expression.showRelatedSourceCode(fileSourceCode, "expression in identified access as a complex variable")
                         println(complexPotentialVariable[0].relatedSourceCode(fileSourceCode) + " identified as accessing index as a complex variable (potentialTexts.size = ${potentialTexts.size})")
                         return null
                     } else {
-                        expression.showRelatedSourceCode(fileSourceCode, "expression")
+                        expression.showRelatedSourceCode(fileSourceCode, "expression - not handled")
                         expression.showHumanReadableTree()
                         println(expression::class)
                         throw ParsingInterpretationException("not handled, ${potentialTexts.size} texts, $potentialVariable variable")
