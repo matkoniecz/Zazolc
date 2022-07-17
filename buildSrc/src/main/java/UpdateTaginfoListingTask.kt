@@ -49,7 +49,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val folder = folderGenerator.next()
             var foundQuestFile = false
             File(folder.toString()).walkTopDown().forEach {
-                println(it)
                 if (".kt" in it.name && "Form" !in it.name) {
                     if ("Add" in it.name || "Check" in it.name || "Determine" in it.name || "MarkCompleted" in it.name) {
                         println(it)
@@ -58,8 +57,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         val got = addedOrEditedTags(it.name, loadFileFromPath(it.toString()))
                         if (got != null) {
                             println(got)
-                            println(foundTags)
-                            println()
                             println()
                             processed += 1
                             got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
