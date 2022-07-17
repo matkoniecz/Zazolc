@@ -353,9 +353,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder, fileSourceCode)
         if (valueIfItIsSimpleText != null) {
             appliedTags.add(Tag(key, valueIfItIsSimpleText))
-        } else if (valueHolder.relatedSourceCode(fileSourceCode) in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()")) {
-            // should it be treated as a hack?
-            // parse code and detect toYesNo() at the end?
+        } else if (valueHolder.relatedSourceCode(fileSourceCode) == "answer.osmValue") {
+            // TODO handle this somehow - requires extra parsing, likely in another file
+        } else if (valueHolder.relatedSourceCode(fileSourceCode).endsWith(".toYesNo()")) {
+            // previous form of check:
+            // in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()", "isAutomated.toYesNo()")
+            // TODO: fix this hack by proper parse and detect toYesNo() at the end? (low priority)
             appliedTags.add(Tag(key, "yes"))
             appliedTags.add(Tag(key, "no"))
         } else {
