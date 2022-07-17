@@ -273,32 +273,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         // WS
                         // expression ( for example: "steps" )
                         val valueHolder = assignment.locateSingleByDescriptionDirectChild("expression")
-
-                        val potentialWhenExpressionCandidate = expression.locateByDescription("whenExpression")
-                        if (potentialWhenExpressionCandidate.size > 1) {
-                            throw ParsingInterpretationException("not handled, ${potentialWhenExpressionCandidate.size} when expressions")
-                        }
-                        if (potentialWhenExpressionCandidate.size == 1) {
-                            if (potentialWhenExpressionCandidate[0].relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
-                                throw ParsingInterpretationException("parse this as when expression!")
-                            } else {
-                                throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
-                            }
-                        }
-
-                        val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder, fileSourceCode)
-                        if (valueIfItIsSimpleText != null) {
-                            appliedTags.add(Tag(key, valueIfItIsSimpleText))
-                        } else if (valueHolder.relatedSourceCode(fileSourceCode) in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()")) {
-                            // should it be treated as a hack?
-                            // parse code and detect toYesNo() at the end?
-                            appliedTags.add(Tag(key, "yes"))
-                            appliedTags.add(Tag(key, "no"))
-                        } else {
-                            appliedTags.add(Tag(key, null)) // TODO - get also value...
-                            valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                            valueHolder.showRelatedSourceCode(fileSourceCode, "get value ($key= is known) from this somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText")
-                        }
+                        appliedTags += extractTagsWhenKeyIsKnown(key, valueHolder, fileSourceCode)
                     } else if (potentialVariable != null) {
                         expression.showHumanReadableTree()
                         expression.showRelatedSourceCode(fileSourceCode, "expression")
@@ -317,6 +292,36 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                 }
             }
+        }
+        return appliedTags
+    }
+
+    private fun extractTagsWhenKeyIsKnown(key: String, valueHolder: Ast, fileSourceCode: String): MutableSet<Tag> {
+        val appliedTags = mutableSetOf<Tag>()
+        val potentialWhenExpressionCandidate = valueHolder.locateByDescription("whenExpression")
+        if (potentialWhenExpressionCandidate.size > 1) {
+            throw ParsingInterpretationException("not handled, ${potentialWhenExpressionCandidate.size} when expressions")
+        }
+        if (potentialWhenExpressionCandidate.size == 1) {
+            if (potentialWhenExpressionCandidate[0].relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
+                throw ParsingInterpretationException("parse this as when expression!")
+            } else {
+                throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
+            }
+        }
+
+        val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder, fileSourceCode)
+        if (valueIfItIsSimpleText != null) {
+            appliedTags.add(Tag(key, valueIfItIsSimpleText))
+        } else if (valueHolder.relatedSourceCode(fileSourceCode) in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()")) {
+            // should it be treated as a hack?
+            // parse code and detect toYesNo() at the end?
+            appliedTags.add(Tag(key, "yes"))
+            appliedTags.add(Tag(key, "no"))
+        } else {
+            appliedTags.add(Tag(key, null)) // TODO - get also value...
+            valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
+            valueHolder.showRelatedSourceCode(fileSourceCode, "get value (key is known: $key) from this somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText")
         }
         return appliedTags
     }
