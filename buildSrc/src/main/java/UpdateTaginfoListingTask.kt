@@ -77,16 +77,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 throw ParsingInterpretationException("not found quest file for $folder")
             }
         }
-        foundTags.forEach { println(it) }
-        val specificTags = foundTags.filter { it.tag.value != null }.size
-        println("${foundTags.size} entries registered, $specificTags have specific tags, $processed quests processed, $failed failed")
-        val tagsFoundPreviously = 223
+        foundTags.forEach { println("$it ${if (it.tag.value == null && it.tag.key !in freeformKeys()) {"????????"} else {""}}") }
+        val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && it.tag.key !in freeformKeys() }.size
+        println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, $failed failed")
+        val tagsFoundPreviously = 229
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val specificTagsFoundPreviously = 99
-        if (specificTags != specificTagsFoundPreviously) {
-            println("Something changed in processing! specificTags count $specificTags vs $specificTagsFoundPreviously previously")
+        val tagsThatShouldBeMoreSpecificFoundPreviously = 84
+        if (tagsThatShouldBeMoreSpecific != tagsThatShouldBeMoreSpecificFoundPreviously) {
+            println("Something changed in processing! tagsThatShouldBeMoreSpecific count $tagsThatShouldBeMoreSpecific vs $tagsThatShouldBeMoreSpecificFoundPreviously previously")
         }
         val processedQuestsPreviously = 122
         if (processed != processedQuestsPreviously) {
