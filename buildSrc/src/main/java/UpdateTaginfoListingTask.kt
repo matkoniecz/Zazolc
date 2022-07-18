@@ -94,6 +94,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "step_count/AddStepCount.kt" to setOf(Tag("step_count", null)),
             "step_count/AddStepCountStile.kt" to setOf(Tag("step_count", null)),
             "steps_incline/AddStepsIncline.kt" to setOf(Tag("incline", "up"), Tag("incline", "down")),
+            "toilet_availability/AddToiletAvailability.kt" to setOf(Tag("toilets", "yes"), Tag("toilets", "no")),
             "toilets_fee/AddToiletsFee.kt" to setOf(Tag("fee", "yes"), Tag("fee", "no")),
             "traffic_signals_button/AddTrafficSignalsButton.kt" to setOf(Tag("button_operated", "yes"), Tag("button_operated", "no")),
             "width/AddRoadWidth.kt" to setOf(Tag("width", null), Tag("source:width", "ARCore")),
