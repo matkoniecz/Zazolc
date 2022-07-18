@@ -674,20 +674,23 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 enum.locateByDescription("enumEntry").forEach { enumEntry ->
                     var extractedText: String? = null
                     val valueArguments = enumEntry.locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
-                    val firstArgument = valueArguments.locateByDescription("valueArgument")[0]
-                    if (firstArgument.codeRange() == valueArguments.codeRange()) {
-                        extractedText = extractTextFromHardcodedString(firstArgument, fileMaybeContainingEnumSourceCode)
-                    }
-                    if (extractedText == null) {
-                        valueArguments.showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
+                    val arguments = valueArguments.locateByDescriptionDirectChild("valueArgument")
+                    if (arguments.size == 1) {
+                        extractedText = extractTextFromHardcodedString(arguments[0], fileMaybeContainingEnumSourceCode)
+                        if (extractedText == null) {
+                            valueArguments.showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
+                        } else {
+                            values.add(extractedText)
+                        }
                     } else {
-                        // TODO it assumes that there is a single enum with a single assigned value to each enum statement...
+                        // TODO above assumes that there is a single enum with a single assigned value to each enum statement...
                         /*
                         // for more complex ones
                         enum.locateSingleOrExceptionByDescription("primaryConstructor")
                             .showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
                          */
-                        values.add(extractedText)
+                        println("more than one argument")
+                        valueArguments.showRelatedSourceCode(fileMaybeContainingEnumSourceCode, "valueArguments")
                     }
                 }
             }
