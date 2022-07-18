@@ -110,14 +110,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         foundQuestFile = true
                         val fileSourceCode = loadFileFromPath(it.toString())
                         val got = addedOrEditedTags(it.name, fileSourceCode)
+                        reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT), fileSourceCode)
                         if (got != null) {
                             processed += 1
-                            reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT), fileSourceCode)
                             got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
                         } else {
-                            println("failed")
-                            println()
-                            println()
                             failed += 1
                         }
                     }
@@ -149,13 +146,21 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("MISMATCH")
             println("MISMATCH")
         }
+        if (got == null) {
+            println("EMPTY RESULT, FAILED")
+            println("EMPTY RESULT, FAILED")
+            println("EMPTY RESULT, FAILED")
+            println("EMPTY RESULT, FAILED")
+        }
         println(filepath)
         val ast = AstSource.String(filepath, fileSourceCode)
         val relevantFunction = getAstTreeForFunctionEditingTags(filepath, ast)
         relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
-        println(got)
-        val classesReadyToCreate = got?.map { it.reproduceCode() }!!.joinToString(", ")
-        println("\"$filepath\" to setOf($classesReadyToCreate),")
+        if (got != null) {
+            println(got)
+            val classesReadyToCreate = got.map { it.reproduceCode() }.joinToString(", ")
+            println("\"$filepath\" to setOf($classesReadyToCreate),")
+        }
         println("-----------------")
         println()
     }
