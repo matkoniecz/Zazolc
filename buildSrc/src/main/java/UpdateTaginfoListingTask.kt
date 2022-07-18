@@ -301,6 +301,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (mismatch) {
             println()
             println("-----------------")
+            println(filepath)
+            println()
+            println(got)
+            println(EXPECTED_TAG_PER_QUEST[filepath])
+            println(tagSetToReproducibleCode(got, filepath))
             println("MISMATCH")
             println("MISMATCH")
             println("MISMATCH")
@@ -316,12 +321,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (got == null) {
             println()
             println("-----------------")
+            println(filepath)
             println("EMPTY RESULT, FAILED")
             println("EMPTY RESULT, FAILED")
             println("EMPTY RESULT, FAILED")
             println("EMPTY RESULT, FAILED")
         }
-        println(filepath)
         relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
         if (got != null) {
             println(got)
