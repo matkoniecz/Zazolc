@@ -216,6 +216,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return false
     }
 
+    fun functionParsingSkippedBasedOnSourceCode(sourceCodeOfFunction:String): Boolean {
+        return "answer.applyTo(" in sourceCodeOfFunction
+    }
     private fun reportResultOfScanInSingleQuest(got: Set<Tag>?, filepath: String, fileSourceCode: String) {
         var mismatch = false
         if (filepath in EXPECTED_TAG_PER_QUEST) {
@@ -239,7 +242,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("MISMATCH")
             throw Exception("MISMATCH")
         }
-        if("answer.applyTo(" in relevantFunction.relatedSourceCode(fileSourceCode)) {
+        if(functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
             return
         }
         if (got == null) {
@@ -434,7 +437,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         var failedExtraction = false
         val ast = AstSource.String(description, fileSourceCode)
         val relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
-        if("answer.applyTo(" in relevantFunction.relatedSourceCode(fileSourceCode)) {
+        if(functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
             return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
         }
         var got = extractCasesWhereTagsAreAccessedWithIndex(relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
