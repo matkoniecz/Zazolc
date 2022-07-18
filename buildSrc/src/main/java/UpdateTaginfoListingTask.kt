@@ -223,6 +223,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println()
         println()
         foundTags.forEach {
+            if(it.tag.key.startsWith(SURVEY_MARK_KEY + ":")) {
+                return@forEach // compound key with generated explanation, see https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
+            }
+            if(it.tag.key.startsWith("source:")) {
+                return@forEach // should have generated explanation (but is missing for now at least!), see https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
+            }
             if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.tag.key}")) {
                 if (it.tag.value != null) {
                     // if value page exists, then it is likely fine
