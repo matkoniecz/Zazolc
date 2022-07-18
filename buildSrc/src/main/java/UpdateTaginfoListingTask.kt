@@ -643,7 +643,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         appliedTags.add(Tag(keyString, null)) // TODO which value
                         // dotAndFunction is without argument
                         // possibleDotAndFunction[0] also
-                        it.showRelatedSourceCode(fileSourceCode, "it - value extraction possible from that?")
+                        println("6666666666666666666666666666666666666666<<< tags dict is accessed with function, key known, value unknown<")
+                        println("${possibleDotAndFunction.size} possibleDotAndFunction.size")
+                        relevantFunction.showRelatedSourceCode(fileSourceCode, "value extraction should be attempted")
+                        if (possibleDotAndFunction.size >= 2) {
+                            possibleDotAndFunction[1].showRelatedSourceCode(fileSourceCode, "it - value extraction possible from that?")
+                        } else {
+                            throw Exception("UNEXPECTED")
+                        }
+                        possibleDotAndFunction[1].showHumanReadableTreeWithSourceCode(fileSourceCode)
+                        println(">>>666666666666666666666666666666666666666>")
                     } else {
                         return null
                     }
