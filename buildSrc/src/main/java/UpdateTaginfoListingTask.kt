@@ -249,7 +249,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return true
     }
 
-    private fun freeformKey(key : String): Boolean {
+    private fun freeformKey(key: String): Boolean {
         // most have own syntax and limitations obeyed by SC
         // maybe move to general StreetComplete file about OSM tagging?
         if (key in listOf("name", "ref",
