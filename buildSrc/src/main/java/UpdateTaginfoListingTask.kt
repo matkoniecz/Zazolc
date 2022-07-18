@@ -665,20 +665,20 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun getEnumValuesDefinedInThisFilepath(filepath:String):Set<String>{
         val values = mutableSetOf<String>()
-        val maybeFileWithEnumSourceCode = loadFileFromPath(filepath)
-        val ast = AstSource.String(filepath, maybeFileWithEnumSourceCode)
+        val fileMaybeContainingEnumSourceCode = loadFileFromPath(filepath)
+        val ast = AstSource.String(filepath, fileMaybeContainingEnumSourceCode)
         val potentialEnumFileAst = ast.parse()
         potentialEnumFileAst.locateByDescription("classDeclaration").forEach { enum ->
-            if (enum.locateSingleOrExceptionByDescription("modifiers").relatedSourceCode(maybeFileWithEnumSourceCode) == "enum") {
+            if (enum.locateSingleOrExceptionByDescription("modifiers").relatedSourceCode(fileMaybeContainingEnumSourceCode) == "enum") {
                 enum.locateByDescription("enumEntry").forEach { enumEntry ->
                     var extractedText: String? = null
                     val valueArguments = enumEntry.locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
                     val firstArgument = valueArguments.locateByDescription("valueArgument")[0]
                     if (firstArgument.codeRange() == valueArguments.codeRange()) {
-                        extractedText = extractTextFromHardcodedString(firstArgument, maybeFileWithEnumSourceCode)
+                        extractedText = extractTextFromHardcodedString(firstArgument, fileMaybeContainingEnumSourceCode)
                     }
                     if (extractedText == null) {
-                        valueArguments.showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
+                        valueArguments.showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
                     } else {
                         // TODO it assumes that there is a single enum with a single assigned value to each enum statement...
                         /*
