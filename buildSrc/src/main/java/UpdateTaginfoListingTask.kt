@@ -646,7 +646,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         // WS
                         // expression ( for example: "steps" )
                         val valueHolder = assignment.locateSingleOrExceptionByDescriptionDirectChild("expression")
-                        appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, freeformKey(key), suspectedAnswerEnumFiles)
+                        appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
                     } else if (potentialVariable != null) {
                         expression.showHumanReadableTree()
                         expression.showRelatedSourceCode(fileSourceCode, "expression in identified access as a variable")
@@ -709,13 +709,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return values
     }
 
-    private fun extractValuesForKnownKey(key: String, valueHolder: Ast, fileSourceCode: String, freeformValueExpected: Boolean, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
+    private fun extractValuesForKnownKey(key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
 
         val whenExpression = valueHolder.locateSingleOrNullByDescription("whenExpression")
         if (whenExpression != null) {
             if (whenExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
-                return extractValuesForKnownKeyFromWhenExpression(key, whenExpression, fileSourceCode, freeformValueExpected, suspectedAnswerEnumFiles)
+                return extractValuesForKnownKeyFromWhenExpression(key, whenExpression, fileSourceCode, suspectedAnswerEnumFiles)
             } else {
                 throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
             }
@@ -724,7 +724,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val ifExpression = valueHolder.locateSingleOrNullByDescription("ifExpression")
         if (ifExpression != null) {
             if (ifExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
-                return extractValuesForKnownKeyFromIfExpression(key, ifExpression, fileSourceCode, freeformValueExpected, suspectedAnswerEnumFiles)
+                return extractValuesForKnownKeyFromIfExpression(key, ifExpression, fileSourceCode, suspectedAnswerEnumFiles)
             } else {
                 throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
             }
@@ -756,7 +756,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             appliedTags.add(Tag(key, "no"))
         } else {
             appliedTags.add(Tag(key, null)) // TODO - get also value...
-            if (!freeformValueExpected) {
+            if (!freeformKey(key)) {
                 println()
                 println()
                 println()
@@ -769,15 +769,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun extractValuesForKnownKeyFromIfExpression(key: String, ifExpression: AstNode, fileSourceCode: String, freeformValueExpected: Boolean, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
+    private fun extractValuesForKnownKeyFromIfExpression(key: String, ifExpression: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         ifExpression.locateByDescription("controlStructureBody").forEach {
-            appliedTags += extractValuesForKnownKey(key, it, fileSourceCode, freeformValueExpected, suspectedAnswerEnumFiles)
+            appliedTags += extractValuesForKnownKey(key, it, fileSourceCode, suspectedAnswerEnumFiles)
         }
         return appliedTags
     }
 
-    private fun extractValuesForKnownKeyFromWhenExpression(key: String, whenExpression: AstNode, fileSourceCode: String, freeformValueExpected: Boolean, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
+    private fun extractValuesForKnownKeyFromWhenExpression(key: String, whenExpression: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         whenExpression.locateByDescription("whenEntry").forEach { it ->
             val structure = it.children.filter { it.description != "WS" }
@@ -805,7 +805,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             if (structure.size != 4) {
                 throw ParsingInterpretationException("unexpected when structure!")
             }
-            appliedTags += extractValuesForKnownKey(key, structure[2], fileSourceCode, freeformValueExpected, suspectedAnswerEnumFiles)
+            appliedTags += extractValuesForKnownKey(key, structure[2], fileSourceCode, suspectedAnswerEnumFiles)
         }
         return appliedTags
     }
