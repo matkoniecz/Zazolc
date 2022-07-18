@@ -753,6 +753,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
+    private fun Ast.codeRange(): Pair<Int, Int> {
+        val start = root()!!.humanReadableDescriptionInfo()!!.start
+        val end = root()!!.humanReadableDescriptionInfo()!!.end
+        return Pair(start, end)
+    }
+
     private fun Ast.relatedSourceCode(sourceCode: String): String {
         if (root() == null) {
             return "<source code not available>"
