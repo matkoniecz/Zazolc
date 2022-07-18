@@ -108,27 +108,60 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val folder = folderGenerator.next()
             var foundQuestFile = false
             File(folder.toString()).walkTopDown().forEach {
-                if (".kt" in it.name && "Form" !in it.name && "Adapter" !in it.name && "Utils" !in it.name && it.name !in listOf("AddressStreetAnswer.kt")) {
-                    if ("Add" in it.name || "Check" in it.name || "Determine" in it.name || "MarkCompleted" in it.name) {
-                        foundQuestFile = true
-                        val fileSourceCode = loadFileFromPath(it.toString())
-                        val got = addedOrEditedTags(it.name, fileSourceCode)
-                        reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT), fileSourceCode)
-                        if (got != null) {
-                            processed += 1
-                            got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
-                        } else {
-                            failed += 1
-                        }
+                if (isQuestFile(it)) {
+                    foundQuestFile = true
+                    val fileSourceCode = loadFileFromPath(it.toString())
+                    val got = addedOrEditedTags(it.name, fileSourceCode)
+                    reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT), fileSourceCode)
+                    if (got != null) {
+                        processed += 1
+                        got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
+                    } else {
+                        failed += 1
                     }
                 }
             }
+            break
             if (!foundQuestFile && folder.name != "note_discussion") {
                 throw ParsingInterpretationException("not found quest file for $folder")
             }
         }
         reportResultOfDataCollection(foundTags, processed, failed)
     }
+
+    private fun questFolderGenerator() = iterator {
+        File(QUEST_ROOT).walkTopDown().maxDepth(1).forEach { folder ->
+            if (folder.isDirectory && folder.toString() != QUEST_ROOT && folder.toString() + "/" != QUEST_ROOT) {
+                yield(folder)
+            }
+        }
+    }
+
+    private fun isQuestFile(file: File): Boolean {
+        if (file.name == "AddIsBuildingUnderground.kt") {
+            return true
+        }
+        if (".kt" !in file.name) {
+            return false
+        }
+        if ("Form" in file.name) {
+            return false
+        }
+        if ("Adapter" in file.name) {
+            return false
+        }
+        if ("Utils" in file.name) {
+            return false
+        }
+        if (file.name == "AddressStreetAnswer.kt") {
+            return false
+        }
+        if ("Add" in file.name || "Check" in file.name || "Determine" in file.name || "MarkCompleted" in file.name) {
+            return true
+        }
+        return false
+    }
+
     private fun reportResultOfScanInSingleQuest(got: Set<Tag>?, filepath: String, fileSourceCode: String) {
         var mismatch = false
         if (filepath in EXPECTED_TAG_PER_QUEST) {
@@ -216,14 +249,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return false
         }
         return true
-    }
-
-    private fun questFolderGenerator() = iterator {
-        File(QUEST_ROOT).walkTopDown().maxDepth(1).forEach { folder ->
-            if (folder.isDirectory && folder.toString() != QUEST_ROOT) {
-                yield(folder)
-            }
-        }
     }
 
     private fun freeformKey(key : String): Boolean {
