@@ -954,13 +954,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun extractArgumentInFunctionCall(index: Int, ast: AstNode, fileSourceCode: String): String? {
-        ast.root()!!.showHumanReadableTreeWithSourceCode(fileSourceCode)
-        ast.root()!!.showRelatedSourceCode(fileSourceCode, "dammit")
         val found = extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
         if (found == null) {
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
-            ast.showRelatedSourceCode(fileSourceCode, "dammit")
-            ast.root()!!.showRelatedSourceCode(fileSourceCode, "dammit rooted")
+            ast.root()!!.showHumanReadableTreeWithSourceCode(fileSourceCode)
+            ast.root()!!.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall")
+            ast.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall - not found")
+            ast.root()!!.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall - not found (rooted)")
+            println("${extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode)} - extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode)")
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
             return null
         }
