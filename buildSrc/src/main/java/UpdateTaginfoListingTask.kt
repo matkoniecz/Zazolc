@@ -511,6 +511,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (valueIfItIsSimpleText != null) {
             appliedTags.add(Tag(key, valueIfItIsSimpleText))
         } else if (valueHolder.relatedSourceCode(fileSourceCode) == "answer.osmValue") {
+            println("answer.osmValue, not trying to find values for now")
             appliedTags.add(Tag(key, null)) // TODO - get also value...
             // TODO handle this somehow - requires extra parsing, likely in another file
         } else if (valueHolder.relatedSourceCode(fileSourceCode).endsWith(".toYesNo()")) {
