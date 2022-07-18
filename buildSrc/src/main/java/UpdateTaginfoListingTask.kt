@@ -252,6 +252,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if ("replaceShop" in sourceCodeOfFunction) {
             return true
         }
+        if ("answer.countryCode + \":\" + answer.roadType" in sourceCodeOfFunction) {
+            return true
+        }
         if ("osmKey" in sourceCodeOfFunction) {
             // key also needs parsing - TODO, this should be solvable
             return true
