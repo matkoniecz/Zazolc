@@ -354,11 +354,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && !freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedList.size} failed")
-        val tagsFoundPreviously = 422
+        val tagsFoundPreviously = 421
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val tagsThatShouldBeMoreSpecificFoundPreviously = 13
+        val tagsThatShouldBeMoreSpecificFoundPreviously = 14
         if (tagsThatShouldBeMoreSpecific != tagsThatShouldBeMoreSpecificFoundPreviously) {
             println("Something changed in processing! tagsThatShouldBeMoreSpecific count $tagsThatShouldBeMoreSpecific vs $tagsThatShouldBeMoreSpecificFoundPreviously previously")
         }
