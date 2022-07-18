@@ -192,7 +192,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
         if (got != null) {
             println(got)
-            val classesReadyToCreate = got.map { it.reproduceCode() }.joinToString(", ")
+            val classesReadyToCreate = got.joinToString(", ") { it.reproduceCode() }
             println("\"$filepath\" to setOf($classesReadyToCreate),")
         }
         println("-----------------")
