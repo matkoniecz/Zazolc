@@ -123,6 +123,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "seating/AddSeating.kt" to setOf(Tag("outdoor_seating", "yes"), Tag("outdoor_seating", "no"), Tag("indoor_seating", "yes"), Tag("indoor_seating", "no")),
             "segregated/AddCyclewaySegregation.kt" to setOf(Tag("check_date:segregated", null), Tag("segregated", "yes"), Tag("segregated", "no")),
             "self_service/AddSelfServiceLaundry.kt" to setOf(Tag("self_service", "no"), Tag("laundry_service", "yes"), Tag("self_service", "yes"), Tag("laundry_service", "no")),
+            "smoking/AddSmoking.kt" to setOf(Tag("check_date:smoking", null), Tag("smoking", "yes"), Tag("smoking", "outside"), Tag("smoking", "no"), Tag("smoking", "separated")),
             "step_count/AddStepCount.kt" to setOf(Tag("step_count", null)),
             "step_count/AddStepCountStile.kt" to setOf(Tag("step_count", null)),
             "steps_incline/AddStepsIncline.kt" to setOf(Tag("incline", "up"), Tag("incline", "down")),
