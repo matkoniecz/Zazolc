@@ -46,7 +46,7 @@ There was an attempt to do this but it failed.
 open class UpdateTaginfoListingTask : DefaultTask() {
     companion object {
         const val NAME_OF_FUNCTION_EDITING_TAGS = "applyAnswerTo"
-        const val QUEST_ROOT = "app/src/main/java/de/westnordost/streetcomplete/quests/"
+        const val QUEST_ROOT_WITH_SLASH_ENDING = "app/src/main/java/de/westnordost/streetcomplete/quests/"
         const val SURVEY_MARK_KEY = "check_date" // TODO: is it possible to use directly SC constant?
         val EXPECTED_TAG_PER_QUEST = mapOf(
             "accepts_cards/AddAcceptsCards.kt" to setOf(Tag("payment:debit_cards", "yes"), Tag("payment:debit_cards", "no"), Tag("payment:credit_cards", "yes"), Tag("payment:credit_cards", "no")),
@@ -112,7 +112,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     foundQuestFile = true
                     val fileSourceCode = loadFileFromPath(it.toString())
                     val got = addedOrEditedTags(it.name, fileSourceCode)
-                    reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT), fileSourceCode)
+                    reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT_WITH_SLASH_ENDING), fileSourceCode)
                     if (got != null) {
                         processed += 1
                         got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
@@ -130,8 +130,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun questFolderGenerator() = iterator {
-        File(QUEST_ROOT).walkTopDown().maxDepth(1).forEach { folder ->
-            if (folder.isDirectory && folder.toString() != QUEST_ROOT && folder.toString() + "/" != QUEST_ROOT) {
+        File(QUEST_ROOT_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { folder ->
+            if (folder.isDirectory && "$folder/" != QUEST_ROOT_WITH_SLASH_ENDING) {
                 yield(folder)
             }
         }
