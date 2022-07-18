@@ -874,6 +874,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     // worse - not entire, only segment of it...
                     // so NSI would be parsed in turn...
                     // TODO
+                    return null
                 } else {
                     throw ParsingInterpretationException("unexpected function name $functionName")
                 }
