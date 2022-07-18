@@ -344,17 +344,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedList: MutableList<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
-        val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && freeformKey(it.tag.key) }.size
+        val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && !freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedList.size} failed")
-        val tagsFoundPreviously = 403
+        val tagsFoundPreviously = 430
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val tagsThatShouldBeMoreSpecificFoundPreviously = 37
+        val tagsThatShouldBeMoreSpecificFoundPreviously = 15
         if (tagsThatShouldBeMoreSpecific != tagsThatShouldBeMoreSpecificFoundPreviously) {
             println("Something changed in processing! tagsThatShouldBeMoreSpecific count $tagsThatShouldBeMoreSpecific vs $tagsThatShouldBeMoreSpecificFoundPreviously previously")
         }
-        val processedQuestsPreviously = 119
+        val processedQuestsPreviously = 114
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
