@@ -1034,6 +1034,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return found[0]
         }
     }
+
     private fun Ast.locateByDescriptionDirectChild(filter: String): List<Ast> {
         val returned = mutableListOf<Ast>()
         if (this is AstNode) {
