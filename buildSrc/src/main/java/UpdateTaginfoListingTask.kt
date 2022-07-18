@@ -765,6 +765,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         val start = root()!!.humanReadableDescriptionInfo()!!.start
         val end = root()!!.humanReadableDescriptionInfo()!!.end
+        if (start < 0 || end < 0) {
+            return "<source code not available> - stated range was $start to $end index"
+        }
         return sourceCode.subSequence(start, end).toString()
     }
 
