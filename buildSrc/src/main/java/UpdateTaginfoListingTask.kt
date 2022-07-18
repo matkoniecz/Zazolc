@@ -254,19 +254,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // most have own syntax and limitations obeyed by SC
         // maybe move to general StreetComplete file about OSM tagging?
         if (key in listOf("name", "ref",
-            "addr:flats", "addr:housenumber", "addr:street", "addr:place", "addr:block_number",
-            "addr:conscriptionnumber", "addr:housename",
-            "building:levels", "roof:levels", "level",
-            "collection_times", "opening_hours", "opening_date", "check_date",
-            "fire_hydrant:diameter", "maxheight", "width",
-            "surface:note", "source:width", "source:maxheight",
-            "maxspeed",
-            "capacity", "step_count",
-            "lanes", "lanes:forward", "lanes:backward", "lanes:both_ways",
-            "turn:lanes:both_ways", "turn:lanes", "turn:lanes:forward", "turn:lanes:backward",
-            "operator", // technically not fully, but does ot make sense to list all that autocomplete values
-            "brand",
-        )) {
+                "addr:flats", "addr:housenumber", "addr:street", "addr:place", "addr:block_number",
+                "addr:conscriptionnumber", "addr:housename",
+                "building:levels", "roof:levels", "level",
+                "collection_times", "opening_hours", "opening_date", "check_date",
+                "fire_hydrant:diameter", "maxheight", "width",
+                "surface:note", "source:width", "source:maxheight",
+                "maxspeed",
+                "capacity", "step_count",
+                "lanes", "lanes:forward", "lanes:backward", "lanes:both_ways",
+                "turn:lanes:both_ways", "turn:lanes", "turn:lanes:forward", "turn:lanes:backward",
+                "operator", // technically not fully, but does ot make sense to list all that autocomplete values
+                "brand",
+            )) {
             return true
         }
         if (SURVEY_MARK_KEY in key) {
