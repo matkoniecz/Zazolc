@@ -440,10 +440,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     // this limits it to things like
                     // tags[something] = somethingElse
                     // (would it also detect tags=whatever)?
-                    val indexingElement = tagsDictAccess.locateSingleByDescription("assignableSuffix")
-                        .locateSingleByDescription("indexingSuffix")
+                    val indexingElement = tagsDictAccess.locateSingleOrExceptionByDescription("assignableSuffix")
+                        .locateSingleOrExceptionByDescription("indexingSuffix")
                     // indexingElement is something like ["indoor"] or [key]
-                    val expression = indexingElement.locateSingleByDescriptionDirectChild("expression") // drop outer [ ]
+                    val expression = indexingElement.locateSingleOrExceptionByDescriptionDirectChild("expression") // drop outer [ ]
                     val potentialTexts = expression.locateByDescription("stringLiteral", debug = false) // what if it is something like "prefix" + CONSTANT ?
                     val potentialVariable = if (expression is KlassIdentifier) { expression } else { null } // tag[key] = ...
                     val complexPotentialVariable = expression.locateByDescriptionDirectChild("disjunction") // tag[answer.osmKey] = ...
@@ -462,7 +462,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         // ASSIGNMENT =
                         // WS
                         // expression ( for example: "steps" )
-                        val valueHolder = assignment.locateSingleByDescriptionDirectChild("expression")
+                        val valueHolder = assignment.locateSingleOrExceptionByDescriptionDirectChild("expression")
                         appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, freeformKey(key))
                     } else if (potentialVariable != null) {
                         expression.showHumanReadableTree()
@@ -488,13 +488,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun extractValuesForKnownKey(key: String, valueHolder: Ast, fileSourceCode: String, freeformValueExpected: Boolean): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
-        val potentialWhenExpressionCandidate = valueHolder.locateByDescription("whenExpression")
-        if (potentialWhenExpressionCandidate.size > 1) {
-            throw ParsingInterpretationException("not handled, ${potentialWhenExpressionCandidate.size} when expressions")
-        }
-        if (potentialWhenExpressionCandidate.size == 1) {
-            if (potentialWhenExpressionCandidate[0].relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
-                val whenExpression = potentialWhenExpressionCandidate[0]
+
+        val whenExpression = valueHolder.locateSingleOrNullByDescription("whenExpression")
+        if (whenExpression != null) {
+            if (whenExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
                 return extractValuesForKnownKeyFromWhenExpression(key, whenExpression, fileSourceCode, freeformValueExpected)
             } else {
                 throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
@@ -567,7 +564,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val appliedTags = mutableSetOf<Tag>()
         relevantFunction.locateByDescription("postfixUnaryExpression").forEach {
             if (it.root() is KlassIdentifier && ((it.root() as KlassIdentifier).identifier == "tags")) {
-                val primary = it.locateSingleByDescriptionDirectChild("primaryExpression")
+                val primary = it.locateSingleOrExceptionByDescriptionDirectChild("primaryExpression")
                 val rootOfExpectedTagsIdentifier = primary.root()
                 if (rootOfExpectedTagsIdentifier !is KlassIdentifier) {
                     println()
@@ -596,7 +593,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     return@forEach
                 }
                 val dotAndFunction =
-                    possibleDotAndFunction[0].locateSingleByDescriptionDirectChild("navigationSuffix") // TODO: why [0]
+                    possibleDotAndFunction[0].locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix") // TODO: why [0]
                 if (dotAndFunction !is AstNode) {
                     throw ParsingInterpretationException("unexpected!")
                 }
@@ -657,10 +654,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun extractKeyValueInFunctionCall(it: AstNode, fileSourceCode: String): String? {
         println(it.description)
         val arguments = it.locateByDescriptionDirectChild("postfixUnarySuffix")[1]
-            .locateSingleByDescriptionDirectChild("callSuffix")
-            .locateSingleByDescriptionDirectChild("valueArguments")
+            .locateSingleOrExceptionByDescriptionDirectChild("callSuffix")
+            .locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
         val argumentList = arguments.locateByDescription("valueArgument")
-        val key = argumentList[0].locateSingleByDescription("primaryExpression")
+        val key = argumentList[0].locateSingleOrExceptionByDescription("primaryExpression")
         if (key.children.size == 1) {
             if (key.children[0].description == "stringLiteral") {
                 val stringObject = (key.children[0].root() as KlassString).children[0]
@@ -765,7 +762,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun Ast.locateSingleByDescription(filter: String, debug: Boolean = false): AstNode {
+    private fun Ast.locateSingleOrNullByDescription(filter: String, debug: Boolean = false): AstNode? {
+        val found = locateByDescription(filter, debug)
+        if (found.size != 1) {
+            return null
+        } else {
+            return found[0]
+        }
+    }
+
+    private fun Ast.locateSingleOrExceptionByDescription(filter: String, debug: Boolean = false): AstNode {
         val found = locateByDescription(filter, debug)
         if (found.size != 1) {
             throw ParsingInterpretationException("unexpected count!")
@@ -795,7 +801,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun Ast.locateSingleByDescriptionDirectChild(filter: String): Ast {
+    private fun Ast.locateSingleOrExceptionByDescriptionDirectChild(filter: String): Ast {
         val found = locateByDescriptionDirectChild(filter)
         if (found.size != 1) {
             showHumanReadableTree()
@@ -805,6 +811,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
+    private fun Ast.locateSingleOrNullByDescriptionDirectChild(filter: String): Ast? {
+        val found = locateByDescriptionDirectChild(filter)
+        if (found.size != 1) {
+            return null
+        } else {
+            return found[0]
+        }
+    }
     private fun Ast.locateByDescriptionDirectChild(filter: String): List<Ast> {
         val returned = mutableListOf<Ast>()
         if (this is AstNode) {
