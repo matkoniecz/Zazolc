@@ -581,7 +581,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val textFoundIfFillingEntireHolder = plausibleText[0]
             if (textHolder.codeRange() == textFoundIfFillingEntireHolder.codeRange()) {
                 // actual text holder is hidden inside, but it is actually the same object
-                val expectedTextHolder = textFoundIfFillingEntireHolder.root()
+                val expectedTextHolder = textFoundIfFillingEntireHolder.tree()
                 if (expectedTextHolder is KlassString) {
                     textHolder = expectedTextHolder
                 }
@@ -617,8 +617,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             assignment.children.forEach { tagsDictAccess ->
                 if (tagsDictAccess.description == "directlyAssignableExpression" &&
                     tagsDictAccess is DefaultAstNode &&
-                    tagsDictAccess.children[0].root() is KlassIdentifier &&
-                    ((tagsDictAccess.children[0].root() as KlassIdentifier).identifier == "tags")
+                    tagsDictAccess.children[0].tree() is KlassIdentifier &&
+                    ((tagsDictAccess.children[0].tree() as KlassIdentifier).identifier == "tags")
                 ) {
                     // this limits it to things like
                     // tags[something] = somethingElse
@@ -631,7 +631,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     val potentialVariable = if (expression is KlassIdentifier) { expression } else { null } // tag[key] = ...
                     val complexPotentialVariable = expression.locateByDescriptionDirectChild("disjunction") // tag[answer.osmKey] = ...
                     if (potentialTexts.size == 1) {
-                        val processed = potentialTexts[0].root()
+                        val processed = potentialTexts[0].tree()
                         if (processed == null) {
                             throw ParsingInterpretationException("not handled")
                         }
@@ -910,7 +910,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun isAccessingTagsVariableWithMemberFunction(ast: AstNode): Boolean {
-        val root = ast.root()
+        val root = ast.tree()
         if (root !is KlassIdentifier) {
             return false
         }
@@ -918,7 +918,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return false
         }
         val primary = ast.locateSingleOrExceptionByDescriptionDirectChild("primaryExpression")
-        val rootOfExpectedTagsIdentifier = primary.root()
+        val rootOfExpectedTagsIdentifier = primary.tree()
         if (rootOfExpectedTagsIdentifier !is KlassIdentifier) {
             println()
             ast.showHumanReadableTree()
@@ -962,17 +962,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val found = extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
         if (found == null) {
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
-            ast.root()!!.showHumanReadableTreeWithSourceCode(fileSourceCode)
-            ast.root()!!.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall")
+            ast.tree()!!.showHumanReadableTreeWithSourceCode(fileSourceCode)
+            ast.tree()!!.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall")
             ast.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall - not found")
-            ast.root()!!.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall - not found (rooted)")
+            ast.tree()!!.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall - not found (rooted)")
             println("${extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode)} - extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode)")
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
             return null
         }
         if (found.children.size == 1) {
             if (found.children[0].description == "stringLiteral") {
-                val stringObject = (found.children[0].root() as KlassString).children[0]
+                val stringObject = (found.children[0].tree() as KlassString).children[0]
                 return (stringObject as StringComponentRaw).string
             } else {
                 // TODO maybe handle this?
@@ -1014,10 +1014,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (expectedFunctionIdentifier.description != "simpleIdentifier") {
             throw ParsingInterpretationException("unexpected!")
         }
-        if (expectedFunctionIdentifier.root() !is KlassIdentifier) {
-            throw ParsingInterpretationException("unexpected! expectedFunctionIdentifier.root() is ${expectedFunctionIdentifier.root()!!::class}")
+        if (expectedFunctionIdentifier.tree() !is KlassIdentifier) {
+            throw ParsingInterpretationException("unexpected! expectedFunctionIdentifier.root() is ${expectedFunctionIdentifier.tree()!!::class}")
         }
-        return (expectedFunctionIdentifier.root() as KlassIdentifier).identifier
+        return (expectedFunctionIdentifier.tree() as KlassIdentifier).identifier
     }
 
     class ParsingInterpretationException(private val s: String) : Throwable() {
@@ -1027,17 +1027,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun Ast.codeRange(): Pair<Int, Int> {
-        val start = root()!!.humanReadableDescriptionInfo()!!.start
-        val end = root()!!.humanReadableDescriptionInfo()!!.end
+        val start = tree()!!.humanReadableDescriptionInfo()!!.start
+        val end = tree()!!.humanReadableDescriptionInfo()!!.end
         return Pair(start, end)
     }
 
     private fun Ast.relatedSourceCode(sourceCode: String): String {
-        if (root() == null) {
+        if (tree() == null) {
             return "<source code not available>"
         }
-        val start = root()!!.humanReadableDescriptionInfo()!!.start
-        val end = root()!!.humanReadableDescriptionInfo()!!.end
+        val start = tree()!!.humanReadableDescriptionInfo()!!.start
+        val end = tree()!!.humanReadableDescriptionInfo()!!.end
         if (start < 0 || end < 0) {
             return "<source code not available> - stated range was $start to $end index"
         }
@@ -1159,7 +1159,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (description == "functionDeclaration") {
             if (this is AstNode) {
                 children.forEach {
-                    if (it.description == "simpleIdentifier" && it.root() is KlassIdentifier && ((it.root() as KlassIdentifier).identifier == functionName)) {
+                    if (it.description == "simpleIdentifier" && it.tree() is KlassIdentifier && ((it.tree() as KlassIdentifier).identifier == functionName)) {
                         // this.showHumanReadableTree()
                         return listOf(this) + children.flatMap { child ->
                             child.extractFunctionByName(functionName)
@@ -1179,14 +1179,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun Ast.root(): Ast? {
+    private fun Ast.tree(): Ast? {
         var returned: Ast? = null
         this.summary(false).onSuccess { returned = it.firstOrNull() }
         return returned
     }
 
     private fun Ast.humanReadableDescriptionInfo(): ElementInfo? {
-        val current = this.root() ?: return null
+        val current = this.tree() ?: return null
         val textReadable = "$description " + when (current) {
             is KlassDeclaration -> "KlassDeclaration, identifier: ${current.identifier}}"
             is StringComponentRaw -> "string<${current.string}> ${current::class}"
