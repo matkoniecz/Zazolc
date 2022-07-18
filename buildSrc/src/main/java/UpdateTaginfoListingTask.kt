@@ -73,6 +73,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "building_entrance_reference/AddEntranceReference.kt" to setOf(Tag("addr:flats", null), Tag("ref", null), Tag("ref:signed", "no")),
             "building_levels/AddBuildingLevels.kt" to setOf(Tag("building:levels", null), Tag("roof:levels", null)),
             "building_underground/AddIsBuildingUnderground.kt" to setOf(Tag("location", "underground"), Tag("location", "surface")),
+            "bus_stop_bench/AddBenchStatusOnBusStop.kt" to setOf(Tag("check_date:bench", null), Tag("bench", "yes"), Tag("bench", "no")),
             "bus_stop_bin/AddBinStatusOnBusStop.kt" to setOf(Tag("check_date:bin", null), Tag("bin", "yes"), Tag("bin", "no")),
             "bus_stop_lit/AddBusStopLit.kt" to setOf(Tag("check_date:lit", null), Tag("lit", "yes"), Tag("lit", "no")),
             "bus_stop_ref/AddBusStopRef.kt" to setOf(Tag("ref:signed", "no"), Tag("ref", null)),
