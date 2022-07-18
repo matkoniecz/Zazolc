@@ -225,9 +225,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 mismatch = true
             }
         }
-        println()
-        println("-----------------")
+        val ast = AstSource.String(filepath, fileSourceCode)
+        val relevantFunction = getAstTreeForFunctionEditingTags(filepath, ast)
         if (mismatch) {
+            println()
+            println("-----------------")
             println("MISMATCH")
             println("MISMATCH")
             println("MISMATCH")
@@ -235,16 +237,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("MISMATCH")
             println("MISMATCH")
             println("MISMATCH")
+            throw Exception("MISMATCH")
         }
         if (got == null) {
+            println()
+            println("-----------------")
             println("EMPTY RESULT, FAILED")
             println("EMPTY RESULT, FAILED")
             println("EMPTY RESULT, FAILED")
             println("EMPTY RESULT, FAILED")
         }
         println(filepath)
-        val ast = AstSource.String(filepath, fileSourceCode)
-        val relevantFunction = getAstTreeForFunctionEditingTags(filepath, ast)
         relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
         if (got != null) {
             println(got)
