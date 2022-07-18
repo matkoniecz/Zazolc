@@ -478,7 +478,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val plausibleText = textHolder.locateByDescription("stringLiteral")
         if (plausibleText.size == 1) {
             val textFoundIfFillingEntireHolder = plausibleText[0]
-            if (textHolder.relatedSourceCode(fileSourceCode) == textFoundIfFillingEntireHolder.relatedSourceCode(fileSourceCode)) {
+            if (textHolder.codeRange() == textFoundIfFillingEntireHolder.codeRange()) {
                 // actual text holder is hidden inside, but it is actually the same object
                 val expectedTextHolder = textFoundIfFillingEntireHolder.root()
                 if (expectedTextHolder is KlassString) {
