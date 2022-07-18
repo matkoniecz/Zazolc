@@ -239,6 +239,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("MISMATCH")
             throw Exception("MISMATCH")
         }
+        if("answer.applyTo(" in relevantFunction.relatedSourceCode(fileSourceCode)) {
+            return
+        }
         if (got == null) {
             println()
             println("-----------------")
@@ -262,7 +265,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, $failed failed")
-        val tagsFoundPreviously = 372
+        val tagsFoundPreviously = 368
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
@@ -431,6 +434,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         var failedExtraction = false
         val ast = AstSource.String(description, fileSourceCode)
         val relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
+        if("answer.applyTo(" in relevantFunction.relatedSourceCode(fileSourceCode)) {
+            return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
+        }
         var got = extractCasesWhereTagsAreAccessedWithIndex(relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
         if (got != null) {
             appliedTags += got
