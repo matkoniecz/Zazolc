@@ -151,10 +151,20 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         reportResultOfDataCollection(foundTags, processed, failed)
     }
 
+    private val DISABLED_FAILING_QUESTS = listOf("building_type")
+
     private fun questFolderGenerator() = iterator {
         File(QUEST_ROOT_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { folder ->
             if (folder.isDirectory && "$folder/" != QUEST_ROOT_WITH_SLASH_ENDING) {
-                yield(folder)
+                var skip = false
+                for (entry in DISABLED_FAILING_QUESTS) {
+                    if (entry in folder.toString()) {
+                        skip = true
+                    }
+                }
+                if (!skip) {
+                    yield(folder)
+                }
             }
         }
     }
@@ -249,7 +259,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, $failed failed")
-        val tagsFoundPreviously = 358
+        val tagsFoundPreviously = 372
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
@@ -262,8 +272,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val failedQuestsPreviously = 22
-        if (failed != failedQuestsPreviously) {
-            println("Something changed in processing! failed count $failed vs $failedQuestsPreviously previously")
+        val realFailed = failed + DISABLED_FAILING_QUESTS.size
+        if (realFailed != failedQuestsPreviously) {
+            println("Something changed in processing! failed count $realFailed vs $failedQuestsPreviously previously")
         }
         println()
         println()
