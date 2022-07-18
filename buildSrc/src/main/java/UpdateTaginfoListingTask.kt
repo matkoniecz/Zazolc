@@ -498,6 +498,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
 
+        val ifExpression = valueHolder.locateSingleOrNullByDescription("ifExpression")
+        if (ifExpression != null) {
+            if (ifExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
+                return extractValuesForKnownKeyFromIfExpression(key, ifExpression, fileSourceCode, freeformValueExpected)
+            } else {
+                throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
+            }
+        }
+
         val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder, fileSourceCode)
         if (valueIfItIsSimpleText != null) {
             appliedTags.add(Tag(key, valueIfItIsSimpleText))
@@ -521,6 +530,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
                 valueHolder.showRelatedSourceCode(fileSourceCode, description)
             }
+        }
+        return appliedTags
+    }
+
+    private fun extractValuesForKnownKeyFromIfExpression(key: String, ifExpression: AstNode, fileSourceCode: String, freeformValueExpected: Boolean): MutableSet<Tag> {
+        val appliedTags = mutableSetOf<Tag>()
+        ifExpression.locateByDescription("controlStructureBody").forEach {
+            appliedTags += extractValuesForKnownKey(key, it, fileSourceCode, freeformValueExpected)
         }
         return appliedTags
     }
