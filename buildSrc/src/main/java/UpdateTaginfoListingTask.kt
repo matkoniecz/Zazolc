@@ -669,8 +669,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val fileMaybeContainingEnumSourceCode = loadFileFromPath(filepath)
         val ast = AstSource.String(filepath, fileMaybeContainingEnumSourceCode)
         val potentialEnumFileAst = ast.parse()
+        var enumsTried = 0
         potentialEnumFileAst.locateByDescription("classDeclaration").forEach { enum ->
             if (enum.locateSingleOrExceptionByDescription("modifiers").relatedSourceCode(fileMaybeContainingEnumSourceCode) == "enum") {
+                enumsTried += 1
                 enum.locateByDescription("enumEntry").forEach { enumEntry ->
                     var extractedText: String? = null
                     val valueArguments = enumEntry.locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
@@ -694,6 +696,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                 }
             }
+        }
+        if(values.size == 0) {
+            println("enum extraction failed!")
+            println("$enumsTried enumsTried")
         }
         return values
     }
