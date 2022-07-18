@@ -38,6 +38,7 @@ There was an attempt to do this but it failed.
 // https://stackoverflow.com/questions/58100739/how-to-generate-a-json-object-in-kotlin
 // https://wiki.openstreetmap.org/wiki/Taginfo/Projects
 // https://github.com/goldfndr/StreetCompleteJSON/blob/master/taginfo.json
+// https://github.com/taginfo/taginfo-projects/blob/master/project_list.txt
 
 // following pages were useful to jumpstart coding:
 // https://github.com/kotlinx/ast/blob/a96e681f906f1ec1ab4db8a81ffbbcbbe529317f/grammar-kotlin-parser-test/src/jvmMain/kotlin/kotlinx/ast/grammar/kotlin/test/AbstractKotlinGrammarParserTestDataTest.kt
