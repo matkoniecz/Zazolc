@@ -616,7 +616,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     println()
                     print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<locateByDescription(\"enumEntry\").forEach")
                     enum.locateByDescription("enumEntry").forEach { enumEntry ->
-                        println("----single enumEntry")
                         var extractedText:String? = null
                         val valueArguments = enumEntry.locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
                         val firstArgument = valueArguments.locateByDescription("valueArgument")[0]
@@ -624,9 +623,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             extractedText = extractTextFromHardcodedString(firstArgument, maybeFileWithEnumSourceCode)
                         }
                         if (extractedText == null) {
+                            println("----single enumEntry")
                             valueArguments.showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
                         } else {
-                            println("extracted text $extractedText")
+                            //println("extracted text $extractedText")
                             // TODO it assumes that there is a single enum with a single assigned value to each enum statement...
                             appliedTags.add(Tag(key, extractedText))
                             extractedSomething = true
