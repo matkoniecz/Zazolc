@@ -709,38 +709,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // it is trying to detect things like
         // tags.updateWithCheckDate("smoking", answer.osmValue)
         val appliedTags = mutableSetOf<Tag>()
-        relevantFunction.locateByDescription("postfixUnaryExpression").forEach {
-            if (it.root() is KlassIdentifier && ((it.root() as KlassIdentifier).identifier == "tags")) {
-                val primary = it.locateSingleOrExceptionByDescriptionDirectChild("primaryExpression")
-                val rootOfExpectedTagsIdentifier = primary.root()
-                if (rootOfExpectedTagsIdentifier !is KlassIdentifier) {
-                    println()
-                    it.showHumanReadableTree()
-                    println()
-                    primary.showHumanReadableTree()
-                    throw ParsingInterpretationException("unexpected! primary is ${primary::class}")
-                }
-                if (rootOfExpectedTagsIdentifier.identifier != "tags") {
-                    throw ParsingInterpretationException("unexpected!")
-                }
-                val possibleDotAndFunction = it.locateByDescriptionDirectChild("postfixUnarySuffix")
-                if (possibleDotAndFunction.isEmpty()) {
-                    // this will happen in case of say
-                    // tags["key"] = value
-                    // in such case we want to skip it
-                    return@forEach // this is "continue" with a weird name
-                }
-                val dotAndFunctionScan =
-                    possibleDotAndFunction[0].locateByDescriptionDirectChild("navigationSuffix")
-                if (dotAndFunctionScan.isEmpty()) {
-                    // maybe false positive?
-                    // maybe something like
-                    // .any { tags[it]?.toCheckDate() != null }
-                    // where skipping is valid?
-                    return@forEach
-                }
-                val dotAndFunction =
-                    possibleDotAndFunction[0].locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix") // TODO: why [0]
+        relevantFunction.locateByDescription("postfixUnaryExpression")
+            .filter { isAccessingTagsVariableWithMemberFunction(it) }
+            .forEach { accessingTagsWithFunction ->
+                val dotAndFunction = accessingTagsWithFunction.locateByDescriptionDirectChild("postfixUnarySuffix")[0].locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
+
                 if (dotAndFunction !is AstNode) {
                     throw ParsingInterpretationException("unexpected!")
                 }
@@ -751,7 +724,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     )
                 ) {
                     // only check data for
-                    val keyString = extractKeyValueInFunctionCall(it, fileSourceCode)
+                    val keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
                     if (keyString != null) {
                         appliedTags.add(Tag("$SURVEY_MARK_KEY:$keyString", null))
                     }
@@ -759,7 +732,31 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         "updateWithCheckDate", // TODO: check date is also an affected key!
                     )
                 ) {
-                    val keyString = extractKeyValueInFunctionCall(it, fileSourceCode)
+                    val keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
+                    val valueString = extractArgumentInFunctionCall(1, accessingTagsWithFunction, fileSourceCode) //WOMP WOPO
+                    if (keyString != null) {
+                        if (valueString != null) {
+                            appliedTags.add(Tag(keyString, valueString))
+                        } else {
+                            val valueAst = extractArgumentSyntaxTreeInFunctionCall(1, accessingTagsWithFunction, fileSourceCode)
+                            if (valueAst.relatedSourceCode(fileSourceCode) == "answer.toYesNo()") {
+                                // kind of hackish, fix this?
+                                appliedTags.add(Tag(keyString, "yes"))
+                                appliedTags.add(Tag(keyString, "no"))
+                            } else {
+                                appliedTags.add(Tag(keyString, valueString))
+                                println("6666666666666666666666666666666666666666<<< tags dict is accessed with function, key known, value unknown<")
+                                valueAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                                valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst")
+                                println(">>>666666666666666666666666666666666666666>")
+                                accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted valueAst")
+                                println(">>>55555555555555555555>")
+                            }
+                        }
+                    } else {
+                        return null
+                    }
+                    /*
                     if (keyString != null) {
                         appliedTags.add(Tag(keyString, null)) // TODO which value
                         // dotAndFunction is without argument
@@ -768,7 +765,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         println("${possibleDotAndFunction.size} possibleDotAndFunction.size")
                         relevantFunction.showRelatedSourceCode(fileSourceCode, "value extraction should be attempted")
                         if (possibleDotAndFunction.size >= 2) {
-                            possibleDotAndFunction[1].showRelatedSourceCode(fileSourceCode, "it - value extraction possible from that?")
+                            possibleDotAndFunction[0].showRelatedSourceCode(fileSourceCode, "possibleDotAndFunction[0] - what exactly is here?")
+                            possibleDotAndFunction[1].showRelatedSourceCode(fileSourceCode, "possibleDotAndFunction[1] - value extraction possible from that?")
                         } else {
                             throw Exception("UNEXPECTED")
                         }
@@ -777,6 +775,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     } else {
                         return null
                     }
+                    */
                 } else if (functionName in listOf("remove", "containsKey", "removeCheckDatesForKey", "hasChanges", "entries", "hasCheckDateForKey", "hasCheckDate")) {
                     // skip, as only added or edited tags are listed - and removed one and influencing ones are ignored
                 } else if (functionName in listOf("updateCheckDate")) {
@@ -803,33 +802,84 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
                 */
             }
-        }
         return appliedTags
     }
 
-    private fun extractKeyValueInFunctionCall(it: AstNode, fileSourceCode: String): String? {
-        println(it.description)
-        val arguments = it.locateByDescriptionDirectChild("postfixUnarySuffix")[1]
+    private fun isAccessingTagsVariableWithMemberFunction(ast: AstNode): Boolean {
+        val root = ast.root()
+        if (root !is KlassIdentifier) {
+            return false
+        }
+        if (root.identifier != "tags") {
+            return false
+        }
+        val primary = ast.locateSingleOrExceptionByDescriptionDirectChild("primaryExpression")
+        val rootOfExpectedTagsIdentifier = primary.root()
+        if (rootOfExpectedTagsIdentifier !is KlassIdentifier) {
+            println()
+            ast.showHumanReadableTree()
+            println()
+            primary.showHumanReadableTree()
+            throw ParsingInterpretationException("unexpected! primary is ${primary::class}")
+        }
+        if (rootOfExpectedTagsIdentifier.identifier != "tags") {
+            throw ParsingInterpretationException("unexpected!")
+        }
+        val possibleDotAndFunction = ast.locateByDescriptionDirectChild("postfixUnarySuffix")
+        if (possibleDotAndFunction.isEmpty()) {
+            // this will happen in case of say
+            // tags["key"] = value
+            // in such case we want to skip it
+            return false
+        }
+        val expectedToHoldDotAndFunctionCall = possibleDotAndFunction[0].locateByDescriptionDirectChild("navigationSuffix")
+        if (expectedToHoldDotAndFunctionCall.isEmpty()) {
+            // maybe false positive?
+            // maybe something like
+            // .any { tags[it]?.toCheckDate() != null }
+            // where skipping is valid?
+            return false
+        }
+        return true
+    }
+
+    private fun extractArgumentListSyntaxTreeInFunctionCall(ast: AstNode): List<AstNode> {
+        val arguments = ast.locateByDescriptionDirectChild("postfixUnarySuffix")[1]
             .locateSingleOrExceptionByDescriptionDirectChild("callSuffix")
             .locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
-        val argumentList = arguments.locateByDescription("valueArgument")
-        val key = argumentList[0].locateSingleOrExceptionByDescription("primaryExpression")
-        if (key.children.size == 1) {
-            if (key.children[0].description == "stringLiteral") {
-                val stringObject = (key.children[0].root() as KlassString).children[0]
+        return arguments.locateByDescription("valueArgument")
+    }
+
+    private fun extractArgumentSyntaxTreeInFunctionCall(index: Int, ast: AstNode, fileSourceCode: String): AstNode {
+        return extractArgumentListSyntaxTreeInFunctionCall(ast)[index]
+    }
+
+    private fun extractArgumentInFunctionCall(index: Int, ast: AstNode, fileSourceCode: String): String? {
+        ast.root()!!.showHumanReadableTreeWithSourceCode(fileSourceCode)
+        ast.root()!!.showRelatedSourceCode(fileSourceCode, "dammit")
+        val found = extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
+        if (found == null) {
+            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+            ast.showRelatedSourceCode(fileSourceCode, "dammit")
+            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+            return null
+        }
+        if (found.children.size == 1) {
+            if (found.children[0].description == "stringLiteral") {
+                val stringObject = (found.children[0].root() as KlassString).children[0]
                 return (stringObject as StringComponentRaw).string
             } else {
                 // TODO handle this
-                key.showHumanReadableTree()
-                argumentList[0].showRelatedSourceCode(fileSourceCode, "unhandled key access")
+                found.showHumanReadableTree()
+                extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode(fileSourceCode, "unhandled extracting index $index")
                 println("unhandled key access")
                 return null
             }
         } else {
             // TODO handle this
-            argumentList[0].showHumanReadableTree()
-            argumentList[0].showRelatedSourceCode(fileSourceCode, "unhandled key access")
-            println("unhandled key access")
+            extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showHumanReadableTree()
+            extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode(fileSourceCode, "unhandled extracting index $index")
+            println("unhandled extraction of $index function parameter")
             return null
         }
     }
@@ -939,7 +989,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun Ast.locateSingleOrExceptionByDescription(filter: String, debug: Boolean = false): AstNode {
         val found = locateByDescription(filter, debug)
         if (found.size != 1) {
-            throw ParsingInterpretationException("unexpected count!")
+            throw ParsingInterpretationException("unexpected count! Expected single matching on filter $filter, got ${found.size}")
         } else {
             return found[0]
         }
