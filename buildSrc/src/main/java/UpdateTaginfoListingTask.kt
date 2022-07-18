@@ -244,8 +244,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return false
     }
 
-    fun functionParsingSkippedBasedOnSourceCode(sourceCodeOfFunction: String): Boolean {
+    private fun functionParsingSkippedBasedOnSourceCode(sourceCodeOfFunction: String): Boolean {
+        // Complex code constructs not supported for now
+        // TODO: implement their support
         if ("answer.applyTo(" in sourceCodeOfFunction) {
+            return true
+        }
+        if (".applyTo(tags)" in sourceCodeOfFunction) {
             return true
         }
         if ("applySidewalkSurfaceAnswerTo" in sourceCodeOfFunction) {
@@ -254,8 +259,31 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if ("applyWasteContainerAnswer" in sourceCodeOfFunction) {
             return true
         }
+        if ("replaceShop" in sourceCodeOfFunction) {
+            return true
+        }
+        if ("osmKey" in sourceCodeOfFunction) {
+            // key also needs parsing - TODO, this should be solvable
+            return true
+        }
+        if ("applyRampAnswer" in sourceCodeOfFunction) {
+            return true
+        }
+        if ("applySidewalkAnswerTo" in sourceCodeOfFunction) {
+            return true
+        }
+        if("\"name:\$languageTag\"" in sourceCodeOfFunction) {
+            return true
+        }
+        if("\$key" in sourceCodeOfFunction) {
+            return true
+        }
+        if("val key = when" in sourceCodeOfFunction) {
+            return true
+        }
         return false
     }
+
     private fun reportResultOfScanInSingleQuest(got: Set<Tag>?, filepath: String, fileSourceCode: String) {
         var mismatch = false
         if (filepath in EXPECTED_TAG_PER_QUEST) {
