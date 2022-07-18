@@ -858,26 +858,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     } else {
                         return null
                     }
-                    /*
-                    if (keyString != null) {
-                        appliedTags.add(Tag(keyString, null)) // TODO which value
-                        // dotAndFunction is without argument
-                        // possibleDotAndFunction[0] also
-                        println("6666666666666666666666666666666666666666<<< tags dict is accessed with function, key known, value unknown<")
-                        println("${possibleDotAndFunction.size} possibleDotAndFunction.size")
-                        relevantFunction.showRelatedSourceCode(fileSourceCode, "value extraction should be attempted")
-                        if (possibleDotAndFunction.size >= 2) {
-                            possibleDotAndFunction[0].showRelatedSourceCode(fileSourceCode, "possibleDotAndFunction[0] - what exactly is here?")
-                            possibleDotAndFunction[1].showRelatedSourceCode(fileSourceCode, "possibleDotAndFunction[1] - value extraction possible from that?")
-                        } else {
-                            throw Exception("UNEXPECTED")
-                        }
-                        possibleDotAndFunction[1].showHumanReadableTreeWithSourceCode(fileSourceCode)
-                        println(">>>666666666666666666666666666666666666666>")
-                    } else {
-                        return null
-                    }
-                    */
                 } else if (functionName in listOf("remove", "containsKey", "removeCheckDatesForKey", "hasChanges", "entries", "hasCheckDateForKey", "hasCheckDate")) {
                     // skip, as only added or edited tags are listed - and removed one and influencing ones are ignored
                 } else if (functionName in listOf("updateCheckDate")) {
