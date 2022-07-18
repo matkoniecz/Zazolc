@@ -120,7 +120,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
     @TaskAction fun run() {
         var processed = 0
-        var failed = 0
+        var failedList = mutableListOf<String>()
         val foundTags = mutableListOf<TagQuestInfo>()
         val folderGenerator = questFolderGenerator()
         while (folderGenerator.hasNext()) {
@@ -143,7 +143,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         processed += 1
                         got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
                     } else {
-                        failed += 1
+                        failedList.add(it.toString())
                     }
                 }
             }
@@ -151,7 +151,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 throw ParsingInterpretationException("not found quest file for $folder")
             }
         }
-        reportResultOfDataCollection(foundTags, processed, failed)
+        reportResultOfDataCollection(foundTags, processed, failedList)
     }
 
     private val DISABLED_FAILING_QUESTS = listOf("building_type", "road_name")
@@ -267,10 +267,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println()
     }
 
-    private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failed: Int) {
+    private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedList: MutableList<String>) {
         //foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && freeformKey(it.tag.key) }.size
-        println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, $failed failed")
+        println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedList.size} failed")
         val tagsFoundPreviously = 368
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
@@ -284,9 +284,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val failedQuestsPreviously = 22
-        val realFailed = failed + DISABLED_FAILING_QUESTS.size
+        val realFailed = failedList.size + DISABLED_FAILING_QUESTS.size
+        val knownFailed = listOf("app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/bus_stop_name/AddBusStopName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/place_name/AddPlaceName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/traffic_signals_sound/AddTrafficSignalsSound.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/traffic_signals_vibrate/AddTrafficSignalsVibration.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/existence/CheckExistence.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
         if (realFailed != failedQuestsPreviously) {
             println("Something changed in processing! failed count $realFailed vs $failedQuestsPreviously previously")
+        }
+        if((failedList - knownFailed).size != 0) {
+            println((failedList - knownFailed).joinToString("\", \"", "\"", "\""))
+            throw Exception("new failed quests")
         }
         println()
         println()
