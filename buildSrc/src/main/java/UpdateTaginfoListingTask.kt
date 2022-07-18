@@ -220,7 +220,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     fun functionParsingSkippedBasedOnSourceCode(sourceCodeOfFunction:String): Boolean {
-        return "answer.applyTo(" in sourceCodeOfFunction
+        if("answer.applyTo(" in sourceCodeOfFunction) {
+            return true
+        }
+        if("applySidewalkSurfaceAnswerTo" in sourceCodeOfFunction) {
+            return true
+        }
+        return false
     }
     private fun reportResultOfScanInSingleQuest(got: Set<Tag>?, filepath: String, fileSourceCode: String) {
         var mismatch = false
@@ -271,19 +277,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         //foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedList.size} failed")
-        val tagsFoundPreviously = 368
+        val tagsFoundPreviously = 367
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val tagsThatShouldBeMoreSpecificFoundPreviously = 39
+        val tagsThatShouldBeMoreSpecificFoundPreviously = 37
         if (tagsThatShouldBeMoreSpecific != tagsThatShouldBeMoreSpecificFoundPreviously) {
             println("Something changed in processing! tagsThatShouldBeMoreSpecific count $tagsThatShouldBeMoreSpecific vs $tagsThatShouldBeMoreSpecificFoundPreviously previously")
         }
-        val processedQuestsPreviously = 122
+        val processedQuestsPreviously = 119
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
-        val failedQuestsPreviously = 22
+        val failedQuestsPreviously = 25
         val realFailed = failedList.size + DISABLED_FAILING_QUESTS.size
         val knownFailed = listOf("app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/bus_stop_name/AddBusStopName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/place_name/AddPlaceName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/traffic_signals_sound/AddTrafficSignalsSound.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/traffic_signals_vibrate/AddTrafficSignalsVibration.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/existence/CheckExistence.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
         if (realFailed != failedQuestsPreviously) {
