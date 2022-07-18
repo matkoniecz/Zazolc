@@ -219,11 +219,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return false
     }
 
-    fun functionParsingSkippedBasedOnSourceCode(sourceCodeOfFunction:String): Boolean {
-        if("answer.applyTo(" in sourceCodeOfFunction) {
+    fun functionParsingSkippedBasedOnSourceCode(sourceCodeOfFunction: String): Boolean {
+        if ("answer.applyTo(" in sourceCodeOfFunction) {
             return true
         }
-        if("applySidewalkSurfaceAnswerTo" in sourceCodeOfFunction) {
+        if ("applySidewalkSurfaceAnswerTo" in sourceCodeOfFunction) {
             return true
         }
         return false
@@ -251,7 +251,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("MISMATCH")
             throw Exception("MISMATCH")
         }
-        if(functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
+        if (functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
             return
         }
         if (got == null) {
@@ -274,7 +274,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedList: MutableList<String>) {
-        //foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
+        // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedList.size} failed")
         val tagsFoundPreviously = 367
@@ -295,17 +295,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (realFailed != failedQuestsPreviously) {
             println("Something changed in processing! failed count $realFailed vs $failedQuestsPreviously previously")
         }
-        if((failedList - knownFailed).size != 0) {
+        if ((failedList - knownFailed).size != 0) {
             println((failedList - knownFailed).joinToString("\", \"", "\"", "\""))
             throw Exception("new failed quests")
         }
         println()
         println()
         foundTags.forEach {
-            if(it.tag.key.startsWith(SURVEY_MARK_KEY + ":")) {
+            if (it.tag.key.startsWith(SURVEY_MARK_KEY + ":")) {
                 return@forEach // compound key with generated explanation, see https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
             }
-            if(it.tag.key.startsWith("source:")) {
+            if (it.tag.key.startsWith("source:")) {
                 return@forEach // should have generated explanation (but is missing for now at least!), see https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
             }
             if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.tag.key}")) {
@@ -451,7 +451,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         var failedExtraction = false
         val ast = AstSource.String(description, fileSourceCode)
         val relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
-        if(functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
+        if (functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
             return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
         }
         var got = extractCasesWhereTagsAreAccessedWithIndex(relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
@@ -618,7 +618,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     if (enum.locateSingleOrExceptionByDescription("modifiers").relatedSourceCode(maybeFileWithEnumSourceCode) == "enum") {
                     }
                     enum.locateByDescription("enumEntry").forEach { enumEntry ->
-                        var extractedText:String? = null
+                        var extractedText: String? = null
                         val valueArguments = enumEntry.locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
                         val firstArgument = valueArguments.locateByDescription("valueArgument")[0]
                         if (firstArgument.codeRange() == valueArguments.codeRange()) {
@@ -734,7 +734,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     )
                 ) {
                     val keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
-                    val valueString = extractArgumentInFunctionCall(1, accessingTagsWithFunction, fileSourceCode) //WOMP WOPO
+                    val valueString = extractArgumentInFunctionCall(1, accessingTagsWithFunction, fileSourceCode) // WOMP WOPO
                     if (keyString != null) {
                         if (valueString != null) {
                             appliedTags.add(Tag(keyString, valueString))
