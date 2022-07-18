@@ -226,6 +226,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if ("applySidewalkSurfaceAnswerTo" in sourceCodeOfFunction) {
             return true
         }
+        if ("applyWasteContainerAnswer" in sourceCodeOfFunction) {
+            return true
+        }
         return false
     }
     private fun reportResultOfScanInSingleQuest(got: Set<Tag>?, filepath: String, fileSourceCode: String) {
