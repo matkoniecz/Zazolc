@@ -138,9 +138,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun isQuestFile(file: File): Boolean {
-        if (file.name == "AddIsBuildingUnderground.kt") {
-            return true
-        }
         if (".kt" !in file.name) {
             return false
         }
