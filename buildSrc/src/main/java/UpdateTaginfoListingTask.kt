@@ -322,11 +322,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
         if (got != null) {
             println(got)
-            val classesReadyToCreate = got.joinToString(", ") { it.reproduceCode() }
-            println("\"$filepath\" to setOf($classesReadyToCreate),")
+            println(tagSetToReproducibleCode(got, filepath))
         }
         println("-----------------")
         println()
+    }
+
+    private fun tagSetToReproducibleCode(got: Set<Tag>?, filepath: String): String {
+        val classesReadyToCreate = got?.joinToString(", ") { it.reproduceCode() }
+        return "\"$filepath\" to setOf($classesReadyToCreate),"
     }
 
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedList: MutableList<String>) {
