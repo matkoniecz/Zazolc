@@ -377,7 +377,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         if ((knownFailed - failedList).isNotEmpty()) {
             println("new working quests")
-            println((failedList - knownFailed).joinToString("\", \"", "\"", "\""))
+            println((knownFailed - failedList).joinToString("\", \"", "\"", "\""))
             throw Exception("some failed quests are now working")
         }
         println()
