@@ -295,11 +295,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return inputStream.bufferedReader().use { it.readText() }
     }
 
-    fun showEntire(description: String, content: String) {
-        val ast = AstSource.String(description, content)
-        ast.parse().showHumanReadableTree()
+    private fun showEntire(description: String, fileSourceCode: String) {
+        val ast = AstSource.String(description, fileSourceCode)
+        ast.parse().showHumanReadableTreeWithSourceCode(fileSourceCode)
         println("============================here is the entire content (source code)==<")
-        println(content)
+        println(fileSourceCode)
         println(">===========================here is the entire content (source code)>===")
     }
 
