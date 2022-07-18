@@ -379,6 +379,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             failedExtraction = true
         }
 
+        if (appliedTags.size == 0) {
+            println("Failed to extract anything at all!")
+            relevantFunction.showHumanReadableTreeWithSourceCode(fileSourceCode)
+            println("Failed to extract anything at all!")
+        }
+
         if (failedExtraction) {
             return null
         }
