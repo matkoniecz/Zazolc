@@ -609,26 +609,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         } else if (valueHolder.relatedSourceCode(fileSourceCode) == "answer.osmValue") {
             // bad news! Answer values are not directly in this file, but defined elsewhere
             // almost always in a separate enum file
-            println("answer.osmValue, not trying to find values for now")
             var extractedSomething = false
             suspectedAnswerEnumFiles.forEach {
-                println()
-                println("aaaaaaaaaaaaaaaaa")
-                println()
-                println("maybe enum is in one of ${it.name} files...")
                 val maybeFileWithEnumSourceCode = loadFileFromPath(it.toString())
                 val ast = AstSource.String(it.toString(), maybeFileWithEnumSourceCode)
                 val potentialEnumFileAst = ast.parse()
                 potentialEnumFileAst.locateByDescription("classDeclaration").forEach { enum ->
                     if (enum.locateSingleOrExceptionByDescription("modifiers").relatedSourceCode(maybeFileWithEnumSourceCode) == "enum") {
-                        //it.showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
-                        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<primaryConstructor")
-                        enum.locateSingleOrExceptionByDescription("primaryConstructor")
-                            .showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
                     }
-                    println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-                    println()
-                    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<locateByDescription(\"enumEntry\").forEach")
                     enum.locateByDescription("enumEntry").forEach { enumEntry ->
                         var extractedText:String? = null
                         val valueArguments = enumEntry.locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
@@ -637,23 +625,22 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             extractedText = extractTextFromHardcodedString(firstArgument, maybeFileWithEnumSourceCode)
                         }
                         if (extractedText == null) {
-                            println("----single enumEntry")
                             valueArguments.showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
                         } else {
-                            //println("extracted text $extractedText")
                             // TODO it assumes that there is a single enum with a single assigned value to each enum statement...
+                            /*
+                            // for more complex ones
+                            enum.locateSingleOrExceptionByDescription("primaryConstructor")
+                                .showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
+                             */
                             appliedTags.add(Tag(key, extractedText))
                             extractedSomething = true
                         }
                     }
-                    println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-                    println()
                 }
             }
-            println()
-            println("aaaaaaaaaaaaaaaaa")
-            println()
             if (!extractedSomething) {
+                println("answer.osmValue, failed to find values for now")
                 appliedTags.add(Tag(key, null)) // TODO - get also value...
             }
             // TODO handle this somehow - requires extra parsing, likely in another file
@@ -883,17 +870,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 val stringObject = (found.children[0].root() as KlassString).children[0]
                 return (stringObject as StringComponentRaw).string
             } else {
-                // TODO handle this
+                // TODO maybe handle this?
+                /*
                 found.showHumanReadableTree()
-                extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode(fileSourceCode, "unhandled extracting index $index")
+                extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode(fileSourceCode, "unhandled extracting index $index - not string")
                 println("unhandled key access")
+                */
                 return null
             }
         } else {
             // TODO handle this
             extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showHumanReadableTree()
             extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode(fileSourceCode, "unhandled extracting index $index")
-            println("unhandled extraction of $index function parameter")
+            println("unhandled extraction of $index function parameter - multiple children")
             return null
         }
     }
