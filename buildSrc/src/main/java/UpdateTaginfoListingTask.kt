@@ -280,7 +280,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedList.size} failed")
-        val tagsFoundPreviously = 367
+        val tagsFoundPreviously = 403
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
@@ -464,7 +464,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             failedExtraction = true
         }
 
-        got = extractCasesWhereTagsAreAccessedWithFunction(relevantFunction, fileSourceCode)
+        got = extractCasesWhereTagsAreAccessedWithFunction(relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
         if (got != null) {
             appliedTags += got
         } else {
@@ -717,7 +717,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun extractCasesWhereTagsAreAccessedWithFunction(relevantFunction: AstNode, fileSourceCode: String): Set<Tag>? {
+    private fun extractCasesWhereTagsAreAccessedWithFunction(relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         // it is trying to detect things like
         // tags.updateWithCheckDate("smoking", answer.osmValue)
         val appliedTags = mutableSetOf<Tag>()
@@ -755,12 +755,32 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 // kind of hackish, fix this?
                                 appliedTags.add(Tag(keyString, "yes"))
                                 appliedTags.add(Tag(keyString, "no"))
+                            } else if (valueAst.relatedSourceCode(fileSourceCode) == "answer.osmValue") {
+                                var extractedNothing = true
+                                suspectedAnswerEnumFiles.forEach {
+                                    getEnumValuesDefinedInThisFilepath(it.toString()).forEach { value ->
+                                        appliedTags.add(Tag(keyString, value))
+                                        extractedNothing = false
+                                    }
+                                }
+                                if(extractedNothing) {
+                                    println("Enum obtaining failed!")
+                                    println("Enum obtaining failed!")
+                                    println("Enum obtaining failed!")
+                                    appliedTags.add(Tag(keyString, valueString))
+                                    println("44444444444444<<< tags dict is accessed with function, key known, value unknown<")
+                                    valueAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                                    valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst")
+                                    println(">>>44444444444>")
+                                    accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted valueAst")
+                                    println(">>>33333333333>")
+                                }
                             } else {
                                 appliedTags.add(Tag(keyString, valueString))
-                                println("6666666666666666666666666666666666666666<<< tags dict is accessed with function, key known, value unknown<")
+                                println("7777777777777777777<<< tags dict is accessed with function, key known, value unknown<")
                                 valueAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
                                 valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst")
-                                println(">>>666666666666666666666666666666666666666>")
+                                println(">>>7777777777777777777>")
                                 accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted valueAst")
                                 println(">>>55555555555555555555>")
                             }
