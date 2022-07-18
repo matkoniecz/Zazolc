@@ -61,10 +61,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "bike_parking_capacity/AddBikeParkingCapacity.kt" to setOf(Tag("capacity", null)),
             "bike_parking_cover/AddBikeParkingCover.kt" to setOf(Tag("covered", "yes"), Tag("covered", "no")),
             "bike_rental_capacity/AddBikeRentalCapacity.kt" to setOf(Tag("capacity", null)),
+            "bollard_type/AddBollardType.kt" to setOf(Tag("bollard", "rising"), Tag("bollard", "removable"), Tag("bollard", "foldable"), Tag("bollard", "flexible"), Tag("bollard", "fixed"), Tag("barrier", "yes")),
+            "building_entrance/AddEntrance.kt" to setOf(Tag("noexit", "yes"), Tag("entrance", "main"), Tag("entrance", "staircase"), Tag("entrance", "service"), Tag("entrance", "emergency"), Tag("entrance", "exit"), Tag("entrance", "shop"), Tag("entrance", "yes")),
             "building_entrance_reference/AddEntranceReference.kt" to setOf(Tag("addr:flats", null), Tag("ref", null), Tag("ref:signed", "no")),
             "building_levels/AddBuildingLevels.kt" to setOf(Tag("building:levels", null), Tag("roof:levels", null)),
             "building_underground/AddIsBuildingUnderground.kt" to setOf(Tag("location", "underground"), Tag("location", "surface")),
             "bus_stop_ref/AddBusStopRef.kt" to setOf(Tag("ref:signed", "no"), Tag("ref", null)),
+            "camera_type/AddCameraType.kt" to setOf(Tag("camera:type", "dome"), Tag("camera:type", "fixed"), Tag("camera:type", "panning")),
             "charging_station_capacity/AddChargingStationCapacity.kt" to setOf(Tag("capacity", null)),
             "charging_station_operator/AddChargingStationOperator.kt" to setOf(Tag("operator", null)),
             "clothing_bin_operator/AddClothingBinOperator.kt" to setOf(Tag("operator", null)),
@@ -98,6 +101,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "steps_incline/AddStepsIncline.kt" to setOf(Tag("incline", "up"), Tag("incline", "down")),
             "toilet_availability/AddToiletAvailability.kt" to setOf(Tag("toilets", "yes"), Tag("toilets", "no")),
             "toilets_fee/AddToiletsFee.kt" to setOf(Tag("fee", "yes"), Tag("fee", "no")),
+            "traffic_calming_type/AddTrafficCalmingType.kt" to setOf(Tag("traffic_calming", "bump"), Tag("traffic_calming", "hump"), Tag("traffic_calming", "table"), Tag("traffic_calming", "cushion"), Tag("traffic_calming", "island"), Tag("traffic_calming", "choker"), Tag("traffic_calming", "chicane"), Tag("traffic_calming", "rumble_strip")),
             "traffic_signals_button/AddTrafficSignalsButton.kt" to setOf(Tag("button_operated", "yes"), Tag("button_operated", "no")),
             "width/AddRoadWidth.kt" to setOf(Tag("width", null), Tag("source:width", "ARCore")),
         )
@@ -110,11 +114,18 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         while (folderGenerator.hasNext()) {
             val folder = folderGenerator.next()
             var foundQuestFile = false
+            val suspectedAnswerEnumFiles = mutableListOf<File>()
+            File(folder.toString()).walkTopDown().forEach {
+                if (isLikelyAnswerEnumFile(it)) {
+                    suspectedAnswerEnumFiles.add(it)
+                }
+            }
+
             File(folder.toString()).walkTopDown().forEach {
                 if (isQuestFile(it)) {
                     foundQuestFile = true
                     val fileSourceCode = loadFileFromPath(it.toString())
-                    val got = addedOrEditedTags(it.name, fileSourceCode)
+                    val got = addedOrEditedTags(it.name, fileSourceCode, suspectedAnswerEnumFiles)
                     reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT_WITH_SLASH_ENDING), fileSourceCode)
                     if (got != null) {
                         processed += 1
@@ -137,6 +148,31 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 yield(folder)
             }
         }
+    }
+
+    private fun isLikelyAnswerEnumFile(file: File): Boolean {
+        if (".kt" !in file.name) {
+            return false
+        }
+        if ("Form" in file.name) {
+            return false
+        }
+        if ("Adapter" in file.name) {
+            return false
+        }
+        if ("Util" in file.name) {
+            return false
+        }
+        if ("Drawable" in file.name) {
+            return false
+        }
+        if ("Dao" in file.name) {
+            return false
+        }
+        if ("Dialog" in file.name) {
+            return false
+        }
+        return !isQuestFile(file)
     }
 
     private fun isQuestFile(file: File): Boolean {
@@ -204,7 +240,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, $failed failed")
-        val tagsFoundPreviously = 235
+        val tagsFoundPreviously = 358
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
@@ -367,12 +403,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return found[0]
     }
 
-    private fun addedOrEditedTags(description: String, fileSourceCode: String): Set<Tag>? {
+    private fun addedOrEditedTags(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val appliedTags = mutableSetOf<Tag>()
         var failedExtraction = false
         val ast = AstSource.String(description, fileSourceCode)
         val relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
-        var got = extractCasesWhereTagsAreAccessedWithIndex(relevantFunction, fileSourceCode)
+        var got = extractCasesWhereTagsAreAccessedWithIndex(relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
         if (got != null) {
             appliedTags += got
         } else {
@@ -429,7 +465,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return null
     }
 
-    private fun extractCasesWhereTagsAreAccessedWithIndex(relevantFunction: AstNode, fileSourceCode: String): Set<Tag>? {
+    private fun extractCasesWhereTagsAreAccessedWithIndex(relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         // it is trying to detect things like
         // tags["bollard"] = answer.osmValue
 
@@ -477,7 +513,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         // WS
                         // expression ( for example: "steps" )
                         val valueHolder = assignment.locateSingleOrExceptionByDescriptionDirectChild("expression")
-                        appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, freeformKey(key))
+                        appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, freeformKey(key), suspectedAnswerEnumFiles)
                     } else if (potentialVariable != null) {
                         expression.showHumanReadableTree()
                         expression.showRelatedSourceCode(fileSourceCode, "expression in identified access as a variable")
@@ -500,13 +536,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun extractValuesForKnownKey(key: String, valueHolder: Ast, fileSourceCode: String, freeformValueExpected: Boolean): MutableSet<Tag> {
+    private fun extractValuesForKnownKey(key: String, valueHolder: Ast, fileSourceCode: String, freeformValueExpected: Boolean, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
 
         val whenExpression = valueHolder.locateSingleOrNullByDescription("whenExpression")
         if (whenExpression != null) {
             if (whenExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
-                return extractValuesForKnownKeyFromWhenExpression(key, whenExpression, fileSourceCode, freeformValueExpected)
+                return extractValuesForKnownKeyFromWhenExpression(key, whenExpression, fileSourceCode, freeformValueExpected, suspectedAnswerEnumFiles)
             } else {
                 throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
             }
@@ -515,7 +551,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val ifExpression = valueHolder.locateSingleOrNullByDescription("ifExpression")
         if (ifExpression != null) {
             if (ifExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
-                return extractValuesForKnownKeyFromIfExpression(key, ifExpression, fileSourceCode, freeformValueExpected)
+                return extractValuesForKnownKeyFromIfExpression(key, ifExpression, fileSourceCode, freeformValueExpected, suspectedAnswerEnumFiles)
             } else {
                 throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
             }
@@ -525,8 +561,55 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (valueIfItIsSimpleText != null) {
             appliedTags.add(Tag(key, valueIfItIsSimpleText))
         } else if (valueHolder.relatedSourceCode(fileSourceCode) == "answer.osmValue") {
+            // bad news! Answer values are not directly in this file, but defined elsewhere
+            // almost always in a separate enum file
             println("answer.osmValue, not trying to find values for now")
-            appliedTags.add(Tag(key, null)) // TODO - get also value...
+            var extractedSomething = false
+            suspectedAnswerEnumFiles.forEach {
+                println()
+                println("aaaaaaaaaaaaaaaaa")
+                println()
+                println("maybe enum is in one of ${it.name} files...")
+                val maybeFileWithEnumSourceCode = loadFileFromPath(it.toString())
+                val ast = AstSource.String(it.toString(), maybeFileWithEnumSourceCode)
+                val potentialEnumFileAst = ast.parse()
+                potentialEnumFileAst.locateByDescription("classDeclaration").forEach { enum ->
+                    if (enum.locateSingleOrExceptionByDescription("modifiers").relatedSourceCode(maybeFileWithEnumSourceCode) == "enum") {
+                        //it.showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
+                        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<primaryConstructor")
+                        enum.locateSingleOrExceptionByDescription("primaryConstructor")
+                            .showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
+                    }
+                    println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+                    println()
+                    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<locateByDescription(\"enumEntry\").forEach")
+                    enum.locateByDescription("enumEntry").forEach { enumEntry ->
+                        println("----single enumEntry")
+                        var extractedText:String? = null
+                        val valueArguments = enumEntry.locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
+                        val firstArgument = valueArguments.locateByDescription("valueArgument")[0]
+                        if (firstArgument.codeRange() == valueArguments.codeRange()) {
+                            extractedText = extractTextFromHardcodedString(firstArgument, maybeFileWithEnumSourceCode)
+                        }
+                        if (extractedText == null) {
+                            valueArguments.showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
+                        } else {
+                            println("extracted text $extractedText")
+                            // TODO it assumes that there is a single enum with a single assigned value to each enum statement...
+                            appliedTags.add(Tag(key, extractedText))
+                            extractedSomething = true
+                        }
+                    }
+                    println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+                    println()
+                }
+            }
+            println()
+            println("aaaaaaaaaaaaaaaaa")
+            println()
+            if (!extractedSomething) {
+                appliedTags.add(Tag(key, null)) // TODO - get also value...
+            }
             // TODO handle this somehow - requires extra parsing, likely in another file
         } else if (valueHolder.relatedSourceCode(fileSourceCode).endsWith(".toYesNo()")) {
             // previous form of check:
@@ -549,15 +632,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun extractValuesForKnownKeyFromIfExpression(key: String, ifExpression: AstNode, fileSourceCode: String, freeformValueExpected: Boolean): MutableSet<Tag> {
+    private fun extractValuesForKnownKeyFromIfExpression(key: String, ifExpression: AstNode, fileSourceCode: String, freeformValueExpected: Boolean, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         ifExpression.locateByDescription("controlStructureBody").forEach {
-            appliedTags += extractValuesForKnownKey(key, it, fileSourceCode, freeformValueExpected)
+            appliedTags += extractValuesForKnownKey(key, it, fileSourceCode, freeformValueExpected, suspectedAnswerEnumFiles)
         }
         return appliedTags
     }
 
-    private fun extractValuesForKnownKeyFromWhenExpression(key: String, whenExpression: AstNode, fileSourceCode: String, freeformValueExpected: Boolean): MutableSet<Tag> {
+    private fun extractValuesForKnownKeyFromWhenExpression(key: String, whenExpression: AstNode, fileSourceCode: String, freeformValueExpected: Boolean, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         whenExpression.locateByDescription("whenEntry").forEach { it ->
             val structure = it.children.filter { it.description != "WS" }
@@ -585,7 +668,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             if (structure.size != 4) {
                 throw ParsingInterpretationException("unexpected when structure!")
             }
-            appliedTags += extractValuesForKnownKey(key, structure[2], fileSourceCode, freeformValueExpected)
+            appliedTags += extractValuesForKnownKey(key, structure[2], fileSourceCode, freeformValueExpected, suspectedAnswerEnumFiles)
         }
         return appliedTags
     }
