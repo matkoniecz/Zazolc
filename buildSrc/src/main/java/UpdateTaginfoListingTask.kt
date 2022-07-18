@@ -585,6 +585,37 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
+    private fun getEnumValuesDefinedInThisFilepath(filepath:String):Set<String>{
+        val values = mutableSetOf<String>()
+        val maybeFileWithEnumSourceCode = loadFileFromPath(filepath)
+        val ast = AstSource.String(filepath, maybeFileWithEnumSourceCode)
+        val potentialEnumFileAst = ast.parse()
+        potentialEnumFileAst.locateByDescription("classDeclaration").forEach { enum ->
+            if (enum.locateSingleOrExceptionByDescription("modifiers").relatedSourceCode(maybeFileWithEnumSourceCode) == "enum") {
+                enum.locateByDescription("enumEntry").forEach { enumEntry ->
+                    var extractedText: String? = null
+                    val valueArguments = enumEntry.locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
+                    val firstArgument = valueArguments.locateByDescription("valueArgument")[0]
+                    if (firstArgument.codeRange() == valueArguments.codeRange()) {
+                        extractedText = extractTextFromHardcodedString(firstArgument, maybeFileWithEnumSourceCode)
+                    }
+                    if (extractedText == null) {
+                        valueArguments.showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
+                    } else {
+                        // TODO it assumes that there is a single enum with a single assigned value to each enum statement...
+                        /*
+                        // for more complex ones
+                        enum.locateSingleOrExceptionByDescription("primaryConstructor")
+                            .showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
+                         */
+                        values.add(extractedText)
+                    }
+                }
+            }
+        }
+        return values
+    }
+
     private fun extractValuesForKnownKey(key: String, valueHolder: Ast, fileSourceCode: String, freeformValueExpected: Boolean, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
 
@@ -614,32 +645,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             // almost always in a separate enum file
             var extractedSomething = false
             suspectedAnswerEnumFiles.forEach {
-                val maybeFileWithEnumSourceCode = loadFileFromPath(it.toString())
-                val ast = AstSource.String(it.toString(), maybeFileWithEnumSourceCode)
-                val potentialEnumFileAst = ast.parse()
-                potentialEnumFileAst.locateByDescription("classDeclaration").forEach { enum ->
-                    if (enum.locateSingleOrExceptionByDescription("modifiers").relatedSourceCode(maybeFileWithEnumSourceCode) == "enum") {
-                    }
-                    enum.locateByDescription("enumEntry").forEach { enumEntry ->
-                        var extractedText: String? = null
-                        val valueArguments = enumEntry.locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
-                        val firstArgument = valueArguments.locateByDescription("valueArgument")[0]
-                        if (firstArgument.codeRange() == valueArguments.codeRange()) {
-                            extractedText = extractTextFromHardcodedString(firstArgument, maybeFileWithEnumSourceCode)
-                        }
-                        if (extractedText == null) {
-                            valueArguments.showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
-                        } else {
-                            // TODO it assumes that there is a single enum with a single assigned value to each enum statement...
-                            /*
-                            // for more complex ones
-                            enum.locateSingleOrExceptionByDescription("primaryConstructor")
-                                .showHumanReadableTreeWithSourceCode(maybeFileWithEnumSourceCode)
-                             */
-                            appliedTags.add(Tag(key, extractedText))
-                            extractedSomething = true
-                        }
-                    }
+                getEnumValuesDefinedInThisFilepath(it.toString()).forEach {value ->
+                    appliedTags.add(Tag(key, value))
+                    extractedSomething = true
                 }
             }
             if (!extractedSomething) {
