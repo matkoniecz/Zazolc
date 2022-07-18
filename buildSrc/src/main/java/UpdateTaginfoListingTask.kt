@@ -151,7 +151,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         reportResultOfDataCollection(foundTags, processed, failed)
     }
 
-    private val DISABLED_FAILING_QUESTS = listOf("building_type")
+    private val DISABLED_FAILING_QUESTS = listOf("building_type", "road_name")
 
     private fun questFolderGenerator() = iterator {
         File(QUEST_ROOT_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { folder ->
