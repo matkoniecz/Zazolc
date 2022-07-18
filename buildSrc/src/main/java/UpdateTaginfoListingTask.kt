@@ -147,7 +147,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
     @TaskAction fun run() {
         var processed = 0
-        var failedList = mutableListOf<String>()
+        val failedList = mutableListOf<String>()
         val foundTags = mutableListOf<TagQuestInfo>()
         val folderGenerator = questFolderGenerator()
         while (folderGenerator.hasNext()) {
@@ -376,7 +376,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println()
         println()
         foundTags.forEach {
-            if (it.tag.key.startsWith(SURVEY_MARK_KEY + ":")) {
+            if (it.tag.key.startsWith("$SURVEY_MARK_KEY:")) {
                 return@forEach // compound key with generated explanation, see https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
             }
             if (it.tag.key.startsWith("source:")) {
