@@ -861,8 +861,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 } else if (functionName in listOf("remove", "containsKey", "removeCheckDatesForKey", "hasChanges", "entries", "hasCheckDateForKey", "hasCheckDate")) {
                     // skip, as only added or edited tags are listed - and removed one and influencing ones are ignored
                 } else if (functionName in listOf("updateCheckDate")) {
-                    // edit to check date
-                    // TODO load that check date somehow? or just assume for now?
+                    appliedTags.add(Tag(SURVEY_MARK_KEY, null))
                 } else if (functionName == "replaceShop") {
                     // that brings basically entire NSI, right?
                     // worse - not entire, only segment of it...
