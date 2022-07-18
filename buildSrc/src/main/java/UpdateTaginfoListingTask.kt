@@ -947,9 +947,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         ast.root()!!.showRelatedSourceCode(fileSourceCode, "dammit")
         val found = extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
         if (found == null) {
-            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
             ast.showRelatedSourceCode(fileSourceCode, "dammit")
-            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+            ast.root()!!.showRelatedSourceCode(fileSourceCode, "dammit rooted")
+            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
             return null
         }
         if (found.children.size == 1) {
