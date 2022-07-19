@@ -888,26 +888,37 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                         extractedNothing = false
                                     }
                                 }
-                                if(extractedNothing) {
+                                if (extractedNothing) {
                                     println("Enum obtaining failed!")
                                     println("Enum obtaining failed! suspectedAnswerEnumFiles $suspectedAnswerEnumFiles")
                                     println("Enum obtaining failed!")
                                     appliedTags.add(Tag(keyString, valueString))
-                                    println("44444444444444<<< tags dict is accessed with function, key known, value unknown, enum obtaining failed<")
+                                    println("44444444444444<<< tags dict is accessed with updateWithCheckDate, key known ($keyString), value unknown, enum obtaining failed<")
                                     valueAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                                    valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst in tags dict access")
+                                    valueAst.showRelatedSourceCode(fileSourceCode,
+                                        "extracted valueAst in tags dict access")
                                     println(">>>44444444444>")
-                                    accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted accessingTagsWithFunction in tags dict access")
+                                    accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode,
+                                        "extracted accessingTagsWithFunction in tags dict access")
                                     println(">>>33333333333>")
                                 }
                             } else {
-                                appliedTags.add(Tag(keyString, valueString))
-                                println("7777777777777777777<<< tags dict is accessed with function, key known, value unknown<")
-                                valueAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                                valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst in tags dict access")
-                                println(">>>7777777777777777777>")
-                                accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted valueAst in tags dict access")
-                                println(">>>55555555555555555555>")
+                                val valueSourceCode = valueAst.relatedSourceCode(fileSourceCode)
+                                if (freeformKey(keyString) && valueSourceCode in setOf("answer.toString()", "openingHoursString")) {
+                                    // key is freeform and it appears to not be enum - so lets skip complaining and attempting to tarck down value
+                                    // individual quests can be investigated as needed
+                                    appliedTags.add(Tag(keyString, null))
+                                } else {
+                                    appliedTags.add(Tag(keyString, valueString))
+                                    println("XXXXXXXXXXXXXXXXXXXXX<<< $description tags dict is accessed with updateWithCheckDate, key known ($keyString), value unknown, obtaining data failed<")
+                                    valueAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                                    valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst in tags dict access")
+                                    println(">>>VVVVVVVVVVVVVVVVVV> $description")
+                                    accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted valueAst in tags dict access")
+                                    println(">>>IIIIIIIIIIIIIIIIIIIII> $description")
+                                    println(relevantFunction.showRelatedSourceCode(fileSourceCode, "extractCasesWhereTagsAreAccessedWithFunction - extraction failing"))
+                                    println(">>>0000000000000000000> $description")
+                                }
                             }
                         }
                     } else {
