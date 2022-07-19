@@ -48,6 +48,7 @@ There was an attempt to do this but it failed.
 open class UpdateTaginfoListingTask : DefaultTask() {
     companion object {
         const val NAME_OF_FUNCTION_EDITING_TAGS = "applyAnswerTo"
+        const val KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING = "app/src/main/java/"
         const val QUEST_ROOT_WITH_SLASH_ENDING = "app/src/main/java/de/westnordost/streetcomplete/quests/"
         const val SURVEY_MARK_KEY = "check_date" // TODO: is it possible to use directly SC constant?
         const val VIBRATING_BUTTON = "traffic_signals:vibration"
@@ -89,6 +90,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "clothing_bin_operator/AddClothingBinOperator.kt" to setOf(Tag("operator", null)),
             "construction/MarkCompletedBuildingConstruction.kt" to setOf(Tag("opening_date", null), Tag("building", null), Tag("check_date", null)),
             "construction/MarkCompletedHighwayConstruction.kt" to setOf(Tag("opening_date", null), Tag("highway", null), Tag("check_date", null)),
+            "crossing/AddCrossing.kt" to setOf(Tag("highway", "crossing"), Tag("check_date:kerb", null), Tag("kerb", "raised"), Tag("kerb", "lowered"), Tag("kerb", "flush"), Tag("kerb", "no")),
             "crossing_island/AddCrossingIsland.kt" to setOf(Tag("crossing:island", "yes"), Tag("crossing:island", "no")),
             "crossing_type/AddCrossingType.kt" to setOf(Tag("crossing:island", "yes"), Tag("check_date:crossing", null), Tag("crossing", "traffic_signals"), Tag("crossing", "marked"), Tag("crossing", "unmarked")),
             "defibrillator/AddIsDefibrillatorIndoor.kt" to setOf(Tag("indoor", "yes"), Tag("indoor", "no")),
@@ -168,27 +170,38 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val failedQuests = mutableSetOf<String>()
         val foundTags = mutableListOf<TagQuestInfo>()
         val folderGenerator = questFolderGenerator()
+
+        /*
+        val path = QUEST_ROOT_WITH_SLASH_ENDING + "crossing/AddCrossing.kt"
+        val fileSourceCode = loadFileFromPath(path)
+        showEntire(path, fileSourceCode)
+        */
+
         while (folderGenerator.hasNext()) {
             val folder = folderGenerator.next()
             var foundQuestFile = false
+
             val suspectedAnswerEnumFiles = mutableListOf<File>()
             File(folder.toString()).walkTopDown().forEach {
-                if (isLikelyAnswerEnumFile(it)) {
+                if (isLikelyAnswerEnumFile(it.toString())) {
                     suspectedAnswerEnumFiles.add(it)
                 }
             }
 
             File(folder.toString()).walkTopDown().forEach {
-                if (isQuestFile(it)) {
-                    foundQuestFile = true
-                    val fileSourceCode = loadFileFromPath(it.toString())
-                    val got = addedOrEditedTags(it.name, fileSourceCode, suspectedAnswerEnumFiles)
-                    reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT_WITH_SLASH_ENDING), fileSourceCode)
-                    if (got != null) {
-                        processed += 1
-                        got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
-                    } else {
-                        failedQuests.add(it.toString())
+                if(it.isFile) {
+                    val suspectedAnswerEnumFilesForThisFile = suspectedAnswerEnumFiles + candidatesForEnumFilesBasedOnImports(it.path)
+                    if (isQuestFile(it.name)) {
+                        foundQuestFile = true
+                        val fileSourceCode = loadFileFromPath(it.toString())
+                        val got = addedOrEditedTags(it.name, fileSourceCode, suspectedAnswerEnumFilesForThisFile)
+                        reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT_WITH_SLASH_ENDING), fileSourceCode)
+                        if (got != null) {
+                            processed += 1
+                            got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
+                        } else {
+                            failedQuests.add(it.toString())
+                        }
                     }
                 }
             }
@@ -207,51 +220,98 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun isLikelyAnswerEnumFile(file: File): Boolean {
-        if (".kt" !in file.name) {
-            return false
-        }
-        if ("Form" in file.name) {
-            return false
-        }
-        if ("Adapter" in file.name) {
-            return false
-        }
-        if ("Util" in file.name) {
-            return false
-        }
-        if ("Drawable" in file.name) {
-            return false
-        }
-        if ("Dao" in file.name) {
-            return false
-        }
-        if ("Dialog" in file.name) {
-            return false
-        }
-        if ("Item" in file.name) {
-            return false
-        }
-        return !isQuestFile(file)
+    private fun candidatesForEnumFilesBasedOnImports(path:String): List<File> {
+        // initially just files from folder were taken as a base
+        // due to cases like AddCrossing reaching across folders
+        // it was not working well and require this extra parsing
+        //
+        // also, just parsing imports is not sufficient
+        // see AddBikeParkingType which is not explicitly
+        // importing the enum
+        //
+        // note: importedByFile may have false negatives that require extra parsing
+        // to handle this
+        return importedByFile(path).filter { isLikelyAnswerEnumFile(it) && "/quests/" in it }.map {File(it)}.filter{it.isFile}
     }
 
-    private fun isQuestFile(file: File): Boolean {
-        if (".kt" !in file.name) {
+    private fun importedByFile(path:String): Set<String> {
+        val returned = mutableSetOf<String>()
+        val fileSourceCode = loadFileFromPath(path)
+        val ast = AstSource.String(path, fileSourceCode)
+        ast.parse().locateByDescription("importList").forEach {
+            it.locateByDescription("importHeader").forEach {
+                if(it is DefaultAstNode) {
+                    areDirectChildrenMatchingStructureThrowExceptionIfNot(listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace=false)
+                    val imported = it.locateSingleOrExceptionByDescriptionDirectChild("identifier")
+                    //println(imported.locateByDescriptionDirectChild("simpleIdentifier").size.toString() + "  ddddddd")
+                    val importedPath = KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING + imported.locateByDescriptionDirectChild("simpleIdentifier").map {
+                        (it.tree() as KlassIdentifier).identifier
+                    }.joinToString("/") + ".kt"
+                    if(File(importedPath).isFile) {
+                        // WARNING: false positives here can be expected
+                        // WARNING: this will treat
+                        // import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.PEDESTRIAN
+                        // as import of PEDESTRIAN.kt file
+                        // not as import of PEDESTRIAN from EditTypeAchievement.kt file
+
+                        // and this check will result in false negatives in turn...
+                        returned.add(importedPath)
+                    }
+                }
+            }
+        }
+        //in case that it is actually needed
+        //println("packageHeader")
+        //println(ast.parse().locateSingleOrExceptionByDescription("packageHeader").relatedSourceCode(fileSourceCode))
+        //ast.parse().locateSingleOrExceptionByDescription("packageHeader").showHumanReadableTreeWithSourceCode(fileSourceCode)
+        return returned
+    }
+
+    private fun isLikelyAnswerEnumFile(filename: String): Boolean {
+        if (".kt" !in filename) {
             return false
         }
-        if ("Form" in file.name) {
+        if ("Form" in filename) {
             return false
         }
-        if ("Adapter" in file.name) {
+        if ("Adapter" in filename) {
             return false
         }
-        if ("Utils" in file.name) {
+        if ("Util" in filename) {
             return false
         }
-        if (file.name == "AddressStreetAnswer.kt") {
+        if ("Drawable" in filename) {
             return false
         }
-        if ("Add" in file.name || "Check" in file.name || "Determine" in file.name || "MarkCompleted" in file.name) {
+        if ("Dao" in filename) {
+            return false
+        }
+        if ("Dialog" in filename) {
+            return false
+        }
+        if ("Item" in filename) {
+            return false
+        }
+        return !isQuestFile(filename)
+    }
+
+    private fun isQuestFile(filename: String): Boolean {
+        if (".kt" !in filename) {
+            return false
+        }
+        if ("Form" in filename) {
+            return false
+        }
+        if ("Adapter" in filename) {
+            return false
+        }
+        if ("Utils" in filename) {
+            return false
+        }
+        if (filename == "AddressStreetAnswer.kt") {
+            return false
+        }
+        if ("Add" in filename || "Check" in filename || "Determine" in filename || "MarkCompleted" in filename) {
             return true
         }
         return false
@@ -370,11 +430,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && !freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 425
+        val tagsFoundPreviously = 428
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val tagsThatShouldBeMoreSpecificFoundPreviously = 10
+        val tagsThatShouldBeMoreSpecificFoundPreviously = 8
         if (tagsThatShouldBeMoreSpecific != tagsThatShouldBeMoreSpecificFoundPreviously) {
             println("Something changed in processing! tagsThatShouldBeMoreSpecific count $tagsThatShouldBeMoreSpecific vs $tagsThatShouldBeMoreSpecificFoundPreviously previously")
         }
@@ -802,6 +862,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val appliedTags = mutableSetOf<Tag>()
         whenExpression.locateByDescription("whenEntry").forEach { it ->
             val structure = it.children.filter { it.description != "WS" }
+            val structureDescriptions = structure.map{ it.description }
             /*
             structure.forEach { child ->
                 println()
@@ -811,46 +872,39 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 child.showRelatedSourceCode(fileSourceCode, "child")
             }
             */
-            if (structure[0].description != "whenCondition" && structure[0].description != "ELSE") {
-                println("WHEN STRUCTURE FAILED")
-                whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                whenExpression.showRelatedSourceCode(fileSourceCode, "WHEN STRUCTURE FAILED")
-                println(it.showRelatedSourceCode(fileSourceCode, "WHEN STRUCTURE FAILED"))
-                println()
-                structure.forEach { println(it.description) }
-                throw ParsingInterpretationException("unexpected when structure! structure[0].description")
-            }
-            if (structure[1].description != "ARROW") {
-                println("WHEN STRUCTURE FAILED")
-                whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                println()
-                structure.forEach { println(it.description) }
-                throw ParsingInterpretationException("unexpected when structure! structure[1].description")
-            }
-            if (structure[2].description != "controlStructureBody") {
-                println("WHEN STRUCTURE FAILED")
-                whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                println()
-                structure.forEach { println(it.description) }
-                throw ParsingInterpretationException("unexpected when structure! structure[2].description")
-            }
-            if (structure[3].description != "semi") {
-                println("WHEN STRUCTURE FAILED")
-                whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                println()
-                structure.forEach { println(it.description) }
-                throw ParsingInterpretationException("unexpected when structure! structure[3].description")
-            }
-            if (structure.size != 4) {
-                println("WHEN STRUCTURE FAILED")
-                whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                println()
-                structure.forEach { println(it.description) }
-                throw ParsingInterpretationException("unexpected when structure! structure[4].description")
-            }
+            val expectedStructureA = listOf("whenCondition", "ARROW", "controlStructureBody", "semi")
+            val expectedStructureB = listOf("ELSE", "ARROW", "controlStructureBody", "semi")
+            areDirectChildrenMatchingStructureThrowExceptionIfNot(listOf(expectedStructureA, expectedStructureB), it, fileSourceCode, eraseWhitespace=true)
             appliedTags += extractValuesForKnownKey(key, structure[2], fileSourceCode, suspectedAnswerEnumFiles)
         }
         return appliedTags
+    }
+
+    private fun areDirectChildrenMatchingStructureThrowExceptionIfNot(expectedStructures: List<List<String>>, expression: AstNode, fileSourceCode: String, eraseWhitespace: Boolean){
+        val structure = expression.children.filter { !(eraseWhitespace && it.description == "WS") }.map{ it.description }
+        expectedStructures.forEach {
+            if(it == structure) {
+                return
+            }
+        }
+        var maxLength = 0
+        expectedStructures.forEach { if(maxLength < it.size) {maxLength = it.size} }
+        for(i in 0 until maxLength) {
+            expectedStructures.forEach {
+                if(it.size > i) {
+                    if(it[i] != structure[i]){
+                        println("STRUCTURE FAILED")
+                        println("WHEN STRUCTURE FAILED")
+                        expression.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                        expression.showRelatedSourceCode(fileSourceCode, "WHEN STRUCTURE FAILED")
+                        println(expression.showRelatedSourceCode(fileSourceCode, "WHEN STRUCTURE FAILED"))
+                        println()
+                        structure.forEach { println(it) }
+                        throw ParsingInterpretationException("unexpected structure! at $i index")
+                    }
+                }
+            }
+        }
     }
 
     private fun extractCasesWhereTagsAreAccessedWithFunction(description:String, relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
