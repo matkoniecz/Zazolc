@@ -788,7 +788,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         // TODO above assumes that there is a single enum with a single assigned value to each enum statement...
                         // for more complex ones
                         println("more than one argument, lets try to disentagle this")
-                        for(i in 0 until arguments.size) {
+                        for(i in arguments.indices) {
                             println("argument $i out of ${arguments.size} - ${extractTextFromHardcodedString(arguments[i], fileMaybeContainingEnumSourceCode)}")
                         }
                         enum.locateSingleOrExceptionByDescription("primaryConstructor")
