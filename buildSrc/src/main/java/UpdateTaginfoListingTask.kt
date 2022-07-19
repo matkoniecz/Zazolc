@@ -869,9 +869,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 } else if (functionName ==  "updateWithCheckDate") {
                     val keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
                     // TODO note case of VIBRATING_BUTTON SOUND_SIGNALS - get access to it somehow
-                    appliedTags.add(Tag("$SURVEY_MARK_KEY:$keyString", null))
                     val valueString = extractArgumentInFunctionCall(1, accessingTagsWithFunction, fileSourceCode) // WOMP WOPO TODO?
                     if (keyString != null) {
+                        appliedTags.add(Tag("$SURVEY_MARK_KEY:$keyString", null))
                         if (valueString != null) {
                             appliedTags.add(Tag(keyString, valueString))
                         } else {
