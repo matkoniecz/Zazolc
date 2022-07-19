@@ -1,3 +1,5 @@
+import com.charleskorn.kaml.Yaml
+import com.charleskorn.kaml.YamlConfiguration
 import kotlinx.ast.common.AstSource
 import kotlinx.ast.common.ast.Ast
 import kotlinx.ast.common.ast.AstNode
@@ -12,6 +14,7 @@ import kotlinx.ast.common.klass.StringComponentRaw
 import kotlinx.ast.grammar.kotlin.common.KotlinGrammarParserType
 import kotlinx.ast.grammar.kotlin.common.summary
 import kotlinx.ast.grammar.kotlin.target.antlr.kotlin.KotlinGrammarAntlrKotlinParser
+import kotlinx.serialization.Serializable
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
@@ -50,6 +53,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         const val NAME_OF_FUNCTION_EDITING_TAGS = "applyAnswerTo"
         const val KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING = "app/src/main/java/"
         const val QUEST_ROOT_WITH_SLASH_ENDING = "app/src/main/java/de/westnordost/streetcomplete/quests/"
+        const val COUNTRY_METADATA_PATH_WITH_SLASH_ENDING = "app/src/main/assets/country_metadata/"
         const val SURVEY_MARK_KEY = "check_date" // TODO: is it possible to use directly SC constant?
         const val VIBRATING_BUTTON = "traffic_signals:vibration"
         private const val SOUND_SIGNALS = "traffic_signals:sound"
@@ -81,6 +85,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "bus_stop_bench/AddBenchStatusOnBusStop.kt" to setOf(Tag("check_date:bench", null), Tag("bench", "yes"), Tag("bench", "no")),
             "bus_stop_bin/AddBinStatusOnBusStop.kt" to setOf(Tag("check_date:bin", null), Tag("bin", "yes"), Tag("bin", "no")),
             "bus_stop_lit/AddBusStopLit.kt" to setOf(Tag("check_date:lit", null), Tag("lit", "yes"), Tag("lit", "no")),
+            "bus_stop_name/AddBusStopName.kt" to setOf(Tag("name:signed", "no"), Tag("name", null), Tag("int_name", null), Tag("name:ar", null), Tag("name:en", null), Tag("name:kha", null), Tag("name:grt", null), Tag("name:uz", null), Tag("name:ru", null), Tag("name:mnk", null), Tag("name:ff", null), Tag("name:cy", null), Tag("name:gd", null), Tag("name:fr", null), Tag("name:snk", null), Tag("name:wo", null), Tag("name:sw", null), Tag("name:fil", null), Tag("name:es", null), Tag("name:ceb", null), Tag("name:ilo", null), Tag("name:hil", null), Tag("name:nl", null), Tag("name:pap", null), Tag("name:mg", null), Tag("name:ms", null), Tag("name:hi", null), Tag("name:pa", null), Tag("name:zh", null), Tag("name:adx", null), Tag("name:kk", null), Tag("name:tpi", null), Tag("name:ho", null), Tag("name:pt", null), Tag("name:pov", null), Tag("name:my", null), Tag("name:pih", null), Tag("name:bn", null), Tag("name:te", null), Tag("name:mr", null), Tag("name:ta", null), Tag("name:ur", null), Tag("name:gu", null), Tag("name:kn", null), Tag("name:ml", null), Tag("name:or", null), Tag("name:as", null), Tag("name:mai", null), Tag("name:ks", null), Tag("name:emk", null), Tag("name:sus", null), Tag("name:gyn", null), Tag("name:it", null), Tag("name:de", null), Tag("name:bo", null), Tag("name:mfe", null), Tag("name:qu", null), Tag("name:ny", null), Tag("name:nb", null), Tag("name:no", null), Tag("name:af", null), Tag("name:so", null), Tag("name:mkw", null), Tag("name:ln", null), Tag("name:lua", null), Tag("name:et", null), Tag("name:fan", null), Tag("name:doi", null), Tag("name:tvl", null), Tag("name:oc", null), Tag("name:ca", null), Tag("name:br", null), Tag("name:id", null), Tag("name:jv", null), Tag("name:su", null), Tag("name:mad", null), Tag("name:min", null), Tag("name:sq", null), Tag("name:sr", null), Tag("name:trp", null), Tag("name:ug", null), Tag("name:international", null), Tag("name:hy", null), Tag("name:ber", null), Tag("name:tkl", null), Tag("name:tn", null), Tag("name:myn", null), Tag("name:ky", null), Tag("name:mn", null), Tag("name:gv", null), Tag("name:el", null), Tag("name:tr", null), Tag("name:mos", null), Tag("name:dyu", null), Tag("name:st", null), Tag("name:aa", null), Tag("name:bg", null), Tag("name:mh", null), Tag("name:fa", null), Tag("name:ps", null), Tag("name:eu", null), Tag("name:bs", null), Tag("name:hr", null), Tag("name:to", null), Tag("name:lb", null), Tag("name:ay", null), Tag("name:na", null), Tag("name:heb", null), Tag("name:gil", null), Tag("name:jam", null), Tag("name:brx", null), Tag("name:za", null), Tag("name:ko", null), Tag("name:ko-Latn", null), Tag("name:kok", null), Tag("name:mk", null), Tag("name:niu", null), Tag("name:fo", null), Tag("name:dk", null), Tag("name:bi", null), Tag("name:gug", null), Tag("name:pau", null), Tag("name:gl", null), Tag("name:tg", null), Tag("name:bem", null), Tag("name:ha", null), Tag("name:rm", null), Tag("name:nn", null), Tag("name:bzj", null), Tag("name:kri", null), Tag("name:fi", null), Tag("name:sv", null), Tag("name:rw", null), Tag("name:rn", null), Tag("name:km", null), Tag("name:sg", null), Tag("name:kl", null), Tag("name:da", null), Tag("name:am", null), Tag("name:om", null), Tag("name:ti", null), Tag("name:ak", null), Tag("name:ee", null), Tag("name:crs", null), Tag("name:bm", null), Tag("name:sn", null), Tag("name:nd", null), Tag("name:fj", null), Tag("name:hif", null), Tag("name:rar", null), Tag("name:ss", null), Tag("name:tk", null), Tag("name:kea", null), Tag("name:bci", null), Tag("name:any", null), Tag("name:lo", null), Tag("name:swb", null), Tag("name:wni", null), Tag("name:zdj", null), Tag("name:wlc", null), Tag("name:tet", null), Tag("name:ja", null), Tag("name:ja-Latn", null), Tag("name:sm", null), Tag("name:lus", null), Tag("name:ch", null), Tag("name:ka", null), Tag("name:dgr", null), Tag("name:den", null), Tag("name:ne", null), Tag("name:fon", null), Tag("name:be", null), Tag("name:ht", null), Tag("name:ga", null), Tag("name:mt", null), Tag("name:chk", null), Tag("name:pon", null), Tag("name:uk", null), Tag("name:zu", null), Tag("name:xh", null), Tag("name:nso", null), Tag("name:ts", null), Tag("name:si", null), Tag("name:iu", null), Tag("name:th", null), Tag("name:th-Latn", null), Tag("name:sid", null), Tag("name:wal", null), Tag("name:ast", null)),
             "bus_stop_ref/AddBusStopRef.kt" to setOf(Tag("ref:signed", "no"), Tag("ref", null)),
             "bus_stop_shelter/AddBusStopShelter.kt" to setOf(Tag("covered", "yes"), Tag("check_date:shelter", null), Tag("shelter", "yes"), Tag("shelter", "no")),
             "camera_type/AddCameraType.kt" to setOf(Tag("camera:type", "dome"), Tag("camera:type", "fixed"), Tag("camera:type", "panning")),
@@ -125,6 +130,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "parking_access/AddBikeParkingAccess.kt" to setOf(Tag("access", "yes"), Tag("access", "customers"), Tag("access", "private")),
             "parking_type/AddParkingType.kt" to setOf(Tag("parking", "surface"), Tag("parking", "street_side"), Tag("parking", "lane"), Tag("parking", "underground"), Tag("parking", "multi-storey")),
             "pitch_lit/AddPitchLit.kt" to setOf(Tag("check_date:lit", null), Tag("lit", "yes"), Tag("lit", "no")),
+            "place_name/AddPlaceName.kt" to setOf(Tag("name:signed", "no"), Tag("name", null), Tag("int_name", null), Tag("name:ar", null), Tag("name:en", null), Tag("name:kha", null), Tag("name:grt", null), Tag("name:uz", null), Tag("name:ru", null), Tag("name:mnk", null), Tag("name:ff", null), Tag("name:cy", null), Tag("name:gd", null), Tag("name:fr", null), Tag("name:snk", null), Tag("name:wo", null), Tag("name:sw", null), Tag("name:fil", null), Tag("name:es", null), Tag("name:ceb", null), Tag("name:ilo", null), Tag("name:hil", null), Tag("name:nl", null), Tag("name:pap", null), Tag("name:mg", null), Tag("name:ms", null), Tag("name:hi", null), Tag("name:pa", null), Tag("name:zh", null), Tag("name:adx", null), Tag("name:kk", null), Tag("name:tpi", null), Tag("name:ho", null), Tag("name:pt", null), Tag("name:pov", null), Tag("name:my", null), Tag("name:pih", null), Tag("name:bn", null), Tag("name:te", null), Tag("name:mr", null), Tag("name:ta", null), Tag("name:ur", null), Tag("name:gu", null), Tag("name:kn", null), Tag("name:ml", null), Tag("name:or", null), Tag("name:as", null), Tag("name:mai", null), Tag("name:ks", null), Tag("name:emk", null), Tag("name:sus", null), Tag("name:gyn", null), Tag("name:it", null), Tag("name:de", null), Tag("name:bo", null), Tag("name:mfe", null), Tag("name:qu", null), Tag("name:ny", null), Tag("name:nb", null), Tag("name:no", null), Tag("name:af", null), Tag("name:so", null), Tag("name:mkw", null), Tag("name:ln", null), Tag("name:lua", null), Tag("name:et", null), Tag("name:fan", null), Tag("name:doi", null), Tag("name:tvl", null), Tag("name:oc", null), Tag("name:ca", null), Tag("name:br", null), Tag("name:id", null), Tag("name:jv", null), Tag("name:su", null), Tag("name:mad", null), Tag("name:min", null), Tag("name:sq", null), Tag("name:sr", null), Tag("name:trp", null), Tag("name:ug", null), Tag("name:international", null), Tag("name:hy", null), Tag("name:ber", null), Tag("name:tkl", null), Tag("name:tn", null), Tag("name:myn", null), Tag("name:ky", null), Tag("name:mn", null), Tag("name:gv", null), Tag("name:el", null), Tag("name:tr", null), Tag("name:mos", null), Tag("name:dyu", null), Tag("name:st", null), Tag("name:aa", null), Tag("name:bg", null), Tag("name:mh", null), Tag("name:fa", null), Tag("name:ps", null), Tag("name:eu", null), Tag("name:bs", null), Tag("name:hr", null), Tag("name:to", null), Tag("name:lb", null), Tag("name:ay", null), Tag("name:na", null), Tag("name:heb", null), Tag("name:gil", null), Tag("name:jam", null), Tag("name:brx", null), Tag("name:za", null), Tag("name:ko", null), Tag("name:ko-Latn", null), Tag("name:kok", null), Tag("name:mk", null), Tag("name:niu", null), Tag("name:fo", null), Tag("name:dk", null), Tag("name:bi", null), Tag("name:gug", null), Tag("name:pau", null), Tag("name:gl", null), Tag("name:tg", null), Tag("name:bem", null), Tag("name:ha", null), Tag("name:rm", null), Tag("name:nn", null), Tag("name:bzj", null), Tag("name:kri", null), Tag("name:fi", null), Tag("name:sv", null), Tag("name:rw", null), Tag("name:rn", null), Tag("name:km", null), Tag("name:sg", null), Tag("name:kl", null), Tag("name:da", null), Tag("name:am", null), Tag("name:om", null), Tag("name:ti", null), Tag("name:ak", null), Tag("name:ee", null), Tag("name:crs", null), Tag("name:bm", null), Tag("name:sn", null), Tag("name:nd", null), Tag("name:fj", null), Tag("name:hif", null), Tag("name:rar", null), Tag("name:ss", null), Tag("name:tk", null), Tag("name:kea", null), Tag("name:bci", null), Tag("name:any", null), Tag("name:lo", null), Tag("name:swb", null), Tag("name:wni", null), Tag("name:zdj", null), Tag("name:wlc", null), Tag("name:tet", null), Tag("name:ja", null), Tag("name:ja-Latn", null), Tag("name:sm", null), Tag("name:lus", null), Tag("name:ch", null), Tag("name:ka", null), Tag("name:dgr", null), Tag("name:den", null), Tag("name:ne", null), Tag("name:fon", null), Tag("name:be", null), Tag("name:ht", null), Tag("name:ga", null), Tag("name:mt", null), Tag("name:chk", null), Tag("name:pon", null), Tag("name:uk", null), Tag("name:zu", null), Tag("name:xh", null), Tag("name:nso", null), Tag("name:ts", null), Tag("name:si", null), Tag("name:iu", null), Tag("name:th", null), Tag("name:th-Latn", null), Tag("name:sid", null), Tag("name:wal", null), Tag("name:ast", null)),
             "playground_access/AddPlaygroundAccess.kt" to setOf(Tag("access", "yes"), Tag("access", "customers"), Tag("access", "private")),
             "postbox_ref/AddPostboxRef.kt" to setOf(Tag("ref:signed", "no"), Tag("ref", null)),
             "postbox_collection_times/AddPostboxCollectionTimes.kt" to setOf(Tag("collection_times:signed", "no"), Tag("check_date:collection_times", null), Tag("collection_times", null)),
@@ -320,56 +326,58 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun functionParsingSkippedBasedOnSourceCode(sourceCodeOfFunction: String): Boolean {
         // Complex code constructs not supported for now
         // TODO: implement their support
-        if ("answer.applyTo(" in sourceCodeOfFunction) {
-            return true
-        }
-        if (".applyTo(tags)" in sourceCodeOfFunction) {
-            return true
-        }
-        if ("applySidewalkSurfaceAnswerTo" in sourceCodeOfFunction) {
-            return true
-        }
-        if ("applyWasteContainerAnswer" in sourceCodeOfFunction) {
-            return true
-        }
-        if ("replaceShop" in sourceCodeOfFunction) {
-            return true
-        }
-        if ("answer.countryCode + \":\" + answer.roadType" in sourceCodeOfFunction) {
-            return true
-        }
-        if ("osmKey" in sourceCodeOfFunction) {
-            // key also needs parsing - TODO, this should be solvable
-            return true
-        }
-        if ("applyAnswerRoadName" in sourceCodeOfFunction) {
-            return true
-        }
-        if ("applyRampAnswer" in sourceCodeOfFunction) {
-            return true
-        }
-        if ("applySidewalkAnswerTo" in sourceCodeOfFunction) {
-            return true
-        }
-        if ("tags[\"material\"] = newMaterial" in sourceCodeOfFunction) {
-            return true
-        }
-        if ("answer.joinToString" in sourceCodeOfFunction) {
-            return true
-        }
-        if("\"name:\$languageTag\"" in sourceCodeOfFunction) {
-            return true
-        }
-        if ("tags[\"parking:lane:left:\$laneLeft\"]" in sourceCodeOfFunction) {
-            return true
-        }
-        if("\$key" in sourceCodeOfFunction) {
-            return true
-        }
-        if("val key = when" in sourceCodeOfFunction) {
-            return true
+        val blockers = listOf(
+            "PoliceType", // TODO should be implementable
+            "drinking_water", // TODO should be implementable
+            "smoothness", // TODO should be implementable
+            "shoulder", // TODO should be implementable
+            "is StreetName -> \"addr:street\"",  // TODO should be implementable
+            "answer.applyTo(",
+            ".applyTo(tags)",
+            "applySidewalkSurfaceAnswerTo",
+            "applyWasteContainerAnswer",
+            "replaceShop",
+            "answer.countryCode + \":\" + answer.roadType",
+            "osmKey",
+            "applyAnswerRoadName",
+            "applyRampAnswer",
+            "applySidewalkAnswerTo",
+            "tags[\"material\"] = newMaterial",
+            "answer.joinToString",
+            "\$key",
+            "tags[\"parking:lane:left:\$laneLeft\"]",
+            "applyRampAnswer",
+            "applyRampAnswer",
+        )
+        blockers.forEach {
+            if(it in sourceCodeOfFunction) {
+                println("functionParsingSkippedBasedOnSourceCode found $it")
+                return true
+            }
         }
         return false
+    }
+
+    // FIGURE OUT HOW TO AVOID COPYING THIS!
+    @Serializable
+    data class IncompleteCountryInfo(
+        val additionalStreetsignLanguages: Set<String> = setOf(),
+        val officialLanguages: Set<String> = setOf(),
+
+    )
+
+    private fun possibleLanguageTags(): MutableSet<String> {
+        val languageTags = mutableSetOf("name", "int_name")
+        File(COUNTRY_METADATA_PATH_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach {
+            if (it.isFile) {
+                val test = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileFromPath(it.toString()))
+                val langs = test.officialLanguages + test.additionalStreetsignLanguages
+                if(langs.size > 1) {
+                    langs.forEach{ languageTags.add("name:$it") }
+                }
+            }
+        }
+        return languageTags
     }
 
     private fun reportResultOfScanInSingleQuest(got: Set<Tag>?, filepath: String, fileSourceCode: String) {
@@ -428,22 +436,23 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
+        foundTags.filter { it.tag.value == null && !freeformKey(it.tag.key) }.forEach { println(it) }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && !freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 428
+        val tagsFoundPreviously = 796
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val tagsThatShouldBeMoreSpecificFoundPreviously = 8
+        val tagsThatShouldBeMoreSpecificFoundPreviously = 2
         if (tagsThatShouldBeMoreSpecific != tagsThatShouldBeMoreSpecificFoundPreviously) {
             println("Something changed in processing! tagsThatShouldBeMoreSpecific count $tagsThatShouldBeMoreSpecific vs $tagsThatShouldBeMoreSpecificFoundPreviously previously")
         }
-        val processedQuestsPreviously = 114
+        val processedQuestsPreviously = 111
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
-        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/orchard_produce/AddOrchardProduce.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sport/AddSport.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/bus_stop_name/AddBusStopName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/place_name/AddPlaceName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
+        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/police_type/AddPoliceType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shoulder/AddShoulder.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/orchard_produce/AddOrchardProduce.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sport/AddSport.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
         if (realFailed != knownFailed.size) {
             println("Something changed in processing! failed count $realFailed vs ${knownFailed.size} previously")
         }
@@ -510,7 +519,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun freeformKey(key: String): Boolean {
         // most have own syntax and limitations obeyed by SC
         // maybe move to general StreetComplete file about OSM tagging?
-        if (key in listOf("name", "ref",
+        if (key in listOf("name", "int_name", "ref",
                 "addr:flats", "addr:housenumber", "addr:street", "addr:place", "addr:block_number", "addr:streetnumber",
                 "addr:conscriptionnumber", "addr:housename",
                 "building:levels", "roof:levels", "level",
@@ -533,6 +542,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return true
         }
         if (key.startsWith("lanes:")) {
+            return true
+        }
+        if (key.startsWith("name:")) {
             return true
         }
         if (key.startsWith("source:")) {
@@ -626,6 +638,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val ast = AstSource.String(description, fileSourceCode)
         val relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
         if (functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
+            println("skipping $description")
             return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
         }
         var got = extractCasesWhereTagsAreAccessedWithIndex(description, relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
@@ -715,8 +728,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     // indexingElement is something like ["indoor"] or [key]
                     val expression = indexingElement.locateSingleOrExceptionByDescriptionDirectChild("expression") // drop outer [ ]
                     val potentialTexts = expression.locateByDescription("stringLiteral", debug = false) // what if it is something like "prefix" + CONSTANT ?
-                    val potentialVariable = if (expression is KlassIdentifier) { expression } else { null } // tag[key] = ...
-                    val complexPotentialVariable = expression.locateByDescriptionDirectChild("disjunction") // tag[answer.osmKey] = ...
+                    val potentiallyUsableExpression = if (expression is KlassIdentifier) { expression } else { null } //
+                    val likelyVariable = expression.locateByDescriptionDirectChild("disjunction") // tag[key] = ... for example
                     if (potentialTexts.size == 1) {
                         val processed = potentialTexts[0].tree()
                         if (processed == null) {
@@ -724,31 +737,39 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         }
                         val key = extractTextFromHardcodedString(processed, fileSourceCode)
                         if (key == null) {
+                            print("*****")
+                            print(processed.relatedSourceCode(fileSourceCode))
                             throw ParsingInterpretationException("not handled")
+                        } else {
+                            // assignment (for example tags["highway"] = "steps" ) is expected to have following children:
+                            // directlyAssignableExpression ( for example tags["highway"] )
+                            // WS
+                            // ASSIGNMENT =
+                            // WS
+                            // expression ( for example: "steps" )
+                            val valueHolder = assignment.locateSingleOrExceptionByDescriptionDirectChild("expression")
+                            appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
                         }
-                        // assignment (for example tags["highway"] = "steps" ) is expected to have following children:
-                        // directlyAssignableExpression ( for example tags["highway"] )
-                        // WS
-                        // ASSIGNMENT =
-                        // WS
-                        // expression ( for example: "steps" )
-                        val valueHolder = assignment.locateSingleOrExceptionByDescriptionDirectChild("expression")
-                        appliedTags += extractValuesForKnownKey(key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
-                    } else if (potentialVariable != null) {
+                    } else if (potentiallyUsableExpression != null) {
                         expression.showHumanReadableTree()
                         expression.showRelatedSourceCode(fileSourceCode, "expression in identified access as a variable")
                         println(KotlinGrammarParserType.identifier.toString() + " identified as accessing index as a variable (potentialTexts.size = ${potentialTexts.size})")
                         return null
-                    } else if (complexPotentialVariable.size == 1) {
-                        expression.showHumanReadableTree()
-                        expression.showRelatedSourceCode(fileSourceCode, "expression in identified access as a complex variable")
-                        println(complexPotentialVariable[0].relatedSourceCode(fileSourceCode) + " identified as accessing index as a complex variable (potentialTexts.size = ${potentialTexts.size})")
-                        return null
+                    } else if (likelyVariable.size == 1) {
+                        if(likelyVariable[0].relatedSourceCode(fileSourceCode) == "key" && "name:\$languageTag" in fileSourceCode) {
+                            // special handling for name quests
+                            possibleLanguageTags().forEach { appliedTags.add(Tag(it, null)) }
+                        } else {
+                            expression.showHumanReadableTree()
+                            expression.showRelatedSourceCode(fileSourceCode, "expression in identified access as a complex variable")
+                            println(likelyVariable[0].relatedSourceCode(fileSourceCode) + " identified as accessing index as a complex variable (potentialTexts.size = ${potentialTexts.size})")
+                            return null
+                        }
                     } else {
                         expression.showRelatedSourceCode(fileSourceCode, "expression - not handled")
                         expression.showHumanReadableTree()
                         println(expression::class)
-                        throw ParsingInterpretationException("not handled, ${potentialTexts.size} texts, $potentialVariable variable")
+                        throw ParsingInterpretationException("not handled, ${potentialTexts.size} texts, $potentiallyUsableExpression variable")
                     }
                 }
             }
