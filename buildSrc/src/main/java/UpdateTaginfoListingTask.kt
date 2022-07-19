@@ -477,6 +477,20 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
             if (it.tag.value !in listOf(null, "no", "yes") && !freeformKey(it.tag.key)) {
+                if (it.tag.key in listOf("crossing:barrier", "bicycle_rental", "roof:shape", "material", "royal_cypher", "camera:type",
+                        "bollard", "board_type", "cycle_barrier", "bicycle_parking", "location",
+                        "fire_hydrant:type", // TODO: what about fire_hydrant:type=pond? According to wiki it should not be used
+                        // https://wiki.openstreetmap.org/wiki/Tag:emergency%3Dfire_hydrant
+                    )) {
+                    // this values should be described at the key page
+                    // not ideal as
+                    // - StreetComplete can be using bogus values
+                    // - some of this values may actually have pages
+
+                    // alternative would be creation of OSM wiki pages for them
+                    // but I am not entirely sure is it a good idea
+                    return@forEach
+                }
                 if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.tag.key}=${it.tag.value}")) {
                     println("$it has no OSM Wiki page")
                 }
