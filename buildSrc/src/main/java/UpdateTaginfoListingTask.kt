@@ -564,8 +564,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
 
         if (appliedTags.size == 0) {
-            val path = fileSourceCode.removePrefix(QUEST_ROOT_WITH_SLASH_ENDING)
-            println("addedOrEditedTags - failed to extract anything at all from ${path}! Will present HumanReadableTreeWithSourceCode")
+            println("addedOrEditedTags - failed to extract anything at all from ${description}! Will present HumanReadableTreeWithSourceCode")
             relevantFunction.showHumanReadableTreeWithSourceCode(fileSourceCode)
             println("addedOrEditedTags - failed to extract anything at all! Presented HumanReadableTreeWithSourceCode")
         }
