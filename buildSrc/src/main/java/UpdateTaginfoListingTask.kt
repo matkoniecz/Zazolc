@@ -566,7 +566,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (appliedTags.size == 0) {
             println("addedOrEditedTags - failed to extract anything at all from ${description}! Will present HumanReadableTreeWithSourceCode")
             relevantFunction.showHumanReadableTreeWithSourceCode(fileSourceCode)
-            println("addedOrEditedTags - failed to extract anything at all! Presented HumanReadableTreeWithSourceCode")
+            println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented HumanReadableTreeWithSourceCode")
         }
 
         if (failedExtraction) {
