@@ -25,11 +25,10 @@ class AddCarWashType : OsmFilterQuestType<List<CarWashType>>() {
         tags["automated"] = isAutomated.toYesNo()
 
         val hasSelfService = answer.contains(SELF_SERVICE)
-        val selfService = when {
+        tags["self_service"] = when {
             hasSelfService && answer.size == 1 -> "only"
             hasSelfService -> "yes"
             else -> "no"
         }
-        tags["self_service"] = selfService
     }
 }
