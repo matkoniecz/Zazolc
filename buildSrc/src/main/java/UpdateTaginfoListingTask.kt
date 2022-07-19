@@ -694,9 +694,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     if (arguments.size == 1) {
                         extractedText = extractTextFromHardcodedString(arguments[0], fileMaybeContainingEnumSourceCode)
                         if (extractedText == null) {
-                            println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - showing $filepath")
-                            valueArguments.showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
-                            println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - shown $filepath")
+                            if(arguments[0].tree() is KlassDeclaration && (arguments[0].tree() as KlassDeclaration).identifier.toString() == "null") {
+                                //println("it has null as value, apparently")
+                            } else {
+                                println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - showing $filepath after enum extraction failed")
+                                valueArguments.showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
+                                println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - shown $filepath after enum extraction failed")
+                                println(fileMaybeContainingEnumSourceCode)
+                                println("source code displayed - shown $filepath after enum extraction failed")
+                            }
                         } else {
                             values.add(extractedText)
                         }
@@ -715,8 +721,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         if(values.size == 0) {
-            println("enum extraction failed!")
-            println("$enumsTried enumsTried")
+            println("enum extraction from $filepath failed! $enumsTried enumsTried")
         }
         return values
     }
