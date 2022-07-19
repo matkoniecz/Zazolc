@@ -801,20 +801,42 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 child.showRelatedSourceCode(fileSourceCode, "child")
             }
             */
-            if (structure[0].description != "whenCondition") {
-                throw ParsingInterpretationException("unexpected when structure!")
+            if (structure[0].description != "whenCondition" && structure[0].description != "ELSE") {
+                println("WHEN STRUCTURE FAILED")
+                whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                whenExpression.showRelatedSourceCode(fileSourceCode, "WHEN STRUCTURE FAILED")
+                println(it.showRelatedSourceCode(fileSourceCode, "WHEN STRUCTURE FAILED"))
+                println()
+                structure.forEach { println(it.description) }
+                throw ParsingInterpretationException("unexpected when structure! structure[0].description")
             }
             if (structure[1].description != "ARROW") {
-                throw ParsingInterpretationException("unexpected when structure!")
+                println("WHEN STRUCTURE FAILED")
+                whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                println()
+                structure.forEach { println(it.description) }
+                throw ParsingInterpretationException("unexpected when structure! structure[1].description")
             }
             if (structure[2].description != "controlStructureBody") {
-                throw ParsingInterpretationException("unexpected when structure!")
+                println("WHEN STRUCTURE FAILED")
+                whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                println()
+                structure.forEach { println(it.description) }
+                throw ParsingInterpretationException("unexpected when structure! structure[2].description")
             }
             if (structure[3].description != "semi") {
-                throw ParsingInterpretationException("unexpected when structure!")
+                println("WHEN STRUCTURE FAILED")
+                whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                println()
+                structure.forEach { println(it.description) }
+                throw ParsingInterpretationException("unexpected when structure! structure[3].description")
             }
             if (structure.size != 4) {
-                throw ParsingInterpretationException("unexpected when structure!")
+                println("WHEN STRUCTURE FAILED")
+                whenExpression.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                println()
+                structure.forEach { println(it.description) }
+                throw ParsingInterpretationException("unexpected when structure! structure[4].description")
             }
             appliedTags += extractValuesForKnownKey(key, structure[2], fileSourceCode, suspectedAnswerEnumFiles)
         }
