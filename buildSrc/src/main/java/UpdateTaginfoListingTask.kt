@@ -152,6 +152,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "tracktype/AddTracktype.kt" to setOf(Tag("check_date:tracktype", null), Tag("tracktype", "grade1"), Tag("tracktype", "grade2"), Tag("tracktype", "grade3"), Tag("tracktype", "grade4"), Tag("tracktype", "grade5")),
             "traffic_calming_type/AddTrafficCalmingType.kt" to setOf(Tag("traffic_calming", "bump"), Tag("traffic_calming", "hump"), Tag("traffic_calming", "table"), Tag("traffic_calming", "cushion"), Tag("traffic_calming", "island"), Tag("traffic_calming", "choker"), Tag("traffic_calming", "chicane"), Tag("traffic_calming", "rumble_strip")),
             "traffic_signals_button/AddTrafficSignalsButton.kt" to setOf(Tag("button_operated", "yes"), Tag("button_operated", "no")),
+            "traffic_signals_vibrate/AddTrafficSignalsVibration.kt" to setOf(Tag("check_date:traffic_signals:vibration", null), Tag("traffic_signals:vibration", "yes"), Tag("traffic_signals:vibration", "no")),
             "oneway_suspects/AddSuspectedOneway.kt" to setOf(Tag("oneway", "no"), Tag("oneway", "yes"), Tag("oneway", "-1")),
             "wheelchair_access/AddWheelchairAccessBusiness.kt" to setOf(Tag("wheelchair", "yes"), Tag("wheelchair", "limited"), Tag("wheelchair", "no")),
             "wheelchair_access/AddWheelchairAccessOutside.kt" to setOf(Tag("check_date:wheelchair", null), Tag("wheelchair", "yes"), Tag("wheelchair", "limited"), Tag("wheelchair", "no")),
@@ -365,7 +366,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && !freeformKey(it.tag.key) }.size
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 419
+        val tagsFoundPreviously = 425
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
@@ -373,12 +374,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (tagsThatShouldBeMoreSpecific != tagsThatShouldBeMoreSpecificFoundPreviously) {
             println("Something changed in processing! tagsThatShouldBeMoreSpecific count $tagsThatShouldBeMoreSpecific vs $tagsThatShouldBeMoreSpecificFoundPreviously previously")
         }
-        val processedQuestsPreviously = 112
+        val processedQuestsPreviously = 114
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
-        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/orchard_produce/AddOrchardProduce.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sport/AddSport.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/bus_stop_name/AddBusStopName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/place_name/AddPlaceName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/traffic_signals_sound/AddTrafficSignalsSound.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/traffic_signals_vibrate/AddTrafficSignalsVibration.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
+        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/orchard_produce/AddOrchardProduce.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sport/AddSport.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/bus_stop_name/AddBusStopName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/place_name/AddPlaceName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
         if (realFailed != knownFailed.size) {
             println("Something changed in processing! failed count $realFailed vs ${knownFailed.size} previously")
         }
@@ -867,9 +868,26 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         appliedTags.add(Tag("$SURVEY_MARK_KEY:$keyString", null))
                     }
                 } else if (functionName ==  "updateWithCheckDate") {
-                    val keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
-                    // TODO note case of VIBRATING_BUTTON SOUND_SIGNALS - get access to it somehow
+                    var keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
                     val valueString = extractArgumentInFunctionCall(1, accessingTagsWithFunction, fileSourceCode) // WOMP WOPO TODO?
+
+                    // fold it into extractArgumentInFunctionCall?
+                    // try to automatically obtain this constants?
+                    if (keyString == null) {
+                        val keyArgumentAst = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
+                        keyArgumentAst!!.relatedSourceCode(fileSourceCode)
+                        keyArgumentAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                        val keyArgumentAstTree = keyArgumentAst.tree()
+                        if(keyArgumentAstTree is KlassIdentifier) {
+                            if(keyArgumentAstTree.identifier == "SOUND_SIGNALS") {
+                                keyString = SOUND_SIGNALS
+                            }
+                            if(keyArgumentAstTree.identifier == "VIBRATING_BUTTON") {
+                                keyString = VIBRATING_BUTTON
+                            }
+                        }
+                    }
+
                     if (keyString != null) {
                         appliedTags.add(Tag("$SURVEY_MARK_KEY:$keyString", null))
                         if (valueString != null) {
@@ -925,9 +943,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         // TODO
                         println("^^^^^^^^^^^^^^^^ $description - failed to extract key from updateWithCheckDate")
                         //val keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
-                        val keyArgumentAstLocal = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
-                        keyArgumentAstLocal!!.relatedSourceCode(fileSourceCode)
-                        keyArgumentAstLocal.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                        val keyArgumentAst = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
+                        keyArgumentAst!!.relatedSourceCode(fileSourceCode)
+                        keyArgumentAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                        println("^&^&^&^&")
                         return null
                     }
                 } else if (functionName in listOf("remove", "containsKey", "removeCheckDatesForKey", "hasChanges", "entries", "hasCheckDateForKey", "hasCheckDate")) {
