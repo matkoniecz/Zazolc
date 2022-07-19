@@ -346,8 +346,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "answer.joinToString",
             "\$key",
             "tags[\"parking:lane:left:\$laneLeft\"]",
-            "applyRampAnswer",
-            "applyRampAnswer",
         )
         blockers.forEach {
             if(it in sourceCodeOfFunction) {
