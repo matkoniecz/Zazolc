@@ -476,7 +476,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     println("${it.tag.key}= has no OSM Wiki page")
                 }
             }
-            if (it.tag.value !in listOf(null, "no", "yes") && !freeformKey(it.tag.key)) {
+            if (it.tag.value !in listOf(null, "no", "yes", "only") && !freeformKey(it.tag.key)) {
                 if (it.tag.key in listOf("crossing:barrier", "bicycle_rental", "roof:shape", "material", "royal_cypher", "camera:type",
                         "bollard", "board_type", "cycle_barrier", "bicycle_parking", "location",
                         "fire_hydrant:type", // TODO: what about fire_hydrant:type=pond? According to wiki it should not be used
