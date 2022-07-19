@@ -558,9 +558,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
 
         if (appliedTags.size == 0) {
-            println("Failed to extract anything at all!")
+            val path = fileSourceCode.removePrefix(QUEST_ROOT_WITH_SLASH_ENDING)
+            println("addedOrEditedTags - failed to extract anything at all from ${path}! Will present HumanReadableTreeWithSourceCode")
             relevantFunction.showHumanReadableTreeWithSourceCode(fileSourceCode)
-            println("Failed to extract anything at all!")
+            println("addedOrEditedTags - failed to extract anything at all! Presented HumanReadableTreeWithSourceCode")
         }
 
         if (failedExtraction) {
@@ -861,23 +862,23 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 }
                                 if(extractedNothing) {
                                     println("Enum obtaining failed!")
-                                    println("Enum obtaining failed!")
+                                    println("Enum obtaining failed! suspectedAnswerEnumFiles $suspectedAnswerEnumFiles")
                                     println("Enum obtaining failed!")
                                     appliedTags.add(Tag(keyString, valueString))
-                                    println("44444444444444<<< tags dict is accessed with function, key known, value unknown<")
+                                    println("44444444444444<<< tags dict is accessed with function, key known, value unknown, enum obtaining failed<")
                                     valueAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                                    valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst")
+                                    valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst in tags dict access")
                                     println(">>>44444444444>")
-                                    accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted valueAst")
+                                    accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted accessingTagsWithFunction in tags dict access")
                                     println(">>>33333333333>")
                                 }
                             } else {
                                 appliedTags.add(Tag(keyString, valueString))
                                 println("7777777777777777777<<< tags dict is accessed with function, key known, value unknown<")
                                 valueAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                                valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst")
+                                valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst in tags dict access")
                                 println(">>>7777777777777777777>")
-                                accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted valueAst")
+                                accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted valueAst in tags dict access")
                                 println(">>>55555555555555555555>")
                             }
                         }
