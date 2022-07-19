@@ -831,18 +831,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         } else if (valueHolder.relatedSourceCode(fileSourceCode) == "answer.osmValue") {
             // bad news! Answer values are not directly in this file, but defined elsewhere
             // almost always in a separate enum file
-            var extractedSomething = false
-            suspectedAnswerEnumFiles.forEach {
-                getEnumValuesDefinedInThisFilepath(it.toString()).forEach {value ->
-                    appliedTags.add(Tag(key, value))
-                    extractedSomething = true
-                }
-            }
-            if (!extractedSomething) {
-                println("answer.osmValue, failed to find values for now")
-                appliedTags.add(Tag(key, null)) // TODO - get also value...
-            }
             // TODO handle this somehow - requires extra parsing, likely in another file
+            appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
         } else if (valueHolder.relatedSourceCode(fileSourceCode).endsWith(".toYesNo()")) {
             // previous form of check:
             // in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()", "isAutomated.toYesNo()")
@@ -860,6 +850,24 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
                 valueHolder.showRelatedSourceCode(fileSourceCode, description)
             }
+        }
+        return appliedTags
+    }
+
+    private fun provideTagsBasedOnAswerDataStructuresFromExternalFiles(key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
+        val appliedTags = mutableSetOf<Tag>()
+        var extractedSomething = false
+        suspectedAnswerEnumFiles.forEach {
+            getEnumValuesDefinedInThisFilepath(it.toString()).forEach {value ->
+                appliedTags.add(Tag(key, value))
+                extractedSomething = true
+            }
+        }
+        if (!extractedSomething) {
+            println("answer.osmValue, failed to find values for now<")
+            valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
+            println("answer.osmValue, failed to find values for now>")
+            appliedTags.add(Tag(key, null)) // TODO - get also value...
         }
         return appliedTags
     }
