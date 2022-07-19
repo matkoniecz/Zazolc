@@ -51,6 +51,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         const val QUEST_ROOT_WITH_SLASH_ENDING = "app/src/main/java/de/westnordost/streetcomplete/quests/"
         const val SURVEY_MARK_KEY = "check_date" // TODO: is it possible to use directly SC constant?
         const val VIBRATING_BUTTON = "traffic_signals:vibration"
+        private const val SOUND_SIGNALS = "traffic_signals:sound"
         val EXPECTED_TAG_PER_QUEST = mapOf(
             "accepts_cards/AddAcceptsCards.kt" to setOf(Tag("payment:debit_cards", "yes"), Tag("payment:debit_cards", "no"), Tag("payment:credit_cards", "yes"), Tag("payment:credit_cards", "no")),
             "accepts_cash/AddAcceptsCash.kt" to setOf(Tag("payment:cash", "yes"), Tag("payment:cash", "no")),
@@ -845,7 +846,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                 } else if (functionName ==  "updateWithCheckDate") {
                     val keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
-                    // TODO note case of VIBRATING_BUTTON - get access to it somehow
+                    // TODO note case of VIBRATING_BUTTON SOUND_SIGNALS - get access to it somehow
                     appliedTags.add(Tag("$SURVEY_MARK_KEY:$keyString", null))
                     val valueString = extractArgumentInFunctionCall(1, accessingTagsWithFunction, fileSourceCode) // WOMP WOPO TODO?
                     if (keyString != null) {
