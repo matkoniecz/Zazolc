@@ -436,7 +436,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // most have own syntax and limitations obeyed by SC
         // maybe move to general StreetComplete file about OSM tagging?
         if (key in listOf("name", "ref",
-                "addr:flats", "addr:housenumber", "addr:street", "addr:place", "addr:block_number",
+                "addr:flats", "addr:housenumber", "addr:street", "addr:place", "addr:block_number", "addr:streetnumber",
                 "addr:conscriptionnumber", "addr:housename",
                 "building:levels", "roof:levels", "level",
                 "collection_times", "opening_hours", "opening_date", "check_date",
