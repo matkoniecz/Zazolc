@@ -549,14 +549,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
             return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
         }
-        var got = extractCasesWhereTagsAreAccessedWithIndex(relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
+        var got = extractCasesWhereTagsAreAccessedWithIndex(description, relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
         if (got != null) {
             appliedTags += got
         } else {
             failedExtraction = true
         }
 
-        got = extractCasesWhereTagsAreAccessedWithFunction(relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
+        got = extractCasesWhereTagsAreAccessedWithFunction(description, relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
         if (got != null) {
             appliedTags += got
         } else {
@@ -607,7 +607,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return null
     }
 
-    private fun extractCasesWhereTagsAreAccessedWithIndex(relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+    private fun extractCasesWhereTagsAreAccessedWithIndex(description: String, relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         // it is trying to detect things like
         // tags["bollard"] = answer.osmValue
 
@@ -821,7 +821,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun extractCasesWhereTagsAreAccessedWithFunction(relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+    private fun extractCasesWhereTagsAreAccessedWithFunction(description:String, relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         // it is trying to detect things like
         // tags.updateWithCheckDate("smoking", answer.osmValue)
         val appliedTags = mutableSetOf<Tag>()
