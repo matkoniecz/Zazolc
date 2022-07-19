@@ -922,6 +922,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             }
                         }
                     } else {
+                        // TODO
+                        println("^^^^^^^^^^^^^^^^ $description - failed to extract key from updateWithCheckDate")
+                        //val keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
+                        val keyArgumentAstLocal = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
+                        keyArgumentAstLocal!!.relatedSourceCode(fileSourceCode)
+                        keyArgumentAstLocal.showHumanReadableTreeWithSourceCode(fileSourceCode)
                         return null
                     }
                 } else if (functionName in listOf("remove", "containsKey", "removeCheckDatesForKey", "hasChanges", "entries", "hasCheckDateForKey", "hasCheckDate")) {
