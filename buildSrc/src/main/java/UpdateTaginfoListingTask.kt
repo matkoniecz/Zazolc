@@ -463,8 +463,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun showEntire(description: String, fileSourceCode: String) {
         val ast = AstSource.String(description, fileSourceCode)
+        println("============================here is the entire content (source code tree)==<")
         ast.parse().showHumanReadableTreeWithSourceCode(fileSourceCode)
-        println("============================here is the entire content (source code)==<")
+        println(">---------------------------here is the entire content (source code tree)>===")
+        println("----------------------------here is the entire content (source code)==<")
         println(fileSourceCode)
         println(">===========================here is the entire content (source code)>===")
     }
@@ -685,7 +687,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     if (arguments.size == 1) {
                         extractedText = extractTextFromHardcodedString(arguments[0], fileMaybeContainingEnumSourceCode)
                         if (extractedText == null) {
+                            println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - showing $filepath")
                             valueArguments.showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
+                            println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - shown $filepath")
                         } else {
                             values.add(extractedText)
                         }
