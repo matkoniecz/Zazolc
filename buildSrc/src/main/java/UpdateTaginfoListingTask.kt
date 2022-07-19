@@ -228,6 +228,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if ("Dialog" in file.name) {
             return false
         }
+        if ("Item" in file.name) {
+            return false
+        }
         return !isQuestFile(file)
     }
 
