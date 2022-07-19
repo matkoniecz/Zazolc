@@ -152,6 +152,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "tracktype/AddTracktype.kt" to setOf(Tag("check_date:tracktype", null), Tag("tracktype", "grade1"), Tag("tracktype", "grade2"), Tag("tracktype", "grade3"), Tag("tracktype", "grade4"), Tag("tracktype", "grade5")),
             "traffic_calming_type/AddTrafficCalmingType.kt" to setOf(Tag("traffic_calming", "bump"), Tag("traffic_calming", "hump"), Tag("traffic_calming", "table"), Tag("traffic_calming", "cushion"), Tag("traffic_calming", "island"), Tag("traffic_calming", "choker"), Tag("traffic_calming", "chicane"), Tag("traffic_calming", "rumble_strip")),
             "traffic_signals_button/AddTrafficSignalsButton.kt" to setOf(Tag("button_operated", "yes"), Tag("button_operated", "no")),
+            "traffic_signals_sound/AddTrafficSignalsSound.kt" to setOf(Tag("check_date:traffic_signals:sound", null), Tag("traffic_signals:sound", "yes"), Tag("traffic_signals:sound", "no")),
             "traffic_signals_vibrate/AddTrafficSignalsVibration.kt" to setOf(Tag("check_date:traffic_signals:vibration", null), Tag("traffic_signals:vibration", "yes"), Tag("traffic_signals:vibration", "no")),
             "oneway_suspects/AddSuspectedOneway.kt" to setOf(Tag("oneway", "no"), Tag("oneway", "yes"), Tag("oneway", "-1")),
             "wheelchair_access/AddWheelchairAccessBusiness.kt" to setOf(Tag("wheelchair", "yes"), Tag("wheelchair", "limited"), Tag("wheelchair", "no")),
