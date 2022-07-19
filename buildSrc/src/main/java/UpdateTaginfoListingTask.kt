@@ -960,8 +960,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     // try to automatically obtain this constants?
                     if (keyString == null) {
                         val keyArgumentAst = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
-                        keyArgumentAst!!.relatedSourceCode(fileSourceCode)
-                        keyArgumentAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                        if (keyArgumentAst == null) {
+                            throw ParsingInterpretationException("unexpected")
+                        }
                         val keyArgumentAstTree = keyArgumentAst.tree()
                         if(keyArgumentAstTree is KlassIdentifier) {
                             if(keyArgumentAstTree.identifier == "SOUND_SIGNALS") {
