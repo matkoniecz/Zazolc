@@ -291,7 +291,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         ast.parse().locateByDescription("importList").forEach {
             it.locateByDescription("importHeader").forEach {
                 if(it is DefaultAstNode) {
-                    areDirectChildrenMatchingStructureThrowExceptionIfNot(listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace=false)
+                    areDirectChildrenMatchingStructureThrowExceptionIfNot("checking import file structure for $path", listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace=false)
                     val imported = it.locateSingleOrExceptionByDescriptionDirectChild("identifier")
                     //println(imported.locateByDescriptionDirectChild("simpleIdentifier").size.toString() + "  ddddddd")
                     val importedPath = KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING + imported.locateByDescriptionDirectChild("simpleIdentifier").map {
@@ -443,7 +443,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("EMPTY RESULT, FAILED")
             println("EMPTY RESULT, FAILED")
         }
-        relevantFunction.showRelatedSourceCode(fileSourceCode, "inspected function")
+        relevantFunction.showRelatedSourceCode("inspected function", fileSourceCode)
         if (got != null) {
             println(got)
             println(tagSetToReproducibleCode(got, filepath))
@@ -600,7 +600,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun showEntire(description: String, fileSourceCode: String) {
         val ast = AstSource.String(description, fileSourceCode)
         println("============================here is the entire content (source code tree)==<")
-        ast.parse().showHumanReadableTreeWithSourceCode(fileSourceCode)
+        ast.parse().showHumanReadableTreeWithSourceCode(description, fileSourceCode)
         println(">---------------------------here is the entire content (source code tree)>===")
         println("----------------------------here is the entire content (source code)==<")
         println(fileSourceCode)
@@ -696,7 +696,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
         if (appliedTags.size == 0) {
             println("addedOrEditedTags - failed to extract anything at all from ${description}! Will present HumanReadableTreeWithSourceCode")
-            relevantFunction.showHumanReadableTreeWithSourceCode(fileSourceCode)
+            relevantFunction.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
             println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented HumanReadableTreeWithSourceCode")
         }
 
@@ -797,7 +797,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         }
                     } else if (potentiallyUsableExpression != null) {
                         expression.showHumanReadableTree()
-                        expression.showRelatedSourceCode(fileSourceCode, "expression in identified access as a variable")
+                        expression.showRelatedSourceCode("expression in identified access as a variable", fileSourceCode)
                         println(KotlinGrammarParserType.identifier.toString() + " identified as accessing index as a variable (potentialTexts.size = ${potentialTexts.size})")
                         return null
                     } else if (likelyVariable.size == 1) {
@@ -806,12 +806,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             possibleLanguageTags().forEach { appliedTags.add(Tag(it, null)) }
                         } else {
                             expression.showHumanReadableTree()
-                            expression.showRelatedSourceCode(fileSourceCode, "expression in identified access as a complex variable")
+                            expression.showRelatedSourceCode("expression in identified access as a complex variable", fileSourceCode)
                             println(likelyVariable[0].relatedSourceCode(fileSourceCode) + " identified as accessing index as a complex variable (potentialTexts.size = ${potentialTexts.size})")
                             return null
                         }
                     } else {
-                        expression.showRelatedSourceCode(fileSourceCode, "expression - not handled")
+                        expression.showRelatedSourceCode("expression - not handled", fileSourceCode)
                         expression.showHumanReadableTree()
                         println(expression::class)
                         throw ParsingInterpretationException("not handled, ${potentialTexts.size} texts, $potentiallyUsableExpression variable")
@@ -824,7 +824,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     class EnumFieldState(val identifier:String, val possibleValue:String)
 
-    private fun getEnumValuesDefinedInThisFilepath(filepath:String): Set<EnumFieldState>{
+    private fun getEnumValuesDefinedInThisFilepath(description:String, filepath:String): Set<EnumFieldState>{
         val values = mutableSetOf<EnumFieldState>()
         val fileMaybeContainingEnumSourceCode = loadFileFromPath(filepath)
         val ast = AstSource.String(filepath, fileMaybeContainingEnumSourceCode)
@@ -858,16 +858,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 enum.locateByDescription("enumEntry").forEach { enumEntry ->
                     /*
                     println("valueArguments of this entry follows")
-                    valueArguments.showRelatedSourceCode(fileMaybeContainingEnumSourceCode, "valueArguments")
+                    valueArguments.showRelatedSourceCode("valueArguments", fileMaybeContainingEnumSourceCode)
                     println("primaryConstructor of entire enum follows")
                     enum.locateSingleOrExceptionByDescription("primaryConstructor")
-                        .showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
+                        .showHumanReadableTreeWithSourceCode(description, fileMaybeContainingEnumSourceCode)
                      */
                     var extractedText: String?
                     val valueArguments = enumEntry.locateSingleOrNullByDescriptionDirectChild("valueArguments")
                     if(valueArguments == null) {
                         val explanation = "parsing $filepath failed, valueArguments count is not 1, skipping, maybe it should be also investigated"
-                        println(enum.showRelatedSourceCode(fileMaybeContainingEnumSourceCode, explanation))
+                        println(enum.showRelatedSourceCode(explanation, fileMaybeContainingEnumSourceCode))
                         println(explanation)
                     } else {
                         val arguments = valueArguments.locateByDescriptionDirectChild("valueArgument")
@@ -879,7 +879,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     // lest skip it silently
                                 } else {
                                     println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - showing $filepath after enum extraction failed")
-                                    valueArguments.showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
+                                    valueArguments.showHumanReadableTreeWithSourceCode(description, fileMaybeContainingEnumSourceCode)
                                     println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - shown $filepath after enum extraction failed")
                                     println(fileMaybeContainingEnumSourceCode)
                                     println("source code displayed - shown $filepath after enum extraction failed")
@@ -935,8 +935,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 println()
                 val explanation = "$description get value (key is known: $key) from <${valueHolder.relatedSourceCode(fileSourceCode)}> somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText"
                 println(explanation)
-                valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                valueHolder.showRelatedSourceCode(fileSourceCode, explanation)
+                valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
+                valueHolder.showRelatedSourceCode(explanation, fileSourceCode)
                 throw ParsingInterpretationException("exact value is missing!")
             }
         }
@@ -947,7 +947,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val appliedTags = mutableSetOf<Tag>()
         var extractedSomething = false
         suspectedAnswerEnumFiles.forEach {
-            getEnumValuesDefinedInThisFilepath(it.toString()).forEach {value ->
+            getEnumValuesDefinedInThisFilepath(description, it.toString()).forEach {value ->
                 val accessIdentifierAst = valueHolder.locateSingleOrExceptionByDescription("postfixUnarySuffix")
                     .locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
                     .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
@@ -964,7 +964,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 // no reason to complain
             } else {
                 println("$description = ${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now - key is $key<")
-                valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
                 println("$description = ${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now - key is $key>")
             }
         }
@@ -1014,18 +1014,18 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 println()
                 println("child")
                 println(child.description)
-                child.showRelatedSourceCode(fileSourceCode, "child")
+                child.showRelatedSourceCode( "child", fileSourceCode)
             }
             */
             val expectedStructureA = listOf("whenCondition", "ARROW", "controlStructureBody", "semi")
             val expectedStructureB = listOf("ELSE", "ARROW", "controlStructureBody", "semi")
-            areDirectChildrenMatchingStructureThrowExceptionIfNot(listOf(expectedStructureA, expectedStructureB), it, fileSourceCode, eraseWhitespace=true)
+            areDirectChildrenMatchingStructureThrowExceptionIfNot(description, listOf(expectedStructureA, expectedStructureB), it, fileSourceCode, eraseWhitespace=true)
             appliedTags += extractValuesForKnownKey(description, key, structure[2], fileSourceCode, suspectedAnswerEnumFiles)
         }
         return appliedTags
     }
 
-    private fun areDirectChildrenMatchingStructureThrowExceptionIfNot(expectedStructures: List<List<String>>, expression: AstNode, fileSourceCode: String, eraseWhitespace: Boolean){
+    private fun areDirectChildrenMatchingStructureThrowExceptionIfNot(description: String, expectedStructures: List<List<String>>, expression: AstNode, fileSourceCode: String, eraseWhitespace: Boolean){
         val structure = expression.children.filter { !(eraseWhitespace && it.description == "WS") }.map{ it.description }
         expectedStructures.forEach {
             if(it == structure) {
@@ -1040,9 +1040,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     if(it[i] != structure[i]){
                         println("STRUCTURE FAILED")
                         println("WHEN STRUCTURE FAILED")
-                        expression.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                        expression.showRelatedSourceCode(fileSourceCode, "WHEN STRUCTURE FAILED")
-                        println(expression.showRelatedSourceCode(fileSourceCode, "WHEN STRUCTURE FAILED"))
+                        expression.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
+                        expression.showRelatedSourceCode("WHEN STRUCTURE FAILED", fileSourceCode)
+                        println(expression.showRelatedSourceCode("WHEN STRUCTURE FAILED", fileSourceCode))
                         println()
                         structure.forEach { println(it) }
                         throw ParsingInterpretationException("unexpected structure! at $i index")
@@ -1071,13 +1071,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     )
                 ) {
                     // only check data for
-                    val keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
+                    val keyString = extractArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
                     if (keyString != null) {
                         appliedTags.add(Tag("$SURVEY_MARK_KEY:$keyString", null))
                     }
                 } else if (functionName ==  "updateWithCheckDate") {
-                    var keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
-                    val valueString = extractArgumentInFunctionCall(1, accessingTagsWithFunction, fileSourceCode) // WOMP WOPO TODO?
+                    var keyString = extractArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
+                    val valueString = extractArgumentInFunctionCall(description, 1, accessingTagsWithFunction, fileSourceCode) // WOMP WOPO TODO?
 
                     // fold it into extractArgumentInFunctionCall?
                     // try to automatically obtain this constants?
@@ -1110,7 +1110,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             } else if (valueAst.relatedSourceCode(fileSourceCode) == "answer.osmValue") {
                                 var extractedNothing = true
                                 suspectedAnswerEnumFiles.forEach {
-                                    getEnumValuesDefinedInThisFilepath(it.toString()).forEach { value ->
+                                    getEnumValuesDefinedInThisFilepath(description, it.toString()).forEach { value ->
                                         val accessIdentifierAst = valueAst.locateSingleOrExceptionByDescription("postfixUnarySuffix")
                                             .locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
                                             .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
@@ -1127,12 +1127,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     println("Enum obtaining failed!")
                                     appliedTags.add(Tag(keyString, valueString))
                                     println("44444444444444<<< tags dict is accessed with updateWithCheckDate, key known ($keyString), value unknown, enum obtaining failed<")
-                                    valueAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                                    valueAst.showRelatedSourceCode(fileSourceCode,
-                                        "extracted valueAst in tags dict access")
+                                    valueAst.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
+                                    valueAst.showRelatedSourceCode("extracted valueAst in tags dict access", fileSourceCode)
                                     println(">>>44444444444>")
-                                    accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode,
-                                        "extracted accessingTagsWithFunction in tags dict access")
+                                    accessingTagsWithFunction.showRelatedSourceCode("extracted accessingTagsWithFunction in tags dict access", fileSourceCode)
                                     println(">>>33333333333>")
                                 }
                             } else {
@@ -1144,12 +1142,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 } else {
                                     appliedTags.add(Tag(keyString, valueString))
                                     println("XXXXXXXXXXXXXXXXXXXXX<<< $description tags dict is accessed with updateWithCheckDate, key known ($keyString), value unknown, obtaining data failed<")
-                                    valueAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
-                                    valueAst.showRelatedSourceCode(fileSourceCode, "extracted valueAst in tags dict access")
+                                    valueAst.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
+                                    valueAst.showRelatedSourceCode("extracted valueAst in tags dict access", fileSourceCode)
                                     println(">>>VVVVVVVVVVVVVVVVVV> $description")
-                                    accessingTagsWithFunction.showRelatedSourceCode(fileSourceCode, "extracted valueAst in tags dict access")
+                                    accessingTagsWithFunction.showRelatedSourceCode("extracted valueAst in tags dict access", fileSourceCode)
                                     println(">>>IIIIIIIIIIIIIIIIIIIII> $description")
-                                    println(relevantFunction.showRelatedSourceCode(fileSourceCode, "extractCasesWhereTagsAreAccessedWithFunction - extraction failing"))
+                                    println(relevantFunction.showRelatedSourceCode("extractCasesWhereTagsAreAccessedWithFunction - extraction failing", fileSourceCode))
                                     println(">>>0000000000000000000> $description")
                                     println(suspectedAnswerEnumFiles)
                                     println("-1 -1 -1")
@@ -1161,10 +1159,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     } else {
                         // TODO
                         println("^^^^^^^^^^^^^^^^ $description - failed to extract key from updateWithCheckDate")
-                        //val keyString = extractArgumentInFunctionCall(0, accessingTagsWithFunction, fileSourceCode)
+                        //val keyString = extractArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
                         val keyArgumentAst = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
                         keyArgumentAst!!.relatedSourceCode(fileSourceCode)
-                        keyArgumentAst.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                        keyArgumentAst.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
                         println("^&^&^&^&")
                         return null
                     }
@@ -1246,14 +1244,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return extractArgumentListSyntaxTreeInFunctionCall(ast)[index]
     }
 
-    private fun extractArgumentInFunctionCall(index: Int, ast: AstNode, fileSourceCode: String): String? {
+    private fun extractArgumentInFunctionCall(description:String, index: Int, ast: AstNode, fileSourceCode: String): String? {
         val found = extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
         if (found == null) {
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
-            ast.tree()!!.showHumanReadableTreeWithSourceCode(fileSourceCode)
-            ast.tree()!!.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall")
-            ast.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall - not found")
-            ast.tree()!!.showRelatedSourceCode(fileSourceCode, "extractArgumentInFunctionCall - not found (rooted)")
+            ast.tree()!!.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
+            ast.tree()!!.showRelatedSourceCode("extractArgumentInFunctionCall", fileSourceCode)
+            ast.showRelatedSourceCode("extractArgumentInFunctionCall - not found", fileSourceCode)
+            ast.tree()!!.showRelatedSourceCode("extractArgumentInFunctionCall - not found (rooted)", fileSourceCode)
             println("${extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode)} - extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode)")
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
             return null
@@ -1266,7 +1264,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 // TODO maybe handle this?
                 /*
                 found.showHumanReadableTree()
-                extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode(fileSourceCode, "unhandled extracting index $index - not string")
+                extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode("unhandled extracting index $index - not string", fileSourceCode)
                 println("unhandled key access")
                 */
                 return null
@@ -1274,7 +1272,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         } else {
             // TODO handle this
             extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showHumanReadableTree()
-            extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode(fileSourceCode, "unhandled extracting index $index")
+            extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode("unhandled extracting index $index", fileSourceCode)
             println("unhandled extraction of $index function parameter - multiple children")
             return null
         }
@@ -1332,14 +1330,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return sourceCode.subSequence(start, end).toString()
     }
 
-    private fun Ast.showRelatedSourceCode(sourceCode: String, description: String) {
+    private fun Ast.showRelatedSourceCode(description: String, sourceCode: String) {
         println("--------------------here is the $description (source code)---<")
         println(relatedSourceCode(sourceCode))
         println(">---------------------------here is the $description (source code)")
     }
 
-    private fun Ast.showHumanReadableTreeWithSourceCode(fileSourceCode: String) {
-        println("---------------------------------------showHumanReadableTreeWithSourceCode")
+    private fun Ast.showHumanReadableTreeWithSourceCode(description:String, fileSourceCode: String) {
+        println("---------------------------------------showHumanReadableTreeWithSourceCode--$description")
         humanReadableTreeWithSourceCode(0, fileSourceCode).forEach { println(it) }
     }
 
