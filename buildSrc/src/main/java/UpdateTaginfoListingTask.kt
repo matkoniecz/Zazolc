@@ -959,10 +959,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         if (!extractedSomething) {
-            println("${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now<")
-            valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
-            println("${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now>")
-            appliedTags.add(Tag(key, null)) // TODO - get also value...
+            appliedTags.add(Tag(key, null))
+            if( freeformKey(key) || streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, key)) {
+                // no reason to complain
+            } else {
+                println("$description = ${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now - key is $key<")
+                valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
+                println("$description = ${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now - key is $key>")
+            }
         }
         return appliedTags
     }
