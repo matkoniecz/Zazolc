@@ -434,17 +434,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
-        val tagsThatShouldBeMoreSpecific = foundTags
-            .filter { it.tag.value == null && !freeformKey(it.tag.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(it.quest, it.tag.key)}
-        tagsThatShouldBeMoreSpecific.forEach { println(it) }
-        println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedQuests.size} failed")
+        println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
         val tagsFoundPreviously = 796
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
-        }
-        val tagsThatShouldBeMoreSpecificFoundPreviously = 0
-        if (tagsThatShouldBeMoreSpecific.size != tagsThatShouldBeMoreSpecificFoundPreviously) {
-            println("Something changed in processing! tagsThatShouldBeMoreSpecific count ${tagsThatShouldBeMoreSpecific.size} vs $tagsThatShouldBeMoreSpecificFoundPreviously previously")
         }
         val processedQuestsPreviously = 111
         if (processed != processedQuestsPreviously) {
@@ -671,6 +664,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented HumanReadableTreeWithSourceCode")
         }
 
+        val tagsThatShouldBeMoreSpecific = appliedTags
+            .filter { it.value == null && !freeformKey(it.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, it.key)}
+        tagsThatShouldBeMoreSpecific.forEach { println(it) }
+        if(tagsThatShouldBeMoreSpecific.isNotEmpty()) {
+            failedExtraction = true
+        }
         if (failedExtraction) {
             return null
         }
