@@ -171,7 +171,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "width/AddRoadWidth.kt" to setOf(Tag("width", null), Tag("source:width", "ARCore")),
         )
     }
+    private fun selfTest() {
+        if(isLikelyAnswerEnumFile("AddLanes.kt")) {
+            throw Exception("failing test")
+        }
+        if (!isQuestFile("AddLanes.kt")){
+            throw Exception("failing test")
+        }
+    }
+
     @TaskAction fun run() {
+        selfTest()
         var processed = 0
         val failedQuests = mutableSetOf<String>()
         val foundTags = mutableListOf<TagQuestInfo>()
@@ -200,7 +210,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     if (isQuestFile(it.name)) {
                         foundQuestFile = true
                         val fileSourceCode = loadFileFromPath(it.toString())
-                        val got = addedOrEditedTags(it.name, fileSourceCode, suspectedAnswerEnumFilesForThisFile)
+                        var got:Set<Tag>?
+                        try {
+                            got = addedOrEditedTags(it.name, fileSourceCode, suspectedAnswerEnumFilesForThisFile)
+                        } catch (e: ParsingInterpretationException) {
+                            print(it.name)
+                            throw e
+                        }
                         reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT_WITH_SLASH_ENDING), fileSourceCode)
                         if (got != null) {
                             processed += 1
@@ -237,7 +253,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         //
         // note: importedByFile may have false negatives that require extra parsing
         // to handle this
-        return importedByFile(path).filter { isLikelyAnswerEnumFile(it) && "/quests/" in it }.map {File(it)}.filter{it.isFile}
+        return importedByFile(path)
+            .filter { isLikelyAnswerEnumFile(it) && "/quests/" in it }
+            .map {File(it)}
+            .filter{it.isFile}
     }
 
     private fun importedByFile(path:String): Set<String> {
@@ -277,26 +296,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (".kt" !in filename) {
             return false
         }
-        if ("Form" in filename) {
-            return false
-        }
-        if ("Adapter" in filename) {
-            return false
-        }
-        if ("Util" in filename) {
-            return false
-        }
-        if ("Drawable" in filename) {
-            return false
-        }
-        if ("Dao" in filename) {
-            return false
-        }
-        if ("Dialog" in filename) {
-            return false
-        }
-        if ("Item" in filename) {
-            return false
+        var banned = listOf("SelectPuzzle", "Form", "Util", "Adapter", "Drawable", "Dao", "Dialog", "item")
+        banned.forEach { if(it in filename) {
+                return false
+            }
         }
         return !isQuestFile(filename)
     }
@@ -305,14 +308,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (".kt" !in filename) {
             return false
         }
-        if ("Form" in filename) {
-            return false
-        }
-        if ("Adapter" in filename) {
-            return false
-        }
-        if ("Utils" in filename) {
-            return false
+        var banned = listOf("Form", "Adapter", "Utils")
+        banned.forEach { if(it in filename) {
+                return false
+            }
         }
         if (filename == "AddressStreetAnswer.kt") {
             return false
@@ -793,11 +792,23 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val potentialEnumFileAst = ast.parse()
         var enumsTried = 0
         potentialEnumFileAst.locateByDescription("classDeclaration").forEach { enum ->
-            if (enum.locateSingleOrExceptionByDescription("modifiers").relatedSourceCode(fileMaybeContainingEnumSourceCode) == "enum") {
+            val modifiers = enum.locateByDescription("modifiers")
+            if(modifiers.size != 1) {
+                // not expected to be enum
+                // will happen if potential enum file contains rather class such as
+                // class StreetSideSelectRotateContainer @JvmOverloads constructor(
+                return@forEach
+            } else if (modifiers[0].relatedSourceCode(fileMaybeContainingEnumSourceCode) == "enum") {
                 enumsTried += 1
                 enum.locateByDescription("enumEntry").forEach { enumEntry ->
                     var extractedText: String? = null
-                    val valueArguments = enumEntry.locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
+                    val valueArguments = enumEntry.locateSingleOrNullByDescriptionDirectChild("valueArguments")
+                    if(valueArguments == null) {
+                        //val explanation = "parsing $filepath failed, valueArguments count is not 1, skipping, maybe it should be also used?"
+                        //println(enum.showRelatedSourceCode(fileMaybeContainingEnumSourceCode, explanation))
+                        //println(explanation)
+                        return@forEach
+                    }
                     val arguments = valueArguments.locateByDescriptionDirectChild("valueArgument")
                     if (arguments.size == 1) {
                         extractedText = extractTextFromHardcodedString(arguments[0], fileMaybeContainingEnumSourceCode)
@@ -821,15 +832,30 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         for(i in arguments.indices) {
                             println("argument $i out of ${arguments.size} - ${extractTextFromHardcodedString(arguments[i], fileMaybeContainingEnumSourceCode)}")
                         }
+                        println("valueArguments of this entry follows")
+                        valueArguments.showRelatedSourceCode(fileMaybeContainingEnumSourceCode, "valueArguments")
+                        println("primaryConstructor of entire enum follows")
                         enum.locateSingleOrExceptionByDescription("primaryConstructor")
                             .showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
-                        valueArguments.showRelatedSourceCode(fileMaybeContainingEnumSourceCode, "valueArguments")
+                        enum.locateSingleOrExceptionByDescription("primaryConstructor")
+                            .locateSingleOrExceptionByDescriptionDirectChild("classParameters")
+                            .locateByDescriptionDirectChild("classParameter")
+                            .forEach {
+                                println()
+                                println()
+                                val type = it.locateSingleOrExceptionByDescriptionDirectChild("type")
+                                    .relatedSourceCode(fileMaybeContainingEnumSourceCode)
+                                val simpleIdentifier = it.locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
+                                    .relatedSourceCode(fileMaybeContainingEnumSourceCode)
+                                println("simpleIdentifier $simpleIdentifier")
+                                println("type $type")
+                            }
                     }
                 }
             }
         }
         if(values.size == 0) {
-            println("enum extraction from $filepath failed! $enumsTried enumsTried")
+            println("enum extraction from $filepath failed! $enumsTried potential enums tried")
         }
         return values
     }
@@ -851,8 +877,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder, fileSourceCode)
         if (valueIfItIsSimpleText != null) {
             appliedTags.add(Tag(key, valueIfItIsSimpleText))
-        } else if (valueHolder.relatedSourceCode(fileSourceCode) == "answer.osmValue") {
-            appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
         } else if (valueHolder.relatedSourceCode(fileSourceCode).endsWith(".toYesNo()")) {
             // previous form of check:
             // in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()", "isAutomated.toYesNo()")
@@ -860,6 +884,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             // or maybe this is a valid check given high coupling with StreetComplete being presenrt anyway?
             appliedTags.add(Tag(key, "yes"))
             appliedTags.add(Tag(key, "no"))
+        } else if (valueHolder.relatedSourceCode(fileSourceCode).startsWith("answer.")) {
+            appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
         } else {
             if( freeformKey(key) || streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, key)) {
                 appliedTags.add(Tag(key, null))
@@ -887,9 +913,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         if (!extractedSomething) {
-            println("answer.osmValue, failed to find values for now<")
+            println("${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now<")
             valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
-            println("answer.osmValue, failed to find values for now>")
+            println("${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now>")
             appliedTags.add(Tag(key, null)) // TODO - get also value...
         }
         return appliedTags
@@ -1296,9 +1322,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
+    private fun Ast.listFound(found: List<AstNode>, name: String) {
+        println()
+        println()
+        println("Found in $name:")
+        found.forEach { it.showHumanReadableTree() }
+
+    }
     private fun Ast.locateSingleOrExceptionByDescription(filter: String, debug: Boolean = false): AstNode {
         val found = locateByDescription(filter, debug)
         if (found.size != 1) {
+            listFound(found, "locateSingleOrExceptionByDescription")
             throw ParsingInterpretationException("unexpected count! Expected single matching on filter $filter, got ${found.size}")
         } else {
             return found[0]
