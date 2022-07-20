@@ -329,9 +329,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return false
         }
         var banned = listOf("SelectPuzzle.kt", "Form.kt", "Util.kt", "Utils.kt", "Adapter.kt",
-            "Drawable.kt", "Dao.kt", "Dialog.kt", "Item.kt", "OsmFilterQuestType.kt",
-        "RotateContainer.kt", "MapDataWithGeometry.kt", "Element.kt")
+            "Drawable.kt", "Dao.kt", "Dialog.kt", "Item.kt", "RotateContainer.kt")
         banned.forEach { if(it in filename) {
+                return false
+            }
+        }
+        listOf("OsmFilterQuestType.kt", "MapDataWithGeometry.kt", "Element.kt", "Tags.kt",
+            "OsmElementQuestType.kt").forEach {
+            if(it == filename) {
                 return false
             }
         }
@@ -366,11 +371,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             ".applyTo(tags)",
             "applySidewalkSurfaceAnswerTo",
             "applyWasteContainerAnswer",
-            "answer.countryCode + \":\" + answer.roadType",
-            "[answer.osmKey]",
             "applyAnswerRoadName",
             "applyRampAnswer",
             "applySidewalkAnswerTo",
+            "answer.countryCode + \":\" + answer.roadType",
+            "[answer.osmKey]",
+            "tags[answer.sign.osmKey]",
             "tags[\"material\"] = newMaterial",
             "\$key",
             "tags[\"sidewalk\"] = sidewalkValue",
