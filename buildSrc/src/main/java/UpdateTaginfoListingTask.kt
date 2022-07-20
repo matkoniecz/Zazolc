@@ -132,6 +132,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "pitch_lit/AddPitchLit.kt" to setOf(Tag("check_date:lit", null), Tag("lit", "yes"), Tag("lit", "no")),
             "place_name/AddPlaceName.kt" to setOf(Tag("name:signed", "no"), Tag("name", null), Tag("int_name", null), Tag("name:ar", null), Tag("name:en", null), Tag("name:kha", null), Tag("name:grt", null), Tag("name:uz", null), Tag("name:ru", null), Tag("name:mnk", null), Tag("name:ff", null), Tag("name:cy", null), Tag("name:gd", null), Tag("name:fr", null), Tag("name:snk", null), Tag("name:wo", null), Tag("name:sw", null), Tag("name:fil", null), Tag("name:es", null), Tag("name:ceb", null), Tag("name:ilo", null), Tag("name:hil", null), Tag("name:nl", null), Tag("name:pap", null), Tag("name:mg", null), Tag("name:ms", null), Tag("name:hi", null), Tag("name:pa", null), Tag("name:zh", null), Tag("name:adx", null), Tag("name:kk", null), Tag("name:tpi", null), Tag("name:ho", null), Tag("name:pt", null), Tag("name:pov", null), Tag("name:my", null), Tag("name:pih", null), Tag("name:bn", null), Tag("name:te", null), Tag("name:mr", null), Tag("name:ta", null), Tag("name:ur", null), Tag("name:gu", null), Tag("name:kn", null), Tag("name:ml", null), Tag("name:or", null), Tag("name:as", null), Tag("name:mai", null), Tag("name:ks", null), Tag("name:emk", null), Tag("name:sus", null), Tag("name:gyn", null), Tag("name:it", null), Tag("name:de", null), Tag("name:bo", null), Tag("name:mfe", null), Tag("name:qu", null), Tag("name:ny", null), Tag("name:nb", null), Tag("name:no", null), Tag("name:af", null), Tag("name:so", null), Tag("name:mkw", null), Tag("name:ln", null), Tag("name:lua", null), Tag("name:et", null), Tag("name:fan", null), Tag("name:doi", null), Tag("name:tvl", null), Tag("name:oc", null), Tag("name:ca", null), Tag("name:br", null), Tag("name:id", null), Tag("name:jv", null), Tag("name:su", null), Tag("name:mad", null), Tag("name:min", null), Tag("name:sq", null), Tag("name:sr", null), Tag("name:trp", null), Tag("name:ug", null), Tag("name:hy", null), Tag("name:ber", null), Tag("name:tkl", null), Tag("name:tn", null), Tag("name:myn", null), Tag("name:ky", null), Tag("name:mn", null), Tag("name:gv", null), Tag("name:el", null), Tag("name:tr", null), Tag("name:mos", null), Tag("name:dyu", null), Tag("name:st", null), Tag("name:aa", null), Tag("name:bg", null), Tag("name:mh", null), Tag("name:fa", null), Tag("name:ps", null), Tag("name:eu", null), Tag("name:bs", null), Tag("name:hr", null), Tag("name:to", null), Tag("name:lb", null), Tag("name:ay", null), Tag("name:na", null), Tag("name:heb", null), Tag("name:gil", null), Tag("name:jam", null), Tag("name:brx", null), Tag("name:za", null), Tag("name:ko", null), Tag("name:ko-Latn", null), Tag("name:kok", null), Tag("name:mk", null), Tag("name:niu", null), Tag("name:fo", null), Tag("name:dk", null), Tag("name:bi", null), Tag("name:gug", null), Tag("name:pau", null), Tag("name:gl", null), Tag("name:tg", null), Tag("name:bem", null), Tag("name:ha", null), Tag("name:rm", null), Tag("name:nn", null), Tag("name:bzj", null), Tag("name:kri", null), Tag("name:fi", null), Tag("name:sv", null), Tag("name:rw", null), Tag("name:rn", null), Tag("name:km", null), Tag("name:sg", null), Tag("name:kl", null), Tag("name:da", null), Tag("name:am", null), Tag("name:om", null), Tag("name:ti", null), Tag("name:ak", null), Tag("name:ee", null), Tag("name:crs", null), Tag("name:bm", null), Tag("name:sn", null), Tag("name:nd", null), Tag("name:fj", null), Tag("name:hif", null), Tag("name:rar", null), Tag("name:ss", null), Tag("name:tk", null), Tag("name:kea", null), Tag("name:bci", null), Tag("name:any", null), Tag("name:lo", null), Tag("name:swb", null), Tag("name:wni", null), Tag("name:zdj", null), Tag("name:wlc", null), Tag("name:tet", null), Tag("name:ja", null), Tag("name:ja-Latn", null), Tag("name:sm", null), Tag("name:lus", null), Tag("name:ch", null), Tag("name:ka", null), Tag("name:dgr", null), Tag("name:den", null), Tag("name:ne", null), Tag("name:fon", null), Tag("name:be", null), Tag("name:ht", null), Tag("name:ga", null), Tag("name:mt", null), Tag("name:chk", null), Tag("name:pon", null), Tag("name:uk", null), Tag("name:zu", null), Tag("name:xh", null), Tag("name:nso", null), Tag("name:ts", null), Tag("name:si", null), Tag("name:iu", null), Tag("name:th", null), Tag("name:th-Latn", null), Tag("name:sid", null), Tag("name:wal", null), Tag("name:ast", null)),
             "playground_access/AddPlaygroundAccess.kt" to setOf(Tag("access", "yes"), Tag("access", "customers"), Tag("access", "private")),
+            "police_type/AddPoliceType.kt" to setOf(Tag("operator", "Arma dei Carabinieri"), Tag("operator", "Polizia di Stato"), Tag("operator", "Guardia di Finanza"), Tag("operator", "Polizia Municipale"), Tag("operator", "Polizia Locale"), Tag("operator", "Guardia Costiera"), Tag("operator:wikidata", "Q54852"), Tag("operator:wikidata", "Q897817"), Tag("operator:wikidata", "Q1552861"), Tag("operator:wikidata", "Q1431981"), Tag("operator:wikidata", "Q61634147"), Tag("operator:wikidata", "Q1552839")),
             "postbox_ref/AddPostboxRef.kt" to setOf(Tag("ref:signed", "no"), Tag("ref", null)),
             "postbox_collection_times/AddPostboxCollectionTimes.kt" to setOf(Tag("collection_times:signed", "no"), Tag("check_date:collection_times", null), Tag("collection_times", null)),
             "postbox_royal_cypher/AddPostboxRoyalCypher.kt" to setOf(Tag("royal_cypher", "VR"), Tag("royal_cypher", "EVIIR"), Tag("royal_cypher", "GR"), Tag("royal_cypher", "EVIIIR"), Tag("royal_cypher", "GVIR"), Tag("royal_cypher", "EIIR"), Tag("royal_cypher", "scottish_crown"), Tag("royal_cypher", "no")),
@@ -326,7 +327,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // Complex code constructs not supported for now
         // TODO: implement their support
         val blockers = listOf(
-            "PoliceType", // TODO should be implementable
             "drinking_water", // TODO should be implementable
             "smoothness", // TODO should be implementable
             "shoulder", // TODO should be implementable
@@ -436,16 +436,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 796
+        val tagsFoundPreviously = 806
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 111
+        val processedQuestsPreviously = 112
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
-        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/police_type/AddPoliceType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shoulder/AddShoulder.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/orchard_produce/AddOrchardProduce.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sport/AddSport.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
+        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shoulder/AddShoulder.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/orchard_produce/AddOrchardProduce.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sport/AddSport.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
         if (realFailed != knownFailed.size) {
             println("Something changed in processing! failed count $realFailed vs ${knownFailed.size} previously")
         }
@@ -787,8 +787,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun getEnumValuesDefinedInThisFilepath(filepath:String):Set<String>{
-        val values = mutableSetOf<String>()
+    class EnumFieldState(val identifier:String, val possibleValue:String)
+
+    private fun getEnumValuesDefinedInThisFilepath(filepath:String): Set<EnumFieldState>{
+        val values = mutableSetOf<EnumFieldState>()
         val fileMaybeContainingEnumSourceCode = loadFileFromPath(filepath)
         val ast = AstSource.String(filepath, fileMaybeContainingEnumSourceCode)
         val potentialEnumFileAst = ast.parse()
@@ -799,59 +801,58 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 // not expected to be enum
                 // will happen if potential enum file contains rather class such as
                 // class StreetSideSelectRotateContainer @JvmOverloads constructor(
-                return@forEach
+                return@forEach // skip silently as heuristic being too eager
             } else if (modifiers[0].relatedSourceCode(fileMaybeContainingEnumSourceCode) == "enum") {
                 enumsTried += 1
+                val enumFieldNames = mutableListOf<String>()
+                val constructor = enum.locateSingleOrNullByDescription("primaryConstructor")
+                if(constructor == null) {
+                    // may happen with helper enums being present, such as
+                    // enum class FireHydrantDiameterMeasurementUnit { MILLIMETER, INCH }
+                    return@forEach // skip silently as heuristic being too eager
+                }
+                constructor.locateSingleOrExceptionByDescriptionDirectChild("classParameters")
+                    .locateByDescriptionDirectChild("classParameter")
+                    .forEach {
+                        //val type = it.locateSingleOrExceptionByDescriptionDirectChild("type")
+                        //    .relatedSourceCode(fileMaybeContainingEnumSourceCode)
+                        val simpleIdentifier = it.locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
+                            .relatedSourceCode(fileMaybeContainingEnumSourceCode)
+                        enumFieldNames.add(simpleIdentifier)
+                }
                 enum.locateByDescription("enumEntry").forEach { enumEntry ->
-                    var extractedText: String? = null
+                    /*
+                    println("valueArguments of this entry follows")
+                    valueArguments.showRelatedSourceCode(fileMaybeContainingEnumSourceCode, "valueArguments")
+                    println("primaryConstructor of entire enum follows")
+                    enum.locateSingleOrExceptionByDescription("primaryConstructor")
+                        .showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
+                     */
+                    var extractedText: String?
                     val valueArguments = enumEntry.locateSingleOrNullByDescriptionDirectChild("valueArguments")
                     if(valueArguments == null) {
-                        //val explanation = "parsing $filepath failed, valueArguments count is not 1, skipping, maybe it should be also used?"
-                        //println(enum.showRelatedSourceCode(fileMaybeContainingEnumSourceCode, explanation))
-                        //println(explanation)
-                        return@forEach
-                    }
-                    val arguments = valueArguments.locateByDescriptionDirectChild("valueArgument")
-                    if (arguments.size == 1) {
-                        extractedText = extractTextFromHardcodedString(arguments[0], fileMaybeContainingEnumSourceCode)
-                        if (extractedText == null) {
-                            if(arguments[0].tree() is KlassDeclaration && (arguments[0].tree() as KlassDeclaration).identifier.toString() == "null") {
-                                //println("it has null as value, apparently")
-                            } else {
-                                println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - showing $filepath after enum extraction failed")
-                                valueArguments.showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
-                                println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - shown $filepath after enum extraction failed")
-                                println(fileMaybeContainingEnumSourceCode)
-                                println("source code displayed - shown $filepath after enum extraction failed")
-                            }
-                        } else {
-                            values.add(extractedText)
-                        }
+                        val explanation = "parsing $filepath failed, valueArguments count is not 1, skipping, maybe it should be also investigated"
+                        println(enum.showRelatedSourceCode(fileMaybeContainingEnumSourceCode, explanation))
+                        println(explanation)
                     } else {
-                        // TODO above assumes that there is a single enum with a single assigned value to each enum statement...
-                        // for more complex ones
-                        println("more than one argument, lets try to disentagle this")
+                        val arguments = valueArguments.locateByDescriptionDirectChild("valueArgument")
                         for(i in arguments.indices) {
-                            println("argument $i out of ${arguments.size} - ${extractTextFromHardcodedString(arguments[i], fileMaybeContainingEnumSourceCode)}")
-                        }
-                        println("valueArguments of this entry follows")
-                        valueArguments.showRelatedSourceCode(fileMaybeContainingEnumSourceCode, "valueArguments")
-                        println("primaryConstructor of entire enum follows")
-                        enum.locateSingleOrExceptionByDescription("primaryConstructor")
-                            .showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
-                        enum.locateSingleOrExceptionByDescription("primaryConstructor")
-                            .locateSingleOrExceptionByDescriptionDirectChild("classParameters")
-                            .locateByDescriptionDirectChild("classParameter")
-                            .forEach {
-                                println()
-                                println()
-                                val type = it.locateSingleOrExceptionByDescriptionDirectChild("type")
-                                    .relatedSourceCode(fileMaybeContainingEnumSourceCode)
-                                val simpleIdentifier = it.locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
-                                    .relatedSourceCode(fileMaybeContainingEnumSourceCode)
-                                println("simpleIdentifier $simpleIdentifier")
-                                println("type $type")
+                            extractedText = extractTextFromHardcodedString(arguments[i], fileMaybeContainingEnumSourceCode)
+                            if (extractedText == null) {
+                                if(arguments[i].tree() is KlassDeclaration && (arguments[i].tree() as KlassDeclaration).identifier.toString() == "null") {
+                                    // it has null as value, apparently
+                                    // lest skip it silently
+                                } else {
+                                    println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - showing $filepath after enum extraction failed")
+                                    valueArguments.showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode)
+                                    println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - shown $filepath after enum extraction failed")
+                                    println(fileMaybeContainingEnumSourceCode)
+                                    println("source code displayed - shown $filepath after enum extraction failed")
+                                }
+                            } else {
+                                values.add(EnumFieldState(enumFieldNames[i], extractedText))
                             }
+                        }
                     }
                 }
             }
@@ -886,8 +887,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             // or maybe this is a valid check given high coupling with StreetComplete being presenrt anyway?
             appliedTags.add(Tag(key, "yes"))
             appliedTags.add(Tag(key, "no"))
+        } else if (valueHolder.relatedSourceCode(fileSourceCode).endsWith(".toCheckDateString()")) {
+            appliedTags.add(Tag(key, null))
         } else if (valueHolder.relatedSourceCode(fileSourceCode).startsWith("answer.")) {
-            appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
+            appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(description, key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
         } else {
             if( freeformKey(key) || streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, key)) {
                 appliedTags.add(Tag(key, null))
@@ -905,12 +908,18 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun provideTagsBasedOnAswerDataStructuresFromExternalFiles(key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
+    private fun provideTagsBasedOnAswerDataStructuresFromExternalFiles(description:String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         var extractedSomething = false
         suspectedAnswerEnumFiles.forEach {
             getEnumValuesDefinedInThisFilepath(it.toString()).forEach {value ->
-                appliedTags.add(Tag(key, value))
+                val accessIdentifierAst = valueHolder.locateSingleOrExceptionByDescription("postfixUnarySuffix")
+                    .locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
+                    .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
+                val identifier = (accessIdentifierAst.tree() as KlassIdentifier).identifier
+                if (value.identifier == identifier) {
+                    appliedTags.add(Tag(key, value.possibleValue))
+                }
                 extractedSomething = true
             }
         }
@@ -1063,7 +1072,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 var extractedNothing = true
                                 suspectedAnswerEnumFiles.forEach {
                                     getEnumValuesDefinedInThisFilepath(it.toString()).forEach { value ->
-                                        appliedTags.add(Tag(keyString, value))
+                                        val accessIdentifierAst = valueAst.locateSingleOrExceptionByDescription("postfixUnarySuffix")
+                                            .locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
+                                            .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
+                                        val identifier = (accessIdentifierAst.tree() as KlassIdentifier).identifier
+                                        if (value.identifier == identifier) {
+                                            appliedTags.add(Tag(keyString, value.possibleValue))
+                                        }
                                         extractedNothing = false
                                     }
                                 }
