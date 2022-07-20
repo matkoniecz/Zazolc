@@ -354,7 +354,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // TODO: implement their support
         val blockers = listOf(
             "is StreetName -> \"addr:street\"",  // TODO should be implementable
-            "answer.applyTo(", // TODO should be implementable
             "Shoulder", // TODO should be implementable
             "smoothness", // TODO should be implementable
             ".applyTo(tags)",
@@ -683,6 +682,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
             println("skipping $description")
             return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
+        }
+        if ("answer.applyTo(" in relevantFunction.relatedSourceCode(fileSourceCode)) {
+            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
+            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
+            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
+            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
+            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
+            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
+            return null
         }
         var got = extractCasesWhereTagsAreAccessedWithIndex(description, relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
         if (got != null) {
