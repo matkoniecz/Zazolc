@@ -22,17 +22,41 @@ import java.io.InputStream
 import java.net.URL
 import kotlin.system.exitProcess
 
+
+/*
+parser automatically documenting what is even being done by the program (open source OpenStreetMap editor)
+
+This is project attempting to automatically generate documentation for open source program which is an editor of OpenStreetMap intended to be usable by regular humans (OSM is a openly licended geographic database).
+
+StreetComplete, like other OSM editors is editing tags such as `highway=motorway` (representing motorway) or `religion=sikh` marking given temple as place of worhip for given religion, or things like `barrier=gate` marking gate and so on.
+
+Various projects
+*/
+
 /*
 This program is parsing files of StreetComplete project
 to detect what kind of changes this editor will make to OpenStreetMap database
 
 It relies on editing functionality being defined in applyAnswerTo function
-and always involving modification of tags variable
+and always involving modification of tags variable and several other assumptions
+
+Tracked in https://github.com/streetcomplete/StreetComplete/issues/4225
 
 Alternative - maintaining such list manually is too time-consuming and too boring.
 There was an attempt to do this but it failed.
+See https://github.com/goldfndr/StreetCompleteJSON
+q
+There was also attempt to do this with regular expressions.
+It also failed.
+See https://github.com/streetcomplete/StreetComplete/pull/2754
+
+This is NOT a pure parsing, in several places shortcuts were taken to reduce implementation effort
+while still working.
+
+As this is tightly coupled to StreetComplete, many assumptions can be made.
 */
 
+//getEnumValuesDefinedInThisFilepath should return list of field -> setOfPossibleValues
 // git clone https://github.com/matkoniecz/StreetComplete.git
 // git checkout taginfo
 // ./gradlew updateTaginfoListing
