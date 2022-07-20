@@ -203,17 +203,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "width/AddRoadWidth.kt" to setOf(Tag("width", null), Tag("source:width", "ARCore")),
         )
     }
-    private fun selfTest() {
-        if(isLikelyAnswerEnumFile("AddLanes.kt")) {
-            throw Exception("failing test")
-        }
-        if (!isQuestFile("AddLanes.kt")){
-            throw Exception("failing test")
-        }
-    }
 
     @TaskAction fun run() {
-        selfTest()
         var processed = 0
         val failedQuests = mutableSetOf<String>()
         val foundTags = mutableListOf<TagQuestInfo>()
@@ -231,7 +222,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
             val suspectedAnswerEnumFiles = mutableListOf<File>()
             File(folder.toString()).walkTopDown().forEach {
-                if (isLikelyAnswerEnumFile(it.toString())) {
+                if (isLikelyAnswerEnumFile(it)) {
                     suspectedAnswerEnumFiles.add(it)
                 }
             }
@@ -239,7 +230,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             File(folder.toString()).walkTopDown().forEach {
                 if(it.isFile) {
                     val suspectedAnswerEnumFilesForThisFile = suspectedAnswerEnumFiles + candidatesForEnumFilesBasedOnImports(it.path)
-                    if (isQuestFile(it.name)) {
+                    if (isQuestFile(it)) {
                         foundQuestFile = true
                         val fileSourceCode = loadFileFromPath(it.toString())
                         var got:Set<Tag>?
@@ -286,7 +277,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // note: importedByFile may have false negatives that require extra parsing
         // to handle this
         return importedByFile(path)
-            .filter { isLikelyAnswerEnumFile(it) }
+            .filter { isLikelyAnswerEnumFile(File(it)) }
             .map {File(it)}
             .filter{it.isFile}
     }
@@ -324,38 +315,38 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return returned
     }
 
-    private fun isLikelyAnswerEnumFile(filename: String): Boolean {
-        if (".kt" !in filename) {
+    private fun isLikelyAnswerEnumFile(file: File): Boolean {
+        if (".kt" !in file.name) {
             return false
         }
         var banned = listOf("SelectPuzzle.kt", "Form.kt", "Util.kt", "Utils.kt", "Adapter.kt",
             "Drawable.kt", "Dao.kt", "Dialog.kt", "Item.kt", "RotateContainer.kt")
-        banned.forEach { if(it in filename) {
+        banned.forEach { if(it in file.name) {
                 return false
             }
         }
         listOf("OsmFilterQuestType.kt", "MapDataWithGeometry.kt", "Element.kt", "Tags.kt",
             "OsmElementQuestType.kt").forEach {
-            if(it == filename) {
+            if(it == file.name) {
                 return false
             }
         }
-        return !isQuestFile(filename)
+        return !isQuestFile(file)
     }
 
-    private fun isQuestFile(filename: String): Boolean {
-        if (".kt" !in filename) {
+    private fun isQuestFile(file: File): Boolean {
+        if (".kt" !in file.name) {
             return false
         }
         var banned = listOf("Form.kt", "Adapter.kt", "Utils.kt")
-        banned.forEach { if(it in filename) {
+        banned.forEach { if(it in file.name) {
                 return false
             }
         }
-        if (filename == "AddressStreetAnswer.kt") {
+        if (file.name == "AddressStreetAnswer.kt") {
             return false
         }
-        if ("Add" in filename || "Check" in filename || "Determine" in filename || "MarkCompleted" in filename) {
+        if ("Add" in file.name || "Check" in file.name || "Determine" in file.name || "MarkCompleted" in file.name) {
             return true
         }
         return false
@@ -724,6 +715,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun addedOrEditedTagsWithFoundFunction(description: String, fileSourceCode: String, variable:String, relevantFunction:AstNode, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         if (functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
             println("skipping $description (functionParsingSkippedBasedOnSourceCode)")
+            println()
             return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
         }
         val appliedTags = mutableSetOf<Tag>()
