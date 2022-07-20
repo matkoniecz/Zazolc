@@ -321,7 +321,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (".kt" !in filename) {
             return false
         }
-        var banned = listOf("SelectPuzzle", "Form", "Util", "Adapter", "Drawable", "Dao", "Dialog", "item")
+        var banned = listOf("SelectPuzzle.kt", "Form.kt", "Util.kt", "Utils.kt", "Adapter.kt", "Drawable.kt", "Dao.kt", "Dialog.kt", "Item.kt")
         banned.forEach { if(it in filename) {
                 return false
             }
@@ -333,7 +333,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (".kt" !in filename) {
             return false
         }
-        var banned = listOf("Form", "Adapter", "Utils")
+        var banned = listOf("Form.kt", "Adapter.kt", "Utils.kt")
         banned.forEach { if(it in filename) {
                 return false
             }
