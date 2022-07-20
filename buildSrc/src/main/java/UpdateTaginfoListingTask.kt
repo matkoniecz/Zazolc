@@ -434,16 +434,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
-        foundTags.filter { it.tag.value == null && !freeformKey(it.tag.key) }.forEach { println(it) }
-        val tagsThatShouldBeMoreSpecific = foundTags.filter { it.tag.value == null && !freeformKey(it.tag.key) }.size
+        val tagsThatShouldBeMoreSpecific = foundTags
+            .filter { it.tag.value == null && !freeformKey(it.tag.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(it.quest, it.tag.key)}
+        tagsThatShouldBeMoreSpecific.forEach { println(it) }
         println("${foundTags.size} entries registered, $tagsThatShouldBeMoreSpecific should be more specific, $processed quests processed, ${failedQuests.size} failed")
         val tagsFoundPreviously = 796
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val tagsThatShouldBeMoreSpecificFoundPreviously = 2
-        if (tagsThatShouldBeMoreSpecific != tagsThatShouldBeMoreSpecificFoundPreviously) {
-            println("Something changed in processing! tagsThatShouldBeMoreSpecific count $tagsThatShouldBeMoreSpecific vs $tagsThatShouldBeMoreSpecificFoundPreviously previously")
+        val tagsThatShouldBeMoreSpecificFoundPreviously = 0
+        if (tagsThatShouldBeMoreSpecific.size != tagsThatShouldBeMoreSpecificFoundPreviously) {
+            println("Something changed in processing! tagsThatShouldBeMoreSpecific count ${tagsThatShouldBeMoreSpecific.size} vs $tagsThatShouldBeMoreSpecificFoundPreviously previously")
         }
         val processedQuestsPreviously = 111
         if (processed != processedQuestsPreviously) {
@@ -512,6 +513,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return false
         }
         return true
+    }
+
+    private fun streetCompleteIsReusingAnyValueProvidedByExistingTagging(questDescription:String, key:String): Boolean {
+        // much too complicated and error prone and rare to get that info by parsing
+        if("MarkCompletedHighwayConstruction" in questDescription && key == "highway") {
+            return true
+        }
+        if("MarkCompletedBuildingConstruction" in questDescription && key == "building") {
+            return true
+        }
+        return false
     }
 
     private fun freeformKey(key: String): Boolean {
@@ -597,7 +609,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    class TagQuestInfo(val tag: Tag, private val quest: String) {
+    class TagQuestInfo(val tag: Tag, val quest: String) {
         override fun toString(): String {
             return "$tag in $quest"
         }
@@ -848,19 +860,18 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (valueIfItIsSimpleText != null) {
             appliedTags.add(Tag(key, valueIfItIsSimpleText))
         } else if (valueHolder.relatedSourceCode(fileSourceCode) == "answer.osmValue") {
-            // bad news! Answer values are not directly in this file, but defined elsewhere
-            // almost always in a separate enum file
-            // TODO handle this somehow - requires extra parsing, likely in another file
             appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
         } else if (valueHolder.relatedSourceCode(fileSourceCode).endsWith(".toYesNo()")) {
             // previous form of check:
             // in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()", "isAutomated.toYesNo()")
-            // TODO: fix this hack by proper parse and detect toYesNo() at the end? (low priority)
+            // maybe treat this hack by proper parse and detect toYesNo() at the end?
+            // or maybe this is a valid check given high coupling with StreetComplete being presenrt anyway?
             appliedTags.add(Tag(key, "yes"))
             appliedTags.add(Tag(key, "no"))
         } else {
-            appliedTags.add(Tag(key, null)) // TODO - get also value...
-            if (!freeformKey(key)) {
+            if( freeformKey(key) || streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, key)) {
+                appliedTags.add(Tag(key, null))
+            } else {
                 println()
                 println()
                 println()
@@ -868,6 +879,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 println(explanation)
                 valueHolder.showHumanReadableTreeWithSourceCode(fileSourceCode)
                 valueHolder.showRelatedSourceCode(fileSourceCode, explanation)
+                throw ParsingInterpretationException("exact value is missing!")
             }
         }
         return appliedTags
