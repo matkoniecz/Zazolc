@@ -837,22 +837,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun extractValuesForKnownKey(description:String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
 
-        val whenExpression = valueHolder.locateSingleOrNullByDescription("whenExpression")
-        if (whenExpression != null) {
-            if (whenExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
-                return extractValuesForKnownKeyFromWhenExpression(description, key, whenExpression, fileSourceCode, suspectedAnswerEnumFiles)
-            } else {
-                throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
-            }
+        var scanned: MutableSet<Tag>?
+        scanned = extractValuesForKnownKeyFromWhenExpressionIfSingleOneIsPresent(description, key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
+        if (scanned != null) {
+            return scanned
         }
 
-        val ifExpression = valueHolder.locateSingleOrNullByDescription("ifExpression")
-        if (ifExpression != null) {
-            if (ifExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
-                return extractValuesForKnownKeyFromIfExpression(description, key, ifExpression, fileSourceCode, suspectedAnswerEnumFiles)
-            } else {
-                throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
-            }
+        scanned = extractValuesForKnownKeyFromIfExpressionIfSingleOneIsPresent(description, key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
+        if (scanned != null) {
+            return scanned
         }
 
         val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder, fileSourceCode)
@@ -902,12 +895,36 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
+    private fun extractValuesForKnownKeyFromIfExpressionIfSingleOneIsPresent(description:String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag>? {
+        val ifExpression = valueHolder.locateSingleOrNullByDescription("ifExpression")
+        if (ifExpression != null) {
+            if (ifExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
+                return extractValuesForKnownKeyFromIfExpression(description, key, ifExpression, fileSourceCode, suspectedAnswerEnumFiles)
+            } else {
+                throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
+            }
+        }
+        return null
+    }
+
     private fun extractValuesForKnownKeyFromIfExpression(description:String, key: String, ifExpression: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         ifExpression.locateByDescription("controlStructureBody").forEach {
             appliedTags += extractValuesForKnownKey(description, key, it, fileSourceCode, suspectedAnswerEnumFiles)
         }
         return appliedTags
+    }
+
+    private fun extractValuesForKnownKeyFromWhenExpressionIfSingleOneIsPresent(description:String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag>? {
+        val whenExpression = valueHolder.locateSingleOrNullByDescription("whenExpression")
+        if (whenExpression != null) {
+            if (whenExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
+                return extractValuesForKnownKeyFromWhenExpression(description, key, whenExpression, fileSourceCode, suspectedAnswerEnumFiles)
+            } else {
+                throw ParsingInterpretationException("not handled, when expressions as part of something bigger")
+            }
+        }
+        return null
     }
 
     private fun extractValuesForKnownKeyFromWhenExpression(description:String, key: String, whenExpression: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
