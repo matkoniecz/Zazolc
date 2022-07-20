@@ -281,7 +281,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // note: importedByFile may have false negatives that require extra parsing
         // to handle this
         return importedByFile(path)
-            .filter { isLikelyAnswerEnumFile(it) && "/quests/" in it }
+            .filter { isLikelyAnswerEnumFile(it) }
             .map {File(it)}
             .filter{it.isFile}
     }
@@ -323,7 +323,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (".kt" !in filename) {
             return false
         }
-        var banned = listOf("SelectPuzzle.kt", "Form.kt", "Util.kt", "Utils.kt", "Adapter.kt", "Drawable.kt", "Dao.kt", "Dialog.kt", "Item.kt")
+        var banned = listOf("SelectPuzzle.kt", "Form.kt", "Util.kt", "Utils.kt", "Adapter.kt",
+            "Drawable.kt", "Dao.kt", "Dialog.kt", "Item.kt", "OsmFilterQuestType.kt",
+        "RotateContainer.kt", "MapDataWithGeometry.kt", "Element.kt")
         banned.forEach { if(it in filename) {
                 return false
             }
