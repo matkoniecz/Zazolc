@@ -433,6 +433,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             throw Exception("MISMATCH")
         }
         if (functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
+            println()
             return
         }
         if (got == null) {
