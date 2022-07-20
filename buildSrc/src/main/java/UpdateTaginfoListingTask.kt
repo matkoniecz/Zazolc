@@ -85,6 +85,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "accepts_cards/AddAcceptsCards.kt" to setOf(Tag("payment:debit_cards", "yes"), Tag("payment:debit_cards", "no"), Tag("payment:credit_cards", "yes"), Tag("payment:credit_cards", "no")),
             "accepts_cash/AddAcceptsCash.kt" to setOf(Tag("payment:cash", "yes"), Tag("payment:cash", "no")),
             "address/AddHousenumber.kt" to setOf(Tag("addr:conscriptionnumber", null), Tag("addr:streetnumber", null), Tag("addr:housenumber", null), Tag("addr:block_number", null), Tag("addr:housename", null), Tag("nohousenumber", "yes"), Tag("building", "yes")),
+            "address/AddAddressStreet.kt" to setOf(Tag("addr:street", null), Tag("addr:place", null)),
             "atm_operator/AddAtmOperator.kt" to setOf(Tag("operator", null)),
             "air_conditioning/AddAirConditioning.kt" to setOf(Tag("air_conditioning", "yes"), Tag("air_conditioning", "no")),
             "air_pump/AddBicyclePump.kt" to setOf(Tag("check_date:service:bicycle:pump", null), Tag("service:bicycle:pump", "yes"), Tag("service:bicycle:pump", "no")),
@@ -169,6 +170,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "railway_crossing/AddRailwayCrossingBarrier.kt" to setOf(Tag("crossing:chicane", "yes"), Tag("check_date:crossing:barrier", null), Tag("crossing:barrier", "no"), Tag("crossing:barrier", "half"), Tag("crossing:barrier", "double_half"), Tag("crossing:barrier", "full"), Tag("crossing:barrier", "gate")),
             "recycling/AddRecyclingType.kt" to setOf(Tag("recycling_type", "centre"), Tag("recycling_type", "container"), Tag("location", "overground"), Tag("location", "underground")),
             "recycling_glass/DetermineRecyclingGlass.kt" to setOf(Tag("recycling:glass_bottles", "yes"), Tag("recycling:glass", "no")),
+            "recycling_material/AddRecyclingContainerMaterials.kt" to setOf(Tag("recycling:glass_bottles", "yes"), Tag("recycling:glass", "yes"), Tag("recycling:paper", "yes"), Tag("recycling:plastic", "yes"), Tag("recycling:plastic_packaging", "yes"), Tag("recycling:plastic_bottles", "yes"), Tag("recycling:beverage_cartons", "yes"), Tag("recycling:cans", "yes"), Tag("recycling:scrap_metal", "yes"), Tag("recycling:clothes", "yes"), Tag("recycling:shoes", "yes"), Tag("recycling:small_electrical_appliances", "yes"), Tag("recycling:batteries", "yes"), Tag("recycling:green_waste", "yes"), Tag("recycling:cooking_oil", "yes"), Tag("recycling:engine_oil", "yes"), Tag("amenity", "waste_disposal"), Tag("recycling:plastic", "no"), Tag("recycling:plastic_packaging", "no"), Tag("recycling:plastic_bottles", "no"), Tag("recycling:beverage_cartons", "no"), Tag("check_date:recycling", null)),
             "religion/AddReligionToPlaceOfWorship.kt" to setOf(Tag("religion", "christian"), Tag("religion", "muslim"), Tag("religion", "buddhist"), Tag("religion", "hindu"), Tag("religion", "jewish"), Tag("religion", "chinese_folk"), Tag("religion", "animist"), Tag("religion", "bahai"), Tag("religion", "sikh"), Tag("religion", "taoist"), Tag("religion", "jain"), Tag("religion", "shinto"), Tag("religion", "caodaism"), Tag("religion", "multifaith")),
             "religion/AddReligionToWaysideShrine.kt" to setOf(Tag("religion", "christian"), Tag("religion", "muslim"), Tag("religion", "buddhist"), Tag("religion", "hindu"), Tag("religion", "jewish"), Tag("religion", "chinese_folk"), Tag("religion", "animist"), Tag("religion", "bahai"), Tag("religion", "sikh"), Tag("religion", "taoist"), Tag("religion", "jain"), Tag("religion", "shinto"), Tag("religion", "caodaism"), Tag("religion", "multifaith")),
             "roof_shape/AddRoofShape.kt" to setOf(Tag("roof:shape", "gabled"), Tag("roof:shape", "hipped"), Tag("roof:shape", "flat"), Tag("roof:shape", "pyramidal"), Tag("roof:shape", "half-hipped"), Tag("roof:shape", "skillion"), Tag("roof:shape", "gambrel"), Tag("roof:shape", "round"), Tag("roof:shape", "double_saltbox"), Tag("roof:shape", "saltbox"), Tag("roof:shape", "mansard"), Tag("roof:shape", "dome"), Tag("roof:shape", "quadruple_saltbox"), Tag("roof:shape", "round_gabled"), Tag("roof:shape", "onion"), Tag("roof:shape", "cone"), Tag("roof:shape", "many")),
@@ -356,13 +358,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // Complex code constructs not supported for now
         // TODO: implement their support
         val blockers = listOf(
-            "is StreetName -> \"addr:street\"",  // TODO should be implementable
-            ".applyTo(tags)",
             "applySidewalkSurfaceAnswerTo",
-            "applyWasteContainerAnswer",
             "applyAnswerRoadName",
             "applyRampAnswer",
             "applySidewalkAnswerTo",
+            "answer.litStatus.applyTo",
             "answer.countryCode + \":\" + answer.roadType",
             "[answer.osmKey]",
             "tags[answer.sign.osmKey]",
@@ -453,16 +453,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 993
+        val tagsFoundPreviously = 1017
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 119
+        val processedQuestsPreviously = 121
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
-        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shoulder/AddShoulder.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
+        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shoulder/AddShoulder.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
         if (realFailed != knownFailed.size) {
             println("Something changed in processing! failed count $realFailed vs ${knownFailed.size} previously")
         }
@@ -667,8 +667,32 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun addedOrEditedTags(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+        if("AddAddressStreet" in description) {
+            return setOf(Tag("addr:street", null), Tag("addr:place", null))
+        } else if("AddRecyclingContainerMaterials" in description) {
+            val appliedTags = mutableSetOf<Tag>()
+            val materials = getEnumValuesDefinedInThisFilepath("RecyclingMaterial hack", QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
+            materials.forEach{
+                appliedTags.add(Tag("recycling:${it.possibleValue}", "yes"))
+            }
+            appliedTags.add(Tag("amenity", "waste_disposal")) // from applyWasteContainerAnswer, harcoded due to complexity HACK :(
+            val modifiedAst = AstSource.String(description, fileSourceCode.replace("tags[material] = \"yes\"", "")) // HACK :(
+            val found = modifiedAst.parse().extractFunctionByName("applyRecyclingMaterialsAnswer")
+            if(found.size != 1) {
+                throw ParsingInterpretationException("unexpected")
+            }
+            val got = addedOrEditedTagsWithFoundFunction(description, fileSourceCode, "tags", found[0], suspectedAnswerEnumFiles)
+            if (got == null) {
+                return null
+            }
+            appliedTags += got
+            return appliedTags
+        } else if("AddStileType" in description) {
+            println("AddStileType - maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
+            return null
+        }
         val ast = AstSource.String(description, fileSourceCode)
-        var relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
+        val relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
         if ("answer.applyTo(" !in relevantFunction.relatedSourceCode(fileSourceCode)) {
             return addedOrEditedTagsWithFoundFunction(description, fileSourceCode, "tags", relevantFunction, suspectedAnswerEnumFiles)
         } else {
