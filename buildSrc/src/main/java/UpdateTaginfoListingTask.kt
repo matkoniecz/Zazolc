@@ -357,8 +357,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // TODO: implement their support
         val blockers = listOf(
             "is StreetName -> \"addr:street\"",  // TODO should be implementable
-            "Shoulder", // TODO should be implementable
-            "smoothness", // TODO should be implementable
             ".applyTo(tags)",
             "applySidewalkSurfaceAnswerTo",
             "applyWasteContainerAnswer",
@@ -368,8 +366,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "answer.countryCode + \":\" + answer.roadType",
             "[answer.osmKey]",
             "tags[answer.sign.osmKey]",
+            "tags[\"\$key:note\"]",
             "tags[\"material\"] = newMaterial",
-            "\$key",
             "tags[\"sidewalk\"] = sidewalkValue",
             "tags[\"parking:lane:left:\$laneLeft\"]",
             "answer.osmLegalValue?.let { tags[\"drinking_water:legal\"] = it }", // complex structure, done this way to skip osmLegalValue where it is null
