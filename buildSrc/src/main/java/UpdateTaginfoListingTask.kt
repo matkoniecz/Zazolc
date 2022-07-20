@@ -353,11 +353,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // Complex code constructs not supported for now
         // TODO: implement their support
         val blockers = listOf(
-            "drinking_water", // TODO should be implementable
-            "smoothness", // TODO should be implementable
-            "shoulder", // TODO should be implementable
             "is StreetName -> \"addr:street\"",  // TODO should be implementable
-            "answer.applyTo(",
+            "answer.applyTo(", // TODO should be implementable
+            "Shoulder", // TODO should be implementable
+            "smoothness", // TODO should be implementable
             ".applyTo(tags)",
             "applySidewalkSurfaceAnswerTo",
             "applyWasteContainerAnswer",
@@ -370,6 +369,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "tags[\"material\"] = newMaterial",
             "\$key",
             "tags[\"parking:lane:left:\$laneLeft\"]",
+            "answer.osmLegalValue?.let { tags[\"drinking_water:legal\"] = it }", // complex structure, done this way to skip osmLegalValue where it is null
         )
         blockers.forEach {
             if(it in sourceCodeOfFunction) {
