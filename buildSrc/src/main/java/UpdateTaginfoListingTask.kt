@@ -149,6 +149,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "oneway/AddOneway.kt" to setOf(Tag("oneway", "yes"), Tag("oneway", "-1"), Tag("oneway", "no")),
             "opening_hours/AddOpeningHours.kt" to setOf(Tag("opening_hours:signed", "no"), Tag("check_date:opening_hours", null), Tag("opening_hours", null)),
             "opening_hours_signed/CheckOpeningHoursSigned.kt" to setOf(Tag("opening_hours:signed", "no"), Tag("check_date:opening_hours", null)),
+            "orchard_produce/AddOrchardProduce.kt" to setOf(Tag("produce", "sisal"), Tag("produce", "grape"), Tag("produce", "agave"), Tag("produce", "almond"), Tag("produce", "apple"), Tag("produce", "apricot"), Tag("produce", "areca_nut"), Tag("produce", "avocado"), Tag("produce", "banana"), Tag("produce", "sweet_pepper"), Tag("produce", "blueberry"), Tag("produce", "brazil_nut"), Tag("produce", "cacao"), Tag("produce", "cashew"), Tag("produce", "cherry"), Tag("produce", "chestnut"), Tag("produce", "chilli_pepper"), Tag("produce", "coconut"), Tag("produce", "coffee"), Tag("produce", "cranberry"), Tag("produce", "date"), Tag("produce", "fig"), Tag("produce", "grapefruit"), Tag("produce", "guava"), Tag("produce", "hazelnut"), Tag("produce", "hop"), Tag("produce", "jojoba"), Tag("produce", "kiwi"), Tag("produce", "kola_nut"), Tag("produce", "lemon"), Tag("produce", "lime"), Tag("produce", "mango"), Tag("produce", "mangosteen"), Tag("produce", "mate"), Tag("produce", "nutmeg"), Tag("produce", "olive"), Tag("produce", "orange"), Tag("produce", "palm_oil"), Tag("produce", "papaya"), Tag("produce", "peach"), Tag("produce", "pear"), Tag("produce", "pepper"), Tag("produce", "persimmon"), Tag("produce", "pineapple"), Tag("produce", "pistachio"), Tag("produce", "plum"), Tag("produce", "raspberry"), Tag("produce", "rubber"), Tag("produce", "strawberry"), Tag("produce", "tea"), Tag("produce", "tomato"), Tag("produce", "tung_nut"), Tag("produce", "vanilla"), Tag("produce", "walnut"), Tag("produce", null), Tag("landuse", "farmland"), Tag("landuse", "vineyard")),
             "picnic_table_cover/AddPicnicTableCover.kt" to setOf(Tag("covered", "yes"), Tag("covered", "no")),
             "parking_access/AddParkingAccess.kt" to setOf(Tag("access", "yes"), Tag("access", "customers"), Tag("access", "private")),
             "parking_access/AddBikeParkingAccess.kt" to setOf(Tag("access", "yes"), Tag("access", "customers"), Tag("access", "private")),
@@ -171,6 +172,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "segregated/AddCyclewaySegregation.kt" to setOf(Tag("check_date:segregated", null), Tag("segregated", "yes"), Tag("segregated", "no")),
             "self_service/AddSelfServiceLaundry.kt" to setOf(Tag("self_service", "no"), Tag("laundry_service", "yes"), Tag("self_service", "yes"), Tag("laundry_service", "no")),
             "smoking/AddSmoking.kt" to setOf(Tag("check_date:smoking", null), Tag("smoking", "yes"), Tag("smoking", "outside"), Tag("smoking", "no"), Tag("smoking", "separated")),
+            "sport/AddSport.kt" to setOf(Tag("sport", "multi"), Tag("sport", "soccer"), Tag("sport", "tennis"), Tag("sport", "basketball"), Tag("sport", "golf"), Tag("sport", "volleyball"), Tag("sport", "beachvolleyball"), Tag("sport", "skateboard"), Tag("sport", "shooting"), Tag("sport", "baseball"), Tag("sport", "athletics"), Tag("sport", "table_tennis"), Tag("sport", "gymnastics"), Tag("sport", "boules"), Tag("sport", "handball"), Tag("sport", "field_hockey"), Tag("sport", "ice_hockey"), Tag("sport", "american_football"), Tag("sport", "equestrian"), Tag("sport", "archery"), Tag("sport", "roller_skating"), Tag("sport", "badminton"), Tag("sport", "cricket"), Tag("sport", "rugby"), Tag("sport", "bowls"), Tag("sport", "softball"), Tag("sport", "racquet"), Tag("sport", "ice_skating"), Tag("sport", "paddle_tennis"), Tag("sport", "australian_football"), Tag("sport", "canadian_football"), Tag("sport", "netball"), Tag("sport", "gaelic_games"), Tag("sport", "sepak_takraw"), Tag("sport", null)),
             "step_count/AddStepCount.kt" to setOf(Tag("step_count", null)),
             "step_count/AddStepCountStile.kt" to setOf(Tag("step_count", null)),
             "steps_incline/AddStepsIncline.kt" to setOf(Tag("incline", "up"), Tag("incline", "down")),
@@ -366,7 +368,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "applyRampAnswer",
             "applySidewalkAnswerTo",
             "tags[\"material\"] = newMaterial",
-            "answer.joinToString",
             "\$key",
             "tags[\"parking:lane:left:\$laneLeft\"]",
         )
@@ -460,16 +461,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 806
+        val tagsFoundPreviously = 898
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 112
+        val processedQuestsPreviously = 114
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
-        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shoulder/AddShoulder.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/orchard_produce/AddOrchardProduce.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sport/AddSport.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
+        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shoulder/AddShoulder.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
         if (realFailed != knownFailed.size) {
             println("Something changed in processing! failed count $realFailed vs ${knownFailed.size} previously")
         }
@@ -571,6 +572,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 "turn:lanes:both_ways", "turn:lanes", "turn:lanes:forward", "turn:lanes:backward",
                 "operator", // technically not fully, but does ot make sense to list all that autocomplete values
                 "brand",
+                "sport", // sport=soccer;volleyball is fully valid - doe not entirely fit here but...
+                "produce", // like sport=*
             )) {
             return true
         }
@@ -684,6 +687,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (got != null) {
             appliedTags += got
         } else {
+            println("failedExtraction of $description - extractCasesWhereTagsAreAccessedWithIndex")
             failedExtraction = true
         }
 
@@ -691,6 +695,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (got != null) {
             appliedTags += got
         } else {
+            println("failedExtraction of $description - extractCasesWhereTagsAreAccessedWithFunction")
             failedExtraction = true
         }
 
@@ -704,6 +709,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             .filter { it.value == null && !freeformKey(it.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, it.key)}
         tagsThatShouldBeMoreSpecific.forEach { println(it) }
         if(tagsThatShouldBeMoreSpecific.isNotEmpty()) {
+            println("$description has tags that should be more specific, exiting as failure")
             failedExtraction = true
         }
         if (failedExtraction) {
@@ -713,6 +719,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             print("extraction known to be a partial failure")
         }
         if (appliedTags.size == 0) {
+            println("$description found no tags to be added or edited, exiting as failure")
             return null // parsing definitely failed
         }
         return appliedTags
@@ -924,8 +931,34 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             appliedTags.add(Tag(key, "no"))
         } else if (valueHolder.relatedSourceCode(fileSourceCode).endsWith(".toCheckDateString()")) {
             appliedTags.add(Tag(key, null))
+        } else if (valueHolder.relatedSourceCode(fileSourceCode) == "answer.joinToString(\";\") { it.osmValue }") { // answer.joinToString(";") { it.osmValue }
+            //println("answer.joinToString(\";\") { it.osmValue } investigation")
+            //valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
+            //valueHolder.showRelatedSourceCode("answer.joinToString(\";\") { it.osmValue } investigation", fileSourceCode)
+            //println("answer.joinToString(\";\") { it.osmValue } investigation")
+            val filtered = valueHolder.locateSingleOrExceptionByDescription("lambdaLiteral").locateSingleOrExceptionByDescriptionDirectChild("statements")
+            appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(description, key, filtered, fileSourceCode, suspectedAnswerEnumFiles)
+            appliedTags.add(Tag(key, null)) // as it can be joined in basically any combination and listing all permutations would be absurd. Maybe provide comment here of taginfo listing supports this?
         } else if (valueHolder.relatedSourceCode(fileSourceCode).startsWith("answer.")) {
             appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(description, key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
+        } else if (key == "landuse" && "OrchardProduce.kt" in description) {
+            /*
+            OrchardProduce.kt has this special
+
+            val landuse = answer.singleOrNull()?.osmLanduseValue
+            if (landuse != null) {
+                tags["landuse"] = landuse
+            }
+
+            which would be obnoxious to actually support
+            */
+            suspectedAnswerEnumFiles.forEach {
+                getEnumValuesDefinedInThisFilepath(description, it.toString()).forEach { value ->
+                    if(value.identifier == "osmLanduseValue") {
+                        appliedTags.add(Tag(key, value.possibleValue))
+                    }
+                }
+            }
         } else {
             if( freeformKey(key) || streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, key)) {
                 appliedTags.add(Tag(key, null))
