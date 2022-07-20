@@ -91,6 +91,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "air_pump/AddAirCompressor.kt" to setOf(Tag("check_date:compressed_air", null), Tag("compressed_air", "yes"), Tag("compressed_air", "no")),
             "baby_changing_table/AddBabyChangingTable.kt" to setOf(Tag("changing_table", "yes"), Tag("changing_table", "no")),
             "barrier_bicycle_barrier_type/AddBicycleBarrierType.kt" to setOf(Tag("cycle_barrier", "single"), Tag("cycle_barrier", "double"), Tag("cycle_barrier", "triple"), Tag("cycle_barrier", "diagonal"), Tag("cycle_barrier", "tilted"), Tag("barrier", "yes")),
+            "barrier_type/AddBarrierOnPath.kt" to setOf(Tag("barrier", "squeezer"), Tag("barrier", "ladder"), Tag("barrier", "stepover"), Tag("barrier", "entrance"), Tag("barrier", "gate"), Tag("barrier", "lift_gate"), Tag("barrier", "swing_gate"), Tag("barrier", "bollard"), Tag("barrier", "chain"), Tag("barrier", "rope"), Tag("barrier", "hampshire_gate"), Tag("barrier", "cattle_grid"), Tag("barrier", "block"), Tag("barrier", "jersey_barrier"), Tag("barrier", "log"), Tag("barrier", "kerb"), Tag("barrier", "height_restrictor"), Tag("barrier", "full-height_turnstile"), Tag("barrier", "turnstile"), Tag("barrier", "debris"), Tag("barrier", "stile"), Tag("barrier", "kissing_gate"), Tag("barrier", "cycle_barrier"), Tag("stile", "squeezer"), Tag("stile", "ladder"), Tag("stile", "stepover"), Tag("material", "wood"), Tag("material", "stone")),
+            "barrier_type/AddBarrierOnRoad.kt" to setOf(Tag("barrier", "squeezer"), Tag("barrier", "ladder"), Tag("barrier", "stepover"), Tag("barrier", "entrance"), Tag("barrier", "gate"), Tag("barrier", "lift_gate"), Tag("barrier", "swing_gate"), Tag("barrier", "bollard"), Tag("barrier", "chain"), Tag("barrier", "rope"), Tag("barrier", "hampshire_gate"), Tag("barrier", "cattle_grid"), Tag("barrier", "block"), Tag("barrier", "jersey_barrier"), Tag("barrier", "log"), Tag("barrier", "kerb"), Tag("barrier", "height_restrictor"), Tag("barrier", "full-height_turnstile"), Tag("barrier", "turnstile"), Tag("barrier", "debris"), Tag("barrier", "stile"), Tag("barrier", "kissing_gate"), Tag("barrier", "cycle_barrier"), Tag("stile", "squeezer"), Tag("stile", "ladder"), Tag("stile", "stepover"), Tag("material", "wood"), Tag("material", "stone")),
+            "barrier_type/AddBarrierType.kt" to setOf(Tag("barrier", "squeezer"), Tag("barrier", "ladder"), Tag("barrier", "stepover"), Tag("barrier", "entrance"), Tag("barrier", "gate"), Tag("barrier", "lift_gate"), Tag("barrier", "swing_gate"), Tag("barrier", "bollard"), Tag("barrier", "chain"), Tag("barrier", "rope"), Tag("barrier", "hampshire_gate"), Tag("barrier", "cattle_grid"), Tag("barrier", "block"), Tag("barrier", "jersey_barrier"), Tag("barrier", "log"), Tag("barrier", "kerb"), Tag("barrier", "height_restrictor"), Tag("barrier", "full-height_turnstile"), Tag("barrier", "turnstile"), Tag("barrier", "debris"), Tag("barrier", "stile"), Tag("barrier", "kissing_gate"), Tag("barrier", "cycle_barrier"), Tag("stile", "squeezer"), Tag("stile", "ladder"), Tag("stile", "stepover"), Tag("material", "wood"), Tag("material", "stone")),
             "bench_backrest/AddBenchBackrest.kt" to setOf(Tag("leisure", "picnic_table"), Tag("backrest", "yes"), Tag("backrest", "no")),
             "bike_parking_capacity/AddBikeParkingCapacity.kt" to setOf(Tag("check_date:capacity", null), Tag("capacity", null)),
             "bike_parking_cover/AddBikeParkingCover.kt" to setOf(Tag("covered", "yes"), Tag("covered", "no")),
@@ -144,6 +147,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "lanes/AddLanes.kt" to setOf(Tag("lanes", null), Tag("lane_markings", "yes"), Tag("lane_markings", "no"), Tag("lanes:both_ways", "1"), Tag("turn:lanes:both_ways", "left"), Tag("lanes:forward", null), Tag("lanes:backward", null)),
             "max_height/AddMaxHeight.kt" to setOf(Tag("maxheight", null), Tag("maxheight", "default"), Tag("maxheight", "below_default")),
             "max_height/AddMaxPhysicalHeight.kt" to setOf(Tag("maxheight", null), Tag("maxheight:signed", "no"), Tag("source:maxheight", "ARCore")),
+            "memorial_type/AddMemorialType.kt" to setOf(Tag("memorial", "statue"), Tag("memorial", "bust"), Tag("memorial", "plaque"), Tag("memorial", "war_memorial"), Tag("memorial", "stone"), Tag("memorial", "obelisk"), Tag("memorial", "stele"), Tag("memorial", "sculpture"), Tag("material", "wood"), Tag("material", "stone")),
             "motorcycle_parking_capacity/AddMotorcycleParkingCapacity.kt" to setOf(Tag("check_date:capacity", null), Tag("capacity", null)),
             "motorcycle_parking_cover/AddMotorcycleParkingCover.kt" to setOf(Tag("covered", "yes"), Tag("covered", "no")),
             "oneway/AddOneway.kt" to setOf(Tag("oneway", "yes"), Tag("oneway", "-1"), Tag("oneway", "no")),
@@ -369,6 +373,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "applySidewalkAnswerTo",
             "tags[\"material\"] = newMaterial",
             "\$key",
+            "tags[\"sidewalk\"] = sidewalkValue",
             "tags[\"parking:lane:left:\$laneLeft\"]",
             "answer.osmLegalValue?.let { tags[\"drinking_water:legal\"] = it }", // complex structure, done this way to skip osmLegalValue where it is null
         )
@@ -453,16 +458,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 898
+        val tagsFoundPreviously = 992
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 114
+        val processedQuestsPreviously = 118
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
-        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shoulder/AddShoulder.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnPath.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddBarrierOnRoad.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/memorial_type/AddMemorialType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
+        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shoulder/AddShoulder.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/address/AddAddressStreet.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/recycling_material/AddRecyclingContainerMaterials.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shop_type/CheckShopType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
         if (realFailed != knownFailed.size) {
             println("Something changed in processing! failed count $realFailed vs ${knownFailed.size} previously")
         }
@@ -667,23 +672,56 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun addedOrEditedTags(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
-        val appliedTags = mutableSetOf<Tag>()
-        var failedExtraction = false
         val ast = AstSource.String(description, fileSourceCode)
-        val relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
+        var relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
+        if ("answer.applyTo(" !in relevantFunction.relatedSourceCode(fileSourceCode)) {
+            return addedOrEditedTagsWithFoundFunction(description, fileSourceCode, "tags", relevantFunction, suspectedAnswerEnumFiles)
+        } else {
+            suspectedAnswerEnumFiles.forEach { file ->
+                val fileMaybeContainingEnumSourceCode = loadFileFromPath(file.toString())
+                val astWithAlternativeFile = AstSource.String("answer.applyTo( scan", fileMaybeContainingEnumSourceCode)
+                val found = astWithAlternativeFile.parse().extractFunctionByName("applyTo")
+                if(found.size > 1) {
+                    throw ParsingInterpretationException("unexpected")
+                }
+                if(found.size == 1) {
+                    val parameters = found[0].locateSingleOrExceptionByDescriptionDirectChild("functionValueParameters")
+                        .locateByDescriptionDirectChild("functionValueParameter")
+
+                    val identifierOfTheFirst = parameters[0].locateSingleOrExceptionByDescriptionDirectChild("parameter")
+                        .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
+                    val identifierOfTheFirstTree = identifierOfTheFirst.tree()
+                    if(identifierOfTheFirstTree is KlassIdentifier) {
+                        val name = identifierOfTheFirstTree.identifier
+                        if(name == "tags") {
+                            val replacementParameter = "tags"
+                            val replacementFunction = found[0]
+                            val replacementSourceCode = fileMaybeContainingEnumSourceCode
+                            val replacementDescription = file.toString()
+                            return addedOrEditedTagsWithFoundFunction(replacementDescription, replacementSourceCode, replacementParameter, replacementFunction, suspectedAnswerEnumFiles)
+                        } else {
+                            // unsupported TODO
+                            // TODO - variable is not really supported within called function
+                            println("redirected function, not using tags variable - unsupported TODO, exiting")
+                            return null
+                        }
+                    } else {
+                        throw ParsingInterpretationException("unexpected")
+                    }
+                }
+            }
+            println(suspectedAnswerEnumFiles)
+            throw ParsingInterpretationException("FAILED in tthe redirect scan $description")
+        }
+    }
+
+    private fun addedOrEditedTagsWithFoundFunction(description: String, fileSourceCode: String, variable:String, relevantFunction:AstNode, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         if (functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
-            println("skipping $description")
+            println("skipping $description (functionParsingSkippedBasedOnSourceCode)")
             return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
         }
-        if ("answer.applyTo(" in relevantFunction.relatedSourceCode(fileSourceCode)) {
-            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
-            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
-            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
-            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
-            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
-            println("FIND FUNCTION applyTo in suspectedAnswerEnumFiles for $description")
-            return null
-        }
+        val appliedTags = mutableSetOf<Tag>()
+        var failedExtraction = false
         var got = extractCasesWhereTagsAreAccessedWithIndex(description, relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
         if (got != null) {
             appliedTags += got
@@ -790,8 +828,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         }
                         val key = extractTextFromHardcodedString(processed, fileSourceCode)
                         if (key == null) {
-                            print("*****")
-                            print(processed.relatedSourceCode(fileSourceCode))
+                            println("*****")
+                            println(processed.relatedSourceCode(fileSourceCode))
                             throw ParsingInterpretationException("not handled")
                         } else {
                             // assignment (for example tags["highway"] = "steps" ) is expected to have following children:
@@ -921,18 +959,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
 
         val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder, fileSourceCode)
+        val valueHolderSourceCode = valueHolder.relatedSourceCode(fileSourceCode)
         if (valueIfItIsSimpleText != null) {
             appliedTags.add(Tag(key, valueIfItIsSimpleText))
-        } else if (valueHolder.relatedSourceCode(fileSourceCode).endsWith(".toYesNo()")) {
+        } else if (valueHolderSourceCode.endsWith(".toYesNo()")) {
             // previous form of check:
             // in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()", "isAutomated.toYesNo()")
             // maybe treat this hack by proper parse and detect toYesNo() at the end?
             // or maybe this is a valid check given high coupling with StreetComplete being presenrt anyway?
             appliedTags.add(Tag(key, "yes"))
             appliedTags.add(Tag(key, "no"))
-        } else if (valueHolder.relatedSourceCode(fileSourceCode).endsWith(".toCheckDateString()")) {
+        } else if (valueHolderSourceCode.endsWith(".toCheckDateString()")) {
             appliedTags.add(Tag(key, null))
-        } else if (valueHolder.relatedSourceCode(fileSourceCode) == "answer.joinToString(\";\") { it.osmValue }") { // answer.joinToString(";") { it.osmValue }
+        } else if (valueHolderSourceCode == "answer.joinToString(\";\") { it.osmValue }") { // answer.joinToString(";") { it.osmValue }
             //println("answer.joinToString(\";\") { it.osmValue } investigation")
             //valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
             //valueHolder.showRelatedSourceCode("answer.joinToString(\";\") { it.osmValue } investigation", fileSourceCode)
@@ -940,7 +979,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val filtered = valueHolder.locateSingleOrExceptionByDescription("lambdaLiteral").locateSingleOrExceptionByDescriptionDirectChild("statements")
             appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(description, key, filtered, fileSourceCode, suspectedAnswerEnumFiles)
             appliedTags.add(Tag(key, null)) // as it can be joined in basically any combination and listing all permutations would be absurd. Maybe provide comment here of taginfo listing supports this?
-        } else if (valueHolder.relatedSourceCode(fileSourceCode).startsWith("answer.")) {
+        } else if (valueHolderSourceCode.startsWith("answer.") || valueHolderSourceCode.startsWith("this.")) {
             appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(description, key, valueHolder, fileSourceCode, suspectedAnswerEnumFiles)
         } else if (key == "landuse" && "OrchardProduce.kt" in description) {
             /*
@@ -967,7 +1006,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 println()
                 println()
                 println()
-                val explanation = "$description get value (key is known: $key) from <${valueHolder.relatedSourceCode(fileSourceCode)}> somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText"
+                val explanation = "$description get value (key is known: $key) from <${valueHolderSourceCode}> somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText"
                 println(explanation)
                 valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
                 valueHolder.showRelatedSourceCode(explanation, fileSourceCode)
@@ -1137,11 +1176,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             appliedTags.add(Tag(keyString, valueString))
                         } else {
                             val valueAst = extractArgumentSyntaxTreeInFunctionCall(1, accessingTagsWithFunction, fileSourceCode)
-                            if (valueAst.relatedSourceCode(fileSourceCode) == "answer.toYesNo()") {
+                            val valueHolderSourceCode = valueAst.relatedSourceCode(fileSourceCode)
+                            if (valueHolderSourceCode == "answer.toYesNo()") {
                                 // kind of hackish, fix this?
                                 appliedTags.add(Tag(keyString, "yes"))
                                 appliedTags.add(Tag(keyString, "no"))
-                            } else if (valueAst.relatedSourceCode(fileSourceCode) == "answer.osmValue") {
+                            } else if (valueHolderSourceCode == "answer.osmValue") {
                                 var extractedNothing = true
                                 suspectedAnswerEnumFiles.forEach {
                                     getEnumValuesDefinedInThisFilepath(description, it.toString()).forEach { value ->
