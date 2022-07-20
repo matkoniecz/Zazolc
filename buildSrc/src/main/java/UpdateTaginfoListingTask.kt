@@ -1151,6 +1151,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     println(">>>IIIIIIIIIIIIIIIIIIIII> $description")
                                     println(relevantFunction.showRelatedSourceCode(fileSourceCode, "extractCasesWhereTagsAreAccessedWithFunction - extraction failing"))
                                     println(">>>0000000000000000000> $description")
+                                    println(suspectedAnswerEnumFiles)
+                                    println("-1 -1 -1")
+                                    println()
+                                    println()
                                 }
                             }
                         }
