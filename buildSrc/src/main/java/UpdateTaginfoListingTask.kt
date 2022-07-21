@@ -1474,8 +1474,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun Ast.codeRange(): Pair<Int, Int> {
-        val start = tree()!!.humanReadableDescriptionInfo()!!.start
-        val end = tree()!!.humanReadableDescriptionInfo()!!.end
+        val start = tree()!!.astInfoOrNull!!.start.index
+        val end = tree()!!.astInfoOrNull!!.stop.index
         return Pair(start, end)
     }
 
@@ -1483,8 +1483,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (tree() == null) {
             return "<source code not available>"
         }
-        val start = tree()!!.humanReadableDescriptionInfo()!!.start
-        val end = tree()!!.humanReadableDescriptionInfo()!!.end
+        val start = tree()!!.astInfoOrNull!!.start.index
+        val end = tree()!!.astInfoOrNull!!.stop.index
         if (start < 0 || end < 0) {
             return "<source code not available> - stated range was $start to $end index"
         }
@@ -1505,7 +1505,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun Ast.humanReadableTreeWithSourceCode(indent: Int, fileSourceCode: String): List<String> {
         val info = ((this as? AstWithAstInfo)?.info?.toString() ?: "").padEnd(34)
         val infoHuman = humanReadableDescriptionInfo()
-        val self = "$info${"--".repeat(indent)} ${infoHuman?.humanReadableDescription} <${relatedSourceCode(fileSourceCode)}>" // detachRaw()
+        val self = "$info${"--".repeat(indent)} ${infoHuman} <${relatedSourceCode(fileSourceCode)}>" // detachRaw()
         return if (this is AstNode) {
             listOf(self) + children.flatMap { child ->
                 child.humanReadableTreeWithSourceCode(indent + 1, fileSourceCode)
@@ -1522,7 +1522,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun Ast.humanReadableTree(indent: Int): List<String> {
         val info = ((this as? AstWithAstInfo)?.info?.toString() ?: "").padEnd(34)
-        val self = "$info${"  ".repeat(indent)} ${humanReadableDescriptionInfo()?.humanReadableDescription} " // detachRaw()
+        val self = "$info${"  ".repeat(indent)} ${humanReadableDescriptionInfo()} " // detachRaw()
         return if (this is AstNode) {
             listOf(self) + children.flatMap { child ->
                 child.humanReadableTree(indent + 1)
@@ -1640,7 +1640,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return returned
     }
 
-    private fun Ast.humanReadableDescriptionInfo(): ElementInfo? {
+    private fun Ast.humanReadableDescriptionInfo(): String? {
         val current = this.tree() ?: return null
         val textReadable = "$description " + when (current) {
             is KlassDeclaration -> "KlassDeclaration, identifier: ${current.identifier}}"
@@ -1651,10 +1651,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             is KlassString -> "KlassString"
             else -> "??unknown class: ${current::class}"
         }
-        return ElementInfo(textReadable, current.astInfoOrNull!!.start.index, current.astInfoOrNull!!.stop.index) // current.astInfoOrNull!!.start.line, current.astInfoOrNull!!.start.row
+        return textReadable
     }
-
-    class ElementInfo(val humanReadableDescription: String, val start: Int, val end: Int)
 
     private fun AstSource.parse() = KotlinGrammarAntlrKotlinParser.parseKotlinFile(this)
 }
