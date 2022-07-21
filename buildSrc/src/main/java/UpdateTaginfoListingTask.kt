@@ -705,12 +705,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 appliedTags.add(Tag("recycling:${it.possibleValue}", "yes"))
             }
             appliedTags.add(Tag("amenity", "waste_disposal")) // from applyWasteContainerAnswer, harcoded due to complexity HACK :(
-            val modifiedAst = AstSource.String(description, fileSourceCode.replace("tags[material] = \"yes\"", "")) // HACK :(
-            val found = modifiedAst.parse().extractFunctionByName("applyRecyclingMaterialsAnswer")
-            if(found.size != 1) {
-                throw ParsingInterpretationException("unexpected")
-            }
-            val got = addedOrEditedTagsWithFoundFunction(description, fileSourceCode, "tags", found[0], suspectedAnswerEnumFiles)
+            val modifiedile = fileSourceCode.replace("tags[material] = \"yes\"", "") // HACK :(
+            val got = addedOrEditedTagsWithGivenFunction("$description modified code", modifiedile, "tags", "applyRecyclingMaterialsAnswer", suspectedAnswerEnumFiles)
             if (got == null) {
                 return null
             }
@@ -720,17 +716,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("AddStileType - maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
             return null
         } else if("AddCycleway.kt" in description) {
-            val ast = AstSource.String(description, fileSourceCode)
-            val found = ast.parse().extractFunctionByName("applySidewalkAnswerTo")
-            if(found.size != 1) {
-                throw ParsingInterpretationException("unexpected")
-            }
-            var got = addedOrEditedTagsWithFoundFunction(description, fileSourceCode, "tags", found[0], suspectedAnswerEnumFiles)
-            println("Cycleway test run - from applySidewalkAnswerTo $got")
-            if(got == null) {
-                throw ParsingInterpretationException("unexpected")
-            }
-
+            val got = mutableSetOf<Tag>()
+            got += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", "applySidewalkAnswerTo", suspectedAnswerEnumFiles)!!
             val sides = listOf("both", "left", "right") // TODO: get it from parsing
             val directionValue  = listOf("\"yes\"", "\"-1\"") // TODO: get it from parsing
             sides.forEach { side ->
@@ -740,37 +727,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         .replace("val directionValue", "val directionPreservedValue")
                         .replace("directionValue", direction)
 
-                    val astModified = AstSource.String(description, modifiedSourceCode)
-                    val applyCyclewayAnswerToFunction = astModified.parse().extractFunctionByName("applyCyclewayAnswerTo")
-                    if(applyCyclewayAnswerToFunction.size != 1) {
-                        throw ParsingInterpretationException("unexpected")
-                    }
-                    val valuesForThatSide = addedOrEditedTagsWithFoundFunction(description, modifiedSourceCode, "tags", applyCyclewayAnswerToFunction[0], suspectedAnswerEnumFiles)
-                    //println("Cycleway test run with cycleway:$side being applied $valuesForThatSide")
-                    if(valuesForThatSide != null) {
-                        got += valuesForThatSide
-                    } else {
-                        applyCyclewayAnswerToFunction[0].showRelatedSourceCode("WAT", modifiedSourceCode)
-                        throw ParsingInterpretationException("unexpected")
-                    }
+                    got += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applyCyclewayAnswerTo", suspectedAnswerEnumFiles)!!
                 }
             }
-            val valuesFromRegularFunction = addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
-            if(valuesFromRegularFunction != null) {
-                got += valuesFromRegularFunction
-            } else {
-                throw ParsingInterpretationException("unexpected")
-            }
-            return got
+            return got + addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
         }
         return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
     }
 
     private fun addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode)
-        val relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
-        if ("answer.applyTo(" !in relevantFunction.relatedSourceCode(fileSourceCode)) {
-            return addedOrEditedTagsWithFoundFunction(description, fileSourceCode, "tags", relevantFunction, suspectedAnswerEnumFiles)
+        val defaultFunction = getAstTreeForFunctionEditingTags(description, ast)
+        if ("answer.applyTo(" !in defaultFunction.relatedSourceCode(fileSourceCode)) {
+            return addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
         } else {
             suspectedAnswerEnumFiles.forEach { file ->
                 val fileMaybeContainingEnumSourceCode = loadFileText(file)
@@ -796,10 +765,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         val name = identifierOfTheFirstTree.identifier
                         if(name == "tags") {
                             val replacementParameter = "tags"
-                            val replacementFunction = found[0]
+                            val replacementFunctionName = "applyTo"
                             val replacementSourceCode = fileMaybeContainingEnumSourceCode
                             val replacementDescription = file.toString()
-                            return addedOrEditedTagsWithFoundFunction(replacementDescription, replacementSourceCode, replacementParameter, replacementFunction, suspectedAnswerEnumFiles)
+                            return addedOrEditedTagsWithGivenFunction(replacementDescription, replacementSourceCode, replacementParameter, replacementFunctionName, suspectedAnswerEnumFiles)
                         } else {
                             // unsupported TODO
                             // TODO - variable is not really supported within called function
@@ -816,7 +785,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun addedOrEditedTagsWithFoundFunction(description: String, fileSourceCode: String, variable:String, relevantFunction:AstNode, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+    private fun addedOrEditedTagsWithGivenFunction(description: String, fileSourceCode: String, variable:String, relevantFunctionName:String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+        val ast = AstSource.String(description, fileSourceCode)
+        val found = ast.parse().extractFunctionByName(relevantFunctionName)
+        if(found.size != 1) {
+            throw ParsingInterpretationException("unexpected - found ${found.size} functions by name in $description")
+        }
+        val relevantFunction = found[0]
         if (functionParsingSkippedBasedOnSourceCode(description, relevantFunction.relatedSourceCode(fileSourceCode))) {
             return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
         }
