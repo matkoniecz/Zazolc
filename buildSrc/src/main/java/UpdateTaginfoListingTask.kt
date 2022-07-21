@@ -812,9 +812,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
 
         if (appliedTags.size == 0) {
-            println("addedOrEditedTags - failed to extract anything at all from ${description}! Will present HumanReadableTreeWithSourceCode")
-            relevantFunction.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
-            println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented HumanReadableTreeWithSourceCode, will present source code")
+            //println("addedOrEditedTags - failed to extract anything at all from ${description}! Will present HumanReadableTreeWithSourceCode")
+            //relevantFunction.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
+            //println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented HumanReadableTreeWithSourceCode, will present source code")
+            println("addedOrEditedTags - failed to extract anything at all from ${description}! Will present function sourceCode")
             relevantFunction.showRelatedSourceCode(description, fileSourceCode)
             println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented function sourceCode")
         }
@@ -951,7 +952,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun getEnumValuesDefinedInThisFile(description:String, file:File): Set<EnumFieldState>{
+    private fun getEnumValuesDefinedInThisFile(description:String, file:File, debug:Boolean=false): Set<EnumFieldState>{
         val filepath = file.path // TODO - eliminate
         val values = mutableSetOf<EnumFieldState>()
         val fileMaybeContainingEnumSourceCode = loadFileText(file)
@@ -1020,7 +1021,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
         }
-        if(values.size == 0) {
+        if(values.size == 0 && debug) {
             println("enum extraction from $filepath failed! $enumsTried potential enums tried ($description request)")
         }
         return values
@@ -1144,7 +1145,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     val whenExpression = it.locateSingleOrNullByDescription("whenExpression")
                     if(whenExpression != null) {
                         extractValuesForKnownKeyFromWhenExpression(description, "dummykey", whenExpression, code, listOf<File>()).forEach{
-                            println("OBTAINED FROM WHEN IN CLASS DECLARATION! $description $key=${it.value}")
+                            //println("OBTAINED FROM WHEN IN CLASS DECLARATION! $description $key=${it.value}")
                             appliedTags.add(Tag(key, it.value))
                             extractedSomething = true
                         }
