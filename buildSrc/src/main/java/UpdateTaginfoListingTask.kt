@@ -778,6 +778,52 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
             return got + addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+        } else if ("AddRoadSurface.kt" in description || "AddPathSurface.kt" in description
+            || "AddFootwayPartSurface.kt" in description || "AddCyclewayPartSurface.kt" in description || "AddPitchSurface.kt" in description) {
+            val surfacesFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
+            val surfaces = getEnumValuesDefinedInThisFile("surface/Surface.kt hack", surfacesFile)
+            // TODO actually pitch surfaces are more limited - parse it from Surface.kt file
+            // maybe even parse from AddPitchSurface.kt itself?
+            val ast = AstSource.String(description, fileSourceCode)
+            val functionToGetForm = ast.parse().extractFunctionByName("createForm")!!
+            functionToGetForm.showHumanReadableTreeWithSourceCode("createForm function", fileSourceCode)
+            functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
+                .locateSingleOrExceptionByDescription("simpleIdentifier")
+                .showRelatedSourceCode("should be surface form class", fileSourceCode)
+            val formUsed = functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
+                .locateSingleOrExceptionByDescription("simpleIdentifier")
+                .relatedSourceCode(fileSourceCode)
+            println(formUsed)
+            // and how the heck get here form file to parse it?
+            val formFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/$formUsed.kt")
+            val formFileCode = loadFileText(formFile)
+            val astForm = AstSource.String(description, formFileCode).parse()
+            astForm.showHumanReadableTreeWithSourceCode("file with form definition, to get access to surface groups", formFileCode)
+            astForm.locateByDescription("classMemberDeclaration").forEach {
+                val declaration = it.locateSingleOrExceptionByDescriptionDirectChild("declaration")
+                val propertyDeclaration = declaration.locateSingleOrNullByDescriptionDirectChild("propertyDeclaration")
+                if(propertyDeclaration != null) {
+                    val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
+                    val getter = propertyDeclaration.locateSingleOrNullByDescription("getter")
+                    if(variableDeclaration != null && getter != null && variableDeclaration.relatedSourceCode(formFileCode) == "items") {
+                        println()
+                        println()
+                        getter.locateByDescription("Identifier").forEach {
+                            it.showRelatedSourceCode("Identifier", formFileCode)
+                        }
+                        println()
+                    }
+                }
+            }
+            //val propertyToGetSurfaces = ast.
+            val surfacesFileCode = loadFileText(surfacesFile)
+            val astSurfaceGroupsDefinitions = AstSource.String(surfacesFile.name, surfacesFileCode).parse()
+            //astSurfaceGroupsDefinitions.showHumanReadableTreeWithSourceCode("file with xurface groups definitions, to get access to their structure", surfacesFileCode)
+            astSurfaceGroupsDefinitions.locateByDescription("topLevelObject").forEach {
+                println("topLevelObject")
+                it.showHumanReadableTreeWithSourceCode("topLevelObject - surface group file", surfacesFileCode)
+            }
+            return null
         } else if ("AddBikeParkingFee.kt" in description || "AddParkingFee.kt" in description) {
             val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
             val fromFee = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, feeApplyTo, fileSourceCode, suspectedAnswerEnumFiles)
@@ -790,6 +836,18 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
     }
+
+    open class Parameter()
+    class StringParameter(val text: String): Parameter() { // "text" string, for example
+        override fun toString(): String {
+            return "text $text"
+        }
+    }
+    class IdentifierParameter(val identifier: String): Parameter(){ // tags variable, for example
+    override fun toString(): String {
+        return "identifier $identifier"
+    }
+}
 
     private fun addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode).parse()
@@ -839,28 +897,52 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         if(parameters.size > 1) {
-                    }
-                    if(identifierOfTheFirstTree is KlassIdentifier) {
-                        val name = identifierOfTheFirstTree.identifier
-                        if(name == "tags") {
-                            val replacementParameter = "tags"
-                            val replacementFunctionName = "applyTo"
-                            val replacementSourceCode = fileMaybeContainingEnumSourceCode
-                            val replacementDescription = file.toString()
-                            return addedOrEditedTagsWithGivenFunction(replacementDescription, replacementSourceCode, replacementParameter, replacementFunctionName, suspectedAnswerEnumFiles)
-                        } else {
-                            // unsupported TODO
-                            // TODO - variable is not really supported within called function
-                            println("redirected function, not using tags variable - unsupported TODO, exiting")
-                            return null
-                        }
-                    } else {
-                        throw ParsingInterpretationException("unexpected")
-                    }
-                }
+            println("DECOMPOSITION")
+            println("DECOMPOSITION")
+            println("DECOMPOSITION")
+            println(defaultFunction.relatedSourceCode(originalFileSourceCode))
+            val statements = defaultFunction.locateByDescription("statements")
+            if (statements.size > 1) {
+                println("unexpectedly many statements")
+                return null
             }
-            println(suspectedAnswerEnumFiles)
-            throw ParsingInterpretationException("FAILED in tthe redirect scan $description")
+            defaultFunction.locateSingleOrExceptionByDescription("statements")
+                .locateByDescription("statement").forEach {
+                    val getDownInTree = it.locateSingleOrExceptionByDescriptionDirectChild("expression")
+                        .locateSingleOrExceptionByDescriptionDirectChild("disjunction")
+                        .locateSingleOrExceptionByDescriptionDirectChild("conjunction")
+                        .locateSingleOrExceptionByDescriptionDirectChild("equality")
+                        .locateSingleOrExceptionByDescriptionDirectChild("comparison")
+                        .locateSingleOrExceptionByDescriptionDirectChild("genericCallLikeComparison")
+                        // yes, it is absurd. No idea what is going on here
+                        .locateSingleOrExceptionByDescriptionDirectChild("infixOperation")
+                        .locateSingleOrExceptionByDescriptionDirectChild("elvisExpression")
+                        .locateSingleOrExceptionByDescriptionDirectChild("infixFunctionCall")
+                        .locateSingleOrExceptionByDescriptionDirectChild("rangeExpression")
+                        .locateSingleOrExceptionByDescriptionDirectChild("additiveExpression")
+                        // wtf
+                        .locateSingleOrExceptionByDescriptionDirectChild("multiplicativeExpression")
+                        .locateSingleOrExceptionByDescriptionDirectChild("asExpression")
+                        .locateSingleOrExceptionByDescriptionDirectChild("prefixUnaryExpression")
+                        .locateSingleOrExceptionByDescriptionDirectChild("postfixUnaryExpression")
+                    val primaryExpression = getDownInTree.locateSingleOrExceptionByDescriptionDirectChild("primaryExpression")
+                    val postfixUnarySuffixes = getDownInTree.locateByDescriptionDirectChild("postfixUnarySuffix")
+                    if (primaryExpression.relatedSourceCode(originalFileSourceCode) != "answer") {
+                        throw ParsingInterpretationException("Investigate and replace by a proper check once this is triggered")
+                    }
+                    if (postfixUnarySuffixes[0].relatedSourceCode(originalFileSourceCode) != ".applyTo") {
+                        throw ParsingInterpretationException("Inverstogate and replace by a proper check once this is triggered")
+                    }
+                    if(postfixUnarySuffixes.size > 2) {
+                        throw ParsingInterpretationException("No support yet")
+                    }
+                    postfixUnarySuffixes[postfixUnarySuffixes.size-1]
+                        .locateSingleOrExceptionByDescriptionDirectChild("callSuffix")
+                        .showHumanReadableTreeWithSourceCode("AAAAAAAAAAAAAAAAAAAAA callSuffix", originalFileSourceCode)
+                }
+            println("DECOMPOSITION")
+            println("DECOMPOSITION")
+            println("DECOMPOSITION")
             println("$description - parametersInCalledFunction in file ${fileWithRedirectedFunction.name} $parametersInCalledFunction")
             println("No support yet")
             return null
@@ -1672,8 +1754,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println()
         println("Found in $name:")
         found.forEach { it.showHumanReadableTree() }
-
     }
+
     private fun Ast.locateSingleOrExceptionByDescription(filter: String, debug: Boolean = false): AstNode {
         val found = locateByDescription(filter, debug)
         if (found.size != 1) {
