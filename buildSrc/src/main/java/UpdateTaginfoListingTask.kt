@@ -741,10 +741,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 if(found.size == 1) {
                     val parameters = found[0].locateSingleOrExceptionByDescriptionDirectChild("functionValueParameters")
                         .locateByDescriptionDirectChild("functionValueParameter")
+                    if(parameters.isEmpty()) {
+                        throw ParsingInterpretationException("unsupported")
+                    }
 
                     val identifierOfTheFirst = parameters[0].locateSingleOrExceptionByDescriptionDirectChild("parameter")
                         .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
                     val identifierOfTheFirstTree = identifierOfTheFirst.tree()
+                    for(i in 1 until parameters.size) {
+                        println("redirected function has parameter: ${parameters[i].locateSingleOrExceptionByDescriptionDirectChild("parameter")}")
+                    }
                     if(identifierOfTheFirstTree is KlassIdentifier) {
                         val name = identifierOfTheFirstTree.identifier
                         if(name == "tags") {
