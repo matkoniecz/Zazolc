@@ -380,7 +380,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "fee.applyTo(tags)",
             "tags[\"\$key:note\"]",
             "tags[\"material\"] = newMaterial",
-            "tags[\"sidewalk\"] = sidewalkValue",
             "tags[\"parking:lane:left:\$laneLeft\"]",
             "answer.osmLegalValue?.let { tags[\"drinking_water:legal\"] = it }", // complex structure, done this way to skip osmLegalValue where it is null
         )
@@ -481,7 +480,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt",
@@ -694,6 +692,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun addedOrEditedTags(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         if("AddAddressStreet" in description) {
             return setOf(Tag("addr:street", null), Tag("addr:place", null))
+        } else if("AddSidewalk.kt" in description) {
+           return setOf(Tag("sidewalk", "no"), Tag("sidewalk", "both"), Tag("sidewalk", "left"),
+               Tag("sidewalk", "right"), Tag("sidewalk", "separate"),
+               Tag(surveyMarkKeyBasedOnKey("sidewalk"), null),
+               Tag("sidewalk:left", "no"), Tag("sidewalk:left", "yes"), Tag("sidewalk:left", "separate"),
+               Tag("sidewalk:right", "no"), Tag("sidewalk:right", "yes"), Tag("sidewalk:right", "separate"),
+           )
         } else if("AddRecyclingContainerMaterials" in description) {
             val appliedTags = mutableSetOf<Tag>()
             val file = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
@@ -1238,6 +1243,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
+    private fun surveyMarkKeyBasedOnKey(key:String):String {
+        // TODO - can we directly call relevant StreetComplete code?
+        return "$SURVEY_MARK_KEY:$key"
+    }
+
     private fun extractCasesWhereTagsAreAccessedWithFunction(description:String, relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         // it is trying to detect things like
         // tags.updateWithCheckDate("smoking", answer.osmValue)
@@ -1259,7 +1269,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     // only check data for
                     val keyString = extractStringLiteralArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
                     if (keyString != null) {
-                        appliedTags.add(Tag("$SURVEY_MARK_KEY:$keyString", null))
+                        appliedTags.add(Tag(surveyMarkKeyBasedOnKey(keyString), null))
                     }
                 } else if (functionName ==  "updateWithCheckDate") {
                     var keyString = extractStringLiteralArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
