@@ -288,8 +288,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val returned = mutableSetOf<String>()
         val fileSourceCode = loadFileFromPath(path)
         val ast = AstSource.String(path, fileSourceCode)
-        ast.parse().locateByDescription("importList").forEach {
-            it.locateByDescription("importHeader").forEach {
+        ast.parse().locateByDescription("importList").forEach { importList ->
+            importList.locateByDescription("importHeader").forEach {
                 if(it is DefaultAstNode) {
                     areDirectChildrenMatchingStructureThrowExceptionIfNot("checking import file structure for $path", listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace=false)
                     val imported = it.locateSingleOrExceptionByDescriptionDirectChild("identifier")
