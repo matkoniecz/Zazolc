@@ -628,6 +628,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (key.endsWith(":conditional")) {
             return true
         }
+        if (key.endsWith(":wikidata")) {
+            return true
+        }
+        if (key.endsWith(":wikipedia")) {
+            return true
+        }
         if (key.startsWith("lanes:")) {
             return true
         }
