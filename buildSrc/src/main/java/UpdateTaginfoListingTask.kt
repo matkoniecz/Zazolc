@@ -229,17 +229,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val folder = folderGenerator.next()
             var foundQuestFile = false
 
-            val suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(folder)
-
             File(folder.toString()).walkTopDown().forEach {
                 if(it.isFile) {
-                    val suspectedAnswerEnumFilesForThisFile = suspectedAnswerEnumFilesBasedOnFolder + candidatesForEnumFilesBasedOnImports(it)
                     if (isQuestFile(it)) {
                         foundQuestFile = true
                         val fileSourceCode = loadFileText(it)
                         val got:Set<Tag>?
                         try {
-                            got = addedOrEditedTags(it.name, fileSourceCode, suspectedAnswerEnumFilesForThisFile)
+                            got = addedOrEditedTags(it)
                         } catch (e: ParsingInterpretationException) {
                             print(it.name)
                             throw e
@@ -692,7 +689,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return found
     }
 
-    private fun addedOrEditedTags(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+    private fun addedOrEditedTags(file:File): Set<Tag>? {
+        val suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(file.parentFile)
+        val suspectedAnswerEnumFiles = suspectedAnswerEnumFilesBasedOnFolder + candidatesForEnumFilesBasedOnImports(file)
+
+        val description = file.parentFile.name + File.separator + file.name
+        val fileSourceCode = loadFileText(file)
+        // TODO hardcoding is ugly and ideally would be replaced
         if("AddAddressStreet" in description) {
             return setOf(Tag("addr:street", null), Tag("addr:place", null))
         } else if("AddSidewalk.kt" in description) {
@@ -704,8 +707,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
            )
         } else if("AddRecyclingContainerMaterials" in description) {
             val appliedTags = mutableSetOf<Tag>()
-            val file = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
-            val materials = getEnumValuesDefinedInThisFile("RecyclingMaterial hack", file)
+            val recylingMaterialsFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
+            val materials = getEnumValuesDefinedInThisFile("RecyclingMaterial hack", recylingMaterialsFile)
             materials.forEach{
                 appliedTags.add(Tag("recycling:${it.possibleValue}", "yes"))
             }
