@@ -235,7 +235,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     if (isQuestFile(it)) {
                         foundQuestFile = true
                         val fileSourceCode = loadFileFromPath(it.toString())
-                        var got:Set<Tag>?
+                        val got:Set<Tag>?
                         try {
                             got = addedOrEditedTags(it.name, fileSourceCode, suspectedAnswerEnumFilesForThisFile)
                         } catch (e: ParsingInterpretationException) {
@@ -321,7 +321,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (".kt" !in file.name) {
             return false
         }
-        var banned = listOf("SelectPuzzle.kt", "Form.kt", "Util.kt", "Utils.kt", "Adapter.kt",
+        val banned = listOf("SelectPuzzle.kt", "Form.kt", "Util.kt", "Utils.kt", "Adapter.kt",
             "Drawable.kt", "Dao.kt", "Dialog.kt", "Item.kt", "RotateContainer.kt")
         banned.forEach { if(it in file.name) {
                 return false
@@ -340,8 +340,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (".kt" !in file.name) {
             return false
         }
-        var banned = listOf("Form.kt", "Adapter.kt", "Utils.kt")
-        banned.forEach { if(it in file.name) {
+        listOf("Form.kt", "Adapter.kt", "Utils.kt").forEach { if(it in file.name) {
                 return false
             }
         }
@@ -391,9 +390,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun possibleLanguageTags(): MutableSet<String> {
         val languageTags = mutableSetOf("name", "int_name")
-        File(COUNTRY_METADATA_PATH_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach {
-            if (it.isFile) {
-                val test = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileFromPath(it.toString()))
+        File(COUNTRY_METADATA_PATH_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { file ->
+            if (file.isFile) {
+                val test = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileFromPath(file.toString()))
                 val langs = test.officialLanguages + test.additionalStreetsignLanguages
                 if(langs.size > 1) {
                     // international counts for purposes of triggering multi-language support
@@ -437,10 +436,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return
         }
         relevantFunction.showRelatedSourceCode("inspected function", fileSourceCode)
-        if (got != null) {
-            println(got)
-            println(tagSetToReproducibleCode(got, filepath))
-        }
+        println(got)
+        println(tagSetToReproducibleCode(got, filepath))
         println("-----------------")
         println()
     }
