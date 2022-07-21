@@ -1165,7 +1165,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                 } else if (functionName ==  "updateWithCheckDate") {
                     var keyString = extractStringLiteralArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
-                    val valueString = extractStringLiteralArgumentInFunctionCall(description, 1, accessingTagsWithFunction, fileSourceCode) // WOMP WOPO TODO?
+                    val valueString = extractStringLiteralArgumentInFunctionCall(description, 1, accessingTagsWithFunction, fileSourceCode)
 
                     // fold it into extractArgumentInFunctionCall?
                     // try to automatically obtain this constants?
