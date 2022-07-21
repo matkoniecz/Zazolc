@@ -684,15 +684,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun getAstTreeForFunctionEditingTags(description: String, ast: AstSource.String): AstNode {
         val found = ast.parse().extractFunctionByName(NAME_OF_FUNCTION_EDITING_TAGS)
-        if (found.isEmpty()) {
+        if (found == null) {
             println("$NAME_OF_FUNCTION_EDITING_TAGS not found in $description")
             exitProcess(1)
         }
-        if (found.size != 1) {
-            println("unexpected function count found")
-            exitProcess(1)
-        }
-        return found[0]
+        return found
     }
 
     private fun addedOrEditedTags(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
@@ -754,11 +750,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 val fileMaybeContainingEnumSourceCode = loadFileText(file)
                 val astWithAlternativeFile = AstSource.String("answer.applyTo( scan", fileMaybeContainingEnumSourceCode)
                 val found = astWithAlternativeFile.parse().extractFunctionByName("applyTo")
-                if(found.size > 1) {
-                    throw ParsingInterpretationException("unexpected")
-                }
-                if(found.size == 1) {
-                    val parameters = found[0].locateSingleOrExceptionByDescriptionDirectChild("functionValueParameters")
+                if(found != null) {
+                    val parameters = found.locateSingleOrExceptionByDescriptionDirectChild("functionValueParameters")
                         .locateByDescriptionDirectChild("functionValueParameter")
                     if(parameters.isEmpty()) {
                         throw ParsingInterpretationException("unsupported")
@@ -796,11 +789,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun addedOrEditedTagsWithGivenFunction(description: String, fileSourceCode: String, variable:String, relevantFunctionName:String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode)
-        val found = ast.parse().extractFunctionByName(relevantFunctionName)
-        if(found.size != 1) {
-            throw ParsingInterpretationException("unexpected - found ${found.size} functions by name in $description")
-        }
-        val relevantFunction = found[0]
+        val relevantFunction = ast.parse().extractFunctionByName(relevantFunctionName)!!
         if (functionParsingSkippedBasedOnSourceCode(description, relevantFunction.relatedSourceCode(fileSourceCode))) {
             return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
         }
@@ -1635,14 +1624,25 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return returned
     }
 
-    private fun Ast.extractFunctionByName(functionName: String): List<AstNode> {
+    private fun Ast.extractFunctionByName(functionName: String): AstNode? {
+        val got = extractAllFunctionsByName(functionName)
+        if(got.size > 1) {
+            throw ParsingInterpretationException("expected one function, got multiple")
+        }
+        if(got.isEmpty()) {
+            return null
+        }
+        return got[0]
+    }
+
+    private fun Ast.extractAllFunctionsByName(functionName: String): List<AstNode> {
         if (description == "functionDeclaration") {
             if (this is AstNode) {
                 children.forEach {
                     if (it.description == "simpleIdentifier" && it.tree() is KlassIdentifier && ((it.tree() as KlassIdentifier).identifier == functionName)) {
                         // this.showHumanReadableTree()
                         return listOf(this) + children.flatMap { child ->
-                            child.extractFunctionByName(functionName)
+                            child.extractAllFunctionsByName(functionName)
                         }
                     }
                 }
@@ -1652,7 +1652,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         return if (this is AstNode) {
             children.flatMap { child ->
-                child.extractFunctionByName(functionName)
+                child.extractAllFunctionsByName(functionName)
             }
         } else {
             listOf()
