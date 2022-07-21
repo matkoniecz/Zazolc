@@ -1143,7 +1143,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun provideTagsBasedOnAswerDataStructuresFromExternalFiles(description:String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
+    private fun provideTagsBasedOnAswerDataStructuresFromExternalFiles(description:String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>, debug:Boolean=false): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         var extractedSomething = false
         suspectedAnswerEnumFiles.forEach {
@@ -1154,6 +1154,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 val identifier = (accessIdentifierAst.tree() as KlassIdentifier).identifier
                 if (value.identifier == identifier) {
                     appliedTags.add(Tag(key, value.possibleValue))
+                    if(debug) {
+                        println("$key=${value.possibleValue} registered based on ${value.identifier} identifier matching expected ${identifier} - from ${it.name}")
+                    }
                 }
                 extractedSomething = true
             }
@@ -1188,7 +1191,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     val whenExpression = it.locateSingleOrNullByDescription("whenExpression")
                     if(whenExpression != null) {
                         extractValuesForKnownKeyFromWhenExpression(description, "dummykey", whenExpression, code, listOf<File>()).forEach{
-                            //println("OBTAINED FROM WHEN IN CLASS DECLARATION! $description $key=${it.value}")
+                            if(debug) {
+                                println("OBTAINED FROM WHEN IN CLASS DECLARATION! $description $key=${it.value}")
+                            }
                             appliedTags.add(Tag(key, it.value))
                             extractedSomething = true
                         }
