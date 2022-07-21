@@ -427,11 +427,24 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val relevantFunction = getAstTreeForFunctionEditingTags(filepath, ast)
         if (mismatch) {
             println()
-            println("-----------------")
-            println(filepath)
-            println()
+            println("----------------- $filepath")
+            println("Got")
             println(got)
+            println()
+            println("Was expected:")
             println(EXPECTED_TAG_PER_QUEST[filepath])
+            println()
+            if(got == null) {
+                "got empty input"
+            }
+            if(EXPECTED_TAG_PER_QUEST[filepath] != null && got != null) {
+                println("Expected, was missing:")
+                println(EXPECTED_TAG_PER_QUEST[filepath]!!.filter { it !in got })
+                println()
+                println("Unexpected, was present:")
+                println(got.filter { it !in EXPECTED_TAG_PER_QUEST[filepath]!! })
+            }
+            println()
             println(tagSetToReproducibleCode(got, filepath))
             println("MISMATCH")
             println("MISMATCH")
