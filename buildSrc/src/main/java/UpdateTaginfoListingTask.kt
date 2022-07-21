@@ -1158,13 +1158,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     )
                 ) {
                     // only check data for
-                    val keyString = extractArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
+                    val keyString = extractStringLiteralArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
                     if (keyString != null) {
                         appliedTags.add(Tag("$SURVEY_MARK_KEY:$keyString", null))
                     }
                 } else if (functionName ==  "updateWithCheckDate") {
-                    var keyString = extractArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
-                    val valueString = extractArgumentInFunctionCall(description, 1, accessingTagsWithFunction, fileSourceCode) // WOMP WOPO TODO?
+                    var keyString = extractStringLiteralArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
+                    val valueString = extractStringLiteralArgumentInFunctionCall(description, 1, accessingTagsWithFunction, fileSourceCode) // WOMP WOPO TODO?
 
                     // fold it into extractArgumentInFunctionCall?
                     // try to automatically obtain this constants?
@@ -1320,7 +1320,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return extractArgumentListSyntaxTreeInFunctionCall(ast)[index]
     }
 
-    private fun extractArgumentInFunctionCall(description:String, index: Int, ast: AstNode, fileSourceCode: String): String? {
+    private fun extractStringLiteralArgumentInFunctionCall(description:String, index: Int, ast: AstNode, fileSourceCode: String): String? {
         val found = extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
         if (found == null) {
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
@@ -1337,12 +1337,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 val stringObject = (found.children[0].tree() as KlassString).children[0]
                 return (stringObject as StringComponentRaw).string
             } else {
-                // TODO maybe handle this?
                 /*
+                val explanation = "$description - unhandled extraction of $index function parameter - child is not stringLiteral"
                 found.showHumanReadableTree()
                 extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode("unhandled extracting index $index - not string", fileSourceCode)
                 println("unhandled key access")
-                */
+                println(explanation)
+                //throw ParsingInterpretationException(explanation)
+                 */
                 return null
             }
         } else {
