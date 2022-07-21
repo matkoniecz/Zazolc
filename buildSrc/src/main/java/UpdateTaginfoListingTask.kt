@@ -328,7 +328,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         listOf("OsmFilterQuestType.kt", "MapDataWithGeometry.kt", "Element.kt", "Tags.kt",
-            "OsmElementQuestType.kt").forEach {
+            "OsmElementQuestType.kt", "CountryInfos.kt").forEach {
             if(it == file.name) {
                 return false
             }
