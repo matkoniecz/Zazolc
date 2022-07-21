@@ -180,6 +180,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "segregated/AddCyclewaySegregation.kt" to setOf(Tag("check_date:segregated", null), Tag("segregated", "yes"), Tag("segregated", "no")),
             "self_service/AddSelfServiceLaundry.kt" to setOf(Tag("self_service", "no"), Tag("laundry_service", "yes"), Tag("self_service", "yes"), Tag("laundry_service", "no")),
             "shop_type/CheckShopType.kt" to setOf(Tag("check_date", null)), // NSI tags ignored, see https://github.com/streetcomplete/StreetComplete/issues/4225#issuecomment-1190487094
+            "shoulder/AddShoulder.kt" to setOf(Tag("shoulder", "both"), Tag("shoulder", "left"), Tag("shoulder", "right"), Tag("shoulder", "no")),
             "smoking/AddSmoking.kt" to setOf(Tag("check_date:smoking", null), Tag("smoking", "yes"), Tag("smoking", "outside"), Tag("smoking", "no"), Tag("smoking", "separated")),
             "sport/AddSport.kt" to setOf(Tag("sport", "multi"), Tag("sport", "soccer"), Tag("sport", "tennis"), Tag("sport", "basketball"), Tag("sport", "golf"), Tag("sport", "volleyball"), Tag("sport", "beachvolleyball"), Tag("sport", "skateboard"), Tag("sport", "shooting"), Tag("sport", "baseball"), Tag("sport", "athletics"), Tag("sport", "table_tennis"), Tag("sport", "gymnastics"), Tag("sport", "boules"), Tag("sport", "handball"), Tag("sport", "field_hockey"), Tag("sport", "ice_hockey"), Tag("sport", "american_football"), Tag("sport", "equestrian"), Tag("sport", "archery"), Tag("sport", "roller_skating"), Tag("sport", "badminton"), Tag("sport", "cricket"), Tag("sport", "rugby"), Tag("sport", "bowls"), Tag("sport", "softball"), Tag("sport", "racquet"), Tag("sport", "ice_skating"), Tag("sport", "paddle_tennis"), Tag("sport", "australian_football"), Tag("sport", "canadian_football"), Tag("sport", "netball"), Tag("sport", "gaelic_games"), Tag("sport", "sepak_takraw"), Tag("sport", null)),
             "step_count/AddStepCount.kt" to setOf(Tag("step_count", null)),
@@ -460,16 +461,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 1017
+        val tagsFoundPreviously = 1021
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 121
+        val processedQuestsPreviously = 122
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
-        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/shoulder/AddShoulder.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
+        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
         if (realFailed != knownFailed.size) {
             println("Something changed in processing! failed count $realFailed vs ${knownFailed.size} previously")
         }
@@ -1063,6 +1064,45 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 extractedSomething = true
             }
         }
+        if(!freeformKey(key)) {
+            // with freeform keys heuristic below will just get
+            // variable such as capacity and will get confused
+            // It is possible to get it working but not worth it right now
+            suspectedAnswerEnumFiles.forEach { file ->
+                /*
+                //far more parsing is possible here to avoid false positives
+                //to obtain possible values from files like this:
+
+                package de.westnordost.streetcomplete.quests.shoulder
+
+                data class ShoulderSides(val left: Boolean, val right: Boolean)
+
+                val ShoulderSides.osmValue: String get() = when {
+                    left && right -> "both"
+                    left -> "left"
+                    right -> "right"
+                    else -> "no"
+                }
+                 */
+                val code = loadFileText(file)
+                val ast = AstSource.String("data class parsing", code).parse()
+                val classDeclarations = ast.locateByDescription("classDeclaration")
+                if (classDeclarations.isEmpty()) {
+                    return@forEach
+                }
+                ast.locateByDescription("propertyDeclaration").forEach {
+                    val whenExpression = it.locateSingleOrNullByDescription("whenExpression")
+                    if(whenExpression != null) {
+                        extractValuesForKnownKeyFromWhenExpression(description, "dummykey", whenExpression, code, listOf<File>()).forEach{
+                            println("OBTAINED FROM WHEN IN CLASS DECLARATION! $description $key=${it.value}")
+                            appliedTags.add(Tag(key, it.value))
+                            extractedSomething = true
+                        }
+                    }
+                }
+            }
+        }
+
         if (!extractedSomething) {
             appliedTags.add(Tag(key, null))
             if( freeformKey(key) || streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, key)) {
