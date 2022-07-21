@@ -128,6 +128,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "crossing/AddCrossing.kt" to setOf(Tag("highway", "crossing"), Tag("check_date:kerb", null), Tag("kerb", "raised"), Tag("kerb", "lowered"), Tag("kerb", "flush"), Tag("kerb", "no")),
             "crossing_island/AddCrossingIsland.kt" to setOf(Tag("crossing:island", "yes"), Tag("crossing:island", "no")),
             "crossing_type/AddCrossingType.kt" to setOf(Tag("crossing:island", "yes"), Tag("check_date:crossing", null), Tag("crossing", "traffic_signals"), Tag("crossing", "marked"), Tag("crossing", "unmarked")),
+            "cycleway/AddCycleway.kt" to setOf(Tag("sidewalk", "both"), Tag("cycleway:both", "no"), Tag("cycleway:both", "lane"), Tag("cycleway:both:oneway", "yes"), Tag("cycleway:both:lane", "exclusive"), Tag("cycleway:both:lane", "advisory"), Tag("cycleway:both", "track"), Tag("cycleway:both:segregated", "yes"), Tag("cycleway:both:oneway", "no"), Tag("cycleway:both:segregated", "no"), Tag("cycleway:both", "shared_lane"), Tag("cycleway:both:lane", "pictogram"), Tag("cycleway:both", "share_busway"), Tag("cycleway:both", "separate"), Tag("cycleway:both:oneway", "-1"), Tag("cycleway:left", "no"), Tag("cycleway:left", "lane"), Tag("cycleway:left:oneway", "yes"), Tag("cycleway:left:lane", "exclusive"), Tag("cycleway:left:lane", "advisory"), Tag("cycleway:left", "track"), Tag("cycleway:left:segregated", "yes"), Tag("cycleway:left:oneway", "no"), Tag("cycleway:left:segregated", "no"), Tag("cycleway:left", "shared_lane"), Tag("cycleway:left:lane", "pictogram"), Tag("cycleway:left", "share_busway"), Tag("cycleway:left", "separate"), Tag("cycleway:left:oneway", "-1"), Tag("cycleway:right", "no"), Tag("cycleway:right", "lane"), Tag("cycleway:right:oneway", "yes"), Tag("cycleway:right:lane", "exclusive"), Tag("cycleway:right:lane", "advisory"), Tag("cycleway:right", "track"), Tag("cycleway:right:segregated", "yes"), Tag("cycleway:right:oneway", "no"), Tag("cycleway:right:segregated", "no"), Tag("cycleway:right", "shared_lane"), Tag("cycleway:right:lane", "pictogram"), Tag("cycleway:right", "share_busway"), Tag("cycleway:right", "separate"), Tag("cycleway:right:oneway", "-1"), Tag("oneway:bicycle", "no"), Tag("check_date:cycleway", null)),
             "defibrillator/AddIsDefibrillatorIndoor.kt" to setOf(Tag("indoor", "yes"), Tag("indoor", "no")),
             "diet_type/AddVegan.kt" to setOf(Tag("food", "no"), Tag("check_date:diet:vegan", null), Tag("diet:vegan", "yes"), Tag("diet:vegan", "no"), Tag("diet:vegan", "only")),
             "diet_type/AddVegetarian.kt" to setOf(Tag("food", "no"), Tag("check_date:diet:vegetarian", null), Tag("diet:vegetarian", "yes"), Tag("diet:vegetarian", "no"), Tag("diet:vegetarian", "only")),
@@ -370,7 +371,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "applySidewalkSurfaceAnswerTo",
             "applyAnswerRoadName",
             "applyRampAnswer",
-            "applySidewalkAnswerTo",
             "answer.litStatus.applyTo",
             "answer.countryCode + \":\" + answer.roadType",
             "[answer.osmKey]",
@@ -462,11 +462,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 1040
+        val tagsFoundPreviously = 1085
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 124
+        val processedQuestsPreviously = 125
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
@@ -479,7 +479,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt",
@@ -585,7 +584,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 "addr:conscriptionnumber", "addr:housename",
                 "building:levels", "roof:levels", "level",
                 "collection_times", "opening_hours", "opening_date", "check_date",
-                "fire_hydrant:diameter", "maxheight", "width",
+                "fire_hydrant:diameter", "maxheight", "width", "cycleway:width",
                 "surface:note", "source:width", "source:maxheight",
                 "maxspeed",
                 "capacity", "step_count",
@@ -720,6 +719,49 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         } else if("AddStileType" in description) {
             println("AddStileType - maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
             return null
+        } else if("AddCycleway.kt" in description) {
+            val ast = AstSource.String(description, fileSourceCode)
+            val found = ast.parse().extractFunctionByName("applySidewalkAnswerTo")
+            if(found.size != 1) {
+                throw ParsingInterpretationException("unexpected")
+            }
+            var got = addedOrEditedTagsWithFoundFunction(description, fileSourceCode, "tags", found[0], suspectedAnswerEnumFiles)
+            println("Cycleway test run - from applySidewalkAnswerTo $got")
+            if(got == null) {
+                throw ParsingInterpretationException("unexpected")
+            }
+
+            val sides = listOf("both", "left", "right") // TODO: get it from parsing
+            val directionValue  = listOf("\"yes\"", "\"-1\"") // TODO: get it from parsing
+            sides.forEach { side ->
+                directionValue.forEach { direction ->
+                    val modifiedSourceCode = fileSourceCode.replace("\$cyclewayKey", "cycleway:$side")
+                        .replace("[cyclewayKey]", "[\"cycleway:$side\"]")
+                        .replace("val directionValue", "val directionPreservedValue")
+                        .replace("directionValue", direction)
+
+                    val astModified = AstSource.String(description, modifiedSourceCode)
+                    val applyCyclewayAnswerToFunction = astModified.parse().extractFunctionByName("applyCyclewayAnswerTo")
+                    if(applyCyclewayAnswerToFunction.size != 1) {
+                        throw ParsingInterpretationException("unexpected")
+                    }
+                    val valuesForThatSide = addedOrEditedTagsWithFoundFunction(description, modifiedSourceCode, "tags", applyCyclewayAnswerToFunction[0], suspectedAnswerEnumFiles)
+                    //println("Cycleway test run with cycleway:$side being applied $valuesForThatSide")
+                    if(valuesForThatSide != null) {
+                        got += valuesForThatSide
+                    } else {
+                        applyCyclewayAnswerToFunction[0].showRelatedSourceCode("WAT", modifiedSourceCode)
+                        throw ParsingInterpretationException("unexpected")
+                    }
+                }
+            }
+            val valuesFromRegularFunction = addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
+            if(valuesFromRegularFunction != null) {
+                got += valuesFromRegularFunction
+            } else {
+                throw ParsingInterpretationException("unexpected")
+            }
+            return got
         }
         return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
     }
