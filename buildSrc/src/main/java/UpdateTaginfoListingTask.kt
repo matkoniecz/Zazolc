@@ -722,6 +722,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("AddStileType - maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
             return null
         }
+        return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
+    }
+
+    private fun addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode)
         val relevantFunction = getAstTreeForFunctionEditingTags(description, ast)
         if ("answer.applyTo(" !in relevantFunction.relatedSourceCode(fileSourceCode)) {
