@@ -783,27 +783,53 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
-        val ast = AstSource.String(description, fileSourceCode)
-        val defaultFunction = getAstTreeForFunctionEditingTags(description, ast)
+        val ast = AstSource.String(description, fileSourceCode).parse()
+        val defaultFunction = ast.extractFunctionByName(NAME_OF_FUNCTION_EDITING_TAGS)!!
         if ("answer.applyTo(" !in defaultFunction.relatedSourceCode(fileSourceCode)) {
             return addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
         } else {
-            suspectedAnswerEnumFiles.forEach { file ->
-                val fileMaybeContainingEnumSourceCode = loadFileText(file)
+            suspectedAnswerEnumFiles.forEach { fileHopefullyWithApplyTo ->
+                val fileMaybeContainingEnumSourceCode = loadFileText(fileHopefullyWithApplyTo)
                 val astWithAlternativeFile = AstSource.String("answer.applyTo( scan", fileMaybeContainingEnumSourceCode)
                 val found = astWithAlternativeFile.parse().extractFunctionByName("applyTo")
                 if(found != null) {
-                    val parameters = found.locateSingleOrExceptionByDescriptionDirectChild("functionValueParameters")
-                        .locateByDescriptionDirectChild("functionValueParameter")
-                    if(parameters.isEmpty()) {
-                        throw ParsingInterpretationException("unsupported")
+                    // OK, so we found related file providing applyTo function. Great!
+                    if("ParkingFee" in description) {
+                        println("$description fpund apply to file ${fileHopefullyWithApplyTo}")
                     }
+                    val got = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, fileHopefullyWithApplyTo, fileSourceCode, suspectedAnswerEnumFiles)
+                    if(got != null) {
+                        return got
+                    }
+                }
+            }
+        }
+        return null
+    }
 
-                    val identifierOfTheFirst = parameters[0].locateSingleOrExceptionByDescriptionDirectChild("parameter")
-                        .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
-                    val identifierOfTheFirstTree = identifierOfTheFirst.tree()
-                    for(i in 1 until parameters.size) {
-                        println("redirected function has parameter: ${parameters[i].locateSingleOrExceptionByDescriptionDirectChild("parameter")}")
+    // TODO rename addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction insanity
+    private fun addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description: String, fileWithRedirectedFunction: File, originalFileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+        val fileMaybeContainingEnumSourceCode = loadFileText(fileWithRedirectedFunction)
+        val astWithAlternativeFile = AstSource.String("answer.applyTo( scan", fileMaybeContainingEnumSourceCode)
+        val found = astWithAlternativeFile.parse().extractFunctionByName("applyTo")!!
+        val ast = AstSource.String(description, originalFileSourceCode)
+        val defaultFunction = getAstTreeForFunctionEditingTags(description, ast)
+        val parameters = found.locateSingleOrExceptionByDescriptionDirectChild("functionValueParameters")
+            .locateByDescriptionDirectChild("functionValueParameter")
+        if(parameters.isEmpty()) {
+            throw ParsingInterpretationException("unsupported")
+        }
+        val parametersInCalledFunction = mutableListOf<String>()
+        for(element in parameters) {
+            val parameter = element.locateSingleOrExceptionByDescriptionDirectChild("parameter")
+            val parameterTree = parameter.tree()
+            if(parameterTree is KlassIdentifier) {
+                parametersInCalledFunction.add(parameterTree.identifier)
+            } else {
+                throw ParsingInterpretationException("should not happen")
+            }
+        }
+        if(parameters.size > 1) {
                     }
                     if(identifierOfTheFirstTree is KlassIdentifier) {
                         val name = identifierOfTheFirstTree.identifier
@@ -826,7 +852,25 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
             println(suspectedAnswerEnumFiles)
             throw ParsingInterpretationException("FAILED in tthe redirect scan $description")
+            println("$description - parametersInCalledFunction in file ${fileWithRedirectedFunction.name} $parametersInCalledFunction")
+            println("No support yet")
+            return null
+            //throw ParsingInterpretationException("No support yet")
         }
+        if(parametersInCalledFunction[0] == "tags") {
+            val replacementParameter = "tags"
+            val replacementFunctionName = "applyTo"
+            val replacementSourceCode = fileMaybeContainingEnumSourceCode
+            val replacementDescription = fileWithRedirectedFunction.toString()
+            return addedOrEditedTagsWithGivenFunction(replacementDescription, replacementSourceCode, replacementParameter, replacementFunctionName, suspectedAnswerEnumFiles)
+        } else {
+            // unsupported TODO
+            // TODO - variable is not really supported within called function
+            println("redirected function, not using tags variable - unsupported TODO, exiting")
+            return null
+        }
+        println(suspectedAnswerEnumFiles)
+        throw ParsingInterpretationException("FAILED in tthe redirect scan $description")
     }
 
     private fun addedOrEditedTagsWithGivenFunction(description: String, fileSourceCode: String, variable:String, relevantFunctionName:String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
