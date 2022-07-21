@@ -945,7 +945,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    class EnumFieldState(val identifier:String, val possibleValue:String)
+    class EnumFieldState(val identifier:String, val possibleValue:String) {
+        override fun toString(): String {
+            return "EnumFieldState($identifier, $possibleValue)"
+        }
+    }
 
     private fun getEnumValuesDefinedInThisFile(description:String, file:File): Set<EnumFieldState>{
         val filepath = file.path // TODO - eliminate
