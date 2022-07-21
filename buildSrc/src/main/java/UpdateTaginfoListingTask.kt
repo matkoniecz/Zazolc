@@ -208,6 +208,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "wheelchair_access/AddWheelchairAccessPublicTransport.kt" to setOf(Tag("check_date:wheelchair", null), Tag("wheelchair", "yes"), Tag("wheelchair", "limited"), Tag("wheelchair", "no")),
             "wheelchair_access/AddWheelchairAccessToilets.kt" to setOf(Tag("check_date:wheelchair", null), Tag("wheelchair", "yes"), Tag("wheelchair", "limited"), Tag("wheelchair", "no")),
             "wheelchair_access/AddWheelchairAccessToiletsPart.kt" to setOf(Tag("check_date:toilets:wheelchair", null), Tag("toilets:wheelchair", "yes"), Tag("toilets:wheelchair", "limited"), Tag("toilets:wheelchair", "no")),
+            "width/AddCyclewayWidth.kt" to setOf(Tag("width", null), Tag("source:width", "ARCore"), Tag("cycleway:width", null), Tag("source:cycleway:width", "ARCore")),
             "width/AddRoadWidth.kt" to setOf(Tag("width", null), Tag("source:width", "ARCore")),
         )
     }
@@ -377,7 +378,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "tags[answer.sign.osmKey]",
             "fee.applyTo(tags)",
             "tags[\"\$key:note\"]",
-            "tags[\"source:\$key\"] =", // tags["source:$key"] =
             "tags[\"material\"] = newMaterial",
             "tags[\"sidewalk\"] = sidewalkValue",
             "tags[\"parking:lane:left:\$laneLeft\"]",
@@ -462,11 +462,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 1085
+        val tagsFoundPreviously = 1089
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 125
+        val processedQuestsPreviously = 126
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
@@ -480,7 +480,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt",
@@ -715,6 +714,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         } else if("AddStileType" in description) {
             println("AddStileType - maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
             return null
+        } else if("AddCyclewayWidth.kt" in description) {
+            val appliedTags = mutableSetOf<Tag>()
+            val keys = listOf("width", "cycleway:width") // TODO: get it from parsing
+            keys.forEach { key ->
+                val modifiedSourceCode = fileSourceCode.replace("\$key", key).replace("[key]", "[\"$key\"]")
+                appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
+            }
+            return appliedTags
         } else if("AddCycleway.kt" in description) {
             val got = mutableSetOf<Tag>()
             got += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", "applySidewalkAnswerTo", suspectedAnswerEnumFiles)!!
