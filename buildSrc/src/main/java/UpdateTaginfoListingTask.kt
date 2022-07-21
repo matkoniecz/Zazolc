@@ -1030,11 +1030,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 println()
                 println()
                 println()
-                val explanation = "$description get value (key is known: $key) from <${valueHolderSourceCode}> somehow... valueIfItIsSimpleText is $valueIfItIsSimpleText"
+                val explanation = "exact value is missing, extractValuesForKnownKey failed. $description get value (key is known: $key) from <${valueHolderSourceCode}> somehow..."
                 println(explanation)
                 valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
                 valueHolder.showRelatedSourceCode(explanation, fileSourceCode)
-                throw ParsingInterpretationException("exact value is missing!")
+                println(explanation)
+                throw ParsingInterpretationException(explanation)
             }
         }
         return appliedTags
