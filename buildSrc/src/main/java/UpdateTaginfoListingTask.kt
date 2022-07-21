@@ -961,7 +961,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         if(values.size == 0) {
-            println("enum extraction from $filepath failed! $enumsTried potential enums tried")
+            println("enum extraction from $filepath failed! $enumsTried potential enums tried ($description request)")
         }
         return values
     }
@@ -1218,10 +1218,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     }
                                 }
                                 if (extractedNothing) {
-                                    println("Enum obtaining failed!")
-                                    println("Enum obtaining failed! suspectedAnswerEnumFiles $suspectedAnswerEnumFiles")
-                                    println("Enum obtaining failed!")
                                     appliedTags.add(Tag(keyString, valueString))
+                                    println("Enum obtaining failed! suspectedAnswerEnumFiles $suspectedAnswerEnumFiles")
                                     println("44444444444444<<< tags dict is accessed with updateWithCheckDate, key known ($keyString), value unknown, enum obtaining failed<")
                                     valueAst.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
                                     valueAst.showRelatedSourceCode("extracted valueAst in tags dict access", fileSourceCode)
@@ -1237,16 +1235,18 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     appliedTags.add(Tag(keyString, null))
                                 } else {
                                     appliedTags.add(Tag(keyString, valueString))
-                                    println("XXXXXXXXXXXXXXXXXXXXX<<< $description tags dict is accessed with updateWithCheckDate, key known ($keyString), value unknown, obtaining data failed<")
+                                    val explanation = "extractCasesWhereTagsAreAccessedWithFunction - extraction failing: $description tags dict is accessed with updateWithCheckDate, key known ($keyString), value unknown, obtaining data failed"
+                                    println("XXXXXXXXXXXXXXXXXXXXX<<< $explanation<")
                                     valueAst.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
                                     valueAst.showRelatedSourceCode("extracted valueAst in tags dict access", fileSourceCode)
                                     println(">>>VVVVVVVVVVVVVVVVVV> $description")
-                                    accessingTagsWithFunction.showRelatedSourceCode("extracted valueAst in tags dict access", fileSourceCode)
+                                    println(accessingTagsWithFunction.relatedSourceCode(fileSourceCode))
                                     println(">>>IIIIIIIIIIIIIIIIIIIII> $description")
-                                    println(relevantFunction.showRelatedSourceCode("extractCasesWhereTagsAreAccessedWithFunction - extraction failing", fileSourceCode))
+                                    println(relevantFunction.relatedSourceCode(fileSourceCode))
                                     println(">>>0000000000000000000> $description")
                                     println(suspectedAnswerEnumFiles)
                                     println("-1 -1 -1")
+                                    println(explanation)
                                     println()
                                     println()
                                 }
