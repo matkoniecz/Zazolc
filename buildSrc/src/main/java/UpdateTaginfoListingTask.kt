@@ -927,8 +927,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         }
                         val key = extractTextFromHardcodedString(processed, fileSourceCode)
                         if (key == null) {
-                            println("*****")
-                            println(processed.relatedSourceCode(fileSourceCode))
+                            processed.showRelatedSourceCode("***** - key not found", fileSourceCode)
                             throw ParsingInterpretationException("not handled")
                         } else {
                             // assignment (for example tags["highway"] = "steps" ) is expected to have following children:
@@ -956,9 +955,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             return null
                         }
                     } else {
-                        expression.showRelatedSourceCode("expression - not handled", fileSourceCode)
+                        expression.showRelatedSourceCode("expression - not handled, expression::class is ${expression::class}", fileSourceCode)
                         expression.showHumanReadableTree()
-                        println(expression::class)
                         throw ParsingInterpretationException("not handled, ${potentialTexts.size} texts, $potentiallyUsableExpression variable")
                     }
                 }
