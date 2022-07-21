@@ -182,6 +182,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "shop_type/CheckShopType.kt" to setOf(Tag("check_date", null)), // NSI tags ignored, see https://github.com/streetcomplete/StreetComplete/issues/4225#issuecomment-1190487094
             "shoulder/AddShoulder.kt" to setOf(Tag("shoulder", "both"), Tag("shoulder", "left"), Tag("shoulder", "right"), Tag("shoulder", "no")),
             "smoking/AddSmoking.kt" to setOf(Tag("check_date:smoking", null), Tag("smoking", "yes"), Tag("smoking", "outside"), Tag("smoking", "no"), Tag("smoking", "separated")),
+            "smoothness/AddPathSmoothness.kt" to setOf(Tag("highway", "steps"), Tag("check_date:smoothness", null), Tag("smoothness", "excellent"), Tag("smoothness", "good"), Tag("smoothness", "intermediate"), Tag("smoothness", "bad"), Tag("smoothness", "very_bad"), Tag("smoothness", "horrible"), Tag("smoothness", "very_horrible"), Tag("smoothness", "impassable")),
+            "smoothness/AddRoadSmoothness.kt" to setOf(Tag("check_date:smoothness", null), Tag("smoothness", "excellent"), Tag("smoothness", "good"), Tag("smoothness", "intermediate"), Tag("smoothness", "bad"), Tag("smoothness", "very_bad"), Tag("smoothness", "horrible"), Tag("smoothness", "very_horrible"), Tag("smoothness", "impassable")),
             "sport/AddSport.kt" to setOf(Tag("sport", "multi"), Tag("sport", "soccer"), Tag("sport", "tennis"), Tag("sport", "basketball"), Tag("sport", "golf"), Tag("sport", "volleyball"), Tag("sport", "beachvolleyball"), Tag("sport", "skateboard"), Tag("sport", "shooting"), Tag("sport", "baseball"), Tag("sport", "athletics"), Tag("sport", "table_tennis"), Tag("sport", "gymnastics"), Tag("sport", "boules"), Tag("sport", "handball"), Tag("sport", "field_hockey"), Tag("sport", "ice_hockey"), Tag("sport", "american_football"), Tag("sport", "equestrian"), Tag("sport", "archery"), Tag("sport", "roller_skating"), Tag("sport", "badminton"), Tag("sport", "cricket"), Tag("sport", "rugby"), Tag("sport", "bowls"), Tag("sport", "softball"), Tag("sport", "racquet"), Tag("sport", "ice_skating"), Tag("sport", "paddle_tennis"), Tag("sport", "australian_football"), Tag("sport", "canadian_football"), Tag("sport", "netball"), Tag("sport", "gaelic_games"), Tag("sport", "sepak_takraw"), Tag("sport", null)),
             "step_count/AddStepCount.kt" to setOf(Tag("step_count", null)),
             "step_count/AddStepCountStile.kt" to setOf(Tag("step_count", null)),
@@ -461,18 +463,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 1021
+        val tagsFoundPreviously = 1040
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 122
+        val processedQuestsPreviously = 124
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
         val knownFailed = setOf(
-            "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt",
@@ -1275,14 +1275,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 // kind of hackish, fix this?
                                 appliedTags.add(Tag(keyString, "yes"))
                                 appliedTags.add(Tag(keyString, "no"))
-                            } else if (valueHolderSourceCode == "answer.osmValue") {
+                            } else if (valueHolderSourceCode == "answer.osmValue" || valueHolderSourceCode == "answer.value.osmValue") {
+                                val dotAcess = valueAst.locateByDescription("postfixUnarySuffix")
+                                if(dotAcess.isEmpty()) {
+                                    throw ParsingInterpretationException("hmmmmmmmm")
+                                }
+                                val accessIdentifierAst = dotAcess[dotAcess.size - 1].locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
+                                    .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
+                                val identifier = (accessIdentifierAst.tree() as KlassIdentifier).identifier
                                 var extractedNothing = true
                                 suspectedAnswerEnumFiles.forEach {
                                     getEnumValuesDefinedInThisFile(description, it).forEach { value ->
-                                        val accessIdentifierAst = valueAst.locateSingleOrExceptionByDescription("postfixUnarySuffix")
-                                            .locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
-                                            .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
-                                        val identifier = (accessIdentifierAst.tree() as KlassIdentifier).identifier
+                                        // dotAcess will have a single element [.osmValue] on "answer.osmValue"
+                                        // dotAcess will have a two elemente [.value, .osmValue] on "answer.value.osmValue"
                                         if (value.identifier == identifier) {
                                             appliedTags.add(Tag(keyString, value.possibleValue))
                                         }
