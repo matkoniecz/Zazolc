@@ -485,11 +485,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 1089
+        val tagsFoundPreviously = 1100
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 126
+        val processedQuestsPreviously = 129
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
@@ -503,15 +503,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
+            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt"
+
+        )
         if (realFailed != knownFailed.size) {
             println("Something changed in processing! failed count $realFailed vs ${knownFailed.size} previously")
         }
