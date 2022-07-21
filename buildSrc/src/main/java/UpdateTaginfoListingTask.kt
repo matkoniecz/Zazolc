@@ -909,11 +909,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val appliedTags = mutableSetOf<Tag>()
         relevantFunction.locateByDescription("assignment").forEach { assignment ->
             assignment.children.forEach { tagsDictAccess ->
-                if (tagsDictAccess.description == "directlyAssignableExpression" &&
-                    tagsDictAccess is DefaultAstNode &&
-                    tagsDictAccess.children[0].tree() is KlassIdentifier &&
-                    ((tagsDictAccess.children[0].tree() as KlassIdentifier).identifier == "tags")
-                ) {
+                if (assignsToTagsVariable(tagsDictAccess)) {
                     // this limits it to things like
                     // tags[something] = somethingElse
                     // (would it also detect tags=whatever)?
@@ -969,6 +965,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         return appliedTags
+    }
+
+    private fun assignsToTagsVariable(tagsDictAccess: Ast): Boolean {
+        return tagsDictAccess.description == "directlyAssignableExpression" &&
+            tagsDictAccess is DefaultAstNode &&
+            tagsDictAccess.children[0].tree() is KlassIdentifier &&
+            ((tagsDictAccess.children[0].tree() as KlassIdentifier).identifier == "tags")
     }
 
     class EnumFieldState(val identifier:String, val possibleValue:String) {
