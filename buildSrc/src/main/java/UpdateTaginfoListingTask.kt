@@ -78,7 +78,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         const val KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING = "app/src/main/java/"
         const val QUEST_ROOT_WITH_SLASH_ENDING = "app/src/main/java/de/westnordost/streetcomplete/quests/"
         const val COUNTRY_METADATA_PATH_WITH_SLASH_ENDING = "app/src/main/assets/country_metadata/"
-        const val SURVEY_MARK_KEY = "check_date" // TODO: is it possible to use directly SC constant?
+        // is it possible to use directly SC constant?
+        // import de.westnordost.streetcomplete.osm.SURVEY_MARK_KEY
+        const val SURVEY_MARK_KEY = "check_date"
         const val VIBRATING_BUTTON = "traffic_signals:vibration"
         private const val SOUND_SIGNALS = "traffic_signals:sound"
         val EXPECTED_TAG_PER_QUEST = mapOf(
