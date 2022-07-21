@@ -224,16 +224,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val folder = folderGenerator.next()
             var foundQuestFile = false
 
-            val suspectedAnswerEnumFiles = mutableListOf<File>()
-            File(folder.toString()).walkTopDown().forEach {
-                if (isLikelyAnswerEnumFile(it)) {
-                    suspectedAnswerEnumFiles.add(it)
-                }
-            }
+            val suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(folder)
 
             File(folder.toString()).walkTopDown().forEach {
                 if(it.isFile) {
-                    val suspectedAnswerEnumFilesForThisFile = suspectedAnswerEnumFiles + candidatesForEnumFilesBasedOnImports(it)
+                    val suspectedAnswerEnumFilesForThisFile = suspectedAnswerEnumFilesBasedOnFolder + candidatesForEnumFilesBasedOnImports(it)
                     if (isQuestFile(it)) {
                         foundQuestFile = true
                         val fileSourceCode = loadFileText(it)
@@ -267,6 +262,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 yield(folder)
             }
         }
+    }
+
+    fun candidatesForEnumFilesBasedOnFolder(folder: File): MutableList<File> {
+        val suspectedAnswerEnumFiles = mutableListOf<File>()
+        File(folder.toString()).walkTopDown().forEach {
+            if (isLikelyAnswerEnumFile(it)) {
+                suspectedAnswerEnumFiles.add(it)
+            }
+        }
+        return suspectedAnswerEnumFiles
     }
 
     private fun candidatesForEnumFilesBasedOnImports(file: File): List<File> {
