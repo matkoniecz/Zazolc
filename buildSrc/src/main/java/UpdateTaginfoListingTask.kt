@@ -365,7 +365,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "answer.countryCode + \":\" + answer.roadType",
             "[answer.osmKey]",
             "tags[answer.sign.osmKey]",
+            "fee.applyTo(tags)",
             "tags[\"\$key:note\"]",
+            "tags[\"source:\$key\"] =", // tags["source:$key"] =
             "tags[\"material\"] = newMaterial",
             "tags[\"sidewalk\"] = sidewalkValue",
             "tags[\"parking:lane:left:\$laneLeft\"]",
