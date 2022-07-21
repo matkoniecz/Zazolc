@@ -259,6 +259,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         reportResultOfDataCollection(foundTags, processed, failedQuests)
+        checkOsmWikiPagesExistence(foundTags)
     }
 
     private fun questFolderGenerator() = iterator {
@@ -503,6 +504,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println((knownFailed - failedQuests).joinToString("\", \"", "\"", "\""))
             throw Exception("some failed quests are now working")
         }
+    }
+
+    private fun checkOsmWikiPagesExistence(foundTags: MutableList<TagQuestInfo>) {
         println()
         println()
         // note that
