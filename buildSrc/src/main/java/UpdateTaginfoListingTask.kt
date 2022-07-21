@@ -758,25 +758,29 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (appliedTags.size == 0) {
             println("addedOrEditedTags - failed to extract anything at all from ${description}! Will present HumanReadableTreeWithSourceCode")
             relevantFunction.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
-            println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented HumanReadableTreeWithSourceCode")
+            println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented HumanReadableTreeWithSourceCode, will present source code")
+            relevantFunction.showRelatedSourceCode(description, fileSourceCode)
+            println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented function sourceCode")
         }
 
         val tagsThatShouldBeMoreSpecific = appliedTags
             .filter { it.value == null && !freeformKey(it.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, it.key)}
         tagsThatShouldBeMoreSpecific.forEach { println(it) }
+        if (failedExtraction) {
+            println("extraction known to be a partial or full failure")
+        }
         if(tagsThatShouldBeMoreSpecific.isNotEmpty()) {
             println("$description has tags that should be more specific, exiting as failure")
             failedExtraction = true
         }
-        if (failedExtraction) {
-            return null
-        }
-        if (failedExtraction) {
-            print("extraction known to be a partial failure")
-        }
         if (appliedTags.size == 0) {
             println("$description found no tags to be added or edited, exiting as failure")
+            println()
             return null // parsing definitely failed
+        }
+        if (failedExtraction) {
+            println()
+            return null
         }
         return appliedTags
     }
@@ -1268,7 +1272,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     // parsing skipped per
                     // https://github.com/streetcomplete/StreetComplete/issues/4225#issuecomment-1190487094
                 } else {
-                    throw ParsingInterpretationException("unexpected function name $functionName")
+                    throw ParsingInterpretationException("unexpected function name $functionName in $description")
                 }
                 // println("found directlyAssignableExpression with tags, not managed to parse it")
                 /*
