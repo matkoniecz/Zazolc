@@ -233,10 +233,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
             File(folder.toString()).walkTopDown().forEach {
                 if(it.isFile) {
-                    val suspectedAnswerEnumFilesForThisFile = suspectedAnswerEnumFiles + candidatesForEnumFilesBasedOnImports(it.path)
+                    val suspectedAnswerEnumFilesForThisFile = suspectedAnswerEnumFiles + candidatesForEnumFilesBasedOnImports(it)
                     if (isQuestFile(it)) {
                         foundQuestFile = true
-                        val fileSourceCode = loadFileFromPath(it.toString())
+                        val fileSourceCode = loadFileText(it)
                         val got:Set<Tag>?
                         try {
                             got = addedOrEditedTags(it.name, fileSourceCode, suspectedAnswerEnumFilesForThisFile)
@@ -269,7 +269,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun candidatesForEnumFilesBasedOnImports(path:String): List<File> {
+    private fun candidatesForEnumFilesBasedOnImports(file: File): List<File> {
         // initially just files from folder were taken as a base
         // due to cases like AddCrossing reaching across folders
         // it was not working well and require this extra parsing
@@ -280,15 +280,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         //
         // note: importedByFile may have false negatives that require extra parsing
         // to handle this
-        return importedByFile(path)
+        return importedByFile(file)
             .filter { isLikelyAnswerEnumFile(File(it)) }
             .map {File(it)}
             .filter{it.isFile}
     }
 
-    private fun importedByFile(path:String): Set<String> {
+    private fun importedByFile(file: File): Set<String> {
         val returned = mutableSetOf<String>()
-        val fileSourceCode = loadFileFromPath(path)
+        val fileSourceCode = loadFileText(file)
         val ast = AstSource.String(path, fileSourceCode)
         ast.parse().locateByDescription("importList").forEach { importList ->
             importList.locateByDescription("importHeader").forEach {
@@ -397,7 +397,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val languageTags = mutableSetOf("name", "int_name")
         File(COUNTRY_METADATA_PATH_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { file ->
             if (file.isFile) {
-                val test = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileFromPath(file.toString()))
+                val test = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileText(file))
                 val langs = test.officialLanguages + test.additionalStreetsignLanguages
                 if(langs.size > 1) {
                     // international counts for purposes of triggering multi-language support
@@ -589,8 +589,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return false
     }
 
-    private fun loadFileFromPath(filepath: String): String {
-        val inputStream: InputStream = File(filepath).inputStream()
+    private fun loadFileText(file: File): String {
+        val inputStream: InputStream = file.inputStream()
         return inputStream.bufferedReader().use { it.readText() }
     }
 
@@ -673,7 +673,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return setOf(Tag("addr:street", null), Tag("addr:place", null))
         } else if("AddRecyclingContainerMaterials" in description) {
             val appliedTags = mutableSetOf<Tag>()
-            val materials = getEnumValuesDefinedInThisFilepath("RecyclingMaterial hack", QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
+            val file = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
+            val materials = getEnumValuesDefinedInThisFile("RecyclingMaterial hack", file)
             materials.forEach{
                 appliedTags.add(Tag("recycling:${it.possibleValue}", "yes"))
             }
@@ -699,7 +700,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return addedOrEditedTagsWithFoundFunction(description, fileSourceCode, "tags", relevantFunction, suspectedAnswerEnumFiles)
         } else {
             suspectedAnswerEnumFiles.forEach { file ->
-                val fileMaybeContainingEnumSourceCode = loadFileFromPath(file.toString())
+                val fileMaybeContainingEnumSourceCode = loadFileText(file)
                 val astWithAlternativeFile = AstSource.String("answer.applyTo( scan", fileMaybeContainingEnumSourceCode)
                 val found = astWithAlternativeFile.parse().extractFunctionByName("applyTo")
                 if(found.size > 1) {
@@ -894,9 +895,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     class EnumFieldState(val identifier:String, val possibleValue:String)
 
-    private fun getEnumValuesDefinedInThisFilepath(description:String, filepath:String): Set<EnumFieldState>{
+    private fun getEnumValuesDefinedInThisFile(description:String, file:File): Set<EnumFieldState>{
+        val filepath = file.path // TODO - eliminate
         val values = mutableSetOf<EnumFieldState>()
-        val fileMaybeContainingEnumSourceCode = loadFileFromPath(filepath)
+        val fileMaybeContainingEnumSourceCode = loadFileText(file)
         val ast = AstSource.String(filepath, fileMaybeContainingEnumSourceCode)
         val potentialEnumFileAst = ast.parse()
         var enumsTried = 0
@@ -1017,7 +1019,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             which would be obnoxious to actually support
             */
             suspectedAnswerEnumFiles.forEach {
-                getEnumValuesDefinedInThisFilepath(description, it.toString()).forEach { value ->
+                getEnumValuesDefinedInThisFile(description, it).forEach { value ->
                     if(value.identifier == "osmLanduseValue") {
                         appliedTags.add(Tag(key, value.possibleValue))
                     }
@@ -1045,7 +1047,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val appliedTags = mutableSetOf<Tag>()
         var extractedSomething = false
         suspectedAnswerEnumFiles.forEach {
-            getEnumValuesDefinedInThisFilepath(description, it.toString()).forEach {value ->
+            getEnumValuesDefinedInThisFile(description, it).forEach {value ->
                 val accessIdentifierAst = valueHolder.locateSingleOrExceptionByDescription("postfixUnarySuffix")
                     .locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
                     .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
@@ -1199,7 +1201,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             } else if (valueHolderSourceCode == "answer.osmValue") {
                                 var extractedNothing = true
                                 suspectedAnswerEnumFiles.forEach {
-                                    getEnumValuesDefinedInThisFilepath(description, it.toString()).forEach { value ->
+                                    getEnumValuesDefinedInThisFile(description, it).forEach { value ->
                                         val accessIdentifierAst = valueAst.locateSingleOrExceptionByDescription("postfixUnarySuffix")
                                             .locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
                                             .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
