@@ -1570,8 +1570,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun Ast.showHumanReadableTreeWithSourceCode(description:String, fileSourceCode: String) {
-        println("---------------------------------------showHumanReadableTreeWithSourceCode--$description")
+        println("<---------------------------------------showHumanReadableTreeWithSourceCode--$description")
         humanReadableTreeWithSourceCode(0, fileSourceCode).forEach { println(it) }
+        println(">---------------------------------------showHumanReadableTreeWithSourceCode--$description")
     }
 
     private fun Ast.humanReadableTreeWithSourceCode(indent: Int, fileSourceCode: String): List<String> {
