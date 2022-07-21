@@ -353,7 +353,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return false
     }
 
-    private fun functionParsingSkippedBasedOnSourceCode(sourceCodeOfFunction: String): Boolean {
+    private fun functionParsingSkippedBasedOnSourceCode(description:String, sourceCodeOfFunction: String): Boolean {
         // Complex code constructs not supported for now
         // TODO: implement their support
         val blockers = listOf(
@@ -375,7 +375,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         )
         blockers.forEach {
             if(it in sourceCodeOfFunction) {
-                println("functionParsingSkippedBasedOnSourceCode found $it")
+                println("$description - functionParsingSkippedBasedOnSourceCode found $it")
+                println()
                 return true
             }
         }
@@ -734,9 +735,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun addedOrEditedTagsWithFoundFunction(description: String, fileSourceCode: String, variable:String, relevantFunction:AstNode, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
-        if (functionParsingSkippedBasedOnSourceCode(relevantFunction.relatedSourceCode(fileSourceCode))) {
-            println("skipping $description (functionParsingSkippedBasedOnSourceCode)")
-            println()
+        if (functionParsingSkippedBasedOnSourceCode(description, relevantFunction.relatedSourceCode(fileSourceCode))) {
             return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
         }
         val appliedTags = mutableSetOf<Tag>()
