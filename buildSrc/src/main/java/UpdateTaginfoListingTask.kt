@@ -1102,16 +1102,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val appliedTags = mutableSetOf<Tag>()
         whenExpression.locateByDescription("whenEntry").forEach { it ->
             val structure = it.children.filter { it.description != "WS" }
-            val structureDescriptions = structure.map{ it.description }
-            /*
-            structure.forEach { child ->
-                println()
-                println()
-                println("child")
-                println(child.description)
-                child.showRelatedSourceCode( "child", fileSourceCode)
-            }
-            */
             val expectedStructureA = listOf("whenCondition", "ARROW", "controlStructureBody", "semi")
             val expectedStructureB = listOf("ELSE", "ARROW", "controlStructureBody", "semi")
             areDirectChildrenMatchingStructureThrowExceptionIfNot(description, listOf(expectedStructureA, expectedStructureB), it, fileSourceCode, eraseWhitespace=true)
@@ -1275,18 +1265,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 } else {
                     throw ParsingInterpretationException("unexpected function name $functionName in $description")
                 }
-                // println("found directlyAssignableExpression with tags, not managed to parse it")
-                /*
-                val text = rightHand.locateSingleByDescription("lineStringLiteral") // what if it is something like "prefix" + CONSTANT ?
-                val processed = text.root()
-                if (processed is StringComponentRaw) {
-                    println(processed.string)
-                    appliedTags.add(processed.string)
-                } else {
-                    it.showHumanReadableTree()
-                    println("found directlyAssignableExpression with tags, not managed to parse it")
-                }
-                */
             }
         return appliedTags
     }
