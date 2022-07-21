@@ -268,7 +268,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun candidatesForEnumFilesBasedOnFolder(folder: File): MutableList<File> {
+
+    private fun candidatesForEnumFilesFirGivenFile(file: File): List<File> {
+        var suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(file.parentFile)
+        if("AddBarrier" in file.name) {
+            // TODO argh? can it be avoided?
+            // why it is present? Without this AddBarrierOnPath would pulla also StileTypeAnswer
+            // and claim that barrier=stepover is a thing
+            suspectedAnswerEnumFilesBasedOnFolder = suspectedAnswerEnumFilesBasedOnFolder.filter { "StileTypeAnswer.kt" !in it.name }
+        }
+        return suspectedAnswerEnumFilesBasedOnFolder + candidatesForEnumFilesBasedOnImports(file)
+    }
+
+    private fun candidatesForEnumFilesBasedOnFolder(folder: File): List<File> {
         val suspectedAnswerEnumFiles = mutableListOf<File>()
         File(folder.toString()).walkTopDown().forEach {
             if (isLikelyAnswerEnumFile(it)) {
@@ -704,8 +716,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun addedOrEditedTags(file:File): Set<Tag>? {
-        val suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(file.parentFile)
-        val suspectedAnswerEnumFiles = suspectedAnswerEnumFilesBasedOnFolder + candidatesForEnumFilesBasedOnImports(file)
+        val suspectedAnswerEnumFiles = candidatesForEnumFilesFirGivenFile(file)
 
         val description = file.parentFile.name + File.separator + file.name
         val fileSourceCode = loadFileText(file)
