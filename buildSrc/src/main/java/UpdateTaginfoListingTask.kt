@@ -1349,11 +1349,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 return null
             }
         } else {
-            // TODO handle this
             extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showHumanReadableTree()
             extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode("unhandled extracting index $index", fileSourceCode)
-            println("unhandled extraction of $index function parameter - multiple children")
-            return null
+            throw ParsingInterpretationException("unhandled extraction of $index function parameter - multiple children")
         }
     }
 
