@@ -518,14 +518,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         foundTags.forEach {
             if (it.tag.key.startsWith("$SURVEY_MARK_KEY:")) {
                 return@forEach // compound key with generated explanation, see https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
-                // TODO: it is broken for logged out users, see https://wiki.openstreetmap.org/wiki/Talk:Wiki#Enhanced_not-found_messages
-                // TODO: how existence of compound page info can be verified for logged out?
             }
             if (it.tag.key.startsWith("name:")) {
                 return@forEach // compound key with generated explanation
             }
             if (it.tag.key.startsWith("source:")) {
-                return@forEach // should have generated explanation (but is missing for now at least!), see https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
+                return@forEach
             }
             if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.tag.key}")) {
                 if (it.tag.value != null) {
