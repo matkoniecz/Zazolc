@@ -470,7 +470,29 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
-        val knownFailed = setOf("app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt", "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
+        val knownFailed = setOf(
+            "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddPathSmoothness.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/smoothness/AddRoadSmoothness.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/cycleway/AddCycleway.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/width/AddCyclewayWidth.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/sidewalk/AddSidewalk.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddParkingFee.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/parking_fee/AddBikeParkingFee.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt",
+            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt")
         if (realFailed != knownFailed.size) {
             println("Something changed in processing! failed count $realFailed vs ${knownFailed.size} previously")
         }
