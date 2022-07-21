@@ -585,7 +585,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 "collection_times", "opening_hours", "opening_date", "check_date",
                 "fire_hydrant:diameter", "maxheight", "width", "cycleway:width",
                 "surface:note", "source:width", "source:maxheight",
-                "maxspeed",
+                "maxspeed", "maxstay",
                 "capacity", "step_count",
                 "lanes", "lanes:forward", "lanes:backward", "lanes:both_ways",
                 "turn:lanes:both_ways", "turn:lanes", "turn:lanes:forward", "turn:lanes:backward",
@@ -600,6 +600,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return true
         }
         if (key.endsWith(":note")) {
+            return true
+        }
+        if (key.endsWith(":conditional")) {
             return true
         }
         if (key.startsWith("lanes:")) {
