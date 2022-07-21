@@ -267,7 +267,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    fun candidatesForEnumFilesBasedOnFolder(folder: File): MutableList<File> {
+    private fun candidatesForEnumFilesBasedOnFolder(folder: File): MutableList<File> {
         val suspectedAnswerEnumFiles = mutableListOf<File>()
         File(folder.toString()).walkTopDown().forEach {
             if (isLikelyAnswerEnumFile(it)) {
@@ -398,7 +398,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     data class IncompleteCountryInfo(
         val additionalStreetsignLanguages: Set<String> = setOf(),
         val officialLanguages: Set<String> = setOf(),
-
     )
 
     private fun possibleLanguageTags(): MutableSet<String> {
@@ -964,7 +963,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         val simpleIdentifier = it.locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
                             .relatedSourceCode(fileMaybeContainingEnumSourceCode)
                         enumFieldNames.add(simpleIdentifier)
-                }
+                    }
                 enum.locateByDescription("enumEntry").forEach { enumEntry ->
                     /*
                     println("valueArguments of this entry follows")
