@@ -256,9 +256,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                 }
             }
-            if (!foundQuestFile && folder.name != "note_discussion") {
-                throw ParsingInterpretationException("not found quest file for $folder")
-            }
         }
         reportResultOfDataCollection(foundTags, processed, failedQuests)
         checkOsmWikiPagesExistence(foundTags)
