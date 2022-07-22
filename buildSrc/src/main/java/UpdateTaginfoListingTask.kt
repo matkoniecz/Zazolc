@@ -134,6 +134,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "diet_type/AddVegetarian.kt" to setOf(Tag("food", "no"), Tag("check_date:diet:vegetarian", null), Tag("diet:vegetarian", "yes"), Tag("diet:vegetarian", "no"), Tag("diet:vegetarian", "only")),
             "diet_type/AddHalal.kt" to setOf(Tag("food", "no"), Tag("check_date:diet:halal", null), Tag("diet:halal", "yes"), Tag("diet:halal", "no"), Tag("diet:halal", "only")),
             "diet_type/AddKosher.kt" to setOf(Tag("food", "no"), Tag("check_date:diet:kosher", null), Tag("diet:kosher", "yes"), Tag("diet:kosher", "no"), Tag("diet:kosher", "only")),
+            "drinking_water/AddDrinkingWater.kt" to setOf(Tag("drinking_water", "no"), Tag("drinking_water", "yes"), Tag("drinking_water:legal", "no"), Tag("drinking_water:legal", "yes")),
             "existence/CheckExistence.kt" to setOf(Tag("check_date", null)),
             "ferry/AddFerryAccessMotorVehicle.kt" to setOf(Tag("motor_vehicle", "yes"), Tag("motor_vehicle", "no")),
             "ferry/AddFerryAccessPedestrian.kt" to setOf(Tag("foot", "yes"), Tag("foot", "no")),
@@ -460,18 +461,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 1119
+        val tagsFoundPreviously = 1131
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 130
+        val processedQuestsPreviously = 132
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
         val knownFailed = setOf(
-            "app/src/main/java/de/westnordost/streetcomplete/quests/drinking_water/AddDrinkingWater.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/barrier_type/AddStileType.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt",
@@ -513,9 +512,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "tags[answer.sign.osmKey]",
             "fee.applyTo(tags)",
             "tags[\"\$key:note\"]",
-            "tags[\"material\"] = newMaterial",
             "tags[\"parking:lane:left:\$laneLeft\"]",
-            "answer.osmLegalValue?.let { tags[\"drinking_water:legal\"] = it }", // complex structure, done this way to skip osmLegalValue where it is null
         )
         blockers.forEach {
             if(it in sourceCodeOfFunction) {
@@ -744,6 +741,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"),
                 Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"), Tag("ramp:wheelchair", "separate"),
             )
+        } else if("AddDrinkingWater.kt" == file.name) {
+            return setOf(
+                Tag("drinking_water", "no"), Tag("drinking_water", "yes"),
+                Tag("drinking_water:legal", "no"), Tag("drinking_water:legal", "yes"),
+            )
         } else if("AddRecyclingContainerMaterials.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             val recylingMaterialsFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
@@ -760,8 +762,28 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             appliedTags += got
             return appliedTags
         } else if("AddStileType.kt" == file.name) {
-            println("AddStileType - maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
-            return null
+            val appliedTags = mutableSetOf<Tag>()
+            // maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
+            val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "barrier_type/StileTypeAnswer.kt")
+            val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
+            val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
+            answers.forEach{
+                when (it.identifier) {
+                    "newBarrier" -> {
+                        appliedTags.add(Tag("barrier", it.possibleValue))
+                    }
+                    "osmValue" -> {
+                        appliedTags.add(Tag("stile", it.possibleValue))
+                    }
+                    "osmMaterialValue" -> {
+                        appliedTags.add(Tag("material", it.possibleValue))
+                    }
+                    else -> {
+                        throw ParsingInterpretationException("unexpected")
+                    }
+                }
+            }
+            return appliedTags
         } else if("AddCyclewayWidth.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             val keys = listOf("width", "cycleway:width") // TODO: get it from parsing
