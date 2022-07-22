@@ -14,9 +14,12 @@ import kotlinx.ast.common.klass.StringComponentRaw
 import kotlinx.ast.grammar.kotlin.common.KotlinGrammarParserType
 import kotlinx.ast.grammar.kotlin.common.summary
 import kotlinx.ast.grammar.kotlin.target.antlr.kotlin.KotlinGrammarAntlrKotlinParser
-import kotlinx.serialization.Serializable
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
 import java.io.File
 import java.io.InputStream
 import java.net.URL
@@ -223,7 +226,32 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         )
     }
 
+    fun test() {
+        @Serializable
+        data class TestClass(
+            val obligatory: String,
+            val optional: Int = 0
+        )
+
+        val json = Json { encodeDefaults = true }
+        println(json.encodeToString(TestClass("text")))
+
+        val format = Json { prettyPrint = true }
+
+        @Serializable
+        data class Project(val name: String, val language: String)
+
+        // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md
+        val data = Project("kotlinx.serialization", "Kotlin")
+        println(format.encodeToString(data))
+        val jsonText = format.encodeToString(data)
+        val data2 = format.decodeFromString<Project>(jsonText)
+    }
+
     @TaskAction fun run() {
+
+        test()
+
         var processed = 0
         val failedQuests = mutableSetOf<String>()
         val foundTags = mutableListOf<TagQuestInfo>()
