@@ -190,6 +190,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "step_count/AddStepCount.kt" to setOf(Tag("step_count", null)),
             "step_count/AddStepCountStile.kt" to setOf(Tag("step_count", null)),
             "steps_incline/AddStepsIncline.kt" to setOf(Tag("incline", "up"), Tag("incline", "down")),
+            "steps_ramp/AddStepsRamp.kt" to setOf(Tag("ramp", "no"), Tag("ramp", "yes"), Tag("sidewalk", "separate"), Tag("check_date:ramp", null), Tag("ramp:bicycle", "yes"), Tag("ramp:bicycle", "no"), Tag("ramp:stroller", "yes"), Tag("ramp:stroller", "no"), Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"), Tag("ramp:wheelchair", "separate")),
             "summit/AddSummitCross.kt" to setOf(Tag("check_date:summit:cross", null), Tag("summit:cross", "yes"), Tag("summit:cross", "no")),
             "summit/AddSummitRegister.kt" to setOf(Tag("check_date:summit:register", null), Tag("summit:register", "yes"), Tag("summit:register", "no")),
             "tactile_paving/AddTactilePavingBusStop.kt" to setOf(Tag("check_date:tactile_paving", null), Tag("tactile_paving", "yes"), Tag("tactile_paving", "no")),
@@ -458,11 +459,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 1108
+        val tagsFoundPreviously = 1119
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 129
+        val processedQuestsPreviously = 130
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
@@ -474,7 +475,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/steps_ramp/AddStepsRamp.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt",
@@ -506,7 +506,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val blockers = listOf(
             "applySidewalkSurfaceAnswerTo",
             "applyAnswerRoadName",
-            "applyRampAnswer",
             "answer.litStatus.applyTo",
             "answer.countryCode + \":\" + answer.roadType",
             "[answer.osmKey]",
@@ -736,6 +735,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                Tag("sidewalk:left", "no"), Tag("sidewalk:left", "yes"), Tag("sidewalk:left", "separate"),
                Tag("sidewalk:right", "no"), Tag("sidewalk:right", "yes"), Tag("sidewalk:right", "separate"),
            )
+        } else if("AddStepsRamp.kt" in description) {
+            return setOf(Tag("ramp", "no"), Tag("ramp", "yes"), Tag("sidewalk", "separate"),
+                Tag(surveyMarkKeyBasedOnKey("ramp"), null),
+                Tag("ramp:bicycle", "yes"), Tag("ramp:bicycle", "no"),
+                Tag("ramp:stroller", "yes"), Tag("ramp:stroller", "no"),
+                Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"),
+                Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"), Tag("ramp:wheelchair", "separate"),
+            )
         } else if("AddRecyclingContainerMaterials" in description) {
             val appliedTags = mutableSetOf<Tag>()
             val recylingMaterialsFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
