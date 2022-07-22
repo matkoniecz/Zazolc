@@ -272,7 +272,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
 
-    private fun candidatesForEnumFilesFirGivenFile(file: File): List<File> {
+    private fun candidatesForEnumFilesForGivenFile(file: File): List<File> {
         var suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(file.parentFile)
         if("AddBarrier" in file.name) {
             // TODO argh? can it be avoided?
@@ -719,7 +719,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun addedOrEditedTags(file:File): Set<Tag>? {
-        val suspectedAnswerEnumFiles = candidatesForEnumFilesFirGivenFile(file)
+        val suspectedAnswerEnumFiles = candidatesForEnumFilesForGivenFile(file)
 
         val description = file.parentFile.name + File.separator + file.name
         val fileSourceCode = loadFileText(file)
