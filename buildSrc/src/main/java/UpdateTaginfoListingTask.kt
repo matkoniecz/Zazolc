@@ -968,18 +968,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
     }
 
-    open class Parameter()
-    class StringParameter(val text: String): Parameter() { // "text" string, for example
-        override fun toString(): String {
-            return "text $text"
-        }
-    }
-    class IdentifierParameter(val identifier: String): Parameter(){ // tags variable, for example
-    override fun toString(): String {
-        return "identifier $identifier"
-    }
-}
-
     private fun addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode).parse()
         val defaultFunction = ast.extractFunctionByName(NAME_OF_FUNCTION_EDITING_TAGS)!!
