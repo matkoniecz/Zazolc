@@ -1098,8 +1098,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("redirected function, not using tags variable - unsupported TODO, exiting")
             return null
         }
-        println(suspectedAnswerEnumFiles)
-        throw ParsingInterpretationException("FAILED in tthe redirect scan $description")
     }
 
     private fun addedOrEditedTagsWithGivenFunction(description: String, fileSourceCode: String, variable:String, relevantFunctionName:String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
