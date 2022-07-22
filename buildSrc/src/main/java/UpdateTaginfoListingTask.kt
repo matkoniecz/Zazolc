@@ -1139,21 +1139,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
         val tagsThatShouldBeMoreSpecific = appliedTags
             .filter { it.value == null && !freeformKey(it.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, it.key)}
-        tagsThatShouldBeMoreSpecific.forEach { println(it) }
-        if (failedExtraction) {
-            println("extraction known to be a partial or full failure")
-        }
         if(tagsThatShouldBeMoreSpecific.isNotEmpty()) {
-            println("$description has tags that should be more specific, exiting as failure")
+            tagsThatShouldBeMoreSpecific.forEach { println(it) }
+            println("$description found tags which are not freeform but have no speicified values")
             failedExtraction = true
         }
         if (appliedTags.size == 0) {
-            println("$description found no tags to be added or edited, exiting as failure")
-            println()
             return null // parsing definitely failed
         }
         if (failedExtraction) {
-            println()
             return null
         }
         return appliedTags
