@@ -957,13 +957,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return null
         } else if ("AddBikeParkingFee.kt" == file.name || "AddParkingFee.kt" == file.name) {
             val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
-            val fromFee = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, feeApplyTo, fileSourceCode, suspectedAnswerEnumFiles)
-            if(Tag("fee", "yes") !in fromFee!!) {
+            val fromFee = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, feeApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
+            if(Tag("fee", "yes") !in fromFee) {
                 throw ParsingInterpretationException("is it even working - no, as fee=yes is missing")
             }
             val maxstayApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Maxstay.kt")
-            val fromMaxstay = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, maxstayApplyTo, fileSourceCode, suspectedAnswerEnumFiles)
-            return fromFee!! + fromMaxstay!!
+            val fromMaxstay = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, maxstayApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
+            return fromFee + fromMaxstay
         }
         return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
     }
