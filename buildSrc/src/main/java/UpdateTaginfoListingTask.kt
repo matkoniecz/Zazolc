@@ -936,12 +936,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         if(expressions.size > 1) {
                             propertyDeclaration.showHumanReadableTreeWithSourceCode("multiple expressions present", surfacesFileCode)
                         } else {
-                            if(expressions[0].relatedSourceCode(surfacesFileCode) == "listOf(") {
+                            if(expressions[0].relatedSourceCode(surfacesFileCode).startsWith("listOf(")) {
                                 val list = expressions[0].locateSingleOrExceptionByDescription("callSuffix") // will fail ith multiple layers of calls
                                     .locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
-                                list.showRelatedSourceCode("list of arguments in listOf definition in surfaces listing file", surfacesFileCode)
+                                list.tree()!!.showRelatedSourceCode("list of arguments in listOf definition in surfaces listing file", surfacesFileCode)
                             } else {
-                                println("${expressions[0].relatedSourceCode(surfacesFileCode)} is not supported")
+                                println("<${expressions[0].relatedSourceCode(surfacesFileCode)}> is not supported, only listOf is")
                             }
                         }
                     }
