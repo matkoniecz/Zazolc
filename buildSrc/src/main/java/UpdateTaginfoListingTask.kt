@@ -762,7 +762,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val recylingMaterialsFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
             val materials = getEnumValuesDefinedInThisFile("RecyclingMaterial hack", recylingMaterialsFile)
             materials.forEach{
-                appliedTags.add(Tag("recycling:${it.possibleValue}", "yes"))
+                if(it.size != 1) {
+                    throw ParsingInterpretationException("expected a single value, got $it")
+                }
+                appliedTags.add(Tag("recycling:${it[0].possibleValue}", "yes"))
             }
             appliedTags.add(Tag("amenity", "waste_disposal")) // from applyWasteContainerAnswer, harcoded due to complexity HACK :(
             val modifiedile = fileSourceCode.replace("tags[material] = \"yes\"", "") // HACK :(
@@ -778,19 +781,21 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "barrier_type/StileTypeAnswer.kt")
             val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
             val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
-            answers.forEach{
-                when (it.identifier) {
-                    "newBarrier" -> {
-                        appliedTags.add(Tag("barrier", it.possibleValue))
-                    }
-                    "osmValue" -> {
-                        appliedTags.add(Tag("stile", it.possibleValue))
-                    }
-                    "osmMaterialValue" -> {
-                        appliedTags.add(Tag("material", it.possibleValue))
-                    }
-                    else -> {
-                        throw ParsingInterpretationException("unexpected")
+            answers.forEach{ enumGroup ->
+                enumGroup.forEach {
+                    when (it.identifier) {
+                        "newBarrier" -> {
+                            appliedTags.add(Tag("barrier", it.possibleValue))
+                        }
+                        "osmValue" -> {
+                            appliedTags.add(Tag("stile", it.possibleValue))
+                        }
+                        "osmMaterialValue" -> {
+                            appliedTags.add(Tag("material", it.possibleValue))
+                        }
+                        else -> {
+                            throw ParsingInterpretationException("unexpected")
+                        }
                     }
                 }
             }
@@ -1183,9 +1188,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun getEnumValuesDefinedInThisFile(description:String, file:File, debug:Boolean=false): Set<EnumFieldState>{
+    private fun getEnumValuesDefinedInThisFile(description:String, file:File, debug:Boolean=false): Set<List<EnumFieldState>>{
         val filepath = file.path // TODO - eliminate
-        val values = mutableSetOf<EnumFieldState>()
+        val values = mutableSetOf<List<EnumFieldState>>()
         val fileMaybeContainingEnumSourceCode = loadFileText(file)
         val ast = AstSource.String(filepath, fileMaybeContainingEnumSourceCode)
         val potentialEnumFileAst = ast.parse()
@@ -1230,6 +1235,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         println(enum.showRelatedSourceCode(explanation, fileMaybeContainingEnumSourceCode))
                         println(explanation)
                     } else {
+                        val enumFieldGroup = mutableListOf<EnumFieldState>()
                         val arguments = valueArguments.locateByDescriptionDirectChild("valueArgument")
                         for(i in arguments.indices) {
                             extractedText = extractTextFromHardcodedString(arguments[i], fileMaybeContainingEnumSourceCode)
@@ -1245,8 +1251,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     println("source code displayed - shown $filepath after enum extraction failed")
                                 }
                             } else {
-                                values.add(EnumFieldState(enumFieldNames[i], extractedText))
+                                enumFieldGroup.add(EnumFieldState(enumFieldNames[i], extractedText))
                             }
+                        }
+                        if(enumFieldGroup.size > 0) {
+                            values.add(enumFieldGroup)
                         }
                     }
                 }
@@ -1307,9 +1316,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             which would be obnoxious to actually support
             */
             suspectedAnswerEnumFiles.forEach {
-                getEnumValuesDefinedInThisFile(description, it).forEach { value ->
-                    if(value.identifier == "osmLanduseValue") {
-                        appliedTags.add(Tag(key, value.possibleValue))
+                getEnumValuesDefinedInThisFile(description, it).forEach { enumGroup ->
+                    enumGroup.forEach { value->
+                        if(value.identifier == "osmLanduseValue") {
+                            appliedTags.add(Tag(key, value.possibleValue))
+                        }
                     }
                 }
             }
@@ -1335,15 +1346,27 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val appliedTags = mutableSetOf<Tag>()
         var extractedSomething = false
         suspectedAnswerEnumFiles.forEach {
-            getEnumValuesDefinedInThisFile(description, it).forEach {value ->
-                val accessIdentifierAst = valueHolder.locateSingleOrExceptionByDescription("postfixUnarySuffix")
-                    .locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
-                    .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
-                val identifier = (accessIdentifierAst.tree() as KlassIdentifier).identifier
-                if (value.identifier == identifier) {
-                    appliedTags.add(Tag(key, value.possibleValue))
-                    if(debug) {
-                        println("$key=${value.possibleValue} registered based on ${value.identifier} identifier matching expected ${identifier} - from ${it.name}")
+            getEnumValuesDefinedInThisFile(description, it).forEach {enumGroup ->
+                enumGroup.forEach { value ->
+                    // why redefined in each cycle?
+                    // because there are cases where it would fail - but these are also cases
+                    // where extracting enum also fails, so is not triggered and can be ignored
+                    val postfixUnarySuffixes = valueHolder.locateByDescription("postfixUnarySuffix")
+                    if (postfixUnarySuffixes.size != 1) {
+                        valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
+                        valueHolder.showRelatedSourceCode(description, fileSourceCode)
+                        throw ParsingInterpretationException("$key values extraction in provideTagsBasedOnAswerDataStructuresFromExternalFiles - postfixUnarySuffix expected to be a single one, got ${postfixUnarySuffixes.size}")
+                    }
+                    val accessIdentifierAst = postfixUnarySuffixes[0]
+                        .locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
+                        .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
+                    val identifier = (accessIdentifierAst.tree() as KlassIdentifier).identifier
+
+                    if (value.identifier == identifier) {
+                        appliedTags.add(Tag(key, value.possibleValue))
+                        if(debug) {
+                            println("$key=${value.possibleValue} registered based on ${value.identifier} identifier matching expected ${identifier} - from ${it.name}")
+                        }
                     }
                 }
                 extractedSomething = true
@@ -1548,8 +1571,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     getEnumValuesDefinedInThisFile(description, it).forEach { value ->
                                         // dotAcess will have a single element [.osmValue] on "answer.osmValue"
                                         // dotAcess will have a two elemente [.value, .osmValue] on "answer.value.osmValue"
-                                        if (value.identifier == identifier) {
-                                            appliedTags.add(Tag(keyString, value.possibleValue))
+                                        if(value.size != 1) {
+                                            throw ParsingInterpretationException("expected a single value, got $value")
+                                        }
+                                        if (value[0].identifier == identifier) {
+                                            appliedTags.add(Tag(keyString, value[0].possibleValue))
                                         }
                                         extractedNothing = false
                                     }
