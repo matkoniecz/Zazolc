@@ -727,16 +727,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val description = file.parentFile.name + File.separator + file.name
         val fileSourceCode = loadFileText(file)
         // TODO hardcoding is ugly and ideally would be replaced
-        if("AddAddressStreet" in description) {
+        if("AddAddressStreet.kt" == file.name) {
             return setOf(Tag("addr:street", null), Tag("addr:place", null))
-        } else if("AddSidewalk.kt" in description) {
+        } else if("AddSidewalk.kt" == file.name) {
            return setOf(Tag("sidewalk", "no"), Tag("sidewalk", "both"), Tag("sidewalk", "left"),
                Tag("sidewalk", "right"), Tag("sidewalk", "separate"),
                Tag(surveyMarkKeyBasedOnKey("sidewalk"), null),
                Tag("sidewalk:left", "no"), Tag("sidewalk:left", "yes"), Tag("sidewalk:left", "separate"),
                Tag("sidewalk:right", "no"), Tag("sidewalk:right", "yes"), Tag("sidewalk:right", "separate"),
            )
-        } else if("AddStepsRamp.kt" in description) {
+        } else if("AddStepsRamp.kt" == file.name) {
             return setOf(Tag("ramp", "no"), Tag("ramp", "yes"), Tag("sidewalk", "separate"),
                 Tag(surveyMarkKeyBasedOnKey("ramp"), null),
                 Tag("ramp:bicycle", "yes"), Tag("ramp:bicycle", "no"),
@@ -744,7 +744,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"),
                 Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"), Tag("ramp:wheelchair", "separate"),
             )
-        } else if("AddRecyclingContainerMaterials" in description) {
+        } else if("AddRecyclingContainerMaterials.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             val recylingMaterialsFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
             val materials = getEnumValuesDefinedInThisFile("RecyclingMaterial hack", recylingMaterialsFile)
@@ -759,10 +759,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
             appliedTags += got
             return appliedTags
-        } else if("AddStileType" in description) {
+        } else if("AddStileType.kt" == file.name) {
             println("AddStileType - maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
             return null
-        } else if("AddCyclewayWidth.kt" in description) {
+        } else if("AddCyclewayWidth.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             val keys = listOf("width", "cycleway:width") // TODO: get it from parsing
             keys.forEach { key ->
@@ -770,7 +770,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
             }
             return appliedTags
-        } else if("AddCycleway.kt" in description) {
+        } else if("AddCycleway.kt" == file.name) {
             val got = mutableSetOf<Tag>()
             got += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", "applySidewalkAnswerTo", suspectedAnswerEnumFiles)!!
             val sides = listOf("both", "left", "right") // TODO: get it from parsing
@@ -786,8 +786,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
             return got + addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
-        } else if ("AddRoadSurface.kt" in description || "AddPathSurface.kt" in description
-            || "AddFootwayPartSurface.kt" in description || "AddCyclewayPartSurface.kt" in description || "AddPitchSurface.kt" in description) {
+        } else if ("AddRoadSurface.kt" == file.name || "AddPathSurface.kt" == file.name
+            || "AddFootwayPartSurface.kt" == file.name || "AddCyclewayPartSurface.kt" == file.name || "AddPitchSurface.kt" == file.name) {
             val surfacesFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
             val surfaces = getEnumValuesDefinedInThisFile("surface/Surface.kt hack", surfacesFile)
             // TODO actually pitch surfaces are more limited - parse it from Surface.kt file
@@ -832,7 +832,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 it.showHumanReadableTreeWithSourceCode("topLevelObject - surface group file", surfacesFileCode)
             }
             return null
-        } else if ("AddBikeParkingFee.kt" in description || "AddParkingFee.kt" in description) {
+        } else if ("AddBikeParkingFee.kt" == file.name || "AddParkingFee.kt" == file.name) {
             val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
             val fromFee = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, feeApplyTo, fileSourceCode, suspectedAnswerEnumFiles)
             if(Tag("fee", "yes") !in fromFee!!) {
