@@ -908,6 +908,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         println("$description fpund apply to file ${fileHopefullyWithApplyTo}")
                     }
                     val got = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, fileHopefullyWithApplyTo, fileSourceCode, suspectedAnswerEnumFiles)
+
+                    val bonusScan = addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
+                    if(bonusScan != null && bonusScan.isNotEmpty()) {
+                        println(bonusScan)
+                        throw ParsingInterpretationException("turns out to be needed")
+                    }
+
                     if(got != null) {
                         return got
                     }
