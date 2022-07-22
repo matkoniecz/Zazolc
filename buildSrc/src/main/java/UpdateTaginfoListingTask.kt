@@ -823,8 +823,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return got + addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
         } else if ("AddRoadSurface.kt" == file.name || "AddPathSurface.kt" == file.name
             || "AddFootwayPartSurface.kt" == file.name || "AddCyclewayPartSurface.kt" == file.name || "AddPitchSurface.kt" == file.name) {
-            val surfacesFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
-            val surfaces = getEnumValuesDefinedInThisFile("surface/Surface.kt hack", surfacesFile)
+            val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
+            val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
+            val surfaces = getEnumValuesDefinedInThisFile(localDescription, answersFile)
             // TODO actually pitch surfaces are more limited - parse it from Surface.kt file
             // maybe even parse from AddPitchSurface.kt itself?
             val ast = AstSource.String(description, fileSourceCode)
