@@ -1566,7 +1566,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 }
                             } else {
                                 val valueSourceCode = valueAst.relatedSourceCode(fileSourceCode)
-                                if (freeformKey(keyString) && valueSourceCode in setOf("answer.toString()", "openingHoursString", "answer.times.toString()")) {
+                                if (freeformKey(keyString) && valueSourceCode in setOf("answer.toString()", "openingHoursString", "answer.times.toString()", "duration.toOsmValue()")) {
                                     // key is freeform and it appears to not be enum - so lets skip complaining and attempting to tarck down value
                                     // individual quests can be investigated as needed
                                     appliedTags.add(Tag(keyString, null))
@@ -1584,6 +1584,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     println(suspectedAnswerEnumFiles)
                                     println("-1 -1 -1")
                                     println(explanation)
+                                    if(freeformKey(keyString)) {
+                                        println("freeform, but accessed with $valueSourceCode which is not listed")
+                                    }
                                     println()
                                     println()
                                 }
