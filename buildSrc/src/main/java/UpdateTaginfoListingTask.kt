@@ -1668,7 +1668,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 }
                             } else {
                                 val valueSourceCode = valueAst.relatedSourceCode(fileSourceCode)
-                                if (freeformKey(keyString) && valueSourceCode in setOf("answer.toString()", "openingHoursString", "answer.times.toString()", "duration.toOsmValue()")) {
+                                if (freeformKey(keyString) && valueSourceCode in setOf("answer.toString()", "openingHoursString", "answer.times.toString()", "duration.toOsmValue()", "toOsmValue()")) {
                                     // key is freeform and it appears to not be enum - so lets skip complaining and attempting to tarck down value
                                     // individual quests can be investigated as needed
                                     appliedTags.add(Tag(keyString, null))
