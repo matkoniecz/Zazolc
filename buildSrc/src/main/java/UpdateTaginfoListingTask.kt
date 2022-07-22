@@ -24,6 +24,7 @@ import java.io.File
 import java.io.InputStream
 import java.net.URL
 import kotlin.system.exitProcess
+import org.jsoup.Jsoup
 
 
 /*
@@ -528,13 +529,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // note that full scan of wiki lasts more than two hours
         // see https://github.com/openstreetmap/openstreetmap-website/pull/3294 for update instructions
         foundTags.forEach {
-            if (it.tag.key.startsWith("$SURVEY_MARK_KEY:")) {
-                return@forEach // compound key with generated explanation, see https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
-            }
-            if (it.tag.key.startsWith("name:")) {
-                return@forEach // compound key with generated explanation
-            }
-            if (it.tag.key.startsWith("source:")) {
+            if(isCompoundDocumentationPageAllowedForKey(it.tag.key)) {
+                if(!isCompoundListerErrorPageExisting(it.tag.osmWikiPageUrl())) {
+                    if(!isPageExisting(it.tag.osmWikiPageUrl())) {
+                        println("${it.tag.key}= has no expected OSM Wiki compound page")
+                    }
+                }
                 return@forEach
             }
             if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.tag.key}")) {
@@ -549,10 +549,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
             if (it.tag.value !in listOf(null, "no", "yes", "only") && !freeformKey(it.tag.key)) {
                 if (it.tag.key in listOf("crossing:barrier", "bicycle_rental", "roof:shape", "material", "royal_cypher", "camera:type",
-                        "bollard", "board_type", "cycle_barrier", "bicycle_parking", "location",
+                        "bollard", "board_type", "cycle_barrier", "bicycle_parking", "location", "stile",
                         "fire_hydrant:type", // TODO: what about fire_hydrant:type=pond? According to wiki it should not be used
                         // https://wiki.openstreetmap.org/wiki/Tag:emergency%3Dfire_hydrant
-                    )) {
+                    ) || it.tag.key.startsWith("recycling:") || it.tag.key.startsWith("parking:")
+                    || it.tag.key.startsWith("cycleway:") ) {
                     // this values should be described at the key page
                     // not ideal as
                     // - StreetComplete can be using bogus values
@@ -569,6 +570,24 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
+    private fun isCompoundDocumentationPageAllowedForKey(key: String):Boolean {
+        //  see say https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
+        if (key.startsWith("$SURVEY_MARK_KEY:")) {
+            return true
+        }
+        if (key.startsWith("name:")) {
+            return true
+        }
+        if (key.startsWith("source:")) {
+            return true
+        }
+        if(key.startsWith("recycling:")) {
+            // https://wiki.openstreetmap.org/w/index.php?title=Key:recycling:cooking_oil
+            return true
+        }
+        return false
+    }
+
     private fun isPageExisting(url: String): Boolean {
         try {
             URL(url).openStream().bufferedReader().use { it.readText() }
@@ -577,6 +596,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         return true
     }
+
+    private fun isCompoundListerErrorPageExisting(url: String): Boolean {
+        return "is a compound key consisting of" in Jsoup.connect(url).ignoreHttpErrors(true).get()
+            .body().toString()
+    }
+
 
     private fun streetCompleteIsReusingAnyValueProvidedByExistingTagging(questDescription:String, key:String): Boolean {
         // much too complicated and error prone and rare to get that info by parsing
@@ -660,6 +685,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 return "$key=*"
             }
             return "$key=$value"
+        }
+
+        fun osmWikiPageUrl(): String {
+            if(value == null) {
+                return "https://wiki.openstreetmap.org/w/index.php?title=Key:${key}"
+            }
+            return "https://wiki.openstreetmap.org/w/index.php?title=Tag:${key}=${value}"
         }
 
         override fun equals(other: Any?): Boolean {
