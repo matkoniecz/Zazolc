@@ -376,33 +376,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return false
     }
 
-    private fun functionParsingSkippedBasedOnSourceCode(description:String, sourceCodeOfFunction: String): Boolean {
-        // Complex code constructs not supported for now
-        // TODO: implement their support
-        val blockers = listOf(
-            "applySidewalkSurfaceAnswerTo",
-            "applyAnswerRoadName",
-            "applyRampAnswer",
-            "answer.litStatus.applyTo",
-            "answer.countryCode + \":\" + answer.roadType",
-            "[answer.osmKey]",
-            "tags[answer.sign.osmKey]",
-            "fee.applyTo(tags)",
-            "tags[\"\$key:note\"]",
-            "tags[\"material\"] = newMaterial",
-            "tags[\"parking:lane:left:\$laneLeft\"]",
-            "answer.osmLegalValue?.let { tags[\"drinking_water:legal\"] = it }", // complex structure, done this way to skip osmLegalValue where it is null
-        )
-        blockers.forEach {
-            if(it in sourceCodeOfFunction) {
-                println("$description - functionParsingSkippedBasedOnSourceCode found $it")
-                println()
-                return true
-            }
-        }
-        return false
-    }
-
     // FIGURE OUT HOW TO AVOID COPYING THIS!
     @Serializable
     data class IncompleteCountryInfo(
@@ -525,6 +498,33 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println((knownFailed - failedQuests).joinToString("\", \"", "\"", "\""))
             throw Exception("some failed quests are now working")
         }
+    }
+
+    private fun functionParsingSkippedBasedOnSourceCode(description:String, sourceCodeOfFunction: String): Boolean {
+        // Complex code constructs not supported for now
+        // TODO: implement their support
+        val blockers = listOf(
+            "applySidewalkSurfaceAnswerTo",
+            "applyAnswerRoadName",
+            "applyRampAnswer",
+            "answer.litStatus.applyTo",
+            "answer.countryCode + \":\" + answer.roadType",
+            "[answer.osmKey]",
+            "tags[answer.sign.osmKey]",
+            "fee.applyTo(tags)",
+            "tags[\"\$key:note\"]",
+            "tags[\"material\"] = newMaterial",
+            "tags[\"parking:lane:left:\$laneLeft\"]",
+            "answer.osmLegalValue?.let { tags[\"drinking_water:legal\"] = it }", // complex structure, done this way to skip osmLegalValue where it is null
+        )
+        blockers.forEach {
+            if(it in sourceCodeOfFunction) {
+                println("$description - functionParsingSkippedBasedOnSourceCode found $it")
+                println()
+                return true
+            }
+        }
+        return false
     }
 
     private fun checkOsmWikiPagesExistence(foundTags: MutableList<TagQuestInfo>) {
