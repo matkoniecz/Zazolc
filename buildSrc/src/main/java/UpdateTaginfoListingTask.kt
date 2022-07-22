@@ -828,19 +828,21 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             // maybe even parse from AddPitchSurface.kt itself?
             val ast = AstSource.String(description, fileSourceCode)
             val functionToGetForm = ast.parse().extractFunctionByName("createForm")!!
+            /*
             functionToGetForm.showHumanReadableTreeWithSourceCode("createForm function", fileSourceCode)
             functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
                 .locateSingleOrExceptionByDescription("simpleIdentifier")
                 .showRelatedSourceCode("should be surface form class", fileSourceCode)
+             */
             val formUsed = functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
                 .locateSingleOrExceptionByDescription("simpleIdentifier")
                 .relatedSourceCode(fileSourceCode)
-            println(formUsed)
+            //println(formUsed)
             // and how the heck get here form file to parse it?
             val formFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/$formUsed.kt")
             val formFileCode = loadFileText(formFile)
             val astForm = AstSource.String(description, formFileCode).parse()
-            astForm.showHumanReadableTreeWithSourceCode("file with form definition, to get access to surface groups", formFileCode)
+            //astForm.showHumanReadableTreeWithSourceCode("file with form definition, to get access to surface groups", formFileCode)
             astForm.locateByDescription("classMemberDeclaration").forEach {
                 val declaration = it.locateSingleOrExceptionByDescriptionDirectChild("declaration")
                 val propertyDeclaration = declaration.locateSingleOrNullByDescriptionDirectChild("propertyDeclaration")
