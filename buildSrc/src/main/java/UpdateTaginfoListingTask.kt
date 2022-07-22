@@ -1151,7 +1151,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun extractTextFromHardcodedString(passedTextHolder: Ast, fileSourceCode: String): String? {
+    private fun extractTextFromHardcodedString(passedTextHolder: Ast): String? {
         var textHolder = passedTextHolder
 
         val plausibleText = textHolder.locateByDescription("stringLiteral")
@@ -1209,7 +1209,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         if (processed == null) {
                             throw ParsingInterpretationException("not handled")
                         }
-                        val key = extractTextFromHardcodedString(processed, fileSourceCode)
+                        val key = extractTextFromHardcodedString(processed)
                         if (key == null) {
                             processed.showRelatedSourceCode("***** - key not found", fileSourceCode)
                             throw ParsingInterpretationException("not handled")
@@ -1312,7 +1312,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         val enumFieldGroup = mutableListOf<EnumFieldState>()
                         val arguments = valueArguments.locateByDescriptionDirectChild("valueArgument")
                         for(i in arguments.indices) {
-                            extractedText = extractTextFromHardcodedString(arguments[i], fileMaybeContainingEnumSourceCode)
+                            extractedText = extractTextFromHardcodedString(arguments[i])
                             if (extractedText == null) {
                                 if(arguments[i].tree() is KlassDeclaration && (arguments[i].tree() as KlassDeclaration).identifier.toString() == "null") {
                                     // it has null as value, apparently
@@ -1355,7 +1355,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return scanned
         }
 
-        val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder, fileSourceCode)
+        val valueIfItIsSimpleText = extractTextFromHardcodedString(valueHolder)
         val valueHolderSourceCode = valueHolder.relatedSourceCode(fileSourceCode)
         if (valueIfItIsSimpleText != null) {
             appliedTags.add(Tag(key, valueIfItIsSimpleText))
