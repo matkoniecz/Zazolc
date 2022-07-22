@@ -234,12 +234,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
         while (folderGenerator.hasNext()) {
             val folder = folderGenerator.next()
-            var foundQuestFile = false
 
             File(folder.toString()).walkTopDown().forEach {
                 if(it.isFile) {
                     if (isQuestFile(it)) {
-                        foundQuestFile = true
                         val fileSourceCode = loadFileText(it)
                         val got:Set<Tag>?
                         try {
