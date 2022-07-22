@@ -1017,9 +1017,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun addedOrEditedTagsWithGivenFunction(description: String, fileSourceCode: String, variable:String, relevantFunctionName:String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode)
-        val relevantFunction = ast.parse().extractFunctionByName(relevantFunctionName)!!
-        if (functionParsingSkippedBasedOnSourceCode(description, relevantFunction.relatedSourceCode(fileSourceCode))) {
-            return null // NOT EVEN TRYING TO SUPPORT FOR NOW TODO
+        val relevantFunction = ast.parse().extractFunctionByName(relevantFunctionName)
+        if(relevantFunction == null) {
+            println(description)
+            println(fileSourceCode)
+            throw ParsingInterpretationException("$relevantFunctionName missing in code provided via $description!")
         }
         val appliedTags = mutableSetOf<Tag>()
         var failedExtraction = false
