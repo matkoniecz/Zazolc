@@ -275,12 +275,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun candidatesForEnumFilesForGivenFile(file: File): List<File> {
         var suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(file.parentFile)
-        if("AddBarrier" in file.name) {
-            // TODO argh? can it be avoided?
-            // why it is present? Without this AddBarrierOnPath would pulla also StileTypeAnswer
-            // and claim that barrier=stepover is a thing
-            suspectedAnswerEnumFilesBasedOnFolder = suspectedAnswerEnumFilesBasedOnFolder.filter { "StileTypeAnswer.kt" !in it.name }
-        }
         return suspectedAnswerEnumFilesBasedOnFolder + candidatesForEnumFilesBasedOnImports(file)
     }
 
@@ -881,7 +875,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return got + addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
         } else if ("AddRoadSurface.kt" == file.name || "AddPathSurface.kt" == file.name
             || "AddFootwayPartSurface.kt" == file.name || "AddCyclewayPartSurface.kt" == file.name || "AddPitchSurface.kt" == file.name) {
-            /*
             val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
             val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
             val surfaces = getEnumValuesDefinedInThisFile(localDescription, answersFile)
@@ -889,7 +882,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             // maybe even parse from AddPitchSurface.kt itself?
             val ast = AstSource.String(description, fileSourceCode)
             val functionToGetForm = ast.parse().extractFunctionByName("createForm")!!
-            //*
+            /*
             functionToGetForm.showHumanReadableTreeWithSourceCode("createForm function", fileSourceCode)
             functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
                 .locateSingleOrExceptionByDescription("simpleIdentifier")
@@ -960,7 +953,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     //throw ParsingInterpretationException(explanation)
                 }
             }
-            */
+            //*/
             return null
         } else if ("AddBikeParkingFee.kt" == file.name || "AddParkingFee.kt" == file.name) {
             val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
