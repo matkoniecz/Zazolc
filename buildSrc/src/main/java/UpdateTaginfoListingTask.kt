@@ -112,6 +112,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "building_entrance/AddEntrance.kt" to setOf(Tag("noexit", "yes"), Tag("entrance", "main"), Tag("entrance", "staircase"), Tag("entrance", "service"), Tag("entrance", "emergency"), Tag("entrance", "exit"), Tag("entrance", "shop"), Tag("entrance", "yes")),
             "building_entrance_reference/AddEntranceReference.kt" to setOf(Tag("addr:flats", null), Tag("ref", null), Tag("ref:signed", "no")),
             "building_levels/AddBuildingLevels.kt" to setOf(Tag("building:levels", null), Tag("roof:levels", null)),
+            "building_type/AddBuildingType.kt" to setOf(Tag("building", "house"), Tag("building", "apartments"), Tag("building", "detached"), Tag("building", "semidetached_house"), Tag("building", "terrace"), Tag("building", "hotel"), Tag("building", "dormitory"), Tag("building", "houseboat"), Tag("building", "bungalow"), Tag("building", "static_caravan"), Tag("building", "hut"), Tag("building", "industrial"), Tag("building", "retail"), Tag("building", "office"), Tag("building", "warehouse"), Tag("building", "kiosk"), Tag("man_made", "storage_tank"), Tag("building", "kindergarten"), Tag("building", "school"), Tag("building", "college"), Tag("building", "sports_centre"), Tag("building", "hospital"), Tag("building", "stadium"), Tag("building", "grandstand"), Tag("building", "train_station"), Tag("building", "transportation"), Tag("building", "fire_station"), Tag("building", "university"), Tag("building", "government"), Tag("building", "church"), Tag("building", "chapel"), Tag("building", "cathedral"), Tag("building", "mosque"), Tag("building", "temple"), Tag("building", "pagoda"), Tag("building", "synagogue"), Tag("building", "shrine"), Tag("building", "carport"), Tag("building", "garage"), Tag("building", "garages"), Tag("building", "parking"), Tag("building", "farm"), Tag("building", "farm_auxiliary"), Tag("man_made", "silo"), Tag("building", "greenhouse"), Tag("building", "shed"), Tag("building", "allotment_house"), Tag("building", "roof"), Tag("building", "bridge"), Tag("building", "toilets"), Tag("building", "service"), Tag("building", "hangar"), Tag("building", "bunker"), Tag("building", "boathouse"), Tag("historic", "yes"), Tag("abandoned", "yes"), Tag("ruins", "yes"), Tag("building", "residential"), Tag("building", "commercial"), Tag("building", "civic"), Tag("building", "religious"), Tag("building", "construction")),
             "building_underground/AddIsBuildingUnderground.kt" to setOf(Tag("location", "underground"), Tag("location", "surface")),
             "bus_stop_bench/AddBenchStatusOnBusStop.kt" to setOf(Tag("check_date:bench", null), Tag("bench", "yes"), Tag("bench", "no")),
             "bus_stop_bin/AddBinStatusOnBusStop.kt" to setOf(Tag("check_date:bin", null), Tag("bin", "yes"), Tag("bin", "no")),
@@ -153,6 +154,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "lanes/AddLanes.kt" to setOf(Tag("lanes", null), Tag("lane_markings", "yes"), Tag("lane_markings", "no"), Tag("lanes:both_ways", "1"), Tag("turn:lanes:both_ways", "left"), Tag("lanes:forward", null), Tag("lanes:backward", null)),
             "max_height/AddMaxHeight.kt" to setOf(Tag("maxheight", null), Tag("maxheight", "default"), Tag("maxheight", "below_default")),
             "max_height/AddMaxPhysicalHeight.kt" to setOf(Tag("maxheight", null), Tag("maxheight:signed", "no"), Tag("source:maxheight", "ARCore")),
+            "max_speed/AddMaxSpeed.kt" to setOf(Tag("maxspeed", null), Tag("maxspeed:type", "sign"), Tag("maxspeed:type", null), Tag("maxspeed:advisory", null), Tag("maxspeed:type:advisory", "sign"), Tag("highway", "living_street"), Tag("lit", "yes"), Tag("lit", "no")),
             "max_weight/AddMaxWeight.kt" to setOf(Tag("maxweight:signed", "no"), Tag("maxweight", null), Tag("maxweightrating", null), Tag("maxaxleload", null), Tag("maxbogieweight", "null")),
             "memorial_type/AddMemorialType.kt" to setOf(Tag("memorial", "statue"), Tag("memorial", "bust"), Tag("memorial", "plaque"), Tag("memorial", "war_memorial"), Tag("memorial", "stone"), Tag("memorial", "obelisk"), Tag("memorial", "stele"), Tag("memorial", "sculpture"), Tag("material", "wood"), Tag("material", "stone")),
             "motorcycle_parking_capacity/AddMotorcycleParkingCapacity.kt" to setOf(Tag("check_date:capacity", null), Tag("capacity", null)),
@@ -196,6 +198,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "step_count/AddStepCountStile.kt" to setOf(Tag("step_count", null)),
             "steps_incline/AddStepsIncline.kt" to setOf(Tag("incline", "up"), Tag("incline", "down")),
             "steps_ramp/AddStepsRamp.kt" to setOf(Tag("ramp", "no"), Tag("ramp", "yes"), Tag("sidewalk", "separate"), Tag("check_date:ramp", null), Tag("ramp:bicycle", "yes"), Tag("ramp:bicycle", "no"), Tag("ramp:stroller", "yes"), Tag("ramp:stroller", "no"), Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"), Tag("ramp:wheelchair", "separate")),
+            "street_parking/AddStreetParking.kt" to setOf(Tag("parking:lane:both", "parallel"), Tag("parking:lane:left", "parallel"), Tag("parking:lane:right", "parallel"), Tag("parking:condition:both", "no_parking"), Tag("parking:condition:left", "no_parking"), Tag("parking:condition:right", "no_parking"), Tag("parking:condition:both", "no_stopping"), Tag("parking:condition:left", "no_stopping"), Tag("parking:condition:right", "no_stopping"), Tag("parking:condition:both", "no_standing"), Tag("parking:condition:left", "no_standing"), Tag("parking:condition:right", "no_standing"), Tag("parking:lane:both", "diagonal"), Tag("parking:lane:left", "diagonal"), Tag("parking:lane:right", "diagonal"), Tag("parking:lane:both", "perpendicular"), Tag("parking:lane:left", "perpendicular"), Tag("parking:lane:right", "perpendicular"), Tag("parking:lane:both", "no"), Tag("parking:lane:left", "no"), Tag("parking:lane:right", "no"), Tag("parking:lane:both", "separate"), Tag("parking:lane:left", "separate"), Tag("parking:lane:right", "separate")),
             "summit/AddSummitCross.kt" to setOf(Tag("check_date:summit:cross", null), Tag("summit:cross", "yes"), Tag("summit:cross", "no")),
             "summit/AddSummitRegister.kt" to setOf(Tag("check_date:summit:register", null), Tag("summit:register", "yes"), Tag("summit:register", "no")),
             "tactile_paving/AddTactilePavingBusStop.kt" to setOf(Tag("check_date:tactile_paving", null), Tag("tactile_paving", "yes"), Tag("tactile_paving", "no")),
@@ -459,23 +462,18 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 1131
+        val tagsFoundPreviously = 1428
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 132
+        val processedQuestsPreviously = 138
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
         val knownFailed = setOf(
-            "app/src/main/java/de/westnordost/streetcomplete/quests/max_speed/AddMaxSpeed.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/road_name/AddRoadName.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/street_parking/AddStreetParking.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/building_type/AddBuildingType.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/max_weight/AddMaxWeight.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddSidewalkSurface.kt",
+
             "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt",
             "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt",
@@ -496,29 +494,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println((knownFailed - failedQuests).joinToString("\", \"", "\"", "\""))
             throw Exception("some failed quests are now working")
         }
-    }
-
-    private fun functionParsingSkippedBasedOnSourceCode(description:String, sourceCodeOfFunction: String): Boolean {
-        // Complex code constructs not supported for now
-        // TODO: implement their support
-        val blockers = listOf(
-            "applySidewalkSurfaceAnswerTo",
-            "answer.litStatus.applyTo",
-            "answer.countryCode + \":\" + answer.roadType",
-            "[answer.osmKey]",
-            "tags[answer.sign.osmKey]",
-            "fee.applyTo(tags)",
-            "tags[\"\$key:note\"]",
-            "tags[\"parking:lane:left:\$laneLeft\"]",
-        )
-        blockers.forEach {
-            if(it in sourceCodeOfFunction) {
-                println("$description - functionParsingSkippedBasedOnSourceCode found $it")
-                println()
-                return true
-            }
-        }
-        return false
     }
 
     private fun checkOsmWikiPagesExistence(foundTags: MutableList<TagQuestInfo>) {
@@ -737,6 +712,68 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             possibleLanguageTags().forEach { appliedTags.add(Tag(it, null)) }
             appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
             return appliedTags
+        } else if("AddStreetParking.kt" == file.name) {
+            val appliedTags = mutableSetOf<Tag>()
+            val parkingOrientations = listOf("parallel", "diagonal", "perpendicular")
+            val orientations = parkingOrientations + listOf("no", "separate")
+            val noConditions = listOf("no_parking", "no_stopping", "no_standing")
+            var modifiedSourceCode = fileSourceCode
+            modifiedSourceCode = modifiedSourceCode.replace("laneLeft\"] = positionLeft", "laneParkingLeft\"] = positionLeft")
+            modifiedSourceCode = modifiedSourceCode.replace("laneRight\"] = positionRight", "laneParkingRight\"] = positionRight")
+            modifiedSourceCode = modifiedSourceCode.replace("val laneRight", "val laneBlockerReplacementRight")
+            modifiedSourceCode = modifiedSourceCode.replace("val laneLeft", "val laneBlockerReplacementLeft")
+            parkingOrientations.forEach { parkingSuffix ->
+                orientations.forEach { orientation ->
+                    noConditions.forEach { noCondition ->
+                        val specificModifiedCode =  modifiedSourceCode
+                            .replace("tags[\"parking:condition:both\"] = it", "tags[\"parking:condition:both\"] = \"$noCondition\"")
+                            .replace("tags[\"parking:condition:left\"] = it", "tags[\"parking:condition:left\"] = \"$noCondition\"")
+                            .replace("tags[\"parking:condition:right\"] = it", "tags[\"parking:condition:right\"] = \"$noCondition\"")
+                            .replace("\$laneParkingLeft", parkingSuffix)
+                            .replace("[laneParkingLeft]", "[\"$parkingSuffix\"]")
+                            .replace("\$laneParkingRight", parkingSuffix)
+                            .replace("[laneParkingRight]", "[\"$parkingSuffix\"]")
+                            .replace("laneLeft", '"' + orientation + '"')
+                            .replace("laneRight", '"' + orientation + '"')
+                        appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", specificModifiedCode, "tags", "applyAnswerTo", suspectedAnswerEnumFiles)!!
+                        //appliedTags.add(Tag("sidewalk:$side:surface", "no"),
+                        //appliedTags.add(Tag("sidewalk:$side:surface:note", null),
+                    }
+                }
+            }
+            return appliedTags
+        } else if("AddMaxSpeed.kt" == file.name) {
+            val appliedTags = mutableSetOf<Tag>()
+            appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+            appliedTags.add(Tag("maxspeed", null))
+            appliedTags.add(Tag("maxspeed:type", null)) // TODO - not really true but I give up here for now
+            appliedTags.add(Tag("maxspeed:advisory", null))
+            appliedTags.add(Tag("maxspeed:type:advisory", "sign"))
+            return appliedTags
+        } else if("AddSidewalkSurface.kt" == file.name) {
+            val appliedTags = mutableSetOf<Tag>()
+            //appliedTags.add(Tag(surveyMarkKeyBasedOnKey("sidewalk:surface"), null))
+            val sides = listOf("both", "left", "right") // TODO: maybe get it from parsing
+            val surfaces = listOf("asphalt")  // TODO FIX PLZ
+            // TODO FIX PLZ
+            // TODO FIX PLZ
+            // TODO FIX PLZ
+            // TODO FIX PLZ
+            // TODO FIX PLZ
+            // TODO FIX PLZ
+            // TODO FIX PLZ
+            sides.forEach { side ->
+                surfaces.forEach { surface ->
+                    val modifiedSourceCode = fileSourceCode.replace("\$sidewalkSurfaceKey", side)
+                        .replace("[sidewalkSurfaceKey]", "[\"sidewalk:$side:surface\"]")
+                        .replace("surface.value.osmValue", '"' + surface + '"')
+                    appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applySidewalkSurfaceAnswerTo", suspectedAnswerEnumFiles)!!
+                    //appliedTags.add(Tag("sidewalk:$side:surface", "no"),
+                    //appliedTags.add(Tag("sidewalk:$side:surface:note", null),
+                }
+            }
+            appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+            return appliedTags
         } else if("AddSidewalk.kt" == file.name) {
            return setOf(Tag("sidewalk", "no"), Tag("sidewalk", "both"), Tag("sidewalk", "left"),
                Tag("sidewalk", "right"), Tag("sidewalk", "separate"),
@@ -744,6 +781,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                Tag("sidewalk:left", "no"), Tag("sidewalk:left", "yes"), Tag("sidewalk:left", "separate"),
                Tag("sidewalk:right", "no"), Tag("sidewalk:right", "yes"), Tag("sidewalk:right", "separate"),
            )
+        } else if("AddMaxWeight.kt" == file.name) {
+            return setOf(Tag("maxweight:signed", "no"), Tag("maxweight", null), Tag("maxweightrating", null),
+                Tag("maxaxleload", null), Tag("maxbogieweight", "null"),
+            )
         } else if("AddStepsRamp.kt" == file.name) {
             return setOf(Tag("ramp", "no"), Tag("ramp", "yes"), Tag("sidewalk", "separate"),
                 Tag(surveyMarkKeyBasedOnKey("ramp"), null),
@@ -774,6 +815,20 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 return null
             }
             appliedTags += got
+            return appliedTags
+        } else if("AddBuildingType.kt" == file.name) {
+            val appliedTags = mutableSetOf<Tag>()
+            val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "building_type/BuildingType.kt")
+            val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
+            val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
+            answers.forEach{ enumGroup ->
+                enumGroup.forEach {
+                    if(enumGroup.size != 2 || enumGroup[0].identifier != "osmKey" || enumGroup[1].identifier != "osmValue") {
+                        throw ParsingInterpretationException("unexpected $enumGroup")
+                    }
+                    appliedTags.add(Tag(enumGroup[0].possibleValue, enumGroup[1].possibleValue))
+                }
+            }
             return appliedTags
         } else if("AddStileType.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
@@ -826,6 +881,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return got + addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
         } else if ("AddRoadSurface.kt" == file.name || "AddPathSurface.kt" == file.name
             || "AddFootwayPartSurface.kt" == file.name || "AddCyclewayPartSurface.kt" == file.name || "AddPitchSurface.kt" == file.name) {
+            /*
             val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
             val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
             val surfaces = getEnumValuesDefinedInThisFile(localDescription, answersFile)
@@ -833,12 +889,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             // maybe even parse from AddPitchSurface.kt itself?
             val ast = AstSource.String(description, fileSourceCode)
             val functionToGetForm = ast.parse().extractFunctionByName("createForm")!!
-            /*
+            //*
             functionToGetForm.showHumanReadableTreeWithSourceCode("createForm function", fileSourceCode)
             functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
                 .locateSingleOrExceptionByDescription("simpleIdentifier")
                 .showRelatedSourceCode("should be surface form class", fileSourceCode)
-             */
+            // */
             val formUsed = functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
                 .locateSingleOrExceptionByDescription("simpleIdentifier")
                 .relatedSourceCode(fileSourceCode)
@@ -865,13 +921,46 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
             //val propertyToGetSurfaces = ast.
-            val surfacesFileCode = loadFileText(surfacesFile)
-            val astSurfaceGroupsDefinitions = AstSource.String(surfacesFile.name, surfacesFileCode).parse()
+
+            val surfacesFileCode = loadFileText(answersFile)
+            val astSurfaceGroupsDefinitions = AstSource.String(answersFile.name, surfacesFileCode).parse()
             //astSurfaceGroupsDefinitions.showHumanReadableTreeWithSourceCode("file with xurface groups definitions, to get access to their structure", surfacesFileCode)
-            astSurfaceGroupsDefinitions.locateByDescription("topLevelObject").forEach {
+            astSurfaceGroupsDefinitions.locateByDescription("topLevelObject").forEach { topLevelObject ->
                 println("topLevelObject")
-                it.showHumanReadableTreeWithSourceCode("topLevelObject - surface group file", surfacesFileCode)
+                println("topLevelObject showHumanReadableTreeWithSourceCode shown above")
+                val propertyDeclarations = topLevelObject.locateSingleOrExceptionByDescriptionDirectChild("declaration")
+                    .locateByDescriptionDirectChild("propertyDeclaration")
+                if(propertyDeclarations.size == 1) {
+                    val propertyDeclaration = propertyDeclarations[0]
+                    val expressions = propertyDeclaration.locateByDescriptionDirectChild("expression")
+                    // .showHumanReadableTreeWithSourceCode("expression - surface group file", surfacesFileCode)
+
+                    val nameOfDefinedGroup = (propertyDeclaration.locateSingleOrExceptionByDescriptionDirectChild("variableDeclaration")
+                        .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier").tree() as KlassIdentifier).identifier
+                    if (nameOfDefinedGroup !in listOf("shouldBeDescribed")) {
+                        topLevelObject.showHumanReadableTreeWithSourceCode("topLevelObject - surface group file", surfacesFileCode)
+                        println(nameOfDefinedGroup)
+                        if(expressions.size > 1) {
+                            propertyDeclaration.showHumanReadableTreeWithSourceCode("multiple expressions present", surfacesFileCode)
+                        } else {
+                            if(expressions[0].relatedSourceCode(surfacesFileCode) == "listOf(") {
+                                val list = expressions[0].locateSingleOrExceptionByDescription("callSuffix") // will fail ith multiple layers of calls
+                                    .locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
+                                list.showRelatedSourceCode("list of arguments in listOf definition in surfaces listing file", surfacesFileCode)
+                            } else {
+                                println("${expressions[0].relatedSourceCode(surfacesFileCode)} is not supported")
+                            }
+                        }
+                    }
+                } else {
+                    val explanation = "${propertyDeclarations.size} propertyDeclarations present, for rexample an enum has 0"
+                    topLevelObject.showHumanReadableTreeWithSourceCode(explanation, surfacesFileCode)
+                    topLevelObject.showRelatedSourceCode(explanation, surfacesFileCode)
+                    println(explanation)
+                    //throw ParsingInterpretationException(explanation)
+                }
             }
+            */
             return null
         } else if ("AddBikeParkingFee.kt" == file.name || "AddParkingFee.kt" == file.name) {
             val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
