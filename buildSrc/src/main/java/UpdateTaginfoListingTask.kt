@@ -603,8 +603,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 "building:levels", "roof:levels", "level",
                 "collection_times", "opening_hours", "opening_date", "check_date",
                 "fire_hydrant:diameter", "maxheight", "width", "cycleway:width",
-                "surface:note", "source:width", "source:maxheight",
-                "maxspeed", "maxstay",
+                "surface:note",
+                "maxspeed", "maxspeed:advisory", "maxstay",
+                "maxweight", "maxweightrating", "maxaxleload", "maxbogieweight",
+                "maxspeed:type", // not really true, but I give up for now. TODO: remove
                 "capacity", "step_count",
                 "lanes", "lanes:forward", "lanes:backward", "lanes:both_ways",
                 "turn:lanes:both_ways", "turn:lanes", "turn:lanes:forward", "turn:lanes:backward",
