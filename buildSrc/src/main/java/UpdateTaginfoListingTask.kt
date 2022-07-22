@@ -418,7 +418,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println(EXPECTED_TAG_PER_QUEST[filepath])
             println()
             if(got == null) {
-                "got empty input"
+                println("got empty input")
             }
             if(EXPECTED_TAG_PER_QUEST[filepath] != null && got != null) {
                 println("Expected, was missing:")
