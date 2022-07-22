@@ -1440,12 +1440,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
                     if (value.identifier == identifier) {
                         appliedTags.add(Tag(key, value.possibleValue))
+                        extractedSomething = true
                         if(debug) {
                             println("$key=${value.possibleValue} registered based on ${value.identifier} identifier matching expected ${identifier} - from ${it.name}")
                         }
                     }
                 }
-                extractedSomething = true
             }
         }
         if(!freeformKey(key)) {
