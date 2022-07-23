@@ -593,10 +593,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
             if (!isPageExisting(keyOnly.osmWikiPageUrl())) {
                 if (it.value != null) {
-                    // if value page exists, then it is likely fine
+                    // if value page exists, then it is likely fine - but how we can link stuff?
                     if (!isPageExisting(it.osmWikiPageUrl())) {
                         println("${it.key}=${it.value} has no key OSM Wiki page at ${keyOnly.osmWikiPageUrl()} and has no value page at ${it.osmWikiPageUrl()}")
                         return@forEach
+                    } else {
+                        if(!isCompoundListerErrorPageExisting(keyOnly.osmWikiPageUrl())) {
+                            println("${it.key}=${it.value} has no key OSM Wiki page at ${keyOnly.osmWikiPageUrl()} - ant it has no compound lister there, but it has a value page at ${it.osmWikiPageUrl()}")
+                        }
                     }
                 } else {
                     println("${it.key}= has no OSM Wiki page at ${keyOnly.osmWikiPageUrl()}")
@@ -635,7 +639,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return true
         }
         if (it.key.startsWith("recycling:") || it.key.startsWith("parking:")
-            || it.key.startsWith("cycleway:") ) {
+            || it.key.startsWith("cycleway:") || it.key.startsWith("footway:")) {
             return true
         }
         return false
@@ -644,6 +648,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun isCompoundDocumentationPageAllowedForKey(key: String): Boolean {
         //  see say https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
         if (key.startsWith("$SURVEY_MARK_KEY:")) {
+            return true
+        }
+        if (key == "maxspeed:type:advisory") {
             return true
         }
         if (key.startsWith("name:")) {
@@ -660,6 +667,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return true
         }
         if (key.startsWith("cycleway:")) {
+            return true
+        }
+        if (key.endsWith(":note")) {
             return true
         }
         return false
