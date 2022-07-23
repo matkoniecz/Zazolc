@@ -302,7 +302,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun candidatesForEnumFilesForGivenFile(file: File): List<File> {
-        var suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(file.parentFile)
+        val suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(file.parentFile)
         return suspectedAnswerEnumFilesBasedOnFolder + candidatesForEnumFilesBasedOnImports(file)
     }
 
@@ -800,248 +800,266 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val description = file.parentFile.name + File.separator + file.name
         val fileSourceCode = loadFileText(file)
         // TODO hardcoding is ugly and ideally would be replaced
-        if ("AddAddressStreet.kt" == file.name) {
-            return setOf(Tag("addr:street", null), Tag("addr:place", null))
-        } else if ("AddRoadName.kt" == file.name) {
-            val appliedTags = mutableSetOf<Tag>()
-            possibleLanguageKeys().forEach { appliedTags.add(Tag(it, null)) }
-            appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
-            return appliedTags
-        } else if ("AddStreetParking.kt" == file.name) {
-            val appliedTags = mutableSetOf<Tag>()
-            val parkingOrientations = listOf("parallel", "diagonal", "perpendicular")
-            val orientations = parkingOrientations + listOf("no", "separate")
-            val noConditions = listOf("no_parking", "no_stopping", "no_standing")
-            var modifiedSourceCode = fileSourceCode
-            modifiedSourceCode = modifiedSourceCode.replace("laneLeft\"] = positionLeft", "laneParkingLeft\"] = positionLeft")
-            modifiedSourceCode = modifiedSourceCode.replace("laneRight\"] = positionRight", "laneParkingRight\"] = positionRight")
-            modifiedSourceCode = modifiedSourceCode.replace("val laneRight", "val laneBlockerReplacementRight")
-            modifiedSourceCode = modifiedSourceCode.replace("val laneLeft", "val laneBlockerReplacementLeft")
-            parkingOrientations.forEach { parkingSuffix ->
-                orientations.forEach { orientation ->
-                    noConditions.forEach { noCondition ->
-                        val specificModifiedCode =  modifiedSourceCode
-                            .replace("tags[\"parking:condition:both\"] = it", "tags[\"parking:condition:both\"] = \"$noCondition\"")
-                            .replace("tags[\"parking:condition:left\"] = it", "tags[\"parking:condition:left\"] = \"$noCondition\"")
-                            .replace("tags[\"parking:condition:right\"] = it", "tags[\"parking:condition:right\"] = \"$noCondition\"")
-                            .replace("\$laneParkingLeft", parkingSuffix)
-                            .replace("[laneParkingLeft]", "[\"$parkingSuffix\"]")
-                            .replace("\$laneParkingRight", parkingSuffix)
-                            .replace("[laneParkingRight]", "[\"$parkingSuffix\"]")
-                            .replace("laneLeft", '"' + orientation + '"')
-                            .replace("laneRight", '"' + orientation + '"')
-                        appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", specificModifiedCode, "tags", "applyAnswerTo", suspectedAnswerEnumFiles)!!
+        when (file.name) {
+            "AddAddressStreet.kt" -> {
+                return setOf(Tag("addr:street", null), Tag("addr:place", null))
+            }
+            "AddRoadName.kt" -> {
+                val appliedTags = mutableSetOf<Tag>()
+                possibleLanguageKeys().forEach { appliedTags.add(Tag(it, null)) }
+                appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+                return appliedTags
+            }
+            "AddStreetParking.kt" -> {
+                val appliedTags = mutableSetOf<Tag>()
+                val parkingOrientations = listOf("parallel", "diagonal", "perpendicular")
+                val orientations = parkingOrientations + listOf("no", "separate")
+                val noConditions = listOf("no_parking", "no_stopping", "no_standing")
+                var modifiedSourceCode = fileSourceCode
+                modifiedSourceCode = modifiedSourceCode.replace("laneLeft\"] = positionLeft", "laneParkingLeft\"] = positionLeft")
+                modifiedSourceCode = modifiedSourceCode.replace("laneRight\"] = positionRight", "laneParkingRight\"] = positionRight")
+                modifiedSourceCode = modifiedSourceCode.replace("val laneRight", "val laneBlockerReplacementRight")
+                modifiedSourceCode = modifiedSourceCode.replace("val laneLeft", "val laneBlockerReplacementLeft")
+                parkingOrientations.forEach { parkingSuffix ->
+                    orientations.forEach { orientation ->
+                        noConditions.forEach { noCondition ->
+                            val specificModifiedCode =  modifiedSourceCode
+                                .replace("tags[\"parking:condition:both\"] = it", "tags[\"parking:condition:both\"] = \"$noCondition\"")
+                                .replace("tags[\"parking:condition:left\"] = it", "tags[\"parking:condition:left\"] = \"$noCondition\"")
+                                .replace("tags[\"parking:condition:right\"] = it", "tags[\"parking:condition:right\"] = \"$noCondition\"")
+                                .replace("\$laneParkingLeft", parkingSuffix)
+                                .replace("[laneParkingLeft]", "[\"$parkingSuffix\"]")
+                                .replace("\$laneParkingRight", parkingSuffix)
+                                .replace("[laneParkingRight]", "[\"$parkingSuffix\"]")
+                                .replace("laneLeft", '"' + orientation + '"')
+                                .replace("laneRight", '"' + orientation + '"')
+                            appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", specificModifiedCode, "tags", "applyAnswerTo", suspectedAnswerEnumFiles)!!
+                            // appliedTags.add(Tag("sidewalk:$side:surface", "no"),
+                            // appliedTags.add(Tag("sidewalk:$side:surface:note", null),
+                        }
+                    }
+                }
+                return appliedTags
+            }
+            "AddMaxSpeed.kt" -> {
+                val appliedTags = mutableSetOf<Tag>()
+                appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+                appliedTags.add(Tag("maxspeed", null))
+                appliedTags.add(Tag("maxspeed:type", null)) // TODO - not really true but I give up here for now
+                appliedTags.add(Tag("maxspeed:advisory", null))
+                appliedTags.add(Tag("maxspeed:type:advisory", "sign"))
+                return appliedTags
+            }
+            "AddSidewalkSurface.kt" -> {
+                val appliedTags = mutableSetOf<Tag>()
+                // appliedTags.add(Tag(surveyMarkKeyBasedOnKey("sidewalk:surface"), null))
+                val sides = listOf("both", "left", "right") // TODO: maybe get it from parsing
+                val surfaces = listOf("asphalt")  // TODO FIX PLZ
+                // TODO FIX PLZ
+                // TODO FIX PLZ
+                // TODO FIX PLZ
+                // TODO FIX PLZ
+                // TODO FIX PLZ
+                // TODO FIX PLZ
+                // TODO FIX PLZ
+                sides.forEach { side ->
+                    surfaces.forEach { surface ->
+                        val modifiedSourceCode = fileSourceCode.replace("\$sidewalkSurfaceKey", "sidewalk:$side:surface")
+                            .replace("[sidewalkSurfaceKey]", "[\"sidewalk:$side:surface\"]")
+                            .replace("surface.value.osmValue", '"' + surface + '"')
+                        appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applySidewalkSurfaceAnswerTo", suspectedAnswerEnumFiles)!!
                         // appliedTags.add(Tag("sidewalk:$side:surface", "no"),
                         // appliedTags.add(Tag("sidewalk:$side:surface:note", null),
                     }
                 }
+                appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+                return appliedTags
             }
-            return appliedTags
-        } else if ("AddMaxSpeed.kt" == file.name) {
-            val appliedTags = mutableSetOf<Tag>()
-            appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
-            appliedTags.add(Tag("maxspeed", null))
-            appliedTags.add(Tag("maxspeed:type", null)) // TODO - not really true but I give up here for now
-            appliedTags.add(Tag("maxspeed:advisory", null))
-            appliedTags.add(Tag("maxspeed:type:advisory", "sign"))
-            return appliedTags
-        } else if ("AddSidewalkSurface.kt" == file.name) {
-            val appliedTags = mutableSetOf<Tag>()
-            // appliedTags.add(Tag(surveyMarkKeyBasedOnKey("sidewalk:surface"), null))
-            val sides = listOf("both", "left", "right") // TODO: maybe get it from parsing
-            val surfaces = listOf("asphalt")  // TODO FIX PLZ
-            // TODO FIX PLZ
-            // TODO FIX PLZ
-            // TODO FIX PLZ
-            // TODO FIX PLZ
-            // TODO FIX PLZ
-            // TODO FIX PLZ
-            // TODO FIX PLZ
-            sides.forEach { side ->
-                surfaces.forEach { surface ->
-                    val modifiedSourceCode = fileSourceCode.replace("\$sidewalkSurfaceKey", "sidewalk:$side:surface")
-                        .replace("[sidewalkSurfaceKey]", "[\"sidewalk:$side:surface\"]")
-                        .replace("surface.value.osmValue", '"' + surface + '"')
-                    appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applySidewalkSurfaceAnswerTo", suspectedAnswerEnumFiles)!!
-                    // appliedTags.add(Tag("sidewalk:$side:surface", "no"),
-                    // appliedTags.add(Tag("sidewalk:$side:surface:note", null),
+            "AddSidewalk.kt" -> {
+                return setOf(Tag("sidewalk", "no"), Tag("sidewalk", "both"), Tag("sidewalk", "left"),
+                    Tag("sidewalk", "right"), Tag("sidewalk", "separate"),
+                    Tag(surveyMarkKeyBasedOnKey("sidewalk"), null),
+                    Tag("sidewalk:left", "no"), Tag("sidewalk:left", "yes"), Tag("sidewalk:left", "separate"),
+                    Tag("sidewalk:right", "no"), Tag("sidewalk:right", "yes"), Tag("sidewalk:right", "separate"),
+                )
+            }
+            "AddMaxWeight.kt" -> {
+                return setOf(Tag("maxweight:signed", "no"), Tag("maxweight", null), Tag("maxweightrating", null),
+                    Tag("maxaxleload", null), Tag("maxbogieweight", "null"),
+                )
+            }
+            "AddStepsRamp.kt" -> {
+                return setOf(Tag("ramp", "no"), Tag("ramp", "yes"), Tag("sidewalk", "separate"),
+                    Tag(surveyMarkKeyBasedOnKey("ramp"), null),
+                    Tag("ramp:bicycle", "yes"), Tag("ramp:bicycle", "no"),
+                    Tag("ramp:stroller", "yes"), Tag("ramp:stroller", "no"),
+                    Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"),
+                    Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"), Tag("ramp:wheelchair", "separate"),
+                )
+            }
+            "AddDrinkingWater.kt" -> {
+                return setOf(
+                    Tag("drinking_water", "no"), Tag("drinking_water", "yes"),
+                    Tag("drinking_water:legal", "no"), Tag("drinking_water:legal", "yes"),
+                )
+            }
+            "AddRecyclingContainerMaterials.kt" -> {
+                val appliedTags = mutableSetOf<Tag>()
+                val recylingMaterialsFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
+                val materials = getEnumValuesDefinedInThisFile("RecyclingMaterial hack", recylingMaterialsFile)
+                materials.forEach {
+                    if (it.fields.size != 1) {
+                        throw ParsingInterpretationException("expected a single value, got $it")
+                    }
+                    appliedTags.add(Tag("recycling:${it.fields[0].possibleValue}", "yes"))
                 }
-            }
-            appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
-            return appliedTags
-        } else if ("AddSidewalk.kt" == file.name) {
-           return setOf(Tag("sidewalk", "no"), Tag("sidewalk", "both"), Tag("sidewalk", "left"),
-               Tag("sidewalk", "right"), Tag("sidewalk", "separate"),
-               Tag(surveyMarkKeyBasedOnKey("sidewalk"), null),
-               Tag("sidewalk:left", "no"), Tag("sidewalk:left", "yes"), Tag("sidewalk:left", "separate"),
-               Tag("sidewalk:right", "no"), Tag("sidewalk:right", "yes"), Tag("sidewalk:right", "separate"),
-           )
-        } else if ("AddMaxWeight.kt" == file.name) {
-            return setOf(Tag("maxweight:signed", "no"), Tag("maxweight", null), Tag("maxweightrating", null),
-                Tag("maxaxleload", null), Tag("maxbogieweight", "null"),
-            )
-        } else if ("AddStepsRamp.kt" == file.name) {
-            return setOf(Tag("ramp", "no"), Tag("ramp", "yes"), Tag("sidewalk", "separate"),
-                Tag(surveyMarkKeyBasedOnKey("ramp"), null),
-                Tag("ramp:bicycle", "yes"), Tag("ramp:bicycle", "no"),
-                Tag("ramp:stroller", "yes"), Tag("ramp:stroller", "no"),
-                Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"),
-                Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"), Tag("ramp:wheelchair", "separate"),
-            )
-        } else if ("AddDrinkingWater.kt" == file.name) {
-            return setOf(
-                Tag("drinking_water", "no"), Tag("drinking_water", "yes"),
-                Tag("drinking_water:legal", "no"), Tag("drinking_water:legal", "yes"),
-            )
-        } else if ("AddRecyclingContainerMaterials.kt" == file.name) {
-            val appliedTags = mutableSetOf<Tag>()
-            val recylingMaterialsFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
-            val materials = getEnumValuesDefinedInThisFile("RecyclingMaterial hack", recylingMaterialsFile)
-            materials.forEach {
-                if (it.fields.size != 1) {
-                    throw ParsingInterpretationException("expected a single value, got $it")
+                appliedTags.add(Tag("amenity", "waste_disposal")) // from applyWasteContainerAnswer, harcoded due to complexity HACK :(
+                val modifiedile = fileSourceCode.replace("tags[material] = \"yes\"", "") // HACK :(
+                val got = addedOrEditedTagsWithGivenFunction("$description modified code", modifiedile, "tags", "applyRecyclingMaterialsAnswer", suspectedAnswerEnumFiles)
+                if (got == null) {
+                    return null
                 }
-                appliedTags.add(Tag("recycling:${it.fields[0].possibleValue}", "yes"))
+                appliedTags += got
+                return appliedTags
             }
-            appliedTags.add(Tag("amenity", "waste_disposal")) // from applyWasteContainerAnswer, harcoded due to complexity HACK :(
-            val modifiedile = fileSourceCode.replace("tags[material] = \"yes\"", "") // HACK :(
-            val got = addedOrEditedTagsWithGivenFunction("$description modified code", modifiedile, "tags", "applyRecyclingMaterialsAnswer", suspectedAnswerEnumFiles)
-            if (got == null) {
+            "AddBuildingType.kt" -> {
+                val appliedTags = mutableSetOf<Tag>()
+                val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "building_type/BuildingType.kt")
+                val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
+                val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
+                answers.forEach { enumGroup ->
+                    enumGroup.fields.forEach {
+                        if (enumGroup.fields.size != 2 || enumGroup.fields[0].identifier != "osmKey" || enumGroup.fields[1].identifier != "osmValue") {
+                            throw ParsingInterpretationException("unexpected $enumGroup")
+                        }
+                        appliedTags.add(Tag(enumGroup.fields[0].possibleValue, enumGroup.fields[1].possibleValue))
+                    }
+                }
+                return appliedTags
+            }
+            "AddStileType.kt" -> {
+                val appliedTags = mutableSetOf<Tag>()
+                // maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
+                val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "barrier_type/StileTypeAnswer.kt")
+                val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
+                val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
+                answers.forEach { enumGroup ->
+                    enumGroup.fields.forEach {
+                        when (it.identifier) {
+                            "newBarrier" -> {
+                                appliedTags.add(Tag("barrier", it.possibleValue))
+                            }
+                            "osmValue" -> {
+                                appliedTags.add(Tag("stile", it.possibleValue))
+                            }
+                            "osmMaterialValue" -> {
+                                appliedTags.add(Tag("material", it.possibleValue))
+                            }
+                            else -> {
+                                throw ParsingInterpretationException("unexpected")
+                            }
+                        }
+                    }
+                }
+                return appliedTags
+            }
+            "AddCyclewayWidth.kt" -> {
+                val appliedTags = mutableSetOf<Tag>()
+                val keys = listOf("width", "cycleway:width") // TODO: get it from parsing
+                keys.forEach { key ->
+                    val modifiedSourceCode = fileSourceCode.replace("\$key", key).replace("[key]", "[\"$key\"]")
+                    appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
+                }
+                return appliedTags
+            }
+            "AddCycleway.kt" -> {
+                val got = mutableSetOf<Tag>()
+                got += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", "applySidewalkAnswerTo", suspectedAnswerEnumFiles)!!
+                val sides = listOf("both", "left", "right") // TODO: get it from parsing
+                val directionValue  = listOf("\"yes\"", "\"-1\"") // TODO: get it from parsing
+                sides.forEach { side ->
+                    directionValue.forEach { direction ->
+                        val modifiedSourceCode = fileSourceCode.replace("\$cyclewayKey", "cycleway:$side")
+                            .replace("[cyclewayKey]", "[\"cycleway:$side\"]")
+                            .replace("val directionValue", "val directionPreservedValue")
+                            .replace("directionValue", direction)
+
+                        got += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applyCyclewayAnswerTo", suspectedAnswerEnumFiles)!!
+                    }
+                }
+                return got + addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+            }
+            "AddRoadSurface.kt", "AddPathSurface.kt", "AddFootwayPartSurface.kt", "AddCyclewayPartSurface.kt", "AddPitchSurface.kt" -> {
+                val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
+                val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
+                val surfaces = getEnumValuesDefinedInThisFile(localDescription, answersFile)
+                // TODO actually pitch surfaces are more limited - parse it from Surface.kt file
+                // maybe even parse from AddPitchSurface.kt itself?
+                val ast = AstSource.String(description, fileSourceCode)
+                val functionToGetForm = ast.parse().extractFunctionByName("createForm")!!
+                /*
+                functionToGetForm.showHumanReadableTreeWithSourceCode("createForm function", fileSourceCode)
+                functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
+                    .locateSingleOrExceptionByDescription("simpleIdentifier")
+                    .showRelatedSourceCode("should be surface form class", fileSourceCode)
+                // */
+                val formUsed = functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
+                    .locateSingleOrExceptionByDescription("simpleIdentifier")
+                    .relatedSourceCode(fileSourceCode)
+                // println(formUsed)
+                // and how the heck get here form file to parse it?
+                val formFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/$formUsed.kt")
+                val formFileCode = loadFileText(formFile)
+                val astForm = AstSource.String(description, formFileCode).parse()
+                // astForm.showHumanReadableTreeWithSourceCode("file with form definition, to get access to surface groups", formFileCode)
+                astForm.locateByDescription("classMemberDeclaration").forEach {
+                    val declaration = it.locateSingleOrExceptionByDescriptionDirectChild("declaration")
+                    val propertyDeclaration = declaration.locateSingleOrNullByDescriptionDirectChild("propertyDeclaration")
+                    if (propertyDeclaration != null) {
+                        val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
+                        val getter = propertyDeclaration.locateSingleOrNullByDescription("getter")
+                        if (variableDeclaration != null && getter != null && variableDeclaration.relatedSourceCode(formFileCode) == "items") {
+                            println()
+                            println()
+                            getter.locateByDescription("Identifier").forEach {
+                                it.showRelatedSourceCode("Identifier", formFileCode)
+                            }
+                            println()
+                        }
+                    }
+                }
+                val structures = obtainSurfaceClassificationStructure()
+                /*
+                structures.forEach {
+                    println()
+                    println()
+                    println(it.name)
+                    it.elements.forEach{ surfaceIdentifier ->
+                        val match = surfaces.filter { it.identifier == surfaceIdentifier }
+                        if(match.size != 1) {
+                            throw ParsingInterpretationException("$match - expected single matching")
+                        }
+                        println(match)
+                    }
+                }
+                println("STRUCTURES DEBUHG")
+                */
                 return null
             }
-            appliedTags += got
-            return appliedTags
-        } else if ("AddBuildingType.kt" == file.name) {
-            val appliedTags = mutableSetOf<Tag>()
-            val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "building_type/BuildingType.kt")
-            val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
-            val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
-            answers.forEach { enumGroup ->
-                enumGroup.fields.forEach {
-                    if (enumGroup.fields.size != 2 || enumGroup.fields[0].identifier != "osmKey" || enumGroup.fields[1].identifier != "osmValue") {
-                        throw ParsingInterpretationException("unexpected $enumGroup")
-                    }
-                    appliedTags.add(Tag(enumGroup.fields[0].possibleValue, enumGroup.fields[1].possibleValue))
+            "AddBikeParkingFee.kt", "AddParkingFee.kt" -> {
+                val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
+                val fromFee = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, feeApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
+                if (Tag("fee", "yes") !in fromFee) {
+                    throw ParsingInterpretationException("is it even working - no, as fee=yes is missing")
                 }
+                val maxstayApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Maxstay.kt")
+                val fromMaxstay = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, maxstayApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
+                return fromFee + fromMaxstay
             }
-            return appliedTags
-        } else if ("AddStileType.kt" == file.name) {
-            val appliedTags = mutableSetOf<Tag>()
-            // maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
-            val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "barrier_type/StileTypeAnswer.kt")
-            val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
-            val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
-            answers.forEach { enumGroup ->
-                enumGroup.fields.forEach {
-                    when (it.identifier) {
-                        "newBarrier" -> {
-                            appliedTags.add(Tag("barrier", it.possibleValue))
-                        }
-                        "osmValue" -> {
-                            appliedTags.add(Tag("stile", it.possibleValue))
-                        }
-                        "osmMaterialValue" -> {
-                            appliedTags.add(Tag("material", it.possibleValue))
-                        }
-                        else -> {
-                            throw ParsingInterpretationException("unexpected")
-                        }
-                    }
-                }
-            }
-            return appliedTags
-        } else if ("AddCyclewayWidth.kt" == file.name) {
-            val appliedTags = mutableSetOf<Tag>()
-            val keys = listOf("width", "cycleway:width") // TODO: get it from parsing
-            keys.forEach { key ->
-                val modifiedSourceCode = fileSourceCode.replace("\$key", key).replace("[key]", "[\"$key\"]")
-                appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
-            }
-            return appliedTags
-        } else if ("AddCycleway.kt" == file.name) {
-            val got = mutableSetOf<Tag>()
-            got += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", "applySidewalkAnswerTo", suspectedAnswerEnumFiles)!!
-            val sides = listOf("both", "left", "right") // TODO: get it from parsing
-            val directionValue  = listOf("\"yes\"", "\"-1\"") // TODO: get it from parsing
-            sides.forEach { side ->
-                directionValue.forEach { direction ->
-                    val modifiedSourceCode = fileSourceCode.replace("\$cyclewayKey", "cycleway:$side")
-                        .replace("[cyclewayKey]", "[\"cycleway:$side\"]")
-                        .replace("val directionValue", "val directionPreservedValue")
-                        .replace("directionValue", direction)
-
-                    got += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applyCyclewayAnswerTo", suspectedAnswerEnumFiles)!!
-                }
-            }
-            return got + addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
-        } else if ("AddRoadSurface.kt" == file.name || "AddPathSurface.kt" == file.name
-            || "AddFootwayPartSurface.kt" == file.name || "AddCyclewayPartSurface.kt" == file.name || "AddPitchSurface.kt" == file.name) {
-            val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
-            val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
-            val surfaces = getEnumValuesDefinedInThisFile(localDescription, answersFile)
-            // TODO actually pitch surfaces are more limited - parse it from Surface.kt file
-            // maybe even parse from AddPitchSurface.kt itself?
-            val ast = AstSource.String(description, fileSourceCode)
-            val functionToGetForm = ast.parse().extractFunctionByName("createForm")!!
-            /*
-            functionToGetForm.showHumanReadableTreeWithSourceCode("createForm function", fileSourceCode)
-            functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
-                .locateSingleOrExceptionByDescription("simpleIdentifier")
-                .showRelatedSourceCode("should be surface form class", fileSourceCode)
-            // */
-            val formUsed = functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
-                .locateSingleOrExceptionByDescription("simpleIdentifier")
-                .relatedSourceCode(fileSourceCode)
-            // println(formUsed)
-            // and how the heck get here form file to parse it?
-            val formFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/$formUsed.kt")
-            val formFileCode = loadFileText(formFile)
-            val astForm = AstSource.String(description, formFileCode).parse()
-            // astForm.showHumanReadableTreeWithSourceCode("file with form definition, to get access to surface groups", formFileCode)
-            astForm.locateByDescription("classMemberDeclaration").forEach {
-                val declaration = it.locateSingleOrExceptionByDescriptionDirectChild("declaration")
-                val propertyDeclaration = declaration.locateSingleOrNullByDescriptionDirectChild("propertyDeclaration")
-                if (propertyDeclaration != null) {
-                    val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
-                    val getter = propertyDeclaration.locateSingleOrNullByDescription("getter")
-                    if (variableDeclaration != null && getter != null && variableDeclaration.relatedSourceCode(formFileCode) == "items") {
-                        println()
-                        println()
-                        getter.locateByDescription("Identifier").forEach {
-                            it.showRelatedSourceCode("Identifier", formFileCode)
-                        }
-                        println()
-                    }
-                }
-            }
-            val structures = obtainSurfaceClassificationStructure()
-            /*
-            structures.forEach {
-                println()
-                println()
-                println(it.name)
-                it.elements.forEach{ surfaceIdentifier ->
-                    val match = surfaces.filter { it.identifier == surfaceIdentifier }
-                    if(match.size != 1) {
-                        throw ParsingInterpretationException("$match - expected single matching")
-                    }
-                    println(match)
-                }
-            }
-            println("STRUCTURES DEBUHG")
-            */
-            return null
-        } else if ("AddBikeParkingFee.kt" == file.name || "AddParkingFee.kt" == file.name) {
-            val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
-            val fromFee = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, feeApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
-            if (Tag("fee", "yes") !in fromFee) {
-                throw ParsingInterpretationException("is it even working - no, as fee=yes is missing")
-            }
-            val maxstayApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Maxstay.kt")
-            val fromMaxstay = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, maxstayApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
-            return fromFee + fromMaxstay
+            else -> return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description,
+                fileSourceCode,
+                suspectedAnswerEnumFiles)
         }
-        return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
     }
 
     class namedList(val name: String, var elements: List<String>) {
