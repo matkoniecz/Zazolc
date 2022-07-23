@@ -1174,15 +1174,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             failedExtraction = true
         }
 
-        if (appliedTags.size == 0) {
-            //println("addedOrEditedTags - failed to extract anything at all from ${description}! Will present HumanReadableTreeWithSourceCode")
-            //relevantFunction.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
-            //println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented HumanReadableTreeWithSourceCode, will present source code")
-            println("addedOrEditedTags - failed to extract anything at all from ${description}! Will present function sourceCode")
-            relevantFunction.showRelatedSourceCode(description, fileSourceCode)
-            println("addedOrEditedTags - failed to extract anything at all from ${description}! Presented function sourceCode")
-        }
-
         val tagsThatShouldBeMoreSpecific = appliedTags
             .filter { it.value == null && !freeformKey(it.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, it.key)}
         if(tagsThatShouldBeMoreSpecific.isNotEmpty()) {
