@@ -633,7 +633,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 "building:levels", "roof:levels", "level",
                 "collection_times", "opening_hours", "opening_date", "check_date",
                 "fire_hydrant:diameter", "maxheight", "width", "cycleway:width",
-                "surface:note",
                 "maxspeed", "maxspeed:advisory", "maxstay",
                 "maxweight", "maxweightrating", "maxaxleload", "maxbogieweight",
                 "maxspeed:type", // not really true, but I give up for now. TODO: remove
