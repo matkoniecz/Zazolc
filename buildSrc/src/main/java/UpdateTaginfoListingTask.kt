@@ -857,10 +857,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val recylingMaterialsFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
             val materials = getEnumValuesDefinedInThisFile("RecyclingMaterial hack", recylingMaterialsFile)
             materials.forEach{
-                if(it.size != 1) {
+                if(it.fields.size != 1) {
                     throw ParsingInterpretationException("expected a single value, got $it")
                 }
-                appliedTags.add(Tag("recycling:${it[0].possibleValue}", "yes"))
+                appliedTags.add(Tag("recycling:${it.fields[0].possibleValue}", "yes"))
             }
             appliedTags.add(Tag("amenity", "waste_disposal")) // from applyWasteContainerAnswer, harcoded due to complexity HACK :(
             val modifiedile = fileSourceCode.replace("tags[material] = \"yes\"", "") // HACK :(
@@ -876,11 +876,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
             val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
             answers.forEach{ enumGroup ->
-                enumGroup.forEach {
-                    if(enumGroup.size != 2 || enumGroup[0].identifier != "osmKey" || enumGroup[1].identifier != "osmValue") {
+                enumGroup.fields.forEach {
+                    if(enumGroup.fields.size != 2 || enumGroup.fields[0].identifier != "osmKey" || enumGroup.fields[1].identifier != "osmValue") {
                         throw ParsingInterpretationException("unexpected $enumGroup")
                     }
-                    appliedTags.add(Tag(enumGroup[0].possibleValue, enumGroup[1].possibleValue))
+                    appliedTags.add(Tag(enumGroup.fields[0].possibleValue, enumGroup.fields[1].possibleValue))
                 }
             }
             return appliedTags
@@ -891,7 +891,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
             val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
             answers.forEach{ enumGroup ->
-                enumGroup.forEach {
+                enumGroup.fields.forEach {
                     when (it.identifier) {
                         "newBarrier" -> {
                             appliedTags.add(Tag("barrier", it.possibleValue))
@@ -1305,14 +1305,30 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     class EnumFieldState(val identifier:String, val possibleValue:String) {
+        // entry such as
+        //osmKey = building
+        // from
+        // HOUSE           ("building", "house"),
+        // from
+        // enum class BuildingType(val osmKey: String, val osmValue: String) {
         override fun toString(): String {
             return "EnumFieldState($identifier, $possibleValue)"
         }
     }
 
-    private fun getEnumValuesDefinedInThisFile(description:String, file:File, debug:Boolean=false): Set<List<EnumFieldState>>{
+    class EnumEntry(val identifier:String?/*TODO drop nullability*/, val fields:List<EnumFieldState>) {
+        // entry such as
+        // HOUSE           ("building", "house"),
+        // from
+        // enum class BuildingType(val osmKey: String, val osmValue: String) {
+        override fun toString(): String {
+            return "EnumEntry($identifier, $fields)"
+        }
+    }
+
+    private fun getEnumValuesDefinedInThisFile(description:String, file:File, debug:Boolean=false): Set<EnumEntry>{
         val filepath = file.path // TODO - eliminate
-        val values = mutableSetOf<List<EnumFieldState>>()
+        val values = mutableSetOf<EnumEntry>()
         val fileMaybeContainingEnumSourceCode = loadFileText(file)
         val ast = AstSource.String(filepath, fileMaybeContainingEnumSourceCode)
         val potentialEnumFileAst = ast.parse()
@@ -1351,6 +1367,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         .showHumanReadableTreeWithSourceCode(description, fileMaybeContainingEnumSourceCode)
                      */
                     var extractedText: String?
+                    val identifier = (enumEntry.locateSingleOrNullByDescriptionDirectChild("simpleIdentifier")!!.tree() as KlassIdentifier).identifier
                     val valueArguments = enumEntry.locateSingleOrNullByDescriptionDirectChild("valueArguments")
                     if(valueArguments == null) {
                         val explanation = "parsing $filepath failed, valueArguments count is not 1, skipping, maybe it should be also investigated"
@@ -1377,7 +1394,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             }
                         }
                         if(enumFieldGroup.size > 0) {
-                            values.add(enumFieldGroup)
+                            values.add(EnumEntry(identifier, enumFieldGroup))
                         }
                     }
                 }
@@ -1439,7 +1456,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             */
             suspectedAnswerEnumFiles.forEach {
                 getEnumValuesDefinedInThisFile(description, it).forEach { enumGroup ->
-                    enumGroup.forEach { value->
+                    enumGroup.fields.forEach { value->
                         if(value.identifier == "osmLanduseValue") {
                             appliedTags.add(Tag(key, value.possibleValue))
                         }
@@ -1469,7 +1486,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         var extractedSomething = false
         suspectedAnswerEnumFiles.forEach {
             getEnumValuesDefinedInThisFile(description, it).forEach {enumGroup ->
-                enumGroup.forEach { value ->
+                enumGroup.fields.forEach { value ->
                     // why redefined in each cycle?
                     // because there are cases where it would fail - but these are also cases
                     // where extracting enum also fails, so is not triggered and can be ignored
@@ -1693,11 +1710,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     getEnumValuesDefinedInThisFile(description, it).forEach { value ->
                                         // dotAcess will have a single element [.osmValue] on "answer.osmValue"
                                         // dotAcess will have a two elemente [.value, .osmValue] on "answer.value.osmValue"
-                                        if(value.size != 1) {
+                                        if(value.fields.size != 1) {
                                             throw ParsingInterpretationException("expected a single value, got $value")
                                         }
-                                        if (value[0].identifier == identifier) {
-                                            appliedTags.add(Tag(keyString, value[0].possibleValue))
+                                        if (value.fields[0].identifier == identifier) {
+                                            appliedTags.add(Tag(keyString, value.fields[0].possibleValue))
                                         }
                                         extractedNothing = false
                                     }
