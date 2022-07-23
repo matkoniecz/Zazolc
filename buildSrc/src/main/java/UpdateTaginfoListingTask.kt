@@ -514,25 +514,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>, processed: Int, failedQuests: MutableSet<String>) {
         // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered, $processed quests processed, ${failedQuests.size} failed")
-        val tagsFoundPreviously = 1428
+        val tagsFoundPreviously = 1609
         if (foundTags.size != tagsFoundPreviously) {
             println("Something changed in processing! foundTags count ${foundTags.size} vs $tagsFoundPreviously previously")
         }
-        val processedQuestsPreviously = 138
+        val processedQuestsPreviously = 144
         if (processed != processedQuestsPreviously) {
             println("Something changed in processing! processed count $processed vs $processedQuestsPreviously previously")
         }
         val realFailed = failedQuests.size
-        val knownFailed = setOf(
-            "app/src/main/java/de/westnordost/streetcomplete/quests/way_lit/AddWayLit.kt",
-
-            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddRoadSurface.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddFootwayPartSurface.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddCyclewayPartSurface.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPathSurface.kt",
-            "app/src/main/java/de/westnordost/streetcomplete/quests/surface/AddPitchSurface.kt"
-
-        )
+        val knownFailed = setOf<String>()
         if (realFailed != knownFailed.size) {
             println("Something changed in processing! failed count $realFailed vs ${knownFailed.size} previously")
         }
@@ -1036,6 +1027,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     "AddPitchSurface.kt" -> "surface"
                     else -> throw ParsingInterpretationException("should never happen due to exhausting values from upper when selector")
                 }
+                appliedTags.add(Tag(surveyMarkKeyBasedOnKey(key), null))
+                appliedTags.add(Tag("$key:note", null))
                 surfaces.forEach { surface ->
                     appliedTags.add(Tag(key, surface))
                 }
