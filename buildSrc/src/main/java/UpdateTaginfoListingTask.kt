@@ -14,6 +14,7 @@ import kotlinx.ast.common.klass.StringComponentRaw
 import kotlinx.ast.grammar.kotlin.common.KotlinGrammarParserType
 import kotlinx.ast.grammar.kotlin.common.summary
 import kotlinx.ast.grammar.kotlin.target.antlr.kotlin.KotlinGrammarAntlrKotlinParser
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -75,6 +76,7 @@ As this is tightly coupled to StreetComplete, many assumptions can be made.
 // https://github.com/2bad2furious/kotlinx-ast-demo
 // https://github.com/peternewman/StreetComplete/blob/a388043854bf04545dfbc0beb7decda5208a750e/.github/generate-quest-metadata.main.kts
 
+@OptIn(ExperimentalSerializationApi::class) // needed by explicitNulls = false
 open class UpdateTaginfoListingTask : DefaultTask() {
     companion object {
         const val NAME_OF_FUNCTION_EDITING_TAGS = "applyAnswerTo"
@@ -234,19 +236,47 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val optional: Int = 0
         )
 
-        val json = Json { encodeDefaults = true }
-        println(json.encodeToString(TestClass("text")))
+        val format = Json { encodeDefaults = true; explicitNulls = false; prettyPrint = true  }
+        println(format.encodeToString(TestClass("text")))
 
-        val format = Json { prettyPrint = true }
+        /*
+        {
+    "data_format": 1,
+    "data_url": "https://goldfndr.github.io/StreetCompleteJSON/taginfo.json",
+    "project": {
+        "name": "StreetComplete",
+        "description": "Surveyor app for Android",
+        "project_url": "https://github.com/westnordost/StreetComplete",
+        "doc_url": "https://wiki.openstreetmap.org/wiki/StreetComplete",
+        "icon_url": "https://raw.githubusercontent.com/westnordost/StreetComplete/master/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+        "contact_name": "Richard Finegold",
+        "contact_email": "goldfndr.sc@gmail.com"
+    },
+    "tags": [
+    { "key": "addr:floor", "description": "Displayed (on level) in question if present" },
+    { "key": "level:ref", "description": "Displayed (on level) in question if present and addr:floor is not present" },
+    { "key": "level", "description": "Displayed (on level) in question if present and addr:floor and level:ref are not present" }
+    { "key": "noname", "value": "yes", "object_types": [ "node", "area", "relation" ], "description": "Place Name quest fill", "icon_url": "https://wiki.openstreetmap.org/w/images/0/06/StreetComplete_quest_label.svg" },
+        ]
+}
+         */
+        @Serializable
+        data class Project(val name: String, val description: String, val project_url: String, val doc_url:String, val icon_url:String)
 
         @Serializable
-        data class Project(val name: String, val language: String)
+        data class TaginfoReport(val data_format:Int = 1, val data_url: String, val project: Project, val tags: List<Tag>)
+
 
         // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md
-        val data = Project("kotlinx.serialization", "Kotlin")
-        println(format.encodeToString(data))
-        val jsonText = format.encodeToString(data)
-        val data2 = format.decodeFromString<Project>(jsonText)
+        val project = Project("StreetComplete", "Surveyor app for Android",
+            "https://github.com/westnordost/StreetComplete",
+            "https://wiki.openstreetmap.org/wiki/StreetComplete",
+            "https://raw.githubusercontent.com/westnordost/StreetComplete/master/app/src/main/res/mipmap-xhdpi/ic_launcher.png")
+        val report = TaginfoReport(1, "TODOfixdataURL", project, listOf(Tag("keyonly", null), Tag("key", "value")))
+        println(format.encodeToString(report))
+        val jsonText = format.encodeToString(report)
+        println(jsonText)
+        val reportAgain = format.decodeFromString<TaginfoReport>(jsonText)
     }
 
     @TaskAction fun run() {
@@ -720,6 +750,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println(">===========================here is the entire content (source code)>===")
     }
 
+    @Serializable
     class Tag(val key: String, val value: String?) {
         override fun toString(): String {
             if (value == null) {
