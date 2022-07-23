@@ -589,6 +589,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             // https://wiki.openstreetmap.org/w/index.php?title=Key:recycling:cooking_oil
             return true
         }
+        if (key.startsWith("sidewalk:")) {
+            return true
+        }
+        if (key.startsWith("cycleway:")) {
+            return true
+        }
         return false
     }
 
