@@ -1016,47 +1016,22 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                 }
             }
-            //val propertyToGetSurfaces = ast.
-
-            val surfacesFileCode = loadFileText(answersFile)
-            val astSurfaceGroupsDefinitions = AstSource.String(answersFile.name, surfacesFileCode).parse()
-            //astSurfaceGroupsDefinitions.showHumanReadableTreeWithSourceCode("file with xurface groups definitions, to get access to their structure", surfacesFileCode)
-            astSurfaceGroupsDefinitions.locateByDescription("topLevelObject").forEach { topLevelObject ->
-                println("topLevelObject")
-                println("topLevelObject showHumanReadableTreeWithSourceCode shown above")
-                val propertyDeclarations = topLevelObject.locateSingleOrExceptionByDescriptionDirectChild("declaration")
-                    .locateByDescriptionDirectChild("propertyDeclaration")
-                if(propertyDeclarations.size == 1) {
-                    val propertyDeclaration = propertyDeclarations[0]
-                    val expressions = propertyDeclaration.locateByDescriptionDirectChild("expression")
-                    // .showHumanReadableTreeWithSourceCode("expression - surface group file", surfacesFileCode)
-
-                    val nameOfDefinedGroup = (propertyDeclaration.locateSingleOrExceptionByDescriptionDirectChild("variableDeclaration")
-                        .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier").tree() as KlassIdentifier).identifier
-                    if (nameOfDefinedGroup !in listOf("shouldBeDescribed")) {
-                        topLevelObject.showHumanReadableTreeWithSourceCode("topLevelObject - surface group file", surfacesFileCode)
-                        println(nameOfDefinedGroup)
-                        if(expressions.size > 1) {
-                            propertyDeclaration.showHumanReadableTreeWithSourceCode("multiple expressions present", surfacesFileCode)
-                        } else {
-                            if(expressions[0].relatedSourceCode(surfacesFileCode).startsWith("listOf(")) {
-                                val list = expressions[0].locateSingleOrExceptionByDescription("callSuffix") // will fail ith multiple layers of calls
-                                    .locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
-                                list.tree()!!.showRelatedSourceCode("list of arguments in listOf definition in surfaces listing file", surfacesFileCode)
-                            } else {
-                                println("<${expressions[0].relatedSourceCode(surfacesFileCode)}> is not supported, only listOf is")
-                            }
-                        }
+            val structures = obtainSurfaceClassificationStructure()
+            /*
+            structures.forEach {
+                println()
+                println()
+                println(it.name)
+                it.elements.forEach{ surfaceIdentifier ->
+                    val match = surfaces.filter { it.identifier == surfaceIdentifier }
+                    if(match.size != 1) {
+                        throw ParsingInterpretationException("$match - expected single matching")
                     }
-                } else {
-                    val explanation = "${propertyDeclarations.size} propertyDeclarations present, for rexample an enum has 0"
-                    topLevelObject.showHumanReadableTreeWithSourceCode(explanation, surfacesFileCode)
-                    topLevelObject.showRelatedSourceCode(explanation, surfacesFileCode)
-                    println(explanation)
-                    //throw ParsingInterpretationException(explanation)
+                    println(match)
                 }
             }
-            //*/
+            println("STRUCTURES DEBUHG")
+            */
             return null
         } else if ("AddBikeParkingFee.kt" == file.name || "AddParkingFee.kt" == file.name) {
             val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
@@ -1069,6 +1044,62 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return fromFee + fromMaxstay
         }
         return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
+    }
+
+    class namedList(val name:String, var elements: List<String>) {
+        override fun toString(): String {
+            return "namedList($name, $elements)"
+        }
+    }
+    private  fun obtainSurfaceClassificationStructure(): List<namedList> {
+        val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
+        val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
+        val surfaces = getEnumValuesDefinedInThisFile(localDescription, answersFile)
+        val structures = mutableListOf<namedList>()
+        val surfacesFileCode = loadFileText(answersFile)
+        val astSurfaceGroupsDefinitions = AstSource.String(answersFile.name, surfacesFileCode).parse()
+        astSurfaceGroupsDefinitions.locateByDescription("topLevelObject").forEach { topLevelObject ->
+            val propertyDeclarations = topLevelObject.locateSingleOrExceptionByDescriptionDirectChild("declaration")
+                .locateByDescriptionDirectChild("propertyDeclaration")
+            if(propertyDeclarations.size == 1) {
+                val propertyDeclaration = propertyDeclarations[0]
+                val expressions = propertyDeclaration.locateByDescriptionDirectChild("expression")
+
+                val nameOfDefinedGroup = (propertyDeclaration.locateSingleOrExceptionByDescriptionDirectChild("variableDeclaration")
+                    .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier").tree() as KlassIdentifier).identifier
+                if (nameOfDefinedGroup !in listOf("shouldBeDescribed")) {
+                    val entries = mutableListOf<String>()
+                    if(expressions.size > 1) {
+                        propertyDeclaration.showHumanReadableTreeWithSourceCode("multiple expressions present", surfacesFileCode)
+                    } else {
+                        if(expressions[0].relatedSourceCode(surfacesFileCode).startsWith("listOf(")) {
+                            val list = expressions[0].locateSingleOrExceptionByDescription("callSuffix") // will fail with multiple layers of calls
+                                .locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
+                                .locateByDescriptionDirectChild("valueArgument")
+                            list.forEach {
+                                entries.add(it.relatedSourceCode(surfacesFileCode))
+                            }
+                        } else {
+                            println("<${expressions[0].relatedSourceCode(surfacesFileCode)}> is not supported, only listOf is")
+                        }
+                    }
+                    //println()
+                    //println("$nameOfDefinedGroup = $entries")
+                    //structures.add(namedList(nameOfDefinedGroup, entries))
+                    //println()
+                }
+            } else {
+                //val explanation = "${propertyDeclarations.size} propertyDeclarations present, for example an enum has 0"
+                //println()
+                //topLevelObject.showHumanReadableTreeWithSourceCode(explanation, surfacesFileCode)
+                //topLevelObject.showRelatedSourceCode(explanation, surfacesFileCode)
+                //println(explanation)
+                //println()
+                // TODO is silent skipping OK?
+                //throw ParsingInterpretationException(explanation)
+            }
+        }
+        return structures
     }
 
     private fun addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
