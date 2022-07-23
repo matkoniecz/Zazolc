@@ -261,10 +261,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 }
          */
         @Serializable
+        data class TagWithDescriptionForTaginfoListing(val key: String, val value: String?, val description: String)
+
+        @Serializable
         data class Project(val name: String, val description: String, val project_url: String, val doc_url:String, val icon_url:String)
 
         @Serializable
-        data class TaginfoReport(val data_format:Int = 1, val data_url: String, val project: Project, val tags: List<Tag>)
+        data class TaginfoReport(val data_format:Int = 1, val data_url: String, val project: Project, val tags: List<TagWithDescriptionForTaginfoListing>)
 
 
         // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md
@@ -272,7 +275,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "https://github.com/westnordost/StreetComplete",
             "https://wiki.openstreetmap.org/wiki/StreetComplete",
             "https://raw.githubusercontent.com/westnordost/StreetComplete/master/app/src/main/res/mipmap-xhdpi/ic_launcher.png")
-        val report = TaginfoReport(1, "TODOfixdataURL", project, listOf(Tag("keyonly", null), Tag("key", "value")))
+        val report = TaginfoReport(1, "TODOfixdataURL", project,
+            listOf(TagWithDescriptionForTaginfoListing("keyonly", null, "desscription"),
+                TagWithDescriptionForTaginfoListing("key", "value", "desscription"))
+            )
         println(format.encodeToString(report))
         val jsonText = format.encodeToString(report)
         println(jsonText)
