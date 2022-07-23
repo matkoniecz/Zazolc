@@ -881,31 +881,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 appliedTags.add(Tag("maxspeed:type:advisory", "sign"))
                 return appliedTags
             }
-            "AddSidewalkSurface.kt" -> {
-                val appliedTags = mutableSetOf<Tag>()
-                // appliedTags.add(Tag(surveyMarkKeyBasedOnKey("sidewalk:surface"), null))
-                val sides = listOf("both", "left", "right") // TODO: maybe get it from parsing
-                val surfaces = listOf("asphalt")  // TODO FIX PLZ
-                // TODO FIX PLZ
-                // TODO FIX PLZ
-                // TODO FIX PLZ
-                // TODO FIX PLZ
-                // TODO FIX PLZ
-                // TODO FIX PLZ
-                // TODO FIX PLZ
-                sides.forEach { side ->
-                    surfaces.forEach { surface ->
-                        val modifiedSourceCode = fileSourceCode.replace("\$sidewalkSurfaceKey", "sidewalk:$side:surface")
-                            .replace("[sidewalkSurfaceKey]", "[\"sidewalk:$side:surface\"]")
-                            .replace("surface.value.osmValue", '"' + surface + '"')
-                        appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applySidewalkSurfaceAnswerTo", suspectedAnswerEnumFiles)!!
-                        // appliedTags.add(Tag("sidewalk:$side:surface", "no"),
-                        // appliedTags.add(Tag("sidewalk:$side:surface:note", null),
-                    }
-                }
-                appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
-                return appliedTags
-            }
             "AddSidewalk.kt" -> {
                 return setOf(Tag("sidewalk", "no"), Tag("sidewalk", "both"), Tag("sidewalk", "left"),
                     Tag("sidewalk", "right"), Tag("sidewalk", "separate"),
@@ -1025,62 +1000,47 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
                 return got + addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
             }
-            "AddRoadSurface.kt", "AddPathSurface.kt", "AddFootwayPartSurface.kt", "AddCyclewayPartSurface.kt", "AddPitchSurface.kt" -> {
-                val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
-                val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
-                val surfaces = getEnumValuesDefinedInThisFile(localDescription, answersFile)
-                // TODO actually pitch surfaces are more limited - parse it from Surface.kt file
-                // maybe even parse from AddPitchSurface.kt itself?
-                val ast = AstSource.String(description, fileSourceCode)
-                val functionToGetForm = ast.parse().extractFunctionByName("createForm")!!
-                /*
-                functionToGetForm.showHumanReadableTreeWithSourceCode("createForm function", fileSourceCode)
-                functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
-                    .locateSingleOrExceptionByDescription("simpleIdentifier")
-                    .showRelatedSourceCode("should be surface form class", fileSourceCode)
-                // */
-                val formUsed = functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
-                    .locateSingleOrExceptionByDescription("simpleIdentifier")
-                    .relatedSourceCode(fileSourceCode)
-                // println(formUsed)
-                // and how the heck get here form file to parse it?
-                val formFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/$formUsed.kt")
-                val formFileCode = loadFileText(formFile)
-                val astForm = AstSource.String(description, formFileCode).parse()
-                // astForm.showHumanReadableTreeWithSourceCode("file with form definition, to get access to surface groups", formFileCode)
-                astForm.locateByDescription("classMemberDeclaration").forEach {
-                    val declaration = it.locateSingleOrExceptionByDescriptionDirectChild("declaration")
-                    val propertyDeclaration = declaration.locateSingleOrNullByDescriptionDirectChild("propertyDeclaration")
-                    if (propertyDeclaration != null) {
-                        val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
-                        val getter = propertyDeclaration.locateSingleOrNullByDescription("getter")
-                        if (variableDeclaration != null && getter != null && variableDeclaration.relatedSourceCode(formFileCode) == "items") {
-                            println()
-                            println()
-                            getter.locateByDescription("Identifier").forEach {
-                                it.showRelatedSourceCode("Identifier", formFileCode)
-                            }
-                            println()
-                        }
+            "AddSidewalkSurface.kt" -> {
+                val appliedTags = mutableSetOf<Tag>()
+                // appliedTags.add(Tag(surveyMarkKeyBasedOnKey("sidewalk:surface"), null))
+                val sides = listOf("both", "left", "right") // TODO: maybe get it from parsing
+                val surfaces = retrieveSurfaceValuesFromGroupIdentifiers(listOf("PAVED_SURFACES", "UNPAVED_SURFACES", "GROUND_SURFACES", "GENERIC_ROAD_SURFACES")) // todo - may be get it from parsing? Other surface quests managed somehow
+                sides.forEach { side ->
+                    surfaces.forEach { surface ->
+                        val modifiedSourceCode = fileSourceCode.replace("\$sidewalkSurfaceKey", "sidewalk:$side:surface")
+                            .replace("[sidewalkSurfaceKey]", "[\"sidewalk:$side:surface\"]")
+                            .replace("surface.value.osmValue", '"' + surface + '"')
+                        appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applySidewalkSurfaceAnswerTo", suspectedAnswerEnumFiles)!!
+                        // appliedTags.add(Tag("sidewalk:$side:surface", "no"),
+                        // appliedTags.add(Tag("sidewalk:$side:surface:note", null),
                     }
                 }
-                val structures = obtainSurfaceClassificationStructure()
-                /*
-                structures.forEach {
-                    println()
-                    println()
-                    println(it.name)
-                    it.elements.forEach{ surfaceIdentifier ->
-                        val match = surfaces.filter { it.identifier == surfaceIdentifier }
-                        if(match.size != 1) {
-                            throw ParsingInterpretationException("$match - expected single matching")
-                        }
-                        println(match)
-                    }
+                appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+                return appliedTags
+            }
+            "AddRoadSurface.kt", "AddPathSurface.kt", "AddFootwayPartSurface.kt", "AddCyclewayPartSurface.kt", "AddPitchSurface.kt" -> {
+                val appliedTags = mutableSetOf<Tag>()
+                //appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!! // TODO - get it working
+                // TODO - or at least this appliedTags += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
+                if(file.name == "AddPathSurface.kt") {
+                    appliedTags.add(Tag("highway", "steps"))
+                    appliedTags.add(Tag("indoor", "yes"))
+                }
+                val surfaces = listOfSurfaceValuesInSurfaceQuest(file)
+                println(surfaces)
+                val key = when(file.name) {
+                    "AddRoadSurface.kt" -> "surface"
+                    "AddPathSurface.kt" -> "surface"
+                    "AddFootwayPartSurface.kt" -> "footway:surface"
+                    "AddCyclewayPartSurface.kt" -> "cycleway:surface"
+                    "AddPitchSurface.kt" -> "surface"
+                    else -> throw ParsingInterpretationException("should never happen due to exhausting values from upper when selector")
+                }
+                surfaces.forEach { surface ->
+                    appliedTags.add(Tag(key, surface))
                 }
                 println("STRUCTURES DEBUHG")
-                */
-                return null
+                return appliedTags
             }
             "AddBikeParkingFee.kt", "AddParkingFee.kt" -> {
                 val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
@@ -1098,16 +1058,86 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
+    private fun listOfSurfaceValuesInSurfaceQuest(questFile: File): MutableList<String> {
+        val fileSourceCode = loadFileText(questFile)
+        val formFile = formFileUsedInquest(AstSource.String("${questFile.parentFile.name}/${questFile.name}", fileSourceCode).parse())
+        val identifiersOfFormItemsMayBeGroups = listOfIdentifiersDeclaringFormItems(formFile)
+        return retrieveSurfaceValuesFromGroupIdentifiers(identifiersOfFormItemsMayBeGroups)
+    }
+
+    private fun retrieveSurfaceValuesFromGroupIdentifiers(identifiersOfFormItemsMayBeGroups: List<String>?): MutableList<String> {
+        val structures = obtainSurfaceClassificationStructure()
+        val returned = mutableListOf<String>()
+        identifiersOfFormItemsMayBeGroups!!.forEach {
+            if(it in structures) {
+                structures[it]!!.forEach { surface ->
+                    returned.add(surface)
+                }
+            } else {
+                throw ParsingInterpretationException("not supported for now = $it is not in structure")
+            }
+        }
+        return returned
+    }
+
+    private fun listOfIdentifiersDeclaringFormItems(formFile:File): MutableList<String>? {
+        val formFileCode = loadFileText(formFile)
+        val astForm = AstSource.String("${formFile.parentFile.name}/${formFile.name}", formFileCode).parse()
+        astForm.locateByDescription("classMemberDeclaration").forEach { classMemberDeclaration ->
+            val declarations = classMemberDeclaration.locateByDescriptionDirectChild("declaration")
+            if(declarations.size != 1) {
+                declarations.forEach {
+                    it.showHumanReadableTreeWithSourceCode("{$formFile.name} is failing, reporting declaration", formFileCode)
+                }
+                throw ParsingInterpretationException("multiple declarations in ${formFile.name}")
+            }
+            val declaration = declarations[0]
+            val propertyDeclaration = declaration.locateSingleOrNullByDescriptionDirectChild("propertyDeclaration")
+            if (propertyDeclaration != null) {
+                val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
+                val getter = propertyDeclaration.locateSingleOrNullByDescription("getter")
+                if (variableDeclaration != null && getter != null && variableDeclaration.relatedSourceCode(formFileCode) == "items") {
+                    val identifierOfProperty = (variableDeclaration.tree() as KlassIdentifier).identifier
+                    if(identifierOfProperty == "items") {
+                        val identifiersOfElements = mutableListOf<String>()
+                        getter.locateByDescription("simpleIdentifier").forEach {
+                            val identifier = (it.tree() as KlassIdentifier).identifier
+                            if(identifier != "toItems") { // TODO skip it via proper parsing
+                                identifiersOfElements.add(identifier)
+                            }
+                        }
+                        println("items = $identifiersOfElements")
+                        return identifiersOfElements
+                    }
+                }
+            }
+        }
+        return null
+    }
+
+    private fun formFileUsedInquest(ast: Ast): File {
+        val functionToGetForm = ast.extractFunctionByName("createForm")!!
+        val formUsed = (functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
+            .locateSingleOrExceptionByDescription("simpleIdentifier").tree() as KlassIdentifier).identifier
+        println(formUsed)
+        return File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/$formUsed.kt")
+    }
     class namedList(val name: String, var elements: List<String>) {
         override fun toString(): String {
             return "namedList($name, $elements)"
         }
     }
-    private  fun obtainSurfaceClassificationStructure(): List<namedList> {
+    private  fun obtainSurfaceClassificationStructure(): Map<String, List<String>> {
         val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
         val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
-        val surfaces = getEnumValuesDefinedInThisFile(localDescription, answersFile)
-        val structures = mutableListOf<namedList>()
+        val surfacesIdentifierToValue = mutableMapOf<String, String>()
+        getEnumValuesDefinedInThisFile(localDescription, answersFile).forEach {
+            if(it.fields.size != 1) {
+                throw ParsingInterpretationException("unexpected")
+            }
+            surfacesIdentifierToValue[it.identifier] = it.fields[0].possibleValue
+        }
+        val structures = mutableMapOf<String, List<String>>()
         val surfacesFileCode = loadFileText(answersFile)
         val astSurfaceGroupsDefinitions = AstSource.String(answersFile.name, surfacesFileCode).parse()
         astSurfaceGroupsDefinitions.locateByDescription("topLevelObject").forEach { topLevelObject ->
@@ -1137,7 +1167,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                     // println()
                     // println("$nameOfDefinedGroup = $entries")
-                    // structures.add(namedList(nameOfDefinedGroup, entries))
+                    structures[nameOfDefinedGroup] = entries.map{ surfacesIdentifierToValue[it]!! }
                     // println()
                 }
             } else {
@@ -1434,7 +1464,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    class EnumEntry(val identifier: String?/*TODO drop nullability*/, val fields: List<EnumFieldState>) {
+    class EnumEntry(val identifier: String, val fields: List<EnumFieldState>) {
         // entry such as
         // HOUSE           ("building", "house"),
         // from
