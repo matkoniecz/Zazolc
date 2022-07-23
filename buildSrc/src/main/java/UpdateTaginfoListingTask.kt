@@ -1934,7 +1934,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun Ast.humanReadableTreeWithSourceCode(indent: Int, fileSourceCode: String): List<String> {
         val info = ((this as? AstWithAstInfo)?.info?.toString() ?: "").padEnd(34)
         val infoHuman = humanReadableDescriptionInfo()
-        val self = "$info${"--".repeat(indent)} ${infoHuman} <${relatedSourceCode(fileSourceCode)}>" // detachRaw()
+        val self = "$info${"--".repeat(indent)} $infoHuman <${relatedSourceCode(fileSourceCode)}>" // detachRaw()
         return if (this is AstNode) {
             listOf(self) + children.flatMap { child ->
                 child.humanReadableTreeWithSourceCode(indent + 1, fileSourceCode)
