@@ -14,18 +14,17 @@ import kotlinx.ast.common.klass.StringComponentRaw
 import kotlinx.ast.grammar.kotlin.common.KotlinGrammarParserType
 import kotlinx.ast.grammar.kotlin.common.summary
 import kotlinx.ast.grammar.kotlin.target.antlr.kotlin.KotlinGrammarAntlrKotlinParser
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.decodeFromString
+import org.jsoup.Jsoup
 import java.io.File
 import java.io.InputStream
 import java.net.URL
 import kotlin.system.exitProcess
-import org.jsoup.Jsoup
-
 
 /*
 parser automatically documenting what is even being done by the program (open source OpenStreetMap editor)
@@ -60,7 +59,7 @@ while still working.
 As this is tightly coupled to StreetComplete, many assumptions can be made.
 */
 
-//getEnumValuesDefinedInThisFilepath should return list of field -> setOfPossibleValues
+// getEnumValuesDefinedInThisFilepath should return list of field -> setOfPossibleValues
 // git clone https://github.com/matkoniecz/StreetComplete.git
 // git checkout taginfo
 // ./gradlew updateTaginfoListing
@@ -269,10 +268,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val folder = folderGenerator.next()
 
             File(folder.toString()).walkTopDown().forEach {
-                if(it.isFile) {
+                if (it.isFile) {
                     if (isQuestFile(it)) {
                         val fileSourceCode = loadFileText(it)
-                        val got:Set<Tag>?
+                        val got: Set<Tag>?
                         try {
                             got = addedOrEditedTags(it)
                         } catch (e: ParsingInterpretationException) {
@@ -302,7 +301,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-
     private fun candidatesForEnumFilesForGivenFile(file: File): List<File> {
         var suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(file.parentFile)
         return suspectedAnswerEnumFilesBasedOnFolder + candidatesForEnumFilesBasedOnImports(file)
@@ -331,8 +329,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // to handle this
         return importedByFile(file)
             .filter { isLikelyAnswerEnumFile(File(it)) }
-            .map {File(it)}
-            .filter{it.isFile}
+            .map { File(it) }
+            .filter { it.isFile }
     }
 
     private fun importedByFile(file: File): Set<String> {
@@ -341,14 +339,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val ast = AstSource.String(path, fileSourceCode)
         ast.parse().locateByDescription("importList").forEach { importList ->
             importList.locateByDescription("importHeader").forEach {
-                if(it is DefaultAstNode) {
-                    areDirectChildrenMatchingStructureThrowExceptionIfNot("checking import file structure for $path", listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace=false)
+                if (it is DefaultAstNode) {
+                    areDirectChildrenMatchingStructureThrowExceptionIfNot("checking import file structure for $path", listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace = false)
                     val imported = it.locateSingleOrExceptionByDescriptionDirectChild("identifier")
-                    //println(imported.locateByDescriptionDirectChild("simpleIdentifier").size.toString() + "  ddddddd")
+                    // println(imported.locateByDescriptionDirectChild("simpleIdentifier").size.toString() + "  ddddddd")
                     val importedPath = KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING + imported.locateByDescriptionDirectChild("simpleIdentifier").map {
                         (it.tree() as KlassIdentifier).identifier
                     }.joinToString("/") + ".kt"
-                    if(File(importedPath).isFile) {
+                    if (File(importedPath).isFile) {
                         // WARNING: false positives here can be expected
                         // WARNING: this will treat
                         // import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.PEDESTRIAN
@@ -361,10 +359,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
         }
-        //in case that it is actually needed
-        //println("packageHeader")
-        //println(ast.parse().locateSingleOrExceptionByDescription("packageHeader").relatedSourceCode(fileSourceCode))
-        //ast.parse().locateSingleOrExceptionByDescription("packageHeader").showHumanReadableTreeWithSourceCode(fileSourceCode)
+        // in case that it is actually needed
+        // println("packageHeader")
+        // println(ast.parse().locateSingleOrExceptionByDescription("packageHeader").relatedSourceCode(fileSourceCode))
+        // ast.parse().locateSingleOrExceptionByDescription("packageHeader").showHumanReadableTreeWithSourceCode(fileSourceCode)
         return returned
     }
 
@@ -374,13 +372,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         val banned = listOf("SelectPuzzle.kt", "Form.kt", "Util.kt", "Utils.kt", "Adapter.kt",
             "Drawable.kt", "Dao.kt", "Dialog.kt", "Item.kt", "RotateContainer.kt")
-        banned.forEach { if(it in file.name) {
+        banned.forEach { if (it in file.name) {
                 return false
             }
         }
         listOf("OsmFilterQuestType.kt", "MapDataWithGeometry.kt", "Element.kt", "Tags.kt",
             "OsmElementQuestType.kt", "CountryInfos.kt").forEach {
-            if(it == file.name) {
+            if (it == file.name) {
                 return false
             }
         }
@@ -391,7 +389,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (".kt" !in file.name) {
             return false
         }
-        listOf("Form.kt", "Adapter.kt", "Utils.kt").forEach { if(it in file.name) {
+        listOf("Form.kt", "Adapter.kt", "Utils.kt").forEach { if (it in file.name) {
                 return false
             }
         }
@@ -417,10 +415,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             if (file.isFile) {
                 val test = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileText(file))
                 val langs = test.officialLanguages + test.additionalStreetsignLanguages
-                if(langs.size > 1) {
+                if (langs.size > 1) {
                     // international counts for purposes of triggering multi-language support
                     // but itself is rather tagged with int_name tag
-                    langs.filter{ it != "international" }.forEach{ languageTags.add("name:$it") }
+                    langs.filter { it != "international" }.forEach { languageTags.add("name:$it") }
                 }
             }
         }
@@ -447,10 +445,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("Was expected:")
             println(EXPECTED_TAG_PER_QUEST[filepath])
             println()
-            if(got == null) {
+            if (got == null) {
                 println("got empty input")
             }
-            if(EXPECTED_TAG_PER_QUEST[filepath] != null && got != null) {
+            if (EXPECTED_TAG_PER_QUEST[filepath] != null && got != null) {
                 println("Expected, was missing:")
                 println(EXPECTED_TAG_PER_QUEST[filepath]!!.filter { it !in got })
                 println()
@@ -533,14 +531,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // on every build
         // note that full scan of wiki lasts more than two hours
         // see https://github.com/openstreetmap/openstreetmap-website/pull/3294 for update instructions
-        foundTags.map{it.tag}.forEach {
-            if(it.key.startsWith("name:")) {
+        foundTags.map { it.tag }.forEach {
+            if (it.key.startsWith("name:")) {
                 // TODO a known wiki bug, lets wait for resolving it
                 // https://wiki.openstreetmap.org/w/index.php?title=Talk:Wiki&oldid=2359644#name%3Amos
                 // https://wiki.openstreetmap.org/wiki/Talk:Wiki#name%3Amos
                 return@forEach
             }
-            if(it in processedTags) {
+            if (it in processedTags) {
                 return@forEach
             }
 
@@ -550,9 +548,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             processedTags.add(it)
             processedTags.add(keyOnly)
 
-            if(isCompoundDocumentationPageAllowedForKey(keyOnly.key)) {
-                if(!keyWasProcessed && !isCompoundListerErrorPageExisting(keyOnly.osmWikiPageUrl())) {
-                    if(!isPageExisting(keyOnly.osmWikiPageUrl())) {
+            if (isCompoundDocumentationPageAllowedForKey(keyOnly.key)) {
+                if (!keyWasProcessed && !isCompoundListerErrorPageExisting(keyOnly.osmWikiPageUrl())) {
+                    if (!isPageExisting(keyOnly.osmWikiPageUrl())) {
                         println("${keyOnly.key}= has no expected OSM Wiki compound page at ${keyOnly.osmWikiPageUrl()} and there is no normal key page there")
                     }
                 }
@@ -578,7 +576,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun isSkippingValuePageAllowedForTag(it: Tag):Boolean {
+    private fun isSkippingValuePageAllowedForTag(it: Tag): Boolean {
         // this values should be described at the key page
         // not ideal as
         // - StreetComplete can be using bogus values
@@ -589,10 +587,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (it.value in listOf(null, "no", "yes", "only")) {
             return true
         }
-        if(freeformKey(it.key)) {
+        if (freeformKey(it.key)) {
             return true
         }
-        if( it.key == "fire_hydrant:type") {
+        if ( it.key == "fire_hydrant:type") {
             // TODO: what about fire_hydrant:type=pond? According to wiki it should not be used
             // https://wiki.openstreetmap.org/wiki/Tag:emergency%3Dfire_hydrant
             return true
@@ -602,14 +600,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 "toilets:wheelchair", "ramp:wheelchair", "smoking")) {
             return true
         }
-        if(it.key.startsWith("recycling:") || it.key.startsWith("parking:")
+        if (it.key.startsWith("recycling:") || it.key.startsWith("parking:")
             || it.key.startsWith("cycleway:") ) {
             return true
         }
         return false
     }
 
-    private fun isCompoundDocumentationPageAllowedForKey(key: String):Boolean {
+    private fun isCompoundDocumentationPageAllowedForKey(key: String): Boolean {
         //  see say https://wiki.openstreetmap.org/w/index.php?title=Key:check_date:cycleway
         if (key.startsWith("$SURVEY_MARK_KEY:")) {
             return true
@@ -620,7 +618,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (key.startsWith("source:")) {
             return true
         }
-        if(key.startsWith("recycling:")) {
+        if (key.startsWith("recycling:")) {
             // https://wiki.openstreetmap.org/w/index.php?title=Key:recycling:cooking_oil
             return true
         }
@@ -647,13 +645,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             .body().toString()
     }
 
-
-    private fun streetCompleteIsReusingAnyValueProvidedByExistingTagging(questDescription:String, key:String): Boolean {
+    private fun streetCompleteIsReusingAnyValueProvidedByExistingTagging(questDescription: String, key: String): Boolean {
         // much too complicated and error prone and rare to get that info by parsing
-        if("MarkCompletedHighwayConstruction" in questDescription && key == "highway") {
+        if ("MarkCompletedHighwayConstruction" in questDescription && key == "highway") {
             return true
         }
-        if("MarkCompletedBuildingConstruction" in questDescription && key == "building") {
+        if ("MarkCompletedBuildingConstruction" in questDescription && key == "building") {
             return true
         }
         return false
@@ -732,7 +729,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
 
         fun osmWikiPageUrl(): String {
-            if(value == null) {
+            if (value == null) {
                 return "https://wiki.openstreetmap.org/w/index.php?title=Key:${key.replace(" ", "_")}"
             }
             return "https://wiki.openstreetmap.org/w/index.php?title=Tag:${key.replace(" ", "_")}=${value.replace(" ", "_")}"
@@ -790,9 +787,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return found
     }
 
-    private fun addedOrEditedTags(file:File): Set<Tag>? {
+    private fun addedOrEditedTags(file: File): Set<Tag>? {
         var suspectedAnswerEnumFiles = candidatesForEnumFilesForGivenFile(file)
-        if("AddBarrier" in file.name) {
+        if ("AddBarrier" in file.name) {
             // TODO argh? can it be avoided?
             // why it is present? Without this AddBarrierOnPath would pull also StileTypeAnswer
             // and claim that barrier=stepover is a thing
@@ -803,14 +800,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val description = file.parentFile.name + File.separator + file.name
         val fileSourceCode = loadFileText(file)
         // TODO hardcoding is ugly and ideally would be replaced
-        if("AddAddressStreet.kt" == file.name) {
+        if ("AddAddressStreet.kt" == file.name) {
             return setOf(Tag("addr:street", null), Tag("addr:place", null))
-        } else if("AddRoadName.kt" == file.name) {
+        } else if ("AddRoadName.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             possibleLanguageKeys().forEach { appliedTags.add(Tag(it, null)) }
             appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
             return appliedTags
-        } else if("AddStreetParking.kt" == file.name) {
+        } else if ("AddStreetParking.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             val parkingOrientations = listOf("parallel", "diagonal", "perpendicular")
             val orientations = parkingOrientations + listOf("no", "separate")
@@ -834,13 +831,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             .replace("laneLeft", '"' + orientation + '"')
                             .replace("laneRight", '"' + orientation + '"')
                         appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", specificModifiedCode, "tags", "applyAnswerTo", suspectedAnswerEnumFiles)!!
-                        //appliedTags.add(Tag("sidewalk:$side:surface", "no"),
-                        //appliedTags.add(Tag("sidewalk:$side:surface:note", null),
+                        // appliedTags.add(Tag("sidewalk:$side:surface", "no"),
+                        // appliedTags.add(Tag("sidewalk:$side:surface:note", null),
                     }
                 }
             }
             return appliedTags
-        } else if("AddMaxSpeed.kt" == file.name) {
+        } else if ("AddMaxSpeed.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
             appliedTags.add(Tag("maxspeed", null))
@@ -848,9 +845,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             appliedTags.add(Tag("maxspeed:advisory", null))
             appliedTags.add(Tag("maxspeed:type:advisory", "sign"))
             return appliedTags
-        } else if("AddSidewalkSurface.kt" == file.name) {
+        } else if ("AddSidewalkSurface.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
-            //appliedTags.add(Tag(surveyMarkKeyBasedOnKey("sidewalk:surface"), null))
+            // appliedTags.add(Tag(surveyMarkKeyBasedOnKey("sidewalk:surface"), null))
             val sides = listOf("both", "left", "right") // TODO: maybe get it from parsing
             val surfaces = listOf("asphalt")  // TODO FIX PLZ
             // TODO FIX PLZ
@@ -866,24 +863,24 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         .replace("[sidewalkSurfaceKey]", "[\"sidewalk:$side:surface\"]")
                         .replace("surface.value.osmValue", '"' + surface + '"')
                     appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applySidewalkSurfaceAnswerTo", suspectedAnswerEnumFiles)!!
-                    //appliedTags.add(Tag("sidewalk:$side:surface", "no"),
-                    //appliedTags.add(Tag("sidewalk:$side:surface:note", null),
+                    // appliedTags.add(Tag("sidewalk:$side:surface", "no"),
+                    // appliedTags.add(Tag("sidewalk:$side:surface:note", null),
                 }
             }
             appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
             return appliedTags
-        } else if("AddSidewalk.kt" == file.name) {
+        } else if ("AddSidewalk.kt" == file.name) {
            return setOf(Tag("sidewalk", "no"), Tag("sidewalk", "both"), Tag("sidewalk", "left"),
                Tag("sidewalk", "right"), Tag("sidewalk", "separate"),
                Tag(surveyMarkKeyBasedOnKey("sidewalk"), null),
                Tag("sidewalk:left", "no"), Tag("sidewalk:left", "yes"), Tag("sidewalk:left", "separate"),
                Tag("sidewalk:right", "no"), Tag("sidewalk:right", "yes"), Tag("sidewalk:right", "separate"),
            )
-        } else if("AddMaxWeight.kt" == file.name) {
+        } else if ("AddMaxWeight.kt" == file.name) {
             return setOf(Tag("maxweight:signed", "no"), Tag("maxweight", null), Tag("maxweightrating", null),
                 Tag("maxaxleload", null), Tag("maxbogieweight", "null"),
             )
-        } else if("AddStepsRamp.kt" == file.name) {
+        } else if ("AddStepsRamp.kt" == file.name) {
             return setOf(Tag("ramp", "no"), Tag("ramp", "yes"), Tag("sidewalk", "separate"),
                 Tag(surveyMarkKeyBasedOnKey("ramp"), null),
                 Tag("ramp:bicycle", "yes"), Tag("ramp:bicycle", "no"),
@@ -891,17 +888,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"),
                 Tag("ramp:wheelchair", "yes"), Tag("ramp:wheelchair", "no"), Tag("ramp:wheelchair", "separate"),
             )
-        } else if("AddDrinkingWater.kt" == file.name) {
+        } else if ("AddDrinkingWater.kt" == file.name) {
             return setOf(
                 Tag("drinking_water", "no"), Tag("drinking_water", "yes"),
                 Tag("drinking_water:legal", "no"), Tag("drinking_water:legal", "yes"),
             )
-        } else if("AddRecyclingContainerMaterials.kt" == file.name) {
+        } else if ("AddRecyclingContainerMaterials.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             val recylingMaterialsFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "recycling_material/RecyclingMaterial.kt")
             val materials = getEnumValuesDefinedInThisFile("RecyclingMaterial hack", recylingMaterialsFile)
-            materials.forEach{
-                if(it.fields.size != 1) {
+            materials.forEach {
+                if (it.fields.size != 1) {
                     throw ParsingInterpretationException("expected a single value, got $it")
                 }
                 appliedTags.add(Tag("recycling:${it.fields[0].possibleValue}", "yes"))
@@ -914,27 +911,27 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
             appliedTags += got
             return appliedTags
-        } else if("AddBuildingType.kt" == file.name) {
+        } else if ("AddBuildingType.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "building_type/BuildingType.kt")
             val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
             val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
-            answers.forEach{ enumGroup ->
+            answers.forEach { enumGroup ->
                 enumGroup.fields.forEach {
-                    if(enumGroup.fields.size != 2 || enumGroup.fields[0].identifier != "osmKey" || enumGroup.fields[1].identifier != "osmValue") {
+                    if (enumGroup.fields.size != 2 || enumGroup.fields[0].identifier != "osmKey" || enumGroup.fields[1].identifier != "osmValue") {
                         throw ParsingInterpretationException("unexpected $enumGroup")
                     }
                     appliedTags.add(Tag(enumGroup.fields[0].possibleValue, enumGroup.fields[1].possibleValue))
                 }
             }
             return appliedTags
-        } else if("AddStileType.kt" == file.name) {
+        } else if ("AddStileType.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             // maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
             val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "barrier_type/StileTypeAnswer.kt")
             val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
             val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
-            answers.forEach{ enumGroup ->
+            answers.forEach { enumGroup ->
                 enumGroup.fields.forEach {
                     when (it.identifier) {
                         "newBarrier" -> {
@@ -953,7 +950,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
             return appliedTags
-        } else if("AddCyclewayWidth.kt" == file.name) {
+        } else if ("AddCyclewayWidth.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
             val keys = listOf("width", "cycleway:width") // TODO: get it from parsing
             keys.forEach { key ->
@@ -961,7 +958,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
             }
             return appliedTags
-        } else if("AddCycleway.kt" == file.name) {
+        } else if ("AddCycleway.kt" == file.name) {
             val got = mutableSetOf<Tag>()
             got += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", "applySidewalkAnswerTo", suspectedAnswerEnumFiles)!!
             val sides = listOf("both", "left", "right") // TODO: get it from parsing
@@ -995,19 +992,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val formUsed = functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
                 .locateSingleOrExceptionByDescription("simpleIdentifier")
                 .relatedSourceCode(fileSourceCode)
-            //println(formUsed)
+            // println(formUsed)
             // and how the heck get here form file to parse it?
             val formFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/$formUsed.kt")
             val formFileCode = loadFileText(formFile)
             val astForm = AstSource.String(description, formFileCode).parse()
-            //astForm.showHumanReadableTreeWithSourceCode("file with form definition, to get access to surface groups", formFileCode)
+            // astForm.showHumanReadableTreeWithSourceCode("file with form definition, to get access to surface groups", formFileCode)
             astForm.locateByDescription("classMemberDeclaration").forEach {
                 val declaration = it.locateSingleOrExceptionByDescriptionDirectChild("declaration")
                 val propertyDeclaration = declaration.locateSingleOrNullByDescriptionDirectChild("propertyDeclaration")
-                if(propertyDeclaration != null) {
+                if (propertyDeclaration != null) {
                     val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
                     val getter = propertyDeclaration.locateSingleOrNullByDescription("getter")
-                    if(variableDeclaration != null && getter != null && variableDeclaration.relatedSourceCode(formFileCode) == "items") {
+                    if (variableDeclaration != null && getter != null && variableDeclaration.relatedSourceCode(formFileCode) == "items") {
                         println()
                         println()
                         getter.locateByDescription("Identifier").forEach {
@@ -1037,7 +1034,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         } else if ("AddBikeParkingFee.kt" == file.name || "AddParkingFee.kt" == file.name) {
             val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
             val fromFee = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, feeApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
-            if(Tag("fee", "yes") !in fromFee) {
+            if (Tag("fee", "yes") !in fromFee) {
                 throw ParsingInterpretationException("is it even working - no, as fee=yes is missing")
             }
             val maxstayApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Maxstay.kt")
@@ -1047,7 +1044,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)
     }
 
-    class namedList(val name:String, var elements: List<String>) {
+    class namedList(val name: String, var elements: List<String>) {
         override fun toString(): String {
             return "namedList($name, $elements)"
         }
@@ -1062,7 +1059,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         astSurfaceGroupsDefinitions.locateByDescription("topLevelObject").forEach { topLevelObject ->
             val propertyDeclarations = topLevelObject.locateSingleOrExceptionByDescriptionDirectChild("declaration")
                 .locateByDescriptionDirectChild("propertyDeclaration")
-            if(propertyDeclarations.size == 1) {
+            if (propertyDeclarations.size == 1) {
                 val propertyDeclaration = propertyDeclarations[0]
                 val expressions = propertyDeclaration.locateByDescriptionDirectChild("expression")
 
@@ -1070,10 +1067,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     .locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier").tree() as KlassIdentifier).identifier
                 if (nameOfDefinedGroup !in listOf("shouldBeDescribed")) {
                     val entries = mutableListOf<String>()
-                    if(expressions.size > 1) {
+                    if (expressions.size > 1) {
                         propertyDeclaration.showHumanReadableTreeWithSourceCode("multiple expressions present", surfacesFileCode)
                     } else {
-                        if(expressions[0].relatedSourceCode(surfacesFileCode).startsWith("listOf(")) {
+                        if (expressions[0].relatedSourceCode(surfacesFileCode).startsWith("listOf(")) {
                             val list = expressions[0].locateSingleOrExceptionByDescription("callSuffix") // will fail with multiple layers of calls
                                 .locateSingleOrExceptionByDescriptionDirectChild("valueArguments")
                                 .locateByDescriptionDirectChild("valueArgument")
@@ -1084,20 +1081,20 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             println("<${expressions[0].relatedSourceCode(surfacesFileCode)}> is not supported, only listOf is")
                         }
                     }
-                    //println()
-                    //println("$nameOfDefinedGroup = $entries")
-                    //structures.add(namedList(nameOfDefinedGroup, entries))
-                    //println()
+                    // println()
+                    // println("$nameOfDefinedGroup = $entries")
+                    // structures.add(namedList(nameOfDefinedGroup, entries))
+                    // println()
                 }
             } else {
-                //val explanation = "${propertyDeclarations.size} propertyDeclarations present, for example an enum has 0"
-                //println()
-                //topLevelObject.showHumanReadableTreeWithSourceCode(explanation, surfacesFileCode)
-                //topLevelObject.showRelatedSourceCode(explanation, surfacesFileCode)
-                //println(explanation)
-                //println()
+                // val explanation = "${propertyDeclarations.size} propertyDeclarations present, for example an enum has 0"
+                // println()
+                // topLevelObject.showHumanReadableTreeWithSourceCode(explanation, surfacesFileCode)
+                // topLevelObject.showRelatedSourceCode(explanation, surfacesFileCode)
+                // println(explanation)
+                // println()
                 // TODO is silent skipping OK?
-                //throw ParsingInterpretationException(explanation)
+                // throw ParsingInterpretationException(explanation)
             }
         }
         return structures
@@ -1114,20 +1111,20 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 val fileMaybeContainingEnumSourceCode = loadFileText(fileHopefullyWithApplyTo)
                 val astWithAlternativeFile = AstSource.String("applyTo function scan", fileMaybeContainingEnumSourceCode)
                 val found = astWithAlternativeFile.parse().extractFunctionByName("applyTo")
-                if(found != null) {
+                if (found != null) {
                     // OK, so we found related file providing applyTo function. Great!
-                    if("ParkingFee" in description) {
-                        println("$description fpund apply to file ${fileHopefullyWithApplyTo}")
+                    if ("ParkingFee" in description) {
+                        println("$description fpund apply to file $fileHopefullyWithApplyTo")
                     }
                     val got = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, fileHopefullyWithApplyTo, fileSourceCode, suspectedAnswerEnumFiles)
 
                     val bonusScan = addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
-                    if(bonusScan != null && bonusScan.isNotEmpty()) {
+                    if (bonusScan != null && bonusScan.isNotEmpty()) {
                         println(bonusScan)
                         throw ParsingInterpretationException("turns out to be needed")
                     }
 
-                    if(got != null) {
+                    if (got != null) {
                         return got
                     }
                 }
@@ -1145,20 +1142,20 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val defaultFunction = getAstTreeForFunctionEditingTags(description, ast)
         val parameters = found.locateSingleOrExceptionByDescriptionDirectChild("functionValueParameters")
             .locateByDescriptionDirectChild("functionValueParameter")
-        if(parameters.isEmpty()) {
+        if (parameters.isEmpty()) {
             throw ParsingInterpretationException("unsupported")
         }
         val parametersInCalledFunction = mutableListOf<String>()
-        for(element in parameters) {
+        for (element in parameters) {
             val parameter = element.locateSingleOrExceptionByDescriptionDirectChild("parameter")
             val parameterTree = parameter.tree()
-            if(parameterTree is KlassIdentifier) {
+            if (parameterTree is KlassIdentifier) {
                 parametersInCalledFunction.add(parameterTree.identifier)
             } else {
                 throw ParsingInterpretationException("should not happen")
             }
         }
-        if(parameters.size > 1) {
+        if (parameters.size > 1) {
             println("DECOMPOSITION")
             println("DECOMPOSITION")
             println("DECOMPOSITION")
@@ -1195,10 +1192,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     if (postfixUnarySuffixes[0].relatedSourceCode(originalFileSourceCode) != ".applyTo") {
                         throw ParsingInterpretationException("Inverstogate and replace by a proper check once this is triggered")
                     }
-                    if(postfixUnarySuffixes.size > 2) {
+                    if (postfixUnarySuffixes.size > 2) {
                         throw ParsingInterpretationException("No support yet")
                     }
-                    postfixUnarySuffixes[postfixUnarySuffixes.size-1]
+                    postfixUnarySuffixes[postfixUnarySuffixes.size - 1]
                         .locateSingleOrExceptionByDescriptionDirectChild("callSuffix")
                         .showHumanReadableTreeWithSourceCode("AAAAAAAAAAAAAAAAAAAAA callSuffix", originalFileSourceCode)
                 }
@@ -1208,9 +1205,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             println("$description - parametersInCalledFunction in file ${fileWithRedirectedFunction.name} $parametersInCalledFunction")
             println("No support yet")
             return null
-            //throw ParsingInterpretationException("No support yet")
+            // throw ParsingInterpretationException("No support yet")
         }
-        if(parametersInCalledFunction[0] == "tags") {
+        if (parametersInCalledFunction[0] == "tags") {
             val replacementParameter = "tags"
             val replacementFunctionName = "applyTo"
             val replacementSourceCode = fileMaybeContainingEnumSourceCode
@@ -1224,10 +1221,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun addedOrEditedTagsWithGivenFunction(description: String, fileSourceCode: String, variable:String, relevantFunctionName:String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+    private fun addedOrEditedTagsWithGivenFunction(description: String, fileSourceCode: String, variable: String, relevantFunctionName: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode)
         val relevantFunction = ast.parse().extractFunctionByName(relevantFunctionName)
-        if(relevantFunction == null) {
+        if (relevantFunction == null) {
             println(description)
             println(fileSourceCode)
             throw ParsingInterpretationException("$relevantFunctionName missing in code provided via $description!")
@@ -1251,8 +1248,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
 
         val tagsThatShouldBeMoreSpecific = appliedTags
-            .filter { it.value == null && !freeformKey(it.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, it.key)}
-        if(tagsThatShouldBeMoreSpecific.isNotEmpty()) {
+            .filter { it.value == null && !freeformKey(it.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, it.key) }
+        if (tagsThatShouldBeMoreSpecific.isNotEmpty()) {
             tagsThatShouldBeMoreSpecific.forEach { println(it) }
             println("$description found tags which are not freeform but have no speicified values")
             failedExtraction = true
@@ -1344,7 +1341,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         println(KotlinGrammarParserType.identifier.toString() + " identified as accessing index as a variable (potentialTexts.size = ${potentialTexts.size})")
                         return null
                     } else if (likelyVariable.size == 1) {
-                        if(likelyVariable[0].relatedSourceCode(fileSourceCode) == "key" && "name:\$languageTag" in fileSourceCode) {
+                        if (likelyVariable[0].relatedSourceCode(fileSourceCode) == "key" && "name:\$languageTag" in fileSourceCode) {
                             // special handling for name quests
                             possibleLanguageKeys().forEach { appliedTags.add(Tag(it, null)) }
                         } else {
@@ -1371,9 +1368,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             ((tagsDictAccess.children[0].tree() as KlassIdentifier).identifier == "tags")
     }
 
-    class EnumFieldState(val identifier:String, val possibleValue:String) {
+    class EnumFieldState(val identifier: String, val possibleValue: String) {
         // entry such as
-        //osmKey = building
+        // osmKey = building
         // from
         // HOUSE           ("building", "house"),
         // from
@@ -1383,7 +1380,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    class EnumEntry(val identifier:String?/*TODO drop nullability*/, val fields:List<EnumFieldState>) {
+    class EnumEntry(val identifier: String?/*TODO drop nullability*/, val fields: List<EnumFieldState>) {
         // entry such as
         // HOUSE           ("building", "house"),
         // from
@@ -1393,7 +1390,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun getEnumValuesDefinedInThisFile(description:String, file:File, debug:Boolean=false): Set<EnumEntry>{
+    private fun getEnumValuesDefinedInThisFile(description: String, file: File, debug: Boolean = false): Set<EnumEntry> {
         val filepath = file.path // TODO - eliminate
         val values = mutableSetOf<EnumEntry>()
         val fileMaybeContainingEnumSourceCode = loadFileText(file)
@@ -1402,7 +1399,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         var enumsTried = 0
         potentialEnumFileAst.locateByDescription("classDeclaration").forEach { enum ->
             val modifiers = enum.locateByDescription("modifiers")
-            if(modifiers.size != 1) {
+            if (modifiers.size != 1) {
                 // not expected to be enum
                 // will happen if potential enum file contains rather class such as
                 // class StreetSideSelectRotateContainer @JvmOverloads constructor(
@@ -1411,7 +1408,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 enumsTried += 1
                 val enumFieldNames = mutableListOf<String>()
                 val constructor = enum.locateSingleOrNullByDescription("primaryConstructor")
-                if(constructor == null) {
+                if (constructor == null) {
                     // may happen with helper enums being present, such as
                     // enum class FireHydrantDiameterMeasurementUnit { MILLIMETER, INCH }
                     return@forEach // skip silently as heuristic being too eager
@@ -1419,7 +1416,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 constructor.locateSingleOrExceptionByDescriptionDirectChild("classParameters")
                     .locateByDescriptionDirectChild("classParameter")
                     .forEach {
-                        //val type = it.locateSingleOrExceptionByDescriptionDirectChild("type")
+                        // val type = it.locateSingleOrExceptionByDescriptionDirectChild("type")
                         //    .relatedSourceCode(fileMaybeContainingEnumSourceCode)
                         val simpleIdentifier = it.locateSingleOrExceptionByDescriptionDirectChild("simpleIdentifier")
                             .relatedSourceCode(fileMaybeContainingEnumSourceCode)
@@ -1436,17 +1433,17 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     var extractedText: String?
                     val identifier = (enumEntry.locateSingleOrNullByDescriptionDirectChild("simpleIdentifier")!!.tree() as KlassIdentifier).identifier
                     val valueArguments = enumEntry.locateSingleOrNullByDescriptionDirectChild("valueArguments")
-                    if(valueArguments == null) {
+                    if (valueArguments == null) {
                         val explanation = "parsing $filepath failed, valueArguments count is not 1, skipping, maybe it should be also investigated"
                         println(enum.showRelatedSourceCode(explanation, fileMaybeContainingEnumSourceCode))
                         println(explanation)
                     } else {
                         val enumFieldGroup = mutableListOf<EnumFieldState>()
                         val arguments = valueArguments.locateByDescriptionDirectChild("valueArgument")
-                        for(i in arguments.indices) {
+                        for (i in arguments.indices) {
                             extractedText = extractTextFromHardcodedString(arguments[i])
                             if (extractedText == null) {
-                                if(arguments[i].tree() is KlassDeclaration && (arguments[i].tree() as KlassDeclaration).identifier.toString() == "null") {
+                                if (arguments[i].tree() is KlassDeclaration && (arguments[i].tree() as KlassDeclaration).identifier.toString() == "null") {
                                     // it has null as value, apparently
                                     // lest skip it silently
                                 } else {
@@ -1460,20 +1457,20 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 enumFieldGroup.add(EnumFieldState(enumFieldNames[i], extractedText))
                             }
                         }
-                        if(enumFieldGroup.size > 0) {
+                        if (enumFieldGroup.size > 0) {
                             values.add(EnumEntry(identifier, enumFieldGroup))
                         }
                     }
                 }
             }
         }
-        if(values.size == 0 && debug) {
+        if (values.size == 0 && debug) {
             println("enum extraction from $filepath failed! $enumsTried potential enums tried ($description request)")
         }
         return values
     }
 
-    private fun extractValuesForKnownKey(description:String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
+    private fun extractValuesForKnownKey(description: String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
 
         var scanned: MutableSet<Tag>?
@@ -1501,10 +1498,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         } else if (valueHolderSourceCode.endsWith(".toCheckDateString()")) {
             appliedTags.add(Tag(key, null))
         } else if (valueHolderSourceCode == "answer.joinToString(\";\") { it.osmValue }") { // answer.joinToString(";") { it.osmValue }
-            //println("answer.joinToString(\";\") { it.osmValue } investigation")
-            //valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
-            //valueHolder.showRelatedSourceCode("answer.joinToString(\";\") { it.osmValue } investigation", fileSourceCode)
-            //println("answer.joinToString(\";\") { it.osmValue } investigation")
+            // println("answer.joinToString(\";\") { it.osmValue } investigation")
+            // valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
+            // valueHolder.showRelatedSourceCode("answer.joinToString(\";\") { it.osmValue } investigation", fileSourceCode)
+            // println("answer.joinToString(\";\") { it.osmValue } investigation")
             val filtered = valueHolder.locateSingleOrExceptionByDescription("lambdaLiteral").locateSingleOrExceptionByDescriptionDirectChild("statements")
             appliedTags += provideTagsBasedOnAswerDataStructuresFromExternalFiles(description, key, filtered, fileSourceCode, suspectedAnswerEnumFiles)
             appliedTags.add(Tag(key, null)) // as it can be joined in basically any combination and listing all permutations would be absurd. Maybe provide comment here of taginfo listing supports this?
@@ -1523,21 +1520,21 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             */
             suspectedAnswerEnumFiles.forEach {
                 getEnumValuesDefinedInThisFile(description, it).forEach { enumGroup ->
-                    enumGroup.fields.forEach { value->
-                        if(value.identifier == "osmLanduseValue") {
+                    enumGroup.fields.forEach { value ->
+                        if (value.identifier == "osmLanduseValue") {
                             appliedTags.add(Tag(key, value.possibleValue))
                         }
                     }
                 }
             }
         } else {
-            if( freeformKey(key) || streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, key)) {
+            if ( freeformKey(key) || streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, key)) {
                 appliedTags.add(Tag(key, null))
             } else {
                 println()
                 println()
                 println()
-                val explanation = "exact value is missing, extractValuesForKnownKey failed. $description get value (key is known: $key) from <${valueHolderSourceCode}> somehow..."
+                val explanation = "exact value is missing, extractValuesForKnownKey failed. $description get value (key is known: $key) from <$valueHolderSourceCode> somehow..."
                 println(explanation)
                 valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
                 valueHolder.showRelatedSourceCode(explanation, fileSourceCode)
@@ -1548,11 +1545,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun provideTagsBasedOnAswerDataStructuresFromExternalFiles(description:String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>, debug:Boolean=false): MutableSet<Tag> {
+    private fun provideTagsBasedOnAswerDataStructuresFromExternalFiles(description: String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>, debug: Boolean = false): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         var extractedSomething = false
         suspectedAnswerEnumFiles.forEach {
-            getEnumValuesDefinedInThisFile(description, it).forEach {enumGroup ->
+            getEnumValuesDefinedInThisFile(description, it).forEach { enumGroup ->
                 enumGroup.fields.forEach { value ->
                     // why redefined in each cycle?
                     // because there are cases where it would fail - but these are also cases
@@ -1571,14 +1568,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     if (value.identifier == identifier) {
                         appliedTags.add(Tag(key, value.possibleValue))
                         extractedSomething = true
-                        if(debug) {
-                            println("$key=${value.possibleValue} registered based on ${value.identifier} identifier matching expected ${identifier} - from ${it.name}")
+                        if (debug) {
+                            println("$key=${value.possibleValue} registered based on ${value.identifier} identifier matching expected $identifier - from ${it.name}")
                         }
                     }
                 }
             }
         }
-        if(!freeformKey(key)) {
+        if (!freeformKey(key)) {
             // with freeform keys heuristic below will just get
             // variable such as capacity and will get confused
             // It is possible to get it working but not worth it right now
@@ -1606,9 +1603,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
                 ast.locateByDescription("propertyDeclaration").forEach {
                     val whenExpression = it.locateSingleOrNullByDescription("whenExpression")
-                    if(whenExpression != null) {
-                        extractValuesForKnownKeyFromWhenExpression(description, "dummykey", whenExpression, code, listOf<File>()).forEach{
-                            if(debug) {
+                    if (whenExpression != null) {
+                        extractValuesForKnownKeyFromWhenExpression(description, "dummykey", whenExpression, code, listOf<File>()).forEach {
+                            if (debug) {
                                 println("OBTAINED FROM WHEN IN CLASS DECLARATION! $description $key=${it.value}")
                             }
                             appliedTags.add(Tag(key, it.value))
@@ -1621,7 +1618,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
         if (!extractedSomething) {
             appliedTags.add(Tag(key, null))
-            if( freeformKey(key) || streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, key)) {
+            if ( freeformKey(key) || streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, key)) {
                 // no reason to complain
             } else {
                 println("$description = ${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now - key is $key<")
@@ -1632,7 +1629,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun extractValuesForKnownKeyFromIfExpressionIfSingleOneIsPresent(description:String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag>? {
+    private fun extractValuesForKnownKeyFromIfExpressionIfSingleOneIsPresent(description: String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag>? {
         val ifExpression = valueHolder.locateSingleOrNullByDescription("ifExpression")
         if (ifExpression != null) {
             if (ifExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
@@ -1644,7 +1641,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return null
     }
 
-    private fun extractValuesForKnownKeyFromIfExpression(description:String, key: String, ifExpression: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
+    private fun extractValuesForKnownKeyFromIfExpression(description: String, key: String, ifExpression: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         ifExpression.locateByDescription("controlStructureBody").forEach {
             appliedTags += extractValuesForKnownKey(description, key, it, fileSourceCode, suspectedAnswerEnumFiles)
@@ -1652,7 +1649,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return appliedTags
     }
 
-    private fun extractValuesForKnownKeyFromWhenExpressionIfSingleOneIsPresent(description:String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag>? {
+    private fun extractValuesForKnownKeyFromWhenExpressionIfSingleOneIsPresent(description: String, key: String, valueHolder: Ast, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag>? {
         val whenExpression = valueHolder.locateSingleOrNullByDescription("whenExpression")
         if (whenExpression != null) {
             if (whenExpression.relatedSourceCode(fileSourceCode) == valueHolder.relatedSourceCode(fileSourceCode)) {
@@ -1664,31 +1661,31 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return null
     }
 
-    private fun extractValuesForKnownKeyFromWhenExpression(description:String, key: String, whenExpression: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
+    private fun extractValuesForKnownKeyFromWhenExpression(description: String, key: String, whenExpression: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): MutableSet<Tag> {
         val appliedTags = mutableSetOf<Tag>()
         whenExpression.locateByDescription("whenEntry").forEach { it ->
             val structure = it.children.filter { it.description != "WS" }
             val expectedStructureA = listOf("whenCondition", "ARROW", "controlStructureBody", "semi")
             val expectedStructureB = listOf("ELSE", "ARROW", "controlStructureBody", "semi")
-            areDirectChildrenMatchingStructureThrowExceptionIfNot(description, listOf(expectedStructureA, expectedStructureB), it, fileSourceCode, eraseWhitespace=true)
+            areDirectChildrenMatchingStructureThrowExceptionIfNot(description, listOf(expectedStructureA, expectedStructureB), it, fileSourceCode, eraseWhitespace = true)
             appliedTags += extractValuesForKnownKey(description, key, structure[2], fileSourceCode, suspectedAnswerEnumFiles)
         }
         return appliedTags
     }
 
-    private fun areDirectChildrenMatchingStructureThrowExceptionIfNot(description: String, expectedStructures: List<List<String>>, expression: AstNode, fileSourceCode: String, eraseWhitespace: Boolean){
-        val structure = expression.children.filter { !(eraseWhitespace && it.description == "WS") }.map{ it.description }
+    private fun areDirectChildrenMatchingStructureThrowExceptionIfNot(description: String, expectedStructures: List<List<String>>, expression: AstNode, fileSourceCode: String, eraseWhitespace: Boolean) {
+        val structure = expression.children.filter { !(eraseWhitespace && it.description == "WS") }.map { it.description }
         expectedStructures.forEach {
-            if(it == structure) {
+            if (it == structure) {
                 return
             }
         }
         var maxLength = 0
-        expectedStructures.forEach { if(maxLength < it.size) {maxLength = it.size} }
-        for(i in 0 until maxLength) {
+        expectedStructures.forEach { if (maxLength < it.size) { maxLength = it.size } }
+        for (i in 0 until maxLength) {
             expectedStructures.forEach {
-                if(it.size > i) {
-                    if(it[i] != structure[i]){
+                if (it.size > i) {
+                    if (it[i] != structure[i]) {
                         println("STRUCTURE FAILED")
                         println("WHEN STRUCTURE FAILED")
                         expression.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
@@ -1703,12 +1700,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun surveyMarkKeyBasedOnKey(key:String):String {
+    private fun surveyMarkKeyBasedOnKey(key: String): String {
         // TODO - can we directly call relevant StreetComplete code?
         return "$SURVEY_MARK_KEY:$key"
     }
 
-    private fun extractCasesWhereTagsAreAccessedWithFunction(description:String, relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+    private fun extractCasesWhereTagsAreAccessedWithFunction(description: String, relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         // it is trying to detect things like
         // tags.updateWithCheckDate("smoking", answer.osmValue)
         val appliedTags = mutableSetOf<Tag>()
@@ -1743,11 +1740,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             throw ParsingInterpretationException("unexpected")
                         }
                         val keyArgumentAstTree = keyArgumentAst.tree()
-                        if(keyArgumentAstTree is KlassIdentifier) {
-                            if(keyArgumentAstTree.identifier == "SOUND_SIGNALS") {
+                        if (keyArgumentAstTree is KlassIdentifier) {
+                            if (keyArgumentAstTree.identifier == "SOUND_SIGNALS") {
                                 keyString = SOUND_SIGNALS
                             }
-                            if(keyArgumentAstTree.identifier == "VIBRATING_BUTTON") {
+                            if (keyArgumentAstTree.identifier == "VIBRATING_BUTTON") {
                                 keyString = VIBRATING_BUTTON
                             }
                         }
@@ -1766,7 +1763,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 appliedTags.add(Tag(keyString, "no"))
                             } else if (valueHolderSourceCode == "answer.osmValue" || valueHolderSourceCode == "answer.value.osmValue") {
                                 val dotAcess = valueAst.locateByDescription("postfixUnarySuffix")
-                                if(dotAcess.isEmpty()) {
+                                if (dotAcess.isEmpty()) {
                                     throw ParsingInterpretationException("hmmmmmmmm")
                                 }
                                 val accessIdentifierAst = dotAcess[dotAcess.size - 1].locateSingleOrExceptionByDescriptionDirectChild("navigationSuffix")
@@ -1777,7 +1774,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     getEnumValuesDefinedInThisFile(description, it).forEach { value ->
                                         // dotAcess will have a single element [.osmValue] on "answer.osmValue"
                                         // dotAcess will have a two elemente [.value, .osmValue] on "answer.value.osmValue"
-                                        if(value.fields.size != 1) {
+                                        if (value.fields.size != 1) {
                                             throw ParsingInterpretationException("expected a single value, got $value")
                                         }
                                         if (value.fields[0].identifier == identifier) {
@@ -1816,7 +1813,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     println(suspectedAnswerEnumFiles)
                                     println("-1 -1 -1")
                                     println(explanation)
-                                    if(freeformKey(keyString)) {
+                                    if (freeformKey(keyString)) {
                                         println("freeform, but accessed with $valueSourceCode which is not listed")
                                     }
                                     println()
@@ -1827,7 +1824,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     } else {
                         // TODO
                         println("^^^^^^^^^^^^^^^^ $description - failed to extract key from updateWithCheckDate")
-                        //val keyString = extractArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
+                        // val keyString = extractArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
                         val keyArgumentAst = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
                         keyArgumentAst!!.relatedSourceCode(fileSourceCode)
                         keyArgumentAst.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
@@ -1900,7 +1897,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return extractArgumentListSyntaxTreeInFunctionCall(ast)[index]
     }
 
-    private fun extractStringLiteralArgumentInFunctionCall(description:String, index: Int, ast: AstNode, fileSourceCode: String): String? {
+    private fun extractStringLiteralArgumentInFunctionCall(description: String, index: Int, ast: AstNode, fileSourceCode: String): String? {
         val found = extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
         if (found == null) {
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
@@ -1992,7 +1989,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println(">---------------------------here is the $description (source code)")
     }
 
-    private fun Ast.showHumanReadableTreeWithSourceCode(description:String, fileSourceCode: String) {
+    private fun Ast.showHumanReadableTreeWithSourceCode(description: String, fileSourceCode: String) {
         println("<---------------------------------------showHumanReadableTreeWithSourceCode--$description")
         humanReadableTreeWithSourceCode(0, fileSourceCode).forEach { println(it) }
         println(">---------------------------------------showHumanReadableTreeWithSourceCode--$description")
@@ -2108,10 +2105,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun Ast.extractFunctionByName(functionName: String): AstNode? {
         val got = extractAllFunctionsByName(functionName)
-        if(got.size > 1) {
+        if (got.size > 1) {
             throw ParsingInterpretationException("expected one function, got multiple")
         }
-        if(got.isEmpty()) {
+        if (got.isEmpty()) {
             return null
         }
         return got[0]
