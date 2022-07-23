@@ -528,32 +528,32 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // on every build
         // note that full scan of wiki lasts more than two hours
         // see https://github.com/openstreetmap/openstreetmap-website/pull/3294 for update instructions
-        foundTags.forEach {
-            if(isCompoundDocumentationPageAllowedForKey(it.tag.key)) {
-                if(!isCompoundListerErrorPageExisting(it.tag.osmWikiPageUrl())) {
-                    if(!isPageExisting(it.tag.osmWikiPageUrl())) {
-                        println("${it.tag.key}= has no expected OSM Wiki compound page")
+        foundTags.map{it.tag}.forEach {
+            if(isCompoundDocumentationPageAllowedForKey(it.key)) {
+                if(!isCompoundListerErrorPageExisting(it.osmWikiPageUrl())) {
+                    if(!isPageExisting(it.osmWikiPageUrl())) {
+                        println("${it.key}= has no expected OSM Wiki compound page")
                     }
                 }
                 return@forEach
             }
-            if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.tag.key}")) {
-                if (it.tag.value != null) {
+            if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Key:${it.key}")) {
+                if (it.value != null) {
                     // if value page exists, then it is likely fine
-                    if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.tag.key}=${it.tag.value}")) {
-                        println("${it.tag.key}= has no OSM Wiki page and has no value page")
+                    if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.key}=${it.value}")) {
+                        println("${it.key}= has no OSM Wiki page and has no value page")
                     }
                 } else {
-                    println("${it.tag.key}= has no OSM Wiki page")
+                    println("${it.key}= has no OSM Wiki page")
                 }
             }
-            if (it.tag.value !in listOf(null, "no", "yes", "only") && !freeformKey(it.tag.key)) {
-                if (it.tag.key in listOf("crossing:barrier", "bicycle_rental", "roof:shape", "material", "royal_cypher", "camera:type",
+            if (it.value !in listOf(null, "no", "yes", "only") && !freeformKey(it.key)) {
+                if (it.key in listOf("crossing:barrier", "bicycle_rental", "roof:shape", "material", "royal_cypher", "camera:type",
                         "bollard", "board_type", "cycle_barrier", "bicycle_parking", "location", "stile",
                         "fire_hydrant:type", // TODO: what about fire_hydrant:type=pond? According to wiki it should not be used
                         // https://wiki.openstreetmap.org/wiki/Tag:emergency%3Dfire_hydrant
-                    ) || it.tag.key.startsWith("recycling:") || it.tag.key.startsWith("parking:")
-                    || it.tag.key.startsWith("cycleway:") ) {
+                    ) || it.key.startsWith("recycling:") || it.key.startsWith("parking:")
+                    || it.key.startsWith("cycleway:") ) {
                     // this values should be described at the key page
                     // not ideal as
                     // - StreetComplete can be using bogus values
@@ -563,7 +563,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     // but I am not entirely sure is it a good idea
                     return@forEach
                 }
-                if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.tag.key}=${it.tag.value}")) {
+                if (!isPageExisting("https://wiki.openstreetmap.org/w/index.php?title=Tag:${it.key}=${it.value}")) {
                     println("$it has no OSM Wiki page")
                 }
             }
