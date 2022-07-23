@@ -827,7 +827,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             // TODO FIX PLZ
             sides.forEach { side ->
                 surfaces.forEach { surface ->
-                    val modifiedSourceCode = fileSourceCode.replace("\$sidewalkSurfaceKey", side)
+                    val modifiedSourceCode = fileSourceCode.replace("\$sidewalkSurfaceKey", "sidewalk:$side:surface")
                         .replace("[sidewalkSurfaceKey]", "[\"sidewalk:$side:surface\"]")
                         .replace("surface.value.osmValue", '"' + surface + '"')
                     appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applySidewalkSurfaceAnswerTo", suspectedAnswerEnumFiles)!!
