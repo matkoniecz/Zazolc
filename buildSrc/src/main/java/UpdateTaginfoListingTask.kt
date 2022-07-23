@@ -1024,7 +1024,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     appliedTags.add(Tag("indoor", "yes"))
                 }
                 val surfaces = listOfSurfaceValuesInSurfaceQuest(file)
-                println(surfaces)
                 val key = when(file.name) {
                     "AddRoadSurface.kt" -> "surface"
                     "AddPathSurface.kt" -> "surface"
@@ -1038,7 +1037,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 surfaces.forEach { surface ->
                     appliedTags.add(Tag(key, surface))
                 }
-                println("STRUCTURES DEBUHG")
                 return appliedTags
             }
             "AddBikeParkingFee.kt", "AddParkingFee.kt" -> {
@@ -1105,7 +1103,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 identifiersOfElements.add(identifier)
                             }
                         }
-                        println("items = $identifiersOfElements")
+                        //println("items = $identifiersOfElements")
                         return identifiersOfElements
                     }
                 }
