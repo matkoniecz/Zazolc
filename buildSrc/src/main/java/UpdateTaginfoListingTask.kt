@@ -689,9 +689,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
         fun osmWikiPageUrl(): String {
             if(value == null) {
-                return "https://wiki.openstreetmap.org/w/index.php?title=Key:${key}"
+                return "https://wiki.openstreetmap.org/w/index.php?title=Key:${key.replace(" ", "_")}"
             }
-            return "https://wiki.openstreetmap.org/w/index.php?title=Tag:${key}=${value}"
+            return "https://wiki.openstreetmap.org/w/index.php?title=Tag:${key.replace(" ", "_")}=${value.replace(" ", "_")}"
         }
 
         override fun equals(other: Any?): Boolean {
