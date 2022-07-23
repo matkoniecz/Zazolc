@@ -1105,12 +1105,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode).parse()
         val defaultFunction = ast.extractFunctionByName(NAME_OF_FUNCTION_EDITING_TAGS)!!
-        if ("answer.applyTo(" !in defaultFunction.relatedSourceCode(fileSourceCode)) {
+        val functionSourceCode = defaultFunction.relatedSourceCode(fileSourceCode)
+        if ("answer.applyTo(" !in functionSourceCode && "answer.litStatus.applyTo" !in functionSourceCode) {
             return addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
         } else {
             suspectedAnswerEnumFiles.forEach { fileHopefullyWithApplyTo ->
                 val fileMaybeContainingEnumSourceCode = loadFileText(fileHopefullyWithApplyTo)
-                val astWithAlternativeFile = AstSource.String("answer.applyTo( scan", fileMaybeContainingEnumSourceCode)
+                val astWithAlternativeFile = AstSource.String("applyTo function scan", fileMaybeContainingEnumSourceCode)
                 val found = astWithAlternativeFile.parse().extractFunctionByName("applyTo")
                 if(found != null) {
                     // OK, so we found related file providing applyTo function. Great!
