@@ -520,6 +520,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun checkOsmWikiPagesExistence(foundTags: MutableList<TagQuestInfo>) {
+        val allKeys = mutableSetOf<String>()
+        foundTags.forEach { allKeys.add(it.tag.key) }
+        println("${allKeys.size} different keys")
+        val processedTags = mutableSetOf<Tag>()
         println()
         println()
         // note that
