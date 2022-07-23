@@ -914,6 +914,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     Tag("sidewalk:right", "no"), Tag("sidewalk:right", "yes"), Tag("sidewalk:right", "separate"),
                 )
             }
+            "AddWayLit.kt" -> {
+                return setOf(Tag("lit", "no"), Tag("lit", "yes"), Tag("lit", "automatic"), Tag("lit", "24/7"),
+                    Tag(surveyMarkKeyBasedOnKey("lit"), null), Tag("highway", "steps")
+                )
+            }
             "AddMaxWeight.kt" -> {
                 return setOf(Tag("maxweight:signed", "no"), Tag("maxweight", null), Tag("maxweightrating", null),
                     Tag("maxaxleload", null), Tag("maxbogieweight", "null"),
