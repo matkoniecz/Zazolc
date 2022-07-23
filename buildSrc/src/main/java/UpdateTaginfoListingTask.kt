@@ -410,7 +410,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val officialLanguages: Set<String> = setOf(),
     )
 
-    private fun possibleLanguageTags(): MutableSet<String> {
+    private fun possibleLanguageKeys(): MutableSet<String> {
         val languageTags = mutableSetOf("name", "int_name")
         File(COUNTRY_METADATA_PATH_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { file ->
             if (file.isFile) {
@@ -806,7 +806,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return setOf(Tag("addr:street", null), Tag("addr:place", null))
         } else if("AddRoadName.kt" == file.name) {
             val appliedTags = mutableSetOf<Tag>()
-            possibleLanguageTags().forEach { appliedTags.add(Tag(it, null)) }
+            possibleLanguageKeys().forEach { appliedTags.add(Tag(it, null)) }
             appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
             return appliedTags
         } else if("AddStreetParking.kt" == file.name) {
@@ -1345,7 +1345,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     } else if (likelyVariable.size == 1) {
                         if(likelyVariable[0].relatedSourceCode(fileSourceCode) == "key" && "name:\$languageTag" in fileSourceCode) {
                             // special handling for name quests
-                            possibleLanguageTags().forEach { appliedTags.add(Tag(it, null)) }
+                            possibleLanguageKeys().forEach { appliedTags.add(Tag(it, null)) }
                         } else {
                             expression.showHumanReadableTree()
                             expression.showRelatedSourceCode("expression in identified access as a complex variable", fileSourceCode)
