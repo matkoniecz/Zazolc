@@ -1157,6 +1157,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         ast.locateByDescription("classMemberDeclaration").forEach { classMemberDeclaration ->
             val declarations = classMemberDeclaration.locateByDescriptionDirectChild("declaration")
             if(declarations.size != 1) {
+                classMemberDeclaration.showHumanReadableTree()
                 declarations.forEach {
                     println("listOfClassPropertyDeclaration is failing, reporting declaration")
                     it.showHumanReadableTree()
