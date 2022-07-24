@@ -1136,36 +1136,45 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun listOfIdentifiersDeclaringFormItems(formFile:File): MutableList<String>? {
         val formFileCode = loadFileText(formFile)
         val astForm = AstSource.String("${formFile.parentFile.name}/${formFile.name}", formFileCode).parse()
-        astForm.locateByDescription("classMemberDeclaration").forEach { classMemberDeclaration ->
-            val declarations = classMemberDeclaration.locateByDescriptionDirectChild("declaration")
-            if(declarations.size != 1) {
-                declarations.forEach {
-                    it.showHumanReadableTreeWithSourceCode("{$formFile.name} is failing, reporting declaration", formFileCode)
-                }
-                throw ParsingInterpretationException("multiple declarations in ${formFile.name}")
-            }
-            val declaration = declarations[0]
-            val propertyDeclaration = declaration.locateSingleOrNullByDescriptionDirectChild("propertyDeclaration")
-            if (propertyDeclaration != null) {
-                val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
-                val getter = propertyDeclaration.locateSingleOrNullByDescription("getter")
-                if (variableDeclaration != null && getter != null && variableDeclaration.relatedSourceCode(formFileCode) == "items") {
-                    val identifierOfProperty = (variableDeclaration.tree() as KlassIdentifier).identifier
-                    if(identifierOfProperty == "items") {
-                        val identifiersOfElements = mutableListOf<String>()
-                        getter.locateByDescription("simpleIdentifier").forEach {
-                            val identifier = (it.tree() as KlassIdentifier).identifier
-                            if(identifier != "toItems") { // TODO skip it via proper parsing
-                                identifiersOfElements.add(identifier)
-                            }
+
+        listOfClassPropertyDeclaration(astForm).forEach { propertyDeclaration ->
+            val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
+            val getter = propertyDeclaration.locateSingleOrNullByDescription("getter")
+            if (variableDeclaration != null && getter != null) {
+                val identifierOfProperty = (variableDeclaration.tree() as KlassIdentifier).identifier
+                if(identifierOfProperty == "items") {
+                    val identifiersOfElements = mutableListOf<String>()
+                    getter.locateByDescription("simpleIdentifier").forEach {
+                        val identifier = (it.tree() as KlassIdentifier).identifier
+                        if(identifier != "toItems") { // TODO skip it via proper parsing
+                            identifiersOfElements.add(identifier)
                         }
-                        //println("items = $identifiersOfElements")
-                        return identifiersOfElements
                     }
+                    return identifiersOfElements
                 }
             }
         }
         return null
+    }
+
+    private fun listOfClassPropertyDeclaration(ast: Ast): List<Ast> {
+        val returned = mutableListOf<Ast>()
+        ast.locateByDescription("classMemberDeclaration").forEach { classMemberDeclaration ->
+            val declarations = classMemberDeclaration.locateByDescriptionDirectChild("declaration")
+            if(declarations.size != 1) {
+                declarations.forEach {
+                    println("listOfClassPropertyDeclaration is failing, reporting declaration")
+                    it.showHumanReadableTree()
+                }
+                throw ParsingInterpretationException("${declarations.size} multiple declarations")
+            }
+            val declaration = declarations[0]
+            val propertyDeclaration = declaration.locateSingleOrNullByDescriptionDirectChild("propertyDeclaration")
+            if (propertyDeclaration != null) {
+                returned.add(propertyDeclaration)
+            }
+        }
+        return returned
     }
 
     private fun formFileUsedInquest(ast: Ast): File {
