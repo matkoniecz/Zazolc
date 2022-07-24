@@ -20,6 +20,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.jsoup.Jsoup
 import java.io.File
@@ -125,6 +126,9 @@ This is the third attempt, it works, but code likely can be far better.
 
 @OptIn(ExperimentalSerializationApi::class) // needed by explicitNulls = false
 open class UpdateTaginfoListingTask : DefaultTask() {
+
+    @get:Input var targetDir: String? = null
+
     companion object {
         const val NAME_OF_FUNCTION_EDITING_TAGS = "applyAnswerTo"
         const val KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING = "app/src/main/java/"
@@ -283,42 +287,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         )
     }
 
-    fun test() {
-        @Serializable
-        data class TestClass(
-            val obligatory: String,
-            val optional: Int = 0
-        )
-
+    private fun generateReport(questData: List<TagQuestInfo>) {
+        println(targetDir)
         val format = Json { encodeDefaults = true; explicitNulls = false; prettyPrint = true  }
-        println(format.encodeToString(TestClass("text")))
 
-        /*
-        {
-    "data_format": 1,
-    "data_url": "https://goldfndr.github.io/StreetCompleteJSON/taginfo.json",
-    "project": {
-        "name": "StreetComplete",
-        "description": "Surveyor app for Android",
-        "project_url": "https://github.com/westnordost/StreetComplete",
-        "doc_url": "https://wiki.openstreetmap.org/wiki/StreetComplete",
-        "icon_url": "https://raw.githubusercontent.com/westnordost/StreetComplete/master/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
-        "contact_name": "Richard Finegold",
-        "contact_email": "goldfndr.sc@gmail.com"
-    },
-    "tags": [
-    { "key": "addr:floor", "description": "Displayed (on level) in question if present" },
-    { "key": "level:ref", "description": "Displayed (on level) in question if present and addr:floor is not present" },
-    { "key": "level", "description": "Displayed (on level) in question if present and addr:floor and level:ref are not present" }
-    { "key": "noname", "value": "yes", "object_types": [ "node", "area", "relation" ], "description": "Place Name quest fill", "icon_url": "https://wiki.openstreetmap.org/w/images/0/06/StreetComplete_quest_label.svg" },
-        ]
-}
-         */
         @Serializable
         data class TagWithDescriptionForTaginfoListing(val key: String, val value: String?, val description: String)
 
         @Serializable
-        data class Project(val name: String, val description: String, val project_url: String, val doc_url:String, val icon_url:String)
+        data class Project(val name: String, val description: String, val project_url: String, val doc_url:String, val icon_url:String, val contact_name: String, val contact_email: String)
 
         @Serializable
         data class TaginfoReport(val data_format:Int = 1, val data_url: String, val project: Project, val tags: List<TagWithDescriptionForTaginfoListing>)
@@ -328,20 +305,27 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val project = Project("StreetComplete", "Surveyor app for Android",
             "https://github.com/westnordost/StreetComplete",
             "https://wiki.openstreetmap.org/wiki/StreetComplete",
-            "https://raw.githubusercontent.com/westnordost/StreetComplete/master/app/src/main/res/mipmap-xhdpi/ic_launcher.png")
+            "https://raw.githubusercontent.com/westnordost/StreetComplete/master/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+            "Mateusz Konieczny",
+            "matkoniecz@tutanota.com",
+        )
         val report = TaginfoReport(1, "TODOfixdataURL", project,
-            listOf(TagWithDescriptionForTaginfoListing("keyonly", null, "desscription"),
-                TagWithDescriptionForTaginfoListing("key", "value", "desscription"))
+            questData.map{TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in ${it.quest} quest")}
             )
         println(format.encodeToString(report))
         val jsonText = format.encodeToString(report)
         println(jsonText)
         val reportAgain = format.decodeFromString<TaginfoReport>(jsonText)
+
+        val targetFile = File(targetDir, "taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json")
+        val fileWriter = targetFile.writer()
+        fileWriter.write(jsonText)
+        fileWriter.close()
     }
 
     @TaskAction fun run() {
-
-        test()
+        println(targetDir)
+        generateReport(listOf(TagQuestInfo(Tag("keyonly", null), "quest Foobar"), TagQuestInfo(Tag("key", "value"), "another quest"),))
 
         var processed = 0
         val failedQuests = mutableSetOf<String>()
@@ -373,6 +357,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
         }
+        generateReport(foundTags)
         reportResultOfDataCollection(foundTags, processed, failedQuests)
         checkOsmWikiPagesExistence(foundTags)
     }

@@ -92,6 +92,7 @@ tasks.register<UpdateContributorStatisticsTask>("updateContributorStatistics") {
 
 tasks.register<UpdateTaginfoListingTask>("updateTaginfoListing") {
     group = "streetcomplete"
+    targetDir = "$projectDir/res/documentation"
 }
 
 tasks.register("updateStreetCompleteData") {
