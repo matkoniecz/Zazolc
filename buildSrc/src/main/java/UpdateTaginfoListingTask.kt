@@ -405,8 +405,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun importedByFile(file: File): Set<String> {
         val returned = mutableSetOf<String>()
         val fileSourceCode = loadFileText(file)
-        val ast = AstSource.String(path, fileSourceCode)
-        ast.parse().locateByDescription("importList").forEach { importList ->
+        file.parse().locateByDescription("importList").forEach { importList ->
             importList.locateByDescription("importHeader").forEach {
                 if (it is DefaultAstNode) {
                     areDirectChildrenMatchingStructureThrowExceptionIfNot("checking import file structure for $path", listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace = false)
@@ -503,7 +502,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 mismatch = true
             }
         }
-        val ast = AstSource.String(filepath, fileSourceCode)
+        val ast = AstSource.String(filepath, fileSourceCode).parse()
         val relevantFunction = getAstTreeForFunctionEditingTags(filepath, ast)
         if (mismatch) {
             println()
@@ -780,16 +779,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return inputStream.bufferedReader().use { it.readText() }
     }
 
-    private fun showEntire(description: String, fileSourceCode: String) {
-        val ast = AstSource.String(description, fileSourceCode)
-        println("============================here is the entire content (source code tree)==<")
-        ast.parse().showHumanReadableTreeWithSourceCode(description, fileSourceCode)
-        println(">---------------------------here is the entire content (source code tree)>===")
-        println("----------------------------here is the entire content (source code)==<")
-        println(fileSourceCode)
-        println(">===========================here is the entire content (source code)>===")
-    }
-
     @Serializable
     class Tag(val key: String, val value: String?) {
         override fun toString(): String {
@@ -849,8 +838,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun getAstTreeForFunctionEditingTags(description: String, ast: AstSource.String): AstNode {
-        val found = ast.parse().extractFunctionByName(NAME_OF_FUNCTION_EDITING_TAGS)
+    private fun getAstTreeForFunctionEditingTags(description: String, ast: Ast): AstNode {
+        val found = ast.extractFunctionByName(NAME_OF_FUNCTION_EDITING_TAGS)
         if (found == null) {
             println("$NAME_OF_FUNCTION_EDITING_TAGS not found in $description")
             exitProcess(1)
@@ -1112,8 +1101,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun listOfSurfaceValuesInSurfaceQuest(questFile: File): MutableList<String> {
-        val fileSourceCode = loadFileText(questFile)
-        val formFile = formFileUsedInquest(AstSource.String("${questFile.parentFile.name}/${questFile.name}", fileSourceCode).parse())
+        val formFile = formFileUsedInquest(questFile.parse())
         val identifiersOfFormItemsMayBeGroups = listOfIdentifiersDeclaringFormItems(formFile)
         return retrieveSurfaceValuesFromGroupIdentifiers(identifiersOfFormItemsMayBeGroups)
     }
@@ -1134,8 +1122,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun listOfIdentifiersDeclaringFormItems(formFile:File): MutableList<String>? {
-        val formFileCode = loadFileText(formFile)
-        val astForm = AstSource.String("${formFile.parentFile.name}/${formFile.name}", formFileCode).parse()
+        val astForm = formFile.parse()
 
         listOfClassPropertyDeclaration(astForm).forEach { propertyDeclaration ->
             val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
@@ -1201,7 +1188,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         val structures = mutableMapOf<String, List<String>>()
         val surfacesFileCode = loadFileText(answersFile)
-        val astSurfaceGroupsDefinitions = AstSource.String(answersFile.name, surfacesFileCode).parse()
+        val astSurfaceGroupsDefinitions = answersFile.parse()
         astSurfaceGroupsDefinitions.locateByDescription("topLevelObject").forEach { topLevelObject ->
             val propertyDeclarations = topLevelObject.locateSingleOrExceptionByDescriptionDirectChild("declaration")
                 .locateByDescriptionDirectChild("propertyDeclaration")
@@ -1254,9 +1241,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
         } else {
             suspectedAnswerEnumFiles.forEach { fileHopefullyWithApplyTo ->
-                val fileMaybeContainingEnumSourceCode = loadFileText(fileHopefullyWithApplyTo)
-                val astWithAlternativeFile = AstSource.String("applyTo function scan", fileMaybeContainingEnumSourceCode)
-                val found = astWithAlternativeFile.parse().extractFunctionByName("applyTo")
+                val found = fileHopefullyWithApplyTo.parse().extractFunctionByName("applyTo")
                 if (found != null) {
                     // OK, so we found related file providing applyTo function. Great!
                     if ("ParkingFee" in description) {
@@ -1280,10 +1265,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun addedOrEditedTagsRealParsingFindRealEditFunctionViaApplyToFunction(description: String, fileWithRedirectedFunction: File, originalFileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
-        val fileMaybeContainingEnumSourceCode = loadFileText(fileWithRedirectedFunction)
-        val astWithAlternativeFile = AstSource.String("answer.applyTo( scan", fileMaybeContainingEnumSourceCode)
-        val found = astWithAlternativeFile.parse().extractFunctionByName("applyTo")!!
-        val ast = AstSource.String(description, originalFileSourceCode)
+        val found = fileWithRedirectedFunction.parse().extractFunctionByName("applyTo")!!
+        val ast = AstSource.String(description, originalFileSourceCode).parse()
         val defaultFunction = getAstTreeForFunctionEditingTags(description, ast)
         val parameters = found.locateSingleOrExceptionByDescriptionDirectChild("functionValueParameters")
             .locateByDescriptionDirectChild("functionValueParameter")
@@ -1355,7 +1338,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (parametersInCalledFunction[0] == "tags") {
             val replacementParameter = "tags"
             val replacementFunctionName = "applyTo"
-            val replacementSourceCode = fileMaybeContainingEnumSourceCode
+            val replacementSourceCode = loadFileText(fileWithRedirectedFunction)
             val replacementDescription = fileWithRedirectedFunction.toString()
             return addedOrEditedTagsWithGivenFunction(replacementDescription, replacementSourceCode, replacementParameter, replacementFunctionName, suspectedAnswerEnumFiles)
         } else {
@@ -1367,8 +1350,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun addedOrEditedTagsWithGivenFunction(description: String, fileSourceCode: String, variable: String, relevantFunctionName: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
-        val ast = AstSource.String(description, fileSourceCode)
-        val relevantFunction = ast.parse().extractFunctionByName(relevantFunctionName)
+        val ast = AstSource.String(description, fileSourceCode).parse()
+        val relevantFunction = ast.extractFunctionByName(relevantFunctionName)
         if (relevantFunction == null) {
             println(description)
             println(fileSourceCode)
@@ -1539,8 +1522,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val filepath = file.path // TODO - eliminate
         val values = mutableSetOf<EnumEntry>()
         val fileMaybeContainingEnumSourceCode = loadFileText(file)
-        val ast = AstSource.String(filepath, fileMaybeContainingEnumSourceCode)
-        val potentialEnumFileAst = ast.parse()
+        val potentialEnumFileAst = file.parse()
         var enumsTried = 0
         potentialEnumFileAst.locateByDescription("classDeclaration").forEach { enum ->
             val modifiers = enum.locateByDescription("modifiers")
@@ -1741,7 +1723,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
                  */
                 val code = loadFileText(file)
-                val ast = AstSource.String("data class parsing", code).parse()
+                val ast = file.parse()
                 val classDeclarations = ast.locateByDescription("classDeclaration")
                 if (classDeclarations.isEmpty()) {
                     return@forEach
@@ -2304,4 +2286,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun AstSource.parse() = KotlinGrammarAntlrKotlinParser.parseKotlinFile(this)
+
+    private fun File.parse(): Ast {
+        val inputStream: InputStream = this.inputStream()
+        val text = inputStream.bufferedReader().use { it.readText() }
+        return KotlinGrammarAntlrKotlinParser.parseKotlinFile(AstSource.String(this.path, text))
+    }
+
 }
