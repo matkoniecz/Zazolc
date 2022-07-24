@@ -859,26 +859,41 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun addedOrEditedTags(file: File): Set<Tag>? {
-        var suspectedAnswerEnumFiles = candidatesForEnumFilesForGivenFile(file)
-        if ("AddBarrier" in file.name) {
-            // TODO argh? can it be avoided?
-            // why it is present? Without this AddBarrierOnPath would pull also StileTypeAnswer
-            // and claim that barrier=stepover is a thing
-            // would need substantial additional parsing of import data to fix it :(
-            suspectedAnswerEnumFiles = suspectedAnswerEnumFiles.filter { "StileTypeAnswer.kt" !in it.name }
+        val hardcodedAnswers = addedOrEditedTagsHardcodedAnswers(file)
+        if(hardcodedAnswers != null) {
+            return hardcodedAnswers
         }
-
+        val suspectedAnswerEnumFiles = candidatesForEnumFilesForGivenFile(file)
         val description = file.parentFile.name + File.separator + file.name
         val fileSourceCode = loadFileText(file)
+        return addedOrEditedTagsRealParsing(description, fileSourceCode, suspectedAnswerEnumFiles)
+    }
+
+    private fun addedOrEditedTagsHardcodedAnswers(file: File): Set<Tag>? {
+        val fileSourceCode = loadFileText(file)
+        val description = file.parentFile.name + File.separator + file.name
+        var suspectedAnswerEnumFiles = candidatesForEnumFilesForGivenFile(file)
         // TODO hardcoding is ugly and ideally would be replaced
+        // this function contains cases where answers are partially or fully hardcoded
+        // it is done this way as in some cases parsing would extremely complex and not worth doing this
+        // in some it can be actually implemented and it is likely worth doing this to avoid need
+        // for manual maintenance of the code
         when (file.name) {
+            "AddBarrier.kt" -> {
+                // TODO argh? can it be avoided?
+                // why it is present? Without this AddBarrierOnPath would pull also StileTypeAnswer
+                // and claim that barrier=stepover is a thing
+                // would need substantial additional parsing of import data to fix it :(
+                suspectedAnswerEnumFiles = suspectedAnswerEnumFiles.filter { "StileTypeAnswer.kt" !in it.name }
+                return addedOrEditedTagsRealParsing(description, fileSourceCode, suspectedAnswerEnumFiles)
+            }
             "AddAddressStreet.kt" -> {
                 return setOf(Tag("addr:street", null), Tag("addr:place", null))
             }
             "AddRoadName.kt" -> {
                 val appliedTags = mutableSetOf<Tag>()
                 possibleLanguageKeys().forEach { appliedTags.add(Tag(it, null)) }
-                appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+                appliedTags += addedOrEditedTagsRealParsing(description, fileSourceCode, suspectedAnswerEnumFiles)!!
                 return appliedTags
             }
             "AddStreetParking.kt" -> {
@@ -914,7 +929,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
             "AddMaxSpeed.kt" -> {
                 val appliedTags = mutableSetOf<Tag>()
-                appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+                appliedTags += addedOrEditedTagsRealParsing(description, fileSourceCode, suspectedAnswerEnumFiles)!!
                 appliedTags.add(Tag("maxspeed", null))
                 appliedTags.add(Tag("maxspeed:type", null)) // TODO - not really true but I give up here for now
                 appliedTags.add(Tag("maxspeed:advisory", null))
@@ -1038,7 +1053,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         got += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applyCyclewayAnswerTo", suspectedAnswerEnumFiles)!!
                     }
                 }
-                return got + addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+                return got + addedOrEditedTagsRealParsing(description, fileSourceCode, suspectedAnswerEnumFiles)!!
             }
             "AddSidewalkSurface.kt" -> {
                 val appliedTags = mutableSetOf<Tag>()
@@ -1055,7 +1070,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         // appliedTags.add(Tag("sidewalk:$side:surface:note", null),
                     }
                 }
-                appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!!
+                appliedTags += addedOrEditedTagsRealParsing(description, fileSourceCode, suspectedAnswerEnumFiles)!!
                 return appliedTags
             }
             "AddRoadSurface.kt", "AddPathSurface.kt", "AddFootwayPartSurface.kt", "AddCyclewayPartSurface.kt", "AddPitchSurface.kt" -> {
@@ -1084,17 +1099,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
             "AddBikeParkingFee.kt", "AddParkingFee.kt" -> {
                 val feeApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Fee.kt")
-                val fromFee = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, feeApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
+                val fromFee = addedOrEditedTagsRealParsingFindRealEditFunctionViaApplyToFunction(description, feeApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
                 if (Tag("fee", "yes") !in fromFee) {
                     throw ParsingInterpretationException("is it even working - no, as fee=yes is missing")
                 }
                 val maxstayApplyTo = File(QUEST_ROOT_WITH_SLASH_ENDING + "parking_fee/Maxstay.kt")
-                val fromMaxstay = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, maxstayApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
+                val fromMaxstay = addedOrEditedTagsRealParsingFindRealEditFunctionViaApplyToFunction(description, maxstayApplyTo, fileSourceCode, suspectedAnswerEnumFiles)!!
                 return fromFee + fromMaxstay
             }
-            else -> return addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description,
-                fileSourceCode,
-                suspectedAnswerEnumFiles)
+            else -> return null
         }
     }
 
@@ -1224,7 +1237,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return structures
     }
 
-    private fun addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+    private fun addedOrEditedTagsRealParsing(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode).parse()
         val defaultFunction = ast.extractFunctionByName(NAME_OF_FUNCTION_EDITING_TAGS)!!
         val functionSourceCode = defaultFunction.relatedSourceCode(fileSourceCode)
@@ -1240,7 +1253,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     if ("ParkingFee" in description) {
                         println("$description fpund apply to file $fileHopefullyWithApplyTo")
                     }
-                    val got = addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description, fileHopefullyWithApplyTo, fileSourceCode, suspectedAnswerEnumFiles)
+                    val got = addedOrEditedTagsRealParsingFindRealEditFunctionViaApplyToFunction(description, fileHopefullyWithApplyTo, fileSourceCode, suspectedAnswerEnumFiles)
 
                     val bonusScan = addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
                     if (bonusScan != null && bonusScan.isNotEmpty()) {
@@ -1257,8 +1270,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return null
     }
 
-    // TODO rename addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction insanity
-    private fun addedOrEditedTagsActualParsingWithoutHardcodedAnswersRedirectViaApplyToFunction(description: String, fileWithRedirectedFunction: File, originalFileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+    private fun addedOrEditedTagsRealParsingFindRealEditFunctionViaApplyToFunction(description: String, fileWithRedirectedFunction: File, originalFileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val fileMaybeContainingEnumSourceCode = loadFileText(fileWithRedirectedFunction)
         val astWithAlternativeFile = AstSource.String("answer.applyTo( scan", fileMaybeContainingEnumSourceCode)
         val found = astWithAlternativeFile.parse().extractFunctionByName("applyTo")!!
