@@ -203,19 +203,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             File(folder.toString()).walkTopDown().forEach {
                 if (it.isFile) {
                     if (isQuestFile(it)) {
-                        var changesetDescription:String? = null
-                        listOfClassPropertyDeclaration(it.parse()).forEach { propertyDeclaration ->
-                            val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
-                            if (variableDeclaration != null) {
-                                val identifierOfProperty = (variableDeclaration.tree() as KlassIdentifier).identifier
-                                if(identifierOfProperty == "changesetComment") {
-                                    propertyDeclaration.showHumanReadableTreeWithSourceCode("changesetComment loader", loadFileText(it))
-                                    val expression = propertyDeclaration.locateSingleOrExceptionByDescriptionDirectChild("expression")
-                                    changesetDescription = extractTextFromHardcodedString(expression)
-                                }
-                            }
-                        }
-                        addedOrEditedTags(it)!!.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name, changesetDescription!!)) }
+                        addedOrEditedTags(it)!!.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name, getChangesetComment(it))) }
                     }
                 }
             }
@@ -223,6 +211,20 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         generateReport(foundTags)
         reportResultOfDataCollection(foundTags)
         checkOsmWikiPagesExistence(foundTags)
+    }
+
+    private fun getChangesetComment(questFile: File): String {
+        listOfClassPropertyDeclaration(questFile.parse()).forEach { propertyDeclaration ->
+            val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
+            if (variableDeclaration != null) {
+                val identifierOfProperty = (variableDeclaration.tree() as KlassIdentifier).identifier
+                if(identifierOfProperty == "changesetComment") {
+                    val expression = propertyDeclaration.locateSingleOrExceptionByDescriptionDirectChild("expression")
+                    return extractTextFromHardcodedString(expression)!!
+                }
+            }
+        }
+        throw ParsingInterpretationException("not supposed to happen, as processing $questFile")
     }
 
     private fun questFolderGenerator() = iterator {
