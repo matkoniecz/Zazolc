@@ -348,12 +348,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val foundTags = mutableListOf<TagQuestInfo>()
         val folderGenerator = questFolderGenerator()
 
-        /*
-        val path = QUEST_ROOT_WITH_SLASH_ENDING + "crossing/AddCrossing.kt"
-        val fileSourceCode = loadFileFromPath(path)
-        showEntire(path, fileSourceCode)
-        */
-
         while (folderGenerator.hasNext()) {
             val folder = folderGenerator.next()
 
