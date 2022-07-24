@@ -1233,7 +1233,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 // topLevelObject.showRelatedSourceCode(explanation, surfacesFileCode)
                 // println(explanation)
                 // println()
-                // TODO is silent skipping OK?
+                // TODO is silent skipping really OK? Maybe it can be skipped in some smarter way?
                 // throw ParsingInterpretationException(explanation)
             }
         }
