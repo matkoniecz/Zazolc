@@ -28,36 +28,83 @@ import java.net.URL
 import kotlin.system.exitProcess
 
 /*
-parser automatically documenting what is even being done by the program (open source OpenStreetMap editor)
+parsing source code to automatically generate documentation for am open source program (StreetComplete, an OpenStreetMap editor)
 
-This is project attempting to automatically generate documentation for open source program which is an editor of OpenStreetMap intended to be usable by regular humans (OSM is a openly licended geographic database).
+I posted a big chunk of code here - but feel free to review only a small section, I will upvote all
+answers that tried to help, will award bounties to especially useful and will actually use that code to improve
+this deployed open source software ( tracked in https://github.com/streetcomplete/StreetComplete/issues/4225 )
 
-StreetComplete, like other OSM editors is editing tags such as `highway=motorway` (representing motorway) or `religion=sikh` marking given temple as place of worhip for given religion, or things like `barrier=gate` marking gate and so on.
+If you make a nontrivial suggestions: please add note that you license your work on GPLv3 license.
+It is not needed for trivial changes, but for substantial I need this to be able to use your work.
 
-Various projects
-*/
+For anyone making comments: please specify preferred name and email if you want (can be also anonymous@example.com), in such case I will
+credit you in the commit (using commited by/authored by functionality). Or request anonymous contribution.
+If you will not specify anything I will mention author in the commit message and link your answer.
 
-/*
-This program is parsing files of StreetComplete project
-to detect what kind of changes this editor will make to OpenStreetMap database
+Back to explaining the program: [StreetComplete](https://github.com/westnordost/StreetComplete/) is an editor of [OpenStreetMap](https://www.openstreetmap.org/) database. Usually its is the complex
+task that requires at least 10 minute tutorial to start contributing anything at all.
+StreetComplete is intended to be usable by regular humans and asks simple to answer questions.
 
-It relies on editing functionality being defined in applyAnswerTo function
+OpenStreetMap is an openly licended geographic database where objects are represented by
+
+(1) geometries - lines/ways/areas/etc.
+(2) tags describing type of object. For example
+    - `highway=motorway` marking line as a [motorway carriageway centerline](https://www.openstreetmap.org/way/235119521#map=19/53.86441/18.63070)
+    - `waterway=river` marking line as a [river centerline](https://www.openstreetmap.org/way/633484436#map=14/64.0951/-19.9610)
+    - `highway=bus_stop` marking point or areas as a [bus stop](https://www.openstreetmap.org/node/810564891#map=19/52.51346/13.40611)
+    - `amenity=place_of_worship` marking, well, [place of worship](https://www.openstreetmap.org/relation/3374342#map=19/41.89862/12.47687)
+    - `religion=sikh` typically added to place of worhip, marking it as used by a given religion
+    - `barrier=gate` marking gate
+    - and so on with https://wiki.openstreetmap.org/wiki/ and https://taginfo.openstreetmap.org/
+
+StreetComplete, like other OSM editors is editing tags. Typical edit is adding `surface=asphalt` to mark road surface or `name=Żółta` to mark street name, based on what someone surveyed.
+This happens in a way a bit invisible to humans, as tags are not exposed prominently to mappers.
+
+But other more experience mappers may want to know what kind of edits StreetComplete is doing!
+
+One of standard ways to document this is using Taginfo project listing - projects can publish a [simple .json file](https://wiki.openstreetmap.org/wiki/Taginfo/Projects),
+with results presented at Taginfo site (used by more experienced OSM mappers and developers).
+
+See for example https://taginfo.openstreetmap.org/keys/addr%3Aplace#projects listing projects which
+listed add:place key as relevant.
+
+So, this is project will parse source code files of StreetComplete project to detect what kind of changes this editor will make to OpenStreetMap database,
+and will generate .json file understendable by Taginfo project.
+
+The goal is to list all tags which can be added or edited by this editor (tags which can be removed or are used in filtering are skipped).
+
+For example java/de/westnordost/streetcomplete/quests/toilets_fee/AddToiletsFee.kt defines quest asking whether public toilet is paid.
+There are many parts defined there, for example that this quest is disable in USA and Canada. But for documenting tags
+function relevant
+
+```
+    override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
+        tags["fee"] = answer.toYesNo()
+    }
+```
+
+in this case key `fee` can be set to either `fee=yes` or `fee=no`
+
+There are over 100 other quests, some significantly more complex.
+
+This code relies on editing functionality being defined in applyAnswerTo function
 and always involving modification of tags variable and several other assumptions
-
-Tracked in https://github.com/streetcomplete/StreetComplete/issues/4225
-
-Alternative - maintaining such list manually is too time-consuming and too boring.
-There was an attempt to do this but it failed.
-See https://github.com/goldfndr/StreetCompleteJSON
-q
-There was also attempt to do this with regular expressions.
-It also failed.
-See https://github.com/streetcomplete/StreetComplete/pull/2754
 
 This is NOT a pure parsing, in several places shortcuts were taken to reduce implementation effort
 while still working.
 
 As this is tightly coupled to StreetComplete, many assumptions can be made.
+
+In some cases I gave up completely and hardcoded answers - I am not asking here
+to change this, some places remain with TODOs but overall code works fine and outputs correct answers.
+
+This is the third attempt!
+
+Maintaining such list manually is too time-consuming and too boring. There was an attempt to do this but it failed. See https://github.com/goldfndr/StreetCompleteJSON
+
+There was also attempt to do this with regular expressions. It also failed. See https://github.com/streetcomplete/StreetComplete/pull/2754
+
+This is the third attempt, it works, but code likely can be far better.
 */
 
 // getEnumValuesDefinedInThisFilepath should return list of field -> setOfPossibleValues
