@@ -867,15 +867,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // it is done this way as in some cases parsing would extremely complex and not worth doing this
         // in some it can be actually implemented and it is likely worth doing this to avoid need
         // for manual maintenance of the code
+        if("AddBarrier" in file.name) { // outside when switch to try covering also unlikely new AddBarrier quests
+            // TODO argh? can it be avoided?
+            // why it is present? Without this AddBarrierOnPath would pull also StileTypeAnswer
+            // and claim that barrier=stepover is a thing
+            // would need substantial additional parsing of import data to fix it :(
+            suspectedAnswerEnumFiles = suspectedAnswerEnumFiles.filter { "StileTypeAnswer.kt" !in it.name }
+            return addedOrEditedTagsRealParsing(description, fileSourceCode, suspectedAnswerEnumFiles)
+        }
         when (file.name) {
-            "AddBarrier.kt" -> {
-                // TODO argh? can it be avoided?
-                // why it is present? Without this AddBarrierOnPath would pull also StileTypeAnswer
-                // and claim that barrier=stepover is a thing
-                // would need substantial additional parsing of import data to fix it :(
-                suspectedAnswerEnumFiles = suspectedAnswerEnumFiles.filter { "StileTypeAnswer.kt" !in it.name }
-                return addedOrEditedTagsRealParsing(description, fileSourceCode, suspectedAnswerEnumFiles)
-            }
             "AddAddressStreet.kt" -> {
                 return setOf(Tag("addr:street", null), Tag("addr:place", null))
             }
