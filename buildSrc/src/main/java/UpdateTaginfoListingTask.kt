@@ -1519,7 +1519,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun getEnumValuesDefinedInThisFile(description: String, file: File, debug: Boolean = false): Set<EnumEntry> {
-        val filepath = file.path // TODO - eliminate
         val values = mutableSetOf<EnumEntry>()
         val fileMaybeContainingEnumSourceCode = loadFileText(file)
         val potentialEnumFileAst = file.parse()
@@ -1561,7 +1560,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     val identifier = (enumEntry.locateSingleOrNullByDescriptionDirectChild("simpleIdentifier")!!.tree() as KlassIdentifier).identifier
                     val valueArguments = enumEntry.locateSingleOrNullByDescriptionDirectChild("valueArguments")
                     if (valueArguments == null) {
-                        val explanation = "parsing $filepath failed, valueArguments count is not 1, skipping, maybe it should be also investigated"
+                        val explanation = "parsing ${file.path} failed, valueArguments count is not 1, skipping, maybe it should be also investigated"
                         println(enum.showRelatedSourceCode(explanation, fileMaybeContainingEnumSourceCode))
                         println(explanation)
                     } else {
@@ -1574,11 +1573,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     // it has null as value, apparently
                                     // lest skip it silently
                                 } else {
-                                    println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - showing $filepath after enum extraction failed")
+                                    println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - showing ${file.path} after enum extraction failed")
                                     valueArguments.showHumanReadableTreeWithSourceCode(description, fileMaybeContainingEnumSourceCode)
-                                    println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - shown $filepath after enum extraction failed")
+                                    println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - shown ${file.path} after enum extraction failed")
                                     println(fileMaybeContainingEnumSourceCode)
-                                    println("source code displayed - shown $filepath after enum extraction failed")
+                                    println("source code displayed - shown ${file.path} after enum extraction failed")
                                 }
                             } else {
                                 enumFieldGroup.add(EnumFieldState(enumFieldNames[i], extractedText))
@@ -1592,7 +1591,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         if (values.size == 0 && debug) {
-            println("enum extraction from $filepath failed! $enumsTried potential enums tried ($description request)")
+            println("enum extraction from ${file.path} failed! $enumsTried potential enums tried ($description request)")
         }
         return values
     }
