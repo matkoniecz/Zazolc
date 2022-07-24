@@ -599,7 +599,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // see https://github.com/openstreetmap/openstreetmap-website/pull/3294 for update instructions
         foundTags.map { it.tag }.forEach {
             if (it.key.startsWith("name:")) {
-                // TODO a known wiki bug, lets wait for resolving it
+                // TODO a known wiki design issue, lets wait for resolving it
                 // https://wiki.openstreetmap.org/w/index.php?title=Talk:Wiki&oldid=2359644#name%3Amos
                 // https://wiki.openstreetmap.org/wiki/Talk:Wiki#name%3Amos
                 return@forEach
