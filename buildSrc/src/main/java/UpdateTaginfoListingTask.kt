@@ -1144,7 +1144,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         val appliedTags = mutableSetOf<Tag>()
         var failedExtraction = false
-        var got = extractCasesWhereTagsAreAccessedWithIndex(description, relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
+        val got = extractCasesWhereTagsAreAccessedWithIndex(description, relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
         if (got != null) {
             appliedTags += got
         } else {
@@ -1152,13 +1152,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             failedExtraction = true
         }
 
-        got = extractCasesWhereTagsAreAccessedWithFunction(description, relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
-        if (got != null) {
-            appliedTags += got
-        } else {
-            println("failedExtraction of $description - extractCasesWhereTagsAreAccessedWithFunction")
-            failedExtraction = true
-        }
+        appliedTags += extractCasesWhereTagsAreAccessedWithFunction(description, relevantFunction, fileSourceCode, suspectedAnswerEnumFiles)
 
         val tagsThatShouldBeMoreSpecific = appliedTags
             .filter { it.value == null && !freeformKey(it.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, it.key) }
@@ -1616,7 +1610,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return "$SURVEY_MARK_KEY:$key"
     }
 
-    private fun extractCasesWhereTagsAreAccessedWithFunction(description: String, relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+    private fun extractCasesWhereTagsAreAccessedWithFunction(description: String, relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag> {
         // it is trying to detect things like
         // tags.updateWithCheckDate("smoking", answer.osmValue)
         val appliedTags = mutableSetOf<Tag>()
