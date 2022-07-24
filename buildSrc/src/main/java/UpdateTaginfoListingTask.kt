@@ -1986,6 +1986,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     private fun Ast.locateSingleOrExceptionByDescriptionDirectChild(filter: String): Ast {
         val found = locateByDescriptionDirectChild(filter)
         if (found.size != 1) {
+            println()
+            println("failed!")
             showHumanReadableTree()
             throw ParsingInterpretationException("unexpected count! Expected single matching direct child on filter $filter, got ${found.size}")
         } else {
