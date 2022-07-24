@@ -164,7 +164,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "matkoniecz@tutanota.com",
         )
         val report = TaginfoReport(1, "TODOfixdataURL", project,
-            questData.map{TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in ${it.quest} quest")}
+            questData.map{TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in '${it.changesetDescription}' quest")}
             )
         val jsonText = format.encodeToString(report)
         val targetFile = File(targetDir, "taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json")
@@ -203,7 +203,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             File(folder.toString()).walkTopDown().forEach {
                 if (it.isFile) {
                     if (isQuestFile(it)) {
-                        addedOrEditedTags(it)!!.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
+                        var changesetDescription:String? = null
+                        listOfClassPropertyDeclaration(it.parse()).forEach { propertyDeclaration ->
+                            val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
+                            if (variableDeclaration != null) {
+                                val identifierOfProperty = (variableDeclaration.tree() as KlassIdentifier).identifier
+                                if(identifierOfProperty == "changesetComment") {
+                                    propertyDeclaration.showHumanReadableTreeWithSourceCode("changesetComment loader", loadFileText(it))
+                                    val expression = propertyDeclaration.locateSingleOrExceptionByDescriptionDirectChild("expression")
+                                    changesetDescription = extractTextFromHardcodedString(expression)
+                                }
+                            }
+                        }
+                        addedOrEditedTags(it)!!.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name, changesetDescription!!)) }
                     }
                 }
             }
@@ -586,9 +598,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    class TagQuestInfo(val tag: Tag, val quest: String) {
+    class TagQuestInfo(val tag: Tag, val quest: String, val changesetDescription: String) {
         override fun toString(): String {
-            return "$tag in $quest"
+            return "$tag in $quest ($changesetDescription)"
         }
     }
 
