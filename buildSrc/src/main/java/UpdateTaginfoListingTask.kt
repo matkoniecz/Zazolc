@@ -312,10 +312,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val report = TaginfoReport(1, "TODOfixdataURL", project,
             questData.map{TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in ${it.quest} quest")}
             )
-        println(format.encodeToString(report))
         val jsonText = format.encodeToString(report)
-        println(jsonText)
-
         val targetFile = File(targetDir, "taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json")
         if(targetFile.exists()) {
             val oldText = targetFile.readText()
