@@ -345,7 +345,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             File(folder.toString()).walkTopDown().forEach {
                 if (it.isFile) {
                     if (isQuestFile(it)) {
-                        val fileSourceCode = loadFileText(it)
                         val got: Set<Tag>?
                         try {
                             got = addedOrEditedTags(it)
@@ -353,7 +352,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             print(it.name)
                             throw e
                         }
-                        reportResultOfScanInSingleQuest(got, it.toString().removePrefix(QUEST_ROOT_WITH_SLASH_ENDING), fileSourceCode)
+                        reportResultOfScanInSingleQuest(got, it)
                         if (got != null) {
                             processed += 1
                             got.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name)) }
@@ -500,7 +499,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return languageTags
     }
 
-    private fun reportResultOfScanInSingleQuest(got: Set<Tag>?, filepath: String, fileSourceCode: String) {
+    private fun reportResultOfScanInSingleQuest(got: Set<Tag>?, file: File) {
+        val fileSourceCode = loadFileText(file)
+        val filepath = file.toString().removePrefix(QUEST_ROOT_WITH_SLASH_ENDING)
         var mismatch = false
         if (filepath in EXPECTED_TAG_PER_QUEST) {
             if (got == EXPECTED_TAG_PER_QUEST[filepath]) {
