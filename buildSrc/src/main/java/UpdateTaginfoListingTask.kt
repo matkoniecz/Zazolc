@@ -315,9 +315,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println(format.encodeToString(report))
         val jsonText = format.encodeToString(report)
         println(jsonText)
-        val reportAgain = format.decodeFromString<TaginfoReport>(jsonText)
 
         val targetFile = File(targetDir, "taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json")
+        if(targetFile.exists()) {
+            val oldText = targetFile.readText()
+            if(oldText != jsonText) {
+                val oldReport = format.decodeFromString<TaginfoReport>(oldText)
+                println("new text is different! verify that")
+                // TODO: replace entire manual listing by comparing here
+            }
+        }
         val fileWriter = targetFile.writer()
         fileWriter.write(jsonText)
         fileWriter.close()
