@@ -584,33 +584,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             result = 31 * result + (value?.hashCode() ?: 0)
             return result
         }
-
-        fun reproduceCode(): String {
-            return if (value == null) {
-                "Tag(\"${key}\", $value)"
-            } else {
-                "Tag(\"${key}\", \"${value}\")"
-            }
-        }
     }
 
     class TagQuestInfo(val tag: Tag, val quest: String) {
         override fun toString(): String {
             return "$tag in $quest"
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (other !is TagQuestInfo) return false
-            if (tag != other.tag) return false
-            if (quest != other.quest) return false
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = tag.hashCode()
-            result = 31 * result + quest.hashCode()
-            return result
         }
     }
 
