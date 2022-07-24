@@ -316,9 +316,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val targetFile = File(targetDir, "taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json")
         if(targetFile.exists()) {
             val oldText = targetFile.readText()
-            if(oldText != jsonText) {
-                val oldReport = format.decodeFromString<TaginfoReport>(oldText)
-                println("new text is different! verify that")
+            val oldReport = format.decodeFromString<TaginfoReport>(oldText)
+            if(report.tags != oldReport.tags) {
+                println("new tags are different! verify that")
+                report.tags.forEach {
+                    if(it !in oldReport.tags) {
+                        println("new entry: $it")
+                    }
+                }
+                oldReport.tags.forEach {
+                    if(it !in report.tags) {
+                        println("removed entry: $it")
+                    }
+                }
                 // TODO: replace entire manual listing by comparing here
             }
         }
