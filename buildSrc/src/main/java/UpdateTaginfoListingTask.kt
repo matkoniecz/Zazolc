@@ -332,7 +332,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     @TaskAction fun run() {
         println(targetDir)
-        generateReport(listOf(TagQuestInfo(Tag("keyonly", null), "quest Foobar"), TagQuestInfo(Tag("key", "value"), "another quest"),))
 
         var processed = 0
         val failedQuests = mutableSetOf<String>()
