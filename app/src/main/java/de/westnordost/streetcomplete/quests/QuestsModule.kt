@@ -46,6 +46,7 @@ import de.westnordost.streetcomplete.quests.camera_type.AddCameraType
 import de.westnordost.streetcomplete.quests.car_wash_type.AddCarWashType
 import de.westnordost.streetcomplete.quests.charging_station_capacity.AddChargingStationCapacity
 import de.westnordost.streetcomplete.quests.charging_station_operator.AddChargingStationOperator
+import de.westnordost.streetcomplete.quests.city_limit_sign.AddCityLimit
 import de.westnordost.streetcomplete.quests.clothing_bin_operator.AddClothingBinOperator
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedBuildingConstruction
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedHighwayConstruction
@@ -512,6 +513,7 @@ fun questTypeRegistry(
     //--kept
     AddBarrierOnPath(),
     AddBarrierOnRoad(),
+    AddCityLimit(), // my own quest
 
     //modified--
     AddAlsoShopForInsurance(), // my hackish quest
