@@ -892,7 +892,7 @@ Before uploading your changes, the app checks with a &lt;a href=\"https://www.we
     <string name="quest_construction_steps_title">Are these steps completed?</string>
     <string name="quest_construction_generic_title">Is this way completed?</string>
 
-    <string name="quest_crossing_title">Are there curbs where this way meets this road here? What kind?</string>
+    <string name="quest_crossing_title">Are there curbs where this way meets this road here? What kind? highway=crossing always added in fork!</string>
 
     <string name="quest_crossing_type_title">What kind of crossing is this?</string>
     <string name="quest_crossing_type_signals_controlled">Controlled by traffic lights</string>

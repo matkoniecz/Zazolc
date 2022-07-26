@@ -76,17 +76,6 @@ class AddCrossing : OsmElementQuestType<KerbHeight> {
 
     override fun applyAnswerTo(answer: KerbHeight, tags: Tags, timestampEdited: Long) {
         tags.updateWithCheckDate("kerb", answer.osmValue)
-        /* So, we don't assume there is a crossing here for kerb=no and kerb=raised.
-
-           As most actual crossings will have at least lowered kerbs, this is a good indicator.
-
-           When there is no kerb at all, it is likely that this is a situation where the footway
-           or road drawn in OSM are just virtual, to connect the geometry. In other words, it may be
-           just e.g. an asphalted area, which does not really classify as a crossing.
-         */
-
-        if (answer.osmValue in listOf("lowered", "flush")) {
-            tags["highway"] = "crossing"
-        }
+        tags["highway"] = "crossing" // in fork always added
     }
 }
