@@ -689,7 +689,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 .replace("[laneParkingRight]", "[\"$parkingSuffix\"]")
                                 .replace("laneLeft", '"' + orientation + '"')
                                 .replace("laneRight", '"' + orientation + '"')
-                            appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", specificModifiedCode, "tags", "applyAnswerTo", suspectedAnswerEnumFiles)!!
+                            appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", specificModifiedCode, "applyAnswerTo", suspectedAnswerEnumFiles)!!
                             // appliedTags.add(Tag("sidewalk:$side:surface", "no"),
                             // appliedTags.add(Tag("sidewalk:$side:surface:note", null),
                         }
@@ -751,7 +751,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
                 appliedTags.add(Tag("amenity", "waste_disposal")) // from applyWasteContainerAnswer, hardcoded due to complexity HACK :(
                 val modifiedile = fileSourceCode.replace("tags[material] = \"yes\"", "") // HACK :(
-                val got = addedOrEditedTagsWithGivenFunction("$description modified code", modifiedile, "tags", "applyRecyclingMaterialsAnswer", suspectedAnswerEnumFiles)
+                val got = addedOrEditedTagsWithGivenFunction("$description modified code", modifiedile, "applyRecyclingMaterialsAnswer", suspectedAnswerEnumFiles)
                 if (got == null) {
                     return null
                 }
@@ -804,13 +804,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 val keys = listOf("width", "cycleway:width") // TODO: get it from parsing
                 keys.forEach { key ->
                     val modifiedSourceCode = fileSourceCode.replace("\$key", key).replace("[key]", "[\"$key\"]")
-                    appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
+                    appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
                 }
                 return appliedTags
             }
             "AddCycleway.kt" -> {
                 val got = mutableSetOf<Tag>()
-                got += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", "applySidewalkAnswerTo", suspectedAnswerEnumFiles)!!
+                got += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "applySidewalkAnswerTo", suspectedAnswerEnumFiles)!!
                 val sides = listOf("both", "left", "right") // TODO: get it from parsing
                 val directionValue  = listOf("\"yes\"", "\"-1\"") // TODO: get it from parsing
                 sides.forEach { side ->
@@ -820,7 +820,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             .replace("val directionValue", "val directionPreservedValue")
                             .replace("directionValue", direction)
 
-                        got += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applyCyclewayAnswerTo", suspectedAnswerEnumFiles)!!
+                        got += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "applyCyclewayAnswerTo", suspectedAnswerEnumFiles)!!
                     }
                 }
                 return got + addedOrEditedTagsRealParsing(description, fileSourceCode, suspectedAnswerEnumFiles)!!
@@ -835,7 +835,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         val modifiedSourceCode = fileSourceCode.replace("\$sidewalkSurfaceKey", "sidewalk:$side:surface")
                             .replace("[sidewalkSurfaceKey]", "[\"sidewalk:$side:surface\"]")
                             .replace("surface.value.osmValue", '"' + surface + '"')
-                        appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode, "tags", "applySidewalkSurfaceAnswerTo", suspectedAnswerEnumFiles)!!
+                        appliedTags += addedOrEditedTagsWithGivenFunction("$description modified code", modifiedSourceCode,  "applySidewalkSurfaceAnswerTo", suspectedAnswerEnumFiles)!!
                         // appliedTags.add(Tag("sidewalk:$side:surface", "no"),
                         // appliedTags.add(Tag("sidewalk:$side:surface:note", null),
                     }
@@ -846,7 +846,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "AddRoadSurface.kt", "AddPathSurface.kt", "AddFootwayPartSurface.kt", "AddCyclewayPartSurface.kt", "AddPitchSurface.kt" -> {
                 val appliedTags = mutableSetOf<Tag>()
                 //appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!! // TODO - get it working
-                // TODO - or at least this appliedTags += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
+                // TODO - or at least this appliedTags += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
                 if(file.name == "AddPathSurface.kt") {
                     appliedTags.add(Tag("highway", "steps"))
                     appliedTags.add(Tag("indoor", "yes"))
@@ -1028,7 +1028,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val defaultFunction = ast.extractFunctionByName(NAME_OF_FUNCTION_EDITING_TAGS)!!
         val functionSourceCode = defaultFunction.relatedSourceCode(fileSourceCode)
         if ("answer.applyTo(" !in functionSourceCode && "answer.litStatus.applyTo" !in functionSourceCode) {
-            return addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
+            return addedOrEditedTagsWithGivenFunction(description, fileSourceCode, NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
         } else {
             suspectedAnswerEnumFiles.forEach { fileHopefullyWithApplyTo ->
                 val found = fileHopefullyWithApplyTo.parse().extractFunctionByName("applyTo")
@@ -1039,7 +1039,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                     val got = addedOrEditedTagsRealParsingFindRealEditFunctionViaApplyToFunction(description, fileHopefullyWithApplyTo, fileSourceCode, suspectedAnswerEnumFiles)
 
-                    val bonusScan = addedOrEditedTagsWithGivenFunction(description, fileSourceCode, "tags", NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
+                    val bonusScan = addedOrEditedTagsWithGivenFunction(description, fileSourceCode, NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)
                     if (bonusScan != null && bonusScan.isNotEmpty()) {
                         println(bonusScan)
                         throw ParsingInterpretationException("turns out to be needed")
@@ -1126,11 +1126,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             // throw ParsingInterpretationException("No support yet")
         }
         if (parametersInCalledFunction[0] == "tags") {
-            val replacementParameter = "tags"
             val replacementFunctionName = "applyTo"
             val replacementSourceCode = loadFileText(fileWithRedirectedFunction)
             val replacementDescription = fileWithRedirectedFunction.toString()
-            return addedOrEditedTagsWithGivenFunction(replacementDescription, replacementSourceCode, replacementParameter, replacementFunctionName, suspectedAnswerEnumFiles)
+            return addedOrEditedTagsWithGivenFunction(replacementDescription, replacementSourceCode, replacementFunctionName, suspectedAnswerEnumFiles)
         } else {
             // unsupported TODO
             // TODO - variable is not really supported within called function
@@ -1139,7 +1138,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun addedOrEditedTagsWithGivenFunction(description: String, fileSourceCode: String, variable: String, relevantFunctionName: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
+    private fun addedOrEditedTagsWithGivenFunction(description: String, fileSourceCode: String, relevantFunctionName: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
         val ast = AstSource.String(description, fileSourceCode).parse()
         val relevantFunction = ast.extractFunctionByName(relevantFunctionName)
         if (relevantFunction == null) {
