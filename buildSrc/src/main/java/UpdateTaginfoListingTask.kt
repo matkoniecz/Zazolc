@@ -1730,14 +1730,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             }
                         }
                     } else {
-                        val description = "^^^^^^^^^^^^^^^^ $description - failed to extract key from updateWithCheckDate"
-                        println(description)
-                        // val keyString = extractArgumentInFunctionCall(description, 0, accessingTagsWithFunction, fileSourceCode)
+                        val error = "^^^^^^^^^^^^^^^^ $description - failed to extract key from updateWithCheckDate"
+                        println(error)
                         val keyArgumentAst = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
                         keyArgumentAst!!.relatedSourceCode(fileSourceCode)
-                        keyArgumentAst.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
+                        keyArgumentAst.showHumanReadableTreeWithSourceCode(error, fileSourceCode)
                         println("^&^&^&^&")
-                        throw ParsingInterpretationException(description)
+                        throw ParsingInterpretationException(error)
                     }
                 } else if (functionName in listOf("remove", "containsKey", "removeCheckDatesForKey", "hasChanges", "entries", "hasCheckDateForKey", "hasCheckDate")) {
                     // skip, as only added or edited tags are listed - and removed one and influencing ones are ignored
