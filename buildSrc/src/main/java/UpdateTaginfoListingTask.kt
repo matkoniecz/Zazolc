@@ -1939,17 +1939,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    private fun Ast.listFound(found: List<AstNode>, name: String) {
-        println()
-        println()
-        println("Found in $name:")
-        found.forEach { it.showHumanReadableTree() }
-    }
-
     private fun Ast.locateSingleOrExceptionByDescription(filter: String, debug: Boolean = false): AstNode {
         val found = locateByDescription(filter, debug)
         if (found.size != 1) {
-            listFound(found, "locateSingleOrExceptionByDescription")
+            println()
+            println()
+            println("Found in locateSingleOrExceptionByDescription:")
+            found.forEach { it.showHumanReadableTree() }
             throw ParsingInterpretationException("unexpected count! Expected single matching on filter $filter, got ${found.size}")
         } else {
             return found[0]
