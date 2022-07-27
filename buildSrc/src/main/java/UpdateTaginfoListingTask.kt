@@ -112,9 +112,6 @@ This is the third attempt, it works, but code likely can be far better.
 // ./gradlew updateTaginfoListing
 
 // https://codereview.stackexchange.com/
-// https://stackoverflow.com/questions/58100739/how-to-generate-a-json-object-in-kotlin
-// https://wiki.openstreetmap.org/wiki/Taginfo/Projects
-// https://github.com/goldfndr/StreetCompleteJSON/blob/master/taginfo.json
 // https://github.com/taginfo/taginfo-projects/blob/master/project_list.txt
 
 // following pages were useful to jumpstart coding:
