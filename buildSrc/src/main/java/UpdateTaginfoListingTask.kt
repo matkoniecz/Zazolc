@@ -375,7 +375,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>) {
-        // foundTags.forEach { println("$it ${if (it.tag.value == null && !freeformKey(it.tag.key)) {"????????"} else {""}}") }
         println("${foundTags.size} entries registered")
         val tagsFoundPreviously = 1619
         if (foundTags.size != tagsFoundPreviously) {
@@ -390,11 +389,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val processedTags = mutableSetOf<Tag>()
         println()
         println()
-        // note that
-        // https://github.com/openstreetmap/openstreetmap-website/blob/master/config/wiki_pages.yml
-        // exists and using it may be smarter than rerunning this checks every time
-        // on every build
-        // note that full scan of wiki lasts more than two hours
         // see https://github.com/openstreetmap/openstreetmap-website/pull/3294 for update instructions
         foundTags.map { it.tag }.forEach {
             if (it.key.startsWith("name:")) {
