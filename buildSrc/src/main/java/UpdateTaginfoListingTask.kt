@@ -287,22 +287,23 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         (it.tree() as KlassIdentifier).identifier
                     }.joinToString("/") + ".kt"
                     if (File(importedPath).isFile) {
-                        // WARNING: false positives here can be expected
-                        // WARNING: this will treat
+                        // TODO WARNING HACK: false positives here can be expected
+                        // TODO WARNING HACK: this will treat
                         // import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.PEDESTRIAN
                         // as import of PEDESTRIAN.kt file
                         // not as import of PEDESTRIAN from EditTypeAchievement.kt file
 
                         // and this check will result in false negatives in turn...
+
+                        // in case that it is actually needed to fix above
+                        // println("packageHeader")
+                        // println(ast.parse().locateSingleOrExceptionByDescription("packageHeader").relatedSourceCode(fileSourceCode))
+                        // ast.parse().locateSingleOrExceptionByDescription("packageHeader").showHumanReadableTreeWithSourceCode(fileSourceCode)
                         returned.add(importedPath)
                     }
                 }
             }
         }
-        // in case that it is actually needed
-        // println("packageHeader")
-        // println(ast.parse().locateSingleOrExceptionByDescription("packageHeader").relatedSourceCode(fileSourceCode))
-        // ast.parse().locateSingleOrExceptionByDescription("packageHeader").showHumanReadableTreeWithSourceCode(fileSourceCode)
         return returned
     }
 
