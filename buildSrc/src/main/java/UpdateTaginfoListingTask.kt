@@ -1508,7 +1508,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 ast.locateByDescription("propertyDeclaration").forEach { astNode ->
                     val whenExpression = astNode.locateSingleOrNullByDescription("whenExpression")
                     if (whenExpression != null) {
-                        extractValuesForKnownKeyFromWhenExpression(description, "dummykey", whenExpression, code, listOf<File>()).forEach {
+                        extractValuesForKnownKeyFromWhenExpression(description, "dummykey", whenExpression, code, listOf()).forEach {
                             if (debug) {
                                 println("OBTAINED FROM WHEN IN CLASS DECLARATION! $description $key=${it.value}")
                             }
