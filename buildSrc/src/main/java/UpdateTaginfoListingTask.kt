@@ -956,11 +956,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println(formUsed)
         return File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/$formUsed.kt")
     }
-    class namedList(val name: String, var elements: List<String>) {
-        override fun toString(): String {
-            return "namedList($name, $elements)"
-        }
-    }
+
     private  fun obtainSurfaceClassificationStructure(): Map<String, List<String>> {
         val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/Surface.kt")
         val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
