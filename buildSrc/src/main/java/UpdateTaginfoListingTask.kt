@@ -527,7 +527,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 "capacity", "step_count",
                 "lanes", "lanes:forward", "lanes:backward", "lanes:both_ways",
                 "turn:lanes:both_ways", "turn:lanes", "turn:lanes:forward", "turn:lanes:backward",
-                "operator", // technically not fully, but does ot make sense to list all that autocomplete values
+                "operator", // technically not fully, but does not make sense to list all that autocomplete values
                 "brand",
                 "sport", // sport=soccer;volleyball is fully valid - doe not entirely fit here but...
                 "produce", // like sport=*
@@ -733,7 +733,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                     appliedTags.add(Tag("recycling:${it.fields[0].possibleValue}", "yes"))
                 }
-                appliedTags.add(Tag("amenity", "waste_disposal")) // from applyWasteContainerAnswer, harcoded due to complexity HACK :(
+                appliedTags.add(Tag("amenity", "waste_disposal")) // from applyWasteContainerAnswer, hardcoded due to complexity HACK :(
                 val modifiedile = fileSourceCode.replace("tags[material] = \"yes\"", "") // HACK :(
                 val got = addedOrEditedTagsWithGivenFunction("$description modified code", modifiedile, "tags", "applyRecyclingMaterialsAnswer", suspectedAnswerEnumFiles)
                 if (got == null) {
@@ -759,7 +759,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
             "AddStileType.kt" -> {
                 val appliedTags = mutableSetOf<Tag>()
-                // maybe track assigments to the values which are later assigned to fields? This would be feasible here, I guess...")
+                // maybe track assignments to the values which are later assigned to fields? This would be feasible here, I guess...")
                 val answersFile = File(QUEST_ROOT_WITH_SLASH_ENDING + "barrier_type/StileTypeAnswer.kt")
                 val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
                 val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
@@ -1147,7 +1147,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             .filter { it.value == null && !freeformKey(it.key) && !streetCompleteIsReusingAnyValueProvidedByExistingTagging(description, it.key) }
         if (tagsThatShouldBeMoreSpecific.isNotEmpty()) {
             tagsThatShouldBeMoreSpecific.forEach { println(it) }
-            println("$description found tags which are not freeform but have no speicified values")
+            println("$description found tags which are not freeform but have no specified values")
             failedExtraction = true
         }
         if (appliedTags.size == 0) {
@@ -1667,7 +1667,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 suspectedAnswerEnumFiles.forEach {
                                     getEnumValuesDefinedInThisFile(description, it).forEach { value ->
                                         // dotAcess will have a single element [.osmValue] on "answer.osmValue"
-                                        // dotAcess will have a two elemente [.value, .osmValue] on "answer.value.osmValue"
+                                        // dotAcess will have a two elements [.value, .osmValue] on "answer.value.osmValue"
                                         if (value.fields.size != 1) {
                                             throw ParsingInterpretationException("expected a single value, got $value")
                                         }
