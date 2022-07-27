@@ -342,7 +342,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return false
     }
 
-    // FIGURE OUT HOW TO AVOID COPYING THIS!
     @Serializable
     data class IncompleteCountryInfo(
         val additionalStreetsignLanguages: Set<String> = setOf(),
