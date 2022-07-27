@@ -285,9 +285,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     areDirectChildrenMatchingStructureThrowExceptionIfNot("checking import file structure for $path", listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace = false)
                     val imported = it.locateSingleOrExceptionByDescriptionDirectChild("identifier")
                     val identifier = imported.locateByDescriptionDirectChild("simpleIdentifier")
-                    val pathsFromImportRoot = identifier.map { partBetweenDots ->
+                    val pathsFromImportRoot = identifier.joinToString("/") { partBetweenDots ->
                         (partBetweenDots.tree() as KlassIdentifier).identifier
-                    }.joinToString("/") + ".kt"
+                    } + ".kt"
                     val importedPath = KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING + pathsFromImportRoot
                     if (File(importedPath).isFile) {
                         // TODO WARNING HACK: false positives here can be expected
