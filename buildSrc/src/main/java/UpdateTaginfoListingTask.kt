@@ -98,7 +98,7 @@ As this is tightly coupled to StreetComplete, many assumptions can be made.
 
 Some answers are fully hardcoded as code was too complex to parse and therefore need to maintained manually. That is fine, and I am not expecting anyone here to change this.
 
-Exceptions are often raised with nothing except "unexpected" as explanation - that is fine, this is done this way as it is not fully general parser, and parsing current StreetComplete code is good enough.
+Exceptions are often raised with nothing except "unexpected" as explanation - that is fine, this is done this way as it is not fully general parser, and parsing current StreetComplete code is good enough. It is not going to be run directly by app users - only by app developers. So happily crashing, and dumping variable contents without attempt to recover is fine.
 
 This is the third attempt!
 
