@@ -107,6 +107,12 @@ There was also attempt to do this with regular expressions. It also failed. See 
 This is the third attempt, it works, but code likely can be far better.
 */
 
+/*
+ * For PR description:
+ *
+ * Thanks to @2bad2furious for https://github.com/2bad2furious/kotlinx-ast-demo ! And thanks to @drieks for https://github.com/kotlinx/ast !
+ */
+
 // git clone https://github.com/matkoniecz/StreetComplete.git
 // git checkout taginfo
 // ./gradlew updateTaginfoListing
