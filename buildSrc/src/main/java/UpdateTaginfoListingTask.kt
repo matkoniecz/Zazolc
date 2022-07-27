@@ -29,22 +29,23 @@ import java.net.URL
 import kotlin.system.exitProcess
 
 /*
-parsing source code to automatically generate documentation for am open source program (StreetComplete, an OpenStreetMap editor)
+parsing source code to generate documentation of an open source program (StreetComplete, an OpenStreetMap editor)
 
 I posted a big chunk of code here - but feel free to review only a small section, I will upvote all
 answers that tried to help, will award bounties to especially useful and will actually use that code to improve
-this deployed open source software ( tracked in https://github.com/streetcomplete/StreetComplete/issues/4225 )
+this deployed open source software ( tracked in https://github.com/streetcomplete/StreetComplete/issues/4225 ).
+
+I want to say that yes, this code works as expected. But likely can be significantly improved in code quality. Feedback is highly welcomed!
 
 If you make a nontrivial suggestions: please add note that you license your work on GPLv3 license.
 It is not needed for trivial changes, but for substantial I need this to be able to use your work.
 
-For anyone making comments: please specify preferred name and email if you want (can be also anonymous@example.com), in such case I will
-credit you in the commit (using commited by/authored by functionality). Or request anonymous contribution.
-If you will not specify anything I will mention author in the commit message and link your answer.
+For anyone making comments: please specify preferred name and email if you want (can be also anonymous@example.com or similar for email), in such case I will credit you in the commit metadata. Or request anonymous contribution.
+If you will not specify anything I will mention your SO in the commit message and link your answer as thanks.
 
-Back to explaining the program: [StreetComplete](https://github.com/westnordost/StreetComplete/) is an editor of [OpenStreetMap](https://www.openstreetmap.org/) database. Usually its is the complex
-task that requires at least 10 minute tutorial to start contributing anything at all.
-StreetComplete is intended to be usable by regular humans and asks simple to answer questions.
+Back to explaining the program: [StreetComplete](https://github.com/westnordost/StreetComplete/) is an editor of [OpenStreetMap](https://www.openstreetmap.org/) database. Usually contributing to OSM requires at least 10 minute tutorial to start (default editor raised by edit button on the website).
+
+StreetComplete is intended to be usable by regular humans and work by asking user simple to answer questions. And require Android phone, not being blind, able to move and ability to read as sufficient to use it.
 
 OpenStreetMap is an openly licended geographic database where objects are represented by
 
@@ -58,10 +59,10 @@ OpenStreetMap is an openly licended geographic database where objects are repres
     - `barrier=gate` marking gate
     - and so on with https://wiki.openstreetmap.org/wiki/ and https://taginfo.openstreetmap.org/
 
-StreetComplete, like other OSM editors is editing tags. Typical edit is adding `surface=asphalt` to mark road surface or `name=Żółta` to mark street name, based on what someone surveyed.
-This happens in a way a bit invisible to humans, as tags are not exposed prominently to mappers.
+StreetComplete, like other OSM editors is editing this tags. Typical edit is something like adding `surface=asphalt` or `surface=dirt` to mark road surface or `name=Żółta` to mark street name, based on what someone surveyed and answered.
+This happens in a way a bit invisible to humans, as tags are not exposed directly to mappers using StreetComplete.
 
-But other more experience mappers may want to know what kind of edits StreetComplete is doing!
+But other more experienced mappers may want to know what kind of edits StreetComplete is doing!
 
 One of standard ways to document this is using Taginfo project listing - projects can publish a [simple .json file](https://wiki.openstreetmap.org/wiki/Taginfo/Projects),
 with results presented at Taginfo site (used by more experienced OSM mappers and developers).
@@ -69,14 +70,13 @@ with results presented at Taginfo site (used by more experienced OSM mappers and
 See for example https://taginfo.openstreetmap.org/keys/addr%3Aplace#projects listing projects which
 listed add:place key as relevant.
 
-So, this is project will parse source code files of StreetComplete project to detect what kind of changes this editor will make to OpenStreetMap database,
-and will generate .json file understendable by Taginfo project.
+So, this code presented here will parse source code files of StreetComplete project to detect what kind of changes this editor will make to OpenStreetMap database, and will generate .json file understendable by Taginfo project.
 
 The goal is to list all tags which can be added or edited by this editor (tags which can be removed or are used in filtering are skipped).
 
-For example java/de/westnordost/streetcomplete/quests/toilets_fee/AddToiletsFee.kt defines quest asking whether public toilet is paid.
-There are many parts defined there, for example that this quest is disable in USA and Canada. But for documenting tags
-function relevant
+For example [here](https://github.com/streetcomplete/StreetComplete/blob/6fd996559cb453ebec2998bef18fe6c14642f858/app/src/main/java/de/westnordost/streetcomplete/quests/toilets_fee/AddToiletsFee.kt) is defined quest asking whether public toilet is paid.
+
+There are many parts there, for example `enabledInCountries = AllCountriesExcept("US", "CA")` marks that this quest is disabled in USA and Canada. But for documenting used tags the relevant function is
 
 ```
     override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
@@ -84,20 +84,17 @@ function relevant
     }
 ```
 
-in this case key `fee` can be set to either `fee=yes` or `fee=no`
+in this case key `fee` can be set to either `fee=yes` or `fee=no` as `toYesNo()` cannot return anything else.
 
 There are over 100 other quests, some significantly more complex.
 
-This code relies on editing functionality being defined in applyAnswerTo function
-and always involving modification of tags variable and several other assumptions
+My parsing code relies on editing functionality being defined in `applyAnswerTo` function of various quests.
 
-This is NOT a pure parsing, in several places shortcuts were taken to reduce implementation effort
-while still working.
+This is NOT a pure parsing, in several places shortcuts were taken to reduce implementation effort while still working.
 
 As this is tightly coupled to StreetComplete, many assumptions can be made.
 
-In some cases I gave up completely and hardcoded answers - I am not asking here
-to change this, some places remain with TODOs but overall code works fine and outputs correct answers.
+Some answers are fully hardcoded as code was too complex to parse and therefore need to maintained manually.
 
 This is the third attempt!
 
