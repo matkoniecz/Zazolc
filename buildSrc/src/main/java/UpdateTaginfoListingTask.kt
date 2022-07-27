@@ -1117,16 +1117,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return null
             // throw ParsingInterpretationException("No support yet")
         }
-        if (parametersInCalledFunction[0] == "tags") {
+        return if (parametersInCalledFunction[0] == "tags") {
             val replacementFunctionName = "applyTo"
             val replacementSourceCode = loadFileText(fileWithRedirectedFunction)
             val replacementDescription = fileWithRedirectedFunction.toString()
-            return addedOrEditedTagsWithGivenFunction(replacementDescription, replacementSourceCode, replacementFunctionName, suspectedAnswerEnumFiles)
+            addedOrEditedTagsWithGivenFunction(replacementDescription, replacementSourceCode, replacementFunctionName, suspectedAnswerEnumFiles)
         } else {
             // unsupported TODO
             // TODO - variable is not really supported within called function
             println("redirected function, not using tags variable - unsupported TODO, exiting")
-            return null
+            null
         }
     }
 
@@ -1810,11 +1810,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return null
         }
         if (found.children.size == 1) {
-            if (found.children[0].description == "stringLiteral") {
+            return if (found.children[0].description == "stringLiteral") {
                 val stringObject = (found.children[0].tree() as KlassString).children[0]
-                return (stringObject as StringComponentRaw).string
+                (stringObject as StringComponentRaw).string
             } else {
                 /*
+                //TODO throw exception or stop considering this as an error
                 val explanation = "$description - unhandled extraction of $index function parameter - child is not stringLiteral"
                 found.showHumanReadableTree()
                 extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode("unhandled extracting index $index - not string", fileSourceCode)
@@ -1822,7 +1823,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 println(explanation)
                 //throw ParsingInterpretationException(explanation)
                  */
-                return null
+                null
             }
         } else {
             extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showHumanReadableTree()
@@ -1927,10 +1928,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun Ast.locateSingleOrNullByDescription(filter: String, debug: Boolean = false): AstNode? {
         val found = locateByDescription(filter, debug)
-        if (found.size != 1) {
-            return null
+        return if (found.size != 1) {
+            null
         } else {
-            return found[0]
+            found[0]
         }
     }
 
@@ -1982,10 +1983,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun Ast.locateSingleOrNullByDescriptionDirectChild(filter: String): Ast? {
         val found = locateByDescriptionDirectChild(filter)
-        if (found.size != 1) {
-            return null
+        return if (found.size != 1) {
+            null
         } else {
-            return found[0]
+            found[0]
         }
     }
 
