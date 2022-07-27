@@ -281,10 +281,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 if (it is DefaultAstNode) {
                     areDirectChildrenMatchingStructureThrowExceptionIfNot("checking import file structure for $path", listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace = false)
                     val imported = it.locateSingleOrExceptionByDescriptionDirectChild("identifier")
-                    // println(imported.locateByDescriptionDirectChild("simpleIdentifier").size.toString() + "  ddddddd")
-                    val importedPath = KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING + imported.locateByDescriptionDirectChild("simpleIdentifier").map {
-                        (it.tree() as KlassIdentifier).identifier
+                    val identifier = imported.locateByDescriptionDirectChild("simpleIdentifier")
+                    val pathsFromImportRoot = identifier.map { partBetweenDots ->
+                        (partBetweenDots.tree() as KlassIdentifier).identifier
                     }.joinToString("/") + ".kt"
+                    val importedPath = KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING + pathsFromImportRoot
                     if (File(importedPath).isFile) {
                         // TODO WARNING HACK: false positives here can be expected
                         // TODO WARNING HACK: this will treat
