@@ -748,7 +748,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
                 appliedTags.add(Tag("amenity", "waste_disposal")) // from applyWasteContainerAnswer, hardcoded due to complexity HACK :(
                 val modifiedile = fileSourceCode.replace("tags[material] = \"yes\"", "") // HACK :(
-                val got = addedOrEditedTagsWithGivenFunction("$description modified code", modifiedile, "applyRecyclingMaterialsAnswer", suspectedAnswerEnumFiles)
+                val functionName = "applyRecyclingMaterialsAnswer"
+                val got = addedOrEditedTagsWithGivenFunction("$description modified code", modifiedile, functionName, suspectedAnswerEnumFiles)
                 if (got == null) {
                     return null
                 }
