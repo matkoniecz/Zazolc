@@ -116,6 +116,7 @@ This is the third attempt, it works, but code likely can be far better.
  */
 
 // git clone https://github.com/matkoniecz/StreetComplete.git
+// cd StreetComplete
 // git checkout taginfo
 // ./gradlew updateTaginfoListing
 
