@@ -129,7 +129,7 @@ This is the third attempt, it works, but code likely can be far better.
  *  Tags removed or used in filtering are NOT listed.
  *
  *  Follows https://wiki.openstreetmap.org/wiki/Taginfo/Projects documentation
- */ 
+ */
 
 @OptIn(ExperimentalSerializationApi::class) // needed by explicitNulls = false
 open class UpdateTaginfoListingTask : DefaultTask() {
@@ -156,11 +156,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         data class TagWithDescriptionForTaginfoListing(val key: String, val value: String?, val description: String)
 
         @Serializable
-        data class Project(val name: String, val description: String, val project_url: String, val doc_url:String, val icon_url:String, val contact_name: String, val contact_email: String)
+        data class Project(val name: String, val description: String, val project_url: String, val doc_url: String, val icon_url: String, val contact_name: String, val contact_email: String)
 
         @Serializable
-        data class TaginfoReport(val data_format:Int = 1, val data_url: String, val project: Project, val tags: List<TagWithDescriptionForTaginfoListing>)
-
+        data class TaginfoReport(val data_format: Int = 1, val data_url: String, val project: Project, val tags: List<TagWithDescriptionForTaginfoListing>)
 
         // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md
         val project = Project("StreetComplete", "Surveyor app for Android",
@@ -171,22 +170,22 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "matkoniecz@tutanota.com",
         )
         val report = TaginfoReport(1, "TODOfixdataURL", project,
-            questData.map{TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in '${it.changesetDescription}' quest")}
+            questData.map { TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in '${it.changesetDescription}' quest") }
             )
         val jsonText = format.encodeToString(report)
         val targetFile = File(targetDir, "taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json")
-        if(targetFile.exists()) {
+        if (targetFile.exists()) {
             val oldText = targetFile.readText()
             val oldReport = format.decodeFromString<TaginfoReport>(oldText)
-            if(report.tags != oldReport.tags) {
+            if (report.tags != oldReport.tags) {
                 println("new tags are different! verify that")
                 report.tags.forEach {
-                    if(it !in oldReport.tags) {
+                    if (it !in oldReport.tags) {
                         println("new entry: $it")
                     }
                 }
                 oldReport.tags.forEach {
-                    if(it !in report.tags) {
+                    if (it !in report.tags) {
                         println("removed entry: $it")
                     }
                 }
@@ -225,7 +224,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
             if (variableDeclaration != null) {
                 val identifierOfProperty = (variableDeclaration.tree() as KlassIdentifier).identifier
-                if(identifierOfProperty == "changesetComment") {
+                if (identifierOfProperty == "changesetComment") {
                     val expression = propertyDeclaration.locateSingleOrExceptionByDescriptionDirectChild("expression")
                     return extractTextFromHardcodedString(expression)!!
                 }
@@ -426,7 +425,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         println("${it.key}=${it.value} has no key OSM Wiki page at ${keyOnly.osmWikiPageUrl()} and has no value page at ${it.osmWikiPageUrl()}")
                         return@forEach
                     } else {
-                        if(!isCompoundListerErrorPageExisting(keyOnly.osmWikiPageUrl())) {
+                        if (!isCompoundListerErrorPageExisting(keyOnly.osmWikiPageUrl())) {
                             println("${it.key}=${it.value} has no key OSM Wiki page at ${keyOnly.osmWikiPageUrl()} - ant it has no compound lister there, but it has a value page at ${it.osmWikiPageUrl()}")
                         }
                     }
@@ -630,7 +629,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun addedOrEditedTags(file: File): Set<Tag>? {
         val hardcodedAnswers = addedOrEditedTagsHardcodedAnswers(file)
-        if(hardcodedAnswers != null) {
+        if (hardcodedAnswers != null) {
             return hardcodedAnswers
         }
         val suspectedAnswerEnumFiles = candidatesForEnumFilesForGivenFile(file)
@@ -648,7 +647,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // it is done this way as in some cases parsing would extremely complex and not worth doing this
         // in some it can be actually implemented and it is likely worth doing this to avoid need
         // for manual maintenance of the code
-        if("AddBarrier" in file.name) { // outside when switch to try covering also unlikely new AddBarrier quests
+        if ("AddBarrier" in file.name) { // outside when switch to try covering also unlikely new AddBarrier quests
             // TODO argh? can it be avoided?
             // why it is present? Without this AddBarrierOnPath would pull also StileTypeAnswer
             // and claim that barrier=stepover is a thing
@@ -845,14 +844,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
             "AddRoadSurface.kt", "AddPathSurface.kt", "AddFootwayPartSurface.kt", "AddCyclewayPartSurface.kt", "AddPitchSurface.kt" -> {
                 val appliedTags = mutableSetOf<Tag>()
-                //appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!! // TODO - get it working
+                // appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!! // TODO - get it working
                 // TODO - or at least this appliedTags += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
-                if(file.name == "AddPathSurface.kt") {
+                if (file.name == "AddPathSurface.kt") {
                     appliedTags.add(Tag("highway", "steps"))
                     appliedTags.add(Tag("indoor", "yes"))
                 }
                 val surfaces = listOfSurfaceValuesInSurfaceQuest(file)
-                val key = when(file.name) {
+                val key = when (file.name) {
                     "AddRoadSurface.kt" -> "surface"
                     "AddPathSurface.kt" -> "surface"
                     "AddFootwayPartSurface.kt" -> "footway:surface"
@@ -891,7 +890,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val structures = obtainSurfaceClassificationStructure()
         val returned = mutableListOf<String>()
         identifiersOfFormItemsMayBeGroups!!.forEach {
-            if(it in structures) {
+            if (it in structures) {
                 structures[it]!!.forEach { surface ->
                     returned.add(surface)
                 }
@@ -902,7 +901,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return returned
     }
 
-    private fun listOfIdentifiersDeclaringFormItems(formFile:File): MutableList<String>? {
+    private fun listOfIdentifiersDeclaringFormItems(formFile: File): MutableList<String>? {
         val astForm = formFile.parse()
 
         listOfClassPropertyDeclaration(astForm).forEach { propertyDeclaration ->
@@ -910,11 +909,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val getter = propertyDeclaration.locateSingleOrNullByDescription("getter")
             if (variableDeclaration != null && getter != null) {
                 val identifierOfProperty = (variableDeclaration.tree() as KlassIdentifier).identifier
-                if(identifierOfProperty == "items") {
+                if (identifierOfProperty == "items") {
                     val identifiersOfElements = mutableListOf<String>()
                     getter.locateByDescription("simpleIdentifier").forEach {
                         val identifier = (it.tree() as KlassIdentifier).identifier
-                        if(identifier != "toItems") { // TODO skip it via proper parsing
+                        if (identifier != "toItems") { // TODO skip it via proper parsing
                             identifiersOfElements.add(identifier)
                         }
                     }
@@ -929,7 +928,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val returned = mutableListOf<Ast>()
         ast.locateByDescription("classMemberDeclaration").forEach { classMemberDeclaration ->
             val declarations = classMemberDeclaration.locateByDescriptionDirectChild("declaration")
-            if(declarations.size != 1) {
+            if (declarations.size != 1) {
                 val companionObject = classMemberDeclaration.locateByDescriptionDirectChild("companionObject")
                 if (companionObject.size == 1) {
                     // oh, that is just companion object declaration - lets skip it
@@ -971,7 +970,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
         val surfacesIdentifierToValue = mutableMapOf<String, String>()
         getEnumValuesDefinedInThisFile(localDescription, answersFile).forEach {
-            if(it.fields.size != 1) {
+            if (it.fields.size != 1) {
                 throw ParsingInterpretationException("unexpected")
             }
             surfacesIdentifierToValue[it.identifier] = it.fields[0].possibleValue
@@ -1006,7 +1005,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                     // println()
                     // println("$nameOfDefinedGroup = $entries")
-                    structures[nameOfDefinedGroup] = entries.map{ surfacesIdentifierToValue[it]!! }
+                    structures[nameOfDefinedGroup] = entries.map { surfacesIdentifierToValue[it]!! }
                     // println()
                 }
             } else {
@@ -2076,5 +2075,4 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val text = inputStream.bufferedReader().use { it.readText() }
         return KotlinGrammarAntlrKotlinParser.parseKotlinFile(AstSource.String(this.path, text))
     }
-
 }
