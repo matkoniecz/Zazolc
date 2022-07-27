@@ -121,7 +121,6 @@ This is the third attempt, it works, but code likely can be far better.
 // ./gradlew updateTaginfoListing
 
 // https://codereview.stackexchange.com/
-// https://github.com/taginfo/taginfo-projects/blob/master/project_list.txt
 
 // following pages were useful to jumpstart coding:
 // https://github.com/kotlinx/ast/blob/a96e681f906f1ec1ab4db8a81ffbbcbbe529317f/grammar-kotlin-parser-test/src/jvmMain/kotlin/kotlinx/ast/grammar/kotlin/test/AbstractKotlinGrammarParserTestDataTest.kt
@@ -172,7 +171,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "Mateusz Konieczny",
             "matkoniecz@tutanota.com",
         )
-        val report = TaginfoReport(1, "https://raw.githubusercontent.com/matkoniecz/Zazolc/taginfo/res/documentation/taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json", project,
+        // note! report changes in URL of data at https://github.com/taginfo/taginfo-projects/blob/master/project_list.txt
+        val dataUrl = "https://raw.githubusercontent.com/matkoniecz/Zazolc/taginfo/res/documentation/taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json"
+        val report = TaginfoReport(1, dataUrl, project,
             questData.map { TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in '${it.changesetDescription}' quest") }
             )
         val jsonText = format.encodeToString(report)
