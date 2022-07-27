@@ -355,10 +355,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             if (file.isFile) {
                 val test = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileText(file))
                 val langs = test.officialLanguages + test.additionalStreetsignLanguages
+                // if country has single language for street names (langs.size = 1) then
+                // it is using only name tag
+                // if multiple languages are present then this languages are tagged with
+                // name:$langCode tags, such as name:en for English language names
                 if (langs.size > 1) {
                     // international counts for purposes of triggering multi-language support
-                    // but itself is rather tagged with int_name tag
-                    langs.filter { it != "international" }.forEach { languageTags.add("name:$it") }
+                    // but itself is rather tagged with int_name tag and listed above already
+                    langs.filter { it != "international" }.forEach { langCode ->
+                        languageTags.add("name:$langCode")
+                    }
                 }
             }
         }
