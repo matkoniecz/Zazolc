@@ -1641,7 +1641,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     // fold it into extractArgumentInFunctionCall?
                     // try to automatically obtain this constants?
                     if (keyString == null) {
-                        val keyArgumentAst = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
+                        val keyArgumentAst = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction).locateSingleOrNullByDescription("primaryExpression")
                         if (keyArgumentAst == null) {
                             throw ParsingInterpretationException("unexpected")
                         }
@@ -1661,7 +1661,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         if (valueString != null) {
                             appliedTags.add(Tag(keyString, valueString))
                         } else {
-                            val valueAst = extractArgumentSyntaxTreeInFunctionCall(1, accessingTagsWithFunction, fileSourceCode)
+                            val valueAst = extractArgumentSyntaxTreeInFunctionCall(1, accessingTagsWithFunction)
                             val valueHolderSourceCode = valueAst.relatedSourceCode(fileSourceCode)
                             if (valueHolderSourceCode == "answer.toYesNo()") {
                                 // kind of hackish, fix this?
@@ -1730,7 +1730,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     } else {
                         val error = "^^^^^^^^^^^^^^^^ $description - failed to extract key from updateWithCheckDate"
                         println(error)
-                        val keyArgumentAst = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
+                        val keyArgumentAst = extractArgumentSyntaxTreeInFunctionCall(0, accessingTagsWithFunction).locateSingleOrNullByDescription("primaryExpression")
                         keyArgumentAst!!.relatedSourceCode(fileSourceCode)
                         keyArgumentAst.showHumanReadableTreeWithSourceCode(error, fileSourceCode)
                         println("^&^&^&^&")
@@ -1798,19 +1798,19 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return arguments.locateByDescription("valueArgument")
     }
 
-    private fun extractArgumentSyntaxTreeInFunctionCall(index: Int, ast: AstNode, fileSourceCode: String): AstNode {
+    private fun extractArgumentSyntaxTreeInFunctionCall(index: Int, ast: AstNode): AstNode {
         return extractArgumentListSyntaxTreeInFunctionCall(ast)[index]
     }
 
     private fun extractStringLiteralArgumentInFunctionCall(description: String, index: Int, ast: AstNode, fileSourceCode: String): String? {
-        val found = extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode).locateSingleOrNullByDescription("primaryExpression")
+        val found = extractArgumentSyntaxTreeInFunctionCall(index, ast).locateSingleOrNullByDescription("primaryExpression")
         if (found == null) {
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
             ast.tree()!!.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
             ast.tree()!!.showRelatedSourceCode("extractArgumentInFunctionCall", fileSourceCode)
             ast.showRelatedSourceCode("extractArgumentInFunctionCall - not found", fileSourceCode)
             ast.tree()!!.showRelatedSourceCode("extractArgumentInFunctionCall - not found (rooted)", fileSourceCode)
-            println("${extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode)} - extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode)")
+            println("${extractArgumentSyntaxTreeInFunctionCall(index, ast)} - extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode)")
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
             return null
         }
