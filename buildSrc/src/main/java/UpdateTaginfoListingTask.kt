@@ -1505,8 +1505,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 if (classDeclarations.isEmpty()) {
                     return@forEach
                 }
-                ast.locateByDescription("propertyDeclaration").forEach {
-                    val whenExpression = it.locateSingleOrNullByDescription("whenExpression")
+                ast.locateByDescription("propertyDeclaration").forEach { astNode ->
+                    val whenExpression = astNode.locateSingleOrNullByDescription("whenExpression")
                     if (whenExpression != null) {
                         extractValuesForKnownKeyFromWhenExpression(description, "dummykey", whenExpression, code, listOf<File>()).forEach {
                             if (debug) {
