@@ -172,7 +172,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             "Mateusz Konieczny",
             "matkoniecz@tutanota.com",
         )
-        val report = TaginfoReport(1, "TODOfixdataURL", project,
+        val report = TaginfoReport(1, "https://raw.githubusercontent.com/matkoniecz/Zazolc/taginfo/res/documentation/taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json", project,
             questData.map { TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in '${it.changesetDescription}' quest") }
             )
         val jsonText = format.encodeToString(report)
