@@ -94,7 +94,9 @@ This is NOT a pure parsing, in several places shortcuts were taken to reduce imp
 
 As this is tightly coupled to StreetComplete, many assumptions can be made.
 
-Some answers are fully hardcoded as code was too complex to parse and therefore need to maintained manually.
+Some answers are fully hardcoded as code was too complex to parse and therefore need to maintained manually. That is fine, and I am not expecting anyone here to change this.
+
+Exceptions are often raised with nothing except "unexpected" as explanation - that is fine, this is done this way as it is not fully general parser, and parsing current StreetComplete code is good enough.
 
 This is the third attempt!
 
