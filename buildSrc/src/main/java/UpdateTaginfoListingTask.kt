@@ -125,6 +125,12 @@ This is the third attempt, it works, but code likely can be far better.
 // https://github.com/2bad2furious/kotlinx-ast-demo
 // https://github.com/peternewman/StreetComplete/blob/a388043854bf04545dfbc0beb7decda5208a750e/.github/generate-quest-metadata.main.kts
 
+/*  Generate Taginfo tag listing - only tags added or edited are listed
+ *  Tags removed or used in filtering are NOT listed.
+ *
+ *  Follows https://wiki.openstreetmap.org/wiki/Taginfo/Projects documentation
+ */ 
+
 @OptIn(ExperimentalSerializationApi::class) // needed by explicitNulls = false
 open class UpdateTaginfoListingTask : DefaultTask() {
 
