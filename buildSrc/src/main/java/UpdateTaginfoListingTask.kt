@@ -37,6 +37,8 @@ this deployed open source software ( tracked in https://github.com/streetcomplet
 
 I want to say that yes, this code works as expected. But likely can be significantly improved in code quality. Feedback is highly welcomed!
 
+codespell, ktlint, Android Studio validator were already used and followed where it made sense.
+
 If you make a nontrivial suggestions: please add note that you license your work on GPLv3 license.
 It is not needed for trivial changes, but for substantial I need this to be able to use your work.
 
