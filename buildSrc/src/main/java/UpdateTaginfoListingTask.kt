@@ -107,7 +107,6 @@ There was also attempt to do this with regular expressions. It also failed. See 
 This is the third attempt, it works, but code likely can be far better.
 */
 
-// getEnumValuesDefinedInThisFilepath should return list of field -> setOfPossibleValues
 // git clone https://github.com/matkoniecz/StreetComplete.git
 // git checkout taginfo
 // ./gradlew updateTaginfoListing
