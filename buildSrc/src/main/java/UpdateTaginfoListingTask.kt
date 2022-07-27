@@ -761,12 +761,10 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 val localDescription = "${answersFile.parentFile.name}/${answersFile.name} hack"
                 val answers = getEnumValuesDefinedInThisFile(localDescription, answersFile)
                 answers.forEach { enumGroup ->
-                    enumGroup.fields.forEach {
-                        if (enumGroup.fields.size != 2 || enumGroup.fields[0].identifier != "osmKey" || enumGroup.fields[1].identifier != "osmValue") {
-                            throw ParsingInterpretationException("unexpected $enumGroup")
-                        }
-                        appliedTags.add(Tag(enumGroup.fields[0].possibleValue, enumGroup.fields[1].possibleValue))
+                    if (enumGroup.fields.size != 2 || enumGroup.fields[0].identifier != "osmKey" || enumGroup.fields[1].identifier != "osmValue") {
+                        throw ParsingInterpretationException("unexpected $enumGroup")
                     }
+                    appliedTags.add(Tag(enumGroup.fields[0].possibleValue, enumGroup.fields[1].possibleValue))
                 }
                 return appliedTags
             }
