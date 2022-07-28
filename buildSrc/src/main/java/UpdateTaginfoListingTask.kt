@@ -1020,14 +1020,18 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         if (parameters.size > 1) {
-            println("DECOMPOSITION")
-            println("DECOMPOSITION")
-            println("DECOMPOSITION")
+            println("Attempting to decompose function call where tags will be modified in another place and multiple arguments were passed")
+            // TODO this is intended to be able to parse say
+            // answer.applyTo(tags, "cycleway:surface")
+            // and enable recognizing which value is used for key parameter in a called function
+            // right now support for this kind of parsing is hardcoded
+            //
+            // this is currently dead and not called code, remove hardcoding of surface answers
+            // to see it in use
             println(defaultFunction.relatedSourceCode(originalFileSourceCode))
             val statements = defaultFunction.locateByDescription("statements")
             if (statements.size > 1) {
-                println("unexpectedly many statements")
-                return null
+                throw ParsingInterpretationException("unexpectedly many statements")
             }
             defaultFunction.locateSingleOrExceptionByDescription("statements")
                 .locateByDescription("statement").forEach {
@@ -1061,15 +1065,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     }
                     postfixUnarySuffixes[postfixUnarySuffixes.size - 1]
                         .locateSingleOrExceptionByDescriptionDirectChild("callSuffix")
-                        .showHumanReadableTreeWithSourceCode("AAAAAAAAAAAAAAAAAAAAA callSuffix", originalFileSourceCode)
+                        .showHumanReadableTreeWithSourceCode("AAAAAAAAAAAAAAAAAAAAA callSuffix, decompose it further", originalFileSourceCode)
+                    // TODO: decompose function call so we know what is being passed
                 }
-            println("DECOMPOSITION")
-            println("DECOMPOSITION")
-            println("DECOMPOSITION")
             println("$description - parametersInCalledFunction in file ${fileWithRedirectedFunction.name} $parametersInCalledFunction")
-            println("No support yet")
-            return null
-            // throw ParsingInterpretationException("No support yet")
+            throw ParsingInterpretationException("No support yet")
         }
         return if (parametersInCalledFunction[0] == "tags") {
             val replacementFunctionName = "applyTo"
