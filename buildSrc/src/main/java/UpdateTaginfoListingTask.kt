@@ -818,7 +818,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val functionToGetForm = ast.extractFunctionByName("createForm")!!
         val formUsed = (functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
             .locateSingleOrExceptionByDescription("simpleIdentifier").tree() as KlassIdentifier).identifier
-        println(formUsed)
         return File(QUEST_ROOT_WITH_SLASH_ENDING + "surface/$formUsed.kt")
     }
 
