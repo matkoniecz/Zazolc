@@ -359,10 +359,18 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     removeFromFilename = folder.name.replace(" ", "_")
                 }
             }
-            var guessedFile = it.name.replace("ic_${removeFromFilename}_", "").replace(".xml", ".svg")
-            if ("beachvolleyball" in guessedFile) {
-               guessedFile = guessedFile.replace("beachvolleyball", "beach volleyball")
+            if (it.name.startsWith("ic_postbox_royal_cypher")) {
+                guessedFolder = "royal cypher"
+                removeFromFilename = "postbox_royal_cypher"
             }
+            if (it.name.startsWith("ic_street_marking")) {
+                guessedFolder = "street parking/street edge marking"
+                removeFromFilename = "street_marking"
+            }
+            var guessedFile = it.name.replace("ic_${removeFromFilename}_", "").replace(".xml", ".svg")
+            guessedFile = guessedFile.replace("beachvolleyball", "beach volleyball")
+            guessedFile = guessedFile.replace("simple suspension", "simple-suspension")
+            guessedFile = guessedFile.replace("cablestayed", "cable-stayed")
             return "res/graphics/$guessedFolder/$guessedFile"
         }
         return null
