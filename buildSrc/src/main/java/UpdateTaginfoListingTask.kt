@@ -293,96 +293,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         throw ParsingInterpretationException("not supposed to happen, as processing $questFile")
     }
 
-    private fun candidatesForEnumFilesForGivenFile(file: File): List<File> {
-        val suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(file.parentFile)
-        return suspectedAnswerEnumFilesBasedOnFolder + candidatesForEnumFilesBasedOnImports(file)
-    }
-
-    private fun candidatesForEnumFilesBasedOnFolder(folder: File): List<File> {
-        val suspectedAnswerEnumFiles = mutableListOf<File>()
-        File(folder.toString()).walkTopDown().forEach {
-            if (isLikelyAnswerEnumFile(it)) {
-                suspectedAnswerEnumFiles.add(it)
-            }
-        }
-        return suspectedAnswerEnumFiles
-    }
-
-    private fun candidatesForEnumFilesBasedOnImports(file: File): List<File> {
-        // initially just files from folder were taken as a base
-        // due to cases like AddCrossing reaching across folders
-        // it was not working well and require this extra parsing
-        //
-        // also, just parsing imports is not sufficient
-        // see AddBikeParkingType which is not explicitly
-        // importing the enum
-        //
-        // note: importedByFile may have false negatives that require extra parsing
-        // to handle this
-        return importedByFile(file)
-            .filter { isLikelyAnswerEnumFile(File(it)) }
-            .map { File(it) }
-            .filter { it.isFile }
-    }
-
-    private fun importedByFile(file: File): Set<String> {
-        val returned = mutableSetOf<String>()
-        val fileSourceCode = loadFileText(file)
-        file.parse().locateByDescription("importList").forEach { importList ->
-            importList.locateByDescription("importHeader").forEach {
-                if (it is DefaultAstNode) {
-                    areDirectChildrenMatchingStructureThrowExceptionIfNot("checking import file structure for $path", listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace = false)
-                    val imported = it.locateSingleOrExceptionByDescriptionDirectChild("identifier")
-                    val identifier = imported.locateByDescriptionDirectChild("simpleIdentifier")
-                    val pathsFromImportRoot = identifier.joinToString("/") { partBetweenDots ->
-                        (partBetweenDots.tree() as KlassIdentifier).identifier
-                    } + ".kt"
-                    val importedPath = KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING + pathsFromImportRoot
-                    if (File(importedPath).isFile) {
-                        // TODO WARNING HACK: false positives here can be expected
-                        // TODO WARNING HACK: this will treat
-                        // import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.PEDESTRIAN
-                        // as import of PEDESTRIAN.kt file
-                        // not as import of PEDESTRIAN from EditTypeAchievement.kt file
-
-                        // and this check will result in false negatives in turn...
-
-                        // in case that it is actually needed to fix above
-                        // println("packageHeader")
-                        // println(ast.parse().locateSingleOrExceptionByDescription("packageHeader").relatedSourceCode(fileSourceCode))
-                        // ast.parse().locateSingleOrExceptionByDescription("packageHeader").showHumanReadableTreeWithSourceCode(fileSourceCode)
-                        returned.add(importedPath)
-                    }
-                }
-            }
-        }
-        return returned
-    }
-
-    private fun isLikelyAnswerEnumFile(file: File): Boolean {
-        // answers true if it is likely to contain an enum class like
-        // java/de/westnordost/streetcomplete/quests/barrier_type/BarrierType.kt
-        // contains
-        //
-        // TODO: maybe read file source code and simply check is "enum class" text there?
-        if (".kt" !in file.name) {
-            return false
-        }
-        val banned = listOf("SelectPuzzle.kt", "Form.kt", "Util.kt", "Utils.kt", "Adapter.kt",
-            "Drawable.kt", "Dao.kt", "Dialog.kt", "Item.kt", "RotateContainer.kt")
-        banned.forEach { if (it in file.name) {
-                return false
-            }
-        }
-        listOf("OsmFilterQuestType.kt", "MapDataWithGeometry.kt", "Element.kt", "Tags.kt",
-            "OsmElementQuestType.kt", "CountryInfos.kt").forEach {
-            if (it == file.name) {
-                return false
-            }
-        }
-        return !isQuestFile(file)
-    }
-
     private fun isQuestFile(file: File): Boolean {
         if (".kt" !in file.name) {
             return false
@@ -398,34 +308,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return true
         }
         return false
-    }
-
-    @Serializable
-    data class IncompleteCountryInfo(
-        val additionalStreetsignLanguages: Set<String> = setOf(),
-        val officialLanguages: Set<String> = setOf(),
-    )
-
-    private fun possibleLanguageKeys(): MutableSet<String> {
-        val languageTags = mutableSetOf("name", "int_name")
-        File(COUNTRY_METADATA_PATH_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { file ->
-            if (file.isFile) {
-                val test = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileText(file))
-                val langs = test.officialLanguages + test.additionalStreetsignLanguages
-                // if country has single language for street names (langs.size = 1) then
-                // it is using only name tag
-                // if multiple languages are present then this languages are tagged with
-                // name:$langCode tags, such as name:en for English language names
-                if (langs.size > 1) {
-                    // international counts for purposes of triggering multi-language support
-                    // but itself is rather tagged with int_name tag and listed above already
-                    langs.filter { it != "international" }.forEach { langCode ->
-                        languageTags.add("name:$langCode")
-                    }
-                }
-            }
-        }
-        return languageTags
     }
 
     private fun reportResultOfDataCollection(foundTags: MutableList<TagQuestInfo>) {
@@ -931,6 +813,34 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
+    @Serializable
+    data class IncompleteCountryInfo(
+        val additionalStreetsignLanguages: Set<String> = setOf(),
+        val officialLanguages: Set<String> = setOf(),
+    )
+
+    private fun possibleLanguageKeys(): MutableSet<String> {
+        val languageTags = mutableSetOf("name", "int_name")
+        File(COUNTRY_METADATA_PATH_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { file ->
+            if (file.isFile) {
+                val test = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileText(file))
+                val langs = test.officialLanguages + test.additionalStreetsignLanguages
+                // if country has single language for street names (langs.size = 1) then
+                // it is using only name tag
+                // if multiple languages are present then this languages are tagged with
+                // name:$langCode tags, such as name:en for English language names
+                if (langs.size > 1) {
+                    // international counts for purposes of triggering multi-language support
+                    // but itself is rather tagged with int_name tag and listed above already
+                    langs.filter { it != "international" }.forEach { langCode ->
+                        languageTags.add("name:$langCode")
+                    }
+                }
+            }
+        }
+        return languageTags
+    }
+
     private fun listOfSurfaceValuesInSurfaceQuest(questFile: File): MutableList<String> {
         val formFile = formFileUsedInquest(questFile.parse())
         val identifiersOfFormItemsMayBeGroups = listOfIdentifiersDeclaringFormItems(formFile)
@@ -1067,6 +977,96 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         return structures
+    }
+
+    private fun candidatesForEnumFilesForGivenFile(file: File): List<File> {
+        val suspectedAnswerEnumFilesBasedOnFolder = candidatesForEnumFilesBasedOnFolder(file.parentFile)
+        return suspectedAnswerEnumFilesBasedOnFolder + candidatesForEnumFilesBasedOnImports(file)
+    }
+
+    private fun candidatesForEnumFilesBasedOnFolder(folder: File): List<File> {
+        val suspectedAnswerEnumFiles = mutableListOf<File>()
+        File(folder.toString()).walkTopDown().forEach {
+            if (isLikelyAnswerEnumFile(it)) {
+                suspectedAnswerEnumFiles.add(it)
+            }
+        }
+        return suspectedAnswerEnumFiles
+    }
+
+    private fun candidatesForEnumFilesBasedOnImports(file: File): List<File> {
+        // initially just files from folder were taken as a base
+        // due to cases like AddCrossing reaching across folders
+        // it was not working well and require this extra parsing
+        //
+        // also, just parsing imports is not sufficient
+        // see AddBikeParkingType which is not explicitly
+        // importing the enum
+        //
+        // note: importedByFile may have false negatives that require extra parsing
+        // to handle this
+        return importedByFile(file)
+            .filter { isLikelyAnswerEnumFile(File(it)) }
+            .map { File(it) }
+            .filter { it.isFile }
+    }
+
+    private fun importedByFile(file: File): Set<String> {
+        val returned = mutableSetOf<String>()
+        val fileSourceCode = loadFileText(file)
+        file.parse().locateByDescription("importList").forEach { importList ->
+            importList.locateByDescription("importHeader").forEach {
+                if (it is DefaultAstNode) {
+                    areDirectChildrenMatchingStructureThrowExceptionIfNot("checking import file structure for $path", listOf(listOf("IMPORT", "WS", "identifier", "semi")), it, fileSourceCode, eraseWhitespace = false)
+                    val imported = it.locateSingleOrExceptionByDescriptionDirectChild("identifier")
+                    val identifier = imported.locateByDescriptionDirectChild("simpleIdentifier")
+                    val pathsFromImportRoot = identifier.joinToString("/") { partBetweenDots ->
+                        (partBetweenDots.tree() as KlassIdentifier).identifier
+                    } + ".kt"
+                    val importedPath = KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING + pathsFromImportRoot
+                    if (File(importedPath).isFile) {
+                        // TODO WARNING HACK: false positives here can be expected
+                        // TODO WARNING HACK: this will treat
+                        // import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.PEDESTRIAN
+                        // as import of PEDESTRIAN.kt file
+                        // not as import of PEDESTRIAN from EditTypeAchievement.kt file
+
+                        // and this check will result in false negatives in turn...
+
+                        // in case that it is actually needed to fix above
+                        // println("packageHeader")
+                        // println(ast.parse().locateSingleOrExceptionByDescription("packageHeader").relatedSourceCode(fileSourceCode))
+                        // ast.parse().locateSingleOrExceptionByDescription("packageHeader").showHumanReadableTreeWithSourceCode(fileSourceCode)
+                        returned.add(importedPath)
+                    }
+                }
+            }
+        }
+        return returned
+    }
+
+    private fun isLikelyAnswerEnumFile(file: File): Boolean {
+        // answers true if it is likely to contain an enum class like
+        // java/de/westnordost/streetcomplete/quests/barrier_type/BarrierType.kt
+        // contains
+        //
+        // TODO: maybe read file source code and simply check is "enum class" text there?
+        if (".kt" !in file.name) {
+            return false
+        }
+        val banned = listOf("SelectPuzzle.kt", "Form.kt", "Util.kt", "Utils.kt", "Adapter.kt",
+            "Drawable.kt", "Dao.kt", "Dialog.kt", "Item.kt", "RotateContainer.kt")
+        banned.forEach { if (it in file.name) {
+            return false
+        }
+        }
+        listOf("OsmFilterQuestType.kt", "MapDataWithGeometry.kt", "Element.kt", "Tags.kt",
+            "OsmElementQuestType.kt", "CountryInfos.kt").forEach {
+            if (it == file.name) {
+                return false
+            }
+        }
+        return !isQuestFile(file)
     }
 
     private fun addedOrEditedTagsRealParsing(description: String, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag>? {
