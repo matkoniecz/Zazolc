@@ -1756,7 +1756,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             ast.tree()!!.showRelatedSourceCode("extractArgumentInFunctionCall - not found (rooted)", fileSourceCode)
             println("${extractArgumentSyntaxTreeInFunctionCall(index, ast)} - extractArgumentSyntaxTreeInFunctionCall(index, ast, fileSourceCode)")
             println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA extractArgumentInFunctionCall failed")
-            return null
+            throw ParsingInterpretationException("war")
         }
         if (found.children.size == 1) {
             return if (found.children[0].description == "stringLiteral") {
