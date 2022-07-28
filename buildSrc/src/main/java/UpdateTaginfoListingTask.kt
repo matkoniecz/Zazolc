@@ -159,7 +159,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         throw ParsingInterpretationException("not supposed to happen")
                     }
                     val identifierOfDrawable = postfixUnarySuffixes[1].locateSingleOrExceptionByDescription("simpleIdentifier")
-                    identifierOfDrawable.showHumanReadableTree()
                     return (identifierOfDrawable.tree() as KlassIdentifier).identifier
                 }
             }
@@ -1970,7 +1969,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             if (this is AstNode) {
                 children.forEach {
                     if (it.description == "simpleIdentifier" && it.tree() is KlassIdentifier && ((it.tree() as KlassIdentifier).identifier == functionName)) {
-                        // this.showHumanReadableTree()
                         return listOf(this) + children.flatMap { child ->
                             child.extractAllFunctionsByName(functionName)
                         }
