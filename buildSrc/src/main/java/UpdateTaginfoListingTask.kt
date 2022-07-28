@@ -678,6 +678,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 val appliedTags = mutableSetOf<Tag>()
                 // appliedTags += addedOrEditedTagsActualParsingWithoutHardcodedAnswers(description, fileSourceCode, suspectedAnswerEnumFiles)!! // TODO - get it working
                 // TODO - or at least this appliedTags += addedOrEditedTagsWithGivenFunction(description, fileSourceCode, NAME_OF_FUNCTION_EDITING_TAGS, suspectedAnswerEnumFiles)!!
+                // instead of recovering it manually below
                 if (file.name == "AddPathSurface.kt") {
                     appliedTags.add(Tag("highway", "steps"))
                     appliedTags.add(Tag("indoor", "yes"))
