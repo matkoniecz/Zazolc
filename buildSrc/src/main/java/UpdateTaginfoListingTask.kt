@@ -1474,6 +1474,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 println("$description = ${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now - key is $key<")
                 valueHolder.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
                 println("$description = ${valueHolder.relatedSourceCode(fileSourceCode)}, failed to find values for now - key is $key>")
+                throw ParsingInterpretationException("failed to find values for now - key is $key")
             }
         }
         return appliedTags
