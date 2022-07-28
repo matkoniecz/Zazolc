@@ -1297,11 +1297,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     // it has null as value, apparently
                                     // lest skip it silently
                                 } else {
-                                    println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - showing ${file.path} after enum extraction failed")
+                                    val explanation = "showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - showing ${file.path} after enum extraction failed"
+                                    println(explanation)
                                     valueArguments.showHumanReadableTreeWithSourceCode(description, fileMaybeContainingEnumSourceCode)
                                     println("showHumanReadableTreeWithSourceCode(fileMaybeContainingEnumSourceCode) - shown ${file.path} after enum extraction failed")
                                     println(fileMaybeContainingEnumSourceCode)
                                     println("source code displayed - shown ${file.path} after enum extraction failed")
+                                    throw ParsingInterpretationException(explanation)
                                 }
                             } else {
                                 enumFieldGroup.add(EnumFieldState(enumFieldNames[i], extractedText))
