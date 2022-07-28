@@ -166,6 +166,22 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         @Serializable
         data class TaginfoReport(val data_format: Int = 1, val data_url: String, val project: Project, val tags: List<TagWithDescriptionForTaginfoListing>)
 
+        fun showChangesMadeIfAny(report: TaginfoReport, oldReport: TaginfoReport) {
+            if (report.tags != oldReport.tags) {
+                println("new tags are different! verify that")
+                report.tags.forEach {
+                    if (it !in oldReport.tags) {
+                        println("new entry: $it")
+                    }
+                }
+                oldReport.tags.forEach {
+                    if (it !in report.tags) {
+                        println("removed entry: $it")
+                    }
+                }
+            }
+        }
+
         // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md
         val project = Project("StreetComplete", "Surveyor app for Android",
             "https://github.com/westnordost/StreetComplete",
@@ -184,20 +200,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (targetFile.exists()) {
             val oldText = targetFile.readText()
             val oldReport = format.decodeFromString<TaginfoReport>(oldText)
-            if (report.tags != oldReport.tags) {
-                println("new tags are different! verify that")
-                report.tags.forEach {
-                    if (it !in oldReport.tags) {
-                        println("new entry: $it")
-                    }
-                }
-                oldReport.tags.forEach {
-                    if (it !in report.tags) {
-                        println("removed entry: $it")
-                    }
-                }
-                // TODO: replace entire manual listing by comparing here
-            }
+            showChangesMadeIfAny(report, oldReport)
         }
         val fileWriter = targetFile.writer()
         fileWriter.write(jsonText)
