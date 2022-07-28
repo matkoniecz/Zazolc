@@ -1636,13 +1636,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 }
                                 if (extractedNothing) {
                                     appliedTags.add(Tag(keyString, valueString))
-                                    println("Enum obtaining failed! suspectedAnswerEnumFiles $suspectedAnswerEnumFiles")
+                                    val explanation = "Enum obtaining failed! suspectedAnswerEnumFiles $suspectedAnswerEnumFiles"
+                                    println(explanation)
                                     println("44444444444444<<< tags dict is accessed with updateWithCheckDate, key known ($keyString), value unknown, enum obtaining failed<")
                                     valueAst.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
                                     valueAst.showRelatedSourceCode("extracted valueAst in tags dict access", fileSourceCode)
                                     println(">>>44444444444>")
                                     accessingTagsWithFunction.showRelatedSourceCode("extracted accessingTagsWithFunction in tags dict access", fileSourceCode)
                                     println(">>>33333333333>")
+                                    throw ParsingInterpretationException(explanation)
                                 }
                             } else {
                                 val valueSourceCode = valueAst.relatedSourceCode(fileSourceCode)
@@ -1653,6 +1655,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                 } else {
                                     appliedTags.add(Tag(keyString, valueString))
                                     val explanation = "extractCasesWhereTagsAreAccessedWithFunction - extraction failing: $description tags dict is accessed with updateWithCheckDate, key known ($keyString), value unknown, obtaining data failed"
+                                    println()
+                                    println()
                                     println("XXXXXXXXXXXXXXXXXXXXX<<< $explanation<")
                                     valueAst.showHumanReadableTreeWithSourceCode(description, fileSourceCode)
                                     valueAst.showRelatedSourceCode("extracted valueAst in tags dict access", fileSourceCode)
@@ -1667,8 +1671,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                                     if (freeformKey(keyString)) {
                                         println("freeform, but accessed with $valueSourceCode which is not listed")
                                     }
-                                    println()
-                                    println()
+                                    throw ParsingInterpretationException(explanation)
                                 }
                             }
                         }
