@@ -10,17 +10,6 @@ This will try to report entries missing in StreetComplete image authorship file
 ./gradlew detectMissingImageCreditsTask
  */
 
-/*
-TODO: detect missing .SVG drawables
-
-is each app/src/main/res/drawable having a matching SVG being stored?
-./app/src/main/res/drawable/ic_quest_lantern.xml
-./res/graphics/quest/lantern.svg
-
-./app/src/main/res/drawable/ic_quest_pitch_lantern.xml
-./res/graphics/quest/pitch_lantern.svg
-*/
-
 open class DetectMissingImageCreditsTask : DefaultTask() {
     private fun filesWithKnownProblemsAndSkipped(): Array<String> {
         // TODO: should be empty
@@ -311,6 +300,62 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         return arrayOf("Public Domain", "CC0", "CC-BY-SA 1.0", "CC-BY-SA 2.0", "CC-BY-SA 2.5", "CC-BY-SA 3.0", "CC-BY-SA 4.0", "CC-BY 2.0", "CC-BY 3.0", "CC-BY 4.0", "SIL OFL-1.1", "OFL-1.1", "GPL-2.0-only", "WTFPL", "fair use")
     }
 
+    private fun areThereMatchingSvgsForDrawables() {
+        /*
+        is each app/src/main/res/drawable having a matching SVG being stored?
+            ./app/src/main/res/drawable/ic_quest_lantern.xml
+            ./res/graphics/quest/lantern.svg
+
+            ./app/src/main/res/drawable/ic_quest_pitch_lantern.xml
+            ./res/graphics/quest/pitch_lantern.svg
+         */
+        File("app/src/main/res/drawable/").walkTopDown().filter { it.extension == "xml" }.forEach {
+            val guessedPath = guessedPathForSvgOfDrawable(it)
+            if (guessedPath == null) {
+                //println(it.path + " has not guessed match " + guessedPath)
+            } else {
+                if (File(guessedPath).isFile) {
+                    //println(it.path + " found match " + guessedPath)
+                } else {
+                    println(it.path + " has not found match " + guessedPath)
+                }
+            }
+        }
+    }
+
+    private fun guessedPathForSvgOfDrawable(it: File): String? {
+        if (it.name.startsWith("ic_")) {
+            val likelyFolder = it.name.split("_")[1]
+            var removeFromFilename = likelyFolder
+            var guessedFolder = likelyFolder
+            if (guessedFolder == "roof") {
+                guessedFolder = "roof shape"
+            }
+            if (guessedFolder == "flag") {
+                return null
+            }
+            if (guessedFolder == "pin") {
+                guessedFolder = "pins"
+            }
+            listOf("stopping", "standing", "parking").forEach { code ->
+                if ("no_$code" in it.name) {
+                    guessedFolder = "street parking/no $code sign"
+                    removeFromFilename = "no_$code"
+                }
+            }
+            val foldersWithSpaces = File("res/graphics/").listFiles().filter { it.isDirectory && it.name.contains(" ") }
+            foldersWithSpaces.forEach { folder ->
+                if (folder.name.replace(" ", "_") in it.name) {
+                    guessedFolder = folder.name
+                    removeFromFilename = folder.name.replace(" ", "_")
+                }
+            }
+            val guessedFile = it.name.replace("ic_${removeFromFilename}_", "").replace(".xml", ".svg")
+            return "res/graphics/$guessedFolder/$guessedFile"
+        }
+        return null
+    }
+
     @TaskAction fun run() {
         selfTest()
 
@@ -318,6 +363,8 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         val mediaFiles = mediaNeedingLicences()
         val usedLicenced = mutableListOf<LicenceData>()
         val billOfMaterials = mutableListOf<LicencedFile>()
+
+        areThereMatchingSvgsForDrawables()
 
         /*
         println("---identifiers")
