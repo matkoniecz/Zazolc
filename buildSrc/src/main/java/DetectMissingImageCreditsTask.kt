@@ -350,7 +350,10 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     removeFromFilename = folder.name.replace(" ", "_")
                 }
             }
-            val guessedFile = it.name.replace("ic_${removeFromFilename}_", "").replace(".xml", ".svg")
+            var guessedFile = it.name.replace("ic_${removeFromFilename}_", "").replace(".xml", ".svg")
+            if ("beachvolleyball" in guessedFile) {
+               guessedFile = guessedFile.replace("beachvolleyball", "beach volleyball")
+            }
             return "res/graphics/$guessedFolder/$guessedFile"
         }
         return null
