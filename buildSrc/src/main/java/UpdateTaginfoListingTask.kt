@@ -859,10 +859,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             println("<${expressions[0].relatedSourceCode(surfacesFileCode)}> is not supported, only listOf is")
                         }
                     }
-                    // println()
-                    // println("$nameOfDefinedGroup = $entries")
                     structures[nameOfDefinedGroup] = entries.map { surfacesIdentifierToValue[it]!! }
-                    // println()
                 }
             } else {
                 // val explanation = "${propertyDeclarations.size} propertyDeclarations present, for example an enum has 0"
