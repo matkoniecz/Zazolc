@@ -563,26 +563,36 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
     private fun mediaNeedingLicences(): MutableList<MediaFile> {
         val mediaFiles = mutableListOf<MediaFile>()
-        for(path in arrayOf("app/", "res/")) {
+        for (path in arrayOf("app/", "res/")) {
             File(path).walkTopDown().forEach {
-                if (!("app/build/" in it.path)) {
-                    if (it.name.contains(".")) {
-                        val splitExtension = it.name.split(".")
-                        if (splitExtension.size > 1) {
-                            val extension = splitExtension.last()
-                            if (extension !in listOf("yaml", "yml", "xml", "txt", "json", "jar", "kt", "kts", "bin", "md", "gitignore", "MockMaker", "pro")) {
-                                if (extension in listOf("jpg", "svg", "png", "wav", "xcf", "ser", "odp", "drawio")) {
-                                    mediaFiles += MediaFile(it)
-                                } else {
-                                    println("not recognised extension: $extension")
-                                }
-                            }
-                        }
-                    }
+                if (isMediaFile(it)) {
+                    mediaFiles += MediaFile(it)
                 }
             }
         }
         return mediaFiles
+    }
+
+    private fun isMediaFile(it: File): Boolean {
+        if ("app/build/" in it.path) {
+            return false
+        }
+        if (it.isDirectory) {
+            return false
+        }
+        if (it.name.contains(".")) {
+            if (it.extension in listOf("yaml", "yml", "xml", "txt", "json", "jar", "kt", "kts", "bin", "md", "gitignore", "MockMaker", "pro")) {
+                return false
+            }
+            if (it.extension in listOf("jpg", "svg", "png", "wav", "xcf", "ser", "odp", "drawio")) {
+                return true
+            } else {
+                println("not recognised extension: ${it.extension}")
+                return false
+            }
+        } else {
+            return false
+        }
     }
 
     private fun fileMatchesLicenceDeclaration(file: File, licencedData: LicenceData): Boolean {
