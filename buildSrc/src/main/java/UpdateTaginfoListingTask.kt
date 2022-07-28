@@ -158,7 +158,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val format = Json { encodeDefaults = true; explicitNulls = false; prettyPrint = true  }
 
         @Serializable
-        data class TagWithDescriptionForTaginfoListing(val key: String, val value: String?, val description: String)
+        data class TagWithDescriptionForTaginfoListing(val key: String, val value: String?, val description: String, val icon_url: String)
 
         @Serializable
         data class Project(val name: String, val description: String, val project_url: String, val doc_url: String, val icon_url: String, val contact_name: String, val contact_email: String)
@@ -193,7 +193,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // note! report changes in URL of data at https://github.com/taginfo/taginfo-projects/blob/master/project_list.txt
         val dataUrl = "https://raw.githubusercontent.com/matkoniecz/Zazolc/taginfo/res/documentation/taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json"
         val report = TaginfoReport(1, dataUrl, project,
-            questData.map { TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in '${it.changesetDescription}' quest") }
+            questData.map { TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in '${it.changesetDescription}' quest", it.iconUrl) }
             )
         val jsonText = format.encodeToString(report)
         val targetFile = File(targetDir, "taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json")
@@ -208,16 +208,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     @TaskAction fun run() {
-        File("app/src/main/res/drawable/").walkTopDown().filter { it.extension == "xml" }.forEach {
-            if (it.name.startsWith("ic_quest_")) {
-                var guessedFileName = it.name.replace("ic_quest_", "").replace(".xml", ".svg")
-                var guessedFile = File("res/graphics/quest/$guessedFileName")
-                if (!guessedFile.isFile) {
-                    println(it.path + " has not found match " + guessedFile.path)
-                }
-            }
-        }
-
         println(targetDir)
 
         val foundTags = mutableListOf<TagQuestInfo>()
@@ -230,7 +220,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 if (it.isFile) {
                     if (isQuestFile(it)) {
                         addedOrEditedTags(it)!!.forEach { tags ->
-                            foundTags.add(TagQuestInfo(tags, it.name, getChangesetComment(it)))
+                            foundTags.add(TagQuestInfo(tags, it.name, getChangesetComment(it), getIconUrl(it)))
                         }
                     }
                 }
@@ -239,6 +229,47 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         generateReport(foundTags)
         reportResultOfDataCollection(foundTags)
         checkOsmWikiPagesExistence(foundTags)
+    }
+
+
+    private fun getIconUrl(questFile: File): String {
+        val fileWithSvg = getQuestIconSvgFromDrawableCode(getIconDrawableIdentifierFromQuestFile(questFile))
+        return "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/" + fileWithSvg.path
+    }
+
+    private fun getIconDrawableIdentifierFromQuestFile(questFile: File): String {
+        listOfClassPropertyDeclaration(questFile.parse()).forEach { propertyDeclaration ->
+            val variableDeclaration = propertyDeclaration.locateSingleOrNullByDescription("variableDeclaration")
+            if (variableDeclaration != null) {
+                val identifierOfProperty = (variableDeclaration.tree() as KlassIdentifier).identifier
+                if (identifierOfProperty == "icon") {
+                    val expression = propertyDeclaration.locateSingleOrExceptionByDescriptionDirectChild("expression")
+                    val postfixUnarySuffixes = expression.locateByDescription("postfixUnarySuffix")
+                    // in R.drawable.ic_quest_snow_poi
+                    // R is primaryExpression, dot.drawable the first postfixUnarySuffix and .ic_quest_snow_poi second one
+                    if (postfixUnarySuffixes.size != 2) {
+                        throw ParsingInterpretationException("not supposed to happen")
+                    }
+                    val identifierOfDrawable = postfixUnarySuffixes[1].locateSingleOrExceptionByDescription("simpleIdentifier")
+                    identifierOfDrawable.showHumanReadableTree()
+                    return (identifierOfDrawable.tree() as KlassIdentifier).identifier
+                }
+            }
+        }
+        throw ParsingInterpretationException("not supposed to happen, as processing $questFile")
+    }
+
+    private fun getQuestIconSvgFromDrawableCode(drawableCode: String): File {
+        if (drawableCode.startsWith("ic_quest_")) {
+            val guessedFileName = drawableCode.replace("ic_quest_", "")
+            val guessedFile = File("res/graphics/quest/$guessedFileName.svg")
+            if (!guessedFile.isFile) {
+                throw ParsingInterpretationException(drawableCode + " has not found match " + guessedFile.path)
+            }
+            return guessedFile
+        } else {
+            throw ParsingInterpretationException(drawableCode)
+        }
     }
 
     private fun getChangesetComment(questFile: File): String {
@@ -629,9 +660,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
     }
 
-    class TagQuestInfo(val tag: Tag, val quest: String, val changesetDescription: String) {
+    class TagQuestInfo(val tag: Tag, val quest: String, val changesetDescription: String, val iconUrl: String) {
         override fun toString(): String {
-            return "$tag in $quest ($changesetDescription)"
+            return "$tag in $quest ($changesetDescription) which has icon $iconUrl"
         }
     }
 
