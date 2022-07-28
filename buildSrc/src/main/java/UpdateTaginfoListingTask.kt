@@ -1189,8 +1189,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                     } else if (potentiallyUsableExpression != null) {
                         expression.showHumanReadableTree()
                         expression.showRelatedSourceCode("expression in identified access as a variable", fileSourceCode)
-                        println(KotlinGrammarParserType.identifier.toString() + " identified as accessing index as a variable (potentialTexts.size = ${potentialTexts.size})")
-                        return null
+                        val error = KotlinGrammarParserType.identifier.toString() + " identified as accessing index as a variable (potentialTexts.size = ${potentialTexts.size})"
+                        throw ParsingInterpretationException(error)
                     } else if (likelyVariable.size == 1) {
                         if (likelyVariable[0].relatedSourceCode(fileSourceCode) == "key" && "name:\$languageTag" in fileSourceCode) {
                             // special handling for name quests
@@ -1198,8 +1198,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         } else {
                             expression.showHumanReadableTree()
                             expression.showRelatedSourceCode("expression in identified access as a complex variable", fileSourceCode)
-                            println(likelyVariable[0].relatedSourceCode(fileSourceCode) + " identified as accessing index as a complex variable (potentialTexts.size = ${potentialTexts.size})")
-                            return null
+                            val error = likelyVariable[0].relatedSourceCode(fileSourceCode) + " identified as accessing index as a complex variable (potentialTexts.size = ${potentialTexts.size}"
+                            throw ParsingInterpretationException(error)
                         }
                     } else {
                         expression.showRelatedSourceCode("expression - not handled, expression::class is ${expression::class}", fileSourceCode)
