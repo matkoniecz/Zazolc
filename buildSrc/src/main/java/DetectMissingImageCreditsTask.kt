@@ -76,6 +76,15 @@ Sorry for bothering you about this, but some of media that were likely created f
             "book.svg",
             "crossing.svg",
 
+            // res/graphics/cycleway/
+            // what is the source of bicycle icon?
+            // Seems copyrightable? See https://commons.wikimedia.org/wiki/Category:Bicycle_icons
+            "lane_norway.svg",
+            "none_no_oneway_l.svg",
+            "none_no_oneway.svg",
+            "shared_lane_france.svg",
+            "lane_france.svg",
+
             // res/graphics/quest - TODO ask Tobias, check sources
 
             "halal.svg", // see https://github.com/streetcomplete/StreetComplete/commits/6e419923e6732030a7d41196676230b242c92ece/res/graphics/quest%20icons/halal.svg?browsing_rename_history=true&new_path=res/graphics/quest/halal.svg&original_branch=master for ping
