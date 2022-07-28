@@ -1765,15 +1765,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 val stringObject = (found.children[0].tree() as KlassString).children[0]
                 (stringObject as StringComponentRaw).string
             } else {
-                /*
-                //TODO throw exception or stop considering this as an error
-                val explanation = "$description - unhandled extraction of $index function parameter - child is not stringLiteral"
-                found.showHumanReadableTree()
-                extractArgumentListSyntaxTreeInFunctionCall(ast)[index].showRelatedSourceCode("unhandled extracting index $index - not string", fileSourceCode)
-                println("unhandled key access")
-                println(explanation)
-                //throw ParsingInterpretationException(explanation)
-                 */
+                // as function name mentions, only string literals will be recovered
                 null
             }
         } else {
