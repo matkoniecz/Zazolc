@@ -231,6 +231,13 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         checkOsmWikiPagesExistence(foundTags)
     }
 
+    private fun questFolderGenerator() = iterator {
+        File(QUEST_ROOT_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { folder ->
+            if (folder.isDirectory && "$folder/" != QUEST_ROOT_WITH_SLASH_ENDING) {
+                yield(folder)
+            }
+        }
+    }
 
     private fun getIconUrl(questFile: File): String {
         val fileWithSvg = getQuestIconSvgFromDrawableCode(getIconDrawableIdentifierFromQuestFile(questFile))
@@ -284,14 +291,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
         }
         throw ParsingInterpretationException("not supposed to happen, as processing $questFile")
-    }
-
-    private fun questFolderGenerator() = iterator {
-        File(QUEST_ROOT_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { folder ->
-            if (folder.isDirectory && "$folder/" != QUEST_ROOT_WITH_SLASH_ENDING) {
-                yield(folder)
-            }
-        }
     }
 
     private fun candidatesForEnumFilesForGivenFile(file: File): List<File> {
