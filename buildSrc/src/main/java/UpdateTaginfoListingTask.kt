@@ -1020,7 +1020,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         if (parameters.size > 1) {
             println("Attempting to decompose function call where tags will be modified in another place and multiple arguments were passed")
-            // TODO this is intended to be able to parse say
+            // TODO this is intended to be able to parse for example following source code:
             // answer.applyTo(tags, "cycleway:surface")
             // and enable recognizing which value is used for key parameter in a called function
             // right now support for this kind of parsing is hardcoded
