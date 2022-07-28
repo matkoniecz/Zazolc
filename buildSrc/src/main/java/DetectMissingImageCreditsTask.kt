@@ -319,24 +319,28 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             ./res/graphics/quest/pitch_lantern.svg
          */
         File("app/src/main/res/drawable/").walkTopDown().filter { it.extension == "xml" }.forEach {
-            val guessedPath = guessedPathForSvgOfDrawable(it)
-            if (guessedPath == null) {
+            val guessedFile = svgOfDrawable(it)
+            if (guessedFile == null) {
                 //println(it.path + " has not guessed match " + guessedPath)
             } else {
-                if (File(guessedPath).isFile) {
+                if (guessedFile.isFile) {
                     //println(it.path + " found match " + guessedPath)
                 } else {
-                    println(it.path + " has not found match " + guessedPath)
+                    println(it.path + " has not found match " + guessedFile.path)
                 }
             }
         }
     }
 
-    private fun guessedPathForSvgOfDrawable(it: File): String? {
+    private fun svgOfDrawable(it: File): File? {
         if (it.name.startsWith("ic_")) {
             val likelyFolder = it.name.split("_")[1]
             var removeFromFilename = likelyFolder
             var guessedFolder = likelyFolder
+            val initial = svgOfDrawableFromElements(it, removeFromFilename, guessedFolder)
+            if(initial.isFile) {
+                return initial
+            }
             if (guessedFolder == "roof") {
                 guessedFolder = "roof shape"
             }
@@ -367,13 +371,17 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 guessedFolder = "street parking/street edge marking"
                 removeFromFilename = "street_marking"
             }
-            var guessedFile = it.name.replace("ic_${removeFromFilename}_", "").replace(".xml", ".svg")
-            guessedFile = guessedFile.replace("beachvolleyball", "beach volleyball")
-            guessedFile = guessedFile.replace("simple suspension", "simple-suspension")
-            guessedFile = guessedFile.replace("cablestayed", "cable-stayed")
-            return "res/graphics/$guessedFolder/$guessedFile"
+            return svgOfDrawableFromElements(it, removeFromFilename, guessedFolder)
         }
         return null
+    }
+
+    private fun svgOfDrawableFromElements(drawableFile: File, removeFromFilename: String, guessedFolder: String): File {
+        var guessedFile = drawableFile.name.replace("ic_${removeFromFilename}_", "").replace(".xml", ".svg")
+        guessedFile = guessedFile.replace("beachvolleyball", "beach volleyball")
+        guessedFile = guessedFile.replace("simple suspension", "simple-suspension")
+        guessedFile = guessedFile.replace("cablestayed", "cable-stayed")
+        return File("res/graphics/$guessedFolder/$guessedFile")
     }
 
     @TaskAction fun run() {
