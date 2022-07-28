@@ -202,6 +202,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     @TaskAction fun run() {
+        File("app/src/main/res/drawable/").walkTopDown().filter { it.extension == "xml" }.forEach {
+            if (it.name.startsWith("ic_quest_")) {
+                var guessedFileName = it.name.replace("ic_quest_", "").replace(".xml", ".svg")
+                var guessedFile = File("res/graphics/quest/$guessedFileName")
+                if (!guessedFile.isFile) {
+                    println(it.path + " has not found match " + guessedFile.path)
+                }
+            }
+        }
+
         println(targetDir)
 
         val foundTags = mutableListOf<TagQuestInfo>()
