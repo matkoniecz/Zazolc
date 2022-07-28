@@ -1077,10 +1077,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             val replacementDescription = fileWithRedirectedFunction.toString()
             addedOrEditedTagsWithGivenFunction(replacementDescription, replacementSourceCode, replacementFunctionName, suspectedAnswerEnumFiles)
         } else {
-            // unsupported TODO
-            // TODO - variable is not really supported within called function
-            println("redirected function, not using tags variable - unsupported TODO, exiting")
-            null
+            // variable is not really supported within called function
+            throw ParsingInterpretationException("redirected function, not using tags variable - unsupported TODO, exiting")
         }
     }
 
