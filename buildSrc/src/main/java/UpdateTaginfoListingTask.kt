@@ -842,7 +842,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun listOfSurfaceValuesInSurfaceQuest(questFile: File): MutableList<String> {
-        val formFile = formFileUsedInquest(questFile.parse())
+        val formFile = formFileUsedInQuest(questFile.parse())
         val identifiersOfFormItemsMayBeGroups = listOfIdentifiersDeclaringFormItems(formFile)
         return retrieveSurfaceValuesFromGroupIdentifiers(identifiersOfFormItemsMayBeGroups)
     }
@@ -914,7 +914,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return returned
     }
 
-    private fun formFileUsedInquest(ast: Ast): File {
+    private fun formFileUsedInQuest(ast: Ast): File {
         val functionToGetForm = ast.extractFunctionByName("createForm")!!
         val formUsed = (functionToGetForm.locateSingleOrExceptionByDescription("primaryExpression")
             .locateSingleOrExceptionByDescription("simpleIdentifier").tree() as KlassIdentifier).identifier
