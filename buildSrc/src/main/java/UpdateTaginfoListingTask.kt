@@ -226,7 +226,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val processedTags = mutableSetOf<Tag>()
         println()
         println()
-        // see https://github.com/openstreetmap/openstreetmap-website/pull/3294 for update instructions
         foundTags.map { it.tag }.forEach {
             if (it.key.startsWith("name:")) {
                 // TODO a known wiki design issue, lets wait for resolving it
