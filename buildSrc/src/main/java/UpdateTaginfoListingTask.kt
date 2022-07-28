@@ -223,7 +223,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             File(folder.toString()).walkTopDown().forEach {
                 if (it.isFile) {
                     if (isQuestFile(it)) {
-                        addedOrEditedTags(it)!!.forEach { tags -> foundTags.add(TagQuestInfo(tags, it.name, getChangesetComment(it))) }
+                        addedOrEditedTags(it)!!.forEach { tags ->
+                            foundTags.add(TagQuestInfo(tags, it.name, getChangesetComment(it)))
+                        }
                     }
                 }
             }
