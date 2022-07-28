@@ -320,12 +320,8 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
          */
         File("app/src/main/res/drawable/").walkTopDown().filter { it.extension == "xml" }.forEach {
             val guessedFile = svgOfDrawable(it)
-            if (guessedFile == null) {
-                //println(it.path + " has not guessed match " + guessedPath)
-            } else {
-                if (guessedFile.isFile) {
-                    //println(it.path + " found match " + guessedPath)
-                } else {
+            if (guessedFile != null) {
+                if (!guessedFile.isFile) {
                     println(it.path + " has not found match " + guessedFile.path)
                 }
             }
