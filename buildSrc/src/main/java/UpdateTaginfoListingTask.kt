@@ -360,6 +360,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun isLikelyAnswerEnumFile(file: File): Boolean {
+        // answers true if it is likely to contain an enum class like
+        // java/de/westnordost/streetcomplete/quests/barrier_type/BarrierType.kt
+        // contains
+        //
+        // TODO: maybe read file source code and simply check is "enum class" text there?
         if (".kt" !in file.name) {
             return false
         }
