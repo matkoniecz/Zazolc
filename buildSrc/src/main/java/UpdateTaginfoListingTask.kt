@@ -25,7 +25,7 @@ import org.gradle.api.tasks.TaskAction
 import org.jsoup.Jsoup
 import java.io.File
 import java.io.InputStream
-import java.net.URL
+import java.lang.Thread.sleep
 import kotlin.system.exitProcess
 
 /* Generate Taginfo tag listing - only tags added or edited are listed
@@ -117,7 +117,22 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         fileWriter.close()
     }
 
+    private fun test() {
+        if (!isPageExisting("https://wiki.openstreetmap.org/wiki/Tag:building%3Dpagoda")) {
+            throw Exception()
+        }
+        val nonexisting = "https://wiki.openstreetmap.org/wiki/Tag:building%3Dnonexistingbuildingvalue"
+        if (isPageExisting(nonexisting)) {
+            println(getOsmWikiPageResponse(nonexisting).html)
+            throw Exception()
+        }
+    }
+
     @TaskAction fun run() {
+        test()
+        println(isPageExisting("https://www.javatpoint.com/thread-sleep-in-javaaaa"))
+        println(isPageExisting("https://www.javatpoint.com/thread-sleep-in-java"))
+
         println(targetDir)
 
         val foundTags = mutableListOf<TagQuestInfo>()
@@ -345,17 +360,33 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun isPageExisting(url: String): Boolean {
-        try {
-            URL(url).openStream().bufferedReader().use { it.readText() }
-        } catch (e: java.io.FileNotFoundException) {
-            return false
-        }
-        return true
+        return getOsmWikiPageResponse(url).responseCode == 200
     }
 
     private fun isCompoundListerErrorPageExisting(url: String): Boolean {
-        return "is a compound key consisting of" in Jsoup.connect(url).ignoreHttpErrors(true).get()
-            .body().toString()
+        return "is a compound key consisting of" in getOsmWikiPageResponse(url).html
+    }
+
+    class WebsiteResponse(val html: String, val responseCode: Int)
+
+    private fun getOsmWikiPageResponse(url: String): WebsiteResponse {
+        try {
+            val response = Jsoup.connect(url).ignoreHttpErrors(true).execute()
+            val httpCode = response.statusCode()
+            if (httpCode == 500) {
+                // for example see https://github.com/openstreetmap/operations/issues/715
+                val sleepInSeconds = 10
+                println("Sleeping for $sleepInSeconds seconds on retrying $url after ${response.statusCode()} http error code")
+                sleep(sleepInSeconds * 1000L)
+                return getOsmWikiPageResponse(url)
+            }
+            return WebsiteResponse(response.body().toString(), response.statusCode())
+        } catch (e: java.net.SocketTimeoutException) {
+            val sleepInSeconds = 10
+            println("Sleeping for $sleepInSeconds seconds on retrying $url after timeout!")
+            sleep(sleepInSeconds * 1000L)
+            return getOsmWikiPageResponse(url)
+        }
     }
 
     private fun streetCompleteIsReusingAnyValueProvidedByExistingTagging(questDescription: String, key: String): Boolean {
