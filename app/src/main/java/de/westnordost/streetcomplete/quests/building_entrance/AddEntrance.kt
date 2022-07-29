@@ -67,6 +67,7 @@ class AddEntrance : OsmElementQuestType<EntranceAnswer> {
         when (answer) {
             DeadEnd -> tags["noexit"] = "yes"
             is EntranceExistsAnswer -> tags["entrance"] = answer.osmValue
+            Private -> tags["access"] = "private"
         }
     }
 }
