@@ -42,6 +42,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     @get:Input var targetDir: String? = null
 
+    // recording of some constants used by the parsing, based on StreetComplete knowledge
+    // ideally, StreetComplete code would be used directly but I have not figured out how to
+    // achieve this
     companion object {
         const val NAME_OF_FUNCTION_EDITING_TAGS = "applyAnswerTo"
         const val KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING = "app/src/main/java/"
@@ -53,6 +56,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         const val VIBRATING_BUTTON = "traffic_signals:vibration"
         private const val SOUND_SIGNALS = "traffic_signals:sound"
     }
+
+    private fun surveyMarkKeyBasedOnKey(key: String): String {
+        // TODO - can we directly call relevant StreetComplete code?
+        return "$SURVEY_MARK_KEY:$key"
+    }
+
 
     private fun generateReport(questData: List<TagQuestInfo>) {
         println(targetDir)
@@ -1550,11 +1559,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 }
             }
         }
-    }
-
-    private fun surveyMarkKeyBasedOnKey(key: String): String {
-        // TODO - can we directly call relevant StreetComplete code?
-        return "$SURVEY_MARK_KEY:$key"
     }
 
     private fun extractCasesWhereTagsAreAccessedWithFunction(description: String, relevantFunction: AstNode, fileSourceCode: String, suspectedAnswerEnumFiles: List<File>): Set<Tag> {
