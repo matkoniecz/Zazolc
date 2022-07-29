@@ -1295,6 +1295,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         val explanation = "parsing ${file.path} failed, valueArguments count is not 1, skipping, maybe it should be also investigated"
                         println(enum.showRelatedSourceCode(explanation, fileMaybeContainingEnumSourceCode))
                         println(explanation)
+                        throw ParsingInterpretationException(explanation)
                     } else {
                         val enumFieldGroup = mutableListOf<EnumFieldState>()
                         val arguments = valueArguments.locateByDescriptionDirectChild("valueArgument")
