@@ -594,7 +594,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             }
             "AddMaxWeight.kt" -> {
                 return setOf(Tag("maxweight:signed", "no"), Tag("maxweight", null), Tag("maxweightrating", null),
-                    Tag("maxaxleload", null), Tag("maxbogieweight", "null"),
+                    Tag("maxaxleload", null), Tag("maxbogieweight", null),
                 )
             }
             "AddStepsRamp.kt" -> {

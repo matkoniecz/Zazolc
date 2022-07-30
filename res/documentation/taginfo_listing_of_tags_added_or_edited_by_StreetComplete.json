@@ -4692,7 +4692,6 @@
         },
         {
             "key": "maxbogieweight",
-            "value": "null",
             "description": "added or edited tag in 'Specify maximum allowed weights' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/max_weight.svg"
         },
