@@ -539,8 +539,17 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     licenceFound = licence
                     if (file.isNotEmpty() && source.isNotEmpty()) {
                         knownLicenced += LicenceData(licence, location, file, source)
+                    } else if(entire_line.indexOf("                               ") == 0 && source.isNotEmpty()) {
+                        // TODO: update license info as file is combination of multiple ones
+                        // for now this is fine as this program only checks is license info present,
+                        // it is not actually used
+                        // knownLicenced[knownLicenced.size-1]
                     } else {
-                        println("either file or source is empty, so skipping the entire line: <$line> file: <$file> source: <$source>")
+                        println("either file or source is empty, so skipping the entire line")
+                        println("line: <$line>")
+                        println("file: <$file>")
+                        println("source: <$source>")
+                        throw Exception()
                     }
                 }
             }
