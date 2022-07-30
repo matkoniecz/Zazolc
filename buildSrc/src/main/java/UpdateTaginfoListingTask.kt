@@ -763,8 +763,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         val languageTags = mutableSetOf("name", "int_name")
         File(COUNTRY_METADATA_PATH_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { file ->
             if (file.isFile) {
-                val test = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileText(file))
-                val langs = test.officialLanguages + test.additionalStreetsignLanguages
+                val country = Yaml(configuration = YamlConfiguration(strictMode = false)).decodeFromString(IncompleteCountryInfo.serializer(), loadFileText(file))
+                val langs = country.officialLanguages + country.additionalStreetsignLanguages
                 // if country has single language for street names (langs.size = 1) then
                 // it is using only name tag
                 // if multiple languages are present then this languages are tagged with
