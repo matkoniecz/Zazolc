@@ -304,7 +304,11 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         // entries from https://spdx.org/licenses/
         // and "SIL OFL-1.1" as alias for "OFL-1.1"
         // and "fair use"
-        return arrayOf("Public Domain", "CC0", "CC-BY-SA 1.0", "CC-BY-SA 2.0", "CC-BY-SA 2.5", "CC-BY-SA 3.0", "CC-BY-SA 4.0", "CC-BY 2.0", "CC-BY 3.0", "CC-BY 4.0", "SIL OFL-1.1", "OFL-1.1", "GPL-2.0-only", "WTFPL", "fair use")
+        return arrayOf(
+            "Public Domain", "CC0", "CC-BY-SA 1.0", "CC-BY-SA 2.0", "CC-BY-SA 2.5", "CC-BY-SA 3.0",
+            "CC-BY-SA 4.0", "CC-BY 2.0", "CC-BY 3.0", "CC-BY 4.0", "SIL OFL-1.1", "OFL-1.1", "GPL-2.0-only",
+            "WTFPL", "fair use"
+        )
     }
 
     private fun areThereMatchingSvgsForDrawables() {
