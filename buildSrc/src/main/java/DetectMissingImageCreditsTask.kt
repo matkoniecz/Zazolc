@@ -305,9 +305,12 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         // and "SIL OFL-1.1" as alias for "OFL-1.1"
         // and "fair use"
         return arrayOf(
+            "fair use", "SIL OFL-1.1",
+
+            // codes matching spdx codes
             "Public Domain", "CC0", "CC-BY-SA 1.0", "CC-BY-SA 2.0", "CC-BY-SA 2.5", "CC-BY-SA 3.0",
-            "CC-BY-SA 4.0", "CC-BY 2.0", "CC-BY 3.0", "CC-BY 4.0", "SIL OFL-1.1", "OFL-1.1", "GPL-2.0-only",
-            "WTFPL", "fair use"
+            "CC-BY-SA 4.0", "CC-BY 2.0", "CC-BY 3.0", "CC-BY 4.0", "OFL-1.1", "GPL-2.0-only",
+            "GPL-3.0-only", "ISC", "ODbL-1.0", "WTFPL",
         )
     }
 
