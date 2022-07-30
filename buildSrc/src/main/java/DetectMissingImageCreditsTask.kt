@@ -522,12 +522,12 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     private fun licencedMediaInApplicationResourceFile(): MutableList<LicenceData> {
         val location = "app/src/main/res"
         val knownLicenced = mutableListOf<LicenceData>()
-        val inputStream: InputStream = File(location + "/authors.txt").inputStream()
+        val inputStream: InputStream = File("$location/authors.txt").inputStream()
         val inputString = inputStream.bufferedReader().use { it.readText() }
         for (entire_line in inputString.split("\n").drop(3)) { // remove header lines
             var skipped = false
             val line = entire_line.trim()
-            if (line.length == 0) {
+            if (line.isEmpty()) {
                 continue
             }
             var licenceFound: String? = null
@@ -537,7 +537,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     val file = splitted[0].trim()
                     val source = splitted[1].trim()
                     licenceFound = licence
-                    if (file.length > 0 && source.length > 0) {
+                    if (file.isNotEmpty() && source.isNotEmpty()) {
                         knownLicenced += LicenceData(licence, location, file, source)
                     } else {
                         println("either file or source is empty, so skipping the entire line: <$line> file: <$file> source: <$source>")
