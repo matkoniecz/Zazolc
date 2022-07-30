@@ -498,7 +498,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 continue
             }
             val line = entire_line.trim()
-            if (line.length == 0) {
+            if (line.isEmpty()) {
                 folder = null
                 continue
             }
