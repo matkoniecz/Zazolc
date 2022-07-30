@@ -93,7 +93,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
 
         // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md
-        val description = "Surveyor app for Android - this listing mentions tags can be added or edited by this editor. Tags used for filtering or ones that can be removed during editing are not listed. Tags from iD presents and Name Suggestion Index that can be used while adding new shops are also not listed."
+        val description = "Surveyor app for Android - this listing mentions tags can be added or edited by this editor. Tags used for filtering or ones that can be removed during editing are not listed. Tags from iD presets and Name Suggestion Index that can be used while adding new shops are also not listed - see https://taginfo.openstreetmap.org/projects/id_editor and https://taginfo.openstreetmap.org/projects/name_suggestion_index for tag listings."
         val project = Project("StreetComplete", description,
             "https://github.com/westnordost/StreetComplete",
             "https://wiki.openstreetmap.org/wiki/StreetComplete",
