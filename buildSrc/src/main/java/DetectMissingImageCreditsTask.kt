@@ -20,7 +20,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             //////////////////////////////////////////////
             //////////////////////////////////////////////
 
-
             //////////////////////////////////////////////
             //////////////////////////////////////////////
             // uploaders contacted recently and/or media is safe but with not specified source
@@ -32,12 +31,12 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "bin.svg", // pin - https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
             "picnic_table_cover.svg", // https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
             "bicycle_parking_access.svg", // https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
-            "bicycle_rental_capacity",// https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bicycle_rental_capacity.svg https://github.com/streetcomplete/StreetComplete/commit/396dfbb7b6805f28de893eaf1e77960f85e177e2#diff-8cecc5df0db2b095b9deff1360855887da42441340b1d83e75648f39f2971a09
+            "bicycle_rental_capacity", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bicycle_rental_capacity.svg https://github.com/streetcomplete/StreetComplete/commit/396dfbb7b6805f28de893eaf1e77960f85e177e2#diff-8cecc5df0db2b095b9deff1360855887da42441340b1d83e75648f39f2971a09
 
             // Contacted Naposm on https://github.com/streetcomplete/StreetComplete/pull/2675#issuecomment-1168967696
             "costiera.svg", // https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281 https://commons.wikimedia.org/wiki/File:Guardia_Costiera.svg
-             "police.svg",  // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/police.svg https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281
-            "fuel_self_service.svg",  // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/fuel_self_service.svg https://github.com/streetcomplete/StreetComplete/commit/dbc19c8651cd987acb4044343c5d07c5d2ff56e6
+            "police.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/police.svg https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281
+            "fuel_self_service.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/fuel_self_service.svg https://github.com/streetcomplete/StreetComplete/commit/dbc19c8651cd987acb4044343c5d07c5d2ff56e6
 
             // https://github.com/streetcomplete/StreetComplete/commit/e651adad062d283bd4a3399556fe413401ab272d
             "overlay.svg",
@@ -59,7 +58,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             // ongoing processing
             //////////////////////////////////////////////
             //////////////////////////////////////////////
-
 
             /*
             https://github.com/streetcomplete/StreetComplete/discussions/new
@@ -109,9 +107,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
             "sidewalk_surface.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
 
-            "check_shop.svg",  // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/check_shop.svg
+            "check_shop.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/check_shop.svg
 
-            "max_height_measure.svg",// https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/max_height_measure.svg
+            "max_height_measure.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/max_height_measure.svg
 
             // res/graphics/recycling
             // confirm
@@ -145,7 +143,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "get_poeditor_cookie.png",
             "how-it-handles edits.odp",
             "overview_data_flow.svg",
-            "overview_data_flow.drawio",
+            "overview_data_flow.drawio"
         )
     }
 
@@ -298,8 +296,8 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "1x1-transparent.png", // such small can be skipped automatically, probably
 
             // res/graphics/ar
-            "start_over.svg",
-            )
+            "start_over.svg"
+        )
     }
 
     private fun validLicences(): Array<String> {
@@ -334,7 +332,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             var removeFromFilename = likelyFolder
             var guessedFolder = likelyFolder
             val initial = svgOfDrawableFromElements(it, removeFromFilename, guessedFolder)
-            if(initial.isFile) {
+            if (initial.isFile) {
                 return initial
             }
             if (guessedFolder == "roof") {
@@ -486,7 +484,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         return knownLicenced + licencedMediaInApplicationResourceFile()
     }
 
-    private fun licensedMediaGreedyScan(folderPath: String, skippedLines: Int):  MutableList<LicenceData> {
+    private fun licensedMediaGreedyScan(folderPath: String, skippedLines: Int): MutableList<LicenceData> {
         val source = "$folderPath/authors.txt"
         val inputStream: InputStream = File(source).inputStream()
         val inputString = inputStream.bufferedReader().use { it.readText() }
@@ -642,7 +640,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             mapOf("filename" to "surface_paving_stones_bad.jpg", "licencedIdentifier" to "surface_paving_stones_bad.jpg"),
             mapOf("filename" to "recycling_container_underground.jpg", "licencedIdentifier" to "recycling_container_undergr..."),
             mapOf("filename" to "barrier_passage.jpg", "licencedIdentifier" to "barrier_passage.jpg"),
-            mapOf("filename" to "text", "licencedIdentifier" to "text"),
+            mapOf("filename" to "text", "licencedIdentifier" to "text")
         )
         for (pair in matchingPairs) {
             if (!fileMatchesLicenceDeclaration(File("path/" + pair["filename"]!!), LicenceData("license", "path", pair["licencedIdentifier"]!!, "source"))) { // TODO: !! should be not needed here
