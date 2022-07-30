@@ -113,7 +113,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             showChangesMadeIfAny(report, oldReport)
         }
         val fileWriter = targetFile.writer()
-        fileWriter.write(jsonText)
+        fileWriter.write(jsonText + "\n")
         fileWriter.close()
     }
 
