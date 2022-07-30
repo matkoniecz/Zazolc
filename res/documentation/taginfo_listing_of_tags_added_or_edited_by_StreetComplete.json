@@ -3,7 +3,7 @@
     "data_url": "https://raw.githubusercontent.com/matkoniecz/Zazolc/taginfo/res/documentation/taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json",
     "project": {
         "name": "StreetComplete",
-        "description": "Surveyor app for Android",
+        "description": "Surveyor app for Android - this listing mentions tags can be added or edited by this editor. Tags used for filtering or ones that can be removed during editing are not listed. Tags from iD presents and Name Suggestion Index that can be used while adding new shops are also not listed.",
         "project_url": "https://github.com/westnordost/StreetComplete",
         "doc_url": "https://wiki.openstreetmap.org/wiki/StreetComplete",
         "icon_url": "https://raw.githubusercontent.com/westnordost/StreetComplete/master/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
