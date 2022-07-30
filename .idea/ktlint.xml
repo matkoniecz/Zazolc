@@ -2,5 +2,10 @@
 <project version="4">
   <component name="KtlintProjectConfiguration">
     <treatAsErrors>false</treatAsErrors>
+    <disabledRules>
+      <list>
+        <option value="comment-spacing" />
+      </list>
+    </disabledRules>
   </component>
 </project>
