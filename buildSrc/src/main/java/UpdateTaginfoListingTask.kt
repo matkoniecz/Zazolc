@@ -131,10 +131,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     @TaskAction fun run() {
         test()
-        println(isPageExisting("https://www.javatpoint.com/thread-sleep-in-javaaaa"))
-        println(isPageExisting("https://www.javatpoint.com/thread-sleep-in-java"))
-
-        println(targetDir)
 
         val foundTags = mutableListOf<TagQuestInfo>()
         val folderGenerator = questFolderGenerator()
