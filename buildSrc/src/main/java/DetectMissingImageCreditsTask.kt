@@ -543,7 +543,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     licenceFound = licence
                     if (file.isNotEmpty() && source.isNotEmpty()) {
                         knownLicenced += LicenceData(licence, location, file, source)
-                    } else if(entire_line.indexOf("                               ") == 0 && source.isNotEmpty()) {
+                    } else if (entire_line.indexOf("                               ") == 0 && source.isNotEmpty()) {
                         // TODO: update license info as file is combination of multiple ones
                         // for now this is fine as this program only checks is license info present,
                         // it is not actually used
