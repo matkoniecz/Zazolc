@@ -487,7 +487,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         val secondLocation = "app/src/main/assets"
 
         knownLicenced += licensedMediaGreedyScan(firstLocation, 8)
-        knownLicenced += licensedMediaGreedyScan(secondLocation, 8)
+        knownLicenced += licensedMediaGreedyScan(secondLocation, 3)
         return knownLicenced + licencedMediaInApplicationResourceFile()
     }
 
