@@ -88,6 +88,9 @@ Sorry for bothering you about this, but some of media that were likely created f
 
             "halal.svg", // see https://github.com/streetcomplete/StreetComplete/commits/6e419923e6732030a7d41196676230b242c92ece/res/graphics/quest%20icons/halal.svg?browsing_rename_history=true&new_path=res/graphics/quest/halal.svg&original_branch=master for ping
 
+            // res/graphics/undo/
+            "visibility.svg",
+
             // Tobias - sole or used something else?
             /*
 
@@ -325,6 +328,11 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             ./res/graphics/quest/pitch_lantern.svg
          */
         File("app/src/main/res/drawable/").walkTopDown().filter { it.extension == "xml" }.forEach {
+            if(it.name in listOf(
+                    "ic_railway_crossing_full_l.xml" // left-hand driving side flip - is it worth keeping .svg for this?
+                )) {
+                return@forEach
+            }
             val guessedFile = svgOfDrawable(it)
             if (guessedFile != null) {
                 if (!guessedFile.isFile) {
