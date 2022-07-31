@@ -2,6 +2,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.io.InputStream
+import java.util.Locale
 import kotlin.system.exitProcess
 
 /*
@@ -334,6 +335,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     }
 
     private fun svgOfDrawable(it: File): File? {
+        // part of this horribleness can be fixed by moving files to a different names
+        // but I do not want to make file names weird just to make copyright compliance
+        // script code nicer...
         if (it.name.startsWith("ic_")) {
             val likelyFolder = it.name.split("_")[1]
             var removeFromFilename = likelyFolder
@@ -380,8 +384,15 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     private fun svgOfDrawableFromElements(drawableFile: File, removeFromFilename: String, guessedFolder: String): File {
         var guessedFile = drawableFile.name.replace("ic_${removeFromFilename}_", "").replace(".xml", ".svg")
         guessedFile = guessedFile.replace("beachvolleyball", "beach volleyball")
-        guessedFile = guessedFile.replace("simple suspension", "simple-suspension")
+        guessedFile = guessedFile.replace("simple_suspension", "simple-suspension")
         guessedFile = guessedFile.replace("cablestayed", "cable-stayed")
+        if(guessedFolder == "royal cypher") {
+            if(" " !in guessedFile) {
+                val cypher = guessedFile.split(".")[0].toUpperCase(Locale.ENGLISH)
+                val extension = guessedFile.split(".")[0]
+                guessedFile = "$cypher.$extension"
+            }
+        }
         return File("res/graphics/$guessedFolder/$guessedFile")
     }
 
