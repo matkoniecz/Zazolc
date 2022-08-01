@@ -28,8 +28,9 @@ import java.io.InputStream
 import java.lang.Thread.sleep
 import kotlin.system.exitProcess
 
-/* Generate Taginfo tag listing - only tags added or edited are listed
+/* Generate Taginfo tag listing - listing show only tags added by StreetCommplete
  * Tags removed or used in filtering are NOT listed.
+ * Tags from iD presets and NSI used when replacing shops are not listed.
  *
  * Follows https://wiki.openstreetmap.org/wiki/Taginfo/Projects documentation
  *
@@ -93,7 +94,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
 
         // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md
-        val description = "Surveyor app for Android - this listing mentions tags can be added or edited by this editor. Tags used for filtering or ones that can be removed during editing are not listed. Tags from iD presets and Name Suggestion Index that can be used while adding new shops are also not listed - see https://taginfo.openstreetmap.org/projects/id_editor and https://taginfo.openstreetmap.org/projects/name_suggestion_index for tag listings."
+        val description = "Surveyor app for Android - this listing mentions tags can be added by this editor. Tags used for filtering or ones that can be removed during editing are not listed. Tags from iD presets and Name Suggestion Index that can be used while adding new shops are also not listed - see https://taginfo.openstreetmap.org/projects/id_editor and https://taginfo.openstreetmap.org/projects/name_suggestion_index for tag listings."
         val project = Project("StreetComplete", description,
             "https://github.com/westnordost/StreetComplete",
             "https://wiki.openstreetmap.org/wiki/StreetComplete",
@@ -104,7 +105,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         // note! report changes in URL of data at https://github.com/taginfo/taginfo-projects/blob/master/project_list.txt
         val dataUrl = "https://raw.githubusercontent.com/matkoniecz/Zazolc/taginfo/res/documentation/taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json"
         val report = TaginfoReport(1, dataUrl, project,
-            questData.map { TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "added or edited tag in '${it.changesetDescription}' quest", it.iconUrl) }
+            questData.map { TagWithDescriptionForTaginfoListing(it.tag.key, it.tag.value, "tag added by '${it.changesetDescription}' quest", it.iconUrl) }
             )
         val jsonText = format.encodeToString(report)
         val targetFile = File(targetDir, "taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json")
