@@ -104,7 +104,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "app/src/main/res/drawable/ic_postbox_royal_cypher_scottish_crown.xml", // tried res/graphics/royal cypher/SCOTTISH_CROWN.svg
             "app/src/main/res/drawable/ic_profile_48dp.xml", // tried res/graphics/profile/48dp.svg
             "app/src/main/res/drawable/ic_quest_create_note.xml", // tried res/graphics/quest/create_note.svg
-            "app/src/main/res/drawable/ic_recycling_small_electric_appliances.xml", // tried res/graphics/recycling/small_electric_appliances.svg
             "app/src/main/res/drawable/ic_roadtype_dual_carriageway.xml", // tried res/graphics/roadtype/dual_carriageway.svg
             "app/src/main/res/drawable/ic_roadtype_lit.xml", // tried res/graphics/roadtype/lit.svg
             "app/src/main/res/drawable/ic_roadtype_lit_no.xml", // tried res/graphics/roadtype/lit_no.svg
