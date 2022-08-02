@@ -59,9 +59,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "app/src/main/res/drawable/ic_file_upload_48dp.xml", // tried res/graphics/file/upload_48dp.svg
             "app/src/main/res/drawable/ic_github.xml", // tried res/graphics/github.xml/ic_github.svg
             "app/src/main/res/drawable/ic_info_outline_48dp.xml", // tried res/graphics/info/outline_48dp.svg
-            "app/src/main/res/drawable/ic_lanes_marked.xml", // tried res/graphics/lanes/marked.svg
-            "app/src/main/res/drawable/ic_lanes_marked_odd.xml", // tried res/graphics/lanes/marked_odd.svg
-            "app/src/main/res/drawable/ic_lanes_unmarked.xml", // tried res/graphics/lanes/unmarked.svg
             "app/src/main/res/drawable/ic_launcher_foreground.xml", // tried res/graphics/launcher/foreground.svg
             "app/src/main/res/drawable/ic_liberapay.xml", // tried res/graphics/liberapay.xml/ic_liberapay.svg
             "app/src/main/res/drawable/ic_location_24dp.xml", // tried res/graphics/location/24dp.svg
@@ -551,6 +548,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 val extension = guessedFile.split(".")[1]
                 guessedFile = "$cypher.$extension"
             }
+        }
+        if (guessedFolder == "lanes") {
+            guessedFile = "lanes_$guessedFile"
         }
         return File("res/graphics/$guessedFolder/$guessedFile")
     }
