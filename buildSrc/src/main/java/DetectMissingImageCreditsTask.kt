@@ -339,7 +339,12 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             val guessedFile = svgOfDrawable(it)
             if (guessedFile != null) {
                 if (!guessedFile.isFile) {
-                    println(it.path + " has not found match " + guessedFile.path)
+                    if ("ic_link_" in it.name) {
+                        // some have no matching drawables but are fair use anyway...
+                        // TODO maybe ad credits for them but with directly mention .xml files?
+                    } else {
+                        println(it.path + " has not found match " + guessedFile.path)
+                    }
                 }
             }
         }
