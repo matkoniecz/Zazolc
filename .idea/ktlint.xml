@@ -5,6 +5,7 @@
     <disabledRules>
       <list>
         <option value="comment-spacing" />
+        <option value="trailing-comma" />
       </list>
     </disabledRules>
   </component>
