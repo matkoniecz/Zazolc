@@ -329,7 +329,8 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
          */
         File("app/src/main/res/drawable/").walkTopDown().filter { it.extension == "xml" }.forEach {
             if (it.name in listOf(
-                    "ic_railway_crossing_full_l.xml" // left-hand driving side flip - is it worth keeping .svg for this?
+                    "ic_railway_crossing_full_l.xml", // left-hand driving side flip - is it worth keeping .svg for this?
+                    "ic_religion_animist.xml", // empty graphic (maybe an explictly empty graphic would be better here?
                 )
             ) {
                 return@forEach
@@ -385,6 +386,10 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 guessedFolder = "street parking/street edge marking"
                 removeFromFilename = "street_marking"
             }
+            if (it.name.startsWith("ic_no_entry_sign")) {
+                guessedFolder = "oneway/no entry signs"
+                removeFromFilename = "no_entry_sign"
+            }
             return svgOfDrawableFromElements(it, removeFromFilename, guessedFolder)
         }
         return null
@@ -392,13 +397,13 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
     private fun svgOfDrawableFromElements(drawableFile: File, removeFromFilename: String, guessedFolder: String): File {
         var guessedFile = drawableFile.name.replace("ic_${removeFromFilename}_", "").replace(".xml", ".svg")
-        guessedFile = guessedFile.replace("beachvolleyball", "beach volleyball")
+        guessedFile = guessedFile.replace("beachvolleyball", "beach_volleyball")
         guessedFile = guessedFile.replace("simple_suspension", "simple-suspension")
         guessedFile = guessedFile.replace("cablestayed", "cable-stayed")
         if (guessedFolder == "royal cypher") {
             if (" " !in guessedFile) {
                 val cypher = guessedFile.split(".")[0].toUpperCase(Locale.ENGLISH)
-                val extension = guessedFile.split(".")[0]
+                val extension = guessedFile.split(".")[1]
                 guessedFile = "$cypher.$extension"
             }
         }
