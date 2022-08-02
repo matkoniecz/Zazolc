@@ -30,9 +30,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "app/src/main/res/drawable/ic_bookmarks_48dp.xml", // tried res/graphics/bookmarks/48dp.svg
             "app/src/main/res/drawable/ic_building_levels_illustration.xml", // tried res/graphics/building levels/illustration.svg
             "app/src/main/res/drawable/ic_camera_measure_24dp.xml", // tried res/graphics/surveillance/measure_24dp.svg
-            "app/src/main/res/drawable/ic_camera_type_dome.xml", // tried res/graphics/surveillance/type_dome.svg
-            "app/src/main/res/drawable/ic_camera_type_fixed.xml", // tried res/graphics/surveillance/type_fixed.svg
-            "app/src/main/res/drawable/ic_camera_type_panning.xml", // tried res/graphics/surveillance/type_panning.svg
             "app/src/main/res/drawable/ic_car1.xml", // tried res/graphics/car1.xml/ic_car1.svg
             "app/src/main/res/drawable/ic_car1a.xml", // tried res/graphics/car1a.xml/ic_car1a.svg
             "app/src/main/res/drawable/ic_car1b.xml", // tried res/graphics/car1b.xml/ic_car1b.svg
@@ -541,6 +538,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         guessedFile = guessedFile.replace("beachvolleyball", "beach_volleyball")
         guessedFile = guessedFile.replace("simple_suspension", "simple-suspension")
         guessedFile = guessedFile.replace("cablestayed", "cable-stayed")
+        guessedFile = guessedFile.replace("type_panning.svg", "camera_panning.svg")
+        guessedFile = guessedFile.replace("type_dome.svg", "camera_dome.svg")
+        guessedFile = guessedFile.replace("type_fixed.svg", "camera.svg")
         guessedFile = guessedFile.replace("ic_living_street.svg", "default.svg")
         if (guessedFolder == "royal cypher") {
             if (" " !in guessedFile) {
