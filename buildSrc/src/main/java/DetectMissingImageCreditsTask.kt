@@ -330,6 +330,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         File("app/src/main/res/drawable/").walkTopDown().filter { it.extension == "xml" }.forEach {
             if (it.name in listOf(
                     "ic_railway_crossing_full_l.xml", // left-hand driving side flip - is it worth keeping .svg for this?
+                    "ic_railway_crossing_half_l.xml", // left-hand driving side flip - is it worth keeping .svg for this?
                     "ic_religion_animist.xml", // empty graphic (maybe an explictly empty graphic would be better here?
                 )
             ) {
@@ -364,6 +365,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             }
             if (guessedFolder == "pin") {
                 guessedFolder = "pins"
+            }
+            if (guessedFolder == "camera") {
+                guessedFolder = "surveillance"
             }
             listOf("stopping", "standing", "parking").forEach { code ->
                 if ("no_$code" in it.name) {
@@ -400,6 +404,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         guessedFile = guessedFile.replace("beachvolleyball", "beach_volleyball")
         guessedFile = guessedFile.replace("simple_suspension", "simple-suspension")
         guessedFile = guessedFile.replace("cablestayed", "cable-stayed")
+        guessedFile = guessedFile.replace("ic_living_street.svg", "default.svg")
         if (guessedFolder == "royal cypher") {
             if (" " !in guessedFile) {
                 val cypher = guessedFile.split(".")[0].toUpperCase(Locale.ENGLISH)
