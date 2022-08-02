@@ -140,7 +140,8 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "app/src/main/res/drawable/ic_team_mode_24dp.xml", // tried res/graphics/team/mode_24dp.svg
             "app/src/main/res/drawable/ic_town_silhouette.xml", // tried res/graphics/town/silhouette.svg
             "app/src/main/res/drawable/ic_truck.xml", // tried res/graphics/truck.xml/ic_truck.svg
-            "app/src/main/res/drawable/ic_undo_24dp.xml", // tried res/graphics/undo/24dp.svg        )
+            "app/src/main/res/drawable/ic_undo_24dp.xml", // tried res/graphics/undo/24dp.svg
+        )
     }
 
     private fun filesWithKnownProblemsAndSkipped(): Array<String> {
