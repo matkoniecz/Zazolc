@@ -471,7 +471,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     if ("ic_link_" in it.name) {
                         // some have no matching drawables but are fair use anyway...
                         // TODO maybe ad credits for them but with directly mention .xml files?
-                    } else if (it.name in drawableFileKnownToBeWithoutSvgMatch()) {
+                    } else if (it.path in drawableFileKnownToBeWithoutSvgMatch()) {
                         // TODO - the target is to remove this!
                     } else {
                         println(it.path + " // tried " + guessedFile.path)
