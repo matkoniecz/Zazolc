@@ -314,7 +314,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             // codes matching spdx codes
             "Public Domain", "CC0", "CC-BY-SA 1.0", "CC-BY-SA 2.0", "CC-BY-SA 2.5", "CC-BY-SA 3.0",
             "CC-BY-SA 4.0", "CC-BY 2.0", "CC-BY 3.0", "CC-BY 4.0", "OFL-1.1", "GPL-2.0-only",
-            "GPL-3.0-only", "ISC", "ODbL-1.0", "WTFPL",
+            "GPL-3.0-only", "ISC", "ODbL-1.0", "WTFPL"
         )
     }
 
@@ -328,9 +328,10 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             ./res/graphics/quest/pitch_lantern.svg
          */
         File("app/src/main/res/drawable/").walkTopDown().filter { it.extension == "xml" }.forEach {
-            if(it.name in listOf(
+            if (it.name in listOf(
                     "ic_railway_crossing_full_l.xml" // left-hand driving side flip - is it worth keeping .svg for this?
-                )) {
+                )
+            ) {
                 return@forEach
             }
             val guessedFile = svgOfDrawable(it)
@@ -394,8 +395,8 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         guessedFile = guessedFile.replace("beachvolleyball", "beach volleyball")
         guessedFile = guessedFile.replace("simple_suspension", "simple-suspension")
         guessedFile = guessedFile.replace("cablestayed", "cable-stayed")
-        if(guessedFolder == "royal cypher") {
-            if(" " !in guessedFile) {
+        if (guessedFolder == "royal cypher") {
+            if (" " !in guessedFile) {
                 val cypher = guessedFile.split(".")[0].toUpperCase(Locale.ENGLISH)
                 val extension = guessedFile.split(".")[0]
                 guessedFile = "$cypher.$extension"
