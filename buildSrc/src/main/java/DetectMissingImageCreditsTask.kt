@@ -27,13 +27,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             //////////////////////////////////////////////
             //////////////////////////////////////////////
 
-            // contacted FloEdelmann on https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
-            // https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
-            "bin.svg", // pin - https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
-            "picnic_table_cover.svg", // https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
-            "bicycle_parking_access.svg", // https://github.com/streetcomplete/StreetComplete/commit/b0dc6a9d0e10eb195fb566ee832e15bdb1790c0d#commitcomment-77199705
-            "bicycle_rental_capacity", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/bicycle_rental_capacity.svg https://github.com/streetcomplete/StreetComplete/commit/396dfbb7b6805f28de893eaf1e77960f85e177e2#diff-8cecc5df0db2b095b9deff1360855887da42441340b1d83e75648f39f2971a09
-
             // Contacted Naposm on https://github.com/streetcomplete/StreetComplete/pull/2675#issuecomment-1168967696
             "costiera.svg", // https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281 https://commons.wikimedia.org/wiki/File:Guardia_Costiera.svg
             "police.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/police.svg https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281
