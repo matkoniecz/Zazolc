@@ -478,7 +478,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         // script code nicer...
         if (it.name.startsWith("ic_")) {
             val likelyFolder = it.name.split("_")[1]
-            var removeFromFilename = likelyFolder
+            var removeFromFilename = "ic_${likelyFolder}_"
             var guessedFolder = likelyFolder
             val initial = svgOfDrawableFromElements(it, removeFromFilename, guessedFolder)
             if (initial.isFile) {
@@ -499,27 +499,27 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             listOf("stopping", "standing", "parking").forEach { code ->
                 if ("no_$code" in it.name) {
                     guessedFolder = "street parking/no $code sign"
-                    removeFromFilename = "no_$code"
+                    removeFromFilename = "ic_no_${code}_"
                 }
             }
             val foldersWithSpaces = File("res/graphics/").listFiles().filter { it.isDirectory && it.name.contains(" ") }
             foldersWithSpaces.forEach { folder ->
                 if (folder.name.replace(" ", "_") in it.name) {
                     guessedFolder = folder.name
-                    removeFromFilename = folder.name.replace(" ", "_")
+                    removeFromFilename = "ic_" + folder.name.replace(" ", "_") + "_"
                 }
             }
             if (it.name.startsWith("ic_postbox_royal_cypher")) {
                 guessedFolder = "royal cypher"
-                removeFromFilename = "postbox_royal_cypher"
+                removeFromFilename = "ic_postbox_royal_cypher_"
             }
             if (it.name.startsWith("ic_street_marking")) {
                 guessedFolder = "street parking/street edge marking"
-                removeFromFilename = "street_marking"
+                removeFromFilename = "ic_street_marking_"
             }
             if (it.name.startsWith("ic_no_entry_sign")) {
                 guessedFolder = "oneway/no entry signs"
-                removeFromFilename = "no_entry_sign"
+                removeFromFilename = "ic_no_entry_sign_"
             }
             return svgOfDrawableFromElements(it, removeFromFilename, guessedFolder)
         }
@@ -527,7 +527,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     }
 
     private fun svgOfDrawableFromElements(drawableFile: File, removeFromFilename: String, guessedFolder: String): File {
-        var guessedFile = drawableFile.name.replace("ic_${removeFromFilename}_", "").replace(".xml", ".svg")
+        var guessedFile = drawableFile.name.replace(removeFromFilename, "").replace(".xml", ".svg")
         guessedFile = guessedFile.replace("beachvolleyball", "beach_volleyball")
         guessedFile = guessedFile.replace("simple_suspension", "simple-suspension")
         guessedFile = guessedFile.replace("cablestayed", "cable-stayed")
