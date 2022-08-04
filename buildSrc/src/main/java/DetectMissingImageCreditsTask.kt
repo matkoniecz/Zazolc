@@ -220,7 +220,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "app/src/main/res/drawable/ic_open_in_browser_24dp.xml", // tried res/graphics/open/in_browser_24dp.svg
             "app/src/main/res/drawable/ic_open_in_browser_primary_24dp.xml", // tried res/graphics/open/in_browser_primary_24dp.svg
             "app/src/main/res/drawable/ic_osm_anon_avatar.xml", // tried res/graphics/osm/anon_avatar.svg
-            "app/src/main/res/drawable/ic_overlay_48dp.xml", // tried res/graphics/overlay/48dp.svg
             "app/src/main/res/drawable/ic_parking_no.xml", // tried res/graphics/parking/no.svg
             "app/src/main/res/drawable/ic_parking_separate.xml", // tried res/graphics/parking/separate.svg
             "app/src/main/res/drawable/ic_path_segregated.xml", // tried res/graphics/path/segregated.svg
@@ -228,7 +227,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "app/src/main/res/drawable/ic_path_segregated_no.xml", // tried res/graphics/path/segregated_no.svg
             "app/src/main/res/drawable/ic_patreon.xml", // tried res/graphics/patreon.xml/ic_patreon.svg
             "app/src/main/res/drawable/ic_postbox_royal_cypher_scottish_crown.xml", // tried res/graphics/royal cypher/SCOTTISH_CROWN.svg
-            "app/src/main/res/drawable/ic_profile_48dp.xml", // tried res/graphics/profile/48dp.svg
             "app/src/main/res/drawable/ic_quest_create_note.xml", // tried res/graphics/quest/create_note.svg
             "app/src/main/res/drawable/ic_roadtype_dual_carriageway.xml", // tried res/graphics/roadtype/dual_carriageway.svg
             "app/src/main/res/drawable/ic_roadtype_lit.xml", // tried res/graphics/roadtype/lit.svg
@@ -237,10 +235,12 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "app/src/main/res/drawable/ic_roadtype_urban_no.xml", // tried res/graphics/roadtype/urban_no.svg
             "app/src/main/res/drawable/ic_roof_round_skillion.xml", // tried res/graphics/roof shape/round_skillion.svg
             "app/src/main/res/drawable/ic_roof_skillion.xml", // tried res/graphics/roof shape/skillion.svg
+            "app/src/main/res/drawable/ic_overlay_48dp.xml", // tried res/graphics/overlay/48dp.svg
+            "app/src/main/res/drawable/ic_profile_48dp.xml", // tried res/graphics/profile/48dp.svg
             "app/src/main/res/drawable/ic_search_24dp.xml", // tried res/graphics/search/24dp.svg
             "app/src/main/res/drawable/ic_search_48dp.xml", // tried res/graphics/search/48dp.svg
-            "app/src/main/res/drawable/ic_search_black_128dp.xml", // tried res/graphics/search/black_128dp.svg
             "app/src/main/res/drawable/ic_settings_48dp.xml", // tried res/graphics/settings/48dp.svg
+            "app/src/main/res/drawable/ic_search_black_128dp.xml", // tried res/graphics/search/black_128dp.svg
             "app/src/main/res/drawable/ic_sidewalk_floating_separate.xml", // tried res/graphics/sidewalk/floating_separate.svg
             "app/src/main/res/drawable/ic_slim_arrow_up_16dp.xml", // tried res/graphics/slim/arrow_up_16dp.svg
             "app/src/main/res/drawable/ic_sport_racquet.xml", // tried res/graphics/sport/racquet.svg
