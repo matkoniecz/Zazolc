@@ -223,8 +223,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "app/src/main/res/drawable/ic_roadtype_lit_no.xml", // tried res/graphics/roadtype/lit_no.svg
             "app/src/main/res/drawable/ic_roadtype_urban.xml", // tried res/graphics/roadtype/urban.svg
             "app/src/main/res/drawable/ic_roadtype_urban_no.xml", // tried res/graphics/roadtype/urban_no.svg
-            "app/src/main/res/drawable/ic_roof_round_skillion.xml", // tried res/graphics/roof shape/round_skillion.svg
-            "app/src/main/res/drawable/ic_roof_skillion.xml", // tried res/graphics/roof shape/skillion.svg
             "app/src/main/res/drawable/ic_overlay_48dp.xml", // tried res/graphics/overlay/48dp.svg
             "app/src/main/res/drawable/ic_profile_48dp.xml", // tried res/graphics/profile/48dp.svg
             "app/src/main/res/drawable/ic_search_24dp.xml", // tried res/graphics/search/24dp.svg
@@ -534,6 +532,8 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         guessedFile = guessedFile.replace("type_dome.svg", "camera_dome.svg")
         guessedFile = guessedFile.replace("type_fixed.svg", "camera.svg")
         guessedFile = guessedFile.replace("ic_living_street.svg", "default.svg")
+        guessedFile = guessedFile.replace("skillion.svg", "skillion_south.svg") // one of multiple options was used
+
         if (guessedFolder == "royal cypher") {
             if (" " !in guessedFile) {
                 val cypher = guessedFile.split(".")[0].toUpperCase(Locale.ENGLISH)
