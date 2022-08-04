@@ -225,6 +225,7 @@ max weight/
 pins/
     bicycle_parking.svg
     bicycle_pump.svg
+    bicycle_rental.svg
     bin.svg                         Flo Edelmann, parts from https://www.svgrepo.com/svg/187115/trash (License: CC0 1.0)
     bench.svg
     car_air_compressor.svg
@@ -241,6 +242,7 @@ pins/
     recycling_container.svg         modified from Twemoji: U+267B
     surveillance_camera.svg
     toilets.svg
+    water.svg                       Flo Edelmann, parts from https://www.svgrepo.com/svg/24753/drop (License: CC0 1.0)
 
 italian police type/
     carabinieri.svg                 modified from https://commons.wikimedia.org/wiki/File:Italian_traffic_signs_-_icona_carabinieri.svg, Gigillo83, License: CC-BY-SA 3.0
@@ -609,6 +611,8 @@ lab_flask.svg                           from https://www.svgrepo.com/svg/353167/
 mail.svg
 
 osm_anon_avatar.svg
+
+overlay.svg
 
 ../../app/src/test/resources/
     hai_phong_street.jpg
