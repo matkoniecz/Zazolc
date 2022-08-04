@@ -162,16 +162,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "app/src/main/res/drawable/ic_bookmarks_48dp.xml", // tried res/graphics/bookmarks/48dp.svg
             "app/src/main/res/drawable/ic_building_levels_illustration.xml", // tried res/graphics/building levels/illustration.svg
             "app/src/main/res/drawable/ic_camera_measure_24dp.xml", // tried res/graphics/surveillance/measure_24dp.svg
-            "app/src/main/res/drawable/ic_car1.xml", // tried res/graphics/car1.xml/ic_car1.svg
-            "app/src/main/res/drawable/ic_car1a.xml", // tried res/graphics/car1a.xml/ic_car1a.svg
-            "app/src/main/res/drawable/ic_car1b.xml", // tried res/graphics/car1b.xml/ic_car1b.svg
-            "app/src/main/res/drawable/ic_car2.xml", // tried res/graphics/car2.xml/ic_car2.svg
-            "app/src/main/res/drawable/ic_car2a.xml", // tried res/graphics/car2a.xml/ic_car2a.svg
-            "app/src/main/res/drawable/ic_car2b.xml", // tried res/graphics/car2b.xml/ic_car2b.svg
-            "app/src/main/res/drawable/ic_car3.xml", // tried res/graphics/car3.xml/ic_car3.svg
-            "app/src/main/res/drawable/ic_car3a.xml", // tried res/graphics/car3a.xml/ic_car3a.svg
-            "app/src/main/res/drawable/ic_car4.xml", // tried res/graphics/car4.xml/ic_car4.svg
-            "app/src/main/res/drawable/ic_car5.xml", // tried res/graphics/car5.xml/ic_car5.svg
             "app/src/main/res/drawable/ic_check_48dp.xml", // tried res/graphics/check/48dp.svg
             "app/src/main/res/drawable/ic_checkmark_circle.xml", // tried res/graphics/checkmark/circle.svg
             "app/src/main/res/drawable/ic_chevron_next_24dp.xml", // tried res/graphics/chevron/next_24dp.svg
@@ -451,6 +441,11 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     "ic_railway_crossing_full_l.xml", // left-hand driving side flip - is it worth keeping .svg for this?
                     "ic_railway_crossing_half_l.xml", // left-hand driving side flip - is it worth keeping .svg for this?
                     "ic_religion_animist.xml", // empty graphic (maybe an explictly empty graphic would be better here?
+                    "ic_car1a.xml", // recolored ic_car1, missing in svg folder
+                    "ic_car1b.xml", // recolored ic_car1, missing in svg folder
+                    "ic_car2a.xml", // recolored ic_car1, missing in svg folder
+                    "ic_car2b.xml", // recolored ic_car1, missing in svg folder
+                    "ic_car3a.xml", // recolored ic_car1, missing in svg folder
                 )
             ) {
                 return@forEach
@@ -521,6 +516,10 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 guessedFolder = "oneway/no entry signs"
                 removeFromFilename = "ic_no_entry_sign_"
             }
+            if (it.name.startsWith("ic_car")) {
+                guessedFolder = "lanes"
+                removeFromFilename = "ic_"
+            }
             return svgOfDrawableFromElements(it, removeFromFilename, guessedFolder)
         }
         return null
@@ -542,7 +541,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 guessedFile = "$cypher.$extension"
             }
         }
-        if (guessedFolder == "lanes") {
+        if (guessedFolder == "lanes" && "car" !in guessedFile) {
             guessedFile = "lanes_$guessedFile"
         }
         return File("res/graphics/$guessedFolder/$guessedFile")
