@@ -610,7 +610,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         }
         for (licenced in knownLicenced) {
             if (licenced !in usedLicenced) {
-                System.err.println(licenced.file + " with path filter <" + licenced.folderPathFilter + "> from <" + licenced.source + "> appears to be credit for nonexisting file, either there is some typo or this file was deleted and credit also should be removed.")
+                System.err.println(licenced.file + " with path filter <" + licenced.folderPathFilter + "> from <" + licenced.filepathToCreditSource + "> appears to be credit for nonexisting file, either there is some typo or this file was deleted and credit also should be removed.")
                 problemsFoundCount += 1
             }
         }
@@ -624,9 +624,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         }
     }
 
-    private class LicenceData(val licence: String, val folderPathFilter: String, val file: String, val source: String) {
+    private class LicenceData(val licence: String, val folderPathFilter: String, val file: String, val filepathToCreditSource: String) {
         override fun toString(): String {
-            return "LicensedData(\"$licence\", \"$folderPathFilter\", \"$file\", \"$source\")"
+            return "LicensedData(\"$licence\", \"$folderPathFilter\", \"$file\", \"$filepathToCreditSource\")"
         }
     }
 
@@ -663,8 +663,8 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     }
 
     private fun licensedMediaGreedyScan(folderPath: String, skippedLines: Int): MutableList<LicenceData> {
-        val source = "$folderPath/authors.txt"
-        val inputStream: InputStream = File(source).inputStream()
+        val filepathToCreditSource = "$folderPath/authors.txt"
+        val inputStream: InputStream = File(filepathToCreditSource).inputStream()
         val inputString = inputStream.bufferedReader().use { it.readText() }
         val lines: List<String> = inputString.split("\n").drop(skippedLines)
         val knownLicenced = mutableListOf<LicenceData>()
@@ -692,7 +692,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             } else {
                 "$folderPath/$folder"
             }
-            knownLicenced += LicenceData(licence, filter, file, source)
+            knownLicenced += LicenceData(licence, filter, file, filepathToCreditSource)
         }
         return knownLicenced
     }
@@ -713,11 +713,11 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 val splitted = line.split(licence)
                 if (splitted.size == 2) {
                     val file = splitted[0].trim()
-                    val source = splitted[1].trim()
+                    val filepathToCreditSource = splitted[1].trim()
                     licenceFound = licence
-                    if (file.isNotEmpty() && source.isNotEmpty()) {
-                        knownLicenced += LicenceData(licence, location, file, source)
-                    } else if (entire_line.indexOf("                               ") == 0 && source.isNotEmpty()) {
+                    if (file.isNotEmpty() && filepathToCreditSource.isNotEmpty()) {
+                        knownLicenced += LicenceData(licence, location, file, filepathToCreditSource)
+                    } else if (entire_line.indexOf("                               ") == 0 && filepathToCreditSource.isNotEmpty()) {
                         // TODO: update license info as file is combination of multiple ones
                         // for now this is fine as this program only checks is license info present,
                         // it is not actually used
@@ -726,7 +726,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                         println("either file or source is empty, so skipping the entire line")
                         println("line: <$line>")
                         println("file: <$file>")
-                        println("source: <$source>")
+                        println("source: <$filepathToCreditSource>")
                         throw Exception()
                     }
                 }
