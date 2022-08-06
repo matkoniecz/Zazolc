@@ -865,23 +865,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     return true
                 }
             }
-            /*
-            println()
-            println("$filterTakenIntoAccount not matching app/${file.parentFile.path}") // TODO - remove app level indirection from credits?
-            println("$filterTakenIntoAccount not matching ${file.parentFile.path}")
-            println("$filterTakenIntoAccount not matching ${file.parentFile.path + "/"}")
-            allowedAdditionalSuffixes.forEach { suffix ->
-                println("$filterTakenIntoAccount$suffix not matching ${file.parentFile.path}")
-            }
-            println(filterTakenIntoAccount)
-            println(file.parentFile)
-            println(licencedData.folderPathFilter)
-            println(file.parentFile)
-            println(file)
-            println(file.path)
-            println(licencedData)
-            println()
-            */
             return false
         }
         return false
