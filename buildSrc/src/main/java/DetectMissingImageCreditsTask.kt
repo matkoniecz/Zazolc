@@ -830,7 +830,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         // handle relative paths such as ../../app/src/main/
         while (filterTakenIntoAccount.indexOf("..") != -1) {
             val cutStart = filterTakenIntoAccount.indexOf("..") + 3
-            filterTakenIntoAccount = filterTakenIntoAccount.substring(cutStart, filterTakenIntoAccount.length - 1)
+            filterTakenIntoAccount = filterTakenIntoAccount.substring(cutStart, filterTakenIntoAccount.length)
             // once such relative paths will start having conflict something smart will need to be implemented
             // no need for that for now, only part after last /../ is processed
         }
