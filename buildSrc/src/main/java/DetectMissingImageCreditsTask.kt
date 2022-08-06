@@ -624,7 +624,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             for (licenced in knownLicenced) {
                 if (fileMatchesLicenceDeclaration(file.filePath, licenced)) {
                     if (matched) {
-                        System.err.println(file.filePath.toString() + " matched to " + licenced.file + " but was matched already! License info should not be ambiguous and matching to multiple files!")
+                        System.err.println(file.filePath.toString() + " matched to " + licenced.file + " with path filter " + licenced.folderPathFilter +  " but was matched already! License info should not be ambiguous and matching to multiple files!")
                         problemsFoundCount += 1
                     } else {
                         billOfMaterials += LicencedFile(licenced, file)
