@@ -838,8 +838,10 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         if (filterTakenIntoAccount !in file.path) {
             return false
         }
-        val fileName = file.name
-        val licencedFile = licencedData.file
+        return filenameMatchesFilenameInLicenceDeclaration(file.name, licencedData.file)
+    }
+
+    private fun filenameMatchesFilenameInLicenceDeclaration(fileName: String, licencedFile: String): Boolean {
         if (licencedFile[licencedFile.length - 1] == '…') {
             return fileMatchesShortenedLicenceDeclaration(fileName, licencedFile.substring(0, licencedFile.length - 1))
         }
