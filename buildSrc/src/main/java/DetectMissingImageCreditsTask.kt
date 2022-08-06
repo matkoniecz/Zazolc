@@ -631,7 +631,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 val name = file.filePath.name
                 if (name !in publicDomainAsSimpleShapesFilenames()) {
                     if (containsSkippedFile(name)) {
-                        println("skipping $name as listed on files with known problems")
+                        println("skipping unmatched $name as listed on files with known problems")
                         skippedProblemsFoundCount += 1
                     } else {
                         System.err.println(file.filePath.toString() + ",")
@@ -682,7 +682,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     private fun containsSkippedFile(pattern: String): Boolean {
         for (file in filesWithKnownProblemsAndSkipped()) {
             if (pattern.contains(file)) {
-                println("skipping $file as listed on files with known problems")
+                //println("skipping $file as listed on files with known problems")
                 return true
             }
         }
