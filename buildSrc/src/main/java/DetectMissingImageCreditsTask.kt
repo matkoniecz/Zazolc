@@ -827,6 +827,8 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
     private fun fileMatchesLicenceDeclaration(file: File, licencedData: LicenceData): Boolean {
         var filterTakenIntoAccount = licencedData.folderPathFilter
+
+        // handle relative paths such as ../../app/src/main/
         while (filterTakenIntoAccount.indexOf("..") != -1) {
             val cutStart = filterTakenIntoAccount.indexOf("..") + 3
             filterTakenIntoAccount = filterTakenIntoAccount.substring(cutStart, filterTakenIntoAccount.length - 1)
