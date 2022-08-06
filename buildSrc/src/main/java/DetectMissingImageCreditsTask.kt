@@ -647,8 +647,13 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         }
         for (licenced in knownLicenced) {
             if (licenced !in usedLicenced) {
-                System.err.println(licenced.file + " with path filter <" + licenced.folderPathFilter + "> from <" + licenced.filepathToCreditSource + "> appears to be credit for nonexisting file, either there is some typo or this file was deleted and credit also should be removed.")
-                problemsFoundCount += 1
+                if (containsSkippedFile(licenced.file)) {
+                    System.err.println(licenced.file + " with path filter <" + licenced.folderPathFilter + "> from <" + licenced.filepathToCreditSource + "> credit that has not matched anything was skipped.")
+                    skippedProblemsFoundCount += 1
+                } else {
+                    System.err.println(licenced.file + " with path filter <" + licenced.folderPathFilter + "> from <" + licenced.filepathToCreditSource + "> appears to be credit for nonexisting file, either there is some typo or this file was deleted and credit also should be removed.")
+                    problemsFoundCount += 1
+                }
             }
         }
         if (problemsFoundCount > 0) {
