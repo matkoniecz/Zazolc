@@ -826,23 +826,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     }
 
     private fun fileMatchesLicenceDeclaration(file: File, licencedData: LicenceData): Boolean {
-        /*
-        if ("cable-stayed" in file.name || "flask" in file.name) {
-            if (licencedData.folderPathFilter !in file.path) {
-                println("<<<<<<<<<<<<<<<<<<")
-                println(licencedData.folderPathFilter)
-                println("is not in")
-                println(file.path)
-                println(">>>>>>>>>>>>>>>>>>>>>>>>")
-            } else {
-                println("<<-----")
-                println(licencedData.folderPathFilter)
-                println("is in")
-                println(file.path)
-                println(">>-----")
-            }
-        }
-         */
         var filterTakenIntoAccount = licencedData.folderPathFilter
         while (filterTakenIntoAccount.indexOf("..") != -1) {
             val cutStart = filterTakenIntoAccount.indexOf("..") + 3
