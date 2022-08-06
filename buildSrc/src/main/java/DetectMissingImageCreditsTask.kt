@@ -125,7 +125,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             // https://github.com/streetcomplete/StreetComplete/commits/fa8bcd6ee5fa58334a8b844ae1c12522135fda8d/res/recycling%20icons/glass_bottles.svg?browsing_rename_history=true&new_path=res/graphics/recycling/glass_bottles.svg&original_branch=master
             // https://github.com/streetcomplete/StreetComplete/commit/575424b3a3009b75927d0f3c5a9c6f4c26ebea11#diff-6bf317e40f3d87cd7ecce87cca6d4d5f7d191303725529369cafe6728971bca3
 
-
             // res/graphics/living street
             // definitely fine, just not sure why (traffic signs transformed by Tobias)
             "mexico.svg", // https://github.com/streetcomplete/StreetComplete/commit/d457a6d737020bbd8ded4e994895fe98633e8944#diff-5cfacbd57f9f933ea18b64f99f291230e36d968531bb21af6e114324dd9c22b6
@@ -624,7 +623,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             for (licenced in knownLicenced) {
                 if (fileMatchesLicenceDeclaration(file.filePath, licenced)) {
                     if (matched) {
-                        System.err.println(file.filePath.toString() + " matched to " + licenced.file + " with path filter " + licenced.folderPathFilter +  " but was matched already! License info should not be ambiguous and matching to multiple files!")
+                        System.err.println(file.filePath.toString() + " matched to " + licenced.file + " with path filter " + licenced.folderPathFilter + " but was matched already! License info should not be ambiguous and matching to multiple files!")
                         problemsFoundCount += 1
                     } else {
                         billOfMaterials += LicencedFile(licenced, file)
