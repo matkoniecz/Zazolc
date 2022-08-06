@@ -160,6 +160,13 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "overview_data_flow.svg",
             "overview_data_flow.drawio",
 
+            // mess of zero importance
+            // png file does not exist somehow, only xml one exists
+            // but it is fair use, should we even have png file
+            // no reason to spend time on that unless it is blocking merge
+            // of that checker into main StreetComplete
+            "ic_link_cyclosm",
+
             // rare case where drawable in a specific country is placed in
             // for example filepath
             // ./app/src/main/res/drawable-mcc505-xhdpi/vibrating_button_illustration.jpg
