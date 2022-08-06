@@ -27,10 +27,15 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             //////////////////////////////////////////////
             //////////////////////////////////////////////
 
-            // Contacted Naposm on https://github.com/streetcomplete/StreetComplete/pull/2675#issuecomment-1168967696
+            // Contacted Naposm
+            // https://github.com/streetcomplete/StreetComplete/pull/2675#issuecomment-1168967696
             "costiera.svg", // https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281 https://commons.wikimedia.org/wiki/File:Guardia_Costiera.svg
             "police.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/police.svg https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281
             "fuel_self_service.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/fuel_self_service.svg https://github.com/streetcomplete/StreetComplete/commit/dbc19c8651cd987acb4044343c5d07c5d2ff56e6
+
+            // contacted
+            // https://github.com/streetcomplete/StreetComplete/commit/699478ef9c6eb6f36ed84dbaca723d13323e345c#commitcomment-80477882
+            "halal.svg", // see https://github.com/streetcomplete/StreetComplete/commits/6e419923e6732030a7d41196676230b242c92ece/res/graphics/quest%20icons/halal.svg?browsing_rename_history=true&new_path=res/graphics/quest/halal.svg&original_branch=master for ping
 
             //////////////////////////////////////////////
             //////////////////////////////////////////////
@@ -54,10 +59,26 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             https://github.com/streetcomplete/StreetComplete/discussions/new
             More copyright botherings
             @westnordost
-
-Sorry for bothering you about this, but some of media that were likely created fully by you are missing copyright info. Can you confirm that you took this photos?
-
+Sorry for bothering you about this, but some of media that were likely created fully by you are missing copyright info. Can you confirm that you took this photos or made this icons?
             */
+
+            // https://github.com/streetcomplete/StreetComplete/commit/b6d9fc144c38dae74c7362b56bbdad993f48b27c (right side, first row reaching right side, next to banned pedestrians)
+            "footway_surface.svg",
+
+            // https://github.com/streetcomplete/StreetComplete/commit/d2eab470e510247ed1c3fd121680746a05d8b315
+            // but only adding missing one
+            // but likely not even qualifying for copyright
+            // drawable added in https://github.com/streetcomplete/StreetComplete/commit/5a3774e84ec6ab4ddf01bfad38d86c9bb303bd8f
+            "check_shop.svg",
+
+            // added in https://github.com/streetcomplete/StreetComplete/commit/575424b3a3009b75927d0f3c5a9c6f4c26ebea11#diff-6bf317e40f3d87cd7ecce87cca6d4d5f7d191303725529369cafe6728971bca3
+            // recycling/glass.svg
+            "glass.svg",
+            // this one seems clearly with @westnordost as sole author, but I prefer to ask
+            // quest/recycling_glass.svg is listed as using Twemoji: U+267B ( https://commons.wikimedia.org/wiki/File:Twemoji_267b.svg - recycling icon ), otherwise done by @westnordost
+            // recycling/glass_bottles.svg is listed in credits with @westnordost as sole author
+
+            // end of WNO questions
 
             // res/graphics/pins/
             "clock.svg",
@@ -74,12 +95,9 @@ Sorry for bothering you about this, but some of media that were likely created f
             "shared_lane_france.svg",
             "lane_france.svg",
 
-            // res/graphics/quest - TODO ask Tobias, check sources
-
-            "halal.svg", // see https://github.com/streetcomplete/StreetComplete/commits/6e419923e6732030a7d41196676230b242c92ece/res/graphics/quest%20icons/halal.svg?browsing_rename_history=true&new_path=res/graphics/quest/halal.svg&original_branch=master for ping
-
             // res/graphics/undo/
             "visibility.svg",
+            "split.svg",
 
             // Tobias - sole or used something else?
             /*
@@ -92,16 +110,13 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
 //------------------
 //new questions
-            "footway_surface.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/footway_surface.svg https://github.com/streetcomplete/StreetComplete/commit/b6d9fc144c38dae74c7362b56bbdad993f48b27c#diff-85f51c694a65e4eae5e63b8bb238cd69e38a76cf38677c2c730c78636bddca9d
 
 // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
-// https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/board_type.svg
 
             "bicycleway_surface_detail.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
+            "footway_surface_detail.svg",
 
             "sidewalk_surface.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
-
-            "check_shop.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/check_shop.svg
 
             "max_height_measure.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/max_height_measure.svg
 
@@ -109,14 +124,16 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             // confirm
             // https://github.com/streetcomplete/StreetComplete/commits/fa8bcd6ee5fa58334a8b844ae1c12522135fda8d/res/recycling%20icons/glass_bottles.svg?browsing_rename_history=true&new_path=res/graphics/recycling/glass_bottles.svg&original_branch=master
             // https://github.com/streetcomplete/StreetComplete/commit/575424b3a3009b75927d0f3c5a9c6f4c26ebea11#diff-6bf317e40f3d87cd7ecce87cca6d4d5f7d191303725529369cafe6728971bca3
-            "glass.svg",
-            "glass_bottles.svg",
+
 
             // res/graphics/living street
             // definitely fine, just not sure why (traffic signs transformed by Tobias)
             "mexico.svg", // https://github.com/streetcomplete/StreetComplete/commit/d457a6d737020bbd8ded4e994895fe98633e8944#diff-5cfacbd57f9f933ea18b64f99f291230e36d968531bb21af6e114324dd9c22b6
             // should it be also "Tobias Zwick CC-BY-SA 4.0 (based on public domain traffic sign design)"
             // BTW, is "Tobias Zwick CC-BY-SA 4.0 (based on public domain traffic sign design)" OK for other files in https://github.com/streetcomplete/StreetComplete/tree/master/res/graphics/living%20street ?
+
+            // res/graphics/step count
+            "step.svg",
 
             // res/graphics/ar/
             "camera_measure_24dp.svg",
@@ -132,12 +149,32 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "street_parking_bays_perpendicular.svg",
             "street_marked_parking_parallel.svg",
 
+            // note
+            "add_photo_24dp.svg",
+            "attach_gpx_24dp.svg",
+
             // res/documentation
             // skipped for now
             "get_poeditor_cookie.png",
             "how-it-handles edits.odp",
             "overview_data_flow.svg",
-            "overview_data_flow.drawio"
+            "overview_data_flow.drawio",
+
+            // rare case where drawable in a specific country is placed in
+            // for example filepath
+            // ./app/src/main/res/drawable-mcc505-xhdpi/vibrating_button_illustration.jpg
+            // what overrides
+            // ./app/src/main/res/drawable-xhdpi/vibrating_button_illustration.jpg
+            // in specific area via special handling
+            //
+            // rare, there is no need to handle this specially
+            "vibrating_button_i... (MCC234)",
+            "vibrating_button_i... (MCC505)",
+
+            // not even recognized as media
+            "*.json",
+            "fonts/*.*",
+            "ic_trophy.xml",
         )
     }
 
