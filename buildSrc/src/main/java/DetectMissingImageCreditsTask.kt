@@ -825,15 +825,8 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     }
 
     private fun fileMatchesLicenceDeclaration(file: File, licencedData: LicenceData): Boolean {
-        var filterTakenIntoAccount = licencedData.folderPathFilter
+        val filterTakenIntoAccount = actuallyUsedPathFilter(licencedData.folderPathFilter)
 
-        // handle relative paths such as ../../app/src/main/
-        while (filterTakenIntoAccount.indexOf("..") != -1) {
-            val cutStart = filterTakenIntoAccount.indexOf("..") + 3
-            filterTakenIntoAccount = filterTakenIntoAccount.substring(cutStart, filterTakenIntoAccount.length)
-            // once such relative paths will start having conflict something smart will need to be implemented
-            // no need for that for now, only part after last /../ is processed
-        }
         if (filterTakenIntoAccount !in file.path) {
             // completely missing and mismatching, there is no hope here
             return false
@@ -841,7 +834,45 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
         // detect case where /res/graphics/pins/mail.svg matches something with
         // folderPathFilter /res/graphics/mail.svg
+        if (!filenameMatchesFilenameInLicenceDeclaration(file.name, licencedData.file)) {
+            return false
+        }
+        if (filterTakenIntoAccount == "app/" + file.parentFile.path) {
+            return true
+        }
+        if (filterTakenIntoAccount == file.parentFile.path + "/") {
+            return true
+        }
+        suffixesForDrawablePaths().forEach { suffix ->
+            if ("$filterTakenIntoAccount$suffix" == file.parentFile.path) {
+                return true
+            }
+        }
+        /*
+        println("app/$filterTakenIntoAccount != ${file.parentFile.path}")
+        println("$filterTakenIntoAccount != ${file.parentFile.path}/")
+        suffixesForDrawablePaths().forEach { suffix ->
+            println("$filterTakenIntoAccount$suffix != ${file.parentFile.path}")
+        }
+        */
+        return false
+    }
+
+    private fun actuallyUsedPathFilter(folderPathFilter: String): String {
+        var filterTakenIntoAccount = folderPathFilter
+        // handle relative paths such as ../../app/src/main/
+        while (filterTakenIntoAccount.indexOf("..") != -1) {
+            val cutStart = filterTakenIntoAccount.indexOf("..") + 3
+            filterTakenIntoAccount = filterTakenIntoAccount.substring(cutStart, filterTakenIntoAccount.length)
+            // once such relative paths will start having conflict something smart will need to be implemented
+            // no need for that for now, only part after last /../ is processed
+        }
+        return filterTakenIntoAccount
+    }
+
+    private fun suffixesForDrawablePaths(): List<String> {
         val allowedAdditionalSuffixes = mutableListOf<String>()
+        allowedAdditionalSuffixes.add("")
         allowedAdditionalSuffixes.add("/drawable-nodpi")
         allowedAdditionalSuffixes.add("/raw")
         listOf("l", "m", "h", "xh", "xxh", "xxxh").forEach { resolution ->
@@ -850,24 +881,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             allowedAdditionalSuffixes.add("/drawable-mcc505-${resolution}dpi")
             allowedAdditionalSuffixes.add("/drawable-${resolution}dpi")
         }
-        if (filenameMatchesFilenameInLicenceDeclaration(file.name, licencedData.file)) {
-            if (filterTakenIntoAccount == "app/" + file.parentFile.path) {
-                return true
-            }
-            if (filterTakenIntoAccount == file.parentFile.path) {
-                return true
-            }
-            if (filterTakenIntoAccount == file.parentFile.path + "/") {
-                return true
-            }
-            allowedAdditionalSuffixes.forEach { suffix ->
-                if ("$filterTakenIntoAccount$suffix" == file.parentFile.path) {
-                    return true
-                }
-            }
-            return false
-        }
-        return false
+        return allowedAdditionalSuffixes
     }
 
     private fun filenameMatchesFilenameInLicenceDeclaration(fileName: String, licencedFile: String): Boolean {
@@ -895,7 +909,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             mapOf("filename" to "text", "licencedIdentifier" to "text")
         )
         for (pair in matchingPairs) {
-            if (!fileMatchesLicenceDeclaration(File("path" + "/" + pair["filename"]!!), LicenceData("license", "path/", pair["licencedIdentifier"]!!, "selfTest artificial data"))) { // TODO: !! should be not needed here
+            if (!fileMatchesLicenceDeclaration(File("path" + "/" + pair["filename"]!!), LicenceData("license", "path", pair["licencedIdentifier"]!!, "selfTest artificial data"))) { // TODO: !! should be not needed here
                 throw Exception("$pair failed to match")
             }
         }
