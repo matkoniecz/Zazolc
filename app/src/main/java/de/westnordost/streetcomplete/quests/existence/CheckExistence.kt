@@ -25,6 +25,7 @@ class CheckExistence(
             or amenity = vending_machine and vending !~ fuel|parking_tickets|public_transport_tickets
             or amenity = parcel_locker
             or amenity = public_bookcase
+            or barrier = log
           )
           and (${lastChecked(2.0)})
         ) or (
@@ -67,7 +68,7 @@ class CheckExistence(
             amenity = bench
             or amenity = lounger
             or amenity = waste_basket
-            or traffic_calming ~ bump|hump|island|cushion|choker|rumble_strip|chicane|dip
+            or traffic_calming ~ bump|mini_bumps|hump|cushion|rumble_strip|dip|double_dip
             or traffic_calming = table and !highway and !crossing
 
 
