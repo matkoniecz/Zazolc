@@ -368,8 +368,16 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             }
             var validLicenseStatus = false
             var licenseLink = ""
-            licenced.mediaSource?.split(" ")?.filter { it.startsWith("http") }?.forEach {
-                if (it.startsWith("https://github.com/westnordost/StreetComplete/")) {
+            val linksInSource = licenced.mediaSource?.split(" ")?.filter { it.startsWith("http") }
+            if (linksInSource == null || linksInSource.isEmpty()) {
+                continue
+            }
+            linksInSource.forEach {
+                if (it.startsWith("https://github.com/streetcomplete/StreetComplete/")) {
+                    // assumed to be reviewed
+                    validLicenseStatus = true
+                    licenseLink = it
+                } else if (it.startsWith("https://github.com/westnordost/StreetComplete/")) { // TODO eliminate
                     // assumed to be reviewed
                     validLicenseStatus = true
                     licenseLink = it
@@ -389,6 +397,12 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     validLicenseStatus = true
                     // TODO handle
                 } else if (it.startsWith("https://www.geograph.ie")) {
+                    validLicenseStatus = true
+                    // TODO handle
+                } else if (it.startsWith("https://pixabay.com")) {
+                    validLicenseStatus = true
+                    // TODO handle
+                } else if (it.startsWith("https://flickr.com")) {
                     validLicenseStatus = true
                     // TODO handle
                 } else {
