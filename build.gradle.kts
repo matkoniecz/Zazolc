@@ -56,6 +56,10 @@ tasks.register<DetectMissingImageCreditsTask>("detectMissingImageCreditsTask") {
     group = "streetcomplete"
 }
 
+tasks.register<DetectMissingImageInSvgFormatTask>("detectMissingImageInSvgFormatTask") {
+    group = "streetcomplete"
+}
+
 tasks.register<GenerateQuestListTask>("generateQuestList") {
     group = "streetcomplete"
     targetFile = "$projectDir/quest-list.csv"
