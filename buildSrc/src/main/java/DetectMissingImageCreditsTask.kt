@@ -2,7 +2,6 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.io.InputStream
-import java.util.Locale
 import kotlin.system.exitProcess
 
 /*
@@ -350,7 +349,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "GPL-3.0-only", "ISC", "ODbL-1.0", "WTFPL"
         )
     }
-
 
     @TaskAction fun run() {
         selfTest()
