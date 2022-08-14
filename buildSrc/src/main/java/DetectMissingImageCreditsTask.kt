@@ -719,7 +719,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         }
     }
 
-    private class LicenceData(val licence: String, val mediaSource:String?, val folderPathFilter: String, val file: String, val filepathToCreditSource: String) {
+    private class LicenceData(val licence: String, val mediaSource: String?, val folderPathFilter: String, val file: String, val filepathToCreditSource: String) {
         override fun toString(): String {
             return "LicensedData(\"$licence\", \"$folderPathFilter\", \"$file\", \"$filepathToCreditSource\")"
         }
