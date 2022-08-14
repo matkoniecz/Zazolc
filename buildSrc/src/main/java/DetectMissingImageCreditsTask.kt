@@ -597,11 +597,58 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
         areThereMatchingSvgsForDrawables()
 
+        for (licenced in knownLicenced) {
+            if (licenced.licence == "fair use") {
+                continue
+            }
+            if (licenced.licence == "?") {
+                // TODO: ideally would not happen and would trigger warning but for now...
+                continue
+            }
+            var validLicenseStatus = false
+            var licenseLink = ""
+            licenced.mediaSource?.split(" ")?.filter { it.startsWith("http") }?.forEach {
+                if (it.startsWith("https://github.com/westnordost/StreetComplete/")) {
+                    // assumed to be reviewed
+                    validLicenseStatus = true
+                    licenseLink = it
+                } else if (it.startsWith("https://commons.wikimedia.org/")) {
+                    licenseLink = it
+                    // should be reviewed
+                    // TODO
+                    validLicenseStatus = true
+                    val fileName = licenseLink.replace("https://commons.wikimedia.org/wiki/File:", "")
+                } else if (it.startsWith("https://wiki.openstreetmap.org/wiki/")) {
+                    licenseLink = it
+                    // should be reviewed
+                    // TODO
+                    validLicenseStatus = true
+                    val fileName = licenseLink.replace("https://commons.wikimedia.org/wiki/File:", "")
+                } else if (it.startsWith("https://www.geograph.org.uk")) {
+                    validLicenseStatus = true
+                    // TODO handle
+                } else if (it.startsWith("https://www.geograph.ie")) {
+                    validLicenseStatus = true
+                    // TODO handle
+                } else {
+                    // ???
+                }
+            }
+            if (!validLicenseStatus) {
+                println("-----------")
+                println("suspected invalid license state...")
+                println(licenced.file)
+                println(licenced.licence)
+                println(licenced.mediaSource)
+                println(licenced.filepathToCreditSource)
+            }
+        }
+
         /*
         println("---identifiers")
         println("---------")
         println("---------")
-        for(licenced in knownLicenced) {
+        for (licenced in knownLicenced) {
             println("-----------")
             println(licenced.file)
         }
@@ -609,7 +656,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         println("---file names")
         println("---------")
         println("---------")
-        for(file in mediaFiles) {
+        for (file in mediaFiles) {
             println("-----------")
             println(file.filePath.getName())
         }
@@ -646,7 +693,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                         problemsFoundCount += 1
                     }
                 } else {
-                    val licenced = LicenceData("public domain", "not actually applicable", name, "listed in publicDomainAsSimpleShapesFilenames() as simple enough to not be copyrightable")
+                    val licenced = LicenceData("public domain", null, "not actually applicable", name, "listed in publicDomainAsSimpleShapesFilenames() as simple enough to not be copyrightable")
                     billOfMaterials += LicencedFile(licenced, file)
                 }
             }
@@ -672,7 +719,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         }
     }
 
-    private class LicenceData(val licence: String, val folderPathFilter: String, val file: String, val filepathToCreditSource: String) {
+    private class LicenceData(val licence: String, val mediaSource:String?, val folderPathFilter: String, val file: String, val filepathToCreditSource: String) {
         override fun toString(): String {
             return "LicensedData(\"$licence\", \"$folderPathFilter\", \"$file\", \"$filepathToCreditSource\")"
         }
@@ -735,12 +782,22 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             val splitted = line.split(" ")
             val file = splitted[0].trim()
             val licence = "?"
+            val mediaSource = "?"
+            if (splitted.size == 1) {
+                println()
+                println(filepathToCreditSource)
+                println(entire_line)
+                println("is it safe to assume Westnordost as the author?")
+                println()
+            } else {
+                println(entire_line + "HOW TO EXTRACT LICENSE DATA HERE?")
+            }
             val filter = if (folder == null) {
                 folderPath
             } else {
                 "$folderPath/$folder"
             }
-            knownLicenced += LicenceData(licence, filter, file, filepathToCreditSource)
+            knownLicenced += LicenceData(licence, mediaSource, filter, file, filepathToCreditSource)
         }
         return knownLicenced
     }
@@ -748,7 +805,8 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     private fun licencedMediaInApplicationResourceFile(): MutableList<LicenceData> {
         val location = "app/src/main/res"
         val knownLicenced = mutableListOf<LicenceData>()
-        val inputStream: InputStream = File("$location/authors.txt").inputStream()
+        val authorsFilePath = "$location/authors.txt"
+        val inputStream: InputStream = File(authorsFilePath).inputStream()
         val inputString = inputStream.bufferedReader().use { it.readText() }
         for (entire_line in inputString.split("\n").drop(3)) { // remove header lines
             var skipped = false
@@ -764,7 +822,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     val filepathToCreditSource = splitted[1].trim()
                     licenceFound = licence
                     if (file.isNotEmpty() && filepathToCreditSource.isNotEmpty()) {
-                        knownLicenced += LicenceData(licence, location, file, filepathToCreditSource)
+                        knownLicenced += LicenceData(licence, filepathToCreditSource, location, file, authorsFilePath)
                     } else if (entire_line.indexOf("                               ") == 0 && filepathToCreditSource.isNotEmpty()) {
                         // TODO: update license info as file is combination of multiple ones
                         // for now this is fine as this program only checks is license info present,
@@ -909,7 +967,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             mapOf("filename" to "text", "licencedIdentifier" to "text")
         )
         for (pair in matchingPairs) {
-            if (!fileMatchesLicenceDeclaration(File("path" + "/" + pair["filename"]!!), LicenceData("license", "path", pair["licencedIdentifier"]!!, "selfTest artificial data"))) { // TODO: !! should be not needed here
+            if (!fileMatchesLicenceDeclaration(File("path" + "/" + pair["filename"]!!), LicenceData("license", "file source", "path", pair["licencedIdentifier"]!!, "selfTest artificial data"))) { // TODO: !! should be not needed here
                 throw Exception("$pair failed to match")
             }
         }
