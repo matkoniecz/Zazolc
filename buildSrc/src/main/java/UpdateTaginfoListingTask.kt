@@ -142,6 +142,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             File(folder.toString()).walkTopDown().forEach {
                 if (it.isFile) {
                     if (isQuestFile(it)) {
+                        println(it)
                         addedOrEditedTags(it)!!.forEach { tags ->
                             foundTags.add(TagQuestInfo(tags, it.name, getChangesetComment(it), getIconUrl(it)))
                         }
@@ -151,6 +152,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         generateReport(foundTags)
         reportResultOfDataCollection(foundTags)
+        println("checkOsmWikiPagesExistence")
         checkOsmWikiPagesExistence(foundTags)
     }
 

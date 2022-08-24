@@ -3797,6 +3797,72 @@
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/label.svg"
         },
         {
+            "key": "shower",
+            "value": "yes",
+            "description": "tag added by 'Specify whether there are showers available at camp site' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/shower.svg"
+        },
+        {
+            "key": "shower",
+            "value": "no",
+            "description": "tag added by 'Specify whether there are showers available at camp site' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/shower.svg"
+        },
+        {
+            "key": "power_supply",
+            "value": "yes",
+            "description": "tag added by 'Specify whether there is electricity available at camp site' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/camp_power.svg"
+        },
+        {
+            "key": "power_supply",
+            "value": "no",
+            "description": "tag added by 'Specify whether there is electricity available at camp site' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/camp_power.svg"
+        },
+        {
+            "key": "drinking_water",
+            "value": "yes",
+            "description": "tag added by 'Specify whether there is drinking water at camp site' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/drinking_water.svg"
+        },
+        {
+            "key": "drinking_water",
+            "value": "no",
+            "description": "tag added by 'Specify whether there is drinking water at camp site' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/drinking_water.svg"
+        },
+        {
+            "key": "backcountry",
+            "value": "yes",
+            "description": "tag added by 'Survey who may camp here' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/tent.svg"
+        },
+        {
+            "key": "tents",
+            "value": "yes",
+            "description": "tag added by 'Survey who may camp here' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/tent.svg"
+        },
+        {
+            "key": "tents",
+            "value": "no",
+            "description": "tag added by 'Survey who may camp here' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/tent.svg"
+        },
+        {
+            "key": "caravans",
+            "value": "yes",
+            "description": "tag added by 'Survey who may camp here' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/tent.svg"
+        },
+        {
+            "key": "caravans",
+            "value": "no",
+            "description": "tag added by 'Survey who may camp here' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/tent.svg"
+        },
+        {
             "key": "covered",
             "value": "yes",
             "description": "tag added by 'Specify bicycle parkings covers' quest",
