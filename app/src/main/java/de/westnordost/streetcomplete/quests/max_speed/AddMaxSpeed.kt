@@ -30,6 +30,7 @@ class AddMaxSpeed : OsmFilterQuestType<MaxSpeedAnswer>() {
     // see #813: US has different rules for each different state which need to be respected
     override val enabledInCountries = AllCountriesExcept("US")
     override val achievements = listOf(CAR)
+    override val defaultDisabledMessage = R.string.default_disabled_msg_maxspeed
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_maxspeed_title_short2
 
