@@ -26,15 +26,18 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             //////////////////////////////////////////////
             //////////////////////////////////////////////
 
+            // https://github.com/streetcomplete/StreetComplete/tree/master/res/graphics/cycleway
+            // asked on https://github.com/streetcomplete/StreetComplete/discussions/4321
+            "lane_norway.svg",
+            "none_no_oneway_l.svg",
+            "none_no_oneway.svg",
+            "lane_france.svg",
+
             // Contacted Naposm
             // https://github.com/streetcomplete/StreetComplete/pull/2675#issuecomment-1168967696
             "costiera.svg", // https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281 https://commons.wikimedia.org/wiki/File:Guardia_Costiera.svg
             "police.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/police.svg https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281
             "fuel_self_service.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/fuel_self_service.svg https://github.com/streetcomplete/StreetComplete/commit/dbc19c8651cd987acb4044343c5d07c5d2ff56e6
-
-            // contacted
-            // https://github.com/streetcomplete/StreetComplete/commit/699478ef9c6eb6f36ed84dbaca723d13323e345c#commitcomment-80477882
-            "halal.svg", // see https://github.com/streetcomplete/StreetComplete/commits/6e419923e6732030a7d41196676230b242c92ece/res/graphics/quest%20icons/halal.svg?browsing_rename_history=true&new_path=res/graphics/quest/halal.svg&original_branch=master for ping
 
             //////////////////////////////////////////////
             //////////////////////////////////////////////
@@ -85,14 +88,8 @@ Sorry for bothering you about this, but some of media that were likely created f
             "book.svg",
             "crossing.svg",
 
-            // res/graphics/cycleway/
             // what is the source of bicycle icon?
             // Seems copyrightable? See https://commons.wikimedia.org/wiki/Category:Bicycle_icons
-            "lane_norway.svg",
-            "none_no_oneway_l.svg",
-            "none_no_oneway.svg",
-            "shared_lane_france.svg",
-            "lane_france.svg",
 
             // res/graphics/undo/
             "visibility.svg",
@@ -135,7 +132,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
             // res/graphics/ar/
             "camera_measure_24dp.svg",
-            "start_over.svg", // also PD-shape anyway
             "hand_phone.svg",
 
             // res/graphics/street parking
@@ -184,6 +180,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     }
 
     private fun publicDomainAsSimpleShapesFilenames(): Array<String> {
+        // would be marked with PD-shape on Wikimedia Commons or OSM Wiki
         return arrayOf(
             "speech_bubble_top.9.png",
             "speech_bubble_top.9.svg",
@@ -202,6 +199,21 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "ic_star_white_shadow_32dp.png",
             "ic_none.png",
 
+            // res/graphics/oneway/no entry signs
+            "arrow.svg",
+            "default.svg",
+            "do_not_enter.svg",
+            "no_entre.svg",
+            "no_entry.svg",
+            "no_entry_on_white.svg",
+            "yellow.svg",
+
+            // res/graphics/ar/
+            "start_over.svg",
+
+            // res/graphics/cycleway/
+            "shared_lane_france.svg",
+
             // res/graphics/pins/
             // TODO still worth asking Tobias but with a lower priority
             "parking.svg",
@@ -216,15 +228,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "lanes_marked_odd.svg",
             "lanes_marked.svg",
             "lanes_unmarked.svg",
-
-            // res/graphics/oneway/no entry signs
-            "arrow.svg",
-            "default.svg",
-            "do_not_enter.svg",
-            "no_entre.svg",
-            "no_entry.svg",
-            "no_entry_on_white.svg",
-            "yellow.svg",
 
             // res/graphics/oneway
             "oneway_no.svg",
@@ -332,7 +335,11 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "1x1-transparent.png", // such small can be skipped automatically, probably
 
             // res/graphics/ar
-            "start_over.svg"
+            "start_over.svg",
+
+            // res/graphics/quest
+            "halal.svg", // it is simply text, see https://github.com/streetcomplete/StreetComplete/commit/699478ef9c6eb6f36ed84dbaca723d13323e345c#commitcomment-80477882
+
         )
     }
 
