@@ -377,10 +377,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                     // assumed to be reviewed
                     validLicenseStatus = true
                     licenseLink = it
-                } else if (it.startsWith("https://github.com/westnordost/StreetComplete/")) { // TODO eliminate
-                    // assumed to be reviewed
-                    validLicenseStatus = true
-                    licenseLink = it
                 } else if (it.startsWith("https://commons.wikimedia.org/")) {
                     licenseLink = it
                     // should be reviewed
