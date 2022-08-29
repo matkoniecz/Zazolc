@@ -14,7 +14,7 @@
     <string name="quest_wat_drinkability_status_detected">amenity=drinking_water and drinking_water=no</string>
     <string name="quest_multidesignatedFootway_title">Is there here a route for both cyclists and pedestrians?</string>
     <string name="quest_fix_mistagged_art_shop">Retag bogus tourism=gallery to shop=art?</string>
-    <string name="quest_railway_abandoned_detected">Is there any trace of this railway~abandoned|dismantled|historic|razed here?</string>
+    <string name="quest_railway_abandoned_detected">Is there any trace of this railway~abandoned|dismantled|historic|razed or *:railway here?</string>
     <string name="quest_add_also_shop_variant_for_insurance_shop">Is there an insurance shop here?</string>
     <string name="default_disabled_msg_boring">Disabled as boring and not worth effort to answer</string>
     <string name="quest_specify_fence">What kind of barrier is here?</string>

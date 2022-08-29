@@ -8,7 +8,13 @@ import de.westnordost.streetcomplete.quests.YesNoQuestForm
 
 class DetectHistoricRailwayTagging() : OsmFilterQuestType<Boolean>() {
 
-    override val elementFilter = "nodes, ways, relations with railway~abandoned|dismantled|historic|razed"
+    override val elementFilter = """nodes, ways, relations with railway~abandoned|dismantled|historic|razed
+        or abandoned:railway
+        or razed:railway
+        or was:railway
+        or removed:railway
+        or historic:railway
+        or demolished:railway""".trimMargin()
     override val changesetComment = ""
     override val icon = R.drawable.ic_quest_railway
 
