@@ -26,13 +26,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             //////////////////////////////////////////////
             //////////////////////////////////////////////
 
-            // https://github.com/streetcomplete/StreetComplete/tree/master/res/graphics/cycleway
-            // asked on https://github.com/streetcomplete/StreetComplete/discussions/4321
-            "lane_norway.svg",
-            "none_no_oneway_l.svg",
-            "none_no_oneway.svg",
-            "lane_france.svg",
-
             // Contacted Naposm
             // https://github.com/streetcomplete/StreetComplete/pull/2675#issuecomment-1168967696
             "costiera.svg", // https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281 https://commons.wikimedia.org/wiki/File:Guardia_Costiera.svg
@@ -213,6 +206,11 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
             // res/graphics/cycleway/
             "shared_lane_france.svg",
+            // in case that bicycle is above threshold of originality, see https://github.com/streetcomplete/StreetComplete/discussions/4321#discussioncomment-3503703
+            "lane_norway.svg",
+            "none_no_oneway_l.svg",
+            "none_no_oneway.svg",
+            "lane_france.svg",
 
             // res/graphics/pins/
             // TODO still worth asking Tobias but with a lower priority
@@ -224,10 +222,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             // res/graphics/achievement
             "shine.svg",
 
-            // res/graphics/lanes
-            "lanes_marked_odd.svg",
-            "lanes_marked.svg",
-            "lanes_unmarked.svg",
 
             // res/graphics/oneway
             "oneway_no.svg",
