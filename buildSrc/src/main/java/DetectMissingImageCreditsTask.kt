@@ -222,6 +222,10 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             // res/graphics/achievement
             "shine.svg",
 
+            // res/graphics/lanes
+            "lanes_marked_odd.svg",
+            "lanes_marked.svg",
+            "lanes_unmarked.svg",
 
             // res/graphics/oneway
             "oneway_no.svg",
