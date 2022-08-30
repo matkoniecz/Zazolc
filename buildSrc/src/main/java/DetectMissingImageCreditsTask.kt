@@ -70,6 +70,13 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
 
             picnic_table.svg pin https://github.com/streetcomplete/StreetComplete/commit/373a56f365ddfc2e521be74c2d8f8e6dd06c84b9
             book.svg pin https://github.com/streetcomplete/StreetComplete/commit/73ad3779652ae84f7f6fc35855c00c7dfab4d033#diff-010fa615562ca845e316379051de7f2fac42cc2b78d9a44cfad7935891f34cf8
+
+            res/graphics/street parking
+            https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/street%20parking/street_parking_bays_parallel.svg
+            https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/street%20parking/street_parking_bays_diagonal.svg
+            https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/street%20parking/street_parking_bays_perpendicular.svg
+
+            you are a sole author here, right?
             */
             "footway_surface.svg",
             "check_shop.svg",
@@ -80,6 +87,9 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "picnic_table.svg",
             "book.svg",
 
+            "street_parking_bays_parallel.svg",
+            "street_parking_bays_diagonal.svg",
+            "street_parking_bays_perpendicular.svg",
             // end of WNO questions
 
 
@@ -126,13 +136,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "hand_phone.svg",
 
             // res/graphics/street parking
-            "street_parking_bays_parallel.svg",
             "parking_and_stopping_signs_overview.xcf",
-            "street_marked_parking_diagonal.svg",
-            "street_marked_parking_perpendicular.svg",
-            "street_parking_bays_diagonal.svg",
-            "street_parking_bays_perpendicular.svg",
-            "street_marked_parking_parallel.svg",
 
             // note
             "add_photo_24dp.svg",
@@ -201,6 +205,11 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
             // res/graphics/ar/
             "start_over.svg",
+
+            // res/graphics/street parking
+            "street_marked_parking_diagonal.svg",
+            "street_marked_parking_parallel.svg",
+            "street_marked_parking_perpendicular.svg",
 
             // res/graphics/cycleway/
             "shared_lane_france.svg",
