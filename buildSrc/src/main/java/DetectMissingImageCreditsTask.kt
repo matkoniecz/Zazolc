@@ -57,8 +57,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
 
             Sorry for bothering you about this, but some of media that were likely created fully by you are missing copyright info. Can you confirm that you took this photos or made this icons?
 
-            footway_surface.svg ( https://github.com/streetcomplete/StreetComplete/commit/b6d9fc144c38dae74c7362b56bbdad993f48b27c right side, first row reaching right side, next to banned pedestrians)
-
             check_shop.svg https://github.com/streetcomplete/StreetComplete/commit/d2eab470e510247ed1c3fd121680746a05d8b315 (that was only adding missing .svg)
             drawable added in https://github.com/streetcomplete/StreetComplete/commit/5a3774e84ec6ab4ddf01bfad38d86c9bb303bd8f
             it may be not even qualifying for copyright
@@ -78,7 +76,6 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
 
             you are a sole author here, right?
             */
-            "footway_surface.svg",
             "check_shop.svg",
             "glass.svg",
 
@@ -110,8 +107,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 //new questions
 
 // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
-
-            "footway_surface_detail.svg",
 
             "sidewalk_surface.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
 
