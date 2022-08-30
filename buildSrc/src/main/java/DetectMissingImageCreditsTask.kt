@@ -32,6 +32,10 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "police.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/police.svg https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281
             "fuel_self_service.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/fuel_self_service.svg https://github.com/streetcomplete/StreetComplete/commit/dbc19c8651cd987acb4044343c5d07c5d2ff56e6
 
+            // arrival-spring almost certainly made it, based on existing work
+            // https://github.com/streetcomplete/StreetComplete/commit/4d5278354bfcb0780ef422286f0acceab2cc3b7d
+            "sidewalk_surface.svg",
+
             //////////////////////////////////////////////
             //////////////////////////////////////////////
             // safe, but failed to track down actual source
@@ -107,10 +111,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 //new questions
 
 // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
-
-            "sidewalk_surface.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
-
-            "max_height_measure.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/max_height_measure.svg
 
             // res/graphics/recycling
             // confirm
