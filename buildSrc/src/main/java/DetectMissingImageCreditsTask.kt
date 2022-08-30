@@ -79,6 +79,12 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/street%20parking/street_parking_bays_perpendicular.svg
 
             you are a sole author here, right?
+
+            And here? Or is eye/scissors copied from some emoji set?
+
+            https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/visibility.svg
+            https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/split.svg
+
             */
             "check_shop.svg",
             "glass.svg",
@@ -91,12 +97,13 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "street_parking_bays_parallel.svg",
             "street_parking_bays_diagonal.svg",
             "street_parking_bays_perpendicular.svg",
-            // end of WNO questions
-
 
             // res/graphics/undo/
-            "visibility.svg",
-            "split.svg",
+            "visibility.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/visibility.svg
+            "split.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/split.svg
+
+            // end of WNO questions
+
 
             // Tobias - sole or used something else?
             /*
