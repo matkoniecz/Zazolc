@@ -581,7 +581,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 // TODO: which license applies here?
                 // TODO: who is the author?
                 // TODO: res/graphics/authors.txt would need to be reformatted, I guess
-                println("$entire_line in $filepathToCreditSource - HOW TO EXTRACT LICENSE DATA HERE?")
+                // optional complaining to be enabled if that data would become needed
+                licence = "licensedMediaGreedyScan function failed to process $entire_line in $filepathToCreditSource"
+                mediaSource = "licensedMediaGreedyScan function failed to process $entire_line in $filepathToCreditSource"
             }
             val filter = if (folder == null) {
                 folderPath
