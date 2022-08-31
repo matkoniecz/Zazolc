@@ -567,16 +567,21 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             }
             val splitted = line.split(" ")
             val file = splitted[0].trim()
-            val licence = "?"
-            val mediaSource = "?"
+            var licence = "?"
+            var mediaSource = "?"
             if (splitted.size == 1) {
-                println()
-                println(filepathToCreditSource)
-                println(entire_line)
-                println("is it safe to assume Westnordost as the author?")
-                println()
+                // All assets made by and (c) Tobias Zwick unless explicitly stated otherwise. License: CC-BY-SA 4.0.
+                mediaSource = "Tobias Zwick (@westnordost)"
+                if (filepathToCreditSource == "res/graphics/authors.txt") {
+                    licence = "CC-BY-SA 4.0"
+                } else {
+                    throw Exception("not supported file")
+                }
             } else {
-                println(entire_line + "HOW TO EXTRACT LICENSE DATA HERE?")
+                // TODO: which license applies here?
+                // TODO: who is the author?
+                // TODO: res/graphics/authors.txt would need to be reformatted, I guess
+                println("$entire_line in $filepathToCreditSource - HOW TO EXTRACT LICENSE DATA HERE?")
             }
             val filter = if (folder == null) {
                 folderPath
