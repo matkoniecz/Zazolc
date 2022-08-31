@@ -551,11 +551,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         val knownLicenced = mutableListOf<LicenceData>()
         var folder: String? = null
         for (entire_line in lines) { // remove header lines
-            if (entire_line.indexOf("                                ") == 0) {
-                // continuation of previous line due to overly long line - should be skipped
-                // TODO: merge such line with previous ones for processing
-                continue
-            }
             val line = entire_line.trim()
             if (line.isEmpty()) {
                 folder = null
@@ -563,6 +558,11 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             }
             if (line[line.length - 1] == '/') {
                 folder = line
+                continue
+            }
+            if (entire_line.indexOf("                                ") == 0) {
+                // continuation of previous line due to overly long line - should be skipped
+                // TODO: merge such line with previous ones for processing
                 continue
             }
             val splitted = line.split(" ")
