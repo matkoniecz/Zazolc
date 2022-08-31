@@ -57,36 +57,58 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             /*
             https://github.com/streetcomplete/StreetComplete/discussions/new
             More copyright botherings
-            @westnordost
 
-            Sorry for bothering you about this, but some of media that were likely created fully by you are missing copyright info. Can you confirm that you took this photos or made this icons?
+@westnordost
+Sorry for bothering you about this, but some of media that were likely created fully by you are missing copyright info. Can you confirm that you took this photos or made this icons?
 
-            check_shop.svg https://github.com/streetcomplete/StreetComplete/commit/d2eab470e510247ed1c3fd121680746a05d8b315 (that was only adding missing .svg)
-            drawable added in https://github.com/streetcomplete/StreetComplete/commit/5a3774e84ec6ab4ddf01bfad38d86c9bb303bd8f
-            it may be not even qualifying for copyright
+parking_and_stopping_signs_overview.xcf (map of parking traffic signs over world) - is it Natural Earth based? Or some siplified OSM data? Os something else?
 
-            recycling/glass.svg added in https://github.com/streetcomplete/StreetComplete/commit/575424b3a3009b75927d0f3c5a9c6f4c26ebea11#diff-6bf317e40f3d87cd7ecce87cca6d4d5f7d191303725529369cafe6728971bca3
-            this one seems clearly with @westnordost as sole author, but I prefer to ask
-            quest/recycling_glass.svg is listed as using Twemoji: U+267B ( https://commons.wikimedia.org/wiki/File:Twemoji_267b.svg - recycling icon ), otherwise done by @westnordost
-            recycling/glass_bottles.svg is listed in credits with @westnordost as sole author
+Are you sole author here? Or is eye/scissors/etc copied from some emoji set?
 
-            picnic_table.svg pin https://github.com/streetcomplete/StreetComplete/commit/373a56f365ddfc2e521be74c2d8f8e6dd06c84b9
-            book.svg pin https://github.com/streetcomplete/StreetComplete/commit/73ad3779652ae84f7f6fc35855c00c7dfab4d033#diff-010fa615562ca845e316379051de7f2fac42cc2b78d9a44cfad7935891f34cf8
+https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/note/add_photo_24dp.svg
+https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/note/attach_gpx_24dp.svg
 
-            res/graphics/street parking
-            https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/street%20parking/street_parking_bays_parallel.svg
-            https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/street%20parking/street_parking_bays_diagonal.svg
-            https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/street%20parking/street_parking_bays_perpendicular.svg
+https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/visibility.svg
+https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/split.svg
+https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/ar/camera_measure_24dp.svg
+https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/ar/hand_phone.svg
 
-            you are a sole author here, right?
+[recycling/glass.svg](https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/recycling/glass.svg) added in https://github.com/streetcomplete/StreetComplete/commit/575424b3a3009b75927d0f3c5a9c6f4c26ebea11#diff-6bf317e40f3d87cd7ecce87cca6d4d5f7d191303725529369cafe6728971bca3
+this one seems clearly with @westnordost as sole author, but I prefer to ask
+[quest/recycling_glass.svg](https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/recycling_glass.svg) is listed as using Twemoji: U+267B ( https://commons.wikimedia.org/wiki/File:Twemoji_267b.svg - recycling icon ), otherwise done by @westnordost
+[recycling/glass_bottles.svg](https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/recycling/glass_bottles.svg) is listed in credits with @westnordost as sole author
 
-            And here? Or is eye/scissors copied from some emoji set?
+picnic_table.svg pin https://github.com/streetcomplete/StreetComplete/commit/373a56f365ddfc2e521be74c2d8f8e6dd06c84b9
+book.svg pin https://github.com/streetcomplete/StreetComplete/commit/73ad3779652ae84f7f6fc35855c00c7dfab4d033#diff-010fa615562ca845e316379051de7f2fac42cc2b78d9a44cfad7935891f34cf8
 
-            https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/visibility.svg
-            https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/split.svg
+res/graphics/street parking
+https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/street%20parking/street_parking_bays_parallel.svg
+https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/street%20parking/street_parking_bays_diagonal.svg
+https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/street%20parking/street_parking_bays_perpendicular.svg
 
+you are a sole author here, right?
+
+And here I am basically 100% sure (even more than earlier ones) but still want to ask for confirmation:
+https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/step%20count/step.svg
+[check_shop.svg](https://github.com/streetcomplete/StreetComplete/commit/d2eab470e510247ed1c3fd121680746a05d8b315) - yes, it may be not even qualifying for copyright (that commit was only adding missing .svg)
+drawable was added in https://github.com/streetcomplete/StreetComplete/commit/5a3774e84ec6ab4ddf01bfad38d86c9bb303bd8f
             */
-            "check_shop.svg",
+            // res/graphics/street parking
+            "parking_and_stopping_signs_overview.xcf",
+
+
+            // res/graphics/undo/
+            "visibility.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/visibility.svg
+            "split.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/split.svg
+
+            // note
+            "add_photo_24dp.svg",
+            "attach_gpx_24dp.svg",
+
+            // res/graphics/ar/
+            "camera_measure_24dp.svg",
+            "hand_phone.svg",
+
             "glass.svg",
 
             // res/graphics/pins/
@@ -98,10 +120,11 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             "street_parking_bays_diagonal.svg",
             "street_parking_bays_perpendicular.svg",
 
-            // res/graphics/undo/
-            "visibility.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/visibility.svg
-            "split.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/split.svg
+            // res/graphics/step count
+            // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/step%20count/step.svg
+            "step.svg",
 
+            "check_shop.svg",
             // end of WNO questions
 
 
@@ -130,19 +153,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             // should it be also "Tobias Zwick CC-BY-SA 4.0 (based on public domain traffic sign design)"
             // BTW, is "Tobias Zwick CC-BY-SA 4.0 (based on public domain traffic sign design)" OK for other files in https://github.com/streetcomplete/StreetComplete/tree/master/res/graphics/living%20street ?
 
-            // res/graphics/step count
-            "step.svg",
 
-            // res/graphics/ar/
-            "camera_measure_24dp.svg",
-            "hand_phone.svg",
+            // https://github.com/streetcomplete/StreetComplete/tree/master/res/graphics
 
-            // res/graphics/street parking
-            "parking_and_stopping_signs_overview.xcf",
-
-            // note
-            "add_photo_24dp.svg",
-            "attach_gpx_24dp.svg",
 
             // res/documentation
             // skipped for now
