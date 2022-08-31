@@ -165,7 +165,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             // ./app/src/main/res/drawable-xhdpi/vibrating_button_illustration.jpg
             // in specific area via special handling
             //
-            // rare, there is no need to handle this specially
+            // rare, there is no need to handle this via parsing
             "vibrating_button_i... (MCC234)",
             "vibrating_button_i... (MCC505)",
 
@@ -527,7 +527,6 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
     private fun containsSkippedFile(pattern: String): Boolean {
         for (file in filesWithKnownProblemsAndSkipped()) {
             if (pattern.contains(file)) {
-                //println("skipping $file as listed on files with known problems")
                 return true
             }
         }
