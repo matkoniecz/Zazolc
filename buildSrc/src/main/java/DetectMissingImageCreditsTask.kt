@@ -153,7 +153,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
             // res/documentation
             // what is the license of file here? skipped for now
-            "get_poeditor_cookie.png", // I am noticing that I am confused. Initial attempts resulted in https://commons.wikimedia.org/wiki/Commons:Deletion_requests/File:Private_window_in_Firefox_68.png https://commons.wikimedia.org/wiki/Commons:Deletion_requests/File:Firebug_load_time_of_mediawiki.org.png https://commons.wikimedia.org/wiki/File:Firebug-ru.png
+            "get_poeditor_cookie.png", // I am noticing that I am confused. Initial attempts resulted in https://opensource.stackexchange.com/questions/13180/what-is-the-license-of-firefox-browser-console-debug-panel https://commons.wikimedia.org/wiki/Commons:Deletion_requests/File:Private_window_in_Firefox_68.png https://commons.wikimedia.org/wiki/Commons:Deletion_requests/File:Firebug_load_time_of_mediawiki.org.png https://commons.wikimedia.org/wiki/File:Firebug-ru.png
             "how-it-handles edits.odp", // uses bunch of screenshots and icons and achievent graphics. How SC screeshots are licensed? https://github.com/streetcomplete/StreetComplete/blob/master/res/documentation/how-it-handles%20edits.odp
             "overview_data_flow.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/documentation/overview_data_flow.svg
             "overview_data_flow.drawio", // source code for above
