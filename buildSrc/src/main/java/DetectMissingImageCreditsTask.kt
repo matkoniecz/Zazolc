@@ -138,19 +138,13 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 */
 
 //------------------
-//new questions
-
-// https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/quest/bicycleway_surface_detail.svg
-
-            // res/graphics/recycling
-            // confirm
-            // https://github.com/streetcomplete/StreetComplete/commits/fa8bcd6ee5fa58334a8b844ae1c12522135fda8d/res/recycling%20icons/glass_bottles.svg?browsing_rename_history=true&new_path=res/graphics/recycling/glass_bottles.svg&original_branch=master
-            // https://github.com/streetcomplete/StreetComplete/commit/575424b3a3009b75927d0f3c5a9c6f4c26ebea11#diff-6bf317e40f3d87cd7ecce87cca6d4d5f7d191303725529369cafe6728971bca3
+//new questions to ask
 
             // res/graphics/living street
             // definitely fine, just not sure why (traffic signs transformed by Tobias)
             "mexico.svg", // https://github.com/streetcomplete/StreetComplete/commit/d457a6d737020bbd8ded4e994895fe98633e8944#diff-5cfacbd57f9f933ea18b64f99f291230e36d968531bb21af6e114324dd9c22b6
-            // should it be also "Tobias Zwick CC-BY-SA 4.0 (based on public domain traffic sign design)"
+            // maybe should it be also "Tobias Zwick CC-BY-SA 4.0 (based on public domain traffic sign design)"
+            // or just enter as work by Tobias?
             // BTW, is "Tobias Zwick CC-BY-SA 4.0 (based on public domain traffic sign design)" OK for other files in https://github.com/streetcomplete/StreetComplete/tree/master/res/graphics/living%20street ?
 
 
@@ -158,11 +152,11 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
 
 
             // res/documentation
-            // skipped for now
-            "get_poeditor_cookie.png",
-            "how-it-handles edits.odp",
-            "overview_data_flow.svg",
-            "overview_data_flow.drawio",
+            // what is the license of file here? skipped for now
+            "get_poeditor_cookie.png", // I am noticing that I am confused. Initial attempts resulted in https://commons.wikimedia.org/wiki/Commons:Deletion_requests/File:Private_window_in_Firefox_68.png https://commons.wikimedia.org/wiki/Commons:Deletion_requests/File:Firebug_load_time_of_mediawiki.org.png https://commons.wikimedia.org/wiki/File:Firebug-ru.png
+            "how-it-handles edits.odp", // uses bunch of screenshots and icons and achievent graphics. How SC screeshots are licensed? https://github.com/streetcomplete/StreetComplete/blob/master/res/documentation/how-it-handles%20edits.odp
+            "overview_data_flow.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/documentation/overview_data_flow.svg
+            "overview_data_flow.drawio", // source code for above
 
             // mess of zero importance
             // png file does not exist somehow, only xml one exists
