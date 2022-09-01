@@ -478,7 +478,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 val name = file.filePath.name
                 if (name !in publicDomainAsSimpleShapesFilenames()) {
                     if (containsSkippedFile(name)) {
-                        println("skipping unmatched $name as listed on files with known problems")
+                        //println("skipping unmatched $name as listed on files with known problems")
                         skippedProblemsFoundCount += 1
                     } else {
                         System.err.println(file.filePath.toString() + ",")
@@ -495,7 +495,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
         for (licenced in knownLicenced) {
             if (licenced !in usedLicenced) {
                 if (containsSkippedFile(licenced.file)) {
-                    System.err.println(licenced.file + " with path filter <" + licenced.folderPathFilter + "> from <" + licenced.filepathToCreditSource + "> credit that has not matched anything was skipped.")
+                    //System.err.println(licenced.file + " with path filter <" + licenced.folderPathFilter + "> from <" + licenced.filepathToCreditSource + "> credit that has not matched anything was skipped.")
                     skippedProblemsFoundCount += 1
                 } else {
                     System.err.println(licenced.file + " with path filter <" + licenced.folderPathFilter + "> from <" + licenced.filepathToCreditSource + "> appears to be credit for nonexisting file, either there is some typo or this file was deleted and credit also should be removed.")
@@ -507,7 +507,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             System.err.println((problemsFoundCount + skippedProblemsFoundCount).toString() + " problems, including $problemsFoundCount not even skipped problems, found with licensing - will exit with an error now")
             exitProcess(10)
         } else if (skippedProblemsFoundCount > 0) {
-            System.err.println("$skippedProblemsFoundCount problems found with licensing - but only ones silensed (still should be fixed)")
+            System.err.println("$skippedProblemsFoundCount problems found with licensing - but only ones silenced via containsSkippedFile (still should be fixed at some point)")
         } else {
             System.err.println("No problems found with licensing")
         }
