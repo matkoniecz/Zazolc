@@ -51,7 +51,7 @@ class TutorialFragment : Fragment(R.layout.fragment_tutorial) {
     }
 
     private fun nextStep() {
-        disableNextButton()
+        //disableNextButton()
         when (currentPage) {
             0 -> {
                 currentPage = 1
