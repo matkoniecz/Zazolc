@@ -36,6 +36,24 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             // https://github.com/streetcomplete/StreetComplete/commit/4d5278354bfcb0780ef422286f0acceab2cc3b7d
             "sidewalk_surface.svg",
 
+            // Contacted Westnordost
+            // https://github.com/streetcomplete/StreetComplete/discussions/4376
+            // res/graphics/street parking
+            "parking_and_stopping_signs_overview.xcf",
+
+            // res/graphics/undo/
+            "visibility.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/visibility.svg
+            "split.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/split.svg
+
+            // note
+            "add_photo_24dp.svg",
+            "attach_gpx_24dp.svg",
+
+            // res/graphics/ar/
+            "camera_measure_24dp.svg",
+            // end of things reported in https://github.com/streetcomplete/StreetComplete/discussions/4376
+            ////////////////////////////////////
+
             //////////////////////////////////////////////
             //////////////////////////////////////////////
             // safe, but failed to track down actual source
@@ -54,24 +72,11 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             //////////////////////////////////////////////
             //////////////////////////////////////////////
 
-            /*
-            https://github.com/streetcomplete/StreetComplete/discussions/new
-            More copyright botherings
+/*
+https://github.com/streetcomplete/StreetComplete/discussions/new
+More copyright botherings
 
 @westnordost
-Sorry for bothering you about this, but some of media that were likely created fully by you are missing copyright info. Can you confirm that you took this photos or made this icons?
-
-parking_and_stopping_signs_overview.xcf (map of parking traffic signs over world) - is it Natural Earth based? Or some siplified OSM data? Os something else?
-
-Are you sole author here? Or is eye/scissors/etc copied from some emoji set?
-
-https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/note/add_photo_24dp.svg
-https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/note/attach_gpx_24dp.svg
-
-https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/visibility.svg
-https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/split.svg
-https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/ar/camera_measure_24dp.svg
-https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/ar/hand_phone.svg
 
 [recycling/glass.svg](https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/recycling/glass.svg) added in https://github.com/streetcomplete/StreetComplete/commit/575424b3a3009b75927d0f3c5a9c6f4c26ebea11#diff-6bf317e40f3d87cd7ecce87cca6d4d5f7d191303725529369cafe6728971bca3
 this one seems clearly with @westnordost as sole author, but I prefer to ask
@@ -93,22 +98,6 @@ https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/step%2
 [check_shop.svg](https://github.com/streetcomplete/StreetComplete/commit/d2eab470e510247ed1c3fd121680746a05d8b315) - yes, it may be not even qualifying for copyright (that commit was only adding missing .svg)
 drawable was added in https://github.com/streetcomplete/StreetComplete/commit/5a3774e84ec6ab4ddf01bfad38d86c9bb303bd8f
             */
-            // res/graphics/street parking
-            "parking_and_stopping_signs_overview.xcf",
-
-
-            // res/graphics/undo/
-            "visibility.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/visibility.svg
-            "split.svg", // https://github.com/streetcomplete/StreetComplete/blob/master/res/graphics/undo/split.svg
-
-            // note
-            "add_photo_24dp.svg",
-            "attach_gpx_24dp.svg",
-
-            // res/graphics/ar/
-            "camera_measure_24dp.svg",
-            "hand_phone.svg",
-
             "glass.svg",
 
             // res/graphics/pins/
