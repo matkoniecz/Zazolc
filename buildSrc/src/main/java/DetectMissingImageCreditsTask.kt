@@ -105,6 +105,7 @@ drawable was added in https://github.com/streetcomplete/StreetComplete/commit/5a
             "picnic_table.svg",
             "book.svg",
 
+            // res/graphics/street parking/
             "street_parking_bays_parallel.svg",
             "street_parking_bays_diagonal.svg",
             "street_parking_bays_perpendicular.svg",
