@@ -26,15 +26,15 @@ open class DetectMissingImageCreditsTask : DefaultTask() {
             //////////////////////////////////////////////
             //////////////////////////////////////////////
 
+            // needs to be recreated :(
+            // https://github.com/streetcomplete/StreetComplete/commit/4d5278354bfcb0780ef422286f0acceab2cc3b7d
+            "sidewalk_surface.svg",
+
             // Contacted Naposm
             // https://github.com/streetcomplete/StreetComplete/pull/2675#issuecomment-1168967696
             "costiera.svg", // https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281 https://commons.wikimedia.org/wiki/File:Guardia_Costiera.svg
             "police.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/police.svg https://github.com/streetcomplete/StreetComplete/commit/3717423dd6c2597440112801f32db5814abbe281
             "fuel_self_service.svg", // https://github.com/streetcomplete/StreetComplete/commits/master/res/graphics/quest/fuel_self_service.svg https://github.com/streetcomplete/StreetComplete/commit/dbc19c8651cd987acb4044343c5d07c5d2ff56e6
-
-            // arrival-spring almost certainly made it, based on existing work
-            // https://github.com/streetcomplete/StreetComplete/commit/4d5278354bfcb0780ef422286f0acceab2cc3b7d
-            "sidewalk_surface.svg",
 
             // Contacted Westnordost
             // https://github.com/streetcomplete/StreetComplete/discussions/4376
