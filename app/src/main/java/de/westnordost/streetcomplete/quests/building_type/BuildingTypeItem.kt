@@ -63,6 +63,7 @@ import de.westnordost.streetcomplete.quests.building_type.BuildingType.TRAIN_STA
 import de.westnordost.streetcomplete.quests.building_type.BuildingType.TRANSPORTATION
 import de.westnordost.streetcomplete.quests.building_type.BuildingType.UNIVERSITY
 import de.westnordost.streetcomplete.quests.building_type.BuildingType.WAREHOUSE
+import de.westnordost.streetcomplete.quests.building_type.BuildingType.GUARD_POST
 import de.westnordost.streetcomplete.view.image_select.GroupableDisplayItem
 import de.westnordost.streetcomplete.view.image_select.Item
 
