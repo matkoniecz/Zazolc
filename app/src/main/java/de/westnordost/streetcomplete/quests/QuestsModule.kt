@@ -484,6 +484,7 @@ fun questTypeRegistry(
     */
 
     //modified--
+    AddDrinkingWaterType(),
     ShowFixme(), // my quest
     ShowAddressInterpolation(), // my quest
     AddWayLit(), //frequent enable/disable cycle (enable for night) - moved
