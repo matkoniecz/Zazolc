@@ -28,14 +28,14 @@ class AddDrinkingWaterType : OsmFilterQuestType<DrinkingWaterType>() {
 
     override fun applyAnswerTo(answer: DrinkingWaterType, tags: Tags, timestampEdited: Long) {
         tags[answer.osmKey] = answer.osmValue
-        if (answer.actuallyNotDrinkingWater) {
-            if (tags["amenity"] == "drinking_water") {
-                tags.remove("amenity")
-            }
-        } else {
+        if (answer.providesDrinkingWater) {
             if (tags["disused:amenity"] == "drinking_water") {
                 tags.remove("disused:amenity")
                 tags["amenity"] = "drinking_water"
+            }
+        } else {
+            if (tags["amenity"] == "drinking_water") {
+                tags.remove("amenity")
             }
         }
     }
