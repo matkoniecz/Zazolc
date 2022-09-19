@@ -22,11 +22,21 @@ class AddDrinkingWaterType : OsmFilterQuestType<DrinkingWaterType>() {
     override val isDeleteElementEnabled = true
     override val achievements = listOf(CITIZEN, OUTDOORS)
 
-    override fun getTitle(tags: Map<String, String>) = R.string.quest_traffic_calming_type_title
+    override fun getTitle(tags: Map<String, String>) = R.string.quest_drinking_water_type_title
 
     override fun createForm() = AddDrinkingWaterTypeForm()
 
     override fun applyAnswerTo(answer: DrinkingWaterType, tags: Tags, timestampEdited: Long) {
-        tags["traffic_calming"] = answer.osmValue
+        tags[answer.osmKey] = answer.osmValue
+        if (answer.actuallyNotDrinkingWater) {
+            if (tags["amenity"] == "drinking_water") {
+                tags.remove("amenity")
+            }
+        } else {
+            if (tags["disused:amenity"] == "drinking_water") {
+                tags.remove("disused:amenity")
+                tags["amenity"] = "drinking_water"
+            }
+        }
     }
 }
