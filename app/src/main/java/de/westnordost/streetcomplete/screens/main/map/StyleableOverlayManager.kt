@@ -14,13 +14,17 @@ import de.westnordost.streetcomplete.overlays.Overlay
 import de.westnordost.streetcomplete.screens.main.map.components.StyleableOverlayMapComponent
 import de.westnordost.streetcomplete.screens.main.map.components.StyledElement
 import de.westnordost.streetcomplete.screens.main.map.tangram.KtMapController
+import de.westnordost.streetcomplete.util.math.intersect
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 /** Manages the layer of styled map data in the map view:
  *  Gets told by the QuestsMapFragment when a new area is in view and independently pulls the map
@@ -39,6 +43,8 @@ class StyleableOverlayManager(
 
     private val viewLifecycleScope: CoroutineScope = CoroutineScope(SupervisorJob())
 
+    private var updateJob: Job? = null
+
     private var overlay: Overlay? = null
     set(value) {
         if (field == value) return
@@ -54,7 +60,11 @@ class StyleableOverlayManager(
 
     private val mapDataListener = object : MapDataWithEditsSource.Listener {
         override fun onUpdated(updated: MapDataWithGeometry, deleted: Collection<ElementKey>) {
-            viewLifecycleScope.launch { updateStyledElements(updated, deleted) }
+            val oldUpdateJob = updateJob
+            updateJob = viewLifecycleScope.launch {
+                oldUpdateJob?.join() // don't cancel, as updateStyledElements only updates existing data
+                updateStyledElements(updated, deleted)
+            }
         }
 
         override fun onReplacedForBBox(bbox: BoundingBox, mapDataWithGeometry: MapDataWithGeometry) {
@@ -111,8 +121,14 @@ class StyleableOverlayManager(
 
     private fun onNewTilesRect(tilesRect: TilesRect) {
         val bbox = tilesRect.asBoundingBox(TILES_ZOOM)
-        viewLifecycleScope.launch {
-            val mapData = withContext(Dispatchers.IO) { mapDataSource.getMapDataWithGeometry(bbox) }
+        updateJob?.cancel()
+        updateJob = viewLifecycleScope.launch {
+            val mapData = withContext(Dispatchers.IO) {
+                synchronized(mapDataSource) {
+                    if (!coroutineContext.isActive) null
+                    else mapDataSource.getMapDataWithGeometry(bbox)
+                }
+            } ?: return@launch
             setStyledElements(mapData)
         }
     }
@@ -123,7 +139,7 @@ class StyleableOverlayManager(
         viewLifecycleScope.launch { mapComponent.clear() }
     }
 
-    private fun setStyledElements(mapData: MapDataWithGeometry) {
+    private suspend fun setStyledElements(mapData: MapDataWithGeometry) {
         val layer = overlay ?: return
         synchronized(mapDataInView) {
             mapDataInView.clear()
@@ -132,19 +148,28 @@ class StyleableOverlayManager(
                     mapDataInView[key] = styledElement
                 }
             }
-            mapComponent.set(mapDataInView.values)
+            if (coroutineContext.isActive) {
+                mapComponent.set(mapDataInView.values)
+            }
         }
     }
 
-    private fun updateStyledElements(updated: MapDataWithGeometry, deleted: Collection<ElementKey>) {
+    private suspend fun updateStyledElements(updated: MapDataWithGeometry, deleted: Collection<ElementKey>) {
         val layer = overlay ?: return
+        val displayedBBox = lastDisplayedRect?.asBoundingBox(TILES_ZOOM)
+        var changedAnything = false
         synchronized(mapDataInView) {
             createStyledElementsByKey(layer, updated).forEach { (key, styledElement) ->
                 if (styledElement != null) mapDataInView[key] = styledElement
                 else                       mapDataInView.remove(key)
+                if (!changedAnything && styledElement != null && displayedBBox?.intersect(styledElement.geometry.getBounds()) != false) {
+                    changedAnything = true
+                }
             }
-            deleted.forEach { mapDataInView.remove(it) }
-            mapComponent.set(mapDataInView.values)
+            deleted.forEach { if (mapDataInView.remove(it) != null) changedAnything = true }
+            if (changedAnything && coroutineContext.isActive) {
+                mapComponent.set(mapDataInView.values)
+            }
         }
     }
 

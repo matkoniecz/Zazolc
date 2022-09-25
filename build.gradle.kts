@@ -5,7 +5,7 @@ buildscript {
     }
     dependencies {
         val kotlinVersion = "1.7.10"
-        classpath("com.android.tools.build:gradle:7.2.2")
+        classpath("com.android.tools.build:gradle:7.3.0")
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
     }
 }
@@ -14,8 +14,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        // TODO remove when dependency to org.bitbucket.snakeyaml:snakeyaml-engine:8209bb9484 is no longer needed
-        maven { url = java.net.URI("https://jitpack.io") }
     }
 }
 
