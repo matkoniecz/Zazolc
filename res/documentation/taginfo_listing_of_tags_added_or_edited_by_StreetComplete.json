@@ -3,7 +3,7 @@
     "data_url": "https://raw.githubusercontent.com/matkoniecz/Zazolc/taginfo/res/documentation/taginfo_listing_of_tags_added_or_edited_by_StreetComplete.json",
     "project": {
         "name": "StreetComplete",
-        "description": "Surveyor app for Android - this listing mentions tags can be added by this editor. Tags used for filtering or ones that can be removed during editing are not listed. Tags from iD presets and Name Suggestion Index that can be used while adding new shops are also not listed - see https://taginfo.openstreetmap.org/projects/id_editor and https://taginfo.openstreetmap.org/projects/name_suggestion_index for tag listings.",
+        "description": "Surveyor app for Android - this listing mentions tags can be added by this editor using quests (overlays are not supported for now in this listing, please open an issue at https://github.com/matkoniecz/Zazolc/issues if you care about this - or upvote one that exists if created already). Tags used for filtering or ones that can be removed during editing are not listed. Tags from iD presets and Name Suggestion Index that can be used while adding new shops are also not listed - see https://taginfo.openstreetmap.org/projects/id_editor and https://taginfo.openstreetmap.org/projects/name_suggestion_index for tag listings.",
         "project_url": "https://github.com/westnordost/StreetComplete",
         "doc_url": "https://wiki.openstreetmap.org/wiki/StreetComplete",
         "icon_url": "https://raw.githubusercontent.com/westnordost/StreetComplete/master/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
@@ -60,19 +60,19 @@
         },
         {
             "key": "check_date:bench",
-            "description": "tag added by 'Specify whether bus stops have benches' quest",
+            "description": "tag added by 'Specify whether public transport stops have benches' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bench_public_transport.svg"
         },
         {
             "key": "bench",
             "value": "yes",
-            "description": "tag added by 'Specify whether bus stops have benches' quest",
+            "description": "tag added by 'Specify whether public transport stops have benches' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bench_public_transport.svg"
         },
         {
             "key": "bench",
             "value": "no",
-            "description": "tag added by 'Specify whether bus stops have benches' quest",
+            "description": "tag added by 'Specify whether public transport stops have benches' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bench_public_transport.svg"
         },
         {
@@ -98,12 +98,23 @@
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bicycleway_width.svg"
         },
         {
+            "key": "maxwidth",
+            "description": "tag added by 'Determine road widths' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/street_width.svg"
+        },
+        {
             "key": "width",
             "description": "tag added by 'Determine road widths' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/street_width.svg"
         },
         {
             "key": "source:width",
+            "value": "ARCore",
+            "description": "tag added by 'Determine road widths' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/street_width.svg"
+        },
+        {
+            "key": "source:maxwidth",
             "value": "ARCore",
             "description": "tag added by 'Determine road widths' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/street_width.svg"
@@ -740,942 +751,942 @@
         {
             "key": "name:signed",
             "value": "no",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "int_name",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ar",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:en",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:kha",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:grt",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:uz",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ru",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mnk",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ff",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:cy",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:gd",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:fr",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:snk",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:wo",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:sw",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:fil",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:es",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ceb",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ilo",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:hil",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:nl",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:pap",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mg",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ms",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:hi",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:pa",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:zh",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:adx",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:kk",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:tpi",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ho",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:pt",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:pov",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:my",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:pih",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:bn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:te",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mr",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ta",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ur",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:gu",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:kn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ml",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:or",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:as",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mai",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ks",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:emk",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:sus",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:gyn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:it",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:de",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:bo",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mfe",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:qu",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ny",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:nb",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:no",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:af",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:so",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mkw",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ln",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:lua",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:et",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:fan",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:doi",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:tvl",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:oc",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ca",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:br",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:id",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:jv",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:su",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mad",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:min",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:sq",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:sr",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:trp",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ug",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:hy",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ber",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:tkl",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:tn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:myn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ky",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:gv",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:el",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:tr",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mos",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:dyu",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:st",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:aa",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:bg",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mh",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:fa",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ps",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:eu",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:bs",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:hr",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:to",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:lb",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ay",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:na",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:heb",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:gil",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:jam",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:brx",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:za",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ko",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ko-Latn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:kok",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mk",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:niu",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:fo",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:dk",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:bi",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:gug",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:pau",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:gl",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:tg",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:bem",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ha",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:rm",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:nn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:bzj",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:kri",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:fi",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:sv",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:rw",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:rn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:km",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:sg",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:kl",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:da",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:am",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:om",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ti",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ak",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ee",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:crs",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:bm",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:sn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:nd",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:fj",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:hif",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:rar",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ss",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:tk",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:kea",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:bci",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:any",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:lo",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:swb",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:wni",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:zdj",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:wlc",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:tet",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ja",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ja-Latn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:sm",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:lus",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ch",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ka",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:dgr",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:den",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ne",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:fon",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:be",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ht",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ga",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:mt",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:chk",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:pon",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:uk",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:zu",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:xh",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:nso",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ts",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:si",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:iu",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:th",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:th-Latn",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:sid",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:wal",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
             "key": "name:ast",
-            "description": "tag added by 'Determine bus/tram stop names' quest",
+            "description": "tag added by 'Determine public transport stop names' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_name.svg"
         },
         {
@@ -1812,150 +1823,6 @@
             "value": "no",
             "description": "tag added by 'Specify whether pedestrian crossings have islands' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/pedestrian_crossing_island.svg"
-        },
-        {
-            "key": "parking:lane:both",
-            "value": "parallel",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:left",
-            "value": "parallel",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:right",
-            "value": "parallel",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:condition:both",
-            "value": "no_parking",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:condition:left",
-            "value": "no_parking",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:condition:right",
-            "value": "no_parking",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:condition:both",
-            "value": "no_stopping",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:condition:left",
-            "value": "no_stopping",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:condition:right",
-            "value": "no_stopping",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:condition:both",
-            "value": "no_standing",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:condition:left",
-            "value": "no_standing",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:condition:right",
-            "value": "no_standing",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:both",
-            "value": "diagonal",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:left",
-            "value": "diagonal",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:right",
-            "value": "diagonal",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:both",
-            "value": "perpendicular",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:left",
-            "value": "perpendicular",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:right",
-            "value": "perpendicular",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:both",
-            "value": "no",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:left",
-            "value": "no",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:right",
-            "value": "no",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:both",
-            "value": "separate",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:left",
-            "value": "separate",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
-        },
-        {
-            "key": "parking:lane:right",
-            "value": "separate",
-            "description": "tag added by 'Specify whether and how cars park on roads' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/parking_lane.svg"
         },
         {
             "key": "highway",
@@ -2432,6 +2299,18 @@
             "key": "collection_times",
             "description": "tag added by 'Survey postbox collection times' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/mail.svg"
+        },
+        {
+            "key": "cash_in",
+            "value": "yes",
+            "description": "tag added by 'Determine whether ATM allows depositing cash' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/money.svg"
+        },
+        {
+            "key": "cash_in",
+            "value": "no",
+            "description": "tag added by 'Determine whether ATM allows depositing cash' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/money.svg"
         },
         {
             "key": "check_date:segregated",
@@ -4798,6 +4677,12 @@
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/recycling_container.svg"
         },
         {
+            "key": "recycling:PET",
+            "value": "yes",
+            "description": "tag added by 'Specify what can be recycled in recycling containers' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/recycling_container.svg"
+        },
+        {
             "key": "recycling:beverage_cartons",
             "value": "yes",
             "description": "tag added by 'Specify what can be recycled in recycling containers' quest",
@@ -5097,19 +4982,19 @@
         },
         {
             "key": "check_date:lit",
-            "description": "tag added by 'Add whether bus stops are lit' quest",
+            "description": "tag added by 'Add whether public transport stops are lit' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_lit.svg"
         },
         {
             "key": "lit",
             "value": "yes",
-            "description": "tag added by 'Add whether bus stops are lit' quest",
+            "description": "tag added by 'Add whether public transport stops are lit' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_lit.svg"
         },
         {
             "key": "lit",
             "value": "no",
-            "description": "tag added by 'Add whether bus stops are lit' quest",
+            "description": "tag added by 'Add whether public transport stops are lit' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_lit.svg"
         },
         {
@@ -5494,19 +5379,19 @@
         },
         {
             "key": "check_date:bin",
-            "description": "tag added by 'Specify whether bus stops have bins' quest",
+            "description": "tag added by 'Specify whether public transport stops have bins' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bin_public_transport.svg"
         },
         {
             "key": "bin",
             "value": "yes",
-            "description": "tag added by 'Specify whether bus stops have bins' quest",
+            "description": "tag added by 'Specify whether public transport stops have bins' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bin_public_transport.svg"
         },
         {
             "key": "bin",
             "value": "no",
-            "description": "tag added by 'Specify whether bus stops have bins' quest",
+            "description": "tag added by 'Specify whether public transport stops have bins' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bin_public_transport.svg"
         },
         {
@@ -5529,19 +5414,19 @@
         },
         {
             "key": "check_date:tactile_paving",
-            "description": "tag added by 'Specify whether bus stops have tactile paving' quest",
+            "description": "tag added by 'Specify whether public transport stops have tactile paving' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/blind_bus.svg"
         },
         {
             "key": "tactile_paving",
             "value": "yes",
-            "description": "tag added by 'Specify whether bus stops have tactile paving' quest",
+            "description": "tag added by 'Specify whether public transport stops have tactile paving' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/blind_bus.svg"
         },
         {
             "key": "tactile_paving",
             "value": "no",
-            "description": "tag added by 'Specify whether bus stops have tactile paving' quest",
+            "description": "tag added by 'Specify whether public transport stops have tactile paving' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/blind_bus.svg"
         },
         {
@@ -5616,6 +5501,24 @@
         },
         {
             "key": "royal_cypher",
+            "value": "EIIR",
+            "description": "tag added by 'Specify postbox royal cyphers' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/crown.svg"
+        },
+        {
+            "key": "royal_cypher",
+            "value": "GR",
+            "description": "tag added by 'Specify postbox royal cyphers' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/crown.svg"
+        },
+        {
+            "key": "royal_cypher",
+            "value": "GVIR",
+            "description": "tag added by 'Specify postbox royal cyphers' quest",
+            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/crown.svg"
+        },
+        {
+            "key": "royal_cypher",
             "value": "VR",
             "description": "tag added by 'Specify postbox royal cyphers' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/crown.svg"
@@ -5628,31 +5531,13 @@
         },
         {
             "key": "royal_cypher",
-            "value": "GR",
+            "value": "scottish_crown",
             "description": "tag added by 'Specify postbox royal cyphers' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/crown.svg"
         },
         {
             "key": "royal_cypher",
             "value": "EVIIIR",
-            "description": "tag added by 'Specify postbox royal cyphers' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/crown.svg"
-        },
-        {
-            "key": "royal_cypher",
-            "value": "GVIR",
-            "description": "tag added by 'Specify postbox royal cyphers' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/crown.svg"
-        },
-        {
-            "key": "royal_cypher",
-            "value": "EIIR",
-            "description": "tag added by 'Specify postbox royal cyphers' quest",
-            "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/crown.svg"
-        },
-        {
-            "key": "royal_cypher",
-            "value": "scottish_crown",
             "description": "tag added by 'Specify postbox royal cyphers' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/crown.svg"
         },
@@ -5851,24 +5736,24 @@
         {
             "key": "covered",
             "value": "yes",
-            "description": "tag added by 'Specify whether bus stops have shelters' quest",
+            "description": "tag added by 'Specify whether public transport stops have shelters' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_shelter.svg"
         },
         {
             "key": "check_date:shelter",
-            "description": "tag added by 'Specify whether bus stops have shelters' quest",
+            "description": "tag added by 'Specify whether public transport stops have shelters' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_shelter.svg"
         },
         {
             "key": "shelter",
             "value": "yes",
-            "description": "tag added by 'Specify whether bus stops have shelters' quest",
+            "description": "tag added by 'Specify whether public transport stops have shelters' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_shelter.svg"
         },
         {
             "key": "shelter",
             "value": "no",
-            "description": "tag added by 'Specify whether bus stops have shelters' quest",
+            "description": "tag added by 'Specify whether public transport stops have shelters' quest",
             "icon_url": "https://raw.githubusercontent.com/streetcomplete/StreetComplete/master/res/graphics/quest/bus_stop_shelter.svg"
         },
         {
