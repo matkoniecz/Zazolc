@@ -1228,7 +1228,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         }
                     } else if (potentiallyUsableExpression != null) {
                         expression.showHumanReadableTree()
-                        expression.showRelatedSourceCode("expression in identified access as a variable", fileSourceCode)
+                        expression.showRelatedSourceCode("expression in identified access as a variable - problem coming from $description", fileSourceCode)
                         val error = KotlinGrammarParserType.identifier.toString() + " identified as accessing index as a variable (potentialTexts.size = ${potentialTexts.size})"
                         throw ParsingInterpretationException(error)
                     } else if (likelyVariable.size == 1) {
@@ -1237,12 +1237,12 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                             possibleLanguageKeys().forEach { appliedTags.add(Tag(it, null)) }
                         } else {
                             expression.showHumanReadableTree()
-                            expression.showRelatedSourceCode("expression in identified access as a complex variable", fileSourceCode)
+                            expression.showRelatedSourceCode("expression in identified access as a complex variable - problem coming from $description", fileSourceCode)
                             val error = likelyVariable[0].relatedSourceCode(fileSourceCode) + " identified as accessing index as a complex variable (potentialTexts.size = ${potentialTexts.size}"
                             throw ParsingInterpretationException(error)
                         }
                     } else {
-                        expression.showRelatedSourceCode("expression - not handled, expression::class is ${expression::class}", fileSourceCode)
+                        expression.showRelatedSourceCode("expression - not handled, expression::class is ${expression::class} - problem coming from $description", fileSourceCode)
                         expression.showHumanReadableTree()
                         throw ParsingInterpretationException("not handled, ${potentialTexts.size} texts, $potentiallyUsableExpression variable")
                     }
@@ -1867,9 +1867,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     }
 
     private fun Ast.showRelatedSourceCode(description: String, sourceCode: String) {
-        println("--------------------here is the $description (source code)---<")
+        println("--------------------showRelatedSourceCode: here is the $description (source code)---<")
         println(relatedSourceCode(sourceCode))
-        println(">---------------------------here is the $description (source code)")
+        println(">---------------------------showRelatedSourceCode: here is the $description (source code)")
     }
 
     private fun Ast.showHumanReadableTreeWithSourceCode(description: String, fileSourceCode: String) {
