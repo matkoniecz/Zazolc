@@ -275,12 +275,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         println()
         println()
         foundTags.map { it.tag }.forEach {
-            if (it.key.startsWith("name:")) {
-                // TODO a known wiki design issue, lets wait for resolving it there
-                // https://wiki.openstreetmap.org/w/index.php?title=Talk:Wiki&oldid=2359644#name%3Amos
-                // https://wiki.openstreetmap.org/wiki/Talk:Wiki#name%3Amos
-                return@forEach
-            }
             if (it in processedTags) {
                 return@forEach
             }
