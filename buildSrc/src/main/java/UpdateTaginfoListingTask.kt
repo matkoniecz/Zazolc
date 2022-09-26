@@ -50,6 +50,8 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         const val NAME_OF_FUNCTION_EDITING_TAGS = "applyAnswerTo"
         const val KOTLIN_IMPORT_ROOT_WITH_SLASH_ENDING = "app/src/main/java/"
         const val QUEST_ROOT_WITH_SLASH_ENDING = "app/src/main/java/de/westnordost/streetcomplete/quests/"
+        const val OSM_DATA_WITH_SLASH_ENDING = "app/src/main/java/de/westnordost/streetcomplete/osm/"
+        const val OVERLAYS_ROOT_WITH_SLASH_ENDING = "app/src/main/java/de/westnordost/streetcomplete/overlays/"
         const val COUNTRY_METADATA_PATH_WITH_SLASH_ENDING = "app/src/main/assets/country_metadata/"
         // is it possible to use directly SC constants?
         // import de.westnordost.streetcomplete.osm.SURVEY_MARK_KEY
@@ -94,7 +96,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
 
         // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md
-        val description = "Surveyor app for Android - this listing mentions tags can be added by this editor. Tags used for filtering or ones that can be removed during editing are not listed. Tags from iD presets and Name Suggestion Index that can be used while adding new shops are also not listed - see https://taginfo.openstreetmap.org/projects/id_editor and https://taginfo.openstreetmap.org/projects/name_suggestion_index for tag listings."
+        val description = "Surveyor app for Android - this listing mentions tags can be added by this editor using quests (overlays are not supported for now in this listing, please open an issue at https://github.com/matkoniecz/Zazolc/issues if you care about this - or upvote one that exists if created already). Tags used for filtering or ones that can be removed during editing are not listed. Tags from iD presets and Name Suggestion Index that can be used while adding new shops are also not listed - see https://taginfo.openstreetmap.org/projects/id_editor and https://taginfo.openstreetmap.org/projects/name_suggestion_index for tag listings."
         val project = Project("StreetComplete", description,
             "https://github.com/westnordost/StreetComplete",
             "https://wiki.openstreetmap.org/wiki/StreetComplete",
@@ -133,11 +135,26 @@ open class UpdateTaginfoListingTask : DefaultTask() {
     @TaskAction fun run() {
         test()
 
-        val foundTags = mutableListOf<TagQuestInfo>()
-        val folderGenerator = questFolderGenerator()
+        // initial overlay info processing
+        val overlayFolderGenerator = overlayFolderGenerator()
+        val fileSourceCode = loadFileText(File(OSM_DATA_WITH_SLASH_ENDING + "sidewalk/Sidewalk.kt"))
+        val ast = AstSource.String("test", fileSourceCode).parse()
+        val function = ast.extractFunctionByName("applyTo")!!
 
-        while (folderGenerator.hasNext()) {
-            val folder = folderGenerator.next()
+        while (overlayFolderGenerator.hasNext()) {
+            val folder = overlayFolderGenerator.next()
+            File(folder.toString()).walkTopDown().forEach {
+                if (it.isFile) {
+                    println(it.toString() + " - unprocessed overlay file")
+                }
+            }
+        }
+
+        val foundTags = mutableListOf<TagQuestInfo>()
+        val questFolderGenerator = questFolderGenerator()
+
+        while (questFolderGenerator.hasNext()) {
+            val folder = questFolderGenerator.next()
 
             File(folder.toString()).walkTopDown().forEach {
                 if (it.isFile) {
@@ -158,6 +175,14 @@ open class UpdateTaginfoListingTask : DefaultTask() {
 
     private fun questFolderGenerator() = iterator {
         File(QUEST_ROOT_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { folder ->
+            if (folder.isDirectory && "$folder/" != QUEST_ROOT_WITH_SLASH_ENDING) {
+                yield(folder)
+            }
+        }
+    }
+
+    private fun overlayFolderGenerator() = iterator {
+        File(OVERLAYS_ROOT_WITH_SLASH_ENDING).walkTopDown().maxDepth(1).forEach { folder ->
             if (folder.isDirectory && "$folder/" != QUEST_ROOT_WITH_SLASH_ENDING) {
                 yield(folder)
             }
@@ -1995,12 +2020,15 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return got[0]
     }
 
-    private fun Ast.extractAllFunctionsByName(searchedFunctionName: String): List<AstNode> {
+    private fun Ast.extractAllFunctionsByName(searchedFunctionName: String, logAllFoundFunctionNames: Boolean = false): List<AstNode> {
         if (description == "functionDeclaration") {
             if (this is AstNode) {
                 children.forEach {
                     if (it.description == "simpleIdentifier" && it.tree() is KlassIdentifier) {
                         val functionName = (it.tree() as KlassIdentifier).identifier
+                        if (logAllFoundFunctionNames) {
+                            println("function found: " + functionName)
+                        }
                         if (functionName == searchedFunctionName) {
                             return listOf(this) + children.flatMap { child ->
                                 child.extractAllFunctionsByName(searchedFunctionName)
