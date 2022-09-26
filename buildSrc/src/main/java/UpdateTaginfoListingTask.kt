@@ -1381,10 +1381,6 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         if (valueIfItIsSimpleText != null) {
             appliedTags.add(Tag(key, valueIfItIsSimpleText))
         } else if (valueHolderSourceCode.endsWith(".toYesNo()")) {
-            // previous form of check:
-            // in listOf("answer.toYesNo()", "it.toYesNo()", "answer.credit.toYesNo()", "answer.debit.toYesNo()", "isAutomated.toYesNo()")
-            // maybe treat this hack by proper parse and detect toYesNo() at the end?
-            // or maybe this is a valid check given high coupling with StreetComplete being presenrt anyway?
             appliedTags.add(Tag(key, "yes"))
             appliedTags.add(Tag(key, "no"))
         } else if (valueHolderSourceCode.endsWith(".toCheckDateString()")) {
@@ -1645,8 +1641,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                         } else {
                             val valueAst = extractArgumentSyntaxTreeInFunctionCall(1, accessingTagsWithFunction)
                             val valueHolderSourceCode = valueAst.relatedSourceCode(fileSourceCode)
-                            if (valueHolderSourceCode == "answer.toYesNo()") {
-                                // kind of hackish, fix this?
+                            if (valueHolderSourceCode.endsWith(".toYesNo()")) {
                                 appliedTags.add(Tag(keyString, "yes"))
                                 appliedTags.add(Tag(keyString, "no"))
                             } else if (valueHolderSourceCode == "answer.osmValue" || valueHolderSourceCode == "answer.value.osmValue") {
