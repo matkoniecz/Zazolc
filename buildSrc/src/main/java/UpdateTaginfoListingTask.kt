@@ -1995,13 +1995,16 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return got[0]
     }
 
-    private fun Ast.extractAllFunctionsByName(functionName: String): List<AstNode> {
+    private fun Ast.extractAllFunctionsByName(searchedFunctionName: String): List<AstNode> {
         if (description == "functionDeclaration") {
             if (this is AstNode) {
                 children.forEach {
-                    if (it.description == "simpleIdentifier" && it.tree() is KlassIdentifier && ((it.tree() as KlassIdentifier).identifier == functionName)) {
-                        return listOf(this) + children.flatMap { child ->
-                            child.extractAllFunctionsByName(functionName)
+                    if (it.description == "simpleIdentifier" && it.tree() is KlassIdentifier) {
+                        val functionName = (it.tree() as KlassIdentifier).identifier
+                        if (functionName == searchedFunctionName) {
+                            return listOf(this) + children.flatMap { child ->
+                                child.extractAllFunctionsByName(searchedFunctionName)
+                            }
                         }
                     }
                 }
@@ -2011,7 +2014,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         }
         return if (this is AstNode) {
             children.flatMap { child ->
-                child.extractAllFunctionsByName(functionName)
+                child.extractAllFunctionsByName(searchedFunctionName)
             }
         } else {
             listOf()
