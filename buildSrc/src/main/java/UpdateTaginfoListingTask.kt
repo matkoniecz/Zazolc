@@ -529,6 +529,11 @@ open class UpdateTaginfoListingTask : DefaultTask() {
             return addedOrEditedTagsRealParsing(description, fileSourceCode, suspectedAnswerEnumFiles)
         }
         when (file.name) {
+            "AddRoadWidth.kt" -> {
+                // worked in past, died due to
+                // tags[key] = answer.width.toOsmValue()
+                return setOf(Tag("maxwidth", null), Tag("width", null), Tag("source:width", "ARCore"), Tag("source:maxwidth", "ARCore"))
+            }
             "AddAddressStreet.kt" -> {
                 return setOf(Tag("addr:street", null), Tag("addr:place", null))
             }
