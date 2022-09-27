@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.quests.drinking_water_type
 
 enum class DrinkingWaterType(val osmKey: String, val osmValue: String, val providesDrinkingWater: Boolean = true) {
     // https://wiki.openstreetmap.org/wiki/Key:fountain
-    WATER_FOUNTAIN_GENERIC("fountain", "drinking"),
+    WATER_FOUNTAIN_GENERIC("man_made", "drinking_fountain"),
     WATER_FOUNTAIN_JET("fountain", "bubbler"),
     WATER_FOUNTAIN_BOTTLE_REFILL_ONLY("fountain", "bottle_refill"),
     WATER_TAP("man_made", "water_tap"),
