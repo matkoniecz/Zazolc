@@ -41,6 +41,11 @@ class AddDrinkingWater : OsmFilterQuestType<DrinkingWater>() {
 
     override fun applyAnswerTo(answer: DrinkingWater, tags: Tags, timestampEdited: Long) {
         tags["drinking_water"] = answer.osmValue
+        if (tags["drinking_water"] == "yes") {
+           if (!tags.containsKey("amenity")) {
+               tags["amenity"] = "drinking_water"
+           }
+        }
         answer.osmLegalValue?.let { tags["drinking_water:legal"] = it }
     }
 }
