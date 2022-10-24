@@ -547,8 +547,12 @@ Sinon, vous pouvez télécharger un autre clavier dans l’app store. Les clavie
     <string name="quest_buildingType_semi_detached">"Maison jumelée"</string>
     <string name="quest_buildingType_terrace_description">"une ligne de maisons unifamiliales similaires"</string>
     <string name="quest_buildingType_hotel">"Hôtel"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_dormitory">"Résidence universitaire, foyer"</string>
     <string name="quest_buildingType_houseboat">"Maison flottante"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_bungalow">"Bungalow"</string>
     <string name="quest_buildingType_static_caravan">"Mobile-home"</string>
     <string name="quest_buildingType_commercial">"Bâtiment commercial"</string>
@@ -563,16 +567,32 @@ Sinon, vous pouvez télécharger un autre clavier dans l’app store. Les clavie
 
     <!-- Fuzzy -->
     <string name="quest_buildingType_retail">"Magasin(s)"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_warehouse">"Entrepôt"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_kiosk">"Kiosque"</string>
     <string name="quest_buildingType_storage_tank">"Réservoir de stockage"</string>
     <string name="quest_buildingType_religious">"Bâtiment religieux"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_church">"Église"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_chapel">"Chapelle"</string>
     <string name="quest_buildingType_cathedral">"Cathédrale"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_mosque">"Mosquée"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_temple">"Temple"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_pagoda">"Pagode"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_synagogue">"Synagogue"</string>
     <string name="quest_buildingType_civic">"Bâtiment public"</string>
     <string name="quest_buildingType_civic_description">"abrite d’ordinaire un service public"</string>
@@ -621,6 +641,8 @@ Sinon, vous pouvez télécharger un autre clavier dans l’app store. Les clavie
     <string name="quest_buildingType_bunker">"Bunker"</string>
     <string name="quest_address_answer_no_housenumber">"Pas de numéro…"</string>
     <string name="quest_address_answer_no_housenumber_message1">"Le bâtiment a été marqué comme :"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_buildingType_shrine">"Sanctuaire"</string>
     <string name="quest_maxspeed_title_short2">"Quelle est la limite de vitesse pour ce tronçon ?"</string>
     <string name="quest_maxspeed_answer_sign">"Un panneau"</string>
@@ -747,9 +769,7 @@ Découper maintenant ?"</string>
     <string name="quest_maxweight_unsupported_sign_request_photo">"Souhaitez-vous laisser une note ? Une note avec une photo permettra à d’autres cartographes de s’en occuper."</string>
     <string name="quest_handrail_title">"Ces marches ont-elles une main courante ?"</string>
     <string name="about_summary_current_version">"Version actuelle : %s"</string>
-
-    <!-- Fuzzy -->
-    <string name="quest_postboxRef_title">"Quel est le numéro de référence de cette boîte aux lettres ?"</string>
+    <string name="quest_postboxRef_title">"Quel est le numéro d'identification de cette boîte aux lettres ?"</string>
 
     <!-- Fuzzy -->
     <string name="quest_ref_answer_noRef">"Aucun numéro de référence visible …"</string>
@@ -976,6 +996,8 @@ global"</string>
 actifs"</string>
     <string name="user_profile_achievement_levels">"Niveaux
 accomplis"</string>
+
+    <!-- Fuzzy -->
     <string name="quest_address_street_no_named_streets">"Cela n’appartient pas à une rue précise"</string>
     <string name="quest_address_street_place_name_label">"Nom du lieu :"</string>
     <string name="quest_address_street_description">"Sélectionnez la rue à laquelle cela appartient ou indiquez son nom sans abréviations dans le champ ci-dessous :"</string>
@@ -1317,7 +1339,6 @@ Les données sont automatiquement mises à jour au bout de %1$s jours et les don
     <string name="quest_surface_value_concrete_plates">"Plaques de béton"</string>
     <string name="quest_surface_value_concrete_lanes">"Voies en béton"</string>
     <string name="quest_fireHydrant_diameter_title">"Quel est le diamètre indiqué sur le panneau de cette bouche d’incendie ?"</string>
-    <string name="quest_fireHydrant_diameter_unusualInput_confirmation_description">"Ce diamètre semble peu plausible."</string>
     <string name="quest_fireHydrant_confirmation_title">"Êtes-vous sûr ? Parfois, le diamètre peut être trouvé sur la bouche d’incendie elle-même."</string>
     <string name="quest_diet_answer_no_food">"Pas de nourriture"</string>
     <string name="short_no_answer_on_button">"Non"</string>
@@ -1342,7 +1363,6 @@ Les données sont automatiquement mises à jour au bout de %1$s jours et les don
 
     <!-- Fuzzy -->
     <string name="on_floor">"à l’étage %s :"</string>
-    <string name="quest_street_parking_title">"Comment les véhicules se garent-ils ici, si c’est possible ?"</string>
     <string name="select_street_parking_orientation">"Sélectionnez l’orientation vers la chaussée :"</string>
     <string name="select_street_parking_position">"Sélectionnez la position :"</string>
     <string name="select_street_parking_no">"Panneau ou marquage au sol ici ?"</string>
@@ -1592,9 +1612,6 @@ sorted alphabetically by title -->
     <string name="link_backofyourhand_description">"Connaissez vous bien votre secteur ? Testez votre connaissance en localisant les rues."</string>
 
     <!-- Fuzzy -->
-    <string name="link_thenandnow_description">"Explorez les évolutions visuelles d’OSM, des premiers jours jusqu’à aujourd’hui !"</string>
-
-    <!-- Fuzzy -->
     <string name="link_notesreview_description">"Trouvez, filtrez et commentez facilement vos notes et celles des autres. Beaucoup de notes peuvent être résolues en reportant leurs informations sur la carte via iD ou JOSM"</string>
 
     <!-- Quests
@@ -1681,15 +1698,53 @@ sorted alphabetically by title -->
     <string name="quest_entrance_reference_flat_range_label">"Rangée d’appartements :"</string>
     <string name="quest_entrance_reference_flat_range_to">"à"</string>
     <string name="default_disabled_msg_overlay">"Cette quête est désactivée par défaut car il en existe une autre la recouvrant qui est plus facile à réaliser et plus efficace pour mettre à jour ces données."</string>
-    <string name="quest_camp_drinking_water_title">"L'eau potable est elle disponible librement aux campeurs ici ?"</string>
-    <string name="quest_camp_shower_title">"Il y a-t-il une douche ici ?"</string>
-    <string name="quest_camp_power_supply_title">"Y a-t-il la possibilité pour le client de recharger sont téléphone, son ordinateur potable, etc. ici ?"</string>
+    <string name="quest_camp_drinking_water_title">"L’eau potable est elle disponible librement aux campeurs ici ?"</string>
+    <string name="quest_camp_shower_title">"Y a-t-il des douches ici ?"</string>
+    <string name="quest_camp_power_supply_title">"Y a-t-il la possibilité pour les clients de recharger leur téléphone, ordinateur portable, etc. ici ?"</string>
     <string name="quest_camp_type_title">"Qui peut camper ici ?"</string>
     <string name="quest_camp_type_tents_and_caravans">"Tentes et camping-cars, caravanes, ..."</string>
     <string name="quest_camp_type_caravans_only">"Seulement les camping-cars, caravanes, ..."</string>
     <string name="quest_camp_type_tents_only">"Tentes seulement"</string>
     <string name="quest_camp_type_backcountry">"Camping sauvage (sans commodités)"</string>
     <string name="quest_fireHydrant_diameter_unusualInput_confirmation_description2">"Ce diamètre ne paraît pas correct. En général, il est compris entre %1$d et %2$d."</string>
-    <string name="quest_surface_tractypeMismatchInput_confirmation_description">"Cette réponse ne correspond pas à ce qui est généralement renseigné sur cette route. Êtes-vous certain que  vous répondez pour la bonne route ? Êtes-vous sûr d'avoir parcouru toute la longueur de la route comme il est recommandé ?"</string>
+    <string name="quest_surface_tractypeMismatchInput_confirmation_description">"Cette réponse ne correspond pas à ce qui est généralement renseigné sur cette route. Êtes-vous certain que vous répondez pour la bonne route ? Êtes-vous sûr d’avoir parcouru toute la longueur de la route comme il est recommandé ?"</string>
     <string name="quest_recycling_type_pet">"Seulement PET"</string>
+    <string name="street_parking_street_width">"Largeur de la rue : %s"</string>
+    <string name="overlay_street_parking">"Parking dans la rue"</string>
+    <string name="link_ohsomehex_description">"Explorez les données d’OSM à différentes échelles, du plan large jusqu’aux objets individuels, à travers le temps et l’espace"</string>
+    <string name="link_opencampingmap_description">"Une carte des terrains de camping"</string>
+    <string name="quest_atm_cashin_title">"Est-il possible de déposer de l’argent dans ce distributeur ?"</string>
+    <string name="create_node_action_description">"Vous avez crée un noeud avec ..."</string>
+    <string name="quest_accessPointRef_title">"Quel est le numéro d’identification ici ?"</string>
+    <string name="quest_accessPointRef_answer_assembly_point">"C’est un point de rassemblement"</string>
+    <string name="quest_accessPointRef_detailed_answer_impossible_confirmation">"Un point de rassemblement est un endroit où les gens se regroupent en cas d’urgence. Cela ressemble généralement à ceci :"</string>
+    <string name="quest_address_answer_house_name2">"La maison possède un nom..."</string>
+    <string name="quest_address_street_street_name_label">"Nom de rue :"</string>
+    <string name="quest_address_street_hint2">"Touchez la rue sur la carte pour la sélectionner"</string>
+    <string name="quest_bicycle_incline_title">"Dans quelle direction cela monte t’il ?"</string>
+    <string name="quest_bicycle_incline_up_and_down">"Alternance de montées et descentes"</string>
+    <string name="quest_drinking_water_type_title">"De quelle façon est distribuée l’eau potable ici ?"</string>
+    <string name="quest_drinking_water_type_generic_water_fountain">"Autre type de fontaine"</string>
+    <string name="quest_drinking_water_type_jet_water_fountain">"Fontaine avec un petit jet"</string>
+    <string name="quest_drinking_water_type_bottle_refill_only_fountain">"Remplissage de bouteilles uniquement"</string>
+    <string name="quest_drinking_water_type_tap">"Robinet"</string>
+    <string name="quest_drinking_water_type_hand_pump">"Pompe à main"</string>
+    <string name="quest_drinking_water_type_water_well_no_pump">"Puit sans pompe"</string>
+    <string name="quest_drinking_water_type_spring">"Source"</string>
+    <string name="quest_drinking_water_type_disused">"Objet abandonné"</string>
+    <string name="overlay_addresses">"Adresses"</string>
+    <string name="overlay_shops">"Magasins"</string>
+    <string name="name_label">"Nom :"</string>
+    <string name="vacant_shop_title">"Emplacement vacant"</string>
+
+    <!-- Used for places unknown by iD presets. Does not mean it is invalid. The wording that it is "unknown" is avoided so that the user does not think an action is necessary from him -->
+    <!-- Fuzzy -->
+    <string name="unknown_shop_title">"Type de lieu inconnu"</string>
+    <string name="quest_address_answer_no_address">"Pas d'adresse ici"</string>
+    <string name="quest_bicycle_barrier_installation_title">"Peut-on ouvrir cette barrière à vélos ?"</string>
+    <string name="quest_barrier_bicycle_installation_fixed">"Fixe"</string>
+    <string name="quest_barrier_bicycle_installation_openable">"Ouvrable"</string>
+    <string name="quest_barrier_bicycle_installation_removable">"Amovible"</string>
+    <string name="quest_buildingType_guardhouse">"Poste de garde"</string>
+    <string name="quest_genericRef_title">"Quel est le numéro d'identification ici ?"</string>
 </resources>

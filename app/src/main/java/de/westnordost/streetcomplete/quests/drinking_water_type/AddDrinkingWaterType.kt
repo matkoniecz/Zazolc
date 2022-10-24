@@ -2,20 +2,22 @@ package de.westnordost.streetcomplete.quests.drinking_water_type
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
-import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.OUTDOORS
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.CITIZEN
+import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.OUTDOORS
 import de.westnordost.streetcomplete.osm.Tags
 
 class AddDrinkingWaterType : OsmFilterQuestType<DrinkingWaterType>() {
 
-    override val elementFilter = """nodes with
+    override val elementFilter = """
+        nodes with
         (
-            amenity = drinking_water
+            (amenity = drinking_water and !disused:amenity)
             or
-            (disused:amenity = drinking_water and older today -1 years)
+            (disused:amenity = drinking_water and !amenity and older today -1 years)
         )
         and (!seasonal or seasonal = no)
-        and !man_made and !natural and !fountain"""
+        and !man_made and !natural and !fountain and !pump
+    """
 
     override val changesetComment = "Specify drinking water types"
     override val wikiLink = "Tag:amenity=drinking_water"
@@ -28,16 +30,6 @@ class AddDrinkingWaterType : OsmFilterQuestType<DrinkingWaterType>() {
     override fun createForm() = AddDrinkingWaterTypeForm()
 
     override fun applyAnswerTo(answer: DrinkingWaterType, tags: Tags, timestampEdited: Long) {
-        tags[answer.osmKey] = answer.osmValue
-        if (answer.providesDrinkingWater) {
-            if (tags["disused:amenity"] == "drinking_water") {
-                tags.remove("disused:amenity")
-                tags["amenity"] = "drinking_water"
-            }
-        } else {
-            if (tags["amenity"] == "drinking_water") {
-                tags.remove("amenity")
-            }
-        }
+        answer.applyTo(tags)
     }
 }

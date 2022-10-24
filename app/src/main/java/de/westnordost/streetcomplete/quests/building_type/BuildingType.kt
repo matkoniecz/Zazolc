@@ -19,6 +19,7 @@ enum class BuildingType(val osmKey: String, val osmValue: String) {
     WAREHOUSE       ("building", "warehouse"),
     KIOSK           ("building", "kiosk"),
     STORAGE_TANK    ("man_made", "storage_tank"),
+    GUARDHOUSE      ("building", "guardhouse"),
 
     KINDERGARTEN    ("building", "kindergarten"),
     SCHOOL          ("building", "school"),
@@ -65,7 +66,6 @@ enum class BuildingType(val osmKey: String, val osmValue: String) {
     HISTORIC        ("historic", "yes"),
     ABANDONED       ("abandoned", "yes"),
     RUINS           ("ruins", "yes"),
-    GUARD_POST    ("building", "guard_post"),
 
     RESIDENTIAL     ("building", "residential"),
     COMMERCIAL      ("building", "commercial"),
