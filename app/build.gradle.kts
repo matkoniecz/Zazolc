@@ -24,7 +24,7 @@ android {
         }
     }
 
-    compileSdk = 31
+    compileSdk = 33
     testOptions {
         unitTests {
             isReturnDefaultValues = true
@@ -34,16 +34,16 @@ android {
     defaultConfig {
         applicationId = "de.westnordost.streetcomplete"
         minSdk = 21
-        targetSdk = 31
-        versionCode = 4600
-        versionName = "46.0-beta1"
+        targetSdk = 33
+        versionCode = 4900
+        versionName = "49.0-beta1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         all {
             isMinifyEnabled = true
-            isShrinkResources = true
+            isShrinkResources = false
             // don't use proguard-android-optimize.txt, it is too aggressive, it is more trouble than it is worth
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
@@ -52,8 +52,6 @@ android {
             buildConfigField("boolean", "IS_GOOGLE_PLAY", "false")
         }
         getByName("debug") {
-            isMinifyEnabled = true
-            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             applicationIdSuffix = ".debug"
             buildConfigField("boolean", "IS_GOOGLE_PLAY", "false")
@@ -70,17 +68,18 @@ android {
 
     bundle {
         language {
-            enableSplit = false
+            enableSplit = false // because language is selectable in-app
         }
     }
 
     lint {
         disable += listOf(
-            "MissingTranslation",
+            "MissingTranslation", // crowd-contributed translations are incomplete all the time
             "UseCompatLoadingForDrawables" // doesn't make sense for minSdk >= 21
         )
         abortOnError = false
     }
+    namespace = "de.westnordost.streetcomplete"
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -97,25 +96,12 @@ if (keystorePropertiesFile.exists()) {
 repositories {
     google()
     mavenCentral()
-    maven {
-        url = uri("https://jcenter.bintray.com/")
-        content {
-            includeGroup("org.sufficientlysecure")
-        }
-    }
 }
 
 configurations {
     all {
         // it's already included in Android
         exclude(group = "net.sf.kxml", module = "kxml2")
-
-        // TODO remove substitution when `kaml` dependency uses newer version of `org.snakeyaml:snakeyaml-engine`
-        resolutionStrategy.dependencySubstitution {
-            substitute(module("org.snakeyaml:snakeyaml-engine:2.3"))
-                .using(module("org.bitbucket.snakeyaml:snakeyaml-engine:8209bb9484"))
-                .because("https://github.com/streetcomplete/StreetComplete/issues/3889")
-        }
     }
 }
 
@@ -125,7 +111,7 @@ dependencies {
     val kotlinxCoroutinesVersion = "1.6.4"
     val koinVersion = "3.2.0"
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.8")
 
     // tests
     testImplementation("junit:junit:4.13.2")
@@ -143,12 +129,12 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-workmanager:$koinVersion")
 
     // Android stuff
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.5.0")
+    implementation("com.google.android.material:material:1.6.1")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.annotation:annotation:1.4.0")
-    implementation("androidx.fragment:fragment-ktx:1.5.2")
+    implementation("androidx.annotation:annotation:1.5.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.3")
     implementation("androidx.preference:preference-ktx:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.viewpager:viewpager:1.0.0")
@@ -163,13 +149,16 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxCoroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$kotlinxCoroutinesVersion")
 
+    // Date/time
+    api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+
     // scheduling background jobs
     implementation("androidx.work:work-runtime:2.7.1")
 
     // finding in which country we are for country-specific logic
     implementation("de.westnordost:countryboundaries:1.5")
     // finding a name for a feature without a name tag
-    implementation("de.westnordost:osmfeatures-android:5.0")
+    implementation("de.westnordost:osmfeatures-android:5.2")
     // talking with the OSM API
     implementation("de.westnordost:osmapi-map:2.0")
     implementation("de.westnordost:osmapi-changesets:2.0")
@@ -182,16 +171,17 @@ dependencies {
     // widgets
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("me.grantland:autofittextview:0.2.1")
-    // html-textview not maintained anymore, only available on jcenter - should be replaced in the long term
-    implementation("org.sufficientlysecure:html-textview:3.9")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     // box2d view
     implementation("org.jbox2d:jbox2d-library:2.2.1.1")
 
+    // sharing presets/settings via QR Code
+    implementation("com.google.zxing:core:3.5.0")
+
     // serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
-    implementation("com.charleskorn.kaml:kaml:0.47.0")
+    implementation("com.charleskorn.kaml:kaml:0.48.0")
 
     // map and location
     implementation("com.mapzen.tangram:tangram:0.17.1")
@@ -213,9 +203,9 @@ val bcp47ExportLanguages = setOf(
 )
 
 // see https://github.com/osmlab/name-suggestion-index/tags for latest version
-val nsiVersion = "v6.0.20220711"
+val nsiVersion = "v6.0.20221010"
 // see https://github.com/openstreetmap/id-tagging-schema/releases for latest version
-val presetsVersion = "v3.4.2"
+val presetsVersion = "v3.5.1"
 
 tasks.register("updateAvailableLanguages") {
     group = "streetcomplete"
@@ -253,6 +243,15 @@ tasks.register<UpdateNsiPresetsTask>("updateNsiPresets") {
 //     version = nsiVersion
 //     targetDir = "$projectDir/src/main/assets/osmfeatures/brands"
 // }
+
+tasks.register<DownloadAndConvertPresetIconsTask>("downloadAndConvertPresetIcons") {
+    group = "streetcomplete"
+    version = presetsVersion
+    targetDir = "$projectDir/src/main/res/drawable/"
+    iconSize = 34
+    transformName = { "ic_preset_" + it.replace('-', '_') }
+    indexFile = "$projectDir/src/main/java/de/westnordost/streetcomplete/view/PresetIconIndex.kt"
+}
 
 tasks.register<UpdateAppTranslationsTask>("updateTranslations") {
     group = "streetcomplete"
