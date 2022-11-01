@@ -493,6 +493,10 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 }
             }
         }
+        reportProblemStatistics(problemsFoundCount, skippedProblemsFoundCount)
+    }
+
+    private fun reportProblemStatistics(problemsFoundCount: Int, skippedProblemsFoundCount: Int) {
         if (problemsFoundCount > 0) {
             System.err.println((problemsFoundCount + skippedProblemsFoundCount).toString() + " problems, including $problemsFoundCount not even skipped problems, found with licensing - will exit with an error now")
             exitProcess(10)
