@@ -35,8 +35,8 @@ android {
         applicationId = "de.westnordost.streetcomplete"
         minSdk = 21
         targetSdk = 33
-        versionCode = 4801
-        versionName = "48.0-beta1"
+        versionCode = 4900
+        versionName = "49.0-beta1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -175,6 +175,9 @@ dependencies {
 
     // box2d view
     implementation("org.jbox2d:jbox2d-library:2.2.1.1")
+
+    // sharing presets/settings via QR Code
+    implementation("com.google.zxing:core:3.5.0")
 
     // serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")

@@ -31,7 +31,7 @@ class AddSidewalk : OsmElementQuestType<LeftAndRightSidewalk> {
     override val wikiLink = "Key:sidewalk"
     override val icon = R.drawable.ic_quest_sidewalk
     override val achievements = listOf(PEDESTRIAN)
-    override val defaultDisabledMessage = R.string.default_disabled_msg_overlay
+    //override val defaultDisabledMessage = R.string.default_disabled_msg_overlay
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_sidewalk_title
 
