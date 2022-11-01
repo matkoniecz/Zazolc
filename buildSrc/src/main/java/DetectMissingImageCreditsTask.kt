@@ -380,43 +380,12 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 continue
             }
             var validLicenseStatus = false
-            var licenseLink = ""
             val linksInSource = licenced.mediaSource?.split(" ")?.filter { it.startsWith("http") }
             if (linksInSource == null || linksInSource.isEmpty()) {
                 continue
             }
             linksInSource.forEach {
-                if (it.startsWith("https://github.com/streetcomplete/StreetComplete/")) {
-                    // assumed to be reviewed
-                    validLicenseStatus = true
-                    licenseLink = it
-                } else if (it.startsWith("https://commons.wikimedia.org/")) {
-                    licenseLink = it
-                    // should be reviewed
-                    // TODO
-                    validLicenseStatus = true
-                    val fileName = licenseLink.replace("https://commons.wikimedia.org/wiki/File:", "")
-                } else if (it.startsWith("https://wiki.openstreetmap.org/wiki/")) {
-                    licenseLink = it
-                    // should be reviewed
-                    // TODO
-                    validLicenseStatus = true
-                    val fileName = licenseLink.replace("https://commons.wikimedia.org/wiki/File:", "")
-                } else if (it.startsWith("https://www.geograph.org.uk")) {
-                    validLicenseStatus = true
-                    // TODO handle
-                } else if (it.startsWith("https://www.geograph.ie")) {
-                    validLicenseStatus = true
-                    // TODO handle
-                } else if (it.startsWith("https://pixabay.com")) {
-                    validLicenseStatus = true
-                    // TODO handle
-                } else if (it.startsWith("https://flickr.com")) {
-                    validLicenseStatus = true
-                    // TODO handle
-                } else {
-                    // ???
-                }
+                validLicenseStatus = validLicenseStatus || verifyStatedSourceLink(licenced, it) // TODO require &&?
             }
             if (!validLicenseStatus) {
                 println("-----------")
@@ -494,6 +463,37 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             }
         }
         reportProblemStatistics(problemsFoundCount, skippedProblemsFoundCount)
+    }
+
+    private fun verifyStatedSourceLink(licensed: LicenceData, licenseLink: String): Boolean {
+        if (licenseLink.startsWith("https://github.com/streetcomplete/StreetComplete/")) {
+            // assumed to be reviewed
+            return true
+        } else if (licenseLink.startsWith("https://commons.wikimedia.org/")) {
+            // should be reviewed
+            // TODO
+            return true
+            val fileName = licenseLink.replace("https://commons.wikimedia.org/wiki/File:", "")
+        } else if (licenseLink.startsWith("https://wiki.openstreetmap.org/wiki/")) {
+            // should be reviewed
+            // TODO
+            return true
+            val fileName = licenseLink.replace("https://commons.wikimedia.org/wiki/File:", "")
+        } else if (licenseLink.startsWith("https://www.geograph.org.uk")) {
+            return true
+            // TODO handle
+        } else if (licenseLink.startsWith("https://www.geograph.ie")) {
+            return true
+            // TODO handle
+        } else if (licenseLink.startsWith("https://pixabay.com")) {
+            return true
+            // TODO handle
+        } else if (licenseLink.startsWith("https://flickr.com")) {
+            return true
+            // TODO handle
+        } else {
+            return false
+        }
     }
 
     private fun reportProblemStatistics(problemsFoundCount: Int, skippedProblemsFoundCount: Int) {
