@@ -35,7 +35,7 @@ class AddOpeningHours(
               or amenity = recycling and recycling_type = centre
               or amenity = social_facility and social_facility ~ food_bank|clothing_bank|soup_kitchen|dairy_kitchen
               or tourism = information and information = office
-              or tourism = attraction
+              or (tourism = attraction and attraction != animal)
               or heritage:operator = whc
               or (amenity = recycling and recycling:batteries = yes)
               or """.trimIndent() +
