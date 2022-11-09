@@ -755,7 +755,7 @@ fun questTypeRegistry(
 
     137 to AddCycleway(countryInfos, countryBoundariesFuture), // for any cyclist routers (and cyclist maps)
     138 to AddLanes(), // abstreet, certainly most routing engines - often requires way to be split
-    139 to AddShoulder(), // needs minimal thinking
+    //139 to AddShoulder(), // needs minimal thinking // too confusing, see https://github.com/streetcomplete/StreetComplete/issues/4340#issuecomment-1308390100 https://github.com/streetcomplete/StreetComplete/issues/4617#issuecomment-1308390620 https://community.openstreetmap.org/t/shoulder-tag-is-confusing/5185 https://wiki.openstreetmap.org/wiki/Key:shoulder#History
     140 to AddRoadWidth(arSupportChecker),
     141 to AddRoadSmoothness(),
     142 to AddPathSmoothness(),
