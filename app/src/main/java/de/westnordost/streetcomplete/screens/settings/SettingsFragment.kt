@@ -182,7 +182,7 @@ class SettingsFragment :
                 }
             }
             Prefs.THEME_SELECT -> {
-                val theme = Prefs.Theme.valueOf(prefs.getString(Prefs.THEME_SELECT, "AUTO")!!)
+                val theme = Prefs.Theme.valueOf(prefs.getString(Prefs.THEME_SELECT, "LIGHT")!!)
                 AppCompatDelegate.setDefaultNightMode(theme.appCompatNightMode)
                 activity?.let { ActivityCompat.recreate(it) }
             }

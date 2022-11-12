@@ -183,7 +183,7 @@ class StreetCompleteApplication : Application() {
     }
 
     private fun setDefaultTheme() {
-        val theme = Prefs.Theme.valueOf(prefs.getString(Prefs.THEME_SELECT, "AUTO")!!)
+        val theme = Prefs.Theme.valueOf(prefs.getString(Prefs.THEME_SELECT, "LIGHT")!!)
         AppCompatDelegate.setDefaultNightMode(theme.appCompatNightMode)
     }
 
