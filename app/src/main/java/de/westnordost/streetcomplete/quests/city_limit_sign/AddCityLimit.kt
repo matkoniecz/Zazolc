@@ -1,6 +1,7 @@
 package de.westnordost.streetcomplete.quests.city_limit_sign
 
 import de.westnordost.streetcomplete.R
+import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
@@ -30,7 +31,7 @@ class AddCityLimit : OsmFilterQuestType<CityLimit>() {
 
     override fun createForm() = AddCityLimitForm()
 
-    override fun applyAnswerTo(answer: CityLimit, tags: Tags, timestampEdited: Long) {
+    override fun applyAnswerTo(answer: CityLimit, tags: Tags, geometry: ElementGeometry, timestampEdited: Long) {
         when (answer) {
             CITY_LIMIT_START_BUILT_UP_AREA_START -> {
                 tags["traffic_sign:code"] = answer.signCode

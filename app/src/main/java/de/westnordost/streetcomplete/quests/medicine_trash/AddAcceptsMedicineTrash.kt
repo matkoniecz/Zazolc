@@ -2,6 +2,7 @@ package de.westnordost.streetcomplete.quests.medicine_trash
 
 import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.R
+import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 import de.westnordost.streetcomplete.osm.Tags
@@ -28,7 +29,7 @@ public class AddAcceptsMedicineTrash(
 
         override fun createForm() = YesNoQuestForm()
 
-        override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
+        override fun applyAnswerTo(answer: Boolean, tags: Tags, geometry: ElementGeometry, timestampEdited: Long) {
             tags["trash_accepted:medicines"] = answer.toYesNo()
         }
 

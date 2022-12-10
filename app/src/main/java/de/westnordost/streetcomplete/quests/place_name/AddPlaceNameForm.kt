@@ -16,7 +16,7 @@ class AddPlaceNameForm : AAddLocalizedNameForm<PlaceNameAnswer>() {
     override val namesList get() = binding.namesList
 
     override val otherAnswers = listOf(
-        AnswerItem(R.string.quest_generic_answer_noSign) { applyAnswer(NoPlaceNameSign) },
+        AnswerItem(R.string.quest_placeName_no_name_answer) { applyAnswer(NoPlaceNameSign) },
         AnswerItem(R.string.quest_generic_answer_no_name) { applyAnswer(NoName) }
     )
 

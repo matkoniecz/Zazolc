@@ -271,7 +271,7 @@ With form defined in [AddBridgeStructureForm](app/src/main/java/de/westnordost/s
 ## applyAnswerTo
 
 ```kotlin
-override fun applyAnswerTo(answer: Boolean, tags: Tags, timestampEdited: Long) {
+override fun applyAnswerTo(answer: Boolean, tags: Tags, geometry: ElementGeometry, timestampEdited: Long) {
     tags["indoor"] = answer.toYesNo()
 }
 ```

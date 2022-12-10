@@ -2,6 +2,7 @@ package de.westnordost.streetcomplete.quests.fixme_show
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
+import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
 import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
@@ -21,7 +22,7 @@ class ShowFixme() : OsmFilterQuestType<List<String>>() {
 
     override fun createForm() = ShowFixmeForm()
 
-    override fun applyAnswerTo(answer: List<String>, tags: Tags, timestampEdited: Long) {
+    override fun applyAnswerTo(answer: List<String>, tags: Tags, geometry: ElementGeometry, timestampEdited: Long) {
         val value = answer.first()
         if ("fixme:solved" == value) {
             //TODO: handle it without magic values
