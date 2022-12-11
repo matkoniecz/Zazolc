@@ -36,12 +36,12 @@
     <string name="quest_surface_value_unpaved_tracktype_grade1_is_wrong">This way is not paved</string>
     <string name="quest_surface_value_paved_tracktype_grade1_is_correct">This way is paved</string>
     <string name="quest_traffic_sign">What kind of sign is here?</string>
-    <string name="quest_city_limit_sign_both_start">Sign with settlement name (start), start of a built up area - traffic_sign=PL:E-17a </string>
-    <string name="quest_city_limit_sign_of_city_limit_start">Sign with settlement name (start) - traffic_sign=PL:E-17a </string>
-    <string name="quest_city_limit_sign_of_city_limit_end">Sign with settlement name (end) - traffic_sign=PL:E-18a </string>
-    <string name="quest_city_limit_sign_of_city_limit_start_and_end">Sign with settlement name (start and end) - traffic_sign=PL:E-17a;PL:E-18a </string>
-    <string name="quest_city_limit_sign_of_builtup_area_start">Sign with start of a built up area - traffic_sign=PL:D-42 </string>
-    <string name="quest_city_limit_sign_of_builtup_area_end">Sign with end of a built up area - traffic_sign=PL:D-43 </string>
+    <string name="quest_city_limit_sign_both_start">Green sign with settlement name (start) and start of a built up area (sign with houses) - traffic_sign=PL:E-17a </string>
+    <string name="quest_city_limit_sign_of_city_limit_start">Only green sign with settlement name (start) - traffic_sign=PL:E-17a </string>
+    <string name="quest_city_limit_sign_of_city_limit_end">Only green sign with settlement name (end) - traffic_sign=PL:E-18a </string>
+    <string name="quest_city_limit_sign_of_city_limit_start_and_end">Two green signs with settlement name (start and end) - traffic_sign=PL:E-17a;PL:E-18a </string>
+    <string name="quest_city_limit_sign_of_builtup_area_start">Sign with start of a built up area (sign with houses only) - traffic_sign=PL:D-42 </string>
+    <string name="quest_city_limit_sign_of_builtup_area_end">Sign with end of a built up area (sign with houses only) - traffic_sign=PL:D-43 </string>
 
     <!-- Store description -->
 
