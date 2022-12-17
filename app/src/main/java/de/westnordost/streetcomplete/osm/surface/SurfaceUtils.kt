@@ -112,7 +112,11 @@ fun createMainSurfaceStatus(tags: Map<String, String>): SingleSurfaceInfo {
 }
 
 fun surfaceTextValueToSurfaceEnum(surfaceValue: String?): Surface? {
-    val foundSurface = Surface.values().find { it.osmValue == surfaceValue }
+    var foundSurface = Surface.values().find { it.osmValue == surfaceValue }
+
+    if (ALIASED_SURFACE_VALUES[surfaceValue] != null) {
+        foundSurface = ALIASED_SURFACE_VALUES[surfaceValue]
+    }
 
     // PAVED_AREA and UNPAVED_AREA are more generic - and this can be also asked
     // for objects which are not roads

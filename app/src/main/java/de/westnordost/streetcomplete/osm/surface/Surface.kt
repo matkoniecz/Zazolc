@@ -31,17 +31,6 @@ enum class Surface(val osmValue: String) {
     PAVED_AREA("paved"),
     UNPAVED_AREA("unpaved"),
     GROUND_AREA("ground"),
-
-    // extra values, recording duplicates
-    MUD("mud"), // valid value, but not displayed specially in StreetComplete
-    EARTH("earth"), // synonym of "dirt", maybe more clear
-    // this values ideally would be removed from OpenStreetMap, but while they remain
-    // we want to handle them somehow
-    SOIL("soil"),
-    PAVING_STONES_WITH_WEIRD_SUFFIX("paving_stones:30"),
-    COBLLESTONE_FLATTENED("cobblestone:flattened"),
-    BRICK("brick"),
-    BRICKS("bricks");
 }
 
 val COMMON_SPECIFIC_PAVED_SURFACES = listOf(
@@ -76,3 +65,13 @@ val GENERIC_AREA_SURFACES = listOf(
 )
 
 val Surface.shouldBeDescribed: Boolean get() = this in UNDERSPECIFED_SURFACES
+
+val ALIASED_SURFACE_VALUES: Map<String, Surface> = mapOf(
+    "bricks" to PAVING_STONES,
+    "brick" to PAVING_STONES,
+    "paving_stones:30" to PAVING_STONES,
+    "cobblestone:flattened" to SETT,
+    "soil" to DIRT,
+    "earth" to DIRT,
+    "mud" to DIRT, // valid value, but not displayed specially in StreetComplete
+)

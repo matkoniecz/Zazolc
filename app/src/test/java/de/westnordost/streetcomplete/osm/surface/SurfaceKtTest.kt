@@ -128,8 +128,8 @@ class SurfaceKtTest {
 
     @Test
     fun `converting tags to enum supports synonyms`() {
-        assertEquals(Surface.EARTH, surfaceTextValueToSurfaceEnum("earth"))
-        assertEquals(Surface.SOIL, surfaceTextValueToSurfaceEnum("soil"))
+        assertEquals(surfaceTextValueToSurfaceEnum("earth"), Surface.DIRT)
+        assertEquals(surfaceTextValueToSurfaceEnum("soil"), Surface.DIRT)
     }
 
     @Test

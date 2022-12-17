@@ -12,10 +12,15 @@ object IsIndoorsAnswer : SurfaceOrIsStepsAnswer
 data class SurfaceAnswer(val value: Surface, val note: String? = null) : SurfaceOrIsStepsAnswer
 
 fun SurfaceAnswer.applyTo(tags: Tags, prefix: String? = null) {
-    val osmValue = value.osmValue
+    var osmValue = value.osmValue
     val pre = if (prefix != null) "$prefix:" else ""
     val key = "${pre}surface"
     val previousOsmValue = tags[key]
+    if(previousOsmValue != null) {
+        if(ALIASED_SURFACE_VALUES[previousOsmValue] == value) {
+            osmValue = previousOsmValue
+        }
+    }
 
     var replacesTracktype = false
     if (prefix == null) {

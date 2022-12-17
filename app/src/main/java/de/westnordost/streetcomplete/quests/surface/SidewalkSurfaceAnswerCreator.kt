@@ -4,6 +4,7 @@ import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChanges
 import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.osm.hasCheckDateForKey
 import de.westnordost.streetcomplete.osm.removeCheckDatesForKey
+import de.westnordost.streetcomplete.osm.surface.ALIASED_SURFACE_VALUES
 import de.westnordost.streetcomplete.osm.surface.SurfaceAnswer
 import de.westnordost.streetcomplete.osm.updateCheckDateForKey
 
@@ -58,7 +59,14 @@ private fun applySidewalkSurfaceAnswerTo(surface: SurfaceAnswer, side: SidewalkS
     val sidewalkKey = "sidewalk:" + side.value
     val sidewalkSurfaceKey = "$sidewalkKey:surface"
 
-    tags[sidewalkSurfaceKey] = surface.value.osmValue
+    var osmValue = surface.value.osmValue
+    val previousOsmValue = tags[sidewalkSurfaceKey]
+    if(previousOsmValue != null) {
+        if(ALIASED_SURFACE_VALUES[previousOsmValue]?.osmValue == osmValue) {
+            osmValue = previousOsmValue
+        }
+    }
+    tags[sidewalkSurfaceKey] = osmValue
 
     // add/remove note - used to describe generic surfaces
     if (surface.note != null) {

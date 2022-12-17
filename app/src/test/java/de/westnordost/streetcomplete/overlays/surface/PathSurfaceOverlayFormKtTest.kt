@@ -192,7 +192,7 @@ class PathSurfaceOverlayFormKtTest {
             StringMapEntryAdd("check_date:footway:surface", nowAsCheckDateString()),
         )
         verifyAnswerWithSeparateFootwayCyclewaySurfaces(tags,
-            Surface.PAVING_STONES, null, Surface.BRICKS, null, null, *expectedChanges)
+            Surface.PAVING_STONES, null, Surface.PAVING_STONES, null, null, *expectedChanges)
     }
 
     @Test
