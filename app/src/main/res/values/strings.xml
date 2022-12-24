@@ -1634,7 +1634,6 @@ Partially means that a wheelchair can enter and use the restroom, but no handrai
     <string name="cycleway_reverse_direction_toast">Tap which side to reverse</string>
 
     <string name="overlay_none">None</string>
-
     <string name="overlay_lit">Street lighting</string>
     <string name="lit_value_yes">Lit</string>
     <string name="lit_value_no">Not lit</string>
@@ -1656,6 +1655,15 @@ Partially means that a wheelchair can enter and use the restroom, but no handrai
     <string name="confirmation_replace_shop_no">"Still same place"</string>
 
     <string name="overlay_street_parking">Street parking</string>
+    <string name="overlay_road_surface">Road surfaces</string>
+    <string name="overlay_path_surface">Path surfaces</string>
+    <string name="overlay_sidewalk_surface">Sidewalk surface info (when tagged on road)</string>
+    <string name="overlay_universal_surface">All and any surface</string>
+
+    <string name="overlay_cycleway_label">Bike path:</string>
+    <string name="overlay_footway_label">Foot path:</string>
+    <string name="overlay_path_surface_segregated">Split into cycling and walking parts</string>
+    <string name="overlay_path_surface_not_segregated">Single surface</string>
 
     <string name="select_street_parking_orientation">"Select orientation toward roadway:"</string>
     <string name="select_street_parking_position">"Select position:"</string>

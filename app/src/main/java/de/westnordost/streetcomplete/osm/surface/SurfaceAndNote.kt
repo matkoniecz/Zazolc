@@ -1,8 +1,6 @@
-package de.westnordost.streetcomplete.quests.surface
+package de.westnordost.streetcomplete.osm.surface
 
-import de.westnordost.streetcomplete.osm.ANYTHING_FULLY_PAVED
 import de.westnordost.streetcomplete.osm.Tags
-import de.westnordost.streetcomplete.osm.isSurfaceAndTracktypeMismatching
 import de.westnordost.streetcomplete.osm.removeCheckDatesForKey
 import de.westnordost.streetcomplete.osm.updateWithCheckDate
 
@@ -10,9 +8,9 @@ sealed interface SurfaceOrIsStepsAnswer
 object IsActuallyStepsAnswer : SurfaceOrIsStepsAnswer
 object IsIndoorsAnswer : SurfaceOrIsStepsAnswer
 
-data class SurfaceAnswer(val value: Surface, val note: String? = null) : SurfaceOrIsStepsAnswer
+data class SurfaceAndNote(val value: Surface, val note: String? = null) : SurfaceOrIsStepsAnswer
 
-fun SurfaceAnswer.applyTo(tags: Tags, prefix: String? = null) {
+fun SurfaceAndNote.applyTo(tags: Tags, prefix: String? = null, updateCheckDate: Boolean = true) {
     val osmValue = value.osmValue
     val pre = if (prefix != null) "$prefix:" else ""
     val key = "${pre}surface"
@@ -29,18 +27,17 @@ fun SurfaceAnswer.applyTo(tags: Tags, prefix: String? = null) {
         }
     }
 
-    // remove smoothness tag if surface was changed
+    // remove smoothness (etc) tags if surface was changed
     // or surface can be treated as outdated
     if ((previousOsmValue != null && previousOsmValue != osmValue) || replacesTracktype) {
-        tags.remove("$key:grade")
-        tags.remove("${pre}smoothness")
-        tags.remove("${pre}smoothness:date")
-        tags.remove("source:smoothness")
-        tags.removeCheckDatesForKey("${pre}smoothness")
+        for (target in keysToBeRemovedOnSurfaceChange(pre)) {
+            tags.remove(target)
+        }
     }
 
     // update surface + check date
-    tags.updateWithCheckDate(key, osmValue)
+    if (updateCheckDate) tags.updateWithCheckDate(key, osmValue)
+    else tags[key] = osmValue
 
     // add/remove note - used to describe generic surfaces
     if (note != null) {
@@ -52,13 +49,13 @@ fun SurfaceAnswer.applyTo(tags: Tags, prefix: String? = null) {
     tags.remove("source:$key")
 }
 
-fun SurfaceAnswer.updateSegregatedFootAndCycleway(tags: Tags) {
+fun SurfaceAndNote.updateSegregatedFootAndCycleway(tags: Tags) {
     val footwaySurface = tags["footway:surface"]
     val cyclewaySurface = tags["cycleway:surface"]
     if (cyclewaySurface != null && footwaySurface != null) {
         val commonSurface = when {
             footwaySurface == cyclewaySurface -> this
-            footwaySurface in ANYTHING_FULLY_PAVED && cyclewaySurface in ANYTHING_FULLY_PAVED -> SurfaceAnswer(Surface.PAVED_ROAD)
+            footwaySurface in ANYTHING_FULLY_PAVED && cyclewaySurface in ANYTHING_FULLY_PAVED -> SurfaceAndNote(Surface.PAVED_ROAD)
             else -> null
         }
         if (commonSurface != null) {
