@@ -10,6 +10,7 @@ import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnsw
 import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.SERVICE
 import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.SHOP
 import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.STAIRCASE
+import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.SECONDARY
 
 class AddEntranceForm : AListQuestForm<EntranceAnswer>() {
     override val items: List<TextItem<EntranceAnswer>> = listOf(
@@ -19,6 +20,7 @@ class AddEntranceForm : AListQuestForm<EntranceAnswer>() {
         TextItem(EXIT, R.string.quest_building_entrance_exit),
         TextItem(EMERGENCY_EXIT, R.string.quest_building_entrance_emergency_exit),
         TextItem(SHOP, R.string.quest_building_entrance_shop),
+        TextItem(SECONDARY, R.string.quest_building_entrance_secondary),
         TextItem(GENERIC, R.string.quest_building_entrance_yes),
         TextItem(DeadEnd, R.string.quest_building_entrance_dead_end),
         TextItem(Private, R.string.quest_building_entrance_private),
