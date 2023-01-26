@@ -45,11 +45,9 @@ class PathSurfaceOverlay : Overlay {
 
     private val handledSurfaces = Surface.values().map { it.osmValue }.toSet() + INVALID_SURFACES
 
-    override fun getStyledElements(mapData: MapDataWithGeometry): Sequence<Pair<Element, Style>> {
-        return mapData
-           .filter( """
+    override fun getStyledElements(mapData: MapDataWithGeometry): Sequence<Pair<Element, Style>> =
+        mapData.filter( """
                ways, relations with
-               (
                    highway ~ ${(ALL_PATHS).joinToString("|")}
                    and (!surface or surface ~ ${handledSurfaces.joinToString("|") })
                    and (!cycleway:surface or cycleway:surface ~ ${handledSurfaces.joinToString("|") })
@@ -61,44 +59,16 @@ class PathSurfaceOverlay : Overlay {
                    and !sidewalk and !sidewalk:left and !sidewalk:right and !sidewalk:both
                    and !sidewalk:both:surface and !sidewalk:right:surface and !sidewalk:left:surface and !sidewalk:surface
                    and !sidewalk:both:surface:note and !sidewalk:right:surface:note and !sidewalk:left:surface:note
-               )
-               or
-               (
+               """).map { it to getStyleForStandalonePath(it) } +
+       mapData.filter( """
+               ways, relations with
                    highway ~ ${(ALL_ROADS).joinToString("|")}
                    and (sidewalk ~ left|right|both or sidewalk:both = yes or sidewalk:left = yes or sidewalk:right = yes)
                    and (!sidewalk:both:surface or sidewalk:both:surface ~ ${handledSurfaces.joinToString("|") })
                    and (!sidewalk:right:surface or sidewalk:right:surface ~ ${handledSurfaces.joinToString("|") })
                    and (!sidewalk:left:surface or sidewalk:left:surface ~ ${handledSurfaces.joinToString("|") })
-               )
            """)
-           .filter { element -> tagsHaveOnlyAllowedSurfaceKeys(element.tags) }.map { it to getStyle(it) }
-    }
-
-    private fun tagsHaveOnlyAllowedSurfaceKeys(tags: Map<String, String>): Boolean {
-        return tags.keys.none {
-            "surface" in it && it !in allowedTagWithSurfaceInKey
-        }
-    }
-    // https://taginfo.openstreetmap.org/search?q=surface
-    val supportedSurfaceKeys = listOf(
-        // note that elements with sidewalk surface keys are exluded from path in the query above
-        // some people tag combined footway-cycleway as cycleway with sidewalk...
-        "sidewalk:both:surface", "sidewalk:right:surface", "sidewalk:left:surface", "sidewalk:surface",
-        "sidewalk:both:surface:note", "sidewalk:right:surface:note", "sidewalk:left:surface:note",
-
-        // supported in this overlay, not in all of them
-        "footway:surface", "cycleway:surface",
-        // really rare, but added by StreetComplete so also should be supported by it to allow editing added data
-        "cycleway:surface:note", "footway:surface:note",
-
-        // supported in both surface overlays
-        "surface", "surface:note"
-    ) + keysToBeRemovedOnSurfaceChange("") +
-    keysToBeRemovedOnSurfaceChange("cycleway:") + keysToBeRemovedOnSurfaceChange("fotway:")
-
-    private val allowedTagWithSurfaceInKey = supportedSurfaceKeys + listOf(
-        "proposed:surface", // does not matter
-    )
+           .map { it to getStyleForSidewalkAsProperty(it) }
 
     override fun createForm(element: Element?) =
         if (element != null) {
@@ -106,14 +76,6 @@ class PathSurfaceOverlay : Overlay {
             else if (element.tags["highway"] in ALL_ROADS) SidewalkSurfaceOverlayForm()
             else null
         } else null
-}
-
-private fun getStyle(element: Element): Style {
-    return if (element.tags["highway"] in ALL_PATHS) {
-        getStyleForStandalonePath(element)
-    } else {
-        getStyleForSidewalkAsProperty(element)
-    }
 }
 
 private fun getStyleForStandalonePath(element: Element): Style {
@@ -179,8 +141,9 @@ private fun getStyleForStandalonePath(element: Element): Style {
 
 private fun getStyleForSidewalkAsProperty(element: Element): PolylineStyle {
     val sidewalkSides = createSidewalkSides(element.tags)
-    // not set but on road that usually has no sidewalk or it is private -> do not highlight as missing
-    if (sidewalkSides == null || isPrivateOnFoot(element)) {
+
+    // sidewalk data is not set on road -> do not highlight as missing
+    if (sidewalkSides == null) {
         return PolylineStyle(StrokeStyle(Color.INVISIBLE))
     }
 
@@ -191,6 +154,14 @@ private fun getStyleForSidewalkAsProperty(element: Element): PolylineStyle {
     val rightColor =
         if (sidewalkSides.right != Sidewalk.YES) Color.INVISIBLE
         else sidewalkSurface?.right.color
+
+    if (leftColor == Color.DATA_REQUESTED || rightColor == Color.DATA_REQUESTED) {
+        // yes, there is an edge case where one side has data set, one unset
+        // and it will be not shown
+        if (isPrivateOnFoot(element)) {
+            return PolylineStyle(StrokeStyle(Color.INVISIBLE))
+        }
+    }
 
     return PolylineStyle(
         stroke = null,
