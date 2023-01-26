@@ -76,6 +76,7 @@ import de.westnordost.streetcomplete.quests.fire_hydrant_ref.AddFireHydrantRef
 import de.westnordost.streetcomplete.quests.foot.AddProhibitedForPedestrians
 import de.westnordost.streetcomplete.quests.fuel_service.AddFuelSelfService
 import de.westnordost.streetcomplete.quests.general_fee.AddGeneralFee
+import de.westnordost.streetcomplete.quests.grit_bin_seasonal.AddGritBinSeasonal
 import de.westnordost.streetcomplete.quests.handrail.AddHandrail
 import de.westnordost.streetcomplete.quests.incline_direction.AddBicycleIncline
 import de.westnordost.streetcomplete.quests.incline_direction.AddStepsIncline
@@ -126,7 +127,6 @@ import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation
 import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry
 import de.westnordost.streetcomplete.quests.shop_type.CheckShopType
 import de.westnordost.streetcomplete.quests.shop_type.SpecifyShopType
-import de.westnordost.streetcomplete.quests.shoulder.AddShoulder
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk
 import de.westnordost.streetcomplete.quests.smoking.AddSmoking
 import de.westnordost.streetcomplete.quests.smoothness.AddPathSmoothness
@@ -317,6 +317,7 @@ fun questTypeRegistry(
        whether the postbox is still there in countries in which it is enabled */
     48 to AddPostboxCollectionTimes(),
     49 to CheckExistence(featureDictionaryFuture),
+    155 to AddGritBinSeasonal(),
 
     50 to AddBoardType(),
 
@@ -459,7 +460,11 @@ fun questTypeRegistry(
     136 to AddTracktype(), // widely used in map rendering - OSM Carto, OsmAnd...
     137 to AddCycleway(countryInfos, countryBoundariesFuture), // for any cyclist routers (and cyclist maps)
     138 to AddLanes(), // abstreet, certainly most routing engines - often requires way to be split
-    139 to AddShoulder(), // needs minimal thinking
+
+    // disabled completely because definition is too fuzzy/broad to be useful and easy to answer,
+    // see https://community.openstreetmap.org/t/shoulder-tag-is-confusing/5185
+    // 139 to AddShoulder(), // needs minimal thinking
+
     140 to AddRoadWidth(arSupportChecker),
     141 to AddRoadSmoothness(),
     142 to AddPathSmoothness(),

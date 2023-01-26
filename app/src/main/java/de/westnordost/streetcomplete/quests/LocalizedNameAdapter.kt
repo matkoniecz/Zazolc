@@ -48,6 +48,12 @@ class LocalizedNameAdapter(
             notifyDataSetChanged()
         }
 
+    var emptyNamesHint: String? = null
+        set(value) {
+            field = value
+            notifyItemChanged(0)
+        }
+
     private var _names: MutableList<LocalizedName> = mutableListOf()
     private val listeners = mutableListOf<(LocalizedName) -> Unit>()
 
@@ -275,10 +281,13 @@ class LocalizedNameAdapter(
             val isFirst = index == 0
 
             buttonDelete.isInvisible = isFirst
-            buttonLanguage.isInvisible = languageTags.size <= 1
+            buttonLanguage.isEnabled = languageTags.size > 1
 
+            if (isFirst) {
+                input.hint = emptyNamesHint
+                if (emptyNamesHint == null) input.requestFocus()
+            }
             input.setText(localizedName.name)
-            input.requestFocus()
             val languageTag = localizedName.languageTag
             buttonLanguage.text = if (languageTag == "international") "🌍" else languageTag
 

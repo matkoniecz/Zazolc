@@ -403,11 +403,6 @@
                     "placeholder": "2, 4, 6...",
                     "terms": "地下,地下階数"
                 },
-                "building/levels_building": {
-                    "label": "建物の地上階数",
-                    "placeholder": "2, 4, 6...",
-                    "terms": "階数,総階数,階建て"
-                },
                 "building/material": {
                     "label": "建物の素材",
                     "terms": "材料,素材"
@@ -481,9 +476,6 @@
                 "capacity_volume": {
                     "label": "収容数",
                     "placeholder": "50, 100, 200..."
-                },
-                "cash_in": {
-                    "label": "入金"
                 },
                 "castle_type": {
                     "label": "種類",
@@ -756,7 +748,6 @@
                     "label": "意味"
                 },
                 "departures_board": {
-                    "label": "出発案内板",
                     "options": {
                         "no": "なし",
                         "realtime": "リアルタイム",
@@ -1085,9 +1076,6 @@
                 "fuel": {
                     "label": "ガソリンスタンド"
                 },
-                "fuel_multi": {
-                    "label": "燃料の種類"
-                },
                 "gambling": {
                     "label": "遊戯の種類"
                 },
@@ -1163,7 +1151,39 @@
                     "label": "種類"
                 },
                 "healthcare/speciality": {
-                    "label": "専門科"
+                    "label": "専門科",
+                    "options": {
+                        "anaesthetics": "麻酔科",
+                        "biochemistry": "生化学",
+                        "biology": "臨床生物学",
+                        "cardiology": "循環器科",
+                        "child_psychiatry": "児童精神科",
+                        "community": "公衆衛生",
+                        "dental_oral_maxillo_facial_surgery": "歯科・口腔科・口腔顎顔面外科",
+                        "dermatology": "皮膚科",
+                        "diagnostic_radiology": "放射線科",
+                        "emergency": "救急科",
+                        "endocrinology": "内分泌科",
+                        "gastroenterology": "消化器内科",
+                        "general": "総合診療科",
+                        "gynaecology": "産婦人科",
+                        "internal": "内科",
+                        "neurology": "神経内科",
+                        "neurosurgery": "脳神経外科",
+                        "ophthalmology": "眼科",
+                        "orthodontics": "矯正歯科",
+                        "orthopaedics": "整形外科",
+                        "paediatric_surgery": "小児外科",
+                        "paediatrics": "小児科",
+                        "palliative": "緩和ケア",
+                        "physiatry": "リハビリテーション科",
+                        "plastic_surgery": "形成外科",
+                        "psychiatry": "精神科",
+                        "pulmonology": "呼吸器科",
+                        "radiology": "放射線科",
+                        "surgery": "外科",
+                        "urology": "泌尿器科"
+                    }
                 },
                 "heating": {
                     "label": "暖房の種類"
@@ -1757,10 +1777,6 @@
                     "label": "支払の種類",
                     "terms": "貨幣の種類,貨幣,コイン,紙幣,キャッシュ,支払"
                 },
-                "payment_multi_fee": {
-                    "label": "支払方法",
-                    "terms": "貨幣の種類,貨幣,コイン,紙幣,キャッシュ,支払"
-                },
                 "phases": {
                     "label": "相の数",
                     "placeholder": "1, 2, 3..."
@@ -1881,7 +1897,6 @@
                     "label": "発電方法"
                 },
                 "plant/output/electricity": {
-                    "label": "発電所出力形態：電気",
                     "placeholder": "500 MW, 1000 MW, 2000 MW..."
                 },
                 "plant/source": {
@@ -2599,7 +2614,6 @@
                 "tracktype": {
                     "label": "トラックの種類",
                     "options": {
-                        "grade1": "grade1-硬質: 舗装もしくは煉瓦・砕石の締固め路盤",
                         "grade2": "grade2-大部分が硬質: 砂利・岩と柔らかい物質の混合",
                         "grade3": "grade3-硬軟の物質の混合",
                         "grade4": "grade4-大部分が軟質: 土／砂／草と硬い物質の混合",
@@ -2803,10 +2817,6 @@
                 "water_tank/volume": {
                     "label": "量(リットル)",
                     "placeholder": "10000, 20000, 30000…"
-                },
-                "water_volume": {
-                    "label": "備蓄水量(m³)",
-                    "terms": "貯水量,貯水"
                 },
                 "waterway": {
                     "label": "水路の種類"
@@ -4434,10 +4444,6 @@
                     "name": "製本所",
                     "terms": "製本所,職人,工房"
                 },
-                "craft/brewery": {
-                    "name": "ビール醸造所",
-                    "terms": "ビール醸造所,職人,工房"
-                },
                 "craft/carpenter": {
                     "name": "工務店",
                     "terms": "工務店,職人,工房,大工,リフォーム,建具店,表具店,指物店,経師,建具師,指物師"
@@ -4899,8 +4905,7 @@
                     "name": "横断歩道"
                 },
                 "highway/crossing/marked": {
-                    "name": "横断歩道（マークあり）",
-                    "terms": "横断歩道（マークあり）,横断歩道,歩道"
+                    "name": "横断歩道（マークあり）"
                 },
                 "highway/crossing/traffic_signals": {
                     "name": "横断歩道（歩行者用信号あり）",
@@ -4929,8 +4934,7 @@
                     "terms": "横断歩道（自転車道内）,横断歩道,自転車道"
                 },
                 "highway/cycleway/crossing/marked": {
-                    "name": "自転車用横断道（マークあり）",
-                    "terms": "自転車用横断道（マークあり）,自転車横断道,自転車用横断歩道,自転車,自転車道,横断歩道"
+                    "name": "自転車用横断道（マークあり）"
                 },
                 "highway/cycleway/crossing/unmarked": {
                     "name": "自転車用横断道（マークなし）",
@@ -4963,24 +4967,9 @@
                 "highway/footway/crossing": {
                     "name": "横断歩道"
                 },
-                "highway/footway/marked": {
-                    "name": "横断歩道（マークあり）",
-                    "terms": "横断歩道（マークあり）,横断歩道,歩道"
-                },
                 "highway/footway/sidewalk": {
                     "name": "歩道（車道の脇）",
                     "terms": "歩道（車道の脇）,歩道"
-                },
-                "highway/footway/traffic_signals": {
-                    "name": "横断歩道（歩行者用信号あり）",
-                    "terms": "横断歩道,信号機,信号,歩行者信号機,歩行者用信号機"
-                },
-                "highway/footway/unmarked": {
-                    "name": "横断歩道（マークなし）",
-                    "terms": "横断歩道（マークなし）,横断歩道,歩道"
-                },
-                "highway/footway/zebra": {
-                    "name": "横断歩道（ゼブラあり）"
                 },
                 "highway/give_way": {
                     "name": "ゆずれ標識（前方優先道路）",
@@ -5009,9 +4998,6 @@
                 "highway/motorway_link": {
                     "name": "自動車専用道路の接続路",
                     "terms": "自動車専用道路,接続路,車道,幹線,公道"
-                },
-                "highway/motorway_link-US-CA": {
-                    "name": "自動車専用道路の接続路"
                 },
                 "highway/passing_place": {
                     "name": "待避所",
@@ -5044,9 +5030,6 @@
                 "highway/primary_link": {
                     "name": "主要地方道の接続路",
                     "terms": "主要地方道,接続路,車道,幹線,公道"
-                },
-                "highway/primary_link-US-CA": {
-                    "name": "主要地方道の接続路"
                 },
                 "highway/raceway": {
                     "name": "モーターレース場",
@@ -5167,9 +5150,6 @@
                 "highway/trunk_link": {
                     "name": "国道の接続路",
                     "terms": "国道,接続路,車道,幹線,公道"
-                },
-                "highway/trunk_link-US-CA": {
-                    "name": "国道の接続路"
                 },
                 "highway/turning_circle": {
                     "name": "転回場",
@@ -6035,10 +6015,6 @@
                     "name": "パイプライン（地下）",
                     "terms": "パイプライン（地下）,パイプライン,地下,埋設パイプライン,地下パイプ"
                 },
-                "man_made/pipeline/valve": {
-                    "name": "バルブ(パイプライン)",
-                    "terms": "バルブ(パイプライン)"
-                },
                 "man_made/pumping_station": {
                     "name": "ポンプ場",
                     "terms": "ポンプ場,揚水施設,汲み上げ"
@@ -6386,7 +6362,7 @@
                 },
                 "noexit/yes": {
                     "name": "行き止まり",
-                    "terms": "行き止まり,行止り,突き当たり"
+                    "terms": "行き止まり,行止り,突き当たり,袋小路"
                 },
                 "office": {
                     "name": "オフィス",
@@ -6828,10 +6804,6 @@
                 "power/plant/source/oil": {
                     "name": "石油発電所",
                     "terms": "石油発電所,火力発電所,発電所,電力,石油"
-                },
-                "power/plant/source/solar": {
-                    "name": "太陽光発電所",
-                    "terms": "原子力発電所,ソーラー,電力,発電所"
                 },
                 "power/plant/source/waste": {
                     "name": "廃棄物発電所",

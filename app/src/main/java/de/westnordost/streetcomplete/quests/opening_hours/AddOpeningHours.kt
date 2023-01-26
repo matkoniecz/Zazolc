@@ -5,6 +5,7 @@ import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.elementfilter.filters.RelativeDate
 import de.westnordost.streetcomplete.data.elementfilter.filters.TagOlderThan
 import de.westnordost.streetcomplete.data.elementfilter.toElementFilterExpression
+import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
@@ -25,7 +26,7 @@ class AddOpeningHours(
     /* See also AddWheelchairAccessBusiness and AddPlaceName, which has a similar list and is/should
        be ordered in the same way for better overview */
     private val filter by lazy { ("""
-        nodes, ways, relations with
+        nodes, ways with
         (
           (
             (
@@ -89,11 +90,11 @@ class AddOpeningHours(
             ),
             "healthcare" to arrayOf(
                 // common
-                "audiologist", "optometrist", "counselling", "speech_therapist",
-                "sample_collection", "blood_donation",
-
-                // name & opening hours
-                "physiotherapist", "podiatrist",
+                "pharmacy", "doctor", "clinic", "dentist", "centre", "physiotherapist",
+                "laboratory", "alternative", "psychotherapist", "optometrist", "podiatrist",
+                "nurse", "counselling", "speech_therapist", "blood_donation", "sample_collection",
+                "occupational_therapist", "dialysis", "vaccination_centre", "audiologist",
+                "blood_bank", "nutrition_counselling",
             ),
         ).map { it.key + " ~ " + it.value.joinToString("|") }.joinToString("\n or ") + "\n" + """
             )
@@ -156,7 +157,7 @@ class AddOpeningHours(
 
     override fun createForm() = AddOpeningHoursForm()
 
-    override fun applyAnswerTo(answer: OpeningHoursAnswer, tags: Tags, timestampEdited: Long) {
+    override fun applyAnswerTo(answer: OpeningHoursAnswer, tags: Tags, geometry: ElementGeometry, timestampEdited: Long) {
         if (answer is NoOpeningHoursSign) {
             tags["opening_hours:signed"] = "no"
             tags.updateCheckDateForKey("opening_hours")

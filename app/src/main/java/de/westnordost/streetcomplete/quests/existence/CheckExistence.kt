@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete.quests.existence
 import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.elementfilter.toElementFilterExpression
+import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmElementQuestType
@@ -35,6 +36,7 @@ class CheckExistence(
             or leisure = picnic_table
             or amenity = bbq
             or leisure = firepit
+            or amenity = grit_bin and seasonal = no
             or amenity = vending_machine and vending ~ parking_tickets|public_transport_tickets
             or amenity = ticket_validator
             or tourism = information and information ~ board|terminal|map
@@ -62,7 +64,7 @@ class CheckExistence(
           and (${lastChecked(6.0)})
         ) or (
           (
-            amenity ~ bicycle_parking|motorcycle_parking
+            amenity ~ bicycle_parking|motorcycle_parking|taxi
           )
           and (${lastChecked(12.0)})
         ))
@@ -114,7 +116,7 @@ class CheckExistence(
 
     override fun createForm() = CheckExistenceForm()
 
-    override fun applyAnswerTo(answer: Unit, tags: Tags, timestampEdited: Long) {
+    override fun applyAnswerTo(answer: Unit, tags: Tags, geometry: ElementGeometry, timestampEdited: Long) {
         tags.updateCheckDate()
     }
 

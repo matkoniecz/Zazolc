@@ -282,9 +282,6 @@
                 "building/levels/underground": {
                     "label": "Подземни нива"
                 },
-                "building/levels_building": {
-                    "label": "Етажи"
-                },
                 "building_area": {
                     "label": "Сграда"
                 },
@@ -610,9 +607,6 @@
                 },
                 "fuel": {
                     "label": "Гориво"
-                },
-                "fuel_multi": {
-                    "label": "Видове гориво"
                 },
                 "gauge": {
                     "label": "Ширина"
@@ -995,7 +989,6 @@
                     "label": "Растение"
                 },
                 "plant/output/electricity": {
-                    "label": "Изходна мощност",
                     "placeholder": "500 MW, 1000 MW, 2000 MW..."
                 },
                 "population": {
@@ -1274,6 +1267,14 @@
                 },
                 "amenity/drinking_water": {
                     "name": "Чешма"
+                },
+                "amenity/driver_training": {
+                    "name": "Учебен полигон",
+                    "terms": "мото полигон,полигон за начинаещи шофьори"
+                },
+                "amenity/driving_school": {
+                    "name": "Автошкола",
+                    "terms": "шофьорско училище,авто курсове,мото курсове,категория b,шофьорска книжка"
                 },
                 "amenity/embassy": {
                     "name": "Посолство"
@@ -1615,9 +1616,6 @@
                 "craft/blacksmith": {
                     "name": "Ковачница"
                 },
-                "craft/brewery": {
-                    "name": "Пивоварна"
-                },
                 "craft/carpenter": {
                     "name": "Дърводелец"
                 },
@@ -1748,8 +1746,7 @@
                     "name": "Пешеходна пътека"
                 },
                 "highway/crossing/marked": {
-                    "name": "Пешеходна пътека Зебра",
-                    "terms": "маркирана пешеходна пътека,зебра"
+                    "name": "Пешеходна пътека Зебра"
                 },
                 "highway/crossing/unmarked": {
                     "name": "Немаркирана пешеходна пътека"
@@ -1775,12 +1772,6 @@
                 },
                 "highway/footway/crossing": {
                     "name": "Пешеходна пътека"
-                },
-                "highway/footway/marked": {
-                    "name": "Пешеходна пътека \"Зебра\""
-                },
-                "highway/footway/unmarked": {
-                    "name": "Немаркирана пешеходна пътека"
                 },
                 "highway/living_street": {
                     "name": "Улица в жилищна зона"
@@ -2292,10 +2283,6 @@
                 },
                 "power/plant/source/nuclear": {
                     "name": "АЕЦ"
-                },
-                "power/plant/source/solar": {
-                    "name": "Фото-волтаична станция",
-                    "terms": "соларна ферма,фотоволтаична инсталация,фотоволтаична станция,соларна станция,слънчева централа,слънчева станция"
                 },
                 "power/plant/source/wind": {
                     "name": "ВяЕЦ",

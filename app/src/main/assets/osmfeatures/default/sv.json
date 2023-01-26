@@ -331,7 +331,10 @@
                     "terms": "soffa,sittmöbel,sittbräde,sits,bänk"
                 },
                 "bicycle_parking": {
-                    "label": "Typ"
+                    "label": "Typ",
+                    "options": {
+                        "building": "I en byggnad"
+                    }
                 },
                 "bin": {
                     "label": "Soptunna",
@@ -413,11 +416,6 @@
                     "placeholder": "2, 4, 6...",
                     "terms": "underjordiska våningar,källare,våning,våningar"
                 },
-                "building/levels_building": {
-                    "label": "Byggnadsvåning",
-                    "placeholder": "2, 4, 6...",
-                    "terms": "byggnadsvåningar,våningar,plan"
-                },
                 "building/material": {
                     "label": "Material",
                     "terms": "material,tillverkat av"
@@ -497,9 +495,6 @@
                 "capacity_volume": {
                     "label": "Kapacitet (kubikmeter)",
                     "placeholder": "50, 100, 200..."
-                },
-                "cash_in": {
-                    "label": "Insättning av pengar"
                 },
                 "castle_type": {
                     "label": "Typ",
@@ -782,7 +777,6 @@
                     "label": "Betydelse"
                 },
                 "departures_board": {
-                    "label": "Avgångstavla",
                     "options": {
                         "no": "Ingen",
                         "realtime": "Realtid",
@@ -1153,9 +1147,6 @@
                 },
                 "fuel": {
                     "label": "Bränsle"
-                },
-                "fuel_multi": {
-                    "label": "Bränslen"
                 },
                 "gambling": {
                     "label": "Spel"
@@ -1870,10 +1861,6 @@
                     "label": "Betalningssätt",
                     "terms": "betalningssätt,betalning,betalningstyper,visa,kort,kreditkort,bankkort,kontant"
                 },
-                "payment_multi_fee": {
-                    "label": "Betalningssätt",
-                    "terms": "betalningssätt,betalning,betalningstyper,visa,kort,kreditkort,bankkort,kontant"
-                },
                 "phases": {
                     "label": "Faser",
                     "placeholder": "1, 2, 3..."
@@ -1994,7 +1981,6 @@
                     "label": "Genereringsmetod"
                 },
                 "plant/output/electricity": {
-                    "label": "Effektuttaget",
                     "placeholder": "500 MW, 1000 MW, 2000 MW..."
                 },
                 "plant/source": {
@@ -2654,10 +2640,6 @@
                     "label": "Senaste undersökningsdatum",
                     "terms": "senaste undersökningsdatum,undersökningsdatum"
                 },
-                "survey_point/datum_aligned": {
-                    "label": "Anpassad till lokalt geodetiskt referenssystem",
-                    "terms": "anpassad till lokalt geodetiskt referenssystem,geodetiskt referenssystem,referenssystem,geodetisk,referens"
-                },
                 "survey_point/purpose": {
                     "label": "Syfte",
                     "options": {
@@ -2777,7 +2759,6 @@
                 "tracktype": {
                     "label": "Typ av bruksväg",
                     "options": {
-                        "grade1": "Fast: asfalterad eller kraftigt packad hård yta",
                         "grade2": "Mestadels fast: grus/sten med inslag av mjukt material",
                         "grade3": "Jämn blandning av hårda och mjuka material",
                         "grade4": "Mestadels mjukt: jord/sand/gräs med inslag av hårt material",
@@ -3005,10 +2986,6 @@
                     "label": "Volym (Liter)",
                     "placeholder": "10000, 20000, 30000…",
                     "terms": "volym,liter,omfång,rymd,utrymme"
-                },
-                "water_volume": {
-                    "label": "Volym på vattenreservoarer (m³)",
-                    "terms": "volym på vattenreservoar (m³),volym,vattenreservoar,reservoar,m3"
                 },
                 "waterway": {
                     "label": "Typ"
@@ -4663,10 +4640,6 @@
                     "name": "Bokbindare",
                     "terms": "bokbindare,bokbindning,bok,böcker,bindning,bokbinderi,bokreparatör"
                 },
-                "craft/brewery": {
-                    "name": "Bryggeri",
-                    "terms": "bryggeri,ölframställning,öltillverkning,öl"
-                },
                 "craft/carpenter": {
                     "name": "Snickare",
                     "terms": "snickare,byggnadssnickare,timmerman,träarbetare,grovsnickare"
@@ -5117,8 +5090,7 @@
                     "name": "Korsning"
                 },
                 "highway/crossing/marked": {
-                    "name": "Markerad gångpassage",
-                    "terms": "övergångsställe för gående,övergångsställe,vägövergång,vägpassage,gångvägspassage,gångpassage,markerat övergångsställe,markerad gångpassage"
+                    "name": "Markerad gångpassage"
                 },
                 "highway/crossing/uncontrolled": {
                     "name": "Markerat övergångsställe"
@@ -5146,8 +5118,7 @@
                     "terms": "cykel- och gångkorsning,gång- och cykelkorsning,gång och cykelkorsning,gc-korsning,cykelkorsning,gångkorsning,cykelpassage,gångpassage,övergångsställe,gående,cyklande,cykel,gång,cykelväg,gångväg,gc-passage,gc-övergång"
                 },
                 "highway/cycleway/crossing/marked": {
-                    "name": "Markerad cykelkorsning",
-                    "terms": "markerad cykelkorsning,cykelöverfart,cykelkorsning,cykelpassage"
+                    "name": "Markerad cykelkorsning"
                 },
                 "highway/cycleway/crossing/unmarked": {
                     "name": "Omarkerad cykelkorsning",
@@ -5180,20 +5151,9 @@
                 "highway/footway/crossing": {
                     "name": "Gångpassage"
                 },
-                "highway/footway/marked": {
-                    "name": "Markerat övergångsställe",
-                    "terms": "övergångsställe för gående,övergångsställe,vägövergång,vägpassage,gångvägspassage,gångpassage,markerat övergångsställe,markerad gångpassage"
-                },
                 "highway/footway/sidewalk": {
                     "name": "Trottoar",
                     "terms": "trottoar,gångbana,gångväg"
-                },
-                "highway/footway/unmarked": {
-                    "name": "Omarkerad övergång",
-                    "terms": "övergångsställe för gående,övergångsställe,vägövergång,vägpassage,gångvägspassage,gångpassage,omarkerat övergångsställe,omarkerad gångpassage,omarkerad övergång"
-                },
-                "highway/footway/zebra": {
-                    "name": "Markerat övergångsställe"
                 },
                 "highway/give_way": {
                     "name": "Väjningsplikt",
@@ -5221,10 +5181,6 @@
                 },
                 "highway/motorway_link": {
                     "name": "Anslutning, motorväg",
-                    "terms": "anslutning,motorvägsanslutning,påfart,avfart,trafikplats"
-                },
-                "highway/motorway_link-US-CA": {
-                    "name": "Motorväganslutning",
                     "terms": "anslutning,motorvägsanslutning,påfart,avfart,trafikplats"
                 },
                 "highway/passing_place": {
@@ -5256,10 +5212,6 @@
                     "terms": "primär väg,primärväg,riksväg,huvudväg,länsväg"
                 },
                 "highway/primary_link": {
-                    "name": "Anslutning, primär väg",
-                    "terms": "anslutning,påfart,avfart,huvudväg,riksväg,primär väg,primärväg"
-                },
-                "highway/primary_link-US-CA": {
                     "name": "Anslutning, primär väg",
                     "terms": "anslutning,påfart,avfart,huvudväg,riksväg,primär väg,primärväg"
                 },
@@ -5380,10 +5332,6 @@
                     "terms": "stamväg,huvudväg,europaväg,riksväg,motortrafikled"
                 },
                 "highway/trunk_link": {
-                    "name": "Anslutning, stamväg",
-                    "terms": "ramp,anslutning,påfart,avfart,huvudväg,europaväg"
-                },
-                "highway/trunk_link-US-CA": {
                     "name": "Anslutning, stamväg",
                     "terms": "ramp,anslutning,påfart,avfart,huvudväg,europaväg"
                 },
@@ -6236,10 +6184,6 @@
                     "name": "Underjordisk pipeline",
                     "terms": "underjordisk pipeline,pipeline,underjordiskt rör,rör,olja,naturgas,gas,vatten,avlopp,oljepipeline,vattenrör,avloppsrör"
                 },
-                "man_made/pipeline/valve": {
-                    "name": "Kran till pipeline",
-                    "terms": "kran till pipeline,kran till rör,pipelinekran,pipelineventil,kran,ventil,olja,naturgas,gas,vatten,avlopp"
-                },
                 "man_made/pumping_station": {
                     "name": "Pumpstation",
                     "terms": "pumpstation,pump,avloppspump,dräneringspump,vattenpump,oljepump,spillvattenspump,pumpaggregat"
@@ -7052,10 +6996,6 @@
                 "power/plant/source/oil": {
                     "name": "Oljeeldat kraftverk",
                     "terms": "oljeeldat kraftverk,oljekraftverk,olja,fossilkraftverk,fossil,eldkraftverk,kraftstation"
-                },
-                "power/plant/source/solar": {
-                    "name": "Solfarm",
-                    "terms": "solfarm,solkraft,solkraftverk,ljuskraft,ljuskraftverk,solpanel,solpark"
                 },
                 "power/plant/source/waste": {
                     "name": "Avfallsförbränningskraftverk",

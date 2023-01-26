@@ -5,7 +5,7 @@ buildscript {
     }
     dependencies {
         val kotlinVersion = "1.7.10"
-        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("com.android.tools.build:gradle:7.4.0")
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
     }
 }
@@ -17,15 +17,19 @@ allprojects {
     }
 }
 
+val poEditorProjectId = "97843"
+
 tasks.register<UpdateWebsiteTranslationsTask>("updateWebsiteTranslations") {
     group = "streetcomplete"
     targetDir = "$projectDir/../streetcomplete-website/res"
+    projectId = poEditorProjectId
     apiToken = properties["POEditorAPIToken"] as String
 }
 
 tasks.register<UpdateStoreDescriptionsTask>("updateStoreDescriptions") {
     group = "streetcomplete"
     targetDir = "$projectDir/metadata"
+    projectId = poEditorProjectId
     apiToken = properties["POEditorAPIToken"] as String
 }
 

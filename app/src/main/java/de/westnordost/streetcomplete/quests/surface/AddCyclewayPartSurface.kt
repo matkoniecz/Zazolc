@@ -1,6 +1,7 @@
 package de.westnordost.streetcomplete.quests.surface
 
 import de.westnordost.streetcomplete.R
+import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.BICYCLIST
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.OUTDOORS
@@ -11,7 +12,7 @@ class AddCyclewayPartSurface : OsmFilterQuestType<SurfaceAnswer>() {
     override val elementFilter = """
         ways with (
           highway = cycleway
-          or (highway ~ path|footway and bicycle != no)
+          or (highway ~ path|footway and bicycle and bicycle != no)
           or (highway = bridleway and bicycle ~ designated|yes)
         )
         and segregated = yes
@@ -36,7 +37,8 @@ class AddCyclewayPartSurface : OsmFilterQuestType<SurfaceAnswer>() {
 
     override fun createForm() = AddPathPartSurfaceForm()
 
-    override fun applyAnswerTo(answer: SurfaceAnswer, tags: Tags, timestampEdited: Long) {
-        answer.applyTo(tags, "cycleway:surface")
+    override fun applyAnswerTo(answer: SurfaceAnswer, tags: Tags, geometry: ElementGeometry, timestampEdited: Long) {
+        answer.applyTo(tags, "cycleway")
+        answer.updateSegregatedFootAndCycleway(tags)
     }
 }

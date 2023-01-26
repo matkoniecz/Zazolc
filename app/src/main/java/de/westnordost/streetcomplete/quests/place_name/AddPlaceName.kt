@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete.quests.place_name
 import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.elementfilter.toElementFilterExpression
+import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
@@ -18,7 +19,7 @@ class AddPlaceName(
 ) : OsmElementQuestType<PlaceNameAnswer> {
 
     private val filter by lazy { ("""
-        nodes, ways, relations with
+        nodes, ways with
         (
           shop and shop !~ no|vacant
           or craft
@@ -95,11 +96,14 @@ class AddPlaceName(
             ),
             "healthcare" to arrayOf(
                 // common
-                "audiologist", "optometrist", "counselling", "speech_therapist",
-                "sample_collection", "blood_donation",
+                "pharmacy", "doctor", "clinic", "dentist", "centre", "physiotherapist",
+                "laboratory", "alternative", "psychotherapist", "optometrist", "podiatrist",
+                "nurse", "counselling", "speech_therapist", "blood_donation", "sample_collection",
+                "occupational_therapist", "dialysis", "vaccination_centre", "audiologist",
+                "blood_bank", "nutrition_counselling",
 
-                // name & opening hours
-                "physiotherapist", "podiatrist",
+                // name & wheelchair
+                "rehabilitation", "hospice", "midwife", "birthing_centre"
             ),
         ).map { it.key + " ~ " + it.value.joinToString("|") }.joinToString("\n  or ") + "\n" + """
         )
@@ -125,7 +129,7 @@ class AddPlaceName(
 
     override fun createForm() = AddPlaceNameForm()
 
-    override fun applyAnswerTo(answer: PlaceNameAnswer, tags: Tags, timestampEdited: Long) {
+    override fun applyAnswerTo(answer: PlaceNameAnswer, tags: Tags, geometry: ElementGeometry, timestampEdited: Long) {
         when (answer) {
             is NoPlaceNameSign -> {
                 tags["name:signed"] = "no"

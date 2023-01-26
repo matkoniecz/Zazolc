@@ -1,15 +1,7 @@
 package de.westnordost.streetcomplete.quests.sidewalk
 
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapEntryAdd
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapEntryDelete
-import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapEntryModify
 import de.westnordost.streetcomplete.data.osm.geometry.ElementPolylinesGeometry
-import de.westnordost.streetcomplete.osm.sidewalk.LeftAndRightSidewalk
-import de.westnordost.streetcomplete.osm.sidewalk.Sidewalk.NO
-import de.westnordost.streetcomplete.osm.sidewalk.Sidewalk.SEPARATE
-import de.westnordost.streetcomplete.osm.sidewalk.Sidewalk.YES
 import de.westnordost.streetcomplete.quests.TestMapDataWithGeometry
-import de.westnordost.streetcomplete.quests.verifyAnswer
 import de.westnordost.streetcomplete.testutils.p
 import de.westnordost.streetcomplete.testutils.way
 import de.westnordost.streetcomplete.util.math.translate
@@ -192,67 +184,23 @@ class AddSidewalkTest {
         assertNull(questType.isApplicableTo(road))
     }
 
-    @Test fun `apply no sidewalk answer`() {
-        questType.verifyAnswer(
-            LeftAndRightSidewalk(left = NO, right = NO),
-            StringMapEntryAdd("sidewalk", "no")
-        )
+    @Test fun `not applicable to road with very low speed limit`() {
+        val road = way(tags = mapOf(
+            "highway" to "residential",
+            "maxspeed" to "9",
+        ))
+        val mapData = TestMapDataWithGeometry(listOf(road))
+        assertEquals(0, questType.getApplicableElements(mapData).toList().size)
+        assertEquals(false, questType.isApplicableTo(road))
     }
 
-    @Test fun `apply sidewalk left answer`() {
-        questType.verifyAnswer(
-            LeftAndRightSidewalk(left = YES, right = NO),
-            StringMapEntryAdd("sidewalk", "left")
-        )
-    }
-
-    @Test fun `apply sidewalk right answer`() {
-        questType.verifyAnswer(
-            LeftAndRightSidewalk(left = NO, right = YES),
-            StringMapEntryAdd("sidewalk", "right")
-        )
-    }
-
-    @Test fun `apply sidewalk on both sides answer`() {
-        questType.verifyAnswer(
-            LeftAndRightSidewalk(left = YES, right = YES),
-            StringMapEntryAdd("sidewalk", "both")
-        )
-    }
-
-    @Test fun `apply separate sidewalk answer`() {
-        questType.verifyAnswer(
-            LeftAndRightSidewalk(left = SEPARATE, right = SEPARATE),
-            StringMapEntryAdd("sidewalk", "separate")
-        )
-    }
-
-    @Test fun `apply separate sidewalk on one side answer`() {
-        questType.verifyAnswer(
-            LeftAndRightSidewalk(left = YES, right = SEPARATE),
-            StringMapEntryAdd("sidewalk:left", "yes"),
-            StringMapEntryAdd("sidewalk:right", "separate"),
-        )
-
-        questType.verifyAnswer(
-            LeftAndRightSidewalk(left = SEPARATE, right = NO),
-            StringMapEntryAdd("sidewalk:left", "separate"),
-            StringMapEntryAdd("sidewalk:right", "no"),
-        )
-    }
-
-    @Test fun `replace incomplete sidewalk tagging`() {
-        questType.verifyAnswer(
-            mapOf("sidewalk:left" to "yes"),
-            LeftAndRightSidewalk(left = YES, right = NO),
-            StringMapEntryAdd("sidewalk", "left"),
-            StringMapEntryDelete("sidewalk:left", "yes")
-        )
-        questType.verifyAnswer(
-            mapOf("sidewalk:left" to "yes"),
-            LeftAndRightSidewalk(left = YES, right = SEPARATE),
-            StringMapEntryModify("sidewalk:left", "yes", "yes"),
-            StringMapEntryAdd("sidewalk:right", "separate"),
-        )
+    @Test fun `applicable to road with implicit speed limit`() {
+        val road = way(tags = mapOf(
+            "highway" to "residential",
+            "maxspeed" to "DE:zone30",
+        ))
+        val mapData = TestMapDataWithGeometry(listOf(road))
+        assertEquals(1, questType.getApplicableElements(mapData).toList().size)
+        assertEquals(null, questType.isApplicableTo(road))
     }
 }

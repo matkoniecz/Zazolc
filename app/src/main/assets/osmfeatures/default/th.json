@@ -224,9 +224,6 @@
                     "label": "อาคาร",
                     "terms": "สิ่งปลูกสร้าง,ตึก,อาคาร"
                 },
-                "building/levels_building": {
-                    "label": "ชั้นอาคาร"
-                },
                 "building/part": {
                     "label": "ส่วนอาคาร"
                 },
@@ -320,9 +317,6 @@
                 },
                 "fuel": {
                     "label": "เชื้อเพลิง"
-                },
-                "fuel_multi": {
-                    "label": "ประเภทเชื้อเพลิง"
                 },
                 "gender": {
                     "label": "เพศ",
@@ -512,9 +506,6 @@
                 },
                 "water_source": {
                     "label": "แหล่งน้ำ"
-                },
-                "water_volume": {
-                    "label": "ปริมาณน้ำสำรอง (ลูกบาศก์เมตร)"
                 },
                 "website": {
                     "label": "เว็บไซต์"
@@ -1538,9 +1529,6 @@
                 "craft/bookbinder": {
                     "name": "คนเย็บเล่มหนังสือ"
                 },
-                "craft/brewery": {
-                    "name": "โรงเบียร์"
-                },
                 "craft/carpenter": {
                     "name": "ช่างไม้"
                 },
@@ -1761,21 +1749,9 @@
                 "highway/footway/informal": {
                     "name": "ทางเดินไม่เป็นทางการ"
                 },
-                "highway/footway/marked": {
-                    "name": "ทางข้ามคนเดินมีเครื่องหมายจราจร"
-                },
                 "highway/footway/sidewalk": {
                     "name": "ทางเท้า",
                     "aliases": "ทางเดิน"
-                },
-                "highway/footway/traffic_signals": {
-                    "name": "ทางข้ามคนเดินมีเครื่องหมายจราจร"
-                },
-                "highway/footway/unmarked": {
-                    "name": "ทางข้ามไม่มีเครื่องหมายจราจร"
-                },
-                "highway/footway/zebra": {
-                    "name": "ทางข้ามคนเดินมีเครื่องหมายจราจร"
                 },
                 "highway/motorway_junction": {
                     "name": "ทางแยก / ทางออก ทางพิเศษ"
