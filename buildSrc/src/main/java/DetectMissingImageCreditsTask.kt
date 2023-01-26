@@ -170,6 +170,11 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "*.json",
             "fonts/*.*",
             "ic_trophy.xml",
+
+            // complicated to handle, would require multiple special and ugly syntax
+            "ic_preset_far",
+            "ic_preset_fas",
+            "ic_preset_fab",
         )
     }
 
@@ -636,7 +641,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 println("skipping $line as listed on files with known problems")
             }
             if (licenceFound == null && !skipped) {
-                throw Exception("unexpected licence in the input file was encountered, on $line")
+                throw Exception("unexpected licence in the input file was encountered, on <$line>")
             }
         }
         return knownLicenced
@@ -764,6 +769,12 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             if (!fileMatchesLicenceDeclaration(File("path" + "/" + pair["filename"]!!), LicenceData("license", "file source", "path", pair["licencedIdentifier"]!!, "selfTest artificial data"))) { // TODO: !! should be not needed here
                 throw Exception("$pair failed to match")
             }
+        }
+        if (containsSkippedFile("ic_preset_fas") == false) {
+            throw Exception("ic_preset_fas was expected to be detected as skipped file")
+        }
+        if (containsSkippedFile("ic_preset_fas-*                  and") == false) {
+            throw Exception("???")
         }
     }
 }
