@@ -6,25 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.children
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.UpdateElementTagsAction
+import de.westnordost.streetcomplete.data.osm.mapdata.Way
 import de.westnordost.streetcomplete.databinding.FragmentOverlayPathSurfaceSelectBinding
 import de.westnordost.streetcomplete.osm.surface.COMMON_SPECIFIC_PAVED_SURFACES
 import de.westnordost.streetcomplete.osm.surface.COMMON_SPECIFIC_UNPAVED_SURFACES
-import de.westnordost.streetcomplete.osm.surface.CyclewayFootwaySurfaces
 import de.westnordost.streetcomplete.osm.surface.CyclewayFootwaySurfacesWithNote
 import de.westnordost.streetcomplete.osm.surface.GENERIC_AREA_SURFACES
 import de.westnordost.streetcomplete.osm.surface.GROUND_SURFACES
-import de.westnordost.streetcomplete.osm.surface.SingleSurface
-import de.westnordost.streetcomplete.osm.surface.SingleSurfaceWithNote
 import de.westnordost.streetcomplete.osm.surface.Surface
 import de.westnordost.streetcomplete.osm.surface.SurfaceAndNote
-import de.westnordost.streetcomplete.osm.surface.SurfaceInfo
-import de.westnordost.streetcomplete.osm.surface.SurfaceMissing
-import de.westnordost.streetcomplete.osm.surface.SurfaceMissingWithNote
 import de.westnordost.streetcomplete.osm.surface.applyTo
 import de.westnordost.streetcomplete.osm.surface.asItem
 import de.westnordost.streetcomplete.osm.surface.commonSurfaceObject
@@ -35,6 +29,8 @@ import de.westnordost.streetcomplete.overlays.AbstractOverlayForm
 import de.westnordost.streetcomplete.overlays.AnswerItem
 import de.westnordost.streetcomplete.overlays.IAnswerItem
 import de.westnordost.streetcomplete.quests.surface.DescribeGenericSurfaceDialog
+import de.westnordost.streetcomplete.util.getFeatureName
+import de.westnordost.streetcomplete.util.getLocalesForFeatureDictionary
 import de.westnordost.streetcomplete.util.ktx.nonBlankTextOrNull
 import de.westnordost.streetcomplete.view.image_select.DisplayItem
 import de.westnordost.streetcomplete.view.image_select.ImageListPickerDialog
@@ -48,7 +44,7 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
     /** items to display. May not be accessed before onCreate */
     val items: List<DisplayItem<Surface>> = (COMMON_SPECIFIC_PAVED_SURFACES + COMMON_SPECIFIC_UNPAVED_SURFACES + GROUND_SURFACES + GENERIC_AREA_SURFACES).toItems()
     private val cellLayoutId: Int = R.layout.cell_labeled_icon_select
-    private var originalSurfaceStatus: SurfaceInfo? = null
+    private var originalSurfaceStatus: CyclewayFootwaySurfacesWithNote? = null
     private var isSegregatedLayout = false
 
     private var selectedStatusForMainSurface: DisplayItem<Surface>? = null
@@ -119,10 +115,13 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
         }
 
         private fun switchToFootwayCyclewaySurfaceLayout() {
-            binding.mainSurfaceContainer.isVisible = false
+            binding.mainSurfaceContainer.isGone = true
             isSegregatedLayout = true
-            binding.cyclewaySurfaceContainer.isVisible = true
-            binding.footwaySurfaceContainer.isVisible = true
+            binding.cyclewaySurfaceContainer.isGone = false
+            binding.footwaySurfaceContainer.isGone = false
+            val locales = getLocalesForFeatureDictionary(resources.configuration)
+            binding.cyclewaySurfaceLabel.text = getFeatureName( Way(1, listOf(), mapOf("highway" to "cycleway")), featureDictionary, locales)
+            binding.footwaySurfaceLabel.text = getFeatureName( Way(1, listOf(), mapOf("highway" to "footway")), featureDictionary, locales)
         }
 
         private sealed class SingleSurfaceItemInfo
@@ -206,59 +205,32 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
 
             val status = createSurfaceStatus(element!!.tags)
             originalSurfaceStatus = status
-            when (status) {
-                // surface=unpaved / surface=paved without note is treated as missing one
-                is CyclewayFootwaySurfaces -> {
-                    val cyclewaySurface = status.cycleway
-                    val footwaySurface = status.footway
-                    if (cyclewaySurface != null) {
-                        selectedStatusForCyclewaySurface = cyclewaySurface.asItem()
-                    }
-                    if (footwaySurface != null) {
-                        selectedStatusForFootwaySurface = footwaySurface.asItem()
-                    }
-                    switchToFootwayCyclewaySurfaceLayout()
-                }
-                is CyclewayFootwaySurfacesWithNote -> {
-                    val cyclewaySurface = status.cycleway
-                    val footwaySurface = status.footway
-                    if (cyclewaySurface != null && !cyclewaySurface.shouldBeDescribed) {
-                        selectedStatusForCyclewaySurface = cyclewaySurface.asItem()
-                    }
-                    if (footwaySurface != null && !footwaySurface.shouldBeDescribed) {
-                        selectedStatusForFootwaySurface = footwaySurface.asItem()
-                    }
-                    if (status.note != null) {
-                        binding.explanationInputMainSurface.text = SpannableStringBuilder(status.note)
-                    }
-                    if (status.cyclewayNote != null) {
-                        binding.explanationInputCyclewaySurface.text = SpannableStringBuilder(status.cyclewayNote)
-                        selectedStatusForCyclewaySurface = cyclewaySurface?.asItem() // even if paved/unpaved
-                    }
-                    if (status.footwayNote != null) {
-                        binding.explanationInputFootwaySurface.text = SpannableStringBuilder(status.footwayNote)
-                        selectedStatusForFootwaySurface = footwaySurface?.asItem() // even if paved/unpaved
-                    }
-                    switchToFootwayCyclewaySurfaceLayout()
-                }
-                is SingleSurface -> {
-                    val surface = status.surface
-                    if (!surface.shouldBeDescribed) {
-                        selectedStatusForMainSurface = status.surface.asItem()
-                    }
-                }
-                is SingleSurfaceWithNote -> {
-                    binding.explanationInputMainSurface.text = SpannableStringBuilder(status.note)
-                    selectedStatusForMainSurface = status.surface.asItem() // even if paved/unpaved
-                }
-                is SurfaceMissing -> {
-                    if (element!!.tags["segregated"] == "yes") {
-                        switchToFootwayCyclewaySurfaceLayout()
-                    }
-                }
-                is SurfaceMissingWithNote -> {
-                    binding.explanationInputMainSurface.text = SpannableStringBuilder(status.note)
-                }
+            val cyclewaySurface = status.cycleway
+            val footwaySurface = status.footway
+            val mainSurface = status.main
+            if (mainSurface != null && !mainSurface.shouldBeDescribed) {
+                selectedStatusForMainSurface = mainSurface.asItem()
+            }
+            if (cyclewaySurface != null && !cyclewaySurface.shouldBeDescribed) {
+                selectedStatusForCyclewaySurface = cyclewaySurface.asItem()
+            }
+            if (footwaySurface != null && !footwaySurface.shouldBeDescribed) {
+                selectedStatusForFootwaySurface = footwaySurface.asItem()
+            }
+            if (status.note != null) {
+                binding.explanationInputMainSurface.text = SpannableStringBuilder(status.note)
+                selectedStatusForMainSurface = mainSurface?.asItem() // even if paved/unpaved
+            }
+            if (status.cyclewayNote != null) {
+                binding.explanationInputCyclewaySurface.text = SpannableStringBuilder(status.cyclewayNote)
+                selectedStatusForCyclewaySurface = cyclewaySurface?.asItem() // even if paved/unpaved
+            }
+            if (status.footwayNote != null) {
+                binding.explanationInputFootwaySurface.text = SpannableStringBuilder(status.footwayNote)
+                selectedStatusForFootwaySurface = footwaySurface?.asItem() // even if paved/unpaved
+            }
+            if (element!!.tags["segregated"] == "yes" || cyclewaySurface != null || footwaySurface != null || status.cyclewayNote != null || status.footwayNote != null) {
+                switchToFootwayCyclewaySurfaceLayout()
             }
             updateSelectedCell()
         }
@@ -271,8 +243,8 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
                 ItemViewHolder(binding.selectButtonMainSurface.selectedCellView).bind(mainSurfaceItem)
             }
             if (noteText() != null || mainSurfaceItem?.value?.shouldBeDescribed == true) {
-                binding.explanationInputMainSurface.isVisible = true
-                binding.mainSurfaceContainer.isVisible = true
+                binding.explanationInputMainSurface.isGone = false
+                binding.mainSurfaceContainer.isGone = false
             }
 
             val cyclewaySurfaceItem = selectedStatusForCyclewaySurface
@@ -282,7 +254,7 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
                 ItemViewHolder(binding.selectButtonCyclewaySurface.selectedCellView).bind(cyclewaySurfaceItem)
             }
             if (cyclewayNoteText() != null || cyclewaySurfaceItem?.value?.shouldBeDescribed == true) {
-                binding.explanationInputCyclewaySurface.isVisible = true
+                binding.explanationInputCyclewaySurface.isGone = false
             }
 
             val footwaySurfaceItem = selectedStatusForFootwaySurface
@@ -292,7 +264,7 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
                 ItemViewHolder(binding.selectButtonFootwaySurface.selectedCellView).bind(footwaySurfaceItem)
             }
             if (footwayNoteText() != null || footwaySurfaceItem?.value?.shouldBeDescribed == true) {
-                binding.explanationInputFootwaySurface.isVisible = true
+                binding.explanationInputFootwaySurface.isGone = false
             }
         }
 
@@ -332,12 +304,6 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
         /* -------------------------------------- apply answer -------------------------------------- */
 
         override fun isFormComplete(): Boolean {
-            // should we allow editing surface:note?
-            // also where surface is not specified (maybe even surface=paved/unpaved cannot be really specified)
-            // so saving is allowed even in absense of surface
-            if (isAnyOriginallyExistingNotesEdited()) {
-                return true
-            }
             if (selectedStatusForMainSurface == null) {
                 if (selectedStatusForCyclewaySurface == null || selectedStatusForFootwaySurface == null) {
                     return false
@@ -345,36 +311,6 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
             }
             return hasChanges()
         }
-
-    private fun isAnyOriginallyExistingNotesEdited(): Boolean {
-        when (val original = originalSurfaceStatus) {
-            is SingleSurfaceWithNote -> {
-                if (noteText() != original.note) {
-                    return true
-                }
-            }
-            is SurfaceMissingWithNote -> {
-                if (noteText() != original.note) {
-                    return true
-                }
-            }
-            is CyclewayFootwaySurfacesWithNote -> {
-                if (noteText() != original.note) {
-                    return true
-                }
-                if (cyclewayNoteText() != original.cyclewayNote) {
-                    return true
-                }
-                if (footwayNoteText() != original.footwayNote) {
-                    return true
-                }
-            }
-            else -> {
-                return false
-            }
-        }
-        return false
-    }
 
     fun noteText(): String? {
         return binding.explanationInputMainSurface.nonBlankTextOrNull
@@ -389,26 +325,26 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
     }
 
     override fun hasChanges(): Boolean {
-        return when (val original = originalSurfaceStatus) {
-            is CyclewayFootwaySurfaces ->
-                selectedStatusForCyclewaySurface?.value != original.cycleway || selectedStatusForFootwaySurface?.value != original.footway
-            is SingleSurface -> selectedStatusForMainSurface?.value != original.surface
-                || selectedStatusForCyclewaySurface?.value != null || selectedStatusForFootwaySurface?.value != null
-            is SingleSurfaceWithNote -> selectedStatusForMainSurface?.value != original.surface || noteText() != original.note
-                || selectedStatusForCyclewaySurface?.value != null || selectedStatusForFootwaySurface?.value != null
-            is SurfaceMissing -> selectedStatusForMainSurface?.value != null
-                || selectedStatusForCyclewaySurface?.value != null || selectedStatusForFootwaySurface?.value != null
-            is SurfaceMissingWithNote -> selectedStatusForMainSurface?.value != null  || noteText() != original.note
-                || selectedStatusForCyclewaySurface?.value != null || selectedStatusForFootwaySurface?.value != null
-            is CyclewayFootwaySurfacesWithNote -> {
-                // selectedStatusForMainSurface?.value != original.main
-                // is not being checked as surface is dropped and will be derived from cycleway & footway surface
-                noteText() != original.note ||
-                selectedStatusForCyclewaySurface?.value != original.cycleway || cyclewayNoteText() != original.cyclewayNote ||
-                selectedStatusForFootwaySurface?.value != original.footway || footwayNoteText() != original.footwayNote
-            }
-            null -> throw Exception("it was supposed to be set in onViewCreated - is it possible to trigger it before onViewCreated completes?")
+        // originalSurfaceStatus was supposed to be set in onViewCreated - is it possible to trigger this before onViewCreated completes?
+        if (selectedStatusForMainSurface?.value != originalSurfaceStatus!!.main) {
+            return true
         }
+        if (selectedStatusForCyclewaySurface?.value != originalSurfaceStatus!!.cycleway) {
+            return true
+        }
+        if (selectedStatusForFootwaySurface?.value != originalSurfaceStatus!!.footway) {
+            return true
+        }
+        if (noteText() != originalSurfaceStatus!!.note){
+            return true
+        }
+        if (cyclewayNoteText() != originalSurfaceStatus!!.cyclewayNote){
+            return true
+        }
+        if (footwayNoteText() != originalSurfaceStatus!!.footwayNote){
+            return true
+        }
+        return false
     }
 
     override fun onClickOk() {
@@ -451,9 +387,7 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
                 SurfaceAndNote(footwaySurface, footwayNote).applyTo(changesBuilder, prefix = "footway")
                 SurfaceAndNote(cyclewaySurface, cyclewayNote).applyTo(changesBuilder, prefix = "cycleway")
             }
-            if (!changesBuilder.containsKey("segregated")) {
-                changesBuilder["segregated"] = "yes"
-            }
+            changesBuilder["segregated"] = "yes"
         }
 
         private const val SELECTED_MAIN_SURFACE_INDEX = "selected_main_surface_index"
