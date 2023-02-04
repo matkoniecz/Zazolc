@@ -91,7 +91,7 @@ private fun getStyleForStandalonePath(element: Element): Style {
     val surfaceStatus = createSurfaceStatus(element.tags)
     var dominatingSurface: Surface? = null
     var noteProvided: String? = null
-    if(element.tags["segregated"] == "yes") {
+    if (element.tags["segregated"] == "yes") {
         // filters guarantee that otherwise there is actually no split
         if (surfaceStatus.cycleway in UNDERSPECIFED_SURFACES && surfaceStatus.cyclewayNote == null) {
             // the worst case possible - bad surface without note: so lets present it
