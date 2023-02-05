@@ -1129,6 +1129,8 @@ If there are no signs along the whole street which apply for the highlighted sec
     <string name="quest_maxweight_answer_other_sign">Sign looks different…</string>
     <string name="quest_maxweight_unsupported_sign_request_photo">Would you like to leave a note? A note with a photo will enable other mappers to take care of it.</string>
 
+    <string name="quest_medical_speciality_type_title">What type of doctor is this?</string>
+
     <string name="quest_memorialType_title">What kind of memorial is this?</string>
     <string name="quest_memorialType_statue">Statue</string>
     <string name="quest_memorialType_bust">Bust</string>
