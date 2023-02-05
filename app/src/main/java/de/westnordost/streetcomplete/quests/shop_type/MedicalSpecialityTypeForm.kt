@@ -5,18 +5,15 @@ import android.view.View
 import android.widget.RadioButton
 import de.westnordost.osmfeatures.Feature
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.data.osm.mapdata.LatLon
-import de.westnordost.streetcomplete.data.osm.mapdata.Node
 import de.westnordost.streetcomplete.databinding.ViewShopTypeBinding
-import de.westnordost.streetcomplete.osm.IS_SHOP_EXPRESSION
 import de.westnordost.streetcomplete.quests.AbstractOsmQuestForm
 import de.westnordost.streetcomplete.util.ktx.geometryType
 import de.westnordost.streetcomplete.view.controller.FeatureViewController
 import de.westnordost.streetcomplete.view.dialogs.SearchFeaturesDialog
 
-class ShopTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
+class MedicalSpecialityTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
 
-    override val contentLayoutResId = R.layout.view_shop_type
+    override val contentLayoutResId = R.layout.view_shop_type // TODO?
     private val binding by contentViewBinding(ViewShopTypeBinding::bind)
 
     private lateinit var radioButtons: List<RadioButton>
@@ -44,16 +41,32 @@ class ShopTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
                 element.geometryType,
                 countryOrSubdivisionCode,
                 featureCtrl.feature?.name,
-                ::filterOnlyShops,
+                ::filterOnlySpecialitiesOfMedicalDoctors,
                 ::onSelectedFeature,
-                topFeatureCodesOfPopularShoplikePOIs()
+                listOf( // see https://taginfo.openstreetmap.org/keys/healthcare%3Aspeciality#values with chiropractic skipped (pseudomedicine), biology (no entry in presets)
+                    "amenity/doctors/general",
+                    "amenity/doctors/ophthalmology",
+                    "amenity/doctors/paediatrics",
+                    "amenity/doctors/gynaecology",
+                    // dentist ?
+                    // psychiatry - https://github.com/openstreetmap/id-tagging-schema/issues/778
+                    "amenity/doctors/orthopaedics",
+                    "amenity/doctors/internal",
+                    // orthodontics
+                    // dermatology
+                    // osteopathy
+                    // otolaryngology
+                    // radiology
+                )
             ).show()
         }
     }
 
-    private fun filterOnlyShops(feature: Feature): Boolean {
-        val fakeElement = Node(-1L, LatLon(0.0, 0.0), feature.tags, 0)
-        return IS_SHOP_EXPRESSION.matches(fakeElement)
+    private fun filterOnlySpecialitiesOfMedicalDoctors(feature: Feature): Boolean {
+        if (!feature.tags.containsKey("healthcare:speciality")) {
+            return false
+        }
+        return feature.tags["amenity"] == "doctors"
     }
 
     private fun onSelectedFeature(feature: Feature) {

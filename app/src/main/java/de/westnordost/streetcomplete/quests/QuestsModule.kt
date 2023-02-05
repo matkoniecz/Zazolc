@@ -129,6 +129,7 @@ import de.westnordost.streetcomplete.quests.seating.AddSeating
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation
 import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry
 import de.westnordost.streetcomplete.quests.shop_type.CheckShopType
+import de.westnordost.streetcomplete.quests.shop_type.SpecifyMedicalSpecialistType
 import de.westnordost.streetcomplete.quests.shop_type.SpecifyShopType
 import de.westnordost.streetcomplete.quests.sidewalk.AddSidewalk
 import de.westnordost.streetcomplete.quests.smoking.AddSmoking
@@ -518,6 +519,7 @@ fun questTypeRegistry(
     1000014 to SpecifyBarrier(),  // my own quest
     96 to AddRoadName(),
     80 to AddPlaceName(featureDictionaryFuture),
+    1000015 to SpecifyMedicalSpecialistType(),
     // --modified heavily
 
     // kept--
