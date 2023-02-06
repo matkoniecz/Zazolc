@@ -48,7 +48,7 @@ class MedicalSpecialityTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
                     "amenity/doctors/ophthalmology",
                     "amenity/doctors/paediatrics",
                     "amenity/doctors/gynaecology",
-                    // dentist ?
+                    // dentist ? what is the difference between amenity=dentist vs amenity=doctors healthcare:speciality=dentist ?
                     // psychiatry - https://github.com/openstreetmap/id-tagging-schema/issues/778
                     "amenity/doctors/orthopaedics",
                     "amenity/doctors/internal",
