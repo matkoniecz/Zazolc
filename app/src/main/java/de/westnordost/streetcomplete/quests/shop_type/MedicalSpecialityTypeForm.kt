@@ -50,7 +50,7 @@ class MedicalSpecialityTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
                     "amenity/doctors/ophthalmology",
                     "amenity/doctors/paediatrics",
                     "amenity/doctors/gynaecology",
-                    //biology skipped as that is value for laboratory
+                    // biology - skipped as that is value for laboratory, not for doctors
                     "amenity/dentist",
                     // psychiatry - https://github.com/openstreetmap/id-tagging-schema/issues/778
                     "amenity/doctors/orthopaedics",
@@ -60,13 +60,13 @@ class MedicalSpecialityTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
                     // osteopathy - skipped (alternative medicine)
                     "amenity/doctors/otolaryngology",
                     "amenity/doctors/radiology",
-                    // vaccination? that is tagged differently, right? TODO
+                    // vaccination - not for amenity=doctors, healthcare=vaccination_centre remains rare
                     "amenity/doctors/cardiology",
-                    "amenity/doctors/surgery", // TODO? really for doctors? Maybe that is used primarily for hospitals?
-                    // physiotherapy
-                    // urology
-                    // emergency
-                    // dialysis
+                    "amenity/doctors/surgery",
+                    "healthcare/physiotherapist",
+                    "amenity/doctors/urology",
+                    // emergency - seems to be not for doctors. See https://wiki.openstreetmap.org/wiki/Talk:Tag:healthcare:speciality%3Demergency
+                    // dialysis - https://github.com/openstreetmap/id-tagging-schema/issues/779
                 )
             ).show()
         }
@@ -76,10 +76,15 @@ class MedicalSpecialityTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
         if(feature.tags["amenity"] in listOf("dentist", "veterinary")) {
             return true
         }
+        // see https://wiki.openstreetmap.org/wiki/Category:Health
+        if(feature.tags["healthcare"] in listOf("physiotherapist", "audiologist", "dialysis",
+                "midwife", "nurse", "nutrition_counselling", "rehabilitation")) {
+            return true
+        }
         if(!feature.tags.containsKey("healthcare:speciality")) {
             return false
         }
-        return feature.tags["amenity"] in "doctors"
+        return feature.tags["amenity"] in listOf("doctors")
     }
 
     private fun onSelectedFeature(feature: Feature) {
