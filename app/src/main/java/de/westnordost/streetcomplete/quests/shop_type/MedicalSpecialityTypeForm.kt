@@ -77,8 +77,11 @@ class MedicalSpecialityTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
             return true
         }
         // see https://wiki.openstreetmap.org/wiki/Category:Health
+        // very rae ones were skipped but can be added in future
+        // note that also entry in iD presets is neede to make them selectable
+        // see https://github.com/openstreetmap/id-tagging-schema/issues/779 for request to support nurse
         if (feature.tags["healthcare"] in listOf("physiotherapist", "audiologist", "dialysis",
-                "midwife", "nurse", "nutrition_counselling", "rehabilitation")) {
+                "midwife", "nurse", "rehabilitation")) {
             return true
         }
         if (!feature.tags.containsKey("healthcare:speciality")) {
