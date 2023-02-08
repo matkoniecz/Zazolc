@@ -73,15 +73,15 @@ class MedicalSpecialityTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
     }
 
     private fun filterOnlySpecialitiesOfMedicalDoctors(feature: Feature): Boolean {
-        if(feature.tags["amenity"] in listOf("dentist", "veterinary")) {
+        if (feature.tags["amenity"] in listOf("dentist", "veterinary")) {
             return true
         }
         // see https://wiki.openstreetmap.org/wiki/Category:Health
-        if(feature.tags["healthcare"] in listOf("physiotherapist", "audiologist", "dialysis",
+        if (feature.tags["healthcare"] in listOf("physiotherapist", "audiologist", "dialysis",
                 "midwife", "nurse", "nutrition_counselling", "rehabilitation")) {
             return true
         }
-        if(!feature.tags.containsKey("healthcare:speciality")) {
+        if (!feature.tags.containsKey("healthcare:speciality")) {
             return false
         }
         return feature.tags["amenity"] in listOf("doctors")
