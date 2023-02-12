@@ -26,7 +26,7 @@ class AddPlaceName(
           or craft
           or amenity = recycling and recycling_type = centre
           or tourism = information and information = office
-          or place """ + // place is only in my fork
+          or place or """ + // place is only in my fork
 
         // The common list is shared by the name quest, the opening hours quest and the wheelchair quest.
         // So when adding other tags to the common list keep in mind that they need to be appropriate for all those quests.
