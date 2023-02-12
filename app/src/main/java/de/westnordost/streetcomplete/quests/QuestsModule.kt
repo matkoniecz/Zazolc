@@ -500,6 +500,9 @@ fun questTypeRegistry(
     154 to AddWayLit(),
     */
 
+    //being tested
+    1000015 to SpecifyMedicalSpecialistType(),
+
     // modified heavily --
     1000002 to ShowFixme(), // my quest
     1000003 to ShowAddressInterpolation(), // my quest
@@ -519,7 +522,6 @@ fun questTypeRegistry(
     1000014 to SpecifyBarrier(),  // my own quest
     96 to AddRoadName(),
     80 to AddPlaceName(featureDictionaryFuture),
-    1000015 to SpecifyMedicalSpecialistType(),
     // --modified heavily
 
     // kept--

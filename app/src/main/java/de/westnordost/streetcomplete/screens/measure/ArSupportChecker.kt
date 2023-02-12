@@ -11,7 +11,8 @@ class ArSupportChecker(private val context: Context) {
     operator fun invoke(): Boolean = hasArMeasureSupport(context)
 }
 
-private fun hasArMeasureSupport(context: Context): Boolean =
+private fun hasArMeasureSupport(context: Context): Boolean = false
+/*
     // extra requirements for Sceneform: min Android SDK and OpenGL ES 3.1
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
     && context.getSystemService<ActivityManager>()!!.deviceConfigurationInfo.glEsVersion.toDouble() >= 3.1
@@ -21,6 +22,7 @@ private fun hasArMeasureSupport(context: Context): Boolean =
         context.packageManager.isPackageInstalled("de.westnordost.streetmeasure")
         // or at least google play is installed
         || context.packageManager.isPackageInstalled("com.android.vending"))
+*/
 
 private fun PackageManager.isPackageInstalled(packageName: String): Boolean =
     try { getPackageInfo(packageName, 0) != null } catch (e: NameNotFoundException) { false }

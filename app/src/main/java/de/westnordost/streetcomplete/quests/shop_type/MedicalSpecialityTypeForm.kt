@@ -43,30 +43,51 @@ class MedicalSpecialityTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
                 featureCtrl.feature?.name,
                 ::filterOnlySpecialitiesOfMedicalDoctors,
                 ::onSelectedFeature,
-                listOf( // see https://taginfo.openstreetmap.org/keys/healthcare%3Aspeciality#values with chiropractic skipped (pseudomedicine), biology (no entry in presets)
+                listOf( // based on https://taginfo.openstreetmap.org/keys/healthcare%3Aspeciality#values
+                    // with alternative medicine skipped
                     "amenity/doctors/general",
+                    // chiropractic - skipped (alternative medicine)
                     "amenity/doctors/ophthalmology",
                     "amenity/doctors/paediatrics",
                     "amenity/doctors/gynaecology",
-                    // dentist ?
+                    // biology - skipped as that is value for laboratory, not for doctors
+                    "amenity/dentist",
                     // psychiatry - https://github.com/openstreetmap/id-tagging-schema/issues/778
                     "amenity/doctors/orthopaedics",
                     "amenity/doctors/internal",
-                    // orthodontics
-                    // dermatology
-                    // osteopathy
-                    // otolaryngology
-                    // radiology
+                    "healthcare/dentist/orthodontics",
+                    "amenity/doctors/dermatology",
+                    // osteopathy - skipped (alternative medicine)
+                    "amenity/doctors/otolaryngology",
+                    "amenity/doctors/radiology",
+                    // vaccination - not for amenity=doctors, healthcare=vaccination_centre remains rare
+                    "amenity/doctors/cardiology",
+                    "amenity/doctors/surgery",
+                    "healthcare/physiotherapist",
+                    "amenity/doctors/urology",
+                    // emergency - seems to be not for doctors. See https://wiki.openstreetmap.org/wiki/Talk:Tag:healthcare:speciality%3Demergency
+                    // dialysis - https://github.com/openstreetmap/id-tagging-schema/issues/779
                 )
             ).show()
         }
     }
 
     private fun filterOnlySpecialitiesOfMedicalDoctors(feature: Feature): Boolean {
+        if (feature.tags["amenity"] in listOf("dentist", "veterinary")) {
+            return true
+        }
+        // see https://wiki.openstreetmap.org/wiki/Category:Health
+        // very rae ones were skipped but can be added in future
+        // note that also entry in iD presets is neede to make them selectable
+        // see https://github.com/openstreetmap/id-tagging-schema/issues/779 for request to support nurse
+        if (feature.tags["healthcare"] in listOf("physiotherapist", "audiologist", "dialysis",
+                "midwife", "nurse", "rehabilitation")) {
+            return true
+        }
         if (!feature.tags.containsKey("healthcare:speciality")) {
             return false
         }
-        return feature.tags["amenity"] == "doctors"
+        return feature.tags["amenity"] in listOf("doctors")
     }
 
     private fun onSelectedFeature(feature: Feature) {
