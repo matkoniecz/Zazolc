@@ -22,13 +22,11 @@ class AddPlaceName(
         nodes, ways with
         (
           shop and shop !~ no|vacant
+          or office and office !~ no|vacant
           or craft
-          or office
-          or place """ + // place is only in my fork
-          """
           or amenity = recycling and recycling_type = centre
           or tourism = information and information = office
-          or """ +
+          or place """ + // place is only in my fork
 
         // The common list is shared by the name quest, the opening hours quest and the wheelchair quest.
         // So when adding other tags to the common list keep in mind that they need to be appropriate for all those quests.
