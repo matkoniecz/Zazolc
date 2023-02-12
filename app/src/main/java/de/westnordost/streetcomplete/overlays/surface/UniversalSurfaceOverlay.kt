@@ -40,9 +40,7 @@ class UniversalSurfaceOverlay : Overlay {
         return mapData
            .filter( """ways, relations with
                (
-                    (surface and highway != construction)
-                    or leisure ~ pitch|playground
-                    or highway ~ ${(ALL_ROADS + ALL_PATHS).joinToString("|")}
+                    highway ~ ${(ALL_ROADS + ALL_PATHS).joinToString("|")}
                     or aeroway ~ taxiway|runway|helipad|apron|taxilane
                 )
                and (!surface or surface ~ ${handledSurfaces.joinToString("|") })
