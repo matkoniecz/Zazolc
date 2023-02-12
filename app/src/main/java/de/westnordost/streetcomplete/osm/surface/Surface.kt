@@ -35,13 +35,15 @@ enum class Surface(val osmValue: String) {
     // extra values, recording duplicates
     MUD("mud"), // valid value, but not displayed specially in StreetComplete
     EARTH("earth"), // synonym of "dirt", maybe more clear
+    CHIPSEAL("chipseal"), // subtype/synonym of asphalt
     // this values ideally would be removed from OpenStreetMap, but while they remain
     // we want to handle them somehow
     SOIL("soil"),
     PAVING_STONES_WITH_WEIRD_SUFFIX("paving_stones:30"),
     COBLLESTONE_FLATTENED("cobblestone:flattened"),
     BRICK("brick"),
-    BRICKS("bricks");
+    BRICKS("bricks"),
+    UNIDENTIFIED("fake_value");
 }
 
 val COMMON_SPECIFIC_PAVED_SURFACES = listOf(
