@@ -36,16 +36,12 @@ class UniversalSurfaceOverlay : Overlay {
     override val hidesQuestTypes = setOf(parentQuest::class.simpleName!!, AddPathSurface::class.simpleName!!)
 
     override fun getStyledElements(mapData: MapDataWithGeometry): Sequence<Pair<Element, Style>> {
-        val handledSurfaces = Surface.values().map { it.osmValue }.toSet() + INVALID_SURFACES
         return mapData
            .filter( """ways, relations with
                (
                     highway ~ ${(ALL_ROADS + ALL_PATHS).joinToString("|")}
                     or aeroway ~ taxiway|runway|helipad|apron|taxilane
                 )
-               and (!surface or surface ~ ${handledSurfaces.joinToString("|") })
-               and (!cycleway:surface or cycleway:surface ~ ${handledSurfaces.joinToString("|") })
-               and (!footway:surface or footway:surface ~ ${handledSurfaces.joinToString("|") })
                and (segregated = yes or (!cycleway:surface and !footway:surface))
                and (!surface:note or surface)
                and (!cycleway:surface:note or cycleway:surface)
