@@ -14,9 +14,9 @@ import de.westnordost.streetcomplete.osm.isPrivateOnFoot
 import de.westnordost.streetcomplete.osm.sidewalk.Sidewalk
 import de.westnordost.streetcomplete.osm.sidewalk.createSidewalkSides
 import de.westnordost.streetcomplete.osm.sidewalk_surface.createSidewalkSurface
-import de.westnordost.streetcomplete.osm.surface.Surface
 import de.westnordost.streetcomplete.osm.surface.SurfaceAndNote
 import de.westnordost.streetcomplete.osm.surface.UNDERSPECIFED_SURFACES
+import de.westnordost.streetcomplete.osm.surface.UnknownSurface
 import de.westnordost.streetcomplete.osm.surface.createSurfaceStatus
 import de.westnordost.streetcomplete.overlays.Color
 import de.westnordost.streetcomplete.overlays.Overlay
@@ -24,7 +24,10 @@ import de.westnordost.streetcomplete.overlays.PolygonStyle
 import de.westnordost.streetcomplete.overlays.PolylineStyle
 import de.westnordost.streetcomplete.overlays.StrokeStyle
 import de.westnordost.streetcomplete.overlays.Style
+import de.westnordost.streetcomplete.quests.surface.AddCyclewayPartSurface
+import de.westnordost.streetcomplete.quests.surface.AddFootwayPartSurface
 import de.westnordost.streetcomplete.quests.surface.AddPathSurface
+import de.westnordost.streetcomplete.quests.surface.AddSidewalkSurface
 
 class PathSurfaceOverlay : Overlay {
 
@@ -33,7 +36,12 @@ class PathSurfaceOverlay : Overlay {
     override val changesetComment = "Specify path surfaces"
     override val wikiLink: String = "Key:surface"
     override val achievements = listOf(PEDESTRIAN, WHEELCHAIR, BICYCLIST, OUTDOORS)
-    override val hidesQuestTypes = setOf(AddPathSurface::class.simpleName!!)
+    override val hidesQuestTypes = setOf(
+        AddPathSurface::class.simpleName!!,
+        AddFootwayPartSurface::class.simpleName!!,
+        AddCyclewayPartSurface::class.simpleName!!,
+        AddSidewalkSurface::class.simpleName!!,
+    )
 
     override fun getStyledElements(mapData: MapDataWithGeometry): Sequence<Pair<Element, Style>> =
         mapData.filter( """
@@ -56,53 +64,40 @@ class PathSurfaceOverlay : Overlay {
 
     override fun createForm(element: Element?) =
         if (element != null) {
-            if (element.tags["highway"] in ALL_PATHS) PathSurfaceOverlayForm()
-            else if (element.tags["highway"] in ALL_ROADS) SidewalkSurfaceOverlayForm()
-            else null
-        } else null
+            if (element.tags["highway"] in ALL_PATHS) {
+                PathSurfaceOverlayForm()
+            } else if (element.tags["highway"] in ALL_ROADS) {
+                SidewalkSurfaceOverlayForm()
+            } else {
+                null
+            }
+        } else {
+            null
+        }
 }
 
 private fun getStyleForStandalonePath(element: Element): Style {
     val surfaceStatus = createSurfaceStatus(element.tags)
-    var dominatingSurface: Surface?
-    var noteProvided: String? = null
-    if (element.tags["segregated"] == "yes") {
-        // filters guarantee that otherwise there is actually no split
-        if (surfaceStatus.cycleway in UNDERSPECIFED_SURFACES && surfaceStatus.cyclewayNote == null) {
-            // the worst case possible - bad surface without note: so lets present it
-            dominatingSurface = surfaceStatus.cycleway
-            noteProvided = surfaceStatus.cyclewayNote
-        } else if (surfaceStatus.footway in UNDERSPECIFED_SURFACES) {
-            // cycleway surface either has
-            // data as bad as this one (also bad surface, without note)
-            // or even worse (bad surface without note, while here maybe there is a note)
-            dominatingSurface = surfaceStatus.footway
-            noteProvided = surfaceStatus.footwayNote
-        } else if (surfaceStatus.cycleway in UNDERSPECIFED_SURFACES) {
-            // so footway has no bad surface, while cycleway has bad surface
-            // lets take worse one
-            dominatingSurface = surfaceStatus.cycleway
-            noteProvided = surfaceStatus.cyclewayNote
-        } else {
-            // cycleway is arbitrarily taken as dominating here
-            // though for bicycles surface is a bit more important
-            dominatingSurface = surfaceStatus.cycleway
-        }
+    val dominatingSurface = if (element.tags["segregated"] == "yes") {
+        // filters guarantee that without segregated=yes there is actually no split
+        listOf(surfaceStatus.cycleway, surfaceStatus.footway).sortedBy {
+            // take worst case for showing
+            // prefer to take cycleway if both are tagged
+            if (it.value in UNDERSPECIFED_SURFACES && it.note == null) {
+                0
+            } else if (it.value is UnknownSurface) {
+                1
+            } else if (it.value in UNDERSPECIFED_SURFACES) {
+                2
+            } else {
+                3
+            }
+        }.first()
     } else {
-        dominatingSurface = surfaceStatus.main
-        noteProvided = surfaceStatus.note
+        surfaceStatus.main
     }
-    // not set but indoor or private -> do not highlight as missing
-    val isNotSet = dominatingSurface in UNDERSPECIFED_SURFACES
-    val isNotSetButThatsOkay = isNotSet && (isIndoor(element.tags) || isPrivateOnFoot(element))
 
-    val color = if (isNotSetButThatsOkay) {
-        Color.INVISIBLE
-    } else if (isNotSet && noteProvided != null) {
-        Color.BLACK
-    } else {
-        dominatingSurface.color
-    }
+    val color = dominatingSurface.getItsColor(element)
     return if (element.tags["area"] == "yes") PolygonStyle(color) else PolylineStyle(StrokeStyle(color))
 }
 
@@ -116,11 +111,17 @@ private fun getStyleForSidewalkAsProperty(element: Element): PolylineStyle {
 
     val sidewalkSurface = createSidewalkSurface(element.tags)
     val leftColor =
-        if (sidewalkSides.left != Sidewalk.YES) Color.INVISIBLE
-        else sidewalkSurface?.left.color
+        if (sidewalkSides.left != Sidewalk.YES) {
+            Color.INVISIBLE
+        } else {
+            sidewalkSurface?.left.color
+        }
     val rightColor =
-        if (sidewalkSides.right != Sidewalk.YES) Color.INVISIBLE
-        else sidewalkSurface?.right.color
+        if (sidewalkSides.right != Sidewalk.YES) {
+            Color.INVISIBLE
+        } else {
+            sidewalkSurface?.right.color
+        }
 
     if (leftColor == Color.DATA_REQUESTED || rightColor == Color.DATA_REQUESTED) {
         // yes, there is an edge case where one side has data set, one unset
@@ -138,7 +139,8 @@ private fun getStyleForSidewalkAsProperty(element: Element): PolylineStyle {
 }
 
 private val SurfaceAndNote?.color: String get() =
-    if (this?.value in UNDERSPECIFED_SURFACES && this?.note != null) Color.BLACK
-    else this?.value.color
-
-private fun isIndoor(tags: Map<String, String>): Boolean = tags["indoor"] == "yes"
+    if (this?.value in UNDERSPECIFED_SURFACES && this?.note != null) {
+        Color.BLACK
+    } else {
+        this?.value.color
+    }

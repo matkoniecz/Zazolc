@@ -1,6 +1,10 @@
 package de.westnordost.streetcomplete.osm.surface
 
 import de.westnordost.streetcomplete.osm.getLastCheckDateKeys
+import de.westnordost.streetcomplete.osm.isPrivateOnFoot
+import de.westnordost.streetcomplete.overlays.Color
+import de.westnordost.streetcomplete.overlays.surface.color
+import de.westnordost.streetcomplete.data.osm.mapdata.Element
 
 val INVALID_SURFACES = setOf(
     "cobblestone", // https://wiki.openstreetmap.org/wiki/Tag%3Asurface%3Dcobblestone
@@ -10,16 +14,13 @@ val INVALID_SURFACES = setOf(
 val SOFT_SURFACES = setOf("ground", "earth", "dirt", "grass", "sand", "mud", "ice", "salt", "snow", "woodchips")
 
 val ANYTHING_UNPAVED = SOFT_SURFACES + setOf(
-    "unpaved", "compacted", "gravel", "fine_gravel", "pebblestone", "grass_paver",
-    // this ones are not strictly supported by aliased - so this is used by commonSurface* functions
-    "earth", "mud",
+    "unpaved", "compacted", "gravel", "fine_gravel", "pebblestone", "grass_paver"
 )
 
 val ANYTHING_FULLY_PAVED = setOf(
     "paved", "asphalt", "cobblestone", "cobblestone:flattened", "sett",
     "concrete", "concrete:plates", "paving_stones",
     "metal", "wood", "unhewn_cobblestone",
-    // this ones are not strictly supported by aliased - so this is used by commonSurface* functions
     "brick", "bricks", "cobblestone:flattened", "paving_stones:30",
 )
 
@@ -49,51 +50,62 @@ fun keysToBeRemovedOnSurfaceChange(prefix: String): Set<String> =
     getLastCheckDateKeys("${prefix}surface") +
     getLastCheckDateKeys("${prefix}smoothness")
 
-class CyclewayFootwaySurfacesWithNote(val main: Surface?, val note: String?, val cycleway: Surface?, val cyclewayNote: String?, val footway: Surface?, val footwayNote: String?)
+class ParsedCyclewayFootwaySurfacesWithNote(val main: ParsedSurfaceWithNote, val cycleway: ParsedSurfaceWithNote, val footway: ParsedSurfaceWithNote)
 
-fun createSurfaceStatus(tags: Map<String, String>): CyclewayFootwaySurfacesWithNote {
+fun createSurfaceStatus(tags: Map<String, String>): ParsedCyclewayFootwaySurfacesWithNote {
     val surfaceNote = tags["surface:note"]
     val surface = parseSingleSurfaceTag(tags["surface"], surfaceNote)
     val cyclewaySurfaceNote = tags["cycleway:surface:note"]
-    var cyclewaySurface = parseSingleSurfaceTag(tags["cycleway:surface"], cyclewaySurfaceNote)
+    val cyclewaySurface = parseSingleSurfaceTag(tags["cycleway:surface"], cyclewaySurfaceNote)
     val footwaySurfaceNote = tags["footway:surface:note"]
-    var footwaySurface = parseSingleSurfaceTag(tags["footway:surface"], footwaySurfaceNote)
-    if(tags["segregated"] == "yes") {
-        // TODO is it needed
-        if(cyclewaySurface == null) {
-            cyclewaySurface = surface
-        }
-        if(footwaySurface == null) {
-            footwaySurface = surface
-        }
-    }
-    return CyclewayFootwaySurfacesWithNote(surface, surfaceNote, cyclewaySurface, cyclewaySurfaceNote, footwaySurface, footwaySurfaceNote)
+    val footwaySurface = parseSingleSurfaceTag(tags["footway:surface"], footwaySurfaceNote)
+    return ParsedCyclewayFootwaySurfacesWithNote(
+        ParsedSurfaceWithNote(surface, surfaceNote),
+        ParsedSurfaceWithNote(cyclewaySurface, cyclewaySurfaceNote),
+        ParsedSurfaceWithNote(footwaySurface, footwaySurfaceNote))
 }
 
-data class SurfaceAndNoteMayBeEmpty(val value: Surface?, val note: String? = null)
-/*
-maybe just use SurfaceAndNote?
-But then SurfaceAndNote.applyTo will need to throw exceptions on null value or rely on manual checks
-ensuring otherwise that empty value will not be passed there
- */
+data class ParsedSurfaceWithNote(val value: ParsedSurface?, val note: String? = null) {
+    fun getItsColor(element: Element): String {
+        return when (this.value) {
+            is Surface -> {
+                // not set but indoor or private -> do not highlight as missing
+                val isNotSet = this.value in UNDERSPECIFED_SURFACES
+                val isNotSetButThatsOkay = isNotSet && (isIndoor(element.tags) || isPrivateOnFoot(element))
+                if (isNotSetButThatsOkay) {
+                    Color.INVISIBLE
+                } else if (note != null) {
+                    Color.BLACK
+                } else {
+                    this.value.color
+                }
+            }
+            UnknownSurface -> {
+                Color.BLACK
+            }
+            null -> {
+                Color.DATA_REQUESTED
+            }
+        }
+    }
+
+    private fun isIndoor(tags: Map<String, String>): Boolean = tags["indoor"] == "yes"
+}
 
 /*
 * to be used when only surface and surface:note tag is relevant
 * for example if we want to tag road surface and we are free to skip sidewalk surface info
 * */
-fun createMainSurfaceStatus(tags: Map<String, String>): SurfaceAndNoteMayBeEmpty {
+fun createMainSurfaceStatus(tags: Map<String, String>): ParsedSurfaceWithNote {
     val surfaceNote = tags["surface:note"]
-    return SurfaceAndNoteMayBeEmpty(parseSingleSurfaceTag(tags["surface"], surfaceNote), surfaceNote)
+    return ParsedSurfaceWithNote(parseSingleSurfaceTag(tags["surface"], surfaceNote), surfaceNote)
 }
 
-fun parseSingleSurfaceTag(surfaceTag: String?, surfaceNote: String?): Surface? {
+fun parseSingleSurfaceTag(surfaceTag: String?, surfaceNote: String?): ParsedSurface? {
     if (surfaceTag == null) {
         return null
     }
     if (surfaceTag in INVALID_SURFACES) {
-        // TODO how cobblestone/cement with note works?
-        // how it should even work?
-        // how we are handling empty surface tag and associated note tag?
         return null
     }
     // we are treating surface=paved as not being specified at all
@@ -102,7 +114,7 @@ fun parseSingleSurfaceTag(surfaceTag: String?, surfaceNote: String?): Surface? {
     val surface = surfaceTextValueToSurfaceEnum(surfaceTag)
     val surfaceIgnoringUnspecific = if (surface?.shouldBeDescribed == true && surfaceNote == null) { null } else { surface }
     if (surface == null) {
-        return Surface.UNIDENTIFIED
+        return UnknownSurface
     }
     return surfaceIgnoringUnspecific
 }
@@ -112,13 +124,11 @@ fun surfaceTextValueToSurfaceEnum(surfaceValue: String?): Surface? {
 
     // PAVED_AREA and UNPAVED_AREA are more generic - and this can be also asked
     // for objects which are not roads
-    if (foundSurface == Surface.PAVED_ROAD) {
-        return Surface.PAVED_AREA
+    return when (foundSurface) {
+        Surface.PAVED_ROAD -> Surface.PAVED_AREA
+        Surface.UNPAVED_ROAD -> Surface.UNPAVED_AREA
+        else -> foundSurface
     }
-    if (foundSurface == Surface.UNPAVED_ROAD) {
-        return Surface.UNPAVED_AREA
-    }
-    return foundSurface
 }
 
 fun commonSurfaceDescription(surfaceA: String?, surfaceB: String?): String? {
@@ -139,14 +149,10 @@ fun commonSurfaceDescription(surfaceA: String?, surfaceB: String?): String? {
 
 fun commonSurfaceObject(surfaceA: String?, surfaceB: String?): Surface? {
     val shared = commonSurfaceDescription(surfaceA, surfaceB) ?: return null
-    if (shared == "paved") {
-        return Surface.PAVED_AREA
+    return when (shared) {
+        "paved" -> Surface.PAVED_AREA
+        "unpaved" -> Surface.UNPAVED_AREA
+        "ground" -> Surface.GROUND_AREA
+        else -> Surface.values().firstOrNull { it.osmValue == shared }
     }
-    if (shared == "unpaved") {
-        return Surface.UNPAVED_AREA
-    }
-    if (shared == "ground") {
-        return Surface.GROUND_AREA
-    }
-    return Surface.values().firstOrNull { it.osmValue == shared }
 }

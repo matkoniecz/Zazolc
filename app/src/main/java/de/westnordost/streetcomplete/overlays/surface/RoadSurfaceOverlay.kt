@@ -7,11 +7,7 @@ import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.BICYCLIST
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.CAR
 import de.westnordost.streetcomplete.osm.ALL_ROADS
-import de.westnordost.streetcomplete.osm.isPrivateOnFoot
-import de.westnordost.streetcomplete.osm.surface.Surface
-import de.westnordost.streetcomplete.osm.surface.UNDERSPECIFED_SURFACES
 import de.westnordost.streetcomplete.osm.surface.createMainSurfaceStatus
-import de.westnordost.streetcomplete.overlays.Color
 import de.westnordost.streetcomplete.overlays.Overlay
 import de.westnordost.streetcomplete.overlays.PolygonStyle
 import de.westnordost.streetcomplete.overlays.PolylineStyle
@@ -40,24 +36,16 @@ class RoadSurfaceOverlay : Overlay {
     }
 
     override fun createForm(element: Element?) =
-        if (element != null && element.tags["highway"] in ALL_ROADS) RoadSurfaceOverlayForm()
-        else null
+        if (element != null && element.tags["highway"] in ALL_ROADS) {
+            RoadSurfaceOverlayForm()
+        } else {
+            null
+        }
 }
 
 private fun getStyle(element: Element): Style {
     val surfaceStatus = createMainSurfaceStatus(element.tags)
-    var dominatingSurface: Surface? = surfaceStatus.value
-    val noteProvided: String? = surfaceStatus.note
-    // not set but indoor or private -> do not highlight as missing
-    val isNotSet = dominatingSurface in UNDERSPECIFED_SURFACES
-    val isNotSetButThatsOkay = isNotSet && (isIndoor(element.tags) || isPrivateOnFoot(element))
-    val color = if (isNotSetButThatsOkay) {
-        Color.INVISIBLE
-    } else if (isNotSet && noteProvided != null) {
-        Color.BLACK
-    } else {
-        dominatingSurface.color
-    }
+    val color = surfaceStatus.getItsColor(element)
     return if (element.tags["area"] == "yes") PolygonStyle(color) else PolylineStyle(StrokeStyle(color), null, null)
 }
 
