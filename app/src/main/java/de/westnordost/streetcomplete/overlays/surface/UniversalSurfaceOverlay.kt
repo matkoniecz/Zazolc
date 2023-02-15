@@ -68,7 +68,7 @@ class UniversalSurfaceOverlay : Overlay {
 
 private fun getRoadStyle(element: Element): Style {
     val surfaceStatus = createMainSurfaceStatus(element.tags)
-    val color = surfaceStatus.getItsColor(element)
+    val color = surfaceStatus.getColor(element)
     return if (element.tags["area"] == "yes") PolygonStyle(color) else PolylineStyle(StrokeStyle(color), null, null)
 }
 
@@ -92,7 +92,7 @@ private fun getStyleForStandalonePath(element: Element): Style {
         surfaceStatus.main
     }
 
-    val color = dominatingSurface.getItsColor(element)
+    val color = dominatingSurface.getColor(element)
     return if (element.tags["area"] == "yes") PolygonStyle(color) else PolylineStyle(StrokeStyle(color))
 }
 

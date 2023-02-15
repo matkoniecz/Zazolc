@@ -1,10 +1,6 @@
 package de.westnordost.streetcomplete.osm.surface
 
 import de.westnordost.streetcomplete.osm.getLastCheckDateKeys
-import de.westnordost.streetcomplete.osm.isPrivateOnFoot
-import de.westnordost.streetcomplete.overlays.Color
-import de.westnordost.streetcomplete.overlays.surface.color
-import de.westnordost.streetcomplete.data.osm.mapdata.Element
 
 val INVALID_SURFACES = setOf(
     "cobblestone", // https://wiki.openstreetmap.org/wiki/Tag%3Asurface%3Dcobblestone
@@ -65,32 +61,7 @@ fun createSurfaceStatus(tags: Map<String, String>): ParsedCyclewayFootwaySurface
         ParsedSurfaceWithNote(footwaySurface, footwaySurfaceNote))
 }
 
-data class ParsedSurfaceWithNote(val value: ParsedSurface?, val note: String? = null) {
-    fun getItsColor(element: Element): String {
-        return when (this.value) {
-            is Surface -> {
-                // not set but indoor or private -> do not highlight as missing
-                val isNotSet = this.value in UNDERSPECIFED_SURFACES
-                val isNotSetButThatsOkay = isNotSet && (isIndoor(element.tags) || isPrivateOnFoot(element))
-                if (isNotSetButThatsOkay) {
-                    Color.INVISIBLE
-                } else if (note != null) {
-                    Color.BLACK
-                } else {
-                    this.value.color
-                }
-            }
-            UnknownSurface -> {
-                Color.BLACK
-            }
-            null -> {
-                Color.DATA_REQUESTED
-            }
-        }
-    }
-
-    private fun isIndoor(tags: Map<String, String>): Boolean = tags["indoor"] == "yes"
-}
+data class ParsedSurfaceWithNote(val value: ParsedSurface?, val note: String? = null)
 
 /*
 * to be used when only surface and surface:note tag is relevant
@@ -114,6 +85,10 @@ fun parseSingleSurfaceTag(surfaceTag: String?, surfaceNote: String?): ParsedSurf
     val surface = surfaceTextValueToSurfaceEnum(surfaceTag)
     val surfaceIgnoringUnspecific = if (surface?.shouldBeDescribed == true && surfaceNote == null) { null } else { surface }
     if (surface == null) {
+        if (";" in surfaceTag || "<" in surfaceTag) {
+            // invalid surface tag, result of a botched merge, can and should be treated as requiring replacement
+            return null
+        }
         return UnknownSurface
     }
     return surfaceIgnoringUnspecific

@@ -23,7 +23,7 @@ class RoadSurfaceOverlay : Overlay {
     override val changesetComment = "Specify road surfaces"
     override val wikiLink: String = "Key:surface"
     override val achievements = listOf(CAR, BICYCLIST)
-    override val hidesQuestTypes = setOf(AddRoadSurface::class.simpleName!!, AddPathSurface::class.simpleName!!)
+    override val hidesQuestTypes = setOf(AddRoadSurface::class.simpleName!!)
 
     override fun getStyledElements(mapData: MapDataWithGeometry): Sequence<Pair<Element, Style>> {
         return mapData
@@ -35,18 +35,11 @@ class RoadSurfaceOverlay : Overlay {
             .map { it to getStyle(it) }
     }
 
-    override fun createForm(element: Element?) =
-        if (element != null && element.tags["highway"] in ALL_ROADS) {
-            RoadSurfaceOverlayForm()
-        } else {
-            null
-        }
+    override fun createForm(element: Element?) = RoadSurfaceOverlayForm()
 }
 
 private fun getStyle(element: Element): Style {
     val surfaceStatus = createMainSurfaceStatus(element.tags)
-    val color = surfaceStatus.getItsColor(element)
-    return if (element.tags["area"] == "yes") PolygonStyle(color) else PolylineStyle(StrokeStyle(color), null, null)
+    val color = surfaceStatus.getColor(element)
+    return if (element.tags["area"] == "yes") PolygonStyle(color) else PolylineStyle(StrokeStyle(color))
 }
-
-private fun isIndoor(tags: Map<String, String>): Boolean = tags["indoor"] == "yes"
