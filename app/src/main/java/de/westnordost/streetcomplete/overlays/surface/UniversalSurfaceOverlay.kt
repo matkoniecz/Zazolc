@@ -10,8 +10,6 @@ import de.westnordost.streetcomplete.osm.isPrivateOnFoot
 import de.westnordost.streetcomplete.osm.sidewalk.Sidewalk
 import de.westnordost.streetcomplete.osm.sidewalk.createSidewalkSides
 import de.westnordost.streetcomplete.osm.sidewalk_surface.createSidewalkSurface
-import de.westnordost.streetcomplete.osm.surface.INVALID_SURFACES
-import de.westnordost.streetcomplete.osm.surface.Surface
 import de.westnordost.streetcomplete.osm.surface.SurfaceAndNote
 import de.westnordost.streetcomplete.osm.surface.UNDERSPECIFED_SURFACES
 import de.westnordost.streetcomplete.osm.surface.UnknownSurface
@@ -60,10 +58,16 @@ class UniversalSurfaceOverlay : Overlay {
 
     override fun createForm(element: Element?) =
         if (element != null) {
-            if (element.tags["highway"] in ALL_PATHS) PathSurfaceOverlayForm()
-            else if (element.tags["highway"] in ALL_ROADS) RoadSurfaceOverlayForm()
-            else null
-        } else null
+            if (element.tags["highway"] in ALL_PATHS) {
+                PathSurfaceOverlayForm()
+            } else if (element.tags["highway"] in ALL_ROADS) {
+                RoadSurfaceOverlayForm()
+            } else {
+                null
+            }
+        } else {
+            null
+        }
 }
 
 private fun getRoadStyle(element: Element): Style {
@@ -106,11 +110,17 @@ private fun getStyleForSidewalkAsProperty(element: Element): PolylineStyle {
 
     val sidewalkSurface = createSidewalkSurface(element.tags)
     val leftColor =
-        if (sidewalkSides.left != Sidewalk.YES) Color.INVISIBLE
-        else sidewalkSurface?.left.color
+        if (sidewalkSides.left != Sidewalk.YES) {
+            Color.INVISIBLE
+        } else {
+            sidewalkSurface?.left.color
+        }
     val rightColor =
-        if (sidewalkSides.right != Sidewalk.YES) Color.INVISIBLE
-        else sidewalkSurface?.right.color
+        if (sidewalkSides.right != Sidewalk.YES) {
+            Color.INVISIBLE
+        } else {
+            sidewalkSurface?.right.color
+        }
 
     if (leftColor == Color.DATA_REQUESTED || rightColor == Color.DATA_REQUESTED) {
         // yes, there is an edge case where one side has data set, one unset
@@ -128,7 +138,10 @@ private fun getStyleForSidewalkAsProperty(element: Element): PolylineStyle {
 }
 
 private val SurfaceAndNote?.color: String get() =
-    if (this?.value in UNDERSPECIFED_SURFACES && this?.note != null) Color.BLACK
-    else this?.value.color
+    if (this?.value in UNDERSPECIFED_SURFACES && this?.note != null) {
+        Color.BLACK
+    } else {
+        this?.value.color
+    }
 
 private fun isIndoor(tags: Map<String, String>): Boolean = tags["indoor"] == "yes"
