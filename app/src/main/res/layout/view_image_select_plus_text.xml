@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:gravity="top|start"
+        android:hint="@string/quest_surface_detailed_answer_impossible_description"
         tools:text="Surface is a mosaic of paving stones, wood and metal."
         android:maxLength="255"
         android:scrollbars="vertical"

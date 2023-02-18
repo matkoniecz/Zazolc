@@ -24,7 +24,6 @@ import de.westnordost.streetcomplete.osm.surface.createMainSurfaceStatus
 import de.westnordost.streetcomplete.osm.surface.shouldBeDescribed
 import de.westnordost.streetcomplete.osm.surface.toItemsWithFakeNullPossibility
 import de.westnordost.streetcomplete.overlays.AbstractOverlayForm
-import de.westnordost.streetcomplete.quests.surface.DescribeGenericSurfaceDialog
 import de.westnordost.streetcomplete.util.ktx.nonBlankTextOrNull
 import de.westnordost.streetcomplete.view.image_select.DisplayItem
 import de.westnordost.streetcomplete.view.image_select.ImageListPickerDialog
@@ -76,14 +75,7 @@ class RoadSurfaceOverlayForm : AbstractOverlayForm() {
 
     private fun collectSurfaceData(callback: (surface: DisplayItem<Surface?>, note: String?) -> Unit) {
         ImageListPickerDialog(requireContext(), items, cellLayoutId, 2) { item ->
-            val value = item.value
-            if (value != null && value.shouldBeDescribed) {
-                DescribeGenericSurfaceDialog(requireContext()) { description ->
-                    callback(item, description)
-                }.show()
-            } else {
-                callback(item, null)
-            }
+            callback(item, null)
         }.show()
     }
 

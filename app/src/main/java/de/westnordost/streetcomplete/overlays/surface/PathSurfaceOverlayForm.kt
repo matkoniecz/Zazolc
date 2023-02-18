@@ -29,7 +29,6 @@ import de.westnordost.streetcomplete.osm.surface.toItemsWithFakeNullPossibility
 import de.westnordost.streetcomplete.overlays.AbstractOverlayForm
 import de.westnordost.streetcomplete.overlays.AnswerItem
 import de.westnordost.streetcomplete.overlays.IAnswerItem
-import de.westnordost.streetcomplete.quests.surface.DescribeGenericSurfaceDialog
 import de.westnordost.streetcomplete.util.getFeatureName
 import de.westnordost.streetcomplete.util.ktx.nonBlankTextOrNull
 import de.westnordost.streetcomplete.view.image_select.DisplayItem
@@ -125,14 +124,7 @@ class PathSurfaceOverlayForm : AbstractOverlayForm() {
 
     private fun collectSurfaceData(callback: (SurfaceAndNote) -> Unit) {
         ImageListPickerDialog(requireContext(), items, cellLayoutId, 2) { item ->
-            val value = item.value
-            if (value != null && value.shouldBeDescribed) {
-                DescribeGenericSurfaceDialog(requireContext()) { description ->
-                    callback(SurfaceAndNote(item.value!!, description))
-                }.show()
-            } else {
-                callback(SurfaceAndNote(item.value!!, null))
-            }
+            callback(SurfaceAndNote(item.value!!, null))
         }.show()
     }
 
