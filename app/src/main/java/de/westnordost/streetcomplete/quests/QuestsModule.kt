@@ -129,6 +129,7 @@ import de.westnordost.streetcomplete.quests.road_name.RoadNameSuggestionsSource
 import de.westnordost.streetcomplete.quests.seating.AddSeating
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation
 import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry
+import de.westnordost.streetcomplete.quests.shop_type.CheckShopExistence
 import de.westnordost.streetcomplete.quests.shop_type.CheckShopType
 import de.westnordost.streetcomplete.quests.shop_type.SpecifyMedicalSpecialistType
 import de.westnordost.streetcomplete.quests.shop_type.SpecifyShopType
@@ -792,4 +793,5 @@ fun questTypeRegistry(
 
     /* at the very last because it can be difficult to ascertain during day. used by OsmAnd if "Street lighting" is enabled. (Configure map, Map rendering, Details) */
     // 154 to AddWayLit(), moved to top
+    19999 to CheckShopExistence(), // mine, intentionally at the as a last resort quest
 ))
