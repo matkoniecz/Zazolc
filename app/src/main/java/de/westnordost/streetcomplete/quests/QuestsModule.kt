@@ -522,7 +522,7 @@ fun questTypeRegistry(
     1000012 to WatUndrinkableDrinkable(), // my own quest
     1000013 to DeprecateFIXME(), // my own quest
     1000014 to SpecifyBarrier(),  // my own quest
-    1000014 to AddDefibrillatorAccess(),  // my own quest
+    1000015 to AddDefibrillatorAccess(),  // my own quest
     96 to AddRoadName(),
     80 to AddPlaceName(featureDictionaryFuture),
     // --modified heavily
