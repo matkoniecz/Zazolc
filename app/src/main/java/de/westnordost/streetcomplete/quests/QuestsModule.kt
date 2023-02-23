@@ -61,6 +61,7 @@ import de.westnordost.streetcomplete.quests.crossing.AddCrossing
 import de.westnordost.streetcomplete.quests.crossing_island.AddCrossingIsland
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType
 import de.westnordost.streetcomplete.quests.cycleway.AddCycleway
+import de.westnordost.streetcomplete.quests.defibrillator.AddDefibrillatorAccess
 import de.westnordost.streetcomplete.quests.defibrillator.AddIsDefibrillatorIndoor
 import de.westnordost.streetcomplete.quests.diet_type.AddHalal
 import de.westnordost.streetcomplete.quests.diet_type.AddKosher
@@ -520,6 +521,7 @@ fun questTypeRegistry(
     1000012 to WatUndrinkableDrinkable(), // my own quest
     1000013 to DeprecateFIXME(), // my own quest
     1000014 to SpecifyBarrier(),  // my own quest
+    1000014 to AddDefibrillatorAccess(),  // my own quest
     96 to AddRoadName(),
     80 to AddPlaceName(featureDictionaryFuture),
     // --modified heavily
