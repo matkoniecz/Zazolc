@@ -503,7 +503,7 @@ fun questTypeRegistry(
     */
 
     //being tested
-    1000015 to SpecifyMedicalSpecialistType(),
+    1100015 to SpecifyMedicalSpecialistType(),
 
     // modified heavily --
     1000002 to ShowFixme(), // my quest
