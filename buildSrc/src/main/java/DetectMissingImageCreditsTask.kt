@@ -393,12 +393,15 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
                 validLicenseStatus = validLicenseStatus || verifyStatedSourceLink(licenced, it) // TODO require &&?
             }
             if (!validLicenseStatus) {
-                println("-----------")
-                println("suspected invalid license state...")
-                println(licenced.file)
-                println(licenced.licence)
-                println(licenced.mediaSource)
-                println(licenced.filepathToCreditSource)
+                // TODO: maybe enabkle this bothering
+                //println("-----------")
+                //println("not on the list of expected file sources...")
+                //println(licenced.file)
+                //println(licenced.licence)
+                //println(licenced.mediaSource)
+                //println(licenced.filepathToCreditSource)
+                // TODO - automatically check license in source, especially useful for Commons
+                // and check whether source is up to track disapperances
             }
         }
 
