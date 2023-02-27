@@ -125,7 +125,7 @@ fun isShopExpressionFragment(prefix: String? = null): String {
     val p = if (prefix != null) "$prefix:" else ""
     return ("""(
         ${p}shop and ${p}shop !~ no|vacant|mall
-        or ${p}office and ${p}office != vacant
+        or ${p}office and ${p}office !~ no|vacant
         or ${p}healthcare and healthcare != hospital
         or ${p}craft
         or ${p}tourism = information and ${p}information = office
@@ -209,16 +209,16 @@ fun isShopExpressionFragment(prefix: String? = null): String {
             "clinic", // sizes vary a lot, not necessarily purpose-built
             "dentist",
             "doctors",
-            "hospital", // purpose-built
+            // "hospital", // purpose-built
             "pharmacy",
             // social_facility only if it is not residential, see above
             "veterinary",
 
             /* entertainment, arts & culture */
             "arts_centre",
-            // "brothel",
+            "brothel",
             // "casino", // as far as I know, always purpose-built
-            // "cinema",
+            // "cinema", // typically purpose-built
             "community_centre", // often purpose-built, but not necessarily
             // "conference_centre", // purpose-built
             "events_venue", // smaller ones are not purpose-built
@@ -230,7 +230,7 @@ fun isShopExpressionFragment(prefix: String? = null): String {
             "social_centre",
             "stripclub",
             "studio",
-            // "swingerclub",
+            "swingerclub",
             // "theatre",
 
             /* public service */
@@ -267,4 +267,5 @@ val IS_DISUSED_SHOP_EXPRESSION = """
     nodes, ways, relations with
       ${isShopExpressionFragment("disused")}
       or shop = vacant
+      or office = vacant
 """.toElementFilterExpression()

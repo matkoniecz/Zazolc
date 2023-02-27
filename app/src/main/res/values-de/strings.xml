@@ -816,7 +816,7 @@ Wenn es eine Busspur gibt, hinterlasse bitte stattdessen einen Hinweis."</string
     <string name="quest_shop_gone_vacant_answer">"Es steht leer"</string>
     <string name="quest_shop_gone_replaced_answer">"Ein(e) …"</string>
     <string name="quest_shop_gone_replaced_answer_hint">"Hier Art des Ortes eingeben"</string>
-    <string name="quest_shop_vacant_type_title">"Dieser Laden stand leer. Was ist hier jetzt?"</string>
+    <string name="quest_shop_vacant_type_title">"Dieser Laden stand leer. Was ist jetzt hier?"</string>
     <string name="quest_lanes_answer_lanes_odd2">"Jede Seite hat unterschiedliche Anzahl von Fahrstreifen"</string>
     <string name="default_disabled_msg_go_inside_regional_warning">"Dieser Aufgabentyp ist standardmäßig deaktiviert, weil er in manchen Regionen nicht sinnvoll ist und du wahrscheinlich den Ort betreten muss, um die Aufgabe lösen zu können."</string>
     <string name="quest_dietType_explanation_kosher">"Koschere Produkte werden nach den jüdischen Speisegesetzen hergestellt, wobei spezielle Kashrut-Zertifizierungs-Agenturen diese Produkte überprüfen."</string>
@@ -1055,7 +1055,7 @@ Alternativ kann auch ein Hinweis (mit Foto) hinterlassen werden."</string>
     <string name="quest_shoulder_value_yes">"Seitenstreifen"</string>
     <string name="quest_shoulder_value_no">"Kein Seitenstreifen"</string>
     <string name="no_camera_permission_warning_title">"Kamerazugriff"</string>
-    <string name="no_camera_permission_warning">"Die Berechtigung wird benötigt, um Fotos zu machen und Abstände mit der Kamera zu messen."</string>
+    <string name="no_camera_permission_warning">"Die Berechtigung wird benötigt, um Abstände mit der Kamera zu messen."</string>
     <string name="ar_core_error_sdk_too_old">"Die App ist zu alt, versuche zu aktualisieren."</string>
     <string name="ar_core_tracking_error_bad_state">"Etwas hat nicht geklappt. Versuche die Messung neu zu starten."</string>
     <string name="ar_core_tracking_error_insufficient_light">"Zu dunkel hier"</string>
@@ -1101,7 +1101,6 @@ Aufgrund einer Richtlinie des Google Play Store dürfen leider keine Links, die 
     <string name="quest_seating_indoor_only">"Nur drinnen"</string>
     <string name="quest_seating_outdoor_only">"Nur draußen"</string>
     <string name="quest_seating_indoor_and_outdoor">"Drinnen und draußen"</string>
-    <string name="default_disabled_msg_summer_outdoor_seating">"Dieser Aufgabentyp ist standardmäßig deaktiviert, weil möglicherweise nur in bestimmten Zeiten des Jahres überprüft werden kann, ob Sitzplätze im Freien existieren."</string>
     <string name="no_camera_permission_toast">"Keine Kamera-Berechtigung"</string>
     <string name="quest_accepts_cash_title2">"Akzeptiert dieser Ort Bargeld?"</string>
     <string name="quest_address_street_title2">"Auf welcher Straße befindet sich das?"</string>
@@ -1302,8 +1301,13 @@ Jetzt verschieben?"</string>
     <string name="quest_fireHydrant_type_pipe">"Rohr"</string>
     <string name="quest_cycleway_value_sidewalk_dual">"explizite Mitbenutzung des Bürgersteigs, beide Richtungen"</string>
     <string name="measure_info_title">"Optimale Genauigkeit erreichen"</string>
-    <string name="measure_info_html_description">"&lt;p&gt;ARCore geht manchmal (anfangs) davon aus, dass der Boden etwas niedriger oder höher ist als in der Realität. Dadurch entsteht ein Messfehler, der umso größer wird, je mehr Du das Telefon in Richtung Horizont neigst.&lt;/p&gt;
+    <string name="measure_info_html_description">"&lt;p&gt;ARCore geht manchmal (anfangs) davon aus, dass der Boden etwas niedriger oder höher ist als in der Realität. Dadurch entsteht ein Messfehler, der umso größer wird, je mehr du das Telefon in Richtung Horizont neigst.&lt;/p&gt;
 &lt;p&gt;Setze den Start- und Endpunkt einfach während das Telefon gerade nach unten zeigt (also so dass der weiße Pfeil von oben zu sehen ist), um dieses Problem bei horizontalen Messungen komplett zu umgehen.&lt;/p&gt;
-&lt;p&gt;Für vertikale Messungen musst Du den Startpunkt stattdessen aus verschiedenen Richtungen betrachten, um sicherzustellen, dass er sich nicht relativ zum Boden verschiebt.&lt;/p&gt;"</string>
+&lt;p&gt;Für vertikale Messungen musst du den Startpunkt stattdessen aus verschiedenen Richtungen betrachten, um sicherzustellen, dass er sich nicht relativ zum Boden verschiebt.&lt;/p&gt;"</string>
     <string name="privacy_html_arcore">"Diese App nutzt die von Google bereitgestellten &lt;a href=\"https://play.google.com/store/apps/details?id=com.google.ar.core\"&gt;Google Play Services for AR&lt;/a&gt; (ARCore) welche den &lt;a href=\"https://policies.google.com/privacy\"&gt;Google-Datenschutzrichtlinien&lt;/a&gt; unterliegen."</string>
+    <string name="default_disabled_msg_seasonal">"Dieser Aufgabentyp ist standardmäßig deaktiviert, weil man die Situation vor Ort möglicherweise nur zu bestimmten Jahreszeiten überprüfen kann."</string>
+    <string name="quest_gritBinSeasonal_title">"Ist das auch außerhalb des Winters hier?"</string>
+    <string name="street_parking_staggered_on_street">"Wechselseitig auf der Straße"</string>
+    <string name="street_parking_staggered_half_on_kerb">"Wechselseitig teilweise auf der Straße"</string>
+    <string name="quest_traffic_signals_sound_description">"Tipp: Achte auf Lautsprecher. Nicht alle Tonsignale können über eine Taste aktiviert werden."</string>
 </resources>
