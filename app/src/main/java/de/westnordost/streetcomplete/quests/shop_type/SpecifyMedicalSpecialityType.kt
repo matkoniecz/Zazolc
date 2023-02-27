@@ -32,7 +32,7 @@ class SpecifyMedicalSpecialistType : OsmFilterQuestType<ShopTypeAnswer>() {
         )
     """ // add test to protect against future me adding !amenity here, see similar test for shop=yes quest, the same for healthcare = doctor
 
-    override val changesetComment = "Survey specialities of medical practicioners"
+    override val changesetComment = "Survey specialities of medical practitioners"
     override val wikiLink = "Key:healthcare:speciality"
     override val icon = R.drawable.ic_quest_crown // TODO
     override val isReplaceShopEnabled = true
