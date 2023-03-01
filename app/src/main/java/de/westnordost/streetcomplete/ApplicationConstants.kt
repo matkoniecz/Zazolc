@@ -23,11 +23,11 @@ object ApplicationConstants {
 
     /** a "best before" duration for downloaded data. OSM data, notes, a tile will not be
      *  downloaded again before the time expired  */
-    const val REFRESH_DATA_AFTER = 12L * 60 * 60 * 1000 // 12 hours in ms
+    const val REFRESH_DATA_AFTER = 3 * 24L * 60 * 60 * 1000 // 3 days in ms
 
     /** the duration after which OSM data, notes, quest meta data etc. will be deleted from the
      *  database if not used anymore and have not been refreshed in the meantime  */
-    const val DELETE_OLD_DATA_AFTER = 14L * 24 * 60 * 60 * 1000 // 14 days in ms
+    const val DELETE_OLD_DATA_AFTER = 20L * 24 * 60 * 60 * 1000 // 20 days in ms
 
     const val NOTE_MIN_ZOOM = 15
 
