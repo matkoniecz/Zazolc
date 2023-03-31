@@ -229,6 +229,7 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             // res/graphics/pins/
             // TODO still worth asking Tobias but with a lower priority
             "parking.svg",
+            "parking_borderless.svg",
             "phone.svg",
             "bollard.svg",
             "pedestrian_traffic_light.svg",
@@ -254,6 +255,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "pin_bubble.svg",
             "pin_pointer.svg",
             "pin_dot.xcf",
+
+            // res/graphics/sidewalk
+            "no_floating.svg",
 
             // res/graphics/street parking
             "street_shoulder.svg",
