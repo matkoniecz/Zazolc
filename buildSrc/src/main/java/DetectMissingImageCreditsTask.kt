@@ -198,6 +198,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "ic_star_white_shadow_32dp.png",
             "ic_none.png",
 
+            // res/graphics/
+            "question.svg",
+
             // res/graphics/oneway/no entry signs
             "arrow.svg",
             "default.svg",
