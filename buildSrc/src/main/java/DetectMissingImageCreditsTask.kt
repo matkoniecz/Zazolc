@@ -249,6 +249,9 @@ footway_surface.svg (added in https://github.com/streetcomplete/StreetComplete/c
             "oneway_yes_reverse.svg",
             "oneway_yes.svg",
 
+            // res/graphics/overlay
+            "crosshair.svg",
+
             // res/graphics/pin
             "pin.svg",
             "pin.xcf",
