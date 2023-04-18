@@ -463,6 +463,7 @@ fun questTypeRegistry(
     132 to AddAcceptsCash(),
 
     133 to AddFuelSelfService(),
+    156 to CheckShopExistence(featureDictionaryFuture), // after opening hours and similar so they will be preferred if enabled
 
     /* ↓ 5.quests that are very numerous ---------------------------------------------------- */
 
@@ -793,5 +794,6 @@ fun questTypeRegistry(
 
     /* at the very last because it can be difficult to ascertain during day. used by OsmAnd if "Street lighting" is enabled. (Configure map, Map rendering, Details) */
     // 154 to AddWayLit(), moved to top
-    19999 to CheckShopExistence(), // mine, intentionally at the as a last resort quest
+    155 to AddGritBinSeasonal(),
+    156 to CheckShopExistence(featureDictionaryFuture), // after opening hours and similar so they will be preferred if enabled
 ))
