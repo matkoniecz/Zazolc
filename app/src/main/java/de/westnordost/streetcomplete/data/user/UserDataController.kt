@@ -39,7 +39,8 @@ class UserDataController(
         prefs.edit(true) {
             putLong(Prefs.OSM_USER_ID, userDetails.id)
             putString(Prefs.OSM_USER_NAME, userDetails.displayName)
-            putInt(Prefs.OSM_UNREAD_MESSAGES, userDetails.unreadMessagesCount)
+            //silence message notifications (I do not have a browser on the phone)
+            //putInt(Prefs.OSM_UNREAD_MESSAGES, userDetails.unreadMessagesCount)
         }
         listeners.forEach { it.onUpdated() }
     }
