@@ -112,6 +112,7 @@ class ShopsOverlayForm : AbstractOverlayForm() {
                 featureCtrl.feature?.name,
                 ::filterOnlyShops,
                 ::onSelectedFeature,
+                true,
                 topFeatureCodesOfPopularShoplikePOIs()
             ).show()
         }

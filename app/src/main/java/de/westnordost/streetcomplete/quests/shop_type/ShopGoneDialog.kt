@@ -56,7 +56,8 @@ class ShopGoneDialog(
                 featureCtrl.feature?.name,
                 ::filterOnlyShops,
                 ::onSelectedFeature,
-                true
+                true,
+                topFeatureCodesOfPopularShoplikePOIs()
             ).show()
         }
 

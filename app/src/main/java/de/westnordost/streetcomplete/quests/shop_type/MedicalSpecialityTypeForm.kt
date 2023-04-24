@@ -43,6 +43,7 @@ class MedicalSpecialityTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
                 featureCtrl.feature?.name,
                 ::filterOnlySpecialitiesOfMedicalDoctors,
                 ::onSelectedFeature,
+                true,
                 listOf( // based on https://taginfo.openstreetmap.org/keys/healthcare%3Aspeciality#values
                     // with alternative medicine skipped
                     "amenity/doctors/general",
