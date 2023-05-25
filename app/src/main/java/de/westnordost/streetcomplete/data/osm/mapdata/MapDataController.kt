@@ -41,14 +41,16 @@ class MapDataController internal constructor(
     private val cache = MapDataCache(
         SPATIAL_CACHE_TILE_ZOOM,
         SPATIAL_CACHE_TILES,
-        SPATIAL_CACHE_INITIAL_CAPACITY
-    ) { bbox ->
-        val elements = elementDB.getAll(bbox)
-        val elementGeometries = geometryDB.getAllEntries(
-            elements.mapNotNull { if (it !is Node) it.key else null }
-        )
-        elements to elementGeometries
-    }
+        SPATIAL_CACHE_INITIAL_CAPACITY,
+        { bbox ->
+            val elements = elementDB.getAll(bbox)
+            val elementGeometries = geometryDB.getAllEntries(
+                elements.mapNotNull { if (it !is Node) it.key else null }
+            )
+            elements to elementGeometries
+        },
+        { nodeDB.getAll(it) },
+    )
 
     /** update element data with [mapData] in the given [bbox] (fresh data from the OSM API has been
      *  downloaded) */
@@ -160,8 +162,6 @@ class MapDataController internal constructor(
         mapData.addAll(ways)
     }
 
-    fun get(type: ElementType, id: Long): Element? = cache.getElement(type, id, elementDB::get)
-
     fun getGeometry(type: ElementType, id: Long): ElementGeometry? = cache.getGeometry(type, id, geometryDB::get)
 
     fun getGeometries(keys: Collection<ElementKey>): List<ElementGeometryEntry> = cache.getGeometries(keys, geometryDB::getAllEntries)
@@ -185,9 +185,9 @@ class MapDataController internal constructor(
         )
     }
 
-    override fun getNode(id: Long): Node? = get(ElementType.NODE, id) as? Node
-    override fun getWay(id: Long): Way? = get(ElementType.WAY, id) as? Way
-    override fun getRelation(id: Long): Relation? = get(ElementType.RELATION, id) as? Relation
+    override fun getNode(id: Long): Node? = cache.getElement(ElementType.NODE, id, elementDB::get) as? Node
+    override fun getWay(id: Long): Way? = cache.getElement(ElementType.WAY, id, elementDB::get) as? Way
+    override fun getRelation(id: Long): Relation? = cache.getElement(ElementType.RELATION, id, elementDB::get) as? Relation
 
     fun getAll(elementKeys: Collection<ElementKey>): List<Element> =
         cache.getElements(elementKeys, elementDB::getAll)

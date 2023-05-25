@@ -934,15 +934,6 @@
                 "sport": {
                     "label": "Deportes"
                 },
-                "sport_ice": {
-                    "label": "Deportes"
-                },
-                "sport_racing_motor": {
-                    "label": "Deportes"
-                },
-                "sport_racing_nonmotor": {
-                    "label": "Deportes"
-                },
                 "stars": {
                     "label": "Estrelles"
                 },
@@ -2187,9 +2178,6 @@
                 },
                 "landuse/military/barracks": {
                     "name": "Cuartel"
-                },
-                "landuse/military/danger_area": {
-                    "name": "Área de peligru"
                 },
                 "landuse/military/range": {
                     "name": "Campu de tiru"

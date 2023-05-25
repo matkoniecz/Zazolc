@@ -14,6 +14,7 @@ import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.air_conditioning.AddAirConditioning
 import de.westnordost.streetcomplete.quests.air_pump.AddAirCompressor
 import de.westnordost.streetcomplete.quests.air_pump.AddBicyclePump
+import de.westnordost.streetcomplete.quests.amenity_cover.AddAmenityCover
 import de.westnordost.streetcomplete.quests.atm_cashin.AddAtmCashIn
 import de.westnordost.streetcomplete.quests.atm_operator.AddAtmOperator
 import de.westnordost.streetcomplete.quests.baby_changing_table.AddBabyChangingTable
@@ -82,6 +83,7 @@ import de.westnordost.streetcomplete.quests.foot.AddProhibitedForPedestrians
 import de.westnordost.streetcomplete.quests.fuel_service.AddFuelSelfService
 import de.westnordost.streetcomplete.quests.general_fee.AddGeneralFee
 import de.westnordost.streetcomplete.quests.grit_bin_seasonal.AddGritBinSeasonal
+import de.westnordost.streetcomplete.quests.hairdresser.AddHairdresserCustomers
 import de.westnordost.streetcomplete.quests.handrail.AddHandrail
 import de.westnordost.streetcomplete.quests.incline_direction.AddBicycleIncline
 import de.westnordost.streetcomplete.quests.incline_direction.AddStepsIncline
@@ -110,7 +112,6 @@ import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess
 import de.westnordost.streetcomplete.quests.parking_fee.AddBikeParkingFee
 import de.westnordost.streetcomplete.quests.parking_fee.AddParkingFee
 import de.westnordost.streetcomplete.quests.parking_type.AddParkingType
-import de.westnordost.streetcomplete.quests.picnic_table_cover.AddPicnicTableCover
 import de.westnordost.streetcomplete.quests.pitch_lit.AddPitchLit
 import de.westnordost.streetcomplete.quests.place_name.AddPlaceName
 import de.westnordost.streetcomplete.quests.playground_access.AddPlaygroundAccess
@@ -151,6 +152,7 @@ import de.westnordost.streetcomplete.quests.surface.AddSidewalkSurface
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingBusStop
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingCrosswalk
 import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingKerb
+import de.westnordost.streetcomplete.quests.tactile_paving.AddTactilePavingSteps
 import de.westnordost.streetcomplete.quests.toilet_availability.AddToiletAvailability
 import de.westnordost.streetcomplete.quests.toilets_fee.AddToiletsFee
 import de.westnordost.streetcomplete.quests.tourism_information.AddInformationToTourism
@@ -254,7 +256,7 @@ fun questTypeRegistry(
     9 to AddCarWashType(),
 
     10 to AddBenchBackrest(),
-    11 to AddPicnicTableCover(),
+    11 to AddAmenityCover(),
 
     12 to AddBridgeStructure(),
 
@@ -276,6 +278,7 @@ fun questTypeRegistry(
     21 to AddHandrail(), // for accessibility of pedestrian routing, can be gathered when walking past
     22 to AddStepsRamp(),
     23 to AddStepsIncline(), // can be gathered while walking perpendicular to the way e.g. the other side of the road or when running/cycling past, confuses some people, so not as high as it theoretically should be
+    158 to AddTactilePavingSteps(), // need to check top and bottom
 
     24 to AddBicycleIncline(),
 
@@ -377,6 +380,7 @@ fun questTypeRegistry(
     78 to SpecifyShopType(), // above add place name as some brand presets will set the name too
     79 to CheckShopType(),
     // 80 to AddPlaceName(featureDictionaryFuture), moved higher
+    157 to AddHairdresserCustomers(), // almost always marked on sign outside
     81 to AddOpeningHours(featureDictionaryFuture),
     82 to AddSeating(), // easily visible from outside, but only seasonally
     83 to AddBicyclePump(), // visible from the outside, but only during opening hours
