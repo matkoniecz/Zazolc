@@ -553,7 +553,7 @@ fun questTypeRegistry(
     9 to AddCarWashType(),
 
     // 10 to AddBenchBackrest(), disabled as pointless
-    11 to AddPicnicTableCover(),
+    11 to AddAmenityCover(),
 
     12 to AddBridgeStructure(),
 
@@ -798,6 +798,7 @@ fun questTypeRegistry(
 
     /* at the very last because it can be difficult to ascertain during day. used by OsmAnd if "Street lighting" is enabled. (Configure map, Map rendering, Details) */
     // 154 to AddWayLit(), moved to top
+    157 to AddHairdresserCustomers(),
     155 to AddGritBinSeasonal(),
     156 to CheckShopExistence(featureDictionaryFuture), // after opening hours and similar so they will be preferred if enabled
 ))
