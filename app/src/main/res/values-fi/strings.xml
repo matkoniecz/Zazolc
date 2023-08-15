@@ -522,7 +522,7 @@ Osittain tarkoittaa, että WC:hen pääsee pöyrätuolilla, mutta tarjolla ei v�
     <string name="label_housenumber">"talon numero"</string>
     <string name="label_blocknumber">"korttelin numero"</string>
     <string name="quest_busStopShelter_covered">"Koko pysäkki on katettu"</string>
-    <string name="quest_ferry_pedestrian_title">"Sopiiko tämä lauttareitti jalakulkijoille?"</string>
+    <string name="quest_ferry_pedestrian_title">"Sopiiko tämä lauttareitti jalankulkijoille?"</string>
     <string name="quest_ferry_motor_vehicle_title">"Sopiiko tämä lautta moottoriajoneuvojen reitiksi?"</string>
     <string name="quest_leave_new_note_photos_are_useful">"Kuvan lisääminen tekee ilmoituksesta paljon käyttökelpoisemman."</string>
     <string name="create_new_note_hint">"Paras on kirjoittaa ilmoitus paikallisella kielellä, tai vaihtoehtoisesti englanniksi."</string>
@@ -970,7 +970,7 @@ Jos jokin kaistoista on varattu busseille, jätä paikalle ilmoitus."</string>
     <string name="quest_barrier_bicycle_type_multiple">"Sikaani - yli kaksi estettä"</string>
     <string name="pref_title_language_select">"Valitse kieli"</string>
     <string name="language_default">"Järjestelmän oletus"</string>
-    <string name="on_floor">"lattialla %s:"</string>
+    <string name="on_floor">"kerroksessa %s"</string>
     <string name="select_street_parking_orientation">"Valitse suunta ajoradalle:"</string>
     <string name="select_street_parking_position">"Valitse sijainti:"</string>
     <string name="select_street_parking_no">"Onko täällä liikenne- tai katumerkintöjä?"</string>

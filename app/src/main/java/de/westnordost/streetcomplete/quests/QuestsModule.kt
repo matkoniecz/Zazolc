@@ -60,6 +60,7 @@ import de.westnordost.streetcomplete.quests.construction.MarkCompletedBuildingCo
 import de.westnordost.streetcomplete.quests.construction.MarkCompletedHighwayConstruction
 import de.westnordost.streetcomplete.quests.crossing.AddCrossing
 import de.westnordost.streetcomplete.quests.crossing_island.AddCrossingIsland
+import de.westnordost.streetcomplete.quests.crossing_kerb_height.AddCrossingKerbHeight
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType
 import de.westnordost.streetcomplete.quests.cycleway.AddCycleway
 import de.westnordost.streetcomplete.quests.defibrillator.AddDefibrillatorAccess
@@ -278,7 +279,6 @@ fun questTypeRegistry(
     21 to AddHandrail(), // for accessibility of pedestrian routing, can be gathered when walking past
     22 to AddStepsRamp(),
     23 to AddStepsIncline(), // can be gathered while walking perpendicular to the way e.g. the other side of the road or when running/cycling past, confuses some people, so not as high as it theoretically should be
-    158 to AddTactilePavingSteps(), // need to check top and bottom
 
     24 to AddBicycleIncline(),
 
@@ -376,11 +376,11 @@ fun questTypeRegistry(
     76 to AddAddressStreet(),
 
     // shops: text input / opening hours input take longer than other quests
-    77 to CheckOpeningHoursSigned(featureDictionaryFuture),
+    157 to AddHairdresserCustomers(), // almost always marked on sign outside
     78 to SpecifyShopType(), // above add place name as some brand presets will set the name too
     79 to CheckShopType(),
-    // 80 to AddPlaceName(featureDictionaryFuture), moved higher
-    157 to AddHairdresserCustomers(), // almost always marked on sign outside
+    80 to AddPlaceName(featureDictionaryFuture), moved higher
+    77 to CheckOpeningHoursSigned(featureDictionaryFuture),
     81 to AddOpeningHours(featureDictionaryFuture),
     82 to AddSeating(), // easily visible from outside, but only seasonally
     83 to AddBicyclePump(), // visible from the outside, but only during opening hours
@@ -467,7 +467,6 @@ fun questTypeRegistry(
     132 to AddAcceptsCash(),
 
     133 to AddFuelSelfService(),
-    156 to CheckShopExistence(featureDictionaryFuture), // after opening hours and similar so they will be preferred if enabled
 
     /* ↓ 5.quests that are very numerous ---------------------------------------------------- */
 
@@ -507,7 +506,7 @@ fun questTypeRegistry(
     154 to AddWayLit(),
     */
 
-    //being tested
+    // being tested
     1100015 to SpecifyMedicalSpecialistType(),
 
     // modified heavily --
@@ -562,7 +561,7 @@ fun questTypeRegistry(
     // sport pitches
     14 to AddSport(),
     15 to AddPitchSurface(),
-    //16 to AddPitchLit(), // moved to top
+    // 16 to AddPitchLit(), // moved to top
 
     // parking
     17 to AddParkingType(),
@@ -613,6 +612,7 @@ fun questTypeRegistry(
     39 to AddCrossingIsland(), // can be done at a glance
     40 to AddCrossingType(),
     41 to AddTactilePavingCrosswalk(),
+    159 to AddCrossingKerbHeight(),
     42 to AddTrafficSignalsSound(), // Sound needs to be done as or after you're crossing
     43 to AddTrafficSignalsButton(),
     44 to AddTrafficSignalsVibration(),
@@ -674,7 +674,7 @@ fun questTypeRegistry(
     77 to CheckOpeningHoursSigned(featureDictionaryFuture),
     78 to SpecifyShopType(), // above add place name as some brand presets will set the name too
     79 to CheckShopType(),
-    //80 to AddPlaceName(featureDictionaryFuture), // moved to top
+    // 80 to AddPlaceName(featureDictionaryFuture), // moved to top
     81 to AddOpeningHours(featureDictionaryFuture),
     82 to AddSeating(), // easily visible from outside, but only seasonally
     83 to AddBicyclePump(), // visible from the outside, but only during opening hours
@@ -772,7 +772,7 @@ fun questTypeRegistry(
 
     137 to AddCycleway(countryInfos, countryBoundariesFuture), // for any cyclist routers (and cyclist maps)
     138 to AddLanes(), // abstreet, certainly most routing engines - often requires way to be split
-    //139 to AddShoulder(), // needs minimal thinking // too confusing, see https://github.com/streetcomplete/StreetComplete/issues/4340#issuecomment-1308390100 https://github.com/streetcomplete/StreetComplete/issues/4617#issuecomment-1308390620 https://community.openstreetmap.org/t/shoulder-tag-is-confusing/5185 https://wiki.openstreetmap.org/wiki/Key:shoulder#History
+    // 139 to AddShoulder(), // needs minimal thinking // too confusing, see https://github.com/streetcomplete/StreetComplete/issues/4340#issuecomment-1308390100 https://github.com/streetcomplete/StreetComplete/issues/4617#issuecomment-1308390620 https://community.openstreetmap.org/t/shoulder-tag-is-confusing/5185 https://wiki.openstreetmap.org/wiki/Key:shoulder#History
     140 to AddRoadWidth(arSupportChecker),
     141 to AddRoadSmoothness(),
     142 to AddPathSmoothness(),
@@ -789,6 +789,9 @@ fun questTypeRegistry(
     *  for the sign which is one reason why it is disabled by default */
     149 to AddMaxSpeed(),
 
+    157 to AddHairdresserCustomers(),
+    152 to AddTactilePavingSteps(), // probably eliminate it in Poland...
+
     // buildings
     150 to AddBuildingType(),
     // 151 to AddBuildingLevels(), removed as waste of time
@@ -798,7 +801,7 @@ fun questTypeRegistry(
 
     /* at the very last because it can be difficult to ascertain during day. used by OsmAnd if "Street lighting" is enabled. (Configure map, Map rendering, Details) */
     // 154 to AddWayLit(), moved to top
-    157 to AddHairdresserCustomers(),
+    19999 to CheckShopExistence(featureDictionaryFuture), // mine, intentionally at the as a last resort quest
     155 to AddGritBinSeasonal(),
-    156 to CheckShopExistence(featureDictionaryFuture), // after opening hours and similar so they will be preferred if enabled
+    159 to AddCrossingKerbHeight(),
 ))
