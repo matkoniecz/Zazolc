@@ -243,6 +243,7 @@ fun questTypeRegistry(
 
     /* ↓ 1. solvable from a distance or while passing by -----------------------------------  */
 
+
     // bus stop quests
     1 to AddBusStopShelter(), // used by at least OsmAnd
     2 to AddBenchStatusOnBusStop(), // can be seen from across the street
@@ -279,6 +280,7 @@ fun questTypeRegistry(
     21 to AddHandrail(), // for accessibility of pedestrian routing, can be gathered when walking past
     22 to AddStepsRamp(),
     23 to AddStepsIncline(), // can be gathered while walking perpendicular to the way e.g. the other side of the road or when running/cycling past, confuses some people, so not as high as it theoretically should be
+    158 to AddTactilePavingSteps(), // need to check top and bottom
 
     24 to AddBicycleIncline(),
 
@@ -317,6 +319,7 @@ fun questTypeRegistry(
     39 to AddCrossingIsland(), // can be done at a glance
     40 to AddCrossingType(),
     41 to AddTactilePavingCrosswalk(),
+    159 to AddCrossingKerbHeight(),
     42 to AddTrafficSignalsSound(), // Sound needs to be done as or after you're crossing
     43 to AddTrafficSignalsButton(),
     44 to AddTrafficSignalsVibration(),
@@ -345,6 +348,8 @@ fun questTypeRegistry(
     57 to AddStepCountStile(), // here to keep stile quest together - this quest will appear in low quest density anyway
 
     58 to AddBollardType(), // useful for first responders
+
+    82 to AddSeating(), // easily visible from outside, but only seasonally
 
     59 to AddSelfServiceLaundry(),
 
@@ -379,10 +384,9 @@ fun questTypeRegistry(
     157 to AddHairdresserCustomers(), // almost always marked on sign outside
     78 to SpecifyShopType(), // above add place name as some brand presets will set the name too
     79 to CheckShopType(),
-    80 to AddPlaceName(featureDictionaryFuture), moved higher
+    80 to AddPlaceName(featureDictionaryFuture),
     77 to CheckOpeningHoursSigned(featureDictionaryFuture),
     81 to AddOpeningHours(featureDictionaryFuture),
-    82 to AddSeating(), // easily visible from outside, but only seasonally
     83 to AddBicyclePump(), // visible from the outside, but only during opening hours
 
     84 to AddAtmOperator(),
@@ -467,11 +471,14 @@ fun questTypeRegistry(
     132 to AddAcceptsCash(),
 
     133 to AddFuelSelfService(),
+    156 to CheckShopExistence(featureDictionaryFuture), // after opening hours and similar so they will be preferred if enabled
 
     /* ↓ 5.quests that are very numerous ---------------------------------------------------- */
 
     // roads
     134 to AddSidewalk(), // for any pedestrian routers, needs minimal thinking
+    135 to AddRoadSurface(), // used by BRouter, OsmAnd, OSRM, graphhopper, HOT map style... - sometimes requires way to be split
+    136 to AddTracktype(), // widely used in map rendering - OSM Carto, OsmAnd...
     137 to AddCycleway(countryInfos, countryBoundariesFuture), // for any cyclist routers (and cyclist maps)
     138 to AddLanes(), // abstreet, certainly most routing engines - often requires way to be split
 
