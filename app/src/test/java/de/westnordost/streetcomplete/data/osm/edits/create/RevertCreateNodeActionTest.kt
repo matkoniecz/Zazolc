@@ -14,17 +14,18 @@ import de.westnordost.streetcomplete.testutils.on
 import de.westnordost.streetcomplete.testutils.rel
 import de.westnordost.streetcomplete.testutils.way
 import de.westnordost.streetcomplete.util.math.translate
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotEquals
+import kotlin.test.assertTrue
 
 class RevertCreateNodeActionTest {
     private lateinit var repos: MapDataRepository
     private lateinit var provider: ElementIdProvider
 
-    @Before
+    @BeforeTest
     fun setUp() {
         repos = mock()
         provider = mock()
@@ -43,13 +44,16 @@ class RevertCreateNodeActionTest {
         assertEquals(node, deletedNode)
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `conflict when node already deleted`() {
         on(repos.getNode(1)).thenReturn(null)
-        RevertCreateNodeAction(node(1), listOf()).createUpdates(repos, provider)
+
+        assertFailsWith<ConflictException> {
+            RevertCreateNodeAction(node(1), listOf()).createUpdates(repos, provider)
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `conflict when node is now member of a relation`() {
         val node = node(1)
 
@@ -57,10 +61,12 @@ class RevertCreateNodeActionTest {
         on(repos.getWaysForNode(1)).thenReturn(emptyList())
         on(repos.getRelationsForNode(1)).thenReturn(listOf(rel()))
 
-        RevertCreateNodeAction(node, listOf()).createUpdates(repos, provider)
+        assertFailsWith<ConflictException> {
+            RevertCreateNodeAction(node, listOf()).createUpdates(repos, provider)
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `conflict when node is part of more ways than initially`() {
         val node = node(1)
 
@@ -68,10 +74,12 @@ class RevertCreateNodeActionTest {
         on(repos.getWaysForNode(1)).thenReturn(listOf(way(1), way(2), way(3)))
         on(repos.getRelationsForNode(1)).thenReturn(emptyList())
 
-        RevertCreateNodeAction(node, listOf(1, 2)).createUpdates(repos, provider)
+        assertFailsWith<ConflictException> {
+            RevertCreateNodeAction(node, listOf(1, 2)).createUpdates(repos, provider)
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `conflict when node was moved at all`() {
         val node = node(1)
         val movedNode = node.copy(position = node.position.translate(10.0, 0.0))
@@ -80,10 +88,12 @@ class RevertCreateNodeActionTest {
         on(repos.getWaysForNode(1)).thenReturn(emptyList())
         on(repos.getRelationsForNode(1)).thenReturn(emptyList())
 
-        RevertCreateNodeAction(node).createUpdates(repos, provider)
+        assertFailsWith<ConflictException> {
+            RevertCreateNodeAction(node).createUpdates(repos, provider)
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `conflict when tags changed on node at all`() {
         val node = node(1)
 
@@ -91,7 +101,9 @@ class RevertCreateNodeActionTest {
         on(repos.getWaysForNode(1)).thenReturn(emptyList())
         on(repos.getRelationsForNode(1)).thenReturn(emptyList())
 
-        RevertCreateNodeAction(node).createUpdates(repos, provider)
+        assertFailsWith<ConflictException> {
+            RevertCreateNodeAction(node).createUpdates(repos, provider)
+        }
     }
 
     @Test

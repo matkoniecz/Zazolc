@@ -10,14 +10,14 @@ import de.westnordost.streetcomplete.testutils.on
 import de.westnordost.streetcomplete.testutils.pGeom
 import de.westnordost.streetcomplete.testutils.way
 import de.westnordost.streetcomplete.util.ktx.nowAsEpochMilliseconds
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
 import org.mockito.ArgumentMatchers.anyDouble
 import java.util.concurrent.FutureTask
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class AddCyclewayTest {
 
@@ -25,7 +25,7 @@ class AddCyclewayTest {
     private lateinit var countryInfos: CountryInfos
     private lateinit var questType: AddCycleway
 
-    @Before fun setUp() {
+    @BeforeTest fun setUp() {
         val countryBoundaries: CountryBoundaries = mock()
         val futureTask = FutureTask { countryBoundaries }
         futureTask.run()
@@ -177,5 +177,48 @@ class AddCyclewayTest {
         assertEquals(0, questType.getApplicableElements(mapData).toList().size)
         // because we don't know if we are in Belgium
         assertNull(questType.isApplicableTo(way))
+    }
+
+    @Test
+    fun `applicable to maxspeed 30 zone with zone_traffic urban`() {
+        val residentialWayIn30Zone = way(1L, listOf(1, 2, 3), mapOf(
+            "highway" to "residential",
+            "maxspeed" to "30",
+            "zone:traffic" to "DE:urban",
+            "zone:maxspeed" to "DE:30",
+        ))
+
+        val mapData = TestMapDataWithGeometry(listOf(residentialWayIn30Zone))
+
+        assertEquals(1, questType.getApplicableElements(mapData).toList().size)
+        assertTrue(questType.isApplicableTo(residentialWayIn30Zone)!!)
+    }
+
+    @Test
+    fun `applicable to maxspeed 30 in built-up area`() {
+        val residentialWayInBuiltUpAreaWithMaxspeed30 = way(tags = mapOf(
+            "highway" to "residential",
+            "maxspeed" to "30",
+            "zone:traffic" to "DE:urban"
+        ))
+
+        val mapData = TestMapDataWithGeometry(listOf(residentialWayInBuiltUpAreaWithMaxspeed30))
+
+        assertEquals(1, questType.getApplicableElements(mapData).toList().size)
+        assertTrue(questType.isApplicableTo(residentialWayInBuiltUpAreaWithMaxspeed30)!!)
+    }
+
+    @Test
+    fun `not applicable to residential way in maxspeed 30 zone`() {
+        val residentialWayIn30Zone = way(1L, listOf(1, 2, 3), mapOf(
+            "highway" to "residential",
+            "maxspeed" to "30",
+            "zone:maxspeed" to "DE:30",
+        ))
+
+        val mapData = TestMapDataWithGeometry(listOf(residentialWayIn30Zone))
+
+        assertEquals(0, questType.getApplicableElements(mapData).toList().size)
+        assertFalse(questType.isApplicableTo(residentialWayIn30Zone)!!)
     }
 }

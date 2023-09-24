@@ -9,10 +9,11 @@ import de.westnordost.streetcomplete.testutils.mock
 import de.westnordost.streetcomplete.testutils.node
 import de.westnordost.streetcomplete.testutils.on
 import de.westnordost.streetcomplete.testutils.p
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 class DeletePoiNodeActionTest {
 
@@ -21,7 +22,7 @@ class DeletePoiNodeActionTest {
     private lateinit var repos: MapDataRepository
     private lateinit var provider: ElementIdProvider
 
-    @Before fun setUp() {
+    @BeforeTest fun setUp() {
         repos = mock()
         provider = mock()
     }
@@ -46,10 +47,13 @@ class DeletePoiNodeActionTest {
         assertTrue(data.modifications.single().tags.isEmpty())
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `moved element creates conflict`() {
         on(repos.getNode(e.id)).thenReturn(e.copy(position = p(1.0, 1.0)))
-        DeletePoiNodeAction(e).createUpdates(repos, provider)
+
+        assertFailsWith<ConflictException> {
+            DeletePoiNodeAction(e).createUpdates(repos, provider)
+        }
     }
 
     @Test fun idsUpdatesApplied() {

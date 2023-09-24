@@ -11,37 +11,44 @@ import de.westnordost.streetcomplete.testutils.node
 import de.westnordost.streetcomplete.testutils.on
 import de.westnordost.streetcomplete.testutils.p
 import de.westnordost.streetcomplete.testutils.way
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class UpdateElementTagsActionTest {
 
     private lateinit var repos: MapDataRepository
     private lateinit var provider: ElementIdProvider
 
-    @Before fun setUp() {
+    @BeforeTest fun setUp() {
         repos = mock()
         provider = mock()
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `conflict if node moved too much`() {
         on(repos.get(NODE, 1)).thenReturn(node(1, p(1.0, 0.0)))
-        UpdateElementTagsAction(
-            node(1, p(0.0, 0.0)),
-            StringMapChanges(listOf(StringMapEntryAdd("a", "b")))
-        ).createUpdates(repos, provider)
+
+        assertFailsWith<ConflictException> {
+            UpdateElementTagsAction(
+                node(1, p(0.0, 0.0)),
+                StringMapChanges(listOf(StringMapEntryAdd("a", "b")))
+            ).createUpdates(repos, provider)
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `conflict if changes are not applicable`() {
         val w = way(1, listOf(1, 2, 3), mutableMapOf("highway" to "residential"))
         on(repos.get(WAY, 1)).thenReturn(w)
-        UpdateElementTagsAction(
-            w,
-            StringMapChanges(listOf(StringMapEntryAdd("highway", "living_street")))
-        ).createUpdates(repos, provider)
+
+        assertFailsWith<ConflictException> {
+            UpdateElementTagsAction(
+                w,
+                StringMapChanges(listOf(StringMapEntryAdd("highway", "living_street")))
+            ).createUpdates(repos, provider)
+        }
     }
 
     @Test fun `apply changes`() {

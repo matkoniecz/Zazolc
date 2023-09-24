@@ -5,9 +5,9 @@ import de.westnordost.streetcomplete.quests.TestMapDataWithGeometry
 import de.westnordost.streetcomplete.testutils.mock
 import de.westnordost.streetcomplete.testutils.node
 import de.westnordost.streetcomplete.testutils.on
-import org.junit.Assert
-import org.junit.Test
 import java.util.concurrent.FutureTask
+import kotlin.test.assertEquals
+import kotlin.test.Test
 
 class CheckShopExistenceTest {
     private val questType = CheckShopExistence(mockOfFeatureDictionary())
@@ -40,7 +40,7 @@ class CheckShopExistenceTest {
                 node(timestamp = 0, tags = mapOf("shop" to "weird_value")),
             ),
         )
-        Assert.assertEquals(0, questType.getApplicableElements(mapData).toList().size)
+        assertEquals(0, questType.getApplicableElements(mapData).toList().size)
     }
 
     @Test
@@ -50,7 +50,7 @@ class CheckShopExistenceTest {
                 node(timestamp = 0, tags = mapOf("shop" to "weird_value", "name" to "Foobar")),
             ),
         )
-        Assert.assertEquals(1, questType.getApplicableElements(mapData).toList().size)
+        assertEquals(1, questType.getApplicableElements(mapData).toList().size)
     }
 
     @Test
@@ -60,6 +60,6 @@ class CheckShopExistenceTest {
                 node(timestamp = 0, tags = mapOf("shop" to "greengrocer", "name" to "Foobar")),
             ),
         )
-        Assert.assertEquals(1, questType.getApplicableElements(mapData).toList().size)
+        assertEquals(1, questType.getApplicableElements(mapData).toList().size)
     }
 }

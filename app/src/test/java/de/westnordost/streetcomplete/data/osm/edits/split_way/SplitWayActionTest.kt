@@ -20,11 +20,12 @@ import de.westnordost.streetcomplete.testutils.way
 import de.westnordost.streetcomplete.testutils.waysAsMembers
 import de.westnordost.streetcomplete.util.ktx.containsExactlyInAnyOrder
 import de.westnordost.streetcomplete.util.math.createTranslated
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
 import org.mockito.Mockito.reset
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 class SplitWayActionTest {
 
@@ -62,65 +63,89 @@ class SplitWayActionTest {
         on(repos.getRelationsForWay(0)).thenReturn(listOf())
     }
 
-    @Before fun setUp() {
+    @BeforeTest fun setUp() {
         reset(repos)
         updateRepos(way)
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `raise conflict if less than two split positions on closed way`() {
         way = way(0, mutableListOf(0, 1, 2, 0))
-        doSplit(SplitAtPoint(p[1]))
+
+        assertFailsWith<ConflictException> {
+            doSplit(SplitAtPoint(p[1]))
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `raise conflict if way was deleted`() {
         on(repos.getWayComplete(0)).thenReturn(null)
-        doSplit(SplitAtPoint(p[1]))
+
+        assertFailsWith<ConflictException> {
+            doSplit(SplitAtPoint(p[1]))
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `raise conflict if updated way was cut at the start`() {
         way = way(0, mutableListOf(1, 2, 3))
         val originalWay = way(0, mutableListOf(0, 1, 2, 3))
-        doSplit(split, originalWay = originalWay)
+
+        assertFailsWith<ConflictException> {
+            doSplit(split, originalWay = originalWay)
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `raise conflict if updated way was cut at the end`() {
         way = way(0, mutableListOf(0, 1, 2))
         val originalWay = way(0, mutableListOf(0, 1, 2, 3))
-        doSplit(split, originalWay = originalWay)
+
+        assertFailsWith<ConflictException> {
+            doSplit(split, originalWay = originalWay)
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `raise conflict if way has split position at its very start`() {
-        doSplit(SplitAtPoint(p[0]))
+        assertFailsWith<ConflictException> {
+            doSplit(SplitAtPoint(p[0]))
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `raise conflict if way has split position at its very end`() {
-        doSplit(SplitAtPoint(p[3]))
+        assertFailsWith<ConflictException> {
+            doSplit(SplitAtPoint(p[3]))
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `raise conflict if first split point of line split is not in the way`() {
-        doSplit(SplitAtLinePosition(outsidePoints[0], p[1], 0.5))
+        assertFailsWith<ConflictException> {
+            doSplit(SplitAtLinePosition(outsidePoints[0], p[1], 0.5))
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `raise conflict if second split point of line split is not in the way`() {
-        doSplit(SplitAtLinePosition(p[1], outsidePoints[0], 0.5))
+        assertFailsWith<ConflictException> {
+            doSplit(SplitAtLinePosition(p[1], outsidePoints[0], 0.5))
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `raise conflict if split point of point split is not in the way`() {
-        doSplit(SplitAtPoint(outsidePoints[0]))
+        assertFailsWith<ConflictException> {
+            doSplit(SplitAtPoint(outsidePoints[0]))
+        }
     }
 
-    @Test(expected = ConflictException::class)
+    @Test
     fun `raise conflict if the second node is not directly after the first one in the updated way`() {
-        doSplit(SplitAtLinePosition(p[0], p[2], 0.3))
+        assertFailsWith<ConflictException> {
+            doSplit(SplitAtLinePosition(p[0], p[2], 0.3))
+        }
     }
 
     @Test fun `find node to split at from several alternatives`() {
