@@ -101,6 +101,7 @@ configurations {
     all {
         // it's already included in Android
         exclude(group = "net.sf.kxml", module = "kxml2")
+        exclude(group = "xmlpull", module = "xmlpull")
     }
 }
 
@@ -156,8 +157,8 @@ dependencies {
     // finding a name for a feature without a name tag
     implementation("de.westnordost:osmfeatures-android:5.2")
     // talking with the OSM API
-    implementation("de.westnordost:osmapi-map:2.1")
-    implementation("de.westnordost:osmapi-changesets:2.1")
+    implementation("de.westnordost:osmapi-map:2.2")
+    implementation("de.westnordost:osmapi-changesets:2.2")
     implementation("de.westnordost:osmapi-notes:2.0")
     implementation("de.westnordost:osmapi-traces:2.0")
     implementation("de.westnordost:osmapi-user:2.0")

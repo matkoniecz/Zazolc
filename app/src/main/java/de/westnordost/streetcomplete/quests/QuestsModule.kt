@@ -559,7 +559,7 @@ fun questTypeRegistry(
     9 to AddCarWashType(),
 
     // 10 to AddBenchBackrest(), disabled as pointless
-    11 to AddAmenityCover(),
+    11 to AddAmenityCover(featureDictionaryFuture),
 
     12 to AddBridgeStructure(),
 
