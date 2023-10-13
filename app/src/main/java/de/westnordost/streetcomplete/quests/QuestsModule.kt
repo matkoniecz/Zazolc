@@ -70,11 +70,7 @@ import de.westnordost.streetcomplete.quests.crossing_island.AddCrossingIsland
 import de.westnordost.streetcomplete.quests.crossing_kerb_height.AddCrossingKerbHeight
 import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType
 import de.westnordost.streetcomplete.quests.cycleway.AddCycleway
-<<<<<<< HEAD
 import de.westnordost.streetcomplete.quests.defibrillator.AddDefibrillatorAccess
-import de.westnordost.streetcomplete.quests.defibrillator.AddIsDefibrillatorIndoor
-=======
->>>>>>> master
 import de.westnordost.streetcomplete.quests.diet_type.AddHalal
 import de.westnordost.streetcomplete.quests.diet_type.AddKosher
 import de.westnordost.streetcomplete.quests.diet_type.AddVegan
@@ -207,7 +203,7 @@ val questsModule = module {
                 countryInfos.getByLocation(countryBoundaries, location.longitude, location.latitude)
             },
             { tags ->
-                get<FutureTask<FeatureDictionary>>(named("FeatureDictionaryFuture"))
+                get<FutureTask<FeatureDictionary>>(named("getFeature"))
                     .get().getFeature(tags)
             }
         )
@@ -546,7 +542,7 @@ fun questTypeRegistry(
     1000006 to MultidesignatedFootwayToPath(), // my own validator quest
     1000007 to DetectHistoricRailwayTagging(), // my own validator quest
     1000008 to FixBogusGallery(), // my own validator quest
-    1000009 to AddAcceptsMedicineTrash(featureDictionaryFuture), // my own quest
+    1000009 to AddAcceptsMedicineTrash(), // my own quest
     1000010 to AddCityLimit(), // my own quest
     1000011 to SpecifyEntrance(), // my own quest
     1000012 to WatUndrinkableDrinkable(), // my own quest
@@ -554,7 +550,7 @@ fun questTypeRegistry(
     1000014 to SpecifyBarrier(),  // my own quest
     1000015 to AddDefibrillatorAccess(),  // my own quest
     96 to AddRoadName(),
-    80 to AddPlaceName(featureDictionaryFuture),
+    80 to AddPlaceName(getFeature),
     // --modified heavily
 
     // kept--
@@ -578,7 +574,7 @@ fun questTypeRegistry(
     9 to AddCarWashType(),
 
     // 10 to AddBenchBackrest(), disabled as pointless
-    11 to AddAmenityCover(featureDictionaryFuture),
+    11 to AddAmenityCover(getFeature),
 
     12 to AddBridgeStructure(),
 
@@ -653,7 +649,7 @@ fun questTypeRegistry(
     /* pulled up in priority to be before CheckExistence because this is basically the check
        whether the postbox is still there in countries in which it is enabled */
     48 to AddPostboxCollectionTimes(),
-    49 to CheckExistence(featureDictionaryFuture),
+    49 to CheckExistence(getFeature),
 
     50 to AddBoardType(),
 
@@ -697,11 +693,11 @@ fun questTypeRegistry(
     76 to AddAddressStreet(),
 
     // shops: text input / opening hours input take longer than other quests
-    77 to CheckOpeningHoursSigned(featureDictionaryFuture),
+    77 to CheckOpeningHoursSigned(getFeature),
     78 to SpecifyShopType(), // above add place name as some brand presets will set the name too
     79 to CheckShopType(),
-    // 80 to AddPlaceName(featureDictionaryFuture), // moved to top
-    81 to AddOpeningHours(featureDictionaryFuture),
+    // 80 to AddPlaceName(getFeature), // moved to top
+    81 to AddOpeningHours(getFeature),
     82 to AddSeating(), // easily visible from outside, but only seasonally
     83 to AddBicyclePump(), // visible from the outside, but only during opening hours
 
@@ -759,7 +755,7 @@ fun questTypeRegistry(
 
     112 to AddWheelchairAccessPublicTransport(), // need to look out for lifts etc, maybe even enter the station
 
-    113 to AddIsDefibrillatorIndoor(), // need to go inside in case it is inside (or gone)
+    160 to AddBbqFuel(),
 
     // inside camping sites
     114 to AddCampType(),
@@ -787,6 +783,7 @@ fun questTypeRegistry(
     132 to AddAcceptsCash(),
 
     133 to AddFuelSelfService(),
+    113 to AddIsAmenityIndoor(getFeature), // need to go inside in case it is inside (or gone)
 
     /* ↓ 5.quests that are very numerous ---------------------------------------------------- */
 
@@ -796,7 +793,7 @@ fun questTypeRegistry(
     // 135 to AddRoadSurface(), // used by BRouter, OsmAnd, OSRM, graphhopper, HOT map style... - sometimes requires way to be split
     // 136 to AddTracktype(), // widely used in map rendering - OSM Carto, OsmAnd...
 
-    137 to AddCycleway(countryInfos, countryBoundariesFuture), // for any cyclist routers (and cyclist maps)
+    137 to AddCycleway(getCountryInfoByLocation), // for any cyclist routers (and cyclist maps)
     138 to AddLanes(), // abstreet, certainly most routing engines - often requires way to be split
     // 139 to AddShoulder(), // needs minimal thinking // too confusing, see https://github.com/streetcomplete/StreetComplete/issues/4340#issuecomment-1308390100 https://github.com/streetcomplete/StreetComplete/issues/4617#issuecomment-1308390620 https://community.openstreetmap.org/t/shoulder-tag-is-confusing/5185 https://wiki.openstreetmap.org/wiki/Key:shoulder#History
     140 to AddRoadWidth(arSupportChecker),
@@ -827,7 +824,7 @@ fun questTypeRegistry(
 
     /* at the very last because it can be difficult to ascertain during day. used by OsmAnd if "Street lighting" is enabled. (Configure map, Map rendering, Details) */
     // 154 to AddWayLit(), moved to top
-    19999 to CheckShopExistence(featureDictionaryFuture), // mine, intentionally at the as a last resort quest
+    19999 to CheckShopExistence(getFeature), // mine, intentionally at the as a last resort quest
     155 to AddGritBinSeasonal(),
     159 to AddCrossingKerbHeight(),
 ))

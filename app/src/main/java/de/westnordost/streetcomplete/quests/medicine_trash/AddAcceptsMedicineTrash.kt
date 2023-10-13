@@ -1,6 +1,5 @@
 package de.westnordost.streetcomplete.quests.medicine_trash
 
-import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
@@ -8,12 +7,8 @@ import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.quests.YesNoQuestForm
 import de.westnordost.streetcomplete.util.ktx.toYesNo
-import java.util.concurrent.FutureTask
 
-public class AddAcceptsMedicineTrash(
-        private val featureDictionaryFuture: FutureTask<FeatureDictionary>
-    ) : OsmFilterQuestType<Boolean>() {
-
+class AddAcceptsMedicineTrash : OsmFilterQuestType<Boolean>() {
         override val elementFilter: String get() {
             return "nodes, ways, relations with amenity=pharmacy and !trash_accepted:medicines" }
 
@@ -32,9 +27,5 @@ public class AddAcceptsMedicineTrash(
         override fun applyAnswerTo(answer: Boolean, tags: Tags, geometry: ElementGeometry, timestampEdited: Long) {
             tags["trash_accepted:medicines"] = answer.toYesNo()
         }
-
-        private fun hasFeatureName(tags: Map<String, String>): Boolean =
-            featureDictionaryFuture.get().byTags(tags).isSuggestion(false).find().isNotEmpty()
-
     override val achievements: List<EditTypeAchievement> = listOf()
 }
