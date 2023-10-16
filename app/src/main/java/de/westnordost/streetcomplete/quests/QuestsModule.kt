@@ -203,7 +203,7 @@ val questsModule = module {
                 countryInfos.getByLocation(countryBoundaries, location.longitude, location.latitude)
             },
             { tags ->
-                get<FutureTask<FeatureDictionary>>(named("getFeature"))
+                get<FutureTask<FeatureDictionary>>(named("FeatureDictionaryFuture"))
                     .get().getFeature(tags)
             }
         )
