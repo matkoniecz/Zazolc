@@ -144,8 +144,8 @@ class AddOpeningHours(
     override fun isApplicableTo(element: Element): Boolean {
         if (!filter.matches(element)) return false
         val tags = element.tags
-        // only show places that can be named somehow
-        if (!hasName(tags)) return false
+        // // only show places that can be named somehow
+        // if (!hasName(tags)) return false
         // no opening_hours yet -> new survey
         val oh = tags["opening_hours"] ?: return true
         /* don't show if it was recently checked (actually already checked by filter, but it is a

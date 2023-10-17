@@ -132,7 +132,7 @@ class AddPlaceName(
         mapData.filter { isApplicableTo(it) }
 
     override fun isApplicableTo(element: Element): Boolean =
-        filter.matches(element) && hasFeatureName(element.tags)
+        filter.matches(element) //&& hasFeatureName(element.tags)
 
     override fun getHighlightedElements(element: Element, getMapData: () -> MapDataWithGeometry) =
         getMapData().filter(IS_SHOP_OR_DISUSED_SHOP_EXPRESSION)
