@@ -3,6 +3,8 @@ All assets made by and (c) Tobias Zwick unless explicitly stated otherwise. Lice
 URLs to other sources used:
  - Twemoji 2 (MIT license)      https://github.com/twitter/twemoji/
  - EmojiOne 2 (CC-BY 4 license) https://github.com/emojione/emojione/tree/2.2.7
+ - Google Noto Color Emoji      https://github.com/googlefonts/noto-emoji/tree/main
+   (Apache license, version 2.0) 
 
 File                            Author if not Tobias Zwick / Source
 ===============================================================================
@@ -404,6 +406,7 @@ quest/
     steps.svg
     steps_ramp.svg
     steps_handrail.svg
+    steps_tactile_paving.svg         combination of parts of kerb_tactile_paving.svg and steps_count.svg made by Tobias Zwick, combined by arrival-spring (so CC-BY-SA 4.0)
     street.svg
     street_lanes.svg
     street_name.svg
@@ -460,7 +463,8 @@ recycling/
     clothes.svg                      by Adrien Pavie, modified from EmojiOne 2: U+1F456, U+1F455
     cooking_oil.svg
     engine_oil.svg
-    garden_waste.svg                 modified from Twemoji: U+1F33F
+    food.svg                         modified from Google Noto Color Emoji U+1F355 and U+1F36A
+    green_waste.svg                  modified from Twemoji: U+1F33F
     glass_bottles.svg
     newspaper.svg                    modified from EmojiOne 2: U+1F4F0
     paper.svg
