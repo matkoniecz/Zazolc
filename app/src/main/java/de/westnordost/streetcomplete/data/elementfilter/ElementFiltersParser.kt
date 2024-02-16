@@ -350,7 +350,7 @@ private fun StringWithCursor.parseDateFilter(): DateFilter {
         return FixedDate(date)
     }
 
-    throw ParseException("Expected either a date (YYYY-MM-DD) or '$TODAY'", cursorPos)
+    throw ParseException("Expected either a date (YYYY-MM-DD) or '$TODAY'", cursorPos, string)
 }
 
 private fun StringWithCursor.parseDeltaDurationInDays(): Float? {
