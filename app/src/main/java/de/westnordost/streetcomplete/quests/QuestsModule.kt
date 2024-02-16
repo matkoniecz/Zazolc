@@ -831,6 +831,5 @@ fun questTypeRegistry(
     155 to AddGritBinSeasonal(),
     159 to AddCrossingKerbHeight(),
     163 to AddCrossingMarkings(),
-    41 to AddTactilePavingCrosswalk(),
     164 to AddCrossingSignals(),
 ))
