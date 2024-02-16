@@ -23,7 +23,7 @@ class AddBuildingType : OsmFilterQuestType<BuildingType>() {
     override val wikiLink = "Key:building"
     override val icon = R.drawable.ic_quest_building
     override val achievements = listOf(BUILDING)
-    override val defaultDisabledMessage = R.string.default_disabled_msg_overlay
+    //override val defaultDisabledMessage = R.string.default_disabled_msg_overlay
 
     override fun getTitle(tags: Map<String, String>) = R.string.quest_buildingType_title
 
