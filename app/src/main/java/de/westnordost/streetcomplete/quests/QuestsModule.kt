@@ -6,6 +6,7 @@ import de.westnordost.osmfeatures.FeatureDictionary
 import de.westnordost.streetcomplete.data.meta.CountryInfo
 import de.westnordost.streetcomplete.data.meta.CountryInfos
 import de.westnordost.streetcomplete.data.meta.getByLocation
+import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.LatLon
 import de.westnordost.streetcomplete.data.osmnotes.notequests.OsmNoteQuestType
 import de.westnordost.streetcomplete.data.quest.QuestTypeRegistry
@@ -31,7 +32,6 @@ import de.westnordost.streetcomplete.quests.barrier_type.AddBarrierOnRoad
 import de.westnordost.streetcomplete.quests.barrier_type.AddBarrierType
 import de.westnordost.streetcomplete.quests.barrier_type.AddStileType
 import de.westnordost.streetcomplete.quests.bbq_fuel.AddBbqFuel
-import de.westnordost.streetcomplete.quests.bench_backrest.AddBenchBackrest
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType
@@ -68,7 +68,8 @@ import de.westnordost.streetcomplete.quests.construction.MarkCompletedHighwayCon
 import de.westnordost.streetcomplete.quests.crossing.AddCrossing
 import de.westnordost.streetcomplete.quests.crossing_island.AddCrossingIsland
 import de.westnordost.streetcomplete.quests.crossing_kerb_height.AddCrossingKerbHeight
-import de.westnordost.streetcomplete.quests.crossing_type.AddCrossingType
+import de.westnordost.streetcomplete.quests.crossing_markings.AddCrossingMarkings
+import de.westnordost.streetcomplete.quests.crossing_signals.AddCrossingSignals
 import de.westnordost.streetcomplete.quests.cycleway.AddCycleway
 import de.westnordost.streetcomplete.quests.defibrillator.AddDefibrillatorAccess
 import de.westnordost.streetcomplete.quests.defibrillator.AddDefibrillatorLocation
@@ -135,6 +136,7 @@ import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine
 import de.westnordost.streetcomplete.quests.road_name.AddRoadName
 import de.westnordost.streetcomplete.quests.road_name.RoadNameSuggestionsSource
+import de.westnordost.streetcomplete.quests.sanitary_dump_station.AddSanitaryDumpStation
 import de.westnordost.streetcomplete.quests.seating.AddSeating
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation
 import de.westnordost.streetcomplete.quests.self_service.AddSelfServiceLaundry
@@ -187,7 +189,6 @@ import de.westnordost.streetcomplete.screens.measure.ArSupportChecker
 import de.westnordost.streetcomplete.util.ktx.getFeature
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import java.util.concurrent.FutureTask
 
 val questsModule = module {
     factory { RoadNameSuggestionsSource(get()) }
@@ -200,12 +201,11 @@ val questsModule = module {
             get(),
             { location ->
                 val countryInfos = get<CountryInfos>()
-                val countryBoundaries = get<FutureTask<CountryBoundaries>>(named("CountryBoundariesFuture")).get()
+                val countryBoundaries = get<Lazy<CountryBoundaries>>(named("CountryBoundariesLazy")).value
                 countryInfos.getByLocation(countryBoundaries, location.longitude, location.latitude)
             },
-            { tags ->
-                get<FutureTask<FeatureDictionary>>(named("FeatureDictionaryFuture"))
-                    .get().getFeature(tags)
+            { element ->
+                get<Lazy<FeatureDictionary>>(named("FeatureDictionaryLazy")).value.getFeature(element)
             }
         )
     }
@@ -215,8 +215,8 @@ fun questTypeRegistry(
     trafficFlowSegmentsApi: TrafficFlowSegmentsApi,
     trafficFlowDao: WayTrafficFlowDao,
     arSupportChecker: ArSupportChecker,
-    getCountryInfoByLocation: (location: LatLon) -> CountryInfo,
-    getFeature: (tags: Map<String, String>) -> Feature?,
+    getCountryInfoByLocation: (LatLon) -> CountryInfo,
+    getFeature: (Element) -> Feature?,
 ) = QuestTypeRegistry(listOf(
 
     /* The quest types are primarily sorted by how easy they can be solved:
@@ -331,8 +331,9 @@ fun questTypeRegistry(
 
     // crossing quests: A little later because they are not all solvable from a distance
     38 to AddCrossing(),
+    164 to AddCrossingSignals(),
     39 to AddCrossingIsland(), // can be done at a glance
-    40 to AddCrossingType(),
+    163 to AddCrossingMarkings(),
     41 to AddTactilePavingCrosswalk(),
     159 to AddCrossingKerbHeight(),
     42 to AddTrafficSignalsSound(), // Sound needs to be done as or after you're crossing
@@ -467,6 +468,7 @@ fun questTypeRegistry(
     115 to AddCampDrinkingWater(),
     116 to AddCampShower(),
     117 to AddCampPower(),
+    162 to AddSanitaryDumpStation(),
 
     // toilets
     118 to AddToiletAvailability(), // OSM Carto, shown in OsmAnd descriptions
@@ -516,7 +518,7 @@ fun questTypeRegistry(
     148 to AddCyclewayWidth(arSupportChecker), // should be after cycleway segregation
 
     /* should best be after road surface because it excludes unpaved roads, also, need to search
-    *  for the sign which is one reason why it is disabled by default */
+     * for the sign which is one reason why it is disabled by default */
     149 to AddMaxSpeed(),
 
     // buildings
@@ -634,7 +636,6 @@ fun questTypeRegistry(
     // crossing quests: A little later because they are not all solvable from a distance
     38 to AddCrossing(),
     39 to AddCrossingIsland(), // can be done at a glance
-    40 to AddCrossingType(),
     41 to AddTactilePavingCrosswalk(),
     42 to AddTrafficSignalsSound(), // Sound needs to be done as or after you're crossing
     43 to AddTrafficSignalsButton(),
@@ -829,4 +830,7 @@ fun questTypeRegistry(
     19999 to CheckShopExistence(getFeature), // mine, intentionally at the as a last resort quest
     155 to AddGritBinSeasonal(),
     159 to AddCrossingKerbHeight(),
+    163 to AddCrossingMarkings(),
+    41 to AddTactilePavingCrosswalk(),
+    164 to AddCrossingSignals(),
 ))

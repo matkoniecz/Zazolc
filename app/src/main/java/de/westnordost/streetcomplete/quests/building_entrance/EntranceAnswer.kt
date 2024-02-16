@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.quests.building_entrance
 
 sealed interface EntranceAnswer
 
-object DeadEnd : EntranceAnswer
+data object DeadEnd : EntranceAnswer
 
 object Private : EntranceAnswer
 

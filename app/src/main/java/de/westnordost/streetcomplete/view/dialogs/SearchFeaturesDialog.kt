@@ -29,8 +29,8 @@ class SearchFeaturesDialog(
     text: String? = null,
     private val filterFn: (Feature) -> Boolean = { true },
     private val onSelectedFeatureFn: (Feature) -> Unit,
+    private val codesOfDefaultFeatures: List<String>,
     private val dismissKeyboardOnClose: Boolean = false,
-    private val defaultFeaturesList: List<String>,
 ) : AlertDialog(context) {
 
     private val binding = ViewSelectPresetBinding.inflate(LayoutInflater.from(context))
@@ -40,7 +40,7 @@ class SearchFeaturesDialog(
     private val searchText: String? get() = binding.searchEditText.nonBlankTextOrNull
 
     private val defaultFeatures: List<Feature> by lazy {
-        defaultFeaturesList.mapNotNull {
+        codesOfDefaultFeatures.mapNotNull {
             featureDictionary
                 .byId(it)
                 .forLocale(*locales)

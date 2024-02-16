@@ -16,7 +16,7 @@ class AddAcceptsMedicineTrash : OsmFilterQuestType<Boolean>() {
         // override val defaultDisabledMessage = R.string.default_disabled_msg_go_inside
         override val wikiLink = "Key:trash_accepted:medicines"
         override val icon = R.drawable.ic_quest_bin_public_transport
-        override val isReplaceShopEnabled = true
+        override val isReplacePlaceEnabled = true
 
         // override val enabledInCountries = NoCountriesExcept("PL")
 
