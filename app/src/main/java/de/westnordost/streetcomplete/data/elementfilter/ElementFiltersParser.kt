@@ -350,14 +350,14 @@ private fun StringWithCursor.parseDateFilter(): DateFilter {
         return FixedDate(date)
     }
 
-    throw ParseException("Expected either a date (YYYY-MM-DD) or '$TODAY'", cursorPos, string)
+    throw ParseException("Expected either a date (YYYY-MM-DD) or '$TODAY'", cursorPos)
 }
 
 private fun StringWithCursor.parseDeltaDurationInDays(): Float? {
     val op = when {
         nextIsAndAdvance(PLUS) -> +1
         nextIsAndAdvance(MINUS) -> -1
-        else -> throw ParseException("Expected $PLUS or $MINUS", cursorPos, string)
+        else -> return null
     }
     expectAnyNumberOfSpaces()
     return op * parseDurationInDays()
