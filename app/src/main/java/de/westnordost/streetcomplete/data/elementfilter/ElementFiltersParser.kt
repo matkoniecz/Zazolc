@@ -387,4 +387,4 @@ private fun StringWithCursor.expectOneOrMoreSpaces(): Int {
 }
 
 class ParseException(message: String?, val errorOffset: Int, val parsed: String) :
-    RuntimeException("In $parsed at position $errorOffset: $message")
+    RuntimeException("In $parsed at position $errorOffset: $message\n\nparsed: ${parsed.substring(0, errorOffset-1)}")
