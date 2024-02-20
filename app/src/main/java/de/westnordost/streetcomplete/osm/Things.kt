@@ -138,7 +138,9 @@ private val IS_THING_EXPRESSION by lazy {
             // "water_tank" is more of a structure and would also need to include "fire_water_pond" etc. then
         ),
         "highway" to listOf(
-            // "bus_stop", - a bus stop shelter is similar to a shelter, but on the other hand, this
+            "bus_stop",
+            // disabled in base version
+            //- a bus stop shelter is similar to a shelter, but on the other hand, this
             //               is used to tag the *platform*, i.e. the shelter (bench, waste basket,
             //               ...) can also be mapped separately. If this would only be limited to
             //               points, I guess we could include it, but for any platforms, too much
