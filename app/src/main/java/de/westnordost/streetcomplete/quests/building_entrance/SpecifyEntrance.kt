@@ -14,7 +14,7 @@ class SpecifyEntrance : OsmFilterQuestType<EntranceAnswer>() {
 
     override val elementFilter = """
          nodes with
-          entrance=yes and !barrier and noexit != yes and access != private
+          entrance=yes and !barrier and noexit != yes and access != private and amenity != parking_entrance
     """
 
     override val changesetComment = "Add entrance info"
