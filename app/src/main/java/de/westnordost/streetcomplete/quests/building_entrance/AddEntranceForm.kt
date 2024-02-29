@@ -7,10 +7,10 @@ import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnsw
 import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.EXIT
 import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.GENERIC
 import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.MAIN
+import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.SECONDARY
 import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.SERVICE
 import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.SHOP
 import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.STAIRCASE
-import de.westnordost.streetcomplete.quests.building_entrance.EntranceExistsAnswer.SECONDARY
 
 class AddEntranceForm : AListQuestForm<EntranceAnswer>() {
     override val items: List<TextItem<EntranceAnswer>> = listOf(
