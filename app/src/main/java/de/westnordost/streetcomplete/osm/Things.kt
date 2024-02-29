@@ -138,7 +138,7 @@ private val IS_THING_EXPRESSION by lazy {
             // "water_tank" is more of a structure and would also need to include "fire_water_pond" etc. then
         ),
         "highway" to listOf(
-            "bus_stop",
+            // "bus_stop", handled in filter below to skip some common bad tagging
             "cyclist_waiting_aid",
             "emergency_access_point",
             "milestone",
@@ -205,7 +205,7 @@ private val IS_THING_EXPRESSION by lazy {
             "planter",
             "snow_cannon",
             "stele",
-            // "street_cabinet", - blocked; see note at amenity=post_box
+            // "street_cabinet", - blocked; see note at amenity=post_box, most are included by dedicated filter below
             "surveillance",
             // "survey_point" - this can be very very small -> verifiability issue
             //                  danger that mapper deletes it because he can't find it
@@ -248,6 +248,7 @@ private val IS_THING_EXPRESSION by lazy {
           or trolleybus = yes
           or tram = yes
         )
+        or highway = bus_stop and public_transport != stop_position
         or tourism = information and information !~ office|visitor_centre
     """.toElementFilterExpression()
 }
