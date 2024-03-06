@@ -49,8 +49,7 @@ class CheckShopExistence(
 
     override fun isApplicableTo(element: Element): Boolean =
         filter.matches(element) &&
-        element.isPlace() &&
-        hasName(element)
+        element.isPlace()
 
     override fun getHighlightedElements(element: Element, getMapData: () -> MapDataWithGeometry) =
         getMapData().asSequence().filter { it.isPlaceOrDisusedShop() }
