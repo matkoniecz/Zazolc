@@ -32,6 +32,7 @@ import de.westnordost.streetcomplete.quests.barrier_type.AddBarrierOnRoad
 import de.westnordost.streetcomplete.quests.barrier_type.AddBarrierType
 import de.westnordost.streetcomplete.quests.barrier_type.AddStileType
 import de.westnordost.streetcomplete.quests.bbq_fuel.AddBbqFuel
+import de.westnordost.streetcomplete.quests.bicycle_parking_operator.BicycleParkingOperator
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType
@@ -257,7 +258,7 @@ fun questTypeRegistry(
     // element is based on wrong data while the note is not resolved
     0 to OsmNoteQuestType,
 
-    // ↓ 1. solvable from a distance or while passing by ----------------------------------- 
+    // ↓ 1. solvable from a distance or while passing by -----------------------------------
 
 
     // bus stop quests
@@ -343,7 +344,7 @@ fun questTypeRegistry(
     43 to AddTrafficSignalsButton(),
     44 to AddTrafficSignalsVibration(),
 
-    // ↓ 2.solvable when right in front of it ----------------------------------------------- 
+    // ↓ 2.solvable when right in front of it -----------------------------------------------
     45 to AddInformationToTourism(), // OSM Carto
 
     46 to AddPoliceType(),
@@ -351,7 +352,7 @@ fun questTypeRegistry(
     47 to AddPlaygroundAccess(),
 
     // pulled up in priority to be before CheckExistence because this is basically the check
-    //   whether the postbox is still there in countries in which it is enabled 
+    //   whether the postbox is still there in countries in which it is enabled
     48 to AddPostboxCollectionTimes(),
     49 to CheckExistence(getFeature),
     155 to AddGritBinSeasonal(),
@@ -385,7 +386,7 @@ fun questTypeRegistry(
     67 to AddFireHydrantRef(),
 
     160 to AddBbqFuel(),
-    // ↓ 2.solvable when right in front of it but takes longer to input --------------------- 
+    // ↓ 2.solvable when right in front of it but takes longer to input ---------------------
 
     // bike parking/rental: would be higher up if not for bike parking/rental capacity which is usually not solvable when moving past
     68 to AddBikeParkingCover(), // used by OsmAnd in the object description
@@ -436,7 +437,7 @@ fun questTypeRegistry(
     99 to AddEntrance(),
     100 to AddEntranceReference(),
 
-    // ↓ 3.quests that may need some exploration / walking around --------------------------- 
+    // ↓ 3.quests that may need some exploration / walking around ---------------------------
 
     // ferry: usually visible from looking at the boat, but not always...
     101 to AddFerryAccessPedestrian(),
@@ -460,7 +461,7 @@ fun questTypeRegistry(
 
     111 to AddSmoking(), // often marked on the entrance, if not, visible/smellable inside
 
-    // ↓ 4.quests that may need to go inside ------------------------------------------------ 
+    // ↓ 4.quests that may need to go inside ------------------------------------------------
 
     112 to AddWheelchairAccessPublicTransport(), // need to look out for lifts etc, maybe even enter the station
 
@@ -496,7 +497,7 @@ fun questTypeRegistry(
     133 to AddFuelSelfService(),
     156 to CheckShopExistence(getFeature), // after opening hours and similar so they will be preferred if enabled
 
-    // ↓ 5.quests that are very numerous ---------------------------------------------------- 
+    // ↓ 5.quests that are very numerous ----------------------------------------------------
 
     // roads
     134 to AddSidewalk(), // for any pedestrian routers, needs minimal thinking
@@ -522,7 +523,7 @@ fun questTypeRegistry(
     148 to AddCyclewayWidth(arSupportChecker), // should be after cycleway segregation
 
     // should best be after road surface because it excludes unpaved roads, also, need to search
-    // for the sign which is one reason why it is disabled by default 
+    // for the sign which is one reason why it is disabled by default
     149 to AddMaxSpeed(),
 
     // buildings
@@ -545,6 +546,7 @@ fun questTypeRegistry(
     154 to AddWayLit(), // frequent enable/disable cycle (enable for night) - moved
     16 to AddPitchLit(), // frequent enable/disable cycle (enable for night) - moved
     7 to AddBusStopLit(), // frequent enable/disable cycle (enable for night) - moved
+    1000016 to BicycleParkingOperator(),
     1000004 to AddWasteDisposalAccess(), // mine, only I will do this and easy to process so lets keep high
     1000005 to AddAlsoShopForInsurance(), // my hackish quest
     1000006 to MultidesignatedFootwayToPath(), // my own validator quest
