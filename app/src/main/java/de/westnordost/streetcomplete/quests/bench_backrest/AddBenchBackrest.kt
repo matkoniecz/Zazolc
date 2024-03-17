@@ -47,5 +47,4 @@ class AddBenchBackrest : OsmFilterQuestType<BenchBackrestAnswer>() {
             NO -> tags["backrest"] = "no"
         }
     }
-    override val defaultDisabledMessage = R.string.default_disabled_msg_boring
 }
