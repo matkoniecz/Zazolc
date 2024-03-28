@@ -4,11 +4,11 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import com.russhwolf.settings.ObservableSettings
 import de.westnordost.streetcomplete.BuildConfig
 import de.westnordost.streetcomplete.Prefs
 import de.westnordost.streetcomplete.util.ktx.createBitmapWithWhiteBorder
 import de.westnordost.streetcomplete.util.ktx.dpToPx
-import de.westnordost.streetcomplete.util.prefs.Preferences
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.sqrt
@@ -17,7 +17,7 @@ import kotlin.math.sqrt
  *  the scene updates for tangram to access this sprite sheet  */
 class TangramIconsSpriteSheet(
     private val context: Context,
-    private val prefs: Preferences,
+    private val prefs: ObservableSettings,
     private val icons: Collection<Int>
 ) {
     val sceneUpdates: List<Pair<String, String>> by lazy {
