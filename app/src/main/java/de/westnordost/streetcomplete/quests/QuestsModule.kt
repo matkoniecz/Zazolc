@@ -32,6 +32,7 @@ import de.westnordost.streetcomplete.quests.barrier_type.AddBarrierOnRoad
 import de.westnordost.streetcomplete.quests.barrier_type.AddBarrierType
 import de.westnordost.streetcomplete.quests.barrier_type.AddStileType
 import de.westnordost.streetcomplete.quests.bbq_fuel.AddBbqFuel
+import de.westnordost.streetcomplete.quests.bench_backrest.AddBenchBackrest
 import de.westnordost.streetcomplete.quests.bicycle_parking_operator.BicycleParkingOperator
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover
@@ -546,7 +547,6 @@ fun questTypeRegistry(
     154 to AddWayLit(), // frequent enable/disable cycle (enable for night) - moved
     16 to AddPitchLit(), // frequent enable/disable cycle (enable for night) - moved
     7 to AddBusStopLit(), // frequent enable/disable cycle (enable for night) - moved
-    1000016 to BicycleParkingOperator(),
     1000004 to AddWasteDisposalAccess(), // mine, only I will do this and easy to process so lets keep high
     1000005 to AddAlsoShopForInsurance(), // my hackish quest
     1000006 to MultidesignatedFootwayToPath(), // my own validator quest
@@ -583,7 +583,6 @@ fun questTypeRegistry(
 
     9 to AddCarWashType(),
 
-    // 10 to AddBenchBackrest(), disabled as pointless
     11 to AddAmenityCover(getFeature),
 
     12 to AddBridgeStructure(),
@@ -697,6 +696,7 @@ fun questTypeRegistry(
     72 to AddBikeParkingFee(),
     73 to AddBikeRentalCapacity(), // less ambiguous than bike parking
     74 to AddBikeParkingCapacity(), // used by cycle map layer on osm.org, OsmAnd
+    1000016 to BicycleParkingOperator(),
 
     // address: usually only visible when just in front + sometimes requires to take "other answer"
     75 to AddHousenumber(),
@@ -841,4 +841,8 @@ fun questTypeRegistry(
     159 to AddCrossingKerbHeight(),
     163 to AddCrossingMarkings(),
     164 to AddCrossingSignals(),
+
+    // to the end as boring
+    // still enabled as adding bench generates it
+    10 to AddBenchBackrest(),
 ))
