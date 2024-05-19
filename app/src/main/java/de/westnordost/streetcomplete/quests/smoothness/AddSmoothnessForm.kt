@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.isGone
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.databinding.QuestGenericListBinding
 import de.westnordost.streetcomplete.osm.surface.Surface
@@ -49,9 +48,7 @@ class AddSmoothnessForm : AImageListQuestForm<Smoothness, SmoothnessAnswer>() {
         stringBuilder.replaceEmojiWithImageSpan(context, "🚲", R.drawable.ic_smoothness_city_bike)
         stringBuilder.replaceEmojiWithImageSpan(context, "🚗", R.drawable.ic_smoothness_car)
         stringBuilder.replaceEmojiWithImageSpan(context, "🚙", R.drawable.ic_smoothness_suv)
-
-        binding.descriptionLabel.isGone = false
-        binding.descriptionLabel.text = stringBuilder
+        setHint(stringBuilder)
     }
 
     override val moveFavoritesToFront = false

@@ -110,6 +110,7 @@ import de.westnordost.streetcomplete.quests.max_speed.AddMaxSpeed
 import de.westnordost.streetcomplete.quests.max_weight.AddMaxWeight
 import de.westnordost.streetcomplete.quests.medicine_trash.AddAcceptsMedicineTrash
 import de.westnordost.streetcomplete.quests.memorial_type.AddMemorialType
+import de.westnordost.streetcomplete.quests.moped.AddProhibitedForMoped
 import de.westnordost.streetcomplete.quests.motorcycle_parking_capacity.AddMotorcycleParkingCapacity
 import de.westnordost.streetcomplete.quests.motorcycle_parking_cover.AddMotorcycleParkingCover
 import de.westnordost.streetcomplete.quests.oneway.AddOneway
@@ -119,6 +120,9 @@ import de.westnordost.streetcomplete.quests.oneway_suspects.data.WayTrafficFlowD
 import de.westnordost.streetcomplete.quests.opening_hours.AddOpeningHours
 import de.westnordost.streetcomplete.quests.opening_hours_signed.CheckOpeningHoursSigned
 import de.westnordost.streetcomplete.quests.orchard_produce.AddOrchardProduce
+import de.westnordost.streetcomplete.quests.parcel_locker_brand.AddParcelLockerBrand
+import de.westnordost.streetcomplete.quests.parcel_locker_mail_in.AddParcelLockerMailIn
+import de.westnordost.streetcomplete.quests.parcel_locker_pickup.AddParcelLockerPickup
 import de.westnordost.streetcomplete.quests.parking_access.AddBikeParkingAccess
 import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccess
 import de.westnordost.streetcomplete.quests.parking_fee.AddBikeParkingFee
@@ -398,6 +402,10 @@ fun questTypeRegistry(
     73 to AddBikeRentalCapacity(), // less ambiguous than bike parking
     74 to AddBikeParkingCapacity(), // used by cycle map layer on osm.org, OsmAnd
 
+    167 to AddParcelLockerBrand(),
+    168 to AddParcelLockerPickup(),
+    169 to AddParcelLockerMailIn(),
+
     // address: usually only visible when just in front + sometimes requires to take "other answer"
     75 to AddHousenumber(),
     76 to AddAddressStreet(),
@@ -439,6 +447,9 @@ fun questTypeRegistry(
     100 to AddEntranceReference(),
 
     // ↓ 3.quests that may need some exploration / walking around ---------------------------
+    166 to AddProhibitedForMoped(),
+
+    /* ↓ 3.quests that may need some exploration / walking around --------------------------- */
 
     // ferry: usually visible from looking at the boat, but not always...
     101 to AddFerryAccessPedestrian(),
@@ -745,6 +756,7 @@ fun questTypeRegistry(
     102 to AddFerryAccessMotorVehicle(),
 
     103 to AddProhibitedForPedestrians(), // need to understand the pedestrian situation
+    166 to AddProhibitedForMoped(),
 
     104 to MarkCompletedHighwayConstruction(), // need to look the whole way
 
