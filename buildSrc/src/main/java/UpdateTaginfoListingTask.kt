@@ -436,7 +436,7 @@ open class UpdateTaginfoListingTask : DefaultTask() {
                 "turn:lanes:both_ways", "turn:lanes", "turn:lanes:forward", "turn:lanes:backward",
                 "operator", // technically not fully, but does not make sense to list all that autocomplete values
                 "brand",
-                "sport", // sport=soccer;volleyball is fully valid - doe not entirely fit here but...
+                "sport", // sport=soccer;volleyball is fully valid - does not entirely fit here but...
                 "produce", // like sport=*
             )) {
             return true
