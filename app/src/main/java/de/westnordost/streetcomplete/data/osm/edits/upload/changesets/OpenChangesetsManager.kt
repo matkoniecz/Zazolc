@@ -1,12 +1,12 @@
 package de.westnordost.streetcomplete.data.osm.edits.upload.changesets
 
 import de.westnordost.streetcomplete.ApplicationConstants.QUESTTYPE_TAG_KEY
-import de.westnordost.streetcomplete.ApplicationConstants.OSM_USER_AGENT
+import de.westnordost.streetcomplete.ApplicationConstants.USER_AGENT
+import de.westnordost.streetcomplete.data.ConflictException
 import de.westnordost.streetcomplete.data.osm.edits.ElementEditType
 import de.westnordost.streetcomplete.data.osm.edits.upload.LastEditTimeStore
 import de.westnordost.streetcomplete.data.osm.mapdata.LatLon
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataApi
-import de.westnordost.streetcomplete.data.upload.ConflictException
 import de.westnordost.streetcomplete.util.ktx.nowAsEpochMilliseconds
 import de.westnordost.streetcomplete.util.logs.Log
 import de.westnordost.streetcomplete.util.math.distanceTo
@@ -71,7 +71,7 @@ class OpenChangesetsManager(
     private fun createChangesetTags(type: ElementEditType, source: String) =
         mapOf(
             "comment" to type.changesetComment,
-            "created_by" to OSM_USER_AGENT,
+            "created_by" to USER_AGENT,
             "locale" to Locale.getDefault().toLanguageTag(),
             QUESTTYPE_TAG_KEY to type.name,
             "source" to source
