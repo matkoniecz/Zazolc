@@ -9,7 +9,6 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.databinding.QuestGenericListBinding
 import de.westnordost.streetcomplete.osm.surface.Surface
 import de.westnordost.streetcomplete.osm.surface.asItem
 import de.westnordost.streetcomplete.quests.AImageListQuestForm
@@ -19,8 +18,6 @@ import de.westnordost.streetcomplete.util.ktx.couldBeSteps
 import de.westnordost.streetcomplete.view.image_select.ItemViewHolder
 
 class AddSmoothnessForm : AImageListQuestForm<Smoothness, SmoothnessAnswer>() {
-
-    private val binding by contentViewBinding(QuestGenericListBinding::bind)
 
     override val otherAnswers get() = listOfNotNull(
         AnswerItem(R.string.quest_smoothness_wrong_surface) { surfaceWrong() },
