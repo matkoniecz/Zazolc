@@ -419,6 +419,9 @@ open class UpdateTaginfoListingTask : DefaultTask() {
         return false
     }
 
+freeformKey in UpdateTaginfoListingTask private branch
+    // see also list in osm_bot_abstraction_layer
+    // maybe fetch it to detect any new values?
     private fun freeformKey(key: String): Boolean {
         // most have own syntax and limitations obeyed by SC
         // maybe move to general StreetComplete file about OSM tagging?
