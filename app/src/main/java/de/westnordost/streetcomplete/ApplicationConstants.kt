@@ -12,8 +12,6 @@ object ApplicationConstants {
     const val MAX_DOWNLOADABLE_AREA_IN_SQKM = 12.0
     const val MIN_DOWNLOADABLE_AREA_IN_SQKM = 0.1
 
-    const val COPYRIGHT_YEARS = "2016-2024"
-
     const val DATABASE_NAME = "streetcomplete_v2.db"
     const val OLD_DATABASE_NAME = "streetcomplete.db"
 
@@ -61,9 +59,7 @@ object ApplicationConstants {
     const val NOTIFICATIONS_CHANNEL_SYNC = "downloading"
     const val NOTIFICATIONS_ID_SYNC = 1
 
-    const val DEFAULT_MAP_CACHE_SIZE_IN_MB = 50
-    const val DEFAULT_AUTOSYNC = "ON"
-    const val DEFAULT_RESURVEY_INTERVALS = "DEFAULT"
+    const val DEFAULT_MAP_CACHE_SIZE_IN_MB = 200
 
     const val STREETMEASURE = "de.westnordost.streetmeasure"
 
