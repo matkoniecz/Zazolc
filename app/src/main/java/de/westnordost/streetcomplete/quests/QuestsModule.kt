@@ -709,6 +709,8 @@ fun questTypeRegistry(
     74 to AddBikeParkingCapacity(), // used by cycle map layer on osm.org, OsmAnd
     1000016 to BicycleParkingOperator(),
 
+    167 to AddParcelLockerBrand(),
+
     // address: usually only visible when just in front + sometimes requires to take "other answer"
     75 to AddHousenumber(),
     76 to AddAddressStreet(),
@@ -756,7 +758,7 @@ fun questTypeRegistry(
     102 to AddFerryAccessMotorVehicle(),
 
     103 to AddProhibitedForPedestrians(), // need to understand the pedestrian situation
-    166 to AddProhibitedForMoped(),
+    166 to AddMopedAccess(),
 
     104 to MarkCompletedHighwayConstruction(), // need to look the whole way
 
