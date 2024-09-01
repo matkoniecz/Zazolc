@@ -14,7 +14,6 @@ import de.westnordost.streetcomplete.view.ResText
 import de.westnordost.streetcomplete.view.StreetSideSelectPuzzle
 import de.westnordost.streetcomplete.view.Text
 import de.westnordost.streetcomplete.view.setImage
-import kotlin.math.PI
 import kotlin.math.absoluteValue
 
 /** View controller that manages a street side select puzzle and accompanying last answer button
@@ -125,10 +124,10 @@ class StreetSideSelectWithLastAnswerButtonViewController<I>(
 
     /* ------------------------------------ rotate view ----------------------------------------- */
 
-    fun onMapOrientation(rotation: Float, tilt: Float) {
-        puzzleView.streetRotation = offsetPuzzleRotation + (180 * rotation / PI).toFloat()
-        compassView.rotation = (180 * rotation / PI).toFloat()
-        compassView.rotationX = (180 * tilt / PI).toFloat()
+    fun onMapOrientation(rotation: Double, tilt: Double) {
+        puzzleView.streetRotation = offsetPuzzleRotation - rotation.toFloat()
+        compassView.rotation = -rotation.toFloat()
+        compassView.rotationX = tilt.toFloat()
     }
 
     /* ------------------------------------------------------------------------------------------ */

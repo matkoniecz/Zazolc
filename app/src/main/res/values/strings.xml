@@ -155,6 +155,7 @@ The info you enter is directly added to OpenStreetMap in your name, without the 
     <string name="on_floor">on floor %s</string>
     <!-- as in: “Where is the metro station?” - “It is underground” -->
     <string name="underground">underground</string>
+    <string name="bridge">on bridge</string>
     <string name="at_housename">house name %s</string>
     <string name="at_housenumber">house number %s</string>
     <!-- as in: “Where is the ATM?” - “It is inside” -->
@@ -368,6 +369,8 @@ You can find donation information on our website or project home, Google Play do
 
     <string name="about_title_faq">"FAQ"</string>
 
+    <string name="about_title_intro">"Show introduction"</string>
+
     <string name="about_title_report_error">"Report error"</string>
 
     <string name="about_title_feedback">"Give feedback"</string>
@@ -376,6 +379,7 @@ You can find donation information on our website or project home, Google Play do
 
     <string name="about_category_contribute">Contribute</string>
 
+    <string name="about_category_help">Help</string>
 
     <!-- Credits screen -->
 
@@ -441,6 +445,8 @@ Before uploading your changes, the app checks with a &lt;a href=\"https://www.we
     <string name="unsynced_quests_description">plus %d not yet published changes.</string>
     <string name="unsynced_quests_not_logged_in_description">You have %d not yet published changes. You need to login to have them uploaded.</string>
 
+    <string name="user_profile_all_time_title">Overall</string>
+
     <string name="user_profile_global_rank">Global\nrank</string>
     <string name="user_profile_local_rank">Rank in\n%s</string>
     <string name="user_profile_days_active">Days\nactive</string>
@@ -461,7 +467,7 @@ Before uploading your changes, the app checks with a &lt;a href=\"https://www.we
     <string name="stats_are_syncing">Your statistics are still syncing. Check this screen later.</string>
     <string name="quests_empty">You published no edits yet</string>
 
-    <string name="user_statistics_country_rank">Rank in %2$s: %1$d</string>
+    <string name="user_statistics_country_rank2">Rank in %s</string>
     <string name="user_statistics_country_wiki_link">Mapping Portal %s</string>
     <string name="user_statistics_quest_wiki_link">Documentation</string>
 
@@ -994,7 +1000,8 @@ A level counts as a roof level when its windows are in the roof. Subsequently, r
 
     <string name="quest_camp_drinking_water_title">Is drinking water freely available to campers here?</string>
     <string name="quest_camp_shower_title">Are there showers here?</string>
-    <string name="quest_camp_power_supply_title">Is there any way for customers to charge their phone, laptop etc. here?</string>
+    <string name="quest_camp_power_supply_title">Are there any power outlets available for guests?</string>
+    <string name="quest_camp_power_supply_hint">This could be outlets directly at the camp pitches, outlets in a service building accessible by guests, a dedicated charging station for phones, laptops, etc.</string>
     <string name="quest_camp_type_title">Who may camp here?</string>
     <string name="quest_camp_type_tents_and_caravans">Both tents and motor homes, travel trailers, …</string>
     <string name="quest_camp_type_caravans_only">Only motor homes, travel trailers, …</string>
@@ -1165,6 +1172,7 @@ If any lanes are reserved for buses, please leave a note instead."</string>
     <string name="quest_leaf_type_broadleaved">Leaves</string>
     <string name="quest_leaf_type_mixed">Both are present</string>
     <string name="quest_leafType_tree_title">Does this tree have needles or leaves?</string>
+    <string name="quest_leafType_tree_is_just_a_stump">"It’s just a tree stump"</string>
 
     <string name="quest_level_title2">On which level number is this place located?</string>
 
@@ -1330,9 +1338,6 @@ If there are no signs along the whole street which apply for the highlighted sec
     <string name="produce_tung_nuts">Tung nuts</string>
 
     <string name="quest_parcel_locker_brand">"What’s the brand of this parcel locker?"</string>
-    <string name="quest_parcel_locker_pickup">Can you pick up parcels here?</string>
-    <string name="quest_parcel_locker_mail_in">Can you drop off parcels here?</string>
-    <string name="quest_parcel_locker_mail_in_answer_returns_only">Only for return deliveries</string>
 
     <string name="quest_parking_access_title2">Who is allowed to park here? Parking may be free or paid.</string>
     <string name="quest_access_yes">Any member of the general public</string>
@@ -1478,12 +1483,6 @@ If there are no signs along the whole street which apply for the highlighted sec
     <string name="quest_shop_gone_vacant_answer">It’s vacant…</string>
     <string name="quest_shop_gone_replaced_answer">A(n)…</string>
     <string name="quest_shop_gone_replaced_answer_hint">Type kind of place here</string>
-
-
-    <string name="quest_shoulder_title">"Does this road have a shoulder or breakdown lane?"</string>
-    <string name="quest_shoulder_explanation2">"A shoulder or breakdown lane is a clearly marked emergency stopping lane. The area designated as the shoulder is not necessarily paved over its entire width and not necessarily wide enough for a car to stop completely off the traffic lane."</string>
-    <string name="quest_shoulder_value_yes">shoulder</string>
-    <string name="quest_shoulder_value_no">no shoulder</string>
 
     <string name="quest_sidewalk_surface_title">"What’s the surface of the sidewalk here?"</string>
 
@@ -1818,5 +1817,6 @@ Alternatively, you can leave a note (with a photo)."</string>
     <string name="lane_narrowing_traffic_calming_none">No narrowed lane here</string>
     <string name="quest_bicycle_parking_operator_title">Who is operator of this bicycle parking?</string>
     <string name="quest_barrier_opening_width_gate">What is the width of the opening here?</string>
+    <string name="quest_barrier_opening_width_bollard">What is the widest gap one can pass through here?</string>
 
 </resources>

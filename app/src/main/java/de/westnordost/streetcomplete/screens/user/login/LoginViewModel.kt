@@ -9,16 +9,16 @@ import de.westnordost.streetcomplete.data.user.OAUTH2_REQUESTED_SCOPES
 import de.westnordost.streetcomplete.data.user.OAUTH2_REQUIRED_SCOPES
 import de.westnordost.streetcomplete.data.user.OAUTH2_TOKEN_URL
 import de.westnordost.streetcomplete.data.user.UserLoginController
+import de.westnordost.streetcomplete.data.user.UserLoginSource
+import de.westnordost.streetcomplete.data.user.oauth.OAuthApiClient
 import de.westnordost.streetcomplete.data.user.oauth.OAuthAuthorizationParams
 import de.westnordost.streetcomplete.data.user.oauth.OAuthException
-import de.westnordost.streetcomplete.data.user.oauth.OAuthService
 import de.westnordost.streetcomplete.util.ktx.launch
 import de.westnordost.streetcomplete.util.logs.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.withContext
 
 abstract class LoginViewModel : ViewModel() {
     abstract val unsyncedChangesCount: StateFlow<Int>
@@ -56,7 +56,7 @@ data object LoggedIn : LoginState
 class LoginViewModelImpl(
     private val unsyncedChangesCountSource: UnsyncedChangesCountSource,
     private val userLoginController: UserLoginController,
-    private val oAuthService: OAuthService
+    private val oAuthApiClient: OAuthApiClient
 ) : LoginViewModel() {
     override val loginState = MutableStateFlow<LoginState>(LoggedOut)
     override val unsyncedChangesCount = MutableStateFlow(0)
@@ -71,10 +71,20 @@ class LoginViewModelImpl(
         OAUTH2_REDIRECT_URI
     )
 
+    private val loginStatusListener = object : UserLoginSource.Listener {
+        override fun onLoggedIn() { loginState.value = LoggedIn }
+        override fun onLoggedOut() { loginState.value = LoggedOut }
+    }
+
     init {
         launch(Dispatchers.IO) {
             unsyncedChangesCount.update { unsyncedChangesCountSource.getCount() }
         }
+        userLoginController.addListener(loginStatusListener)
+    }
+
+    override fun onCleared() {
+        userLoginController.removeListener(loginStatusListener)
     }
 
     override fun startLogin() {
@@ -101,9 +111,7 @@ class LoginViewModelImpl(
     private suspend fun retrieveAccessToken(authorizationResponseUrl: String): String? {
         try {
             loginState.value = RetrievingAccessToken
-            val accessTokenResponse = withContext(Dispatchers.IO) {
-                oAuthService.retrieveAccessToken(oAuth, authorizationResponseUrl)
-            }
+            val accessTokenResponse = oAuthApiClient.getAccessToken(oAuth, authorizationResponseUrl)
             if (accessTokenResponse.grantedScopes?.containsAll(OAUTH2_REQUIRED_SCOPES) == false) {
                 loginState.value = LoginError.RequiredPermissionsNotGranted
                 return null
@@ -121,7 +129,6 @@ class LoginViewModelImpl(
     }
 
     private suspend fun login(accessToken: String) {
-        loginState.value = LoggedIn
         userLoginController.logIn(accessToken)
     }
 

@@ -10,11 +10,15 @@ import androidx.navigation.compose.rememberNavController
 import de.westnordost.streetcomplete.screens.about.logs.LogsScreen
 import de.westnordost.streetcomplete.ui.ktx.dir
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.koinInject
 
-@Composable fun AboutNavHost(onClickBack: () -> Unit) {
+@Composable
+fun AboutNavHost(onClickBack: () -> Unit) {
     val navController = rememberNavController()
     val dir = LocalLayoutDirection.current.dir
+
+    fun goBack() {
+        if (!navController.popBackStack()) onClickBack()
+    }
 
     NavHost(
         navController = navController,
@@ -30,31 +34,30 @@ import org.koin.compose.koinInject
                 onClickCredits = { navController.navigate(AboutDestination.Credits) },
                 onClickPrivacyStatement = { navController.navigate(AboutDestination.PrivacyStatement) },
                 onClickLogs = { navController.navigate(AboutDestination.Logs) },
-                onClickBack = onClickBack
+                onClickBack = ::goBack
             )
         }
         composable(AboutDestination.Changelog) {
             ChangelogScreen(
                 viewModel = koinViewModel(),
-                onClickBack = { navController.popBackStack() }
+                onClickBack = ::goBack
             )
         }
         composable(AboutDestination.Credits) {
             CreditsScreen(
                 viewModel = koinViewModel(),
-                onClickBack = { navController.popBackStack() }
+                onClickBack = ::goBack
             )
         }
         composable(AboutDestination.PrivacyStatement) {
             PrivacyStatementScreen(
-                vectorTileProvider = koinInject(),
-                onClickBack = { navController.popBackStack() }
+                onClickBack = ::goBack
             )
         }
         composable(AboutDestination.Logs) {
             LogsScreen(
                 viewModel = koinViewModel(),
-                onClickBack = { navController.popBackStack() }
+                onClickBack = ::goBack
             )
         }
     }
