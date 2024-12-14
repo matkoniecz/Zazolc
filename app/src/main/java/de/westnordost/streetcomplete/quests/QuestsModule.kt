@@ -541,7 +541,7 @@ fun questTypeRegistry(
     1000002 to ShowFixme(), // my quest
     1000003 to ShowAddressInterpolation(), // my quest
     154 to AddWayLit(), // frequent enable/disable cycle (enable for night) - moved
-    16 to AddPitchLit(), // frequent enable/disable cycle (enable for night) - moved
+    //16 to AddPitchLit(), // frequent enable/disable cycle (enable for night) - moved, then disabled
     7 to AddBusStopLit(), // frequent enable/disable cycle (enable for night) - moved
     1000004 to AddWasteDisposalAccess(), // mine, only I will do this and easy to process so lets keep high
     1000005 to AddAlsoShopForInsurance(), // my hackish quest
