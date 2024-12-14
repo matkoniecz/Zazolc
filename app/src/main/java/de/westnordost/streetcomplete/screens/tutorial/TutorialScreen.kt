@@ -1,7 +1,6 @@
 package de.westnordost.streetcomplete.screens.tutorial
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 /** Generic multiple-page tutorial screen */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TutorialScreen(
     pageCount: Int,
@@ -47,10 +45,10 @@ fun TutorialScreen(
     pageContent: @Composable (page: Int) -> Unit,
 ) {
     val state = rememberPagerState { pageCount }
-    val coroutineScope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     BackHandler(state.currentPage > 0 || dismissOnBackPress) {
         if (state.currentPage > 0) {
-            coroutineScope.launch {
+            scope.launch {
                 state.animateScrollToPage(state.currentPage - 1)
             }
         } else {

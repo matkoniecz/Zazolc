@@ -18,7 +18,6 @@ import de.westnordost.streetcomplete.quests.address.AddAddressStreet
 import de.westnordost.streetcomplete.quests.address.AddHousenumber
 import de.westnordost.streetcomplete.quests.air_conditioning.AddAirConditioning
 import de.westnordost.streetcomplete.quests.air_pump.AddAirCompressor
-import de.westnordost.streetcomplete.quests.air_pump.AddBicyclePump
 import de.westnordost.streetcomplete.quests.amenity_cover.AddAmenityCover
 import de.westnordost.streetcomplete.quests.amenity_indoor.AddIsAmenityIndoor
 import de.westnordost.streetcomplete.quests.atm_cashin.AddAtmCashIn
@@ -35,14 +34,18 @@ import de.westnordost.streetcomplete.quests.barrier_type.AddStileType
 import de.westnordost.streetcomplete.quests.bbq_fuel.AddBbqFuel
 import de.westnordost.streetcomplete.quests.bench_backrest.AddBenchBackrest
 import de.westnordost.streetcomplete.quests.bicycle_parking_operator.BicycleParkingOperator
+import de.westnordost.streetcomplete.quests.bicycle_repair_station.AddBicycleRepairStationServices
 import de.westnordost.streetcomplete.quests.bike_parking_capacity.AddBikeParkingCapacity
 import de.westnordost.streetcomplete.quests.bike_parking_cover.AddBikeParkingCover
 import de.westnordost.streetcomplete.quests.bike_parking_type.AddBikeParkingType
 import de.westnordost.streetcomplete.quests.bike_rental_capacity.AddBikeRentalCapacity
 import de.westnordost.streetcomplete.quests.bike_rental_type.AddBikeRentalType
+import de.westnordost.streetcomplete.quests.bike_shop.AddBicyclePump
 import de.westnordost.streetcomplete.quests.bike_shop.AddBikeRepairAvailability
 import de.westnordost.streetcomplete.quests.bike_shop.AddSecondHandBicycleAvailability
+import de.westnordost.streetcomplete.quests.board_name.AddBoardName
 import de.westnordost.streetcomplete.quests.board_type.AddBoardType
+import de.westnordost.streetcomplete.quests.boat_rental.AddBoatRental
 import de.westnordost.streetcomplete.quests.bollard_type.AddBollardType
 import de.westnordost.streetcomplete.quests.bridge_structure.AddBridgeStructure
 import de.westnordost.streetcomplete.quests.building_entrance.AddEntrance
@@ -131,6 +134,8 @@ import de.westnordost.streetcomplete.quests.police_type.AddPoliceType
 import de.westnordost.streetcomplete.quests.postbox_collection_times.AddPostboxCollectionTimes
 import de.westnordost.streetcomplete.quests.postbox_ref.AddPostboxRef
 import de.westnordost.streetcomplete.quests.postbox_royal_cypher.AddPostboxRoyalCypher
+import de.westnordost.streetcomplete.quests.power_attachment.AddPowerAttachment
+import de.westnordost.streetcomplete.quests.powerpoles_material.AddPowerPolesMaterial
 import de.westnordost.streetcomplete.quests.railway_crossing.AddRailwayCrossingBarrier
 import de.westnordost.streetcomplete.quests.recycling.AddRecyclingType
 import de.westnordost.streetcomplete.quests.recycling_glass.DetermineRecyclingGlass
@@ -302,6 +307,7 @@ fun questTypeRegistry(
     26 to AddReligionToPlaceOfWorship(), // icons on maps are different - OSM Carto, mapy.cz, OsmAnd, Sputnik etc
     27 to AddReligionToWaysideShrine(),
 
+    172 to AddPowerAttachment(),
     28 to AddPowerPolesMaterial(),
 
     29 to AddIsBuildingUnderground(), // should be before AddHousenumber to avoid asking for underground buildings
@@ -354,6 +360,7 @@ fun questTypeRegistry(
     155 to AddGritBinSeasonal(),
 
     50 to AddBoardType(),
+    171 to AddBoardName(),
 
     51 to AddBarrierType(), // basically any more detailed rendering and routing: OSM Carto, mapy.cz, OSMand for start
     52 to AddBarrierOnPath(),
@@ -392,6 +399,8 @@ fun questTypeRegistry(
     72 to AddBikeParkingFee(),
     73 to AddBikeRentalCapacity(), // less ambiguous than bike parking
     74 to AddBikeParkingCapacity(), // used by cycle map layer on osm.org, OsmAnd
+
+    173 to AddBicycleRepairStationServices(),
 
     167 to AddParcelLockerBrand(),
 
@@ -462,6 +471,8 @@ fun questTypeRegistry(
     111 to AddSmoking(), // often marked on the entrance, if not, visible/smellable inside
 
     // ↓ 4.quests that may need to go inside ------------------------------------------------
+
+    174 to AddBoatRental(),
 
     112 to AddWheelchairAccessPublicTransport(), // need to look out for lifts etc, maybe even enter the station
 
@@ -716,6 +727,12 @@ fun questTypeRegistry(
 
     87 to AddChargingStationCapacity(),
     88 to AddChargingStationOperator(),
+
+    170 to AddBarrierOpening(arSupportChecker),
+    171 to AddBoardName(),
+    172 to AddPowerAttachment(),
+    173 to AddBicycleRepairStationServices(),
+    174 to AddBoatRental(),
 
     // postboxes (collection times are further up, see comment)
     89 to AddPostboxRoyalCypher(), // can be glanced across the road (if postbox facing the right way)

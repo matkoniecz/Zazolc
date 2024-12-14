@@ -24,6 +24,7 @@ fun QuestSelectionScreen(
     onClickBack: () -> Unit,
 ) {
     val quests by viewModel.quests.collectAsState()
+    val selectedQuestPresetName by viewModel.selectedQuestPresetName.collectAsState()
 
     var searchText by remember { mutableStateOf(TextFieldValue()) }
 
@@ -31,16 +32,9 @@ fun QuestSelectionScreen(
         viewModel.currentCountry?.let { Locale("", it).displayCountry } ?: "Atlantis"
     }
 
-    // TODO Compose: reordering items not implemented. Seems to be not possible out of the box in
-    //  Compose, third-party libraries exist (like sh.calvin.reorderable:reorderable), but I didn't
-    //  find how to call viewModel.orderQuest only on drop, i.e end of dragging.
-    //  (quests should be reordered visibly while dragging, but only on drop, function is called and
-    //  quests in viewModel is updated)
-    //  see also https://developer.android.com/jetpack/androidx/compose-roadmap ("Drag and drop in Lazy layouts")
-
     Column(Modifier.fillMaxSize()) {
         QuestSelectionTopAppBar(
-            currentPresetName = viewModel.selectedQuestPresetName ?: stringResource(R.string.quest_presets_default_name),
+            currentPresetName = selectedQuestPresetName ?: stringResource(R.string.quest_presets_default_name),
             onClickBack = onClickBack,
             onUnselectAll = { viewModel.unselectAllQuests() },
             onReset = { viewModel.resetQuestSelectionsAndOrder() },
@@ -66,6 +60,9 @@ fun QuestSelectionScreen(
                 displayCountry = displayCountry,
                 onSelectQuest = { questType, selected ->
                     viewModel.selectQuest(questType, selected)
+                },
+                onReorderQuest = { questType, toAfter ->
+                    viewModel.orderQuest(questType, toAfter)
                 }
             )
         }

@@ -1,7 +1,6 @@
 package de.westnordost.streetcomplete.screens.tutorial
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +28,6 @@ import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.ui.ktx.conditional
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PagerControls(
     state: PagerState,
@@ -37,18 +35,18 @@ fun PagerControls(
     onLastPageFinished: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val coroutineScope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
 
     fun onClickNext() {
         if (state.isOnLastPage()) {
             onLastPageFinished()
         } else {
-            coroutineScope.launch { state.animateScrollToPage(state.currentPage + 1) }
+            scope.launch { state.animateScrollToPage(state.currentPage + 1) }
         }
     }
 
     fun onClickPager(page: Int) {
-        coroutineScope.launch { state.animateScrollToPage(page) }
+        scope.launch { state.animateScrollToPage(page) }
     }
 
     Column(
@@ -100,5 +98,4 @@ private fun PagerIndicator(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 private fun PagerState.isOnLastPage(): Boolean = currentPage >= pageCount - 1

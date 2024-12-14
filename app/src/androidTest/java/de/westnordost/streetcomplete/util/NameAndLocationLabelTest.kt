@@ -9,7 +9,6 @@ import de.westnordost.streetcomplete.data.osm.mapdata.LatLon
 import de.westnordost.streetcomplete.data.osm.mapdata.Node
 import de.westnordost.streetcomplete.data.osm.mapdata.Way
 import java.util.Locale
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -46,7 +45,6 @@ class NameAndLocationLabelTest {
     }
 
     // https://github.com/streetcomplete/StreetComplete/issues/2640
-    @Ignore("https://github.com/streetcomplete/StreetComplete/issues/4916")
     @Test fun postBox() {
         assertEquals("Deutsche Post (Mail Drop Box)", getQuestLabelForNode(mapOf(
             "amenity" to "post_box",

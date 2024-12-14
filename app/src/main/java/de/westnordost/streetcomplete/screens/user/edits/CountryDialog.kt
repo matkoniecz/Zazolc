@@ -1,11 +1,9 @@
 package de.westnordost.streetcomplete.screens.user.edits
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -14,10 +12,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
@@ -34,7 +31,6 @@ import de.westnordost.streetcomplete.screens.user.profile.getLocalRankCurrentWee
 import de.westnordost.streetcomplete.screens.user.profile.getLocalRankProgress
 import de.westnordost.streetcomplete.ui.common.OpenInBrowserIcon
 import de.westnordost.streetcomplete.ui.theme.headlineSmall
-import de.westnordost.streetcomplete.util.ktx.openUri
 import java.util.Locale
 
 /** Shows the details for a certain country as a dialog. */
@@ -42,7 +38,7 @@ import java.util.Locale
 fun CountryDialog(
     countryCode: String,
     rank: Int?,
-    rankCurrentWeek: Int?,
+    isCurrentWeek: Boolean,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -55,7 +51,7 @@ fun CountryDialog(
             modifier = Modifier
                 .fillMaxSize()
                 // dismiss when clicking wherever - no ripple effect
-                .clickable(remember { MutableInteractionSource() }, null) { onDismissRequest() },
+                .clickable(null, null) { onDismissRequest() },
             contentAlignment = Alignment.Center
         ) {
             DialogContentWithIconLayout(
@@ -64,7 +60,7 @@ fun CountryDialog(
                     CountryInfoDetails(
                         countryCode = countryCode,
                         rank = rank,
-                        rankCurrentWeek = rankCurrentWeek,
+                        isCurrentWeek = isCurrentWeek,
                         isLandscape = isLandscape
                     )
                 },
@@ -78,11 +74,11 @@ fun CountryDialog(
 private fun CountryInfoDetails(
     countryCode: String,
     rank: Int?,
-    rankCurrentWeek: Int?,
+    isCurrentWeek: Boolean,
     isLandscape: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
     val countryLocale = Locale("", countryCode)
 
     Column(
@@ -90,37 +86,32 @@ private fun CountryInfoDetails(
         horizontalAlignment = if (isLandscape) Alignment.Start else Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(
-            text = stringResource(R.string.user_statistics_country_rank2, Locale("", countryCode).displayCountry),
-            style = MaterialTheme.typography.headlineSmall,
-            textAlign = if (isLandscape) TextAlign.Start else TextAlign.Center
-        )
+        if (rank != null) {
+            Text(
+                text = stringResource(R.string.user_statistics_country_rank2, Locale("", countryCode).displayCountry),
+                style = MaterialTheme.typography.headlineSmall,
+                textAlign = if (isLandscape) TextAlign.Start else TextAlign.Center
+            )
 
-        Row(horizontalArrangement = Arrangement.Center) {
-            if (rank != null) {
-                LaurelWreathBadge(
-                    label = stringResource(R.string.user_profile_all_time_title),
-                    value = "#$rank",
-                    progress = getLocalRankProgress(rank),
-                    modifier = Modifier.weight(1f),
-                    animationDelay = 0
-                )
-            }
-            if (rankCurrentWeek != null) {
-                LaurelWreathBadge(
-                    label = stringResource(R.string.user_profile_current_week_title),
-                    value = "#$rankCurrentWeek",
-                    progress = getLocalRankCurrentWeekProgress(rankCurrentWeek),
-                    modifier = Modifier.weight(1f),
-                    animationDelay = 500
-                )
-            }
+            val label = stringResource(
+                if (isCurrentWeek) R.string.user_profile_current_week_title
+                else R.string.user_profile_all_time_title
+            )
+            val progress =
+                if (isCurrentWeek) getLocalRankCurrentWeekProgress(rank)
+                else getLocalRankProgress(rank)
+
+            LaurelWreathBadge(
+                label = label,
+                value = "#$rank",
+                progress = progress
+            )
         }
 
         OutlinedButton(
             onClick = {
                 val britishCountryName = countryLocale.getDisplayCountry(Locale.UK)
-                context.openUri("https://wiki.openstreetmap.org/wiki/$britishCountryName")
+                uriHandler.openUri("https://wiki.openstreetmap.org/wiki/$britishCountryName")
             }
         ) {
             OpenInBrowserIcon()
@@ -141,7 +132,7 @@ private fun PreviewCountryDialog() {
     CountryDialog(
         countryCode = "PH",
         rank = 99,
-        rankCurrentWeek = 12,
+        isCurrentWeek = false,
         onDismissRequest = {}
     )
 }

@@ -9,6 +9,7 @@ import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 import de.westnordost.streetcomplete.osm.ALL_ROADS
+import de.westnordost.streetcomplete.osm.Direction
 import de.westnordost.streetcomplete.osm.MAXSPEED_TYPE_KEYS
 import de.westnordost.streetcomplete.osm.bicycle_boulevard.BicycleBoulevard
 import de.westnordost.streetcomplete.osm.bicycle_boulevard.parseBicycleBoulevard
@@ -18,6 +19,7 @@ import de.westnordost.streetcomplete.osm.cycleway.isAmbiguous
 import de.westnordost.streetcomplete.osm.cycleway.parseCyclewaySides
 import de.westnordost.streetcomplete.osm.cycleway_separate.SeparateCycleway
 import de.westnordost.streetcomplete.osm.cycleway_separate.parseSeparateCycleway
+import de.westnordost.streetcomplete.osm.isInContraflowOfOneway
 import de.westnordost.streetcomplete.osm.isPrivateOnFoot
 import de.westnordost.streetcomplete.osm.surface.UNPAVED_SURFACES
 import de.westnordost.streetcomplete.overlays.Color
@@ -90,15 +92,36 @@ private fun SeparateCycleway?.getColor() = when (this) {
 }
 
 private fun getStreetCyclewayStyle(element: Element, countryInfo: CountryInfo): PolylineStyle {
-    val cycleways = parseCyclewaySides(element.tags, countryInfo.isLeftHandTraffic)
-    val isBicycleBoulevard = parseBicycleBoulevard(element.tags) == BicycleBoulevard.YES
-    val isNoCyclewayExpected = lazy { cyclewayTaggingNotExpected(element) || isPrivateOnFoot(element) }
+    val isLeftHandTraffic = countryInfo.isLeftHandTraffic
+    val cycleways = parseCyclewaySides(element.tags, isLeftHandTraffic)
+    val isNoCyclewayExpectedLeft = { cyclewayTaggingNotExpected(element, false, isLeftHandTraffic) }
+    val isNoCyclewayExpectedRight = { cyclewayTaggingNotExpected(element, true, isLeftHandTraffic) }
 
     return PolylineStyle(
-        stroke = if (isBicycleBoulevard) StrokeStyle(Color.GOLD, dashed = true) else null,
-        strokeLeft = cycleways?.left?.cycleway.getStyle(countryInfo, isNoCyclewayExpected),
-        strokeRight = cycleways?.right?.cycleway.getStyle(countryInfo, isNoCyclewayExpected)
+        stroke = getStreetStrokeStyle(element.tags),
+        strokeLeft = cycleways?.left?.cycleway.getStyle(countryInfo, isNoCyclewayExpectedLeft),
+        strokeRight = cycleways?.right?.cycleway.getStyle(countryInfo, isNoCyclewayExpectedRight)
     )
+}
+
+private fun getStreetStrokeStyle(tags: Map<String, String>): StrokeStyle? {
+    val isBicycleBoulevard = parseBicycleBoulevard(tags) == BicycleBoulevard.YES
+    val isPedestrian = tags["highway"] == "pedestrian"
+    val isBicycleDesignated = tags["bicycle"] == "designated"
+    val isBicycleOk = tags["bicycle"] == "yes" && tags["bicycle:signed"] == "yes"
+
+    return when {
+        isBicycleBoulevard ->
+            StrokeStyle(Color.GOLD, dashed = true)
+        isPedestrian && isBicycleDesignated ->
+            StrokeStyle(Color.CYAN)
+        isPedestrian && isBicycleOk ->
+            StrokeStyle(Color.AQUAMARINE)
+        isPedestrian ->
+            StrokeStyle(Color.BLACK)
+        else ->
+            null
+    }
 }
 
 private val cyclewayTaggingNotExpectedFilter by lazy { """
@@ -114,12 +137,28 @@ private val cyclewayTaggingNotExpectedFilter by lazy { """
       or ~"${(MAXSPEED_TYPE_KEYS + "maxspeed").joinToString("|")}" ~ ".*:(zone)?:?([1-9]|[1-2][0-9]|30)"
 """.toElementFilterExpression() }
 
-private fun cyclewayTaggingNotExpected(element: Element) =
+private val cyclewayTaggingInContraflowNotExpectedFilter by lazy { """
+    ways with
+      dual_carriageway = yes
+      or highway ~ primary_link|secondary_link|tertiary_link
+      or junction ~ roundabout|circular
+""".toElementFilterExpression() }
+
+private fun cyclewayTaggingNotExpected(
+    element: Element,
+    isRightSide: Boolean,
+    isLeftHandTraffic: Boolean
+): Boolean =
     cyclewayTaggingNotExpectedFilter.matches(element)
+    || isPrivateOnFoot(element)
+    || (
+        isInContraflowOfOneway(element.tags, Direction.getDefault(isRightSide, isLeftHandTraffic))
+        && cyclewayTaggingInContraflowNotExpectedFilter.matches(element)
+    )
 
 private fun Cycleway?.getStyle(
     countryInfo: CountryInfo,
-    isNoCyclewayExpected: Lazy<Boolean>,
+    isNoCyclewayExpected: () -> Boolean,
 ): StrokeStyle = when (this) {
     TRACK ->
         StrokeStyle(Color.BLUE)
@@ -157,11 +196,11 @@ private fun Cycleway?.getStyle(
         StrokeStyle(Color.INVISIBLE)
 
     SIDEWALK_OK ->
-        StrokeStyle(Color.CYAN, dashed = true)
+        StrokeStyle(Color.AQUAMARINE, dashed = true)
 
     UNKNOWN, INVALID, UNKNOWN_LANE, UNKNOWN_SHARED_LANE ->
         StrokeStyle(Color.DATA_REQUESTED)
 
     null ->
-         StrokeStyle(if (isNoCyclewayExpected.value) Color.INVISIBLE else Color.DATA_REQUESTED)
+         StrokeStyle(if (isNoCyclewayExpected()) Color.INVISIBLE else Color.DATA_REQUESTED)
 }
