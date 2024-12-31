@@ -22,7 +22,7 @@ class UserDataController(private val prefs: Preferences) : UserDataSource {
         prefs.userId = userDetails.id
         prefs.userName = userDetails.displayName
         //silence message notifications (I do not have a browser on the phone)
-        //userDetails.unreadMessagesCount?.let { prefs.userUnreadMessages }
+        //userDetails.unreadMessagesCount?.let { prefs.userUnreadMessages = it  }
         listeners.forEach { it.onUpdated() }
     }
 
