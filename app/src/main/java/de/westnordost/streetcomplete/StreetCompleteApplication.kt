@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete
 import android.app.Application
 import android.content.ComponentCallbacks2
 import android.net.ConnectivityManager
+import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.getSystemService
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -56,22 +57,23 @@ import de.westnordost.streetcomplete.screens.settings.settingsModule
 import de.westnordost.streetcomplete.screens.user.userScreenModule
 import de.westnordost.streetcomplete.util.CrashReportExceptionHandler
 import de.westnordost.streetcomplete.util.getSelectedLocales
+import de.westnordost.streetcomplete.util.ktx.deleteRecursively
 import de.westnordost.streetcomplete.util.ktx.nowAsEpochMilliseconds
 import de.westnordost.streetcomplete.util.logs.AndroidLogger
 import de.westnordost.streetcomplete.util.logs.DatabaseLogger
 import de.westnordost.streetcomplete.util.logs.Log
-import de.westnordost.streetcomplete.util.setDefaultLocales
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.io.files.FileSystem
+import kotlinx.io.files.Path
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.startKoin
-import java.io.File
 import java.util.concurrent.TimeUnit
 
 class StreetCompleteApplication : Application() {
@@ -86,6 +88,7 @@ class StreetCompleteApplication : Application() {
     private val userLoginController: UserLoginController by inject()
     private val cacheTrimmer: CacheTrimmer by inject()
     private val userUpdater: UserUpdater by inject()
+    private val fileSystem: FileSystem by inject()
 
     private val applicationScope = CoroutineScope(SupervisorJob() + CoroutineName("Application"))
 
@@ -202,7 +205,7 @@ class StreetCompleteApplication : Application() {
     }
 
     private fun updateDefaultLocales() {
-        setDefaultLocales(getSelectedLocales(prefs))
+        LocaleList.setDefault(getSelectedLocales(prefs))
     }
 
     private fun updateTheme(theme: Theme) {
@@ -232,12 +235,10 @@ class StreetCompleteApplication : Application() {
     private fun clearTangramCache() {
         if (prefs.clearedTangramCache) return
         val externalCache = externalCacheDir ?: return
-        val tileCache = File(externalCache, "tile_cache")
-        if (!tileCache.exists()) return
+        val tileCache = Path(externalCache.path, "tile_cache")
+        if (!fileSystem.exists(tileCache)) return
         applicationScope.launch(Dispatchers.IO) {
-            for (file in externalCache.walk()) {
-                file.delete()
-            }
+            fileSystem.deleteRecursively(tileCache, mustExist = false)
             prefs.clearedTangramCache = true
         }
     }

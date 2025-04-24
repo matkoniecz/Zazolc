@@ -99,7 +99,7 @@ class MedicalSpecialityTypeForm : AbstractOsmQuestForm<ShopTypeAnswer>() {
         when (selectedRadioButtonId) {
             R.id.vacantRadioButton    -> applyAnswer(IsShopVacant)
             R.id.leaveNoteRadioButton -> composeNote()
-            R.id.replaceRadioButton   -> applyAnswer(ShopType(featureCtrl.feature!!.addTags))
+            R.id.replaceRadioButton   -> applyAnswer(ShopType(featureCtrl.feature!!))
         }
     }
 

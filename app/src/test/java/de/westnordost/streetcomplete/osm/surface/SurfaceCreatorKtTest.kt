@@ -46,6 +46,23 @@ class SurfaceCreatorKtTest {
         )
     }
 
+    @Test fun `apply generic surface always adds check date`() {
+        assertEquals(
+            setOf(
+                StringMapEntryAdd("surface", "paved"),
+                StringMapEntryAdd("check_date:surface", nowAsCheckDateString())
+            ),
+            PAVED.appliedTo(mapOf())
+        )
+        assertEquals(
+            setOf(
+                StringMapEntryModify("surface", "asphalt", "unpaved"),
+                StringMapEntryAdd("check_date:surface", nowAsCheckDateString())
+            ),
+            UNPAVED.appliedTo(mapOf("surface" to "asphalt"))
+        )
+    }
+
     @Test fun `remove tracktype when surface category changed`() {
         assertEquals(
             setOf(
@@ -64,7 +81,7 @@ class SurfaceCreatorKtTest {
     @Test fun `don't remove tracktype when surface was added`() {
         assertEquals(
             setOf(StringMapEntryAdd("surface", "asphalt")),
-            ASPHALT.appliedTo(mapOf("tracktype" to "grade5",))
+            ASPHALT.appliedTo(mapOf("tracktype" to "grade2"))
         )
     }
 
@@ -73,8 +90,25 @@ class SurfaceCreatorKtTest {
             setOf(StringMapEntryModify("surface", "concrete", "asphalt")),
             ASPHALT.appliedTo(mapOf(
                 "surface" to "concrete",
-                "tracktype" to "grade5",
+                "tracktype" to "grade2",
             ))
+        )
+    }
+
+    @Test fun `remove mismatching tracktype`() {
+        assertEquals(
+            setOf(
+                StringMapEntryAdd("surface", "asphalt"),
+                StringMapEntryDelete("tracktype", "grade3")
+            ),
+            ASPHALT.appliedTo(mapOf("tracktype" to "grade3"))
+        )
+        assertEquals(
+            setOf(
+                StringMapEntryAdd("surface", "dirt"),
+                StringMapEntryDelete("tracktype", "grade2")
+            ),
+            DIRT.appliedTo(mapOf("tracktype" to "grade2"))
         )
     }
 

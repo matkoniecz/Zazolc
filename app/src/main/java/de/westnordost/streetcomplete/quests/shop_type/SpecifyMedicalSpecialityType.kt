@@ -55,15 +55,15 @@ class SpecifyMedicalSpecialistType : OsmFilterQuestType<ShopTypeAnswer>() {
                 tags["disused:shop"] = "yes"
             }
             is ShopType -> {
-                if (!answer.tags.containsKey("amenity")) {
+                if (!answer.feature.tags.containsKey("amenity")) {
                     tags.remove("amenity")
                 }
-                if (!answer.tags.containsKey("healthcare")) {
+                if (!answer.feature.tags.containsKey("healthcare")) {
                     if (tags.containsKey("healthcare")) {
                         tags.remove("healthcare")
                     }
                 }
-                for ((key, value) in answer.tags) {
+                for ((key, value) in answer.feature.tags) {
                     tags[key] = value
                 }
             }

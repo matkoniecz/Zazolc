@@ -79,6 +79,7 @@ import de.westnordost.streetcomplete.quests.crossing_signals.AddCrossingSignals
 import de.westnordost.streetcomplete.quests.cycleway.AddCycleway
 import de.westnordost.streetcomplete.quests.defibrillator.AddDefibrillatorAccess
 import de.westnordost.streetcomplete.quests.defibrillator.AddDefibrillatorLocation
+import de.westnordost.streetcomplete.quests.diet_type.AddGlutenFree
 import de.westnordost.streetcomplete.quests.diet_type.AddHalal
 import de.westnordost.streetcomplete.quests.diet_type.AddKosher
 import de.westnordost.streetcomplete.quests.diet_type.AddVegan
@@ -143,7 +144,6 @@ import de.westnordost.streetcomplete.quests.recycling_material.AddRecyclingConta
 import de.westnordost.streetcomplete.quests.religion.AddReligionToPlaceOfWorship
 import de.westnordost.streetcomplete.quests.religion.AddReligionToWaysideShrine
 import de.westnordost.streetcomplete.quests.road_name.AddRoadName
-import de.westnordost.streetcomplete.quests.road_name.RoadNameSuggestionsSource
 import de.westnordost.streetcomplete.quests.sanitary_dump_station.AddSanitaryDumpStation
 import de.westnordost.streetcomplete.quests.seating.AddSeating
 import de.westnordost.streetcomplete.quests.segregated.AddCyclewaySegregation
@@ -199,7 +199,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val questsModule = module {
-    factory { RoadNameSuggestionsSource(get()) }
+    factory { NameSuggestionsSource(get()) }
 
     single {
         questTypeRegistry(
@@ -500,6 +500,7 @@ fun questTypeRegistry(
     126 to AddVegan(),
     127 to AddHalal(), // there are ~ 100 times more Muslims than Jews
     128 to AddKosher(),
+    175 to AddGlutenFree(),
     129 to AddWheelchairAccessBusiness(), // used by wheelmap, OsmAnd, Organic Maps
     130 to AddInternetAccess(), // used by OsmAnd
     131 to AddAcceptsCards(), // this will often involve going inside and near the till
