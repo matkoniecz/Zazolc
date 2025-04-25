@@ -729,7 +729,7 @@ fun questTypeRegistry(
     87 to AddChargingStationCapacity(),
     88 to AddChargingStationOperator(),
 
-    170 to AddBarrierOpening(arSupportChecker),
+    //170 to AddBarrierOpening(arSupportChecker),
     171 to AddBoardName(),
     172 to AddPowerAttachment(),
     173 to AddBicycleRepairStationServices(),
@@ -746,7 +746,7 @@ fun questTypeRegistry(
     // road but information is visible usually at the beginning of the marked stretch of way
     93 to AddMaxWeight(), // used by OSRM and other routing engines
     94 to AddMaxHeight(), // OSRM and other routing engines
-    95 to AddMaxPhysicalHeight(arSupportChecker), // same as above, best if it appears right after (if enabled)
+    // 95 to AddMaxPhysicalHeight(arSupportChecker), // same as above, best if it appears right after (if enabled)
     // 96 to AddRoadName(), move higher
     97 to AddOneway(),
 
@@ -825,7 +825,7 @@ fun questTypeRegistry(
     137 to AddCycleway(getCountryInfoByLocation), // for any cyclist routers (and cyclist maps)
     138 to AddLanes(), // abstreet, certainly most routing engines - often requires way to be split
     // 139 to AddShoulder(), // needs minimal thinking // too confusing, see https://github.com/streetcomplete/StreetComplete/issues/4340#issuecomment-1308390100 https://github.com/streetcomplete/StreetComplete/issues/4617#issuecomment-1308390620 https://community.openstreetmap.org/t/shoulder-tag-is-confusing/5185 https://wiki.openstreetmap.org/wiki/Key:shoulder#History
-    140 to AddRoadWidth(arSupportChecker),
+    //140 to AddRoadWidth(arSupportChecker),
     141 to AddRoadSmoothness(),
     142 to AddPathSmoothness(),
 
@@ -835,7 +835,7 @@ fun questTypeRegistry(
     145 to AddFootwayPartSurface(),
     146 to AddCyclewayPartSurface(),
     147 to AddSidewalkSurface(),
-    148 to AddCyclewayWidth(arSupportChecker), // should be after cycleway segregation
+    //148 to AddCyclewayWidth(arSupportChecker), // should be after cycleway segregation
 
     /* should best be after road surface because it excludes unpaved roads, also, need to search
     *  for the sign which is one reason why it is disabled by default */
