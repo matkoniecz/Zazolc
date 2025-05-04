@@ -188,7 +188,7 @@ class PinsMapComponent(
 
     companion object {
         private const val SOURCE = "pins-source"
-        private const val CLUSTER_MAX_ZOOM = 14
+        private const val CLUSTER_MAX_ZOOM = 12
     }
 }
 
