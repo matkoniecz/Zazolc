@@ -166,13 +166,6 @@ fun AboutScreen(
             )
         }
     }
-
-    AnimatedScreenVisibility(showIntroTutorial) {
-        IntroTutorialScreen(
-            onDismissRequest = { showIntroTutorial = false },
-            dismissOnBackPress = true
-        )
-    }
 }
 
 private fun Context.isInstalledViaGooglePlay(): Boolean =

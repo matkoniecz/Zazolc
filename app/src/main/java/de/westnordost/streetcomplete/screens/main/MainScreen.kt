@@ -155,11 +155,7 @@ fun MainScreen(
     val mapTilt = mapCamera?.tilt ?: 0.0
 
     fun onClickOverlays() {
-        if (viewModel.hasShownOverlaysTutorial) {
-            showOverlaysDropdown = true
-        } else {
-            showOverlaysTutorial = true
-        }
+        showOverlaysDropdown = true
     }
 
     fun onClickMessages() {
@@ -446,35 +442,6 @@ fun MainScreen(
                 intent.putExtra(UserActivity.EXTRA_LAUNCH_AUTH, true)
                 context.startActivity(intent)
             }
-        )
-    }
-
-    AnimatedScreenVisibility(showTeamModeWizard) {
-        val questIcons = remember { viewModel.allQuestTypes.map { it.icon } }
-        TeamModeWizard(
-            onDismissRequest = { showTeamModeWizard = false },
-            onFinished = { teamSize, indexInTeam ->
-                viewModel.enableTeamMode(
-                    teamSize = teamSize,
-                    indexInTeam = indexInTeam
-                )
-            },
-            allQuestIconIds = questIcons
-        )
-    }
-
-    AnimatedScreenVisibility(showOverlaysTutorial) {
-        OverlaysTutorialScreen(
-            onDismissRequest = { showOverlaysTutorial = false },
-            onFinished = { viewModel.hasShownOverlaysTutorial = true }
-        )
-    }
-
-    AnimatedScreenVisibility(showIntroTutorial) {
-        IntroTutorialScreen(
-            onDismissRequest = { showIntroTutorial = false },
-            onExplainedNeedForLocationPermission = onExplainedNeedForLocationPermission,
-            onFinished = { viewModel.hasShownTutorial = true },
         )
     }
 }
