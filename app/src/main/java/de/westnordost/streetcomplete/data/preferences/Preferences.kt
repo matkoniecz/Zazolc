@@ -29,6 +29,8 @@ class Preferences(private val prefs: ObservableSettings) {
 
     var keepScreenOn: Boolean by prefs.boolean(KEEP_SCREEN_ON, false)
 
+    var showZoomButtons: Boolean by prefs.boolean(SHOW_ZOOM_BUTTONS, false)
+
     var resurveyIntervals: ResurveyIntervals
         set(value) { prefs.putString(RESURVEY_INTERVALS, value.name) }
         get() = prefs.getStringOrNull(RESURVEY_INTERVALS)?.let { ResurveyIntervals.valueOf(it) }
@@ -59,6 +61,9 @@ class Preferences(private val prefs: ObservableSettings) {
 
     fun onKeepScreenOnChanged(callback: (Boolean) -> Unit): SettingsListener =
         prefs.addBooleanListener(KEEP_SCREEN_ON, false, callback)
+
+    fun onShowZoomButtonsChanged(callback: (Boolean) -> Unit): SettingsListener =
+        prefs.addBooleanListener(SHOW_ZOOM_BUTTONS, false, callback)
 
     // login and user
     var userId: Long by prefs.long(OSM_USER_ID, -1)
@@ -121,14 +126,14 @@ class Preferences(private val prefs: ObservableSettings) {
 
     // quest & overlay UI
     var preferredLanguageForNames: String? by prefs.nullableString(PREFERRED_LANGUAGE_FOR_NAMES)
-    var selectedQuestPreset: Long by prefs.long(SELECTED_QUESTS_PRESET, 0L)
+    var selectedEditTypePreset: Long by prefs.long(SELECTED_EDIT_TYPE_PRESET, 0L)
     var selectedOverlayName: String? by prefs.nullableString(SELECTED_OVERLAY)
 
     fun onSelectedOverlayNameChanged(callback: (String?) -> Unit): SettingsListener =
         prefs.addStringOrNullListener(SELECTED_OVERLAY, callback)
 
-    fun onSelectedQuestPresetChanged(callback: (Long) -> Unit): SettingsListener =
-        prefs.addLongListener(SELECTED_QUESTS_PRESET, 0L, callback)
+    fun onSelectedEditTypePresetChanged(callback: (Long) -> Unit): SettingsListener =
+        prefs.addLongListener(SELECTED_EDIT_TYPE_PRESET, 0L, callback)
 
     var lastEditTime: Long by prefs.long(LAST_EDIT_TIME, 0L)
 
@@ -181,6 +186,9 @@ class Preferences(private val prefs: ObservableSettings) {
 
     // default true because if it is not set yet, the first thing that is done is to synchronize it
     var isSynchronizingStatistics: Boolean by prefs.boolean(IS_SYNCHRONIZING_STATISTICS, true)
+    // default true because it is set to false on login, so that for old users for which the value
+    // is not set yet it is also true
+    var statisticsSynchronizedOnce: Boolean by prefs.boolean(STATISTICS_SYNCED_ONCE, true)
 
     fun clearUserStatistics() {
         prefs.remove(USER_DAYS_ACTIVE)
@@ -189,6 +197,7 @@ class Preferences(private val prefs: ObservableSettings) {
         prefs.remove(USER_GLOBAL_RANK)
         prefs.remove(USER_GLOBAL_RANK_CURRENT_WEEK)
         prefs.remove(USER_LAST_TIMESTAMP_ACTIVE)
+        prefs.remove(STATISTICS_SYNCED_ONCE)
     }
 
     companion object {
@@ -200,6 +209,7 @@ class Preferences(private val prefs: ObservableSettings) {
         private const val SHOW_ALL_NOTES = "display.nonQuestionNotes"
         private const val AUTOSYNC = "autosync"
         private const val KEEP_SCREEN_ON = "display.keepScreenOn"
+        private const val SHOW_ZOOM_BUTTONS = "display.zoomButtons"
         private const val THEME_SELECT = "theme.select"
         private const val LANGUAGE_SELECT = "language.select"
         private const val RESURVEY_INTERVALS = "quests.resurveyIntervals"
@@ -242,7 +252,7 @@ class Preferences(private val prefs: ObservableSettings) {
 
         // quest & overlays
         private const val PREFERRED_LANGUAGE_FOR_NAMES = "preferredLanguageForNames"
-        private const val SELECTED_QUESTS_PRESET = "selectedQuestsPreset"
+        private const val SELECTED_EDIT_TYPE_PRESET = "selectedQuestsPreset"
         private const val SELECTED_OVERLAY = "selectedOverlay"
         private const val LAST_PICKED_PREFIX = "imageListLastPicked."
         private const val LAST_EDIT_TIME = "changesets.lastChangeTime"
@@ -254,5 +264,6 @@ class Preferences(private val prefs: ObservableSettings) {
         private const val USER_LAST_TIMESTAMP_ACTIVE = "last_timestamp_active"
         private const val ACTIVE_DATES_RANGE = "active_days_range"
         private const val IS_SYNCHRONIZING_STATISTICS = "is_synchronizing_statistics"
+        private const val STATISTICS_SYNCED_ONCE = "statistics_synced_once"
     }
 }

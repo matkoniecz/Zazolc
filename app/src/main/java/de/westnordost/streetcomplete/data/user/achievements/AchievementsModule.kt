@@ -156,6 +156,15 @@ val links = listOf(
     ),
 
     Link(
+        "panoramax",
+        "https://panoramax.fr/",
+        "Panoramax",
+        LinkCategory.INTRO,
+        R.drawable.ic_link_panoramax,
+        R.string.link_panoramax_description
+    ),
+
+    Link(
         "ohsomehex",
         "https://hex.ohsome.org",
         "OSM History eXplorer",
@@ -166,17 +175,9 @@ val links = listOf(
 
     /* --------------------------------------- Editors ---------------------------------------*/
 
-    Link( // TODO: this is hardly used and not updated for 2 years, remove?
-        "pic4review",
-        "https://pic4review.pavie.info",
-        "Pic4Review",
-        LinkCategory.EDITORS,
-        R.drawable.ic_link_pic4review,
-        R.string.link_pic4review_description
-    ),
     Link(
         "ideditor",
-        "http://ideditor.com",
+        "https://ideditor.com",
         "iD",
         LinkCategory.EDITORS,
         R.drawable.ic_link_ideditor,
@@ -313,6 +314,11 @@ val links = listOf(
         null,
         R.string.link_openinframap_description
     ),
+    // note: osmapp.org (and cartes.app) actually includes this as an overlay. An integration into
+    // a general-purpose map app makes this much more interesting / useful. But as long as we map to
+    // specific maps like osmhydrant, sunders, opencamping due to a lack of an app that would
+    // encompass all of that (like maybe in the future, osmapp.org or cartes.app), I think it is
+    // okay to leave it here
     Link(
         "indoorequal",
         "https://indoorequal.org",
@@ -336,6 +342,18 @@ val links = listOf(
         LinkCategory.MAPS,
         R.drawable.ic_link_sunders,
         R.string.link_sunders_description
+    ),
+    // note: osmapp.org actually includes this as an overlay (not the background map, but the other
+    // features, e.g. showing the climbing paths). But as long as we map to specific maps like
+    // osmhydrant, sunders, opencamping due to a lack of an app that would encompass all of that
+    // (like maybe in the future, osmapp.org), I think it is okay to leave it here
+    Link(
+        "openclimbing",
+        "https://openclimbing.org/",
+        "openclimbing.org",
+        LinkCategory.MAPS,
+        R.drawable.ic_link_openclimbing,
+        R.string.link_openclimbing_description
     ),
 
     /* -------------------------------------- Showcase ---------------------------------------*/
@@ -411,6 +429,14 @@ val links = listOf(
         LinkCategory.SHOWCASE,
         R.drawable.ic_link_valhalla,
         R.string.link_valhalla_description
+    ),
+    Link(
+        "transitous",
+        "https://transitous.org/",
+        "Transitous",
+        LinkCategory.SHOWCASE,
+        R.drawable.ic_link_transitous,
+        R.string.link_transitous_description
     ),
 
     /* -------------------------------------- Goodies ----------------------------------------*/
@@ -493,6 +519,14 @@ val links = listOf(
         LinkCategory.GOODIES,
         R.drawable.ic_link_prettymapp,
         R.string.link_prettymapp_description
+    ),
+    Link(
+        "opengeofiction",
+        "https://opengeofiction.net",
+        "OpenGeofiction",
+        LinkCategory.GOODIES,
+        R.drawable.ic_link_opengeofiction,
+        R.string.link_opengeofiction_description
     )
 )
 
@@ -534,7 +568,9 @@ val achievements = listOf(
 
             10 to links("umap"),
 
-            12 to links("backofyourhand")
+            12 to links("backofyourhand"),
+
+            14 to links("opengeofiction")
         )
     ),
 
@@ -562,7 +598,7 @@ val achievements = listOf(
             9 to links("notesreview"),
             10 to links("every-door"),
             // space for some other cool statistics tool (see comment above)
-            12 to links("mapcomplete", "pic4review"),
+            12 to links("mapcomplete"),
         )
     ),
 
@@ -592,7 +628,8 @@ val achievements = listOf(
             6 to links("openrouteservice"),
             7 to links("graphhopper"),
             8 to links("valhalla"),
-            12 to links("kartaview", "mapillary") // useful to OSM, but not directly OSM and interesting only to extreme enthusiasts
+            12 to links("panoramax"), // useful to OSM, but not directly OSM and interesting only to extreme enthusiasts
+            13 to links("kartaview", "mapillary"),
         )
     ),
 
@@ -618,7 +655,8 @@ val achievements = listOf(
         // levels: 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 660, 780, 910, 1050, ...
         { lvl -> (lvl + 1) * 10 },
         mapOf(
-            1 to links("öpnvkarte")
+            1 to links("öpnvkarte"),
+            3 to links("transitous"),
         )
     ),
 
@@ -723,7 +761,8 @@ val achievements = listOf(
         { lvl -> (lvl + 1) * 10 },
         mapOf(
             1 to links("openorienteeringmap"),
-            4 to links("opencampingmap")
+            4 to links("opencampingmap"),
+            6 to links("openclimbing")
         )
     ),
 
