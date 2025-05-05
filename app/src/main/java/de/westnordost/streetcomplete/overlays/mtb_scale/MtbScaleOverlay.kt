@@ -22,7 +22,7 @@ class MtbScaleOverlay : Overlay {
     override val changesetComment = "Specify MTB difficulty"
     override val wikiLink: String = "Key:mtb:scale"
     override val achievements = listOf(BICYCLIST, OUTDOORS)
-    override val defaultDisabledMessage = R.string.default_disabled_overlay_domain_expert
+    //override val defaultDisabledMessage = R.string.default_disabled_overlay_domain_expert
 
     override fun getStyledElements(mapData: MapDataWithGeometry) =
         mapData.filter("""
