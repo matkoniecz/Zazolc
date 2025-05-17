@@ -78,12 +78,12 @@ class CustomQuest(private val customQuestList: CustomQuestList) : ExternalSource
         val customQuestList: CustomQuestList = koinInject()
         val importIntent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = "text/comma-separated-values"
+            type = "text/*"
         }
         val exportIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_TITLE, FILENAME_CUSTOM_QUEST)
-            type = "text/comma-separated-values"
+            type = "text/*"
         }
         val importFileLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode != Activity.RESULT_OK || it.data == null)

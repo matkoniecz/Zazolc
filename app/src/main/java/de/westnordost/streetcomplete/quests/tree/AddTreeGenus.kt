@@ -67,12 +67,12 @@ class AddTreeGenus : OsmFilterQuestType<TreeAnswer>() {
         val activity = LocalContext.current.getActivity()!!
         val importIntent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = "text/comma-separated-values"
+            type = "text/*"
         }
         val exportIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_TITLE, FILENAME_TREES)
-            type = "text/comma-separated-values"
+            type = "text/*"
         }
         val importFileLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode != Activity.RESULT_OK || it.data == null)

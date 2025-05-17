@@ -418,7 +418,7 @@ class MainActivity :
     private fun handleIntent(intent: Intent) {
         if (intent.action != Intent.ACTION_VIEW) return
         val uri = intent.data ?: return
-        if (intent.type == "text/comma-separated-values") {
+        if (intent.type == "text/*") {
             AlertDialog.Builder(this)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(R.string.pref_custom_title) { _, _ ->

@@ -83,7 +83,7 @@
             <intent-filter >
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/comma-separated-values" android:scheme="content" android:host="*"/>
+                <data android:mimeType="text/*" android:scheme="content" android:host="*"/>
             </intent-filter>
         </activity>
         <activity
