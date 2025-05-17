@@ -664,8 +664,8 @@
     <string name="quest_material_sandstone">Grès</string>
     <string name="quest_material_clay">Argile</string>
     <string name="quest_material_reed">Roseau</string>
-    <string name="quest_buildingMaterial_title">De quel matériau général ce bâtiment est-il fait ?</string>
-    <string name="quest_buildingPartMaterial_title">De quel matériau global est constituée cette partie de bâtiment ?</string>
+    <string name="quest_buildingMaterial_title">De quel matériau est faite la façade de ce bâtiment ?</string>
+    <string name="quest_buildingPartMaterial_title">De quel matériau est faite la façade de cette partie du bâtiment ?</string>
     <string name="quest_material_cement_block">Bloc de ciment</string>
     <string name="quest_material_plaster">Plâtre</string>
     <string name="quest_material_glass">Verre</string>
@@ -675,4 +675,12 @@
     <string name="quest_lampMount_title">Comment cette lampe est-elle accrochée ?</string>
     <string name="quest_lampMount_disabled_msg">Cette quête est désactivée par défaut car elle peut être du spam selon la région.</string>
     <string name="quest_lampMount_bentMast">Poteau courbé</string>
+    <string name="quest_material_adobe">Brique de terre séchée</string>
+    <string name="quest_material_loam">Terreau</string>
+    <string name="quest_material_marble">Marbre</string>
+    <string name="quest_material_slate">Ardoise</string>
+    <string name="quest_material_vinyl">Bandes de vinyle en plastique</string>
+    <string name="quest_material_limestone">Calcaire</string>
+    <string name="quest_material_tiles">Carrelage</string>
+    <string name="quest_material_bamboo">Bambou</string>
 </resources>

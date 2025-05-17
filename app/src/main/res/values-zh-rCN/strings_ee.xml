@@ -634,8 +634,8 @@
     <string name="quest_roofOrientation_title">屋脊的朝向是怎样的？</string>
     <string name="quest_roofOrientation_along">与建筑物的长边平行</string>
     <string name="quest_roofOrientation_across">与建筑物的短边平行</string>
-    <string name="quest_buildingMaterial_title">这座建筑的整体材料是什么？</string>
-    <string name="quest_buildingPartMaterial_title">这个建筑部件的整体材料是什么？</string>
+    <string name="quest_buildingMaterial_title">这座建筑的外立面是用什么材料制成的？</string>
+    <string name="quest_buildingPartMaterial_title">这个建筑部分的外立面是用什么材料制成的？</string>
     <string name="quest_material_cement_block">水泥砖</string>
     <string name="quest_material_plaster">灰泥</string>
     <string name="quest_material_glass">玻璃</string>

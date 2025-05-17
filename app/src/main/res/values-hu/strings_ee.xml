@@ -621,4 +621,9 @@
     <string name="quest_roofOrientation_along">Az épület hosszabbik oldalával párhuzamosan</string>
     <string name="quest_roofOrientation_across">Az épület rövidebbik oldalával párhuzamosan</string>
     <string name="quest_roofOrientation_title">Milyen irányban áll a tetőgerinc?</string>
+    <string name="quest_disused">Használaton kívüli</string>
+    <string name="quest_buildingMaterial_title">Nagyrészt milyen anyagból épület ez az épület?</string>
+    <string name="quest_buildingPartMaterial_title">Nagyrészt milyen anyagból épület ez az épületrész?</string>
+    <string name="quest_lampMount_title">Hogyan van rögzítve ez a lámpa?</string>
+    <string name="quest_lampMount_disabled_msg">Ez a kérdés alapértelmezés szerint le van tiltva, mert régiótól függően spam jellegű lehet.</string>
 </resources>

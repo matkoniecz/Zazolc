@@ -2,7 +2,7 @@
 <resources>
     <string name="pref_expert_mode_title">專家模式</string>
     <string name="pref_read_filter_hint">過濾…</string>
-    <string name="pref_screen_notes">註解</string>
+    <string name="pref_screen_notes">註記</string>
     <string name="pref_hide_notes_title">隱藏特定使用者的註解</string>
     <string name="pref_category_mods">SCEE設定</string>
     <string name="pref_expert_mode_summary">啟用進階編輯能力</string>
@@ -14,7 +14,7 @@
     <string name="pref_show_next_quest_title">立即顯示下一個任務</string>
     <string name="pref_show_gpx_button_summary">相比回報OSM註解，新增GPX節點則不會隱藏附近地點的任何任務</string>
     <string name="pref_swap_gpx_note_button">滑動OSM與GPX節點按鈕</string>
-    <string name="pref_hide_keyboard_title">新增節點前隱藏鍵盤</string>
+    <string name="pref_hide_keyboard_title">新增註記前隱藏鍵盤</string>
     <string name="quest_disused">已經廢棄</string>
     <string name="pref_save_file_error">儲存檔案時發生錯誤</string>
     <string name="quest_private">是私人的</string>

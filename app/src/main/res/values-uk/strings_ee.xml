@@ -411,13 +411,15 @@
     <string name="quest_material_bamboo">Бамбук</string>
     <string name="quest_material_reed">Очерет</string>
     <string name="quest_material_tiles">Кахлі</string>
-    <string name="quest_buildingMaterial_title">Переважно з якого матеріалу побудовано цю будівлю?</string>
+    <string name="quest_buildingMaterial_title">З якого матеріалу зроблено фасад цієї будівлі?</string>
     <string name="quest_material_slate">Шифер</string>
     <string name="quest_material_vinyl">Пластикові панелі (сайдинг)</string>
     <string name="quest_material_marble">Мармур</string>
     <string name="quest_material_cement_block">Шлакоблок</string>
-    <string name="quest_buildingPartMaterial_title">Переважно з якого матеріалу виготовлена ця частина будівлі?</string>
+    <string name="quest_buildingPartMaterial_title">З якого матеріалу зроблено фасад цієї частини будівлі?</string>
     <string name="quest_lampMount_ceiling">Стеля</string>
     <string name="quest_lampMount_wall">Стіна</string>
     <string name="quest_lampMount_bollard">Дорожня тумба</string>
+    <string name="quest_disused">Не використовується</string>
+    <string name="quest_private">Приватна територія</string>
 </resources>

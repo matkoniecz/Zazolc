@@ -246,4 +246,24 @@
     <string name="quest_contact_website">Qual é o website deste local?</string>
     <string name="quest_tree_genus_title">Qual é o género ou espécie desta árvore?</string>
     <string name="quest_tree_error">Não reconhecido. Tenta introduzir o género, espécie ou nome em inglês da árvore. Senão, considera deixar uma nota.</string>
+    <string name="quest_lampType_led">Lâmpada LED</string>
+    <string name="quest_lampType_highPressureSodium">Lâmpada de vapor de sódio em alta pressão</string>
+    <string name="quest_lampType_lowPressureSodium">Lâmpada de vapor de sódio em baixa pressão</string>
+    <string name="quest_lampType_gaslight">Luz a gás</string>
+    <string name="quest_lampType_disabled_msg">Esta missão está desativada por predefinição porque não é fácil de responder e, dependendo da região, pode surgir em número exagerado.</string>
+    <string name="quest_lampType_incandescent">Lâmpada incandescente</string>
+    <string name="quest_lampType_mercury">Lâmpada de vapor de mercúrio</string>
+    <string name="quest_lampType_halogen">Lâmpada de halogénio</string>
+    <string name="quest_barrier_locked_title">Esta barreira está (habitualmente) trancada?</string>
+    <string name="quest_lampMount_title">Como é que esta luz está montada?</string>
+    <string name="quest_lampMount_disabled_msg">Esta missão está desativada por predefinição porque, dependendo da região, pode surgir em número exagerado.</string>
+    <string name="quest_lampMount_straightMast">Mastro vertical</string>
+    <string name="quest_lampMount_bentMast">Mastro em curva</string>
+    <string name="quest_lampMount_suspended">Suspenso por fios</string>
+    <string name="quest_lampMount_angledMast">Mastro em ângulo</string>
+    <string name="quest_lampMount_highMast">Mastro alto (acima de 30m)</string>
+    <string name="quest_lampMount_wall">Na parede</string>
+    <string name="quest_lampType_metalHalide">Lâmpada de iodetos metálicos</string>
+    <string name="quest_lampType_fluorescent">Lâmpada fluorescente</string>
+    <string name="quest_lampType_title">Que tipo de lâmpada é esta?</string>
 </resources>

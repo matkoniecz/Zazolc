@@ -149,7 +149,7 @@
     <string name="quest_buildingType_stable">Pferdestall</string>
     <string name="restriction_overlay_sign_stop">Halt</string>
     <string name="quest_poi_traffic_title">POI: Verkehr</string>
-    <string name="quest_settings_element_selection">Lege die für diese Aufgabe berechtigten Elemente fest. <a href="https://github.com/Helium314/SCEE/blob/modified/CONTRIBUTING_A_NEW_QUEST.md#element-selection">Klicke hier</a>, um Informationen zur Syntax der Elementauswahl in einem Browser anzuzeigen.</string>
+    <string name="quest_settings_element_selection">Lege die für diese Aufgabe berechtigten Elemente fest. &lt;a href="https://github.com/Helium314/SCEE/blob/modified/CONTRIBUTING_A_NEW_QUEST.md#element-selection"&gt;Klicke hier&lt;/a&gt;, um Informationen zur Syntax der Elementauswahl in einem Browser anzuzeigen.</string>
     <string name="close_note_checkbox">Schließe den Hinweis (mach das nur, wenn du den Hinweis tatsächlich löst!)</string>
     <string name="quest_lanes_answer_noLanes_known_count">Keine Markierungen, offensichtliche Anzahl von Fahrspuren</string>
     <string name="quest_buildingType_barn">Scheune</string>
@@ -637,8 +637,8 @@
     <string name="quest_postOffice_bureau">Vollständiges (offizielles) Postamt</string>
     <string name="quest_postOffice_postAnnex">Postamt (in privater Hand, möglicherweise mit eingeschränktem Service)</string>
     <string name="quest_postOffice_postPartner">Post-Service in Geschäften oder Einrichtungen (als Dienstleistung)</string>
-    <string name="quest_buildingMaterial_title">Aus welchem Material besteht dieses Gebäude?</string>
-    <string name="quest_buildingPartMaterial_title">Aus welchem Material besteht dieses Gebäudeteil?</string>
+    <string name="quest_buildingMaterial_title">Aus welchem Material ist die Fassade dieses Gebäudes gemacht?</string>
+    <string name="quest_buildingPartMaterial_title">Aus welchem Material ist die Fassade dieses Gebäudeteils gemacht?</string>
     <string name="quest_material_cement_block">Betonstein</string>
     <string name="quest_material_glass">Glas</string>
     <string name="quest_material_mirror">Spiegelglas</string>

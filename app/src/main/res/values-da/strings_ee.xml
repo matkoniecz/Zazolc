@@ -636,7 +636,7 @@
     <string name="quest_roofOrientation_across">Parallelt med bygningens korte side</string>
     <string name="quest_roofOrientation_along">Parallelt med bygningens lange side</string>
     <string name="quest_roofOrientation_title">Hvordan er tagryggen orienteret?</string>
-    <string name="quest_buildingPartMaterial_title">Hvilket materiale er denne bygningsdel overordnet set lavet af?</string>
+    <string name="quest_buildingPartMaterial_title">Hvilket materiale er denne bygningsdels facade lavet af?</string>
     <string name="quest_material_plaster">Puds</string>
     <string name="quest_material_glass">Glas</string>
     <string name="quest_material_mirror">Spejlglas</string>
@@ -652,7 +652,7 @@
     <string name="quest_material_cement_block">Betonblokke</string>
     <string name="quest_material_bamboo">Bambus</string>
     <string name="quest_material_adobe">Adobe</string>
-    <string name="quest_buildingMaterial_title">Hvilket materiale er bygningen overordnet set lavet af?</string>
+    <string name="quest_buildingMaterial_title">Hvilket materiale er denne bygnings facade lavet af?</string>
     <string name="quest_material_marble">Marmor</string>
     <string name="quest_material_tiles">Klinker</string>
     <string name="quest_lampMount_disabled_msg">Denne opgave er deaktiveret som standard, fordi den kan have karakter af spam afhængigt af regionen.</string>
