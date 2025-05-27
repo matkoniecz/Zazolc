@@ -47,9 +47,9 @@ enum class Surface(val osmValue: String?) {
         val selectableValuesForWays: List<Surface> = listOf(
             // paved surfaces
             ASPHALT, PAVING_STONES, CONCRETE, CONCRETE_LANES,
-            SETT, UNHEWN_COBBLESTONE, GRASS_PAVER, WOOD, METAL,
+            SETT, UNHEWN_COBBLESTONE, GRASS_PAVER, WOOD, METAL, METAL_GRID, CHIPSEAL,
             // unpaved surfaces
-            COMPACTED, FINE_GRAVEL, GRAVEL, PEBBLES, WOODCHIPS,
+            COMPACTED, FINE_GRAVEL, GRAVEL, PEBBLES, WOODCHIPS, STEPPING_STONES,
             // ground surfaces
             DIRT, MUD, GRASS, SAND, ROCK,
             // generic surfaces
@@ -66,7 +66,7 @@ enum class Surface(val osmValue: String?) {
             FINE_GRAVEL, PAVING_STONES, COMPACTED,
             SETT, UNHEWN_COBBLESTONE, GRASS_PAVER,
             WOOD, METAL, GRAVEL,
-            PEBBLES, ROCK, METAL_GRID, CHIPSEAL, STEPPING_STONES,
+            PEBBLES, ROCK,
             PAVED, UNPAVED, GROUND
         )
 

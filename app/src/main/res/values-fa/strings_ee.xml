@@ -8,4 +8,7 @@
     <string name="quest_piste_difficulty_extreme">شدید</string>
     <string name="quest_parking_capacity_title">چند ماشین می تواند اینجا پارک کند؟</string>
     <string name="pref_custom_geometry_title">نمایش ویژگی های نقشه از فایل GeoJson</string>
+    <string name="pref_category_mods">تنظیمات SCEE</string>
+    <string name="pref_expert_mode_summary">فعال کردن قابلیت های ویرایش پیشرفته</string>
+    <string name="pref_expert_mode_title">حالت حرفه ای</string>
 </resources>
