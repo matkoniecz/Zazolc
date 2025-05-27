@@ -22,6 +22,8 @@ import de.westnordost.streetcomplete.data.meta.SpeedMeasurementUnit.KILOMETERS_P
 import de.westnordost.streetcomplete.data.meta.SpeedMeasurementUnit.MILES_PER_HOUR
 import de.westnordost.streetcomplete.databinding.QuestMaxspeedBinding
 import de.westnordost.streetcomplete.databinding.QuestMaxspeedNoSignNoSlowZoneConfirmationBinding
+import de.westnordost.streetcomplete.osm.maxspeed.COUNTRY_SUBDIVISIONS_WITH_OWN_DEFAULT_MAX_SPEEDS
+import de.westnordost.streetcomplete.osm.maxspeed.Speed
 import de.westnordost.streetcomplete.quests.AbstractOsmQuestForm
 import de.westnordost.streetcomplete.quests.AnswerItem
 import de.westnordost.streetcomplete.quests.max_speed.SpeedType.ADVISORY
@@ -35,6 +37,7 @@ import de.westnordost.streetcomplete.util.ktx.intOrNull
 import de.westnordost.streetcomplete.util.ktx.livingStreetSignDrawableResId
 import de.westnordost.streetcomplete.util.ktx.showKeyboard
 import de.westnordost.streetcomplete.util.dialogs.showAddConditionalDialog
+import kotlin.text.split
 
 class AddMaxSpeedForm : AbstractOsmQuestForm<Pair<MaxSpeedAnswer, Pair<String, String>?>>() {
 
@@ -124,8 +127,8 @@ class AddMaxSpeedForm : AbstractOsmQuestForm<Pair<MaxSpeedAnswer, Pair<String, S
             val speedText = v.substringBefore("@").trim()
             val speedNumber = speedText.toIntOrNull() ?: return@showAddConditionalDialog
             val speed = when (speedUnitSelect?.selectedItem as SpeedMeasurementUnit? ?: speedUnits.first()) {
-                KILOMETERS_PER_HOUR -> Kmh(speedNumber)
-                MILES_PER_HOUR -> Mph(speedNumber)
+                KILOMETERS_PER_HOUR -> Speed.Kmh(speedNumber)
+                MILES_PER_HOUR -> Speed.Mph(speedNumber)
             }
             val value = v.replaceFirst(speedText, speed.toString())
             when (speedType) {
@@ -280,8 +283,8 @@ class AddMaxSpeedForm : AbstractOsmQuestForm<Pair<MaxSpeedAnswer, Pair<String, S
         val value = speedInput?.intOrNull ?: return null
         val unit = speedUnitSelect?.selectedItem as SpeedMeasurementUnit? ?: speedUnits.first()
         return when (unit) {
-            KILOMETERS_PER_HOUR -> Kmh(value)
-            MILES_PER_HOUR -> Mph(value)
+            KILOMETERS_PER_HOUR -> Speed.Kmh(value)
+            MILES_PER_HOUR -> Speed.Mph(value)
         }
     }
 
@@ -384,7 +387,11 @@ class AddMaxSpeedForm : AbstractOsmQuestForm<Pair<MaxSpeedAnswer, Pair<String, S
     }
 
     private fun applyNoSignAnswer(roadType: String, lit: Boolean? = null, conditional: Pair<String, String>? = null) {
-        applyAnswer(ImplicitMaxSpeed(countryInfo.countryCode, roadType, lit) to conditional)
+        val cc = countryOrSubdivisionCode.orEmpty()
+        val useSubdivisionCode = COUNTRY_SUBDIVISIONS_WITH_OWN_DEFAULT_MAX_SPEEDS.any { it.matches(cc) }
+        val maxspeedCountryCode = if (useSubdivisionCode) cc else cc.split("-").first()
+
+        applyAnswer(ImplicitMaxSpeed(maxspeedCountryCode, roadType, lit) to conditional)
     }
 
     companion object {

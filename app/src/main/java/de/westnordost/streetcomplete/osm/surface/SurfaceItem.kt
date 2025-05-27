@@ -29,14 +29,13 @@ val Surface.titleResId: Int get() = when (this) {
     ASPHALT -> R.string.quest_surface_value_asphalt
     CHIPSEAL -> R.string.quest_surface_value_chipseal
     CONCRETE -> R.string.quest_surface_value_concrete
-    CONCRETE_PLATES -> R.string.quest_surface_value_concrete_plates
     CONCRETE_LANES -> R.string.quest_surface_value_concrete_lanes
     FINE_GRAVEL -> R.string.quest_surface_value_fine_gravel
-    PAVING_STONES, PAVING_STONES_WITH_WEIRD_SUFFIX, BRICK, BRICKS -> R.string.quest_surface_value_paving_stones
+    PAVING_STONES -> R.string.quest_surface_value_paving_stones
     COMPACTED -> R.string.quest_surface_value_compacted
-    DIRT, SOIL, EARTH -> R.string.quest_surface_value_dirt
+    DIRT -> R.string.quest_surface_value_dirt
     MUD -> R.string.quest_surface_value_mud
-    SETT, COBBLESTONE_FLATTENED -> R.string.quest_surface_value_sett
+    SETT -> R.string.quest_surface_value_sett
     UNHEWN_COBBLESTONE -> R.string.quest_surface_value_unhewn_cobblestone
     GRASS_PAVER -> R.string.quest_surface_value_grass_paver
     WOOD -> R.string.quest_surface_value_wood
@@ -49,12 +48,12 @@ val Surface.titleResId: Int get() = when (this) {
     ROCK -> R.string.quest_surface_value_rock
     CLAY -> R.string.quest_surface_value_clay
     ARTIFICIAL_TURF -> R.string.quest_surface_value_artificial_turf
-    RUBBER, TARTAN -> R.string.quest_surface_value_rubber
-    ACRYLIC, HARD -> R.string.quest_surface_value_acrylic
+    RUBBER -> R.string.quest_surface_value_rubber
+    ACRYLIC -> R.string.quest_surface_value_acrylic
     PAVED -> R.string.quest_surface_value_paved
     UNPAVED -> R.string.quest_surface_value_unpaved
     GROUND -> R.string.quest_surface_value_ground
-    UNKNOWN -> R.string.unknown_surface_title
+    UNSUPPORTED -> R.string.unknown_surface_title
     METAL_GRID -> R.string.quest_surface_value_metal_grid
     STEPPING_STONES -> R.string.quest_surface_value_stepping_stones
 }
@@ -63,14 +62,13 @@ val Surface.iconResId: Int get() = when (this) {
     ASPHALT -> R.drawable.surface_asphalt
     CHIPSEAL -> R.drawable.surface_chipseal
     CONCRETE -> R.drawable.surface_concrete
-    CONCRETE_PLATES -> R.drawable.surface_concrete_plates
     CONCRETE_LANES -> R.drawable.surface_concrete_lanes
     FINE_GRAVEL -> R.drawable.surface_fine_gravel
-    PAVING_STONES, PAVING_STONES_WITH_WEIRD_SUFFIX, BRICK, BRICKS -> R.drawable.surface_paving_stones
+    PAVING_STONES -> R.drawable.surface_paving_stones
     COMPACTED -> R.drawable.surface_compacted
-    DIRT, SOIL, EARTH -> R.drawable.surface_dirt
+    DIRT -> R.drawable.surface_dirt
     MUD -> R.drawable.surface_mud
-    SETT, COBBLESTONE_FLATTENED -> R.drawable.surface_sett
+    SETT -> R.drawable.surface_sett
     UNHEWN_COBBLESTONE -> R.drawable.surface_cobblestone
     GRASS_PAVER -> R.drawable.surface_grass_paver
     WOOD -> R.drawable.surface_wood
@@ -83,12 +81,12 @@ val Surface.iconResId: Int get() = when (this) {
     ROCK -> R.drawable.surface_rock
     CLAY -> R.drawable.surface_tennis_clay
     ARTIFICIAL_TURF -> R.drawable.surface_artificial_turf
-    RUBBER, TARTAN -> R.drawable.surface_tartan
-    ACRYLIC, HARD -> R.drawable.surface_acrylic
+    RUBBER -> R.drawable.surface_tartan
+    ACRYLIC -> R.drawable.surface_acrylic
     PAVED -> R.drawable.surface_paved_area
     UNPAVED -> R.drawable.surface_unpaved_area
     GROUND -> R.drawable.surface_ground_area
-    UNKNOWN -> R.drawable.space_128dp
+    UNSUPPORTED -> R.drawable.space_128dp
     METAL_GRID -> R.drawable.surface_metal_grid
     STEPPING_STONES -> R.drawable.surface_stepping_stones
 }

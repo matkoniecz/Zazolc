@@ -45,7 +45,9 @@ class AddWheelchairAccessToiletsPart : OsmFilterQuestType<WheelchairAccessToilet
         when (answer) {
             is WheelchairAccessToiletsPart -> {
                 tags.updateWithCheckDate("toilets:wheelchair", answer.access.osmValue)
-                tags["toilets"] = "yes"
+                if (answer.access != WheelchairAccess.NO) {
+                    tags["toilets"] = "yes"
+                }
                 answer.access.updatedDescriptions?.forEach { (language, description) ->
                     // language already contains the colon, or may be empty
                     if (description.isEmpty())
