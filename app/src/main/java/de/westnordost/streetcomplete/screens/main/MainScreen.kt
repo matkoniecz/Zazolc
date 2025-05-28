@@ -22,10 +22,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -373,23 +371,25 @@ fun MainScreen(
                         }
                     }
                 }
-                Box(Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp)
-                ) {
-                    CompositionLocalProvider(LocalContentColor provides MaterialTheme.colors.onSurface) {
+                // Alternative to this would be to put the tutorial screens into a separate
+                // navigation destination in a TBD MainNavHost after complete migration to Compose
+                // (see #6255)
+                if (!showIntroTutorial) {
+                    Box(Modifier.fillMaxWidth().padding(4.dp)) {
                         AttributionButton(
                             userHasMovedMap = userHasMovedCamera,
                             attributions = mapAttribution,
                             modifier = Modifier.align(Alignment.TopStart),
                             popupElevation = 4.dp,
                         )
+                        ScaleBar(
+                            metersPerDp = metersPerDp,
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(horizontal = 12.dp),
+                            alignment = Alignment.End,
+                        )
                     }
-                    ScaleBar(
-                        metersPerDp = metersPerDp,
-                        modifier = Modifier.align(Alignment.CenterEnd).padding(horizontal = 12.dp),
-                        alignment = Alignment.End,
-                    )
                 }
             }
         }

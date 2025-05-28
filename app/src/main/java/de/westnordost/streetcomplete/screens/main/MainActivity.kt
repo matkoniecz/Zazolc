@@ -23,6 +23,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.geometry.Offset
 import androidx.core.graphics.Insets
 import androidx.core.net.toUri
@@ -221,19 +224,24 @@ class MainActivity :
         setContentView(binding.root)
 
         binding.controls.content {
-            MainScreen(
-                viewModel = viewModel,
-                editHistoryViewModel = editHistoryViewModel,
-                onClickZoomIn = ::onClickZoomIn,
-                onClickZoomOut = ::onClickZoomOut,
-                onClickCompass = ::onClickCompassButton,
-                onClickLocation = ::onClickLocationButton,
-                onClickLocationPointer = ::onClickLocationPointer,
-                onClickCreate = ::onClickCreateButton,
-                onClickStopTrackRecording = ::onClickTracksStop,
-                onClickDownload = ::onClickDownload,
-                onExplainedNeedForLocationPermission = ::requestLocation
-            )
+            // color for HUD elements without a background (e.g. scalebar, attribution button)
+            CompositionLocalProvider(
+                LocalContentColor provides MaterialTheme.colors.onSurface
+            ) {
+                MainScreen(
+                    viewModel = viewModel,
+                    editHistoryViewModel = editHistoryViewModel,
+                    onClickZoomIn = ::onClickZoomIn,
+                    onClickZoomOut = ::onClickZoomOut,
+                    onClickCompass = ::onClickCompassButton,
+                    onClickLocation = ::onClickLocationButton,
+                    onClickLocationPointer = ::onClickLocationPointer,
+                    onClickCreate = ::onClickCreateButton,
+                    onClickStopTrackRecording = ::onClickTracksStop,
+                    onClickDownload = ::onClickDownload,
+                    onExplainedNeedForLocationPermission = ::requestLocation
+                )
+            }
         }
 
         onBackPressedDispatcher.addCallback(this, sheetBackPressedCallback)
@@ -265,6 +273,7 @@ class MainActivity :
         }
         observe(viewModel.geoUri) { geoUri ->
             if (geoUri != null) {
+                viewModel.consumeGeoUri()
                 mapFragment?.setInitialCameraPosition(geoUri)
                 viewModel.isFollowingPosition.value = mapFragment?.isFollowingPosition ?: false
                 viewModel.isNavigationMode.value = mapFragment?.isNavigationMode ?: false
@@ -327,7 +336,10 @@ class MainActivity :
     /* ---------------------------------- MapFragment.Listener ---------------------------------- */
 
     override fun onMapInitialized() {
-        viewModel.geoUri.value?.let { mapFragment?.setInitialCameraPosition(it) }
+        viewModel.geoUri.value?.let { geoUri ->
+            viewModel.consumeGeoUri()
+            mapFragment?.setInitialCameraPosition(geoUri)
+        }
         viewModel.isFollowingPosition.value = mapFragment?.isFollowingPosition ?: false
         viewModel.isNavigationMode.value = mapFragment?.isNavigationMode ?: false
         viewModel.isRecordingTracks.value = mapFragment?.isRecordingTracks ?: false

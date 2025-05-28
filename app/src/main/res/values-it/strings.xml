@@ -714,7 +714,7 @@ riconoscimento"</string>
     <string name="quest_oneway2_dir">"Senso unico in questa direzione"</string>
     <string name="quest_oneway2_no_oneway">"Non è a senso unico"</string>
     <string name="quest_maxweight_select_sign">"Seleziona cartello"</string>
-    <string name="quest_steps_incline_title">"In quale direzione salgono questi scalini?"</string>
+    <string name="quest_steps_incline_title">"Quale direzione porta verso l'alto?"</string>
     <string name="quest_steps_incline_up">"Da questo lato"</string>
     <string name="quest_step_count_title">"Quanti gradini ci sono?"</string>
     <string name="quest_traffic_signals_sound_title">"Ci sono segnali sonori per i non vedenti?"</string>
@@ -772,8 +772,6 @@ riconoscimento"</string>
     <string name="quest_surface_value_rock">"Rocce"</string>
     <string name="quest_parkingType_street_side">"Parcheggio poco fuori dalla carreggiata"</string>
     <string name="quest_parkingType_lane">"Parcheggio sulla carreggiata"</string>
-    <string name="quest_tracktype_grade2a">"Solido ma non pavimentato"</string>
-    <string name="quest_tracktype_grade3a">"Per lo più solido"</string>
     <string name="quest_generic_answer_does_not_exist">"Non esiste…"</string>
     <string name="osm_element_gone_description">"Confermi che non esista, magari in una posizione leggermente diversa? In caso di dubbi lascia una nota."</string>
     <string name="osm_element_gone_confirmation">"Non esiste"</string>
@@ -1176,7 +1174,7 @@ Fai la stessa cosa per l'altro lato, se presente."</string>
     <string name="quest_address_answer_house_name2">"La casa ha un nome…"</string>
     <string name="quest_address_street_street_name_label">"Nome della strada:"</string>
     <string name="quest_address_street_hint2">"Premi sulla strada nella mappa per selezionarla"</string>
-    <string name="quest_bicycle_incline_title">"In quale direzione si sale qua?"</string>
+    <string name="quest_bicycle_incline_title">"Quale direzione porta verso l'alto?"</string>
     <string name="quest_bicycle_incline_up_and_down">"È un saliscendi"</string>
     <string name="quest_drinking_water_type_generic_water_fountain">"Altra fontanella"</string>
     <string name="quest_drinking_water_type_jet_water_fountain">"La fontanella emette un piccolo getto d’acqua"</string>
@@ -1434,4 +1432,28 @@ Un piano del tetto va contato quando ci sono finestre nel tetto. Quindi, un tett
     <string name="quest_dietType_glutenfree_name_title">"Qui si servono prodotti senza glutine?"</string>
     <string name="quest_dietType_explanation_glutenfree">"La preparazione di prodotti senza glutine richiede una formazione specifica, perché anche spezie e salse comuni possono contenere glutine. I prodotti senza glutine sono segnalati da etichette apposite."</string>
     <string name="quest_construction_minor_title">"I lavori stradali secondari qui sono finiti?"</string>
+    <string name="map_attribution">"Attribuzione mappa"</string>
+    <string name="link_panoramax_description">"Un software gratuito e open source è un servizio non profit per condividere foto a livello strada"</string>
+    <string name="link_opengeofiction_description">"Stanco di mappare la realtà? Crea mappe fittizie con altri utenti!"</string>
+    <string name="link_openclimbing_description">"Una mappa per i punti di arrampicata"</string>
+    <string name="pref_title_zoom_buttons">"Mostra I pulsanti di zoom"</string>
+    <string name="overlay_mtb_scale">"Difficoltà MTB"</string>
+    <string name="overlay_mtb_scale_0">"Grado 0"</string>
+    <string name="overlay_mtb_scale_0_description">"Superficie compatta o naturale; nessun ostacolo; pendenza gentile; curve ampie."</string>
+    <string name="overlay_mtb_scale_1">"Grado 1"</string>
+    <string name="overlay_mtb_scale_1_description">"Terreno parzialmente instabile con piccole radici, pietre, erosione o solchi d'acqua;  ≤ 40%; ostacoli superabili; richiesta una tecnica di base."</string>
+    <string name="overlay_mtb_scale_2">"Grado 2"</string>
+    <string name="overlay_mtb_scale_2_description">"Terreno instabile, con radici e rocce, piccoli sbalzi/piccoli gradini, pendenza fino al 70%; tornanti facili; richieste frenate avanzate e spostamenti di peso."</string>
+    <string name="overlay_mtb_scale_3">"Grado 3"</string>
+    <string name="overlay_mtb_scale_3_description">"Terreno scivoloso con arbusti, massi, grosse radici e rocce, gradini alti e traverse complesse; tornanti stretti, pendenza &gt;70%; richiesti buon equilibrio e frenate precise."</string>
+    <string name="overlay_mtb_scale_4">"Grado 4"</string>
+    <string name="overlay_mtb_scale_4_description">"Ostacoli difficili e tecnici: grandi massi, radici, arbusti, gradoni; tornanti pivot, sbalzi con colpi ai pedali; richiesti equilibrio perfetto, frenate precise e riposizionamenti di ruota."</string>
+    <string name="overlay_mtb_scale_5">"Grado 5"</string>
+    <string name="overlay_mtb_scale_6">"Grado 6"</string>
+    <string name="overlay_mtb_scale_6_description">"Terreno pericoloso e impassabile, non adatto alle mountain-bike."</string>
+    <string name="default_disabled_overlay_domain_expert">"Questo livello è disabilitato perché devi essere esperto nel settore per registrare accuratamente questi dati."</string>
+    <string name="pref_title_overlays">"Selezione livello"</string>
+    <string name="pref_overlays_reset">"Ripristinare l'abilitazione del livello?"</string>
+    <string name="overlay">"Livello"</string>
+    <string name="enable_overlay_confirmation_title">"Abilitare questo livello?"</string>
 </resources>

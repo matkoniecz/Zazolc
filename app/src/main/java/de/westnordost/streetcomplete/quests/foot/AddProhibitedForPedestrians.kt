@@ -28,7 +28,12 @@ class AddProhibitedForPedestrians : OsmFilterQuestType<ProhibitedForPedestriansA
         /* asking for any road without sidewalk is too much. Main interesting situations are
            certain road sections within large intersections, overpasses, underpasses,
            inner segregated lanes of large streets, connecting/linking road way sections and so
-           forth. See https://lists.openstreetmap.org/pipermail/tagging/2019-February/042852.html */
+           forth. See https://lists.openstreetmap.org/pipermail/tagging/2019-February/042852.html
+
+           #2472 documents that there have been continuous misunderstandings when roads are really
+           forbidden to walk on legally, which is why since v34.0, so the question is not asked for
+           roads that are simply lit anymore but only if they are tunnels, bridges, links (=oneways)
+           or if already bicycle=no/sidepath */
         // only roads where foot=X is not (almost) implied
         "and motorroad != yes " +
         "and highway ~ trunk|trunk_link|primary|primary_link|secondary|secondary_link|tertiary|tertiary_link|unclassified " +
