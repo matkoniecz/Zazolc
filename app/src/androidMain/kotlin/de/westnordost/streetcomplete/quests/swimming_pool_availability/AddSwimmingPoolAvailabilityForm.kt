@@ -2,11 +2,11 @@ package de.westnordost.streetcomplete.quests.swimming_pool_availability
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.quests.AListQuestForm
-import de.westnordost.streetcomplete.quests.TextItem
 import de.westnordost.streetcomplete.quests.swimming_pool_availability.SwimmingPoolAvailability.INDOOR_AND_OUTDOOR
 import de.westnordost.streetcomplete.quests.swimming_pool_availability.SwimmingPoolAvailability.NO
 import de.westnordost.streetcomplete.quests.swimming_pool_availability.SwimmingPoolAvailability.ONLY_INDOOR
 import de.westnordost.streetcomplete.quests.swimming_pool_availability.SwimmingPoolAvailability.ONLY_OUTDOOR
+import de.westnordost.streetcomplete.ui.common.TextItem
 
 class AddSwimmingPoolAvailabilityForm : AListQuestForm<SwimmingPoolAvailability>() {
     override val items = listOf(

@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.quests.post_office
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.quests.AListQuestForm
-import de.westnordost.streetcomplete.quests.TextItem
+import de.westnordost.streetcomplete.ui.common.TextItem
 
 class AddPostOfficeTypeForm : AListQuestForm<String>() {
     override val items = listOf(

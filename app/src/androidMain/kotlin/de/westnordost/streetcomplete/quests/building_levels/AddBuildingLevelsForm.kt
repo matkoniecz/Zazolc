@@ -9,7 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.preferences.Preferences
-import de.westnordost.streetcomplete.databinding.QuestBuildingLevelsBinding
+import de.westnordost.streetcomplete.databinding.ComposeViewBinding
 import de.westnordost.streetcomplete.quests.AbstractOsmQuestForm
 import de.westnordost.streetcomplete.quests.AnswerItem
 import de.westnordost.streetcomplete.quests.questPrefix
@@ -18,8 +18,8 @@ import de.westnordost.streetcomplete.util.takeFavorites
 
 class AddBuildingLevelsForm : AbstractOsmQuestForm<BuildingLevels>() {
 
-    override val contentLayoutResId = R.layout.quest_building_levels
-    private val binding by contentViewBinding(QuestBuildingLevelsBinding::bind)
+    override val contentLayoutResId = R.layout.compose_view
+    private val binding by contentViewBinding(ComposeViewBinding::bind)
 
     private lateinit var levels: MutableState<String>
     private lateinit var roofLevels: MutableState<String>
@@ -39,7 +39,7 @@ class AddBuildingLevelsForm : AbstractOsmQuestForm<BuildingLevels>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.questBuildingLevelsBase.content {
+        binding.composeViewBase.content {
             levels = rememberSaveable { mutableStateOf(element.tags["building:levels"] ?: "") }
             roofLevels = rememberSaveable { mutableStateOf(element.tags["roof:levels"] ?: "") }
             Surface {

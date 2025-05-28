@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.quests.map
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.quests.AListQuestForm
-import de.westnordost.streetcomplete.quests.TextItem
+import de.westnordost.streetcomplete.ui.common.TextItem
 
 class AddMapSizeForm : AListQuestForm<String>() {
     override val items = listOf(

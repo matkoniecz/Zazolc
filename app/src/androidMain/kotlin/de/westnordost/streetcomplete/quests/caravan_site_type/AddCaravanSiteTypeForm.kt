@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.quests.caravan_site_type
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.quests.AListQuestForm
-import de.westnordost.streetcomplete.quests.TextItem
+import de.westnordost.streetcomplete.ui.common.TextItem
 
 class AddCaravanSiteTypeForm : AListQuestForm<String>() {
     override val items = listOf(

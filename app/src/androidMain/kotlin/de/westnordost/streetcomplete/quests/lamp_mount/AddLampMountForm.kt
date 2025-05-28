@@ -2,7 +2,7 @@ package de.westnordost.streetcomplete.quests.lamp_mount
 
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.quests.AListQuestForm
-import de.westnordost.streetcomplete.quests.TextItem
+import de.westnordost.streetcomplete.ui.common.TextItem
 
 class AddLampMountForm : AListQuestForm<LampMountAnswer>() {
     override val items: List<TextItem<LampMountAnswer>> = listOf(
