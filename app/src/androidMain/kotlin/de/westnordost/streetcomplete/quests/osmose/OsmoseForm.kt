@@ -20,7 +20,6 @@ import de.westnordost.streetcomplete.screens.main.map.MainMapFragment
 import de.westnordost.streetcomplete.screens.main.map.Marker
 import de.westnordost.streetcomplete.screens.main.map.ShowsGeometryMarkers
 import de.westnordost.streetcomplete.util.dialogs.setViewWithDefaultPadding
-import de.westnordost.streetcomplete.util.ktx.arrayOfNotNull
 import de.westnordost.streetcomplete.util.ktx.toast
 import de.westnordost.streetcomplete.util.ktx.viewLifecycleScope
 import kotlinx.coroutines.launch
@@ -137,7 +136,7 @@ class OsmoseForm : AbstractExternalSourceQuestForm() {
         val issue = issue ?: return
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.quest_osmose_hide_type)
-            .setItems(arrayOfNotNull("item: ${issue.item}", "item/class: ${issue.item}/${issue.itemClass}", "subtitle: ${issue.subtitle}".takeIf { issue.subtitle.isNotBlank() })) { _, i ->
+            .setItems(listOfNotNull("item: ${issue.item}", "item/class: ${issue.item}/${issue.itemClass}", "subtitle: ${issue.subtitle}".takeIf { issue.subtitle.isNotBlank() }).toTypedArray()) { _, i ->
                 when (i) {
                     0 -> issue.item.toString()
                     1 -> "${issue.item}/${issue.itemClass}"

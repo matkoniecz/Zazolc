@@ -3,6 +3,7 @@ package de.westnordost.streetcomplete.screens.main.map
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.russhwolf.settings.ObservableSettings
+import de.westnordost.streetcomplete.DayNightBehavior
 import de.westnordost.streetcomplete.Prefs
 import de.westnordost.streetcomplete.data.download.tiles.TilesRect
 import de.westnordost.streetcomplete.data.download.tiles.enclosingTilesRect
@@ -249,7 +250,7 @@ class QuestPinsManager(
         val sortedQuestTypes = questTypeRegistry.toMutableList()
         questTypeOrderSource.sort(sortedQuestTypes)
         // move specific quest types to front if set by preference
-        val moveToFront = if (Prefs.DayNightBehavior.valueOf(prefs.getString(Prefs.DAY_NIGHT_BEHAVIOR, "IGNORE")) == Prefs.DayNightBehavior.PRIORITY)
+        val moveToFront = if (DayNightBehavior.valueOf(prefs.getString(Prefs.DAY_NIGHT_BEHAVIOR, "IGNORE")) == DayNightBehavior.PRIORITY)
             if (map.cameraPosition.target?.toLatLon()?.let { isDay(it) } != false)
                 sortedQuestTypes.filter { it.dayNightCycle == DayNightCycle.ONLY_DAY }
             else

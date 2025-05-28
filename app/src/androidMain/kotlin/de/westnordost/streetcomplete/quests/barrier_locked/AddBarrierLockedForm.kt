@@ -1,6 +1,7 @@
 package de.westnordost.streetcomplete.quests.barrier_locked
 
 import de.westnordost.streetcomplete.R
+import de.westnordost.streetcomplete.data.meta.userPreferredLocale
 import de.westnordost.streetcomplete.databinding.QuestFeeHoursBinding
 import de.westnordost.streetcomplete.osm.opening_hours.parser.toOpeningHours
 import de.westnordost.streetcomplete.quests.AbstractOsmQuestForm

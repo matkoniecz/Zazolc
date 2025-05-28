@@ -2,7 +2,6 @@ package de.westnordost.streetcomplete.quests.valves
 
 import android.os.Bundle
 import de.westnordost.streetcomplete.R
-import de.westnordost.streetcomplete.osm.lane_narrowing_traffic_calming.asItem
 import de.westnordost.streetcomplete.quests.AImageListQuestForm
 
 class AddValvesForm : AImageListQuestForm<Valves, List<Valves>>() {

@@ -13,8 +13,8 @@ import de.westnordost.streetcomplete.data.osm.mapdata.Way
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmElementQuestType
 import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.osm.groupByNodeIds
-import de.westnordost.streetcomplete.osm.isForwardOneway
-import de.westnordost.streetcomplete.osm.isReversedOneway
+import de.westnordost.streetcomplete.osm.oneway.isForwardOneway
+import de.westnordost.streetcomplete.osm.oneway.isReversedOneway
 import de.westnordost.streetcomplete.quests.questPrefix
 import de.westnordost.streetcomplete.quests.singleTypeElementSelectionDialog
 import de.westnordost.streetcomplete.util.ktx.allExceptFirstAndLast

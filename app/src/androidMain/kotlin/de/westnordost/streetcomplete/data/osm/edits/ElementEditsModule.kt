@@ -6,6 +6,8 @@ import de.westnordost.streetcomplete.data.osm.edits.upload.changesets.ChangesetA
 import de.westnordost.streetcomplete.data.osm.edits.upload.changesets.ChangesetAutoCloserWorker
 import de.westnordost.streetcomplete.data.osm.edits.upload.changesets.OpenChangesetsDao
 import de.westnordost.streetcomplete.data.osm.edits.upload.changesets.OpenChangesetsManager
+import de.westnordost.streetcomplete.quests.tagEdit
+import de.westnordost.streetcomplete.screens.main.bottom_sheet.addNodeEdit
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
 
@@ -13,7 +15,7 @@ val elementEditsModule = module {
     factory { ChangesetAutoCloser(get()) }
     factory { ElementEditUploader(get(), get(), get()) }
 
-    factory { ElementEditsDao(get(), get()) }
+    factory { ElementEditsDao(get(), get(), tagEdit, addNodeEdit) }
     factory { ElementIdProviderDao(get()) }
     factory { OpenChangesetsDao(get()) }
     factory { EditElementsDao(get()) }

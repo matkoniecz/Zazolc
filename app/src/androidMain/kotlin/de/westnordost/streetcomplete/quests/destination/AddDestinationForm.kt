@@ -1,6 +1,5 @@
 package de.westnordost.streetcomplete.quests.destination
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -25,7 +24,7 @@ import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.databinding.QuestDestinationBinding
 import de.westnordost.streetcomplete.databinding.QuestDestinationLaneBinding
 import de.westnordost.streetcomplete.osm.Tags
-import de.westnordost.streetcomplete.osm.isOneway
+import de.westnordost.streetcomplete.osm.oneway.isOneway
 import de.westnordost.streetcomplete.quests.AbstractOsmQuestForm
 import de.westnordost.streetcomplete.quests.lanes.LineStyle
 import de.westnordost.streetcomplete.util.SearchAdapter

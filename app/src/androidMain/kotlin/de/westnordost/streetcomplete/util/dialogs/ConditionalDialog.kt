@@ -18,11 +18,11 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import de.westnordost.streetcomplete.R
+import de.westnordost.streetcomplete.osm.opening_hours.model.OpeningWeekdaysRow
 import de.westnordost.streetcomplete.osm.opening_hours.model.TimeRange
 import de.westnordost.streetcomplete.osm.opening_hours.parser.toOpeningHours
 import de.westnordost.streetcomplete.quests.opening_hours.TimeRangePickerDialog
 import de.westnordost.streetcomplete.quests.opening_hours.WeekdaysPickerDialog
-import de.westnordost.streetcomplete.quests.opening_hours.adapter.OpeningWeekdaysRow
 import de.westnordost.streetcomplete.util.ktx.showKeyboard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

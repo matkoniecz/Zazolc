@@ -15,7 +15,7 @@ class MapDataApiParser {
     fun parseMapData(source: Source, ignoreRelationTypes: Set<String?>): MutableMapData =
         xmlStreaming.newReader(source).parseMapData(ignoreRelationTypes)
 
-    fun parseElementUpdates(source: Source): Map<ElementKey, ElementUpdateAction> =
+    fun parseElementUpdates(source: Source): Map<ElementKey, ElementUpdate> =
         xmlStreaming.newReader(source).parseElementUpdates()
 }
 
@@ -75,8 +75,8 @@ private fun XmlReader.parseMapData(ignoreRelationTypes: Set<String?>): MutableMa
     result
 } catch (e: Exception) { throw SerializationException(e) }
 
-private fun XmlReader.parseElementUpdates(): Map<ElementKey, ElementUpdateAction> = try {
-    val result = HashMap<ElementKey, ElementUpdateAction>()
+private fun XmlReader.parseElementUpdates(): Map<ElementKey, ElementUpdate> = try {
+    val result = HashMap<ElementKey, ElementUpdate>()
     forEach {
         if (it == START_ELEMENT) {
             when (localName) {
@@ -88,8 +88,8 @@ private fun XmlReader.parseElementUpdates(): Map<ElementKey, ElementUpdateAction
                     val newId = attributeOrNull("new_id")?.toLong()
                     val newVersion = attributeOrNull("new_version")?.toInt()
                     val action =
-                        if (newId != null && newVersion != null) UpdateElement(newId, newVersion)
-                        else DeleteElement
+                        if (newId != null && newVersion != null) ElementUpdate.Update(newId, newVersion)
+                        else ElementUpdate.Delete
 
                     result[key] = action
                 }

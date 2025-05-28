@@ -1,8 +1,6 @@
 package de.westnordost.streetcomplete.overlays.restriction
 
 import android.content.res.Configuration
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -24,8 +22,8 @@ import de.westnordost.streetcomplete.data.osm.mapdata.Way
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.databinding.FragmentOverlayRestrictionNodeBinding
 import de.westnordost.streetcomplete.osm.ALL_ROADS
-import de.westnordost.streetcomplete.osm.isNotOnewayForCyclists
-import de.westnordost.streetcomplete.osm.isOneway
+import de.westnordost.streetcomplete.osm.oneway.isNotOnewayForCyclists
+import de.westnordost.streetcomplete.osm.oneway.isOneway
 import de.westnordost.streetcomplete.overlays.AbstractOverlayForm
 import de.westnordost.streetcomplete.screens.main.bottom_sheet.IsMapOrientationAware
 import de.westnordost.streetcomplete.screens.main.bottom_sheet.IsMapPositionAware

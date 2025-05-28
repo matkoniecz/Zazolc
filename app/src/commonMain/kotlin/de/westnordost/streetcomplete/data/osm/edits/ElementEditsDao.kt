@@ -27,8 +27,6 @@ import de.westnordost.streetcomplete.data.osm.edits.update_tags.UpdateElementTag
 import de.westnordost.streetcomplete.data.osm.edits.create.CreateRelationAction
 import de.westnordost.streetcomplete.data.osm.edits.delete.DeleteRelationAction
 import de.westnordost.streetcomplete.data.osm.edits.delete.RevertDeleteRelationAction
-import de.westnordost.streetcomplete.quests.tagEdit
-import de.westnordost.streetcomplete.screens.main.bottom_sheet.addNodeEdit
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
@@ -37,6 +35,8 @@ import kotlinx.serialization.modules.subclass
 class ElementEditsDao(
     private val db: Database,
     private val allEditTypes: AllEditTypes,
+    private val tagEdit: ElementEditType,
+    private val addNodeEdit: ElementEditType
 ) {
     private val json = Json {
         serializersModule = SerializersModule {

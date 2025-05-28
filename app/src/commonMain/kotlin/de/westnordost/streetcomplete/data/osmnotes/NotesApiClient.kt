@@ -8,7 +8,6 @@ import de.westnordost.streetcomplete.data.osm.mapdata.BoundingBox
 import de.westnordost.streetcomplete.data.osm.mapdata.LatLon
 import de.westnordost.streetcomplete.data.osm.mapdata.toOsmApiString
 import de.westnordost.streetcomplete.data.user.UserAccessTokenSource
-import de.westnordost.streetcomplete.data.user.UserLoginSource
 import de.westnordost.streetcomplete.data.wrapApiClientExceptions
 import de.westnordost.streetcomplete.util.ktx.format
 import io.ktor.client.HttpClient
@@ -112,7 +111,7 @@ class NotesApiClient(
     suspend fun close(id: Long, comment: String): Note = wrapApiClientExceptions {
         try {
             val response = httpClient.post(baseUrl + "notes/$id/close") {
-                userLoginSource.accessToken?.let { bearerAuth(it) }
+                userAccessTokenSource.accessToken?.let { bearerAuth(it) }
                 if (comment.isNotEmpty())
                     parameter("text", comment)
                 expectSuccess = true

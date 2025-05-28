@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.app.ActivityCompat
+import de.westnordost.streetcomplete.DayNightBehavior
 import de.westnordost.streetcomplete.Prefs
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmQuestController
@@ -87,7 +88,7 @@ fun QuestSettingsScreen(
                 name = stringResource(R.string.pref_day_night_title),
                 onClick = { showDayNightDialog = true },
             ) {
-                Text(stringResource(Prefs.DayNightBehavior.valueOf(prefs.getString(Prefs.DAY_NIGHT_BEHAVIOR, "IGNORE")).titleResId))
+                Text(stringResource(DayNightBehavior.valueOf(prefs.getString(Prefs.DAY_NIGHT_BEHAVIOR, "IGNORE")).titleResId))
             }
             if (prefs.expertMode)
                 Preference(
@@ -127,7 +128,7 @@ fun QuestSettingsScreen(
     if (showDayNightDialog)
         SimpleListPickerDialog(
             onDismissRequest = { showDayNightDialog = false },
-            items = Prefs.DayNightBehavior.entries,
+            items = DayNightBehavior.entries,
             onItemSelected = {
                 prefs.putString(Prefs.DAY_NIGHT_BEHAVIOR, it.name)
                 scope.launch(Dispatchers.IO) {
@@ -137,7 +138,7 @@ fun QuestSettingsScreen(
                 }
             },
             title = { Text(stringResource(R.string.pref_day_night_title)) },
-            selectedItem = Prefs.DayNightBehavior.valueOf(prefs.getString(Prefs.DAY_NIGHT_BEHAVIOR, "IGNORE")),
+            selectedItem = DayNightBehavior.valueOf(prefs.getString(Prefs.DAY_NIGHT_BEHAVIOR, "IGNORE")),
             getItemName = { stringResource(it.titleResId) }
         )
 }

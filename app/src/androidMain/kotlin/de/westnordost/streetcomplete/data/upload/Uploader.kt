@@ -73,7 +73,7 @@ class Uploader(
             val banned = bannedInfo
             if (banned is BannedInfo.IsBanned) {
                 throw VersionBannedException(banned.reason)
-            } else if (banned is UnknownIfBanned) {
+            } else if (banned is BannedInfo.UnknownIfBanned) {
                 val old = prefs.getInt(Prefs.BAN_CHECK_ERROR_COUNT, 0)
                 prefs.putInt(Prefs.BAN_CHECK_ERROR_COUNT, old + 1)
             } else
