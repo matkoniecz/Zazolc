@@ -19,7 +19,6 @@ import de.westnordost.streetcomplete.data.CleanerWorker
 import de.westnordost.streetcomplete.data.DatabaseInitializer
 import de.westnordost.streetcomplete.data.Preloader
 import de.westnordost.streetcomplete.data.allEditTypesModule
-import de.westnordost.streetcomplete.data.changelog.changelogModule
 import de.westnordost.streetcomplete.data.dbModule
 import de.westnordost.streetcomplete.data.download.downloadModule
 import de.westnordost.streetcomplete.data.download.tiles.DownloadedTilesController
@@ -133,7 +132,6 @@ class StreetCompleteApplication : Application() {
                 mainModule,
                 maptilesModule,
                 metadataModule,
-                changelogModule,
                 noteEditsModule,
                 notesModule,
                 messagesModule,
