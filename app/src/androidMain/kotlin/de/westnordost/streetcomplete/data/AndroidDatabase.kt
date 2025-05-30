@@ -3,20 +3,21 @@ package de.westnordost.streetcomplete.data
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.database.Cursor
-import io.requery.android.database.sqlite.SQLiteDatabase
-import io.requery.android.database.sqlite.SQLiteDatabase.CONFLICT_ABORT
-import io.requery.android.database.sqlite.SQLiteDatabase.CONFLICT_FAIL
-import io.requery.android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
-import io.requery.android.database.sqlite.SQLiteDatabase.CONFLICT_NONE
-import io.requery.android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE
-import io.requery.android.database.sqlite.SQLiteDatabase.CONFLICT_ROLLBACK
-import io.requery.android.database.sqlite.SQLiteStatement
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteDatabase.CONFLICT_ABORT
+import android.database.sqlite.SQLiteDatabase.CONFLICT_FAIL
+import android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
+import android.database.sqlite.SQLiteDatabase.CONFLICT_NONE
+import android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE
+import android.database.sqlite.SQLiteDatabase.CONFLICT_ROLLBACK
+import android.database.sqlite.SQLiteStatement
 import androidx.core.database.getBlobOrNull
 import androidx.core.database.getDoubleOrNull
 import androidx.core.database.getFloatOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
+import androidx.core.database.sqlite.transaction
 import de.westnordost.streetcomplete.data.ConflictAlgorithm.ABORT
 import de.westnordost.streetcomplete.data.ConflictAlgorithm.FAIL
 import de.westnordost.streetcomplete.data.ConflictAlgorithm.IGNORE
@@ -130,16 +131,7 @@ class AndroidDatabase(private val db: SQLiteDatabase) : Database {
         return db.delete(table, where, strArgs)
     }
 
-    override fun <T> transaction(block: () -> T): T {
-        db.beginTransaction()
-        try {
-            val result = block()
-            db.setTransactionSuccessful()
-            return result
-        } finally {
-            db.endTransaction()
-        }
-    }
+    override fun <T> transaction(block: () -> T): T = db.transaction { block() }
 }
 
 private fun Array<Any>.primitivesArrayToStringArray() = Array(size) { i ->

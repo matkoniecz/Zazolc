@@ -151,11 +151,6 @@ kotlin {
                 // map and location
                 implementation("org.maplibre.gl:android-sdk:11.8.8")
 
-                // faster sqlite library (additional capabilities like R*-tree or json1 not used)
-                // writing 25% faster, reading 5% faster than Android 9 built-in sqlite (tested with 3.36.0)
-                implementation("com.github.requery:sqlite-android:3.45.0")
-                implementation("androidx.sqlite:sqlite:2.4.0")
-
                 // fast json (de)serialization used for database read and write
                 implementation("com.squareup.moshi:moshi:1.15.1")
 

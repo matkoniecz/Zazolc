@@ -1,8 +1,8 @@
 package de.westnordost.streetcomplete.data
 
 import android.content.Context
-import io.requery.android.database.sqlite.SQLiteDatabase
-import io.requery.android.database.sqlite.SQLiteOpenHelper
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmQuestTable
 import de.westnordost.streetcomplete.quests.osmose.OsmoseTable
 import de.westnordost.streetcomplete.data.externalsource.ExternalSourceQuestTables
