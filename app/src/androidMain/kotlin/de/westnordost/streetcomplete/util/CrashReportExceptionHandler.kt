@@ -44,7 +44,9 @@ class CrashReportExceptionHandler(
     override fun uncaughtException(thread: Thread, error: Throwable) {
         val report = createErrorReport(error, thread)
 
-        saveCrashReport(report)
+        val stacktrace = error.stackTraceToString()
+        if (!stacktrace.contains(".getBinding") && !stacktrace.contains(".Fragment.getViewLifecycleOwner"))
+            saveCrashReport(report)
         defaultUncaughtExceptionHandler?.uncaughtException(thread, error)
     }
 
