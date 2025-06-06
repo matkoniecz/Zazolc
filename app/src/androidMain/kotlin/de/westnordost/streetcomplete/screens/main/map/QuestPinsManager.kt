@@ -32,6 +32,8 @@ import de.westnordost.streetcomplete.screens.main.map.maplibre.toLatLon
 import de.westnordost.streetcomplete.util.getNameLabel
 import de.westnordost.streetcomplete.util.isDay
 import de.westnordost.streetcomplete.util.math.contains
+import kotlinx.atomicfu.locks.ReentrantLock
+import kotlinx.atomicfu.locks.withLock
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -59,7 +61,8 @@ class QuestPinsManager(
 ) : DefaultLifecycleObserver {
 
     // draw order in which the quest types should be rendered on the map
-    private val questTypeOrders: MutableMap<QuestType, Int> = hashMapOf()
+    private val questTypeOrdersLock = ReentrantLock()
+    private val questTypeOrders: MutableMap<QuestType, Int> = mutableMapOf()
     // last displayed rect of (zoom 16) tiles
     private var lastDisplayedRect: TilesRect? = null
     // quests in current view: key -> [pin, ...]
@@ -73,7 +76,6 @@ class QuestPinsManager(
     private val viewLifecycleScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO) // todo: remove?
 
     private var updateJob: Job? = null
-    private val m = Mutex() // todo: remove?
 
     /** Switch visibility of quest pins layer */
     var isVisible: Boolean = false
@@ -262,7 +264,7 @@ class QuestPinsManager(
             sortedQuestTypes.add(0, it)
         }
         if (reversedOrder) sortedQuestTypes.reverse() // invert only after doing the sorting changes
-        synchronized(questTypeOrders) {
+        questTypeOrdersLock.withLock {
             questTypeOrders.clear()
             sortedQuestTypes.forEachIndexed { index, questType ->
                 questTypeOrders[questType] = index
@@ -278,7 +280,7 @@ class QuestPinsManager(
             else null
 
         val props = if (label == null) quest.key.toProperties() else (quest.key.toProperties() + ("label" to label))
-        val order = synchronized(questTypeOrders) { questTypeOrders[quest.type] ?: 0 }
+        val order = questTypeOrdersLock.withLock { questTypeOrders[quest.type] ?: 0 }
 
         val pins = quest.markerLocations.map { Pin(it, quest.type.icon, props, order, geometry, color) }
         // storing importance in the quest requires the VisibleQuestsSource.cache to be invalidated on order change!

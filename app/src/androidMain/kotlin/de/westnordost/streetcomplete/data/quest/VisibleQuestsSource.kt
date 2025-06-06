@@ -21,6 +21,8 @@ import de.westnordost.streetcomplete.util.Listeners
 import de.westnordost.streetcomplete.util.logs.Log
 import de.westnordost.streetcomplete.util.math.enclosingBoundingBox
 import de.westnordost.streetcomplete.util.SpatialCache
+import kotlinx.atomicfu.locks.ReentrantLock
+import kotlinx.atomicfu.locks.withLock
 
 /**
  *  Access and listen to quests visible on the map.
@@ -58,6 +60,9 @@ class VisibleQuestsSource(
         /** Called when something has changed which should trigger any listeners to update all */
         fun onInvalidated()
     }
+
+    // see #5545
+    private val lock = ReentrantLock()
 
     private val listeners = Listeners<Listener>()
 
@@ -232,10 +237,10 @@ class VisibleQuestsSource(
         added: Collection<Quest> = emptyList(),
         deleted: Collection<QuestKey> = emptyList()
     ) {
-        synchronized(this) {
+        lock.withLock {
             val hideOverlayQuests = prefs.getBoolean(Prefs.HIDE_OVERLAY_QUESTS, true)
             val addedVisible = added.filter { isVisible(it, hideOverlayQuests) }
-            if (addedVisible.isEmpty() && deleted.isEmpty()) return
+            if (addedVisible.isEmpty() && deleted.isEmpty()) return@withLock
 
             if (addedVisible.size > 10 || deleted.size > 10) Log.i(TAG, "added ${addedVisible.size}, deleted ${deleted.size}")
             else Log.i(TAG, "added ${addedVisible.map { it.key }}, deleted: $deleted")
@@ -246,7 +251,7 @@ class VisibleQuestsSource(
     }
 
     private fun invalidate() {
-        synchronized(this) {
+        lock.withLock {
             clearCache()
             listeners.forEach { it.onInvalidated() }
         }

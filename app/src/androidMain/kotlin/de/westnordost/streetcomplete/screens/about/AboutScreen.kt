@@ -172,7 +172,7 @@ fun AboutScreen(
     }
 
     if (showDonateDialog) {
-        if (BuildConfig.IS_GOOGLE_PLAY) {
+        if (BuildConfig.IS_FROM_MONOPOLISTIC_APP_STORE) {
             DonationsGooglePlayDialog { showDonateDialog = false }
         } else {
             DonationsDialog(

@@ -4,14 +4,21 @@ import de.westnordost.streetcomplete.data.osm.edits.split_way.SplitWayAction
 
 object ApplicationConstants {
     const val NAME = "StreetComplete_ee"
-    const val USER_AGENT = NAME + " " + BuildConfig.VERSION_NAME
+    val USER_AGENT = NAME + " " + BuildConfig.VERSION_NAME
     const val QUESTTYPE_TAG_KEY = "StreetComplete:quest_type" // use original SC here, so statistics are counted
+
+    const val OLD_DATABASE_NAME = "streetcomplete.db"
+    const val DATABASE_NAME = "streetcomplete_v2.db"
 
     const val MAX_DOWNLOADABLE_AREA_IN_SQKM = 12.0
     const val MIN_DOWNLOADABLE_AREA_IN_SQKM = 0.1
 
-    const val DATABASE_NAME = "streetcomplete_v2.db"
-    const val OLD_DATABASE_NAME = "streetcomplete.db"
+    /** Android notification channel name and id */
+    const val NOTIFICATIONS_CHANNEL_SYNC = "downloading"
+    // name is "downloading" for historic reasons, not sure if it has any side-effects if it is changed now
+    const val NOTIFICATIONS_ID_SYNC = 1
+
+    const val STREETMEASURE = "de.westnordost.streetmeasure"
 
     /** tile zoom at which the app downloads automatically and remembers which tiles have already
      *  been downloaded */
@@ -31,6 +38,14 @@ object ApplicationConstants {
     /** the duration after which logs won't be attached to the crash report */
     const val DO_NOT_ATTACH_LOG_TO_CRASH_REPORT_AFTER = 5L * 60 * 1000 // 5 minutes in ms
 
+    /** Time to wait until a changeset is closed after no more edits are added to that changeset */
+    const val CLOSE_CHANGESETS_AFTER_INACTIVITY_OF = 20L * 60 * 1000 // 20min
+
+    /** Maximum distance to the location of the edit last added to the current changeset for it to
+     *  be included in that same changeset. Otherwise, a new changeset will be opened for that */
+    const val CHANGESET_MAX_LAST_EDIT_DISTANCE = 5000 // 5km
+
+    /** minimum map zoom before allowing to create a note */
     const val NOTE_MIN_ZOOM = 15
 
     /** default maximum zoom for satellite imagery */
@@ -56,14 +71,8 @@ object ApplicationConstants {
     const val ATTACH_PHOTO_QUALITY = 65 // doesn't need to look super pretty
     const val ATTACH_PHOTO_MAX_SIZE = 1920 // Full HD
 
-    // name is "downloading" for historic reasons, not sure if it has any side-effects if it is changed now
-    const val NOTIFICATIONS_CHANNEL_SYNC = "downloading"
-    const val NOTIFICATIONS_ID_SYNC = 1
-
     // where to send the error reports to
     const val ERROR_REPORTS_EMAIL = "helium@vivaldi.net"
-
-    const val STREETMEASURE = "de.westnordost.streetmeasure"
 
     val IGNORED_RELATION_TYPES = setOf(
         // could be useful, but sometimes/often very very large

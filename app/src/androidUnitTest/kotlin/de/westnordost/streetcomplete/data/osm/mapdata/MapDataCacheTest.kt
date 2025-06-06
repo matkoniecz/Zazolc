@@ -43,7 +43,7 @@ internal class MapDataCacheTest {
         cache.update(updatedGeometries = listOf(ElementGeometryEntry(ElementType.WAY, 1, geo)))
         val geometryDB: ElementGeometryDao = mock()
         on(geometryDB.get(ElementType.WAY, 1L)).thenThrow(IllegalStateException())
-        assertEquals(geo, cache.getGeometry(ElementType.WAY, 1L, { type, id -> geometryDB.get(type, id) }, { null }))
+        assertEquals(geo, cache.getGeometry(ElementType.WAY, 1L) { type, id -> geometryDB.get(type, id) })
     }
 
     @Test fun `update puts relation geometry`() {
@@ -54,7 +54,7 @@ internal class MapDataCacheTest {
         cache.update(updatedGeometries = listOf(ElementGeometryEntry(ElementType.RELATION, 1, geo)))
         val geometryDB: ElementGeometryDao = mock()
         on(geometryDB.get(ElementType.RELATION, 1L)).thenThrow(IllegalStateException())
-        assertEquals(geo, cache.getGeometry(ElementType.RELATION, 1L, { type, id -> geometryDB.get(type, id) }, { null }))
+        assertEquals(geo, cache.getGeometry(ElementType.RELATION, 1L) { type, id -> geometryDB.get(type, id) })
     }
 
     @Test fun `getElement also caches node if not in spatialCache`() {
@@ -68,7 +68,7 @@ internal class MapDataCacheTest {
         // getting a second time does not fetches again
         val elementDB2: ElementDao = mock()
         on(elementDB2.get(ElementType.NODE, 1L)).thenReturn(node).thenReturn(null)
-        assertEquals(node, cache.getElement(ElementType.NODE, 1L) { type, id -> throw IllegalStateException() })
+        assertEquals(node, cache.getElement(ElementType.NODE, 1L) { type, id -> elementDB2.get(type, id) })
         verifyNoInteractions(elementDB2)
     }
 
@@ -106,14 +106,14 @@ internal class MapDataCacheTest {
         val geometryDB: ElementGeometryDao = mock()
         on(geometryDB.get(ElementType.NODE, 2L)).thenReturn(geo).thenThrow(IllegalStateException())
         // get node 2 and verify the fetch function is called, but only once
-        assertEquals(geo, cache.getGeometry(ElementType.NODE, 2L, { type, id -> geometryDB.get(type, id) }, { node(2) }))
-//        verify(geometryDB).get(ElementType.NODE, 2L) not any more
+        assertEquals(geo, cache.getGeometry(ElementType.NODE, 2L) { type, id -> geometryDB.get(type, id) })
+        verify(geometryDB).get(ElementType.NODE, 2L)
 
         // getting a second time fetches again
         val geometryDB2: ElementGeometryDao = mock()
         on(geometryDB2.get(ElementType.NODE, 2L)).thenReturn(geo).thenThrow(IllegalStateException())
-        assertEquals(geo, cache.getGeometry(ElementType.NODE, 2L, { type, id -> geometryDB.get(type, id) }, { null }))
-//        verify(geometryDB2).get(ElementType.NODE, 2L)
+        assertEquals(geo, cache.getGeometry(ElementType.NODE, 2L) { type, id -> geometryDB2.get(type, id) })
+        verify(geometryDB2).get(ElementType.NODE, 2L)
     }
 
     @Test fun `getGeometry fetches and caches way geometry`() {
@@ -124,11 +124,11 @@ internal class MapDataCacheTest {
         val geometryDB: ElementGeometryDao = mock()
         on(geometryDB.get(ElementType.WAY, 2L)).thenReturn(geo).thenThrow(IllegalStateException())
         // get geo and verify the fetch function is called, but only once
-        assertEquals(geo, cache.getGeometry(ElementType.WAY, 2L, { type, id -> geometryDB.get(type, id) }, { null }))
+        assertEquals(geo, cache.getGeometry(ElementType.WAY, 2L) { type, id -> geometryDB.get(type, id) })
         verify(geometryDB).get(ElementType.WAY, 2L)
 
         // getting a second time does not fetch again
-        assertEquals(geo, cache.getGeometry(ElementType.WAY, 2L, { type, id -> geometryDB.get(type, id) }, { null }))
+        assertEquals(geo, cache.getGeometry(ElementType.WAY, 2L) { type, id -> geometryDB.get(type, id) })
     }
 
     @Test fun `getGeometry fetches and caches relation geometry`() {
@@ -139,11 +139,11 @@ internal class MapDataCacheTest {
         val geometryDB: ElementGeometryDao = mock()
         on(geometryDB.get(ElementType.RELATION, 2L)).thenReturn(geo).thenThrow(IllegalStateException())
         // get way 2 and verify the fetch function is called, but only once
-        assertEquals(geo, cache.getGeometry(ElementType.RELATION, 2L, { type, id -> geometryDB.get(type, id) }, { null }))
+        assertEquals(geo, cache.getGeometry(ElementType.RELATION, 2L) { type, id -> geometryDB.get(type, id) })
         verify(geometryDB).get(ElementType.RELATION, 2L)
 
         // getting a second time does not fetch again
-        assertEquals(geo, cache.getGeometry(ElementType.RELATION, 2L, { type, id -> geometryDB.get(type, id) }, { null }))
+        assertEquals(geo, cache.getGeometry(ElementType.RELATION, 2L) { type, id -> geometryDB.get(type, id) })
     }
 
     @Test fun `getNodes doesn't fetch cached nodes`() {
@@ -250,7 +250,7 @@ internal class MapDataCacheTest {
 
         // check whether elements are cached now
         on(elementDB.getAll(listOf(ElementKey(node1.type, node1.id)))).thenReturn(listOf(node1))
-        assertTrue(cache.getElements(elements.map { ElementKey(it.type, it.id) }) { throw IllegalStateException() }.containsExactlyInAnyOrder(elements))
+        assertTrue(cache.getElements(elements.map { ElementKey(it.type, it.id) }) { elementDB.getAll(it) }.containsExactlyInAnyOrder(elements))
         verifyNoMoreInteractions(elementDB)
     }
 
@@ -292,7 +292,7 @@ internal class MapDataCacheTest {
         cache.update(bbox = node.position.enclosingTilePos(16).asBoundingBox(16))
         cache.update(updatedElements = listOf(node), updatedGeometries = entries)
 
-        assertTrue(cache.getGeometries(entries.map { ElementKey(it.elementType, it.elementId) }, { throw IllegalStateException() }, { emptyList() }).containsExactlyInAnyOrder(entries))
+        assertTrue(cache.getGeometries(entries.map { ElementKey(it.elementType, it.elementId) }) { throw IllegalStateException() }.containsExactlyInAnyOrder(entries))
     }
 
     @Test fun `getGeometries fetches only geometries not in cache`() {
@@ -309,14 +309,17 @@ internal class MapDataCacheTest {
 
         val cache = getEmptyMapDataCache()
         cache.update(updatedGeometries = cachedEntries)
+        val keysNotInCache = entries.filterNot { it in cachedEntries }.map { ElementKey(it.elementType, it.elementId) }.toHashSet()
 
         val geometryDB: ElementGeometryDao = mock()
-        on(geometryDB.getAllEntries(listOf(ElementKey(entry2.elementType, entry2.elementId)))).thenReturn(listOf(entry2))
-        assertTrue(cache.getGeometries(entries.map { ElementKey(it.elementType, it.elementId) }, { geometryDB.getAllEntries(it) }, { listOf(node1) }).containsExactlyInAnyOrder(entries))
+        on(geometryDB.getAllEntries(keysNotInCache)).thenReturn(entries.filterNot { it in cachedEntries })
+        assertTrue(cache.getGeometries(entries.map { ElementKey(it.elementType, it.elementId) }) { geometryDB.getAllEntries(it.toHashSet()) }.containsExactlyInAnyOrder(entries))
+        verify(geometryDB).getAllEntries(keysNotInCache)
 
         // check whether geometries except nodeEntry are cached now
-        // well, now also node is cached!
-        assertTrue(cache.getGeometries(entries.map { ElementKey(it.elementType, it.elementId) }, { geometryDB.getAllEntries(it) }, { emptyList() }).containsExactlyInAnyOrder(entries))
+        on(geometryDB.getAllEntries(listOf(ElementKey(node1.type, node1.id)))).thenReturn(listOf(nodeEntry))
+        assertTrue(cache.getGeometries(entries.map { ElementKey(it.elementType, it.elementId) }) { geometryDB.getAllEntries(it) }.containsExactlyInAnyOrder(entries))
+        verify(geometryDB).getAllEntries(listOf(ElementKey(node1.type, node1.id)))
     }
 
     @Test fun `getGeometries fetches all geometries if none are cached`() {
@@ -329,22 +332,19 @@ internal class MapDataCacheTest {
         val entry2 = ElementGeometryEntry(ElementType.WAY, 1L, geo2)
         val nodeEntry = ElementGeometryEntry(ElementType.NODE, 1L, nodeGeo)
         val entries = listOf(entry1, entry2, nodeEntry)
-        val nonNodeEntries = listOf(entry1, entry2)
 
         val cache = getEmptyMapDataCache()
         val keys = entries.map { ElementKey(it.elementType, it.elementId) }.toHashSet()
-        val nonNodeKeys = nonNodeEntries.map { ElementKey(it.elementType, it.elementId) }.toHashSet()
 
         val geometryDB: ElementGeometryDao = mock()
-        on(geometryDB.getAllEntries(nonNodeKeys)).thenReturn(nonNodeEntries)
-        assertTrue(cache.getGeometries(entries.map { ElementKey(it.elementType, it.elementId) }, { geometryDB.getAllEntries(it.toHashSet()) }, { listOf(node1) }).containsExactlyInAnyOrder(entries))
-        verify(geometryDB).getAllEntries(nonNodeKeys)
+        on(geometryDB.getAllEntries(keys)).thenReturn(entries)
+        assertTrue(cache.getGeometries(entries.map { ElementKey(it.elementType, it.elementId) }) { geometryDB.getAllEntries(it.toHashSet()) }.containsExactlyInAnyOrder(entries))
+        verify(geometryDB).getAllEntries(keys)
 
         // check whether geometries except nodeEntry are cached now
-        //  not any more, now that nodes are cached for node geometry!
-//        on(geometryDB.getAllEntries(listOf(ElementKey(node1.type, node1.id)))).thenReturn(listOf(nodeEntry))
-        assertTrue(cache.getGeometries(entries.map { ElementKey(it.elementType, it.elementId) }, { geometryDB.getAllEntries(it) }, { emptyList() }).containsExactlyInAnyOrder(entries))
-//        verify(geometryDB).getAllEntries(listOf(ElementKey(node1.type, node1.id)))
+        on(geometryDB.getAllEntries(listOf(ElementKey(node1.type, node1.id)))).thenReturn(listOf(nodeEntry))
+        assertTrue(cache.getGeometries(entries.map { ElementKey(it.elementType, it.elementId) }) { geometryDB.getAllEntries(it) }.containsExactlyInAnyOrder(entries))
+        verify(geometryDB).getAllEntries(listOf(ElementKey(node1.type, node1.id)))
     }
 
     @Test fun `update removes elements`() {

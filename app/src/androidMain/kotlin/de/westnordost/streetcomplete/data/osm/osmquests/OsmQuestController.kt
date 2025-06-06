@@ -49,6 +49,8 @@ import de.westnordost.streetcomplete.util.logs.Log
 import de.westnordost.streetcomplete.util.math.contains
 import de.westnordost.streetcomplete.util.math.enclosingBoundingBox
 import de.westnordost.streetcomplete.util.math.enlargedBy
+import kotlinx.atomicfu.locks.ReentrantLock
+import kotlinx.atomicfu.locks.withLock
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -76,6 +78,8 @@ class OsmQuestController internal constructor(
 
     private val allQuestTypes get() = questTypeRegistry.filterIsInstance<OsmElementQuestType<*>>()
         .sortedBy { it.chonkerIndex }
+
+    private val lock = ReentrantLock()
 
     private val wayOnlyFilterQuestTypes by lazy {
         // technically those could change if questTypeRegistry is reloaded, but that's unlikely enough to ignore it
@@ -122,9 +126,9 @@ class OsmQuestController internal constructor(
                 Log.d(TAG, "Created ${quest.type.name} for ${quest.elementType.name}#${quest.elementId}")
             }
 
-            val obsoleteQuestKeys: List<OsmQuestKey>
-            val visibleQuests: Collection<OsmQuest>
-            synchronized(this) {
+            var obsoleteQuestKeys: List<OsmQuestKey> = listOf()
+            var visibleQuests: Collection<OsmQuest> = listOf()
+            lock.withLock {
                 val previousQuests = db.getAllForElements(updated.map { it.key })
                 // quests that refer to elements that have been deleted shall be deleted
                 val deleteQuestKeys = db.getAllForElements(deleted).map { it.key }
@@ -148,9 +152,9 @@ class OsmQuestController internal constructor(
          *  Called on download of a quest type for a bounding box. */
         override fun onReplacedForBBox(bbox: BoundingBox, mapDataWithGeometry: MapDataWithGeometry) {
             val quests = createQuestsForBBox(bbox, mapDataWithGeometry, allQuestTypes)
-            val obsoleteQuestKeys: List<OsmQuestKey>
-            val visibleQuests: Collection<OsmQuest>
-            synchronized(this) {
+            var obsoleteQuestKeys: List<OsmQuestKey> = listOf()
+            var visibleQuests: Collection<OsmQuest> = listOf()
+            lock.withLock {
                 val previousQuests = db.getAllInBBox(bbox)
                 obsoleteQuestKeys = getObsoleteQuestKeys(quests, previousQuests, emptyList())
                 updateQuests(quests, obsoleteQuestKeys)
@@ -161,7 +165,9 @@ class OsmQuestController internal constructor(
         }
 
         override fun onCleared() {
-            db.clear()
+            lock.withLock {
+                db.clear()
+            }
             listeners.forEach { it.onInvalidated() }
         }
     }
@@ -319,7 +325,7 @@ class OsmQuestController internal constructor(
     }
 
     fun delete(key: OsmQuestKey) {
-        db.delete(key)
+        lock.withLock { db.delete(key) }
         onUpdated(deleted = listOf(key))
     }
 

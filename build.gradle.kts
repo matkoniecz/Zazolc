@@ -6,6 +6,7 @@ plugins {
     id("com.android.application") version "8.9.3" apply false
     id("com.android.library") version "8.9.3" apply false
     id("org.jetbrains.compose") version "1.8.1" apply false
+    id("org.jetbrains.kotlinx.atomicfu") version "0.27.0" apply false
 }
 
 tasks.register<QLeverCountValueByCountryTask>("updateAtmOperators") {

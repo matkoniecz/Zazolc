@@ -247,10 +247,8 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val questsModule = module {
-    factory { NameSuggestionsSource(get()) }
     single { CustomQuestList(androidContext()) }
     single { OsmoseDao(get(), get()) }
-
     single {
         questTypeRegistry(
             get(),

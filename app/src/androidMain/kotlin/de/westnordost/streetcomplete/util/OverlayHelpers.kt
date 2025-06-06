@@ -271,7 +271,8 @@ fun getFakeCustomOverlays(prefs: Preferences, res: Resources, onlyIfExpertMode: 
                 .ifBlank { res.getString(R.string.custom_overlay_title) } // displayed overlay name
             override val icon = res.getIdentifier(
                 prefs.getString(getIndexedCustomOverlayPref(Prefs.CUSTOM_OVERLAY_IDX_ICON, i), "ic_custom_overlay"),
-                "drawable", BuildConfig.APPLICATION_ID
+                // there is no BuildConfig.APPLICATION_ID any more
+                "drawable", if (BuildConfig.DEBUG) "de.westnordost.streetcomplete.expert.debug" else "de.westnordost.streetcomplete.expert"
             ).takeIf { it != 0 } ?: R.drawable.ic_custom_overlay
             override val title = 0 // use invalid resId placeholder, the adapter needs to be aware of this
             override val name = index // allows to uniquely identify an overlay
