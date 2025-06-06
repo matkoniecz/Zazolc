@@ -8,6 +8,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeParseException
 import java.util.*
 
 fun localDateToCalendar(localDate: LocalDate): Calendar {
@@ -29,8 +30,16 @@ fun isDay(pos: LatLon): Boolean {
     val now = ZonedDateTime.now(ZoneId.of(timezone))
     val today = now.toLocalDate()
 
-    val sunrise = ZonedDateTime.of(today, LocalTime.parse(calculator.computeSunriseTime(Zenith.CIVIL, localDateToCalendar(today))), ZoneId.of(timezone))
-    val sunset = ZonedDateTime.of(today, LocalTime.parse(calculator.computeSunsetTime(Zenith.CIVIL, localDateToCalendar(today))), ZoneId.of(timezone))
+    now.hour
+    val sunrise: ZonedDateTime
+    val sunset: ZonedDateTime
+    try {
+        sunrise = ZonedDateTime.of(today, LocalTime.parse(calculator.computeSunriseTime(Zenith.CIVIL, localDateToCalendar(today))), ZoneId.of(timezone))
+        sunset = ZonedDateTime.of(today, LocalTime.parse(calculator.computeSunsetTime(Zenith.CIVIL, localDateToCalendar(today))), ZoneId.of(timezone))
+    } catch (e: DateTimeParseException) {
+        // got error report with "Text '99:99' could not be parsed", probably bug in the calculator
+        return now.hour in 7..19
+    }
     return if (sunset < sunrise) {
 
         val sunset = ZonedDateTime.of(today.plusDays(1), LocalTime.parse(calculator.computeSunsetTime(Zenith.CIVIL, localDateToCalendar(today.plusDays(1)))), ZoneId.of(timezone))
