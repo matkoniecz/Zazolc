@@ -3,11 +3,12 @@ package de.westnordost.streetcomplete.quests.validator
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.quest.AndroidQuest
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.quests.YesNoQuestForm
 
-class WatUndrinkableDrinkable() : OsmFilterQuestType<Boolean>() {
+class WatUndrinkableDrinkable() : OsmFilterQuestType<Boolean>(), AndroidQuest {
     override val elementFilter = "nodes, ways, relations with amenity=drinking_water and drinking_water=no"
     override val changesetComment = ""
     override val icon = R.drawable.ic_quest_railway

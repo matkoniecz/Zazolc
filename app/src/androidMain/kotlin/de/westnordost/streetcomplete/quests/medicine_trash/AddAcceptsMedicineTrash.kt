@@ -3,12 +3,13 @@ package de.westnordost.streetcomplete.quests.medicine_trash
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.quest.AndroidQuest
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.quests.YesNoQuestForm
 import de.westnordost.streetcomplete.util.ktx.toYesNo
 
-class AddAcceptsMedicineTrash : OsmFilterQuestType<Boolean>() {
+class AddAcceptsMedicineTrash : OsmFilterQuestType<Boolean>(), AndroidQuest {
         override val elementFilter: String get() {
             return "nodes, ways, relations with amenity=pharmacy and !trash_accepted:medicines" }
 

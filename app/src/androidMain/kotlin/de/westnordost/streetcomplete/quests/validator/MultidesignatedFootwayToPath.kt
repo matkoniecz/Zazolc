@@ -4,11 +4,12 @@ import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.quest.AndroidQuest
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.quests.YesNoQuestForm
 
-class MultidesignatedFootwayToPath() : OsmFilterQuestType<Boolean>() {
+class MultidesignatedFootwayToPath() : OsmFilterQuestType<Boolean>(), AndroidQuest {
 
     override val elementFilter = "ways with highway=footway and bicycle=designated and (foot=designated or !foot)"
     override val changesetComment = "fix misused highway=footway, confirmation that route for both pedestrian and cyclists exists"

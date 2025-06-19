@@ -3,11 +3,12 @@ package de.westnordost.streetcomplete.quests.defibrillator
 import de.westnordost.streetcomplete.R
 import de.westnordost.streetcomplete.data.osm.geometry.ElementGeometry
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.quest.AndroidQuest
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.CAR
 import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.quests.parking_access.AddParkingAccessForm
 
-class AddDefibrillatorAccess : OsmFilterQuestType<DefibrillatorAccess>() {
+class AddDefibrillatorAccess : OsmFilterQuestType<DefibrillatorAccess>(), AndroidQuest {
 
     override val elementFilter = """
         nodes, ways with

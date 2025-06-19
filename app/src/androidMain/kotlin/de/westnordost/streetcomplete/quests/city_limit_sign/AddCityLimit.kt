@@ -6,6 +6,7 @@ import de.westnordost.streetcomplete.data.osm.mapdata.Element
 import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.quest.AndroidQuest
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.quests.city_limit_sign.CityLimit.CITY_LIMIT_START
@@ -15,7 +16,7 @@ import de.westnordost.streetcomplete.quests.city_limit_sign.CityLimit.CITY_LIMIT
 import de.westnordost.streetcomplete.quests.city_limit_sign.CityLimit.BUILT_UP_AREA_START
 import de.westnordost.streetcomplete.quests.city_limit_sign.CityLimit.BUILT_UP_AREA_END
 
-class AddCityLimit : OsmFilterQuestType<CityLimit>() {
+class AddCityLimit : OsmFilterQuestType<CityLimit>(), AndroidQuest {
 
     override val elementFilter = """
         nodes with traffic_sign=city_limit and !traffic_sign:code

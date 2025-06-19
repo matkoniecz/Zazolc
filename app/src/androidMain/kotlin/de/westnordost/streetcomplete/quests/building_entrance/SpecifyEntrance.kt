@@ -8,10 +8,11 @@ import de.westnordost.streetcomplete.data.osm.mapdata.MapDataWithGeometry
 import de.westnordost.streetcomplete.data.osm.mapdata.filter
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmElementQuestType
 import de.westnordost.streetcomplete.data.osm.osmquests.OsmFilterQuestType
+import de.westnordost.streetcomplete.data.quest.AndroidQuest
 import de.westnordost.streetcomplete.osm.Tags
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.PEDESTRIAN
 
-class SpecifyEntrance : OsmFilterQuestType<EntranceAnswer>() {
+class SpecifyEntrance : OsmFilterQuestType<EntranceAnswer>(), AndroidQuest {
 
     override val elementFilter = """
          nodes with
