@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import de.westnordost.osm_opening_hours.parser.toOpeningHours
 import de.westnordost.osm_opening_hours.parser.toOpeningHoursOrNull
 import de.westnordost.streetcomplete.R
+import de.westnordost.streetcomplete.data.atp.AtpDao
+import de.westnordost.streetcomplete.data.atp.ReportType
 import de.westnordost.streetcomplete.data.meta.userPreferredLocale
+import de.westnordost.streetcomplete.data.osm.mapdata.ElementKey
 import de.westnordost.streetcomplete.databinding.QuestOpeningHoursBinding
 import de.westnordost.streetcomplete.databinding.QuestOpeningHoursCommentBinding
 import de.westnordost.streetcomplete.osm.opening_hours.model.OpeningMonthsRow
@@ -23,7 +26,7 @@ import de.westnordost.streetcomplete.quests.opening_hours.adapter.OpeningHoursAd
 import de.westnordost.streetcomplete.view.AdapterDataChangedWatcher
 import kotlinx.serialization.json.Json
 
-class AddOpeningHoursForm : AbstractOsmQuestForm<OpeningHoursAnswer>() {
+class AddOpeningHoursForm(val atpDao: AtpDao?) : AbstractOsmQuestForm<OpeningHoursAnswer>() {
 
     override val contentLayoutResId = R.layout.quest_opening_hours
     private val binding by contentViewBinding(QuestOpeningHoursBinding::bind)
@@ -71,7 +74,7 @@ class AddOpeningHoursForm : AbstractOsmQuestForm<OpeningHoursAnswer>() {
         if (savedInstanceState != null) {
             onLoadInstanceState(savedInstanceState)
         } else {
-            initStateFromTags()
+            initStateFromTagsAndAtp()
         }
 
         openingHoursAdapter.registerAdapterDataObserver(AdapterDataChangedWatcher { checkIsFormComplete() })
@@ -112,8 +115,8 @@ class AddOpeningHoursForm : AbstractOsmQuestForm<OpeningHoursAnswer>() {
         }
     }
 
-    private fun initStateFromTags() {
-        val oh = element.tags["opening_hours"]
+    private fun initStateFromTagsAndAtp() {
+        val oh = element.tags["opening_hours"] ?: getNullOrOpeningHoursStringFromAtp()
         val rows = oh?.toOpeningHoursOrNull(lenient = true)?.toOpeningHoursRows()
         if (rows != null) {
             openingHoursAdapter.rows = rows.toMutableList()
@@ -121,6 +124,12 @@ class AddOpeningHoursForm : AbstractOsmQuestForm<OpeningHoursAnswer>() {
         } else {
             setAsResurvey(false)
         }
+    }
+
+    fun getNullOrOpeningHoursStringFromAtp() : String? {
+        val match = atpDao?.getAllWithMatchingOsmElement(ElementKey(element.type, element.id))
+            ?.first { it.reportType == ReportType.OPENING_HOURS_REPORTED_AS_OUTDATED_IN_OPENSTREETMAP }
+        return match?.tagsInATP["opening_hours"]
     }
 
     private fun onLoadInstanceState(savedInstanceState: Bundle) {
