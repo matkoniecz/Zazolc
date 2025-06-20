@@ -172,7 +172,7 @@ class AddOpeningHoursAtp(
     override fun getHighlightedElements(element: Element, getMapData: () -> MapDataWithGeometry) =
         getMapData().asSequence().filter { it.isPlaceOrDisusedPlace() }
 
-    override fun createForm() = AddOpeningHoursForm()
+    override fun createForm() = AddOpeningHoursForm(atpDao)
 
     override fun applyAnswerTo(answer: OpeningHoursAnswer, tags: Tags, geometry: ElementGeometry, timestampEdited: Long) {
         if (answer is NoOpeningHoursSign) {
