@@ -45,6 +45,28 @@ class AtpDownloader(
     private fun hardcodedListPartOne(): List<AtpEntry> {
         return listOf(
             AtpEntry(
+                position = LatLon(latitude = 50.0940317, longitude = 19.9665101),
+                id = -1,
+                osmMatch = ElementKey(ElementType.NODE, 12212854700),
+                tagsInATP = mapOf(
+                    "opening_hours" to "Mo-Fr 08:30-21:00, Sa 09:00-20:30",
+                    "shop" to "chemist",
+                    "name" to "Rossmann",
+                    "brand" to "Rossmann",
+                    "brand:wikidata" to "Q316004",
+                    "website" to "https://www.rossmann.pl/drogerie/Drogeria-Rossmann-powstancow-28,krakow,12,2436"
+                ),
+                tagsInOSM = mapOf(
+                    "shop" to "chemist",
+                    "name" to "Rossmann",
+                    "brand" to "Rossmann",
+                    "brand:wikidata" to "Q316004",
+                    "website" to "https://www.rossmann.pl/drogerie/Drogeria-Rossmann-powstancow-28,krakow,12,2436"
+                ),
+                ReportType.OPENING_HOURS_REPORTED_AS_OUTDATED_IN_OPENSTREETMAP,
+            ),
+
+            AtpEntry(
                 position = LatLon(latitude = 49.994, longitude = 19.94521),
                 id = 1,
                 osmMatch = ElementKey(ElementType.NODE, 4621056486),
