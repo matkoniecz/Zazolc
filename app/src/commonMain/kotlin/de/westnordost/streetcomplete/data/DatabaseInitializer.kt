@@ -31,7 +31,7 @@ import de.westnordost.streetcomplete.util.logs.Log
 
 /** Creates the database and upgrades it */
 object DatabaseInitializer {
-    const val DB_VERSION = 20
+    const val DB_VERSION = 21
 
     fun onCreate(db: Database) {
         // OSM notes
@@ -106,7 +106,9 @@ object DatabaseInitializer {
         db.exec(AtpTable.CREATE)
         db.exec(AtpTable.INDEX_CREATE)
         db.exec(AtpTable.SPATIAL_INDEX_CREATE)
+        db.exec(AtpTable.OSM_ELEMENT_INDEX_CREATE)
         db.exec(AtpQuestsHiddenTable.CREATE)
+
     }
 
     fun onUpgrade(db: Database, oldVersion: Int, newVersion: Int) {
@@ -267,6 +269,9 @@ object DatabaseInitializer {
             db.exec(AtpTable.INDEX_CREATE)
             db.exec(AtpTable.SPATIAL_INDEX_CREATE)
             db.exec(AtpQuestsHiddenTable.CREATE)
+        }
+        if (oldVersion <= 20 && newVersion > 20) {
+            db.exec(AtpTable.OSM_ELEMENT_INDEX_CREATE)
         }
     }
 }

@@ -42,4 +42,11 @@ object AtpTable {
             ${Columns.LONGITUDE}
         );
     """
+
+    const val OSM_ELEMENT_INDEX_CREATE = """
+        CREATE INDEX atp_spatial_index ON $NAME (
+            ${Columns.OSM_ELEMENT_MATCH_ID},
+            ${Columns.OSM_ELEMENT_MATCH_TYPE}
+        );
+    """
 }
