@@ -26,4 +26,4 @@ If you think they are needed, reduce the size or use thumbnails to keep the issu
 <!-- If yes, then opening an issue at https://github.com/streetcomplete/StreetComplete/issues is recommended. Please don't be lazy and only skip this when you're sure it's not in SC -->
 
 **Versions affected**
-<!-- Add the Android and StreetComplete version here. Please use exact version number instead of saying "latest" -->
+<!-- Add the Android and SCEE version here. Please use exact version number instead of saying "latest" -->
