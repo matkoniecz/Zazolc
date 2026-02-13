@@ -13,9 +13,7 @@ import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement
 import de.westnordost.streetcomplete.data.user.achievements.EditTypeAchievement.RARE
 import de.westnordost.streetcomplete.data.osm.edits.update_tags.StringMapChangesBuilder
 
-class AddFerryAccessBicycle :
-    OsmElementQuestType<FerryBicycleAccess>,
-    AndroidQuest {
+class AddFerryAccessBicycle : OsmElementQuestType<FerryBicycleAccess>, AndroidQuest {
 
     private val filter by lazy {
         "ways, relations with route = ferry and !bicycle and !bicycle:signed"
@@ -28,32 +26,9 @@ class AddFerryAccessBicycle :
     override val hasMarkersAtEnds = true
     override val achievements = listOf(RARE, EditTypeAchievement.BICYCLIST)
 
-    override fun getTitle(tags: Map<String, String>) =
-        R.string.quest_ferry_bicycle_title
+    override fun getTitle(tags: Map<String, String>) = R.string.quest_ferry_bicycle_title
 
-    override fun createForm() = AddFerryAccessBicycleForm()
-
-    override fun applyAnswerTo(
-        answer: FerryBicycleAccess,
-        tags: StringMapChangesBuilder,
-        geometry: ElementGeometry,
-        timestampEdited: Long
-    ) {
-        when (answer) {
-            FerryBicycleAccess.YES ->
-                tags["bicycle"] = "yes"
-
-            FerryBicycleAccess.NO ->
-                tags["bicycle"] = "no"
-
-            FerryBicycleAccess.NOT_SIGNED ->
-                tags["bicycle:signed"] = "no"
-        }
-    }
-
-    override fun getApplicableElements(
-        mapData: MapDataWithGeometry
-    ): Iterable<Element> {
+    override fun getApplicableElements(mapData: MapDataWithGeometry): Iterable<Element> {
         val wayIdsInFerryRoutes = wayIdsInFerryRoutes(mapData.relations)
         return mapData
             .filter(filter)
@@ -65,5 +40,20 @@ class AddFerryAccessBicycle :
         if (!filter.matches(element)) return false
         if (element is Way) return null
         return true
+    }
+
+    override fun createForm() = AddFerryAccessBicycleForm()
+
+    override fun applyAnswerTo(answer: FerryBicycleAccess, tags: StringMapChangesBuilder, geometry: ElementGeometry, timestampEdited: Long) {
+        when (answer) {
+            FerryBicycleAccess.YES ->
+                tags["bicycle"] = "yes"
+
+            FerryBicycleAccess.NO ->
+                tags["bicycle"] = "no"
+
+            FerryBicycleAccess.NOT_SIGNED ->
+                tags["bicycle:signed"] = "no"
+        }
     }
 }
