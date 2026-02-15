@@ -37,18 +37,14 @@ class AtpApiClient(
             throw IllegalArgumentException("Bounding box crosses 180th meridian")
         }
         val gathered = mutableListOf<AtpEntry>()
-
-        for (longitudeAnchor in floor(bounds.min.longitude).toInt()..floor(bounds.max.longitude).toInt()) {
-            for (latitudeAnchor in floor(bounds.min.latitude).toInt()..floor(bounds.max.latitude).toInt()) {
-                val url = baseUrl + "lat_${latitudeAnchor}/lon_${longitudeAnchor}_gathered.geojson"
-                try {
-                    val response = httpClient.get(url) { expectSuccess = true }
-                    val source = response.bodyAsChannel().asSource().buffered()
-                    gathered += atpApiParser.parseAtpEntries(source)
-                } catch (e: ClientRequestException) {
-                    throw e
-                }
-            }
+        // example: https://bbox-filter-for-atp.bulwersator-cloudflare.workers.dev/api/entries?lat_min=50&lat_max=50.05&lon_min=19.9&lon_max=20.1
+        val url = baseUrl + "entries?lat_min=${bounds.min.latitude}&lat_max=${bounds.max.latitude}&lon_min=${bounds.min.longitude}&lon_max=${bounds.max.longitude}"
+        try {
+            val response = httpClient.get(url) { expectSuccess = true }
+            val source = response.bodyAsChannel().asSource().buffered()
+            gathered += atpApiParser.parseAtpEntries(source)
+        } catch (e: ClientRequestException) {
+            throw e
         }
         return gathered
     }

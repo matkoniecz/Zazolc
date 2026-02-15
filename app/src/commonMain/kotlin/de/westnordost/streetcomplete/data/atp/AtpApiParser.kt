@@ -21,22 +21,10 @@ class AtpApiParser {
     }
     fun parseAtpEntries(source: Source) : List<AtpEntry> {
         val returned = mutableListOf<AtpEntry>()
-        val jsonElement = Json.parseToJsonElement(source.readString())
-        val features = jsonElement.jsonObject["features"]?.jsonArray
-        if(features == null) {
-            Log.e(TAG, "features entry missing in OSM_ATP API comparison response, this response is malformed")
-            return emptyList()
-        }
+        val features = Json.parseToJsonElement(source.readString()).jsonArray
         features.forEach { feature ->
-            val properties = feature.jsonObject["properties"]?.jsonObject
-            if (properties == null) {
-                Log.e(
-                    TAG,
-                    "properties entry missing in OSM_ATP API comparison response, this response is malformed"
-                )
-                return@forEach
-            }
-            val lon = properties["atp_center"]?.jsonObject["lon"]?.toString()?.toDoubleOrNull()
+            //val properties = feature.jsonObject.entries
+            val lon = feature.jsonObject["atp_center_lon"]?.toString()?.toDoubleOrNull()
             if (lon == null) {
                 Log.e(
                     TAG,
@@ -44,7 +32,7 @@ class AtpApiParser {
                 )
                 return@forEach
             }
-            val lat = properties["atp_center"]?.jsonObject["lat"]?.toString()?.toDoubleOrNull()
+            val lat = feature.jsonObject["atp_center_lat"]?.toString()?.toDoubleOrNull()
             if (lat == null) {
                 Log.e(
                     TAG,
@@ -52,7 +40,7 @@ class AtpApiParser {
                 )
                 return@forEach
             }
-            val id = properties["entry_id"]?.toString()?.toLongOrNull()
+            val id = feature.jsonObject["atp_entry_id"]?.toString()?.toLongOrNull()
             if (id == null) {
                 Log.e(
                     TAG,
@@ -60,12 +48,12 @@ class AtpApiParser {
                 )
                 return@forEach
             }
-            val rawOsmObjectId = properties["osm_object_id"]
-            val rawOsmObjectType = properties["osm_object_type"]
+            val rawOsmObjectId = feature.jsonObject["osm_element_match_id"]
+            val rawOsmObjectType = feature.jsonObject["osm_element_match_type"]
             val osmObjectType = if(isParsedNull(rawOsmObjectType)) {
                 null
             } else {
-                rawOsmObjectType?.jsonPrimitive?.content?.toString()
+                rawOsmObjectType?.jsonPrimitive?.content
             }
             val osmObjectId = if(isParsedNull(rawOsmObjectId)) {
                 null
@@ -97,7 +85,7 @@ class AtpApiParser {
                     }
                 }
             }
-            val unparsedAtpTags = properties["atp_tags"]?.jsonObject
+            val unparsedAtpTags = feature.jsonObject["atp_tags"]?.jsonPrimitive?.content
             if (unparsedAtpTags == null) {
                 Log.e(
                     TAG,
@@ -105,17 +93,22 @@ class AtpApiParser {
                 )
                 return@forEach
             }
-            val tagsInATP = unparsedAtpTags.mapValues {
+            //val tagsInATP = unparsedAtpTags.mapValues { // TODO avoid double-parsing
+            val tagsInATP = Json.parseToJsonElement(unparsedAtpTags).jsonObject.mapValues {
                 it.value.jsonPrimitive.content
             }
-            val tagsInOSM = if (isParsedNull(properties["osm_match_tags"])) {
+            val rawOsmTags = feature.jsonObject["osm_match_tags"]?.jsonPrimitive?.content
+            val parsedRawOsmTags = Json.parseToJsonElement(rawOsmTags!!) // TODO avoid double-parsing
+            //val tagsInOSM = if (isParsedNull(feature.jsonObject["osm_match_tags"])) {  // TODO avoid double-parsing
+            val tagsInOSM = if (isParsedNull(parsedRawOsmTags)) {
                 null
             } else {
-                properties["osm_match_tags"]?.jsonObject?.mapValues {
+                //feature.jsonObject["osm_match_tags"]?.jsonObject?.mapValues { // TODO avoid double-parsing
+                parsedRawOsmTags.jsonObject.mapValues {
                     it.value.jsonPrimitive.content
                 }
             }
-            val rawErrorValue = properties["error_type"]?.jsonPrimitive?.content
+            val rawErrorValue = feature.jsonObject["report_type"]?.jsonPrimitive?.content
             val reportType = rawErrorValue.let { errorValue ->
                 when (errorValue) {
                     "MISSING_POI_IN_OPENSTREETMAP" -> {
@@ -125,7 +118,7 @@ class AtpApiParser {
                         ReportType.OPENING_HOURS_REPORTED_AS_OUTDATED_IN_OPENSTREETMAP
                     }
                     else -> {
-                        Log.e(TAG, "error_type has invalid value ($errorValue) OSM_ATP API comparison response, this response is malformed")
+                        Log.e(TAG, "report_type has invalid value ($errorValue) OSM_ATP API comparison response, this response is malformed")
                         return@forEach
                     }
                 }
