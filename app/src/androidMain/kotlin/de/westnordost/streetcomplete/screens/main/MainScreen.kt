@@ -415,7 +415,10 @@ fun MainScreen(
         MessageDialog(
             message = message,
             onDismissRequest = { shownMessage = null },
-            allQuestIconIds = questIcons
+            allQuestIconIds = questIcons,
+            onToggleDontNotifyAgain = { messageType, dontNotifyAgain ->
+                viewModel.toggleDisableMessageType(messageType, dontNotifyAgain)
+            }
         )
     }
 

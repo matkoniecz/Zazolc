@@ -141,10 +141,11 @@ Materials in [`res/documentation`](res/documentation) also may be useful, it inc
 * [StreetComplete-taginfo-categorize](https://github.com/mnalis/StreetComplete-taginfo-categorize) by [@mnalis](https://github.com/mnalis) generates tags listed in [KEYS_THAT_SHOULD_BE_REMOVED_WHEN_PLACE_IS_REPLACED](https://github.com/streetcomplete/StreetComplete/blob/master/app/src/main/java/de/westnordost/streetcomplete/osm/Place.kt#L244)
 * [All The Places <-> OpenStreetMap matcher](https://codeberg.org/matkoniecz/list_how_openstreetmap_can_be_improved_with_alltheplaces_data#all-the-places-openstreetmap-matcher) - for comparison between OpenStreetMap and All The Places. Produced dataset is listed at [this website](https://matkoniecz.codeberg.page/improving_openstreetmap_using_alltheplaces_dataset/) and powers quests that detect missing points of interests
 * [StreetComplete-taginfo-categorize](https://github.com/mnalis/StreetComplete-taginfo-categorize) by [@mnalis](https://github.com/mnalis) generates tags listed in [KEYS_THAT_SHOULD_BE_REMOVED_WHEN_PLACE_IS_REPLACED](https://github.com/streetcomplete/StreetComplete/blob/master/app/src/commonMain/kotlin/de/westnordost/streetcomplete/osm/Places.kt#L248)
+* [detect_missing_value_support_in_streetcomplete](https://codeberg.org/matkoniecz/detect_missing_value_support_in_streetcomplete.git) may manage to list tags missing from [opening_hours](app/src/androidMain/kotlin/de/westnordost/streetcomplete/quests/opening_hours/AddOpeningHours.kt), [name](app/src/androidMain/kotlin/de/westnordost/streetcomplete/quests/place_name/AddPlaceName.kt), [wheelchair](app/src/androidMain/kotlin/de/westnordost/streetcomplete/quests/wheelchair_access/AddWheelchairAccessBusiness.kt) quests and [places](app/src/commonMain/kotlin/de/westnordost/streetcomplete/osm/Places.kt) overlay - and some of tags listed there may be in fact worth supporting in this parts of StreetComplete.
 
 You may find more projects under [the StreetComplete tag](https://github.com/topics/streetcomplete) on GitHub.
 
 #### Retired
 
 * [oneway-data-api](https://github.com/streetcomplete/oneway-data-api) by [@ENT8R](https://github.com/ENT8R) for getting oneway data from improveosm.org
-* [parser](https://github.com/matkoniecz/Zazolc/tree/taginfo) by [@matkoniecz](https://github.com/matkoniecz) listing tags added by StreetComplete for taginfo
+* [parser](https://github.com/matkoniecz/abandoned-StreetComplete-branches/tree/taginfo) by [@matkoniecz](https://github.com/matkoniecz) listing tags added by StreetComplete for taginfo
