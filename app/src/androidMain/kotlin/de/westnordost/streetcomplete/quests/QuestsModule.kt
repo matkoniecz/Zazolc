@@ -258,7 +258,7 @@ fun questTypeRegistry(
         quest always gets a new sequential ordinal.
      */
     // TODO LATER: move this quests in appropriate location as far as priority goes
-    176 to CreatePoiBasedOnAtp,
+    200 to CreatePoiBasedOnAtp, // reduce id if needed TODO
 
     /* always first: notes - they mark a mistake in the data so potentially every quest for that
     element is based on wrong data while the note is not resolved */
